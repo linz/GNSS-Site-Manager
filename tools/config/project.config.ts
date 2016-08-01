@@ -33,7 +33,7 @@ export class ProjectConfig extends SeedConfig {
     this.SYSTEM_BUILDER_CONFIG.packages['ng2-bootstrap'] = {
         main: 'ng2-bootstrap.js',
         defaultExtension : 'js'
-    }
+    };
 
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
