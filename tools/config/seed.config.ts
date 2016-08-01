@@ -327,7 +327,7 @@ export class SeedConfig {
       '*': `node_modules/*`
     },
     packages: {
-      rxjs: { defaultExtension: 'js' }
+      rxjs: { defaultExtension: 'js' },
     }
   };
 

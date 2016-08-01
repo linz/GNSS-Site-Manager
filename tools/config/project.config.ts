@@ -22,8 +22,18 @@ export class ProjectConfig extends SeedConfig {
       ...this.NPM_DEPENDENCIES,
       // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
       // {src: 'lodash/lodash.min.js', inject: 'libs'},
+      {src: 'moment/moment.js', inject: 'libs'},
+      {src: 'ng2-bootstrap/bundles/ng2-bootstrap.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
     ];
+
+    this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =
+      `${this.APP_BASE}node_modules/ng2-bootstrap/ng2-bootstrap`;
+
+    this.SYSTEM_BUILDER_CONFIG.packages['ng2-bootstrap'] = {
+        main: 'ng2-bootstrap.js',
+        defaultExtension : 'js'
+    }
 
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
