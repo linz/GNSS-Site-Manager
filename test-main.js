@@ -27,7 +27,9 @@ System.config({
   defaultJSExtensions: true,
   map: {
     'rxjs': 'node_modules/rxjs',
-    '@angular': 'node_modules/@angular'
+    '@angular': 'node_modules/@angular',
+    'ng2-bootstrap': 'node_modules/ng2-bootstrap',
+    'moment': 'node_modules/moment'
   },
   packages: {
     '@angular/common': {
@@ -63,6 +65,10 @@ System.config({
       defaultExtension: 'js'
     },
     'rxjs': {
+      defaultExtension: 'js'
+    },
+    'moment': {
+      main: 'moment.js',
       defaultExtension: 'js'
     }
   }
