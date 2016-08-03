@@ -2,11 +2,11 @@
 // - found Events to use by looking at typings/globals/service_worker_api/index.d.ts and
 //   looking for the 'on' event functions.
 
-var debugEvent = function (event: any) {
+function debugEvent (event:any): void {
   console.debug('Event: ', event.type, event);
 };
 
-var debugMsg = function (...args: any[]) {
+function debugMsg(...args:any[]): void {
   var msg = '';
   for (var i = 0; i < args.length; i++) {
     msg += args[i];
@@ -15,18 +15,18 @@ var debugMsg = function (...args: any[]) {
 };
 
 // caches you want to keep
-var expectedCaches = [
+const expectedCaches = [
   'expected-cache'
 ];
-var cacheName = 'mystie-dynamic';
+const cacheName = 'mystie-dynamic';
 
-var cleanCache1 = function (event: any) {
+function cleanCache(event:any): void {
   // let caches = self.caches;
   console.log('  clean out cache (1)');
   event.waitUntil(
-    self.caches.keys().then(function (cacheNames: string[]) {
+    self.caches.keys().then((cacheNames:string[]) => {
       return Promise.all(
-        cacheNames.map(function (cacheName: string) {
+        cacheNames.map((cacheName:string) => {
             console.log('try to delete cache: ', cacheName);
             if (!/^mysite-/.test(cacheName)) {
               // Typescript wants a Promise
@@ -45,16 +45,16 @@ var cleanCache1 = function (event: any) {
   );
 };
 
-self.addEventListener('install', function (event: InstallEvent) {
+self.addEventListener('install', (event:InstallEvent) => {
   debugEvent(event);
 });
 
-self.addEventListener('activate', function (event: ExtendableEvent) {
+self.addEventListener('activate', (event:ExtendableEvent) => {
   debugEvent(event);
-  cleanCache1(event);
+  cleanCache(event);
 });
 
-self.addEventListener('fetch', function (event: FetchEvent) {
+self.addEventListener('fetch', (event: FetchEvent) => {
   debugEvent(event);
   console.log('Fetch event');
   // Retrieve from Cache and if not available then retrieve from network and store in cache
@@ -68,7 +68,7 @@ self.addEventListener('fetch', function (event: FetchEvent) {
           debugMsg('Retrieve item from cache: ', event.request.url);
           return response;
         }
-        return self.fetch(event.request).then(function (response: Response) {
+        return self.fetch(event.request).then((response:Response) => {
           debugMsg('Item NOT in cache - retrieve from network and cache it (if valid): ', event.request.url);
           if (event.request.method.toString() === 'GET') {
             if (event.request.url.toString().startsWith('http')) {
@@ -82,48 +82,48 @@ self.addEventListener('fetch', function (event: FetchEvent) {
   );
 });
 
-self.addEventListener('notificationclick', function (event: NotificationEvent) {
+self.addEventListener('notificationclick', (event:NotificationEvent) => {
   debugEvent(event);
 });
 
 // Don't think is used
-self.addEventListener('notificationclose', function (event: NotificationEvent) {
+self.addEventListener('notificationclose', (event:NotificationEvent) => {
   debugEvent(event);
 });
 
-self.addEventListener('message', function (event: MessageEvent) {
+self.addEventListener('message', (event:MessageEvent) => {
   debugEvent(event);
 });
 
-self.addEventListener('push', function (event: Event) {
+self.addEventListener('push', (event:Event) => {
   debugEvent(event);
 });
 
-self.addEventListener('pushsubscriptionchange', function (event: Event) {
+self.addEventListener('pushsubscriptionchange', (event:Event) => {
   debugEvent(event);
 });
 
-self.addEventListener('sync', function (event: Event) {
+self.addEventListener('sync', (event:Event) => {
   debugEvent(event);
 });
 
-self.addEventListener('controllerchange', function (event: Event) {
+self.addEventListener('controllerchange', (event:Event) => {
   debugEvent(event);
 });
 
-self.addEventListener('updatefound', function (event: Event) {
+self.addEventListener('updatefound', (event:Event) => {
   debugEvent(event);
 });
 
-self.addEventListener('statechanged', function (event: Event) {
+self.addEventListener('statechanged', (event:Event) => {
   debugEvent(event);
 });
 
-self.addEventListener('error', function (event: ErrorEvent) {
+self.addEventListener('error', (event:ErrorEvent) => {
   debugEvent(event);
 });
 
 // Don't think is used
-// self.addEventListener('navigate', function (event:SWEvent) {
+// self.addEventListener('navigate', (event:SWEvent) => {
 //   debugEvent(event);
 // });
