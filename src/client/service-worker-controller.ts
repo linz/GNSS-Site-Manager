@@ -2,7 +2,7 @@
 // - found Events to use by looking at typings/globals/service_worker_api/index.d.ts and
 //   looking for the 'on' event functions.
 
-function debugEvent (event:any): void {
+function debugEvent (event: Event): void {
   console.debug('Event: ', event.type, event);
 };
 
@@ -45,9 +45,7 @@ function cleanCache(event:any): void {
   );
 };
 
-self.addEventListener('install', (event:InstallEvent) => {
-  debugEvent(event);
-});
+self.addEventListener('install', debugEvent);
 
 self.addEventListener('activate', (event:ExtendableEvent) => {
   debugEvent(event);
@@ -56,7 +54,6 @@ self.addEventListener('activate', (event:ExtendableEvent) => {
 
 self.addEventListener('fetch', (event: FetchEvent) => {
   debugEvent(event);
-  console.log('Fetch event');
   // Retrieve from Cache and if not available then retrieve from network and store in cache
   // TODO: Implement https://github.com/GoogleChrome/sw-precache - it updates cache if content changes
   // TODO: For this version you need to stop the service worker so the cache is cleared upon activation
@@ -82,46 +79,26 @@ self.addEventListener('fetch', (event: FetchEvent) => {
   );
 });
 
-self.addEventListener('notificationclick', (event:NotificationEvent) => {
-  debugEvent(event);
-});
+self.addEventListener('notificationclick', debugEvent);
 
 // Don't think is used
-self.addEventListener('notificationclose', (event:NotificationEvent) => {
-  debugEvent(event);
-});
+self.addEventListener('notificationclose', debugEvent);
 
-self.addEventListener('message', (event:MessageEvent) => {
-  debugEvent(event);
-});
+self.addEventListener('message', debugEvent);
 
-self.addEventListener('push', (event:Event) => {
-  debugEvent(event);
-});
+self.addEventListener('push', debugEvent);
 
-self.addEventListener('pushsubscriptionchange', (event:Event) => {
-  debugEvent(event);
-});
+self.addEventListener('pushsubscriptionchange', debugEvent);
 
-self.addEventListener('sync', (event:Event) => {
-  debugEvent(event);
-});
+self.addEventListener('sync', debugEvent);
 
-self.addEventListener('controllerchange', (event:Event) => {
-  debugEvent(event);
-});
+self.addEventListener('controllerchange', debugEvent);
 
-self.addEventListener('updatefound', (event:Event) => {
-  debugEvent(event);
-});
+self.addEventListener('updatefound', debugEvent);
 
-self.addEventListener('statechanged', (event:Event) => {
-  debugEvent(event);
-});
+self.addEventListener('statechanged', debugEvent);
 
-self.addEventListener('error', (event:ErrorEvent) => {
-  debugEvent(event);
-});
+self.addEventListener('error', debugEvent);
 
 // Don't think is used
 // self.addEventListener('navigate', (event:SWEvent) => {
