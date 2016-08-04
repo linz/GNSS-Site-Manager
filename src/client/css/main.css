@@ -1,63 +1,66 @@
-/* Reset */
-html,
-body,
-div {
-  border: 0;
-  margin: 0;
-  padding: 0;
+/* Override bootstrap stylings */
+.well {
+  background-color: #ffffff !important;
+  margin-bottom: 0 !important;
+  padding: 10px !important;
 }
 
-/* Box-sizing border-box */
-* {
-  box-sizing: border-box;
+.control-label {
+  font-weight: normal;
+  margin-top: 5px;
+}
+@media (max-width: 768px) {
+  .control-label {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
 }
 
-/* Set up a default font and some padding to provide breathing room */
-body {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+.form-control {
+  height: 30px !important;
+  padding: 0 8px !important;
 }
 
-p {
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 20px;
-  margin-bottom: 1em;
-  margin-top: 1em;
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    padding-bottom: 3px;
+    padding-top: 3px;
 }
 
-ul {
-  margin: 10px 0 0 0;
-  padding: 0 0 0 20px;
+@media (min-width: 768px) {
+  .form-horizontal .control-label {
+      padding-top: 5px !important;
+  }
 }
 
-li {
-  font-weight: 400;
-  margin-top: 4px;
+
+/* New css   */
+
+.align-center {
+  margin: 0 auto;
+  padding-top: 20px;
+  width: 250px;
 }
 
-input {
-  border: 1px solid #106cc8;
-  font-size: 14px;
-  height: 40px;
-  outline: none;
-  padding: 8px;
+.space-top20 {
+  float: left;
+  margin-top: 20px;
+}
+.space50 {
+  margin: 0 50px !important;
+}
+.space50-first {
+  margin: 0 50px 0 0 !important;
+}
+.space20 {
+  margin: 0 20px !important;
+}
+.space20-first {
+  margin: 0 20px 0 0 !important;
+}
+.space10 {
+  margin: 0 10px !important;
+}
+.space10-first {
+  margin: 0 10px 0 0 !important;
 }
 
-button {
-  background-color: #106cc8;
-  border-style: none;
-  color: rgba(255, 255, 255, 0.87);
-  cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  height: 40px;
-  padding: 8px 18px;
-  text-decoration: none;
-}
-
-button:hover {
-  background-color: #28739e;
-}

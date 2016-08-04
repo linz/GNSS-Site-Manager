@@ -12,7 +12,7 @@ export class ProjectConfig extends SeedConfig {
 
   constructor() {
     super();
-    // this.APP_TITLE = 'Put name of your app here';
+    this.APP_TITLE = 'GNSS Site Managerv';
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;
@@ -20,10 +20,9 @@ export class ProjectConfig extends SeedConfig {
     // Add `NPM` third-party libraries to be injected/bundled.
     this.NPM_DEPENDENCIES = [
       ...this.NPM_DEPENDENCIES,
-      // {src: 'jquery/dist/jquery.min.js', inject: 'libs'},
-      // {src: 'lodash/lodash.min.js', inject: 'libs'},
       {src: 'moment/moment.js', inject: 'libs'},
       {src: 'ng2-bootstrap/bundles/ng2-bootstrap.js', inject: 'libs'},
+      {src: 'ng2-table/bundles/ng2-table.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
     ];
 
@@ -31,8 +30,16 @@ export class ProjectConfig extends SeedConfig {
       `${this.APP_BASE}node_modules/ng2-bootstrap/ng2-bootstrap`;
 
     this.SYSTEM_BUILDER_CONFIG.packages['ng2-bootstrap'] = {
-        main: 'ng2-bootstrap.js',
-        defaultExtension : 'js'
+      main: 'ng2-bootstrap.js',
+      defaultExtension : 'js'
+    };
+
+    this.SYSTEM_CONFIG_DEV.paths['ng2-table'] =
+      `${this.APP_BASE}node_modules/ng2-table/ng2-table`;
+
+    this.SYSTEM_BUILDER_CONFIG.packages['ng2-table'] = {
+      main: 'ng2-table.js',
+      defaultExtension : 'js'
     };
 
     // Add `local` third-party libraries to be injected/bundled.
