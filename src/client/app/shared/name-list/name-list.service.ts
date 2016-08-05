@@ -9,41 +9,12 @@ import 'rxjs/add/operator/catch';
  */
 @Injectable()
 export class NameListService {
-  WS_URL : string = 'http://localhost:8080/geodesy-web-services';
-
   /**
    * Creates a new NameListService with the injected Http.
    * @param {Http} http - The injected Http.
    * @constructor
    */
   constructor(private http: Http) {}
-
-  /**
-   * Returns an Observable for the HTTP GET request for the REST WS resource.
-   * @return {object[]} The Observable for the HTTP request.
-   */
-  getCorsSitesBy(fourCharacterId: string, siteName: string): Observable<any> {
-    let params = '';
-    if (fourCharacterId !== null && fourCharacterId !== '') {
-      params = 'fourCharacterId='+fourCharacterId + '&';
-    }
-    if (siteName !== null && siteName !== '') {
-      params += 'name='+siteName + '&';
-    }
-    return this.http.get(this.WS_URL+'/corsSites?'+params+ 'size=1000')
-              .map((response: Response) => response.json())
-              .catch(this.handleError);
-  }
-
-  /**
-   * Returns an Observable for the HTTP GET request for the REST resource.
-   * @return {object[]} The Observable for the HTTP request.
-   */
-  getAllCorsSites(): Observable<any[]> {
-    return this.http.get(this.WS_URL+'/corsSites?size=1000')
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
-  }
 
   /**
    * Returns an Observable for the HTTP GET request for the JSON resource.

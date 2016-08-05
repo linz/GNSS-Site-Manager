@@ -14,7 +14,7 @@ import {
 import { MockBackend } from '@angular/http/testing';
 import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
 
-import { NameListService } from '../shared/index';
+import { CorsSiteService } from '../shared/index';
 import { SelectSiteComponent } from './select-site.component';
 
 export function main() {
@@ -35,7 +35,7 @@ export function main() {
             let selectSiteInstance = rootTC.debugElement.children[0].componentInstance;
             let selectSiteDOMEl = rootTC.debugElement.children[0].nativeElement;
 
-            expect(selectSiteInstance.nameListService).toEqual(jasmine.any(NameListService));
+            expect(selectSiteInstance.corsSiteService).toEqual(jasmine.any(CorsSiteService));
             expect(getDOM().querySelectorAll(selectSiteDOMEl, 'li').length).toEqual(0);
 
             selectSiteInstance.fourCharacterId = 'ALIC';
@@ -53,7 +53,7 @@ export function main() {
 @Component({
   providers: [
     HTTP_PROVIDERS,
-    NameListService,
+    CorsSiteService,
     BaseRequestOptions,
     MockBackend,
     provide(Http, {

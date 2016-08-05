@@ -1,21 +1,21 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div>
     <h4>
-      Search Sites
+      Search Sites <span *ngIf="isSearching"><img src="../../assets/ajax-loader.gif" height="16" width="16"></span>
     </h4>
   </div>
   <div>
     <div class="well">
       <form name="searchSite" novalidate class="form-horizontal">
         <div class="form-group">
-          <label class="col-md-3 col-sm-5 col-xs-12 control-label">Four Character ID</label>
-          <div class="col-md-3 col-sm-6 col-xs-12">
+          <label class="col-md-2 col-sm-5 col-xs-12 control-label">Four Character Id</label>
+          <div class="col-md-4 col-sm-7 col-xs-12">
             <input type="text" maxlength="100" class="form-control" name="fourCharacterId"
-                   placeholder="Search by Four Character ID" maxlength="10"
+                   placeholder="Search by Four Character Id" maxlength="9"
                    [(ngModel)]="fourCharacterId"/>
           </div>
-          <label class="col-md-3 col-sm-5 col-xs-12 control-label">Site Name</label>
-          <div class="col-md-3 col-sm-6 col-xs-12">
+          <label class="col-md-2 col-sm-5 col-xs-12 control-label">Site Name</label>
+          <div class="col-md-4 col-sm-7 col-xs-12">
             <input type="text" maxlength="100" class="form-control" name="siteName"
                    placeholder="Search by Site Name" maxlength="200"
                    [(ngModel)]="siteName"/>
@@ -35,7 +35,7 @@
   </div>
   <div>
     <h4>
-      Select a Site <span *ngIf="siteSelected != null">(Site Selected: {{siteSelected.fourCharacterId}} - {{siteSelected.name}})</span>
+      Select a Site <span *ngIf="selectedSite != null">(Site Selected: {{selectedSite.fourCharacterId}} - {{selectedSite.name}})</span>
     </h4>
   </div>
 
@@ -62,15 +62,11 @@
             <td name="">{{site.name}}</td>
             <td name="">{{site.domesNumber}}</td>
             <td>
-              <span *ngIf="selectedSiteId==site.fourCharacterId">
+              <span *ngIf="selectedSite!==null && selectedSite.fourCharacterId==site.fourCharacterId">
                 <img src="../../assets/tick.png" height="24" width="24">
               </span>
             </td>
             <td>
-              <!--<input type="radio" name="site-selection" [value]="site.fourCharacterId"
-                     [(ngModel)]="site.fourCharacterId" (click)="selectSite(site)" />
-              <input name="site-selection" type="checkbox" [value]="site.fourCharacterId"
-                     (click)="selectSite(site)" />-->
               <button class="btn btn-primary btn-xs" type="submit" (click)="selectSite(site)">Select</button>
             </td>
           </tr>
