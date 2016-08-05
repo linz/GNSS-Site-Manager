@@ -46,11 +46,12 @@ export class SelectSiteComponent implements OnInit {
     this.sites = [];
     this.nameListService.getCorsSitesBy(this.fourCharacterId, this.siteName)
           .subscribe(
-            responseJson => this.sites = responseJson._embedded.corsSites,
-            error =>  this.errorMessage = <any>error,
-            () => console.log('this.sites.length='+this.sites.length),
-            () => { if (this.sites.length == 0)
-              this.searchMsg = 'No sites found. Please refine your search criteria and try it again.'}
+            (responseJson: any) => this.sites = (responseJson._embedded ? responseJson._embedded.corsSites : []),
+            (error: any) =>  this.errorMessage = <any>error,
+            () => {
+              if (this.sites.length === 0)
+              this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
+            }
           );
    }
 

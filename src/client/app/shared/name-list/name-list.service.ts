@@ -22,17 +22,17 @@ export class NameListService {
    * Returns an Observable for the HTTP GET request for the REST WS resource.
    * @return {object[]} The Observable for the HTTP request.
    */
-  getCorsSitesBy(fourCharacterId: string, siteName: string): Observable<any[]> {
+  getCorsSitesBy(fourCharacterId: string, siteName: string): Observable<any> {
     let params = '';
-  if (fourCharacterId != null && fourCharacterId != ''){
-    params = 'fourCharacterId='+fourCharacterId + '&';
-  }
-  if (siteName != null && siteName != ''){
-    params += 'name='+siteName + '&';
-  }
-  return this.http.get(this.WS_URL+'/corsSites?'+params+ 'size=1000')
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+    if (fourCharacterId !== null && fourCharacterId !== '') {
+      params = 'fourCharacterId='+fourCharacterId + '&';
+    }
+    if (siteName !== null && siteName !== '') {
+      params += 'name='+siteName + '&';
+    }
+    return this.http.get(this.WS_URL+'/corsSites?'+params+ 'size=1000')
+              .map((response: Response) => response.json())
+              .catch(this.handleError);
   }
 
   /**
@@ -67,4 +67,3 @@ export class NameListService {
     return Observable.throw(errMsg);
   }
 }
-
