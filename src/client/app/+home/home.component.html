@@ -12,3 +12,11 @@
 <ul>
   <li *ngFor="let name of names">{{name}}</li>
 </ul>
+
+<h3>Clear Service Worker Cache</h3>
+<button (click)="clearCache()">Clear now!</button>
+<button (click)="updateCacheList()">Display Cache</button>
+<p>Cache Keys for cache :</p> <!-- {{cacheName}} -->
+<ul>
+  <li *ngFor="let item of cacheItems">{{item}}</li>
+</ul>

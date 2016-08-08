@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
 import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+import {Subscription} from 'rxjs/Subscription';
 import { CorsSiteService } from '../shared/index';
+import { ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -15,7 +17,7 @@ import { CorsSiteService } from '../shared/index';
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
 export class SelectSiteComponent implements OnInit {
-
+  serviceWorkerSubscription: Subscription;
   public siteName: string = '';
   public fourCharacterId: string = '';
   public sites: Array<any> = [];
@@ -23,19 +25,30 @@ export class SelectSiteComponent implements OnInit {
   public searchMsg: string = '';
   public errorMessage: string;
   public isSearching: boolean = false;
+  private cacheItems: Array<string> = [];
 
   /**
    * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.
    *
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    */
-  constructor(public corsSiteService: CorsSiteService) {}
+  constructor(public corsSiteService: CorsSiteService, private serviceWorkerService: ServiceWorkerService) {}
 
   /**
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
+    this.setupSubscriptions();
     this.clearAll();
+    this.updateCacheList();
+  }
+
+  setupSubscriptions() {
+    this.serviceWorkerSubscription = this.serviceWorkerService.clearCache$.subscribe((isCacheChanged: boolean) => {
+      if (isCacheChanged) {
+        this.updateCacheList();
+      }
+    });
   }
 
   /**
@@ -73,5 +86,29 @@ export class SelectSiteComponent implements OnInit {
     this.sites = [];
     this.selectedSite = null;
     this.isSearching = false;
+  }
+
+  /**
+   * Component method to request the Service Worker clears it's cache.
+   */
+  clearCache() {
+    let success: Function = function () {
+      // _this.updateCacheList(); - not necessary now as done via a message
+    };
+    this.serviceWorkerService.clearCacheService(success, undefined);
+  }
+
+  /**
+   * Component method to retrieve the list of URLs cached in the Service Worker and to update the this.cacheItem array
+   */
+  // TODO - all this related code no longer needed.  However keep for the moment so we can see how it is wired-up
+  updateCacheList() {
+    var _this = this;
+
+    let success: Function = function (event: MessageEvent) {
+      _this.cacheItems.length = 0;
+      _this.cacheItems = event.data;
+    };
+    this.serviceWorkerService.getCacheList(success, undefined);
   }
 }
