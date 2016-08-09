@@ -4,7 +4,7 @@ import { HomeComponent } from './index';
 
 export const HomeRoutes: RouterConfig = [
   {
-    path: '',
+    path: 'home',
     component: HomeComponent
   },
 ];

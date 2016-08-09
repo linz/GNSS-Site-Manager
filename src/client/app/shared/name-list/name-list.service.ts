@@ -9,7 +9,6 @@ import 'rxjs/add/operator/catch';
  */
 @Injectable()
 export class NameListService {
-
   /**
    * Creates a new NameListService with the injected Http.
    * @param {Http} http - The injected Http.
@@ -23,8 +22,8 @@ export class NameListService {
    */
   get(): Observable<string[]> {
     return this.http.get('/assets/data.json')
-                    .map((res: Response) => res.json())
-                    .catch(this.handleError);
+            .map((res: Response) => res.json())
+            .catch(this.handleError);
   }
 
   /**
@@ -39,4 +38,3 @@ export class NameListService {
     return Observable.throw(errMsg);
   }
 }
-
