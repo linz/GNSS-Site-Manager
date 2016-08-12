@@ -1,0 +1,373 @@
+<div class="col-md-12 col-sm-12 col-xs-12">
+  <form name="siteInfo" novalidate class="form-horizontal">
+    <accordion [closeOthers]="oneAtATime">
+      <div class="panel-group">
+        <accordion-group [isOpen]="status.isSiteInfoGroupOpen">
+          <div accordion-heading (click)="status.isSiteInfoGroupOpen = !status.isSiteInfoGroupOpen;update();">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
+            </i>
+            SITE INFORMATION
+          </div>
+          <div *ngIf=" site == null ">
+            No Information available for the Site
+          </div>
+          <div *ngIf=" site != null ">
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Four Character Id</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="9" class="form-control"
+                       name="site.fourCharacterId" [(ngModel)]="site.fourCharacterId"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Site Name</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.name" [(ngModel)]="site.name"/>
+              </div>
+            </div>
+            <div *ngIf="siteLocation !=null">
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">City / Town</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="siteLocation.city" [(ngModel)]="siteLocation.city"/>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">IERS DOMES Number </label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.domesNumber" [(ngModel)]="site.domesNumber"/>
+              </div>
+            </div>
+          </div>
+          <accordion-group [isOpen]="status.isSiteMedia">
+            <div accordion-heading (click)="status.isSiteMedia = !status.isSiteMedia;update();">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isSiteMedia, 'glyphicon-plus-sign': !status.isSiteMedia}">
+              </i>
+              Site Media (Photos, PDFs, etc)
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">View PDFs </label>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">View Photos</label>
+            </div>
+          </accordion-group>
+          <accordion-group [isOpen]="status.isSiteOwnerOpen">
+            <div accordion-heading (click)="status.isSiteOwnerOpen = !status.isSiteOwnerOpen;update();">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isSiteOwnerOpen, 'glyphicon-plus-sign': !status.isSiteOwnerOpen}">
+              </i>
+              Site Owner
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Full Name</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.owner"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Organisation</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.metadataCustodian"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Email</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.metadataCustodian"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Phone/Mobile</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.metadataCustodian"/>
+              </div>
+            </div>
+          </accordion-group>
+          <accordion-group [isOpen]="status.isMetaCustodianOpen">
+            <div accordion-heading (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen;update();">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isMetaCustodianOpen, 'glyphicon-plus-sign': !status.isMetaCustodianOpen}">
+              </i>
+              Site Metadata Custodian
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Full Name</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.owner"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Organisation</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.metadataCustodian"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Email</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.metadataCustodian"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Phone/Mobile</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="site.metadataCustodian"/>
+              </div>
+            </div>
+          </accordion-group>
+        </accordion-group>
+
+        <accordion-group [isOpen]="status.isReceiverGroupOpen">
+          <div accordion-heading (click)="status.isReceiverGroupOpen = !status.isReceiverGroupOpen;update();">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': status.isReceiverGroupOpen, 'glyphicon-plus-sign': !status.isReceiverGroupOpen}">
+            </i>
+            GNSS RECEIVER ({{status.isReceiverGroupOpen}})
+          </div>
+          <div *ngIf=" receiver == null ">
+            No Information available for GNSS Receivers
+          </div>
+          <accordion-group [isOpen]="status.isCurrentReceiverOpen">
+            <div accordion-heading
+                 (click)="status.isCurrentReceiverOpen = !status.isCurrentReceiverOpen; ">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isCurrentReceiverOpen, 'glyphicon-plus-sign': !status.isCurrentReceiverOpen}">
+              </i>
+              Current GNSS Receiver Information
+            </div>
+          <div *ngIf=" receiver != null ">
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Type</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="receiver.type" [(ngModel)]="receiver.id.type"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Serial Number</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="receiver.serialNumber" [(ngModel)]="receiver.id.serialNumber"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Firmware Version</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="receiver.firmwareVersion" [(ngModel)]="receiver.configuration.firmwareVersion"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Satellite System</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="receiver.satelliteSystem" [(ngModel)]="receiver.configuration.satelliteSystem"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Elevetion Cutoff Setting</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="receiver.elevetionCutoffSetting"
+                       [(ngModel)]="receiver.configuration.elevetionCutoffSetting"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Date Installed</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="receiver.dateInstalled" [(ngModel)]="receiver.period.from"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-12 control-label">Date Removed</label>
+              <div class="col-md-4 col-sm-5 col-xs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       name="receiver.dateRemoved" [(ngModel)]="receiver.period.to"/>
+              </div>
+
+            </div>
+          </div>
+            </accordion-group>
+          <div *ngFor="let receiver of prevReceivers">
+            <accordion-group [isOpen]="status.isPrevReceiversOpen[$index]">
+              <div accordion-heading
+                   (click)="status.isPrevReceiversOpen[$index] = !status.isPrevReceiversOpen[$index];update();">
+                <i class="glyphicon"
+                   [ngClass]="{'glyphicon-minus-sign': status.isPrevReceiversOpen[$index], 'glyphicon-plus-sign': !status.isPrevReceiversOpen[$index]}">
+                </i>
+                Previous GNSS Antenna Information
+              </div>
+              <div></div>
+            </accordion-group>
+          </div>
+        </accordion-group>
+
+        <accordion-group [isOpen]="status.isAntennaGroupOpen">
+          <div accordion-heading
+               (click)="$event.preventDefault();status.isAntennaGroupOpen = !status.isAntennaGroupOpen; ">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
+            </i>
+            GNSS ANTENNA ={{status.isAntennaGroupOpen}}
+          </div>
+          <div *ngIf=" antenna == null ">
+            No Information available for GNSS Antenna
+          </div>
+          <accordion-group [isOpen]="status.isCurrentAntennaOpen">
+            <div accordion-heading
+                 (click)="status.isCurrentAntennaOpen = !status.isCurrentAntennaOpen;update();">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isCurrentAntennaOpen, 'glyphicon-plus-sign': !status.isCurrentAntennaOpen}">
+              </i>
+              Current GNSS Antenna Information ({{status.isCurrentAntennaOpen}})
+            </div>
+            <div *ngIf=" antenna != null ">
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Antenna Type</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.type" [(ngModel)]="antenna.id.type"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Serial Number</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.serialNumber" [(ngModel)]="antenna.id.serialNumber"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Antenna Reference Point</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.antennaReferencePoint"
+                         [(ngModel)]="antenna.configuration.antennaReferencePoint"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Marker ARP Up Eccentricity</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.markerArpUpEccentricity"
+                         [(ngModel)]="antenna.configuration.markerArpUpEccentricity"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Marker ARP North Eccentricity</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.markerArpNorthEccentricity"
+                         [(ngModel)]="antenna.configuration.markerArpNorthEccentricity"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Marker ARP East Eccentricity</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.markerArpEastEccentricity"
+                         [(ngModel)]="antenna.configuration.markerArpEastEccentricity"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Alignment From True North</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.alignmentFromTrueNorth"
+                         [(ngModel)]="antenna.configuration.alignmentFromTrueNorth"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Radome Type</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.radomeType" [(ngModel)]="antenna.configuration.radomeType"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Radom Serial Number</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.radomSerialNumber"
+                         [(ngModel)]="antenna.configuration.radomSerialNumber"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Antenna Cable Type</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.antennaCableType" [(ngModel)]="antenna.configuration.antennaCableType"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Antenna Cable Length</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.antennaCableLength"
+                         [(ngModel)]="antenna.configuration.antennaCableLength"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Date Installed</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.dateInstalled" [(ngModel)]="antenna.period.from"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-12 control-label">Date Removed</label>
+                <div class="col-md-4 col-sm-5 col-xs-12">
+                  <input type="text" maxlength="100" class="form-control"
+                         name="antenna.dateRemoved" [(ngModel)]="antenna.period.to"/>
+                </div>
+              </div>
+            </div>
+          </accordion-group>
+          <div *ngFor="let antenna of prevAntennas">
+            <accordion-group [isOpen]="status.isPrevAntennasOpen[$index]">
+              <div accordion-heading
+                   (click)="status.isPrevAntennasOpen[$index] = !status.isPrevAntennasOpen[$index];update();">
+                <i class="glyphicon"
+                   [ngClass]="{'glyphicon-minus-sign': status.isPrevAntennasOpen[$index], 'glyphicon-plus-sign': !status.isPrevAntennasOpen[$index]}">
+                </i>
+                Previous GNSS Antenna Information
+              </div>
+              <div></div>
+            </accordion-group>
+          </div>
+        </accordion-group>
+      </div>
+    </accordion>
+
+    <div class="form-group">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="align-center">
+          <button class="btn btn-primary margin10" type="submit" (click)="save()" disabled="true"
+                  title="Save changes made if any">Save
+          </button>
+          <button class="btn btn-primary margin10" type="submit" (click)="loadSiteInfoData()"
+                  title="Reload data from database">Reload
+          </button>
+          <button class="btn btn-primary margin10" type="submit" (click)="goBack()"
+                  title="Close current page and go back to Home page">Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

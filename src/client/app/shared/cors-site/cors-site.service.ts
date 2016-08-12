@@ -13,6 +13,7 @@ export class CorsSiteService {
   // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
   WS_URL : string = 'https://test.geodesy.ga.gov.au'; // test
 
+
   /**
    * Creates a new CorsSiteService with the injected Http.
    * @param {Http} http - The injected Http.
@@ -22,23 +23,25 @@ export class CorsSiteService {
 
   /**
    * Returns an Observable for the HTTP GET request for the REST Web Service resource.
+   * @param {string} fourCharacterId - The Four Character Id of the site.
+   * @param {string} siteName - The name of the site.
    * @return {object[]} The Observable for the HTTP request.
    */
   getCorsSitesBy(fourCharacterId: string, siteName: string): Observable<any> {
     let params = '';
-    if (fourCharacterId !== null && fourCharacterId !== '') {
-      params = 'fourCharacterId='+fourCharacterId + '&';
+    if (typeof fourCharacterId !== 'undefined' && fourCharacterId !== null && fourCharacterId !== '') {
+      params = 'fourCharacterId='+fourCharacterId.toUpperCase() + '&';
     }
-    if (siteName !== null && siteName !== '') {
+    if (typeof siteName !== 'undefined' && siteName !== null && siteName !== '') {
       params += 'name='+siteName + '&';
     }
     return this.http.get(this.WS_URL+'/corsSites?'+params+ 'size=1000')
-              .map((response: Response) => response.json())
-              .catch(this.handleError);
+            .map((response: Response) => response.json())
+            .catch(this.handleError);
   }
 
   /**
-   * Returns an Observable for the HTTP GET request for the REST resource.
+   * Returns an Observable for the HTTP GET request for all records available from the Site table.
    * @return {object[]} The Observable for the HTTP request.
    */
   getAllCorsSites(): Observable<any[]> {
@@ -47,14 +50,19 @@ export class CorsSiteService {
             .catch(this.handleError);
   }
 
+  getSiteById(id: number): Observable<any> {
+    return this.http.get(this.WS_URL+'/corsSites?id='+id)
+            .map((response: Response) => response.json())
+            .catch(this.handleError);
+  }
+
   /**
     * Handle HTTP error
     */
   private handleError (error: any) {
-    // In a real world app, we might use a remote logging infrastructure
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg); // log to console instead
+    console.error(errMsg);
     return Observable.throw(errMsg);
   }
 }

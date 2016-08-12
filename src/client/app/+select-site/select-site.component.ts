@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
 import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
@@ -31,11 +32,12 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.
    *
+   * @param {Router} router - The injected Router for switching between select-site and site-info pages.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Servcie Worker
    */
-  constructor(public corsSiteService: CorsSiteService, private serviceWorkerService: ServiceWorkerService) {
-  }
+  constructor(public router: Router, public corsSiteService: CorsSiteService,
+      private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -77,6 +79,8 @@ export class SelectSiteComponent implements OnInit {
    */
   selectSite(site: any) {
     this.selectedSite = site;
+    let link = ['/siteInfo', site.id];
+    this.router.navigate(link);
   }
 
   /**

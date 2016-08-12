@@ -1,82 +1,74 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
-  <div>
-    <div *ngIf="isSearching" class="pull-right"><img src="../../assets/ajax-loader.gif" height="16" width="16"></div>
-    <h4>
-      Search Sites
-    </h4>
-  </div>
-  <div>
-    <div class="well">
-      <form name="searchSite" novalidate class="form-horizontal">
-
+  <div class="panel-group">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div *ngIf="isSearching" class="pull-right"><img src="../../assets/ajax-loader.gif" height="16" width="16">
+        </div>
+        <h4 class="panel-title">
+          Search Sites
+        </h4>
+      </div>
+      <div class="panel-body">
+        <form name="searchSite" novalidate class="form-horizontal">
           <div class="form-group">
-            <label class="col-md-4 col-sm-4 col-xs-12 control-label">Four Character Id</label>
+            <label class="col-md-4 col-sm-4 col-xs-12 control-label">Site Id</label>
             <div class="col-md-4 col-sm-5 col-xs-12">
-              <input type="text" maxlength="100" class="form-control" name="fourCharacterId"
-                     placeholder="Search by Four Character Id" maxlength="9"
-                     [(ngModel)]="fourCharacterId"/>
+              <input type="text" maxlength="9" class="form-control" name="fourCharacterId"
+                     placeholder="Search by Four Character Id" [(ngModel)]="fourCharacterId"/>
             </div>
           </div>
           <div class="form-group">
             <label class="col-md-4 col-sm-4 col-xs-12 control-label">Site Name</label>
             <div class="col-md-4 col-sm-5 col-xs-12">
-              <input type="text" maxlength="100" class="form-control" name="siteName"
-                     placeholder="Search by Site Name" maxlength="200"
-                     [(ngModel)]="siteName"/>
+              <input type="text" maxlength="200" class="form-control" name="siteName"
+                     placeholder="Search by Site Name" [(ngModel)]="siteName"/>
             </div>
           </div>
-
           <div class="form-group">
             <div class="col-md-12 col-sm-12 col-xs-12">
               <div class="align-center">
-                <button class="btn btn-primary space10" type="submit" (click)="searchSites()">Search</button>
-                <button class="btn btn-primary space10" type="submit" (click)="clearAll()">Clear All</button>
+                <button class="btn btn-primary margin10" type="submit" (click)="searchSites()" title="Search desired CORS sites">Search</button>
+                <button class="btn btn-primary margin10" type="submit" (click)="clearAll()" title="Clear all inputs and search results if any">Clear All</button>
               </div>
             </div>
           </div>
-
-      </form>
-    </div>
-  </div>
-  <div>
-    <h4>
-      Select a Site <span *ngIf="selectedSite != null">(Site Selected: {{selectedSite.fourCharacterId}} - {{selectedSite.name}})</span>
-    </h4>
-  </div>
-
-  <div>
-    <div *ngIf="sites.length == 0" class="well">
-      <div>{{searchMsg}}
+        </form>
       </div>
     </div>
-    <div *ngIf="sites.length != 0">
-      <div>
-        <table class="table table-striped table-bordered table-hover" style="width: 100%;" role="grid">
-          <thead>
-          <tr role="row">
-            <th name="">Four Character ID</th>
-            <th name="">Site Name</th>
-            <!--<th name="">DOMES Number</th>
-            <th name="">Selected</th>
-            <th name="">Action</th>-->
-          </tr>
-          </thead>
-          <tbody>
-          <tr role="row" *ngFor="let site of sites" (click)="selectSite(site)">
-            <td name="">{{site.fourCharacterId}}</td>
-            <td name="">{{site.name}}</td>
-            <!--<td name="">{{site.domesNumber}}</td>
-            <td>
-              <span *ngIf="selectedSite!==null && selectedSite.fourCharacterId==site.fourCharacterId">
-                <img src="../../assets/tick.png" height="24" width="24">
-              </span>
-            </td>
-            <td>
-              <button class="btn btn-primary btn-xs" type="submit" (click)="selectSite(site)">Select</button>
-            </td>-->
-          </tr>
-          </tbody>
-        </table>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          Select a Site
+          <span *ngIf="sites.length > 0" class="tips">(Click on a row below to view the site details)</span>
+        </h4>
+      </div>
+      <div class="panel-body clear-pad">
+        <div *ngIf="sites.length == 0" class="hint">
+          <div>{{searchMsg}}
+          </div>
+        </div>
+        <div *ngIf="sites.length != 0">
+          <div>
+            <table class="table table-striped table-hover" style="width: 100%;" role="grid">
+              <thead>
+              <tr role="row">
+                <th name="">Four Character ID</th>
+                <th name="">Site Name</th>
+                <!--<th name="">Action</th>-->
+              </tr>
+              </thead>
+              <tbody>
+              <tr role="row" *ngFor="let site of sites" (click)="selectSite(site)">
+                <td name="">{{site.fourCharacterId}}</td>
+                <td name="">{{site.name}}</td>
+                <!--<td>
+                  <button class="btn btn-primary btn-xs" type="submit" (click)="selectSite(site)">Select</button>
+                </td>-->
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>
