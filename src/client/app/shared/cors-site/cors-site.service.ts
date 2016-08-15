@@ -10,8 +10,8 @@ import 'rxjs/add/operator/catch';
 @Injectable()
 export class CorsSiteService {
   // WS_URL : string = 'http://localhost:8080/geodesy-web-services';
-  // WS_URL : string = 'http://geodesywebservicedloadbalancer-259979095.ap-southeast-2.elb.amazonaws.com'; // dev
-  WS_URL : string = 'http://geodesywebservicetloadbalancer-894154909.ap-southeast-2.elb.amazonaws.com'; // test
+  // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
+  WS_URL : string = 'https://test.geodesy.ga.gov.au'; // test
 
   /**
    * Creates a new CorsSiteService with the injected Http.
