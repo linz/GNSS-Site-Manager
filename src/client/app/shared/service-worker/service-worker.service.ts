@@ -7,76 +7,60 @@ import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 @Injectable()
 export class ServiceWorkerService {
   // Setup Observables (BehaviorSubject's to be specific) to communicate between components
-  private _clearCacheFlag = new BehaviorSubject<boolean>(false);
+  private clearCacheFlag = new BehaviorSubject<boolean>(false);
   // Observable
-  public clearCache$ = this._clearCacheFlag.asObservable();
+  public clearCache$ = this.clearCacheFlag.asObservable();
 
-  constructor(private _ngZone: NgZone) {
+  /**
+   *
+   * @returns {Promise<any>} that may contain a message about the operation
+   */
+  clearCacheService(): Promise<string> {
+    let promise: Promise<string> = this.postMessage('clear_cache');
 
+    promise.then(() => {
+      this.clearCacheFlag.next(true);
+    });
+    return promise;
   }
 
-  clearCacheService(successCallback: Function, failureCallback: Function) {
-    var _this = this;
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      console.log('ClearCache: ');
-
-      let messageChannel: MessageChannel = new MessageChannel();
-
-      // Handler for receiving message reply from service worker - best way to synchronize
-      messageChannel.port1.onmessage = function (event) {
-        console.log('  msgChannel.port1.onmessage');
-        if (event.data.error) {
-          if (failureCallback) {
-            failureCallback();
-          } else {
-            throw new Error('ERROR clearing cache');
-          }
-        } else {
-          if (successCallback) {
-            // Advise any Observers that the cache has been changed so they can retrieve the current list via getCacheList()
-            _this._clearCacheFlag.next(true);
-            successCallback();
-          }
-        }
-      };
-      navigator.serviceWorker.controller.postMessage({operation: 'clear_cache'}, [messageChannel.port2]);
-    } else {
-      console.log('ClearCache(): service worker not ready');
-    }
+  /**
+   *
+   * @returns {Promise<any>} that contains an array of items in the cache
+   */
+  getCacheList(): Promise<string[]> {
+    return this.postMessage('get_cache');
   }
 
-  getCacheList(successCallback: Function, failureCallback: Function) {
-    let messageReplyHandler = (event: MessageEvent): any => {
-      // Use the NGZone to force this code to run inside the Angular Zone or else the updates to the
-      // variables aren't recognised (and thus aren't rendered).
-      this._ngZone.run(() => {
-        if (event.data.error) {
-          if (failureCallback) {
-            failureCallback(event);
+  /**
+   * Generic method to post messages to the service worker and return a promise to the caller
+   * @param operation to be performed
+   * @param message is the optional message to be sent with that operation
+   * @returns {Promise<T>} that is appropriate to the client of this method
+   */
+  postMessage(operation: string, message?: string): Promise<any> {
+    let messageObject = {operation: operation, message: message} as MessageObject;
+    return new Promise(function (resolve: any, reject: any) {
+      if ('serviceWorker' in navigator && navigator.serviceWorker
+        && 'controller' in navigator.serviceWorker
+        && navigator.serviceWorker.controller) {
+        var messageChannel = new MessageChannel();
+        messageChannel.port1.onmessage = function (event: MessageEvent) {
+          if (event.data.error) {
+            reject(event.data.error);
           } else {
-            throw new Error('ERROR updating cache list');
+            resolve(event.data);
           }
-        } else {
-          if (successCallback) {
-            successCallback(event);
-          }
-        }
-      });
-    };
-    //
-    if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-      console.log('Update Cache List: ');
-      // var _this = this;
+        };
 
-      let messageChannel: MessageChannel = new MessageChannel();
-
-      // Handler for receiving message reply from service worker - best way to synchronize
-      messageChannel.port1.onmessage = messageReplyHandler;
-
-      navigator.serviceWorker.controller.postMessage({operation: 'get_cache'}, [messageChannel.port2]);
-
-    } else {
-      console.log('Update Cache List(): service worker not ready');
-    }
+        // This sends the message data as well as transferring messageChannel.port2 to the service worker.
+        // The service worker can then use the transferred port to reply via postMessage(), which
+        // will in turn trigger the onmessage handler on messageChannel.port1.
+        navigator.serviceWorker.controller.postMessage(messageObject,
+          [messageChannel.port2]);
+      } else {
+        console.log('postMessage: service worker not ready');
+      }
+    });
   }
 }

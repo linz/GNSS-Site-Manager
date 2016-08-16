@@ -17,7 +17,7 @@ import { ServiceWorkerService } from '../shared/index';
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
 export class SelectSiteComponent implements OnInit {
-  serviceWorkerSubscription: Subscription;
+  private serviceWorkerSubscription: Subscription;
   public siteName: string = '';
   public fourCharacterId: string = '';
   public sites: Array<any> = [];
@@ -26,11 +26,14 @@ export class SelectSiteComponent implements OnInit {
   public errorMessage: string;
   public isSearching: boolean = false;
   private cacheItems: Array<string> = [];
+  public numberCacheItems: number = 0;
+
 
   /**
    * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.
    *
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
+   * @param {ServiceWorkerService} serviceWorkerService - service interface to the Servcie Worker
    */
   constructor(public corsSiteService: CorsSiteService, private serviceWorkerService: ServiceWorkerService) {}
 
@@ -91,24 +94,24 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Component method to request the Service Worker clears it's cache.
    */
-  clearCache() {
-    let success: Function = function () {
-      // _this.updateCacheList(); - not necessary now as done via a message
-    };
-    this.serviceWorkerService.clearCacheService(success, undefined);
+  clearCache=() => {
+    this.serviceWorkerService.clearCacheService().then((data: string) => {
+      console.debug('select-site.component clearCache() success: ', data);
+    }, (error: Error) => {
+      throw new Error('Error in clearCache: '+ error.message);
+    });
   }
 
   /**
    * Component method to retrieve the list of URLs cached in the Service Worker and to update the this.cacheItem array
    */
-  // TODO - all this related code no longer needed.  However keep for the moment so we can see how it is wired-up
-  updateCacheList() {
-    var _this = this;
-
-    let success: Function = function (event: MessageEvent) {
-      _this.cacheItems.length = 0;
-      _this.cacheItems = event.data;
-    };
-    this.serviceWorkerService.getCacheList(success, undefined);
+  updateCacheList=() => {
+    this.serviceWorkerService.getCacheList().then((data: string[]) => {
+      this.cacheItems.length = 0;
+      this.cacheItems = data;
+      this.numberCacheItems = this.cacheItems.length;
+    }, (error: Error) => {
+      throw new Error('Error in updateCacheList: '+ error.message);
+    });
   }
 }

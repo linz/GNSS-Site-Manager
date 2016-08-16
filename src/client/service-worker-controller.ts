@@ -14,7 +14,7 @@ function debugMsg(...args: any[]): void {
   console.debug(msg);
 };
 
-const version = '3';
+const version = '1';
 const cacheBase = 'cache-v.';
 const cacheName = cacheBase + version;
 
@@ -29,9 +29,9 @@ function deleteOtherCaches(event: any): void {
     self.caches.keys().then((cacheNames: string[]) => {
       // WARNING - Intellij says there is a syntax error here but AFIACT there isn't.  Don't spent time looking at this.
       return Promise.all(cacheNames.filter((cacheToTest: string) => {
-          debugMsg('    cache: ' + cacheToTest);
           return cacheToTest !== cacheName;
         }).map((cacheToDelete: string) => {
+          debugMsg('    delete cache: ' + cacheToDelete);
           self.caches.delete(cacheToDelete);
         })
       );
@@ -62,7 +62,7 @@ function deleteCache(event: any, cacheToDelete: string): void {
 
 self.addEventListener('install', (event: InstallEvent) => {
   debugEvent(event);
-  debugMsg('Intall: cache: ' + cacheName);
+  debugMsg('Install: cache: ' + cacheName);
   event.waitUntil(
     self.caches.open(cacheName)
       .then((cache: Cache) => {
@@ -77,7 +77,7 @@ self.addEventListener('activate', function (event: ExtendableEvent) {
 });
 
 self.addEventListener('fetch', (event: FetchEvent) => {
-  debugEvent(event);
+  // debugEvent(event);
   // Retrieve from Cache and if not available then retrieve from network and store in cache
   // TODO: Implement https://github.com/GoogleChrome/sw-precache - it updates cache if content changes
   // TODO: For this version you need to stop the service worker so the cache is cleared upon activation
@@ -86,29 +86,19 @@ self.addEventListener('fetch', (event: FetchEvent) => {
     self.caches.open(cacheName).then((cache: Cache) => {  // 'cache-v.3'
       return cache.match(event.request).then((response: Response) => {
         if (response) {
-          debugMsg('  fetch: item in cache (' + cacheName + '): ', event.request.url);
+          // debugMsg('  fetch: item in cache (' + cacheName + '): ', event.request.url);
           return response;
         }
         return self.fetch(event.request).then((response: Response) => {
-          let isCached: boolean = false;
-          // let re: RegExp = new RegExp(/(js|html|css|json)/);
+          // Only save resources we care about
           let re = /(js|html|css|json|png|svg|jpeg|jpg)(\?.*)?$/;
-          debugMsg('  fetch: Item not in cache - get and cache (if valid) to (' + cacheName + '): ', event.request.url);
+          // debugMsg('  fetch: Item not in cache - get and cache (if valid) to (' + cacheName + '): ', event.request.url);
           if (event.request.method.toString() === 'GET') {
             if (event.request.url.toString().startsWith('http')) {
               if (re.test(event.request.url)) {
                 cache.put(event.request, response.clone());
-                isCached = true;
-                if (cache.match(event.request)) {
-                  debugMsg('    Item added successfully to cache');
-                } else {
-                  debugMsg('    WARN: Item NOT added to cache');
-                }
               }
             }
-          }
-          if (!isCached) {
-            debugMsg('  item not added to cache');
           }
           return response;
         });
@@ -154,12 +144,12 @@ function getCache(event: MessageEvent): Promise<string[]> {
   });
 }
 
-// TODO - messages to be a typescript interface
 self.addEventListener('message', (event: MessageEvent) => {
   debugEvent(event);
-  let op: string = event.data.operation;
-  let value: string = event.data.value;
-  debugMsg('Message - operation: ' + op + ', value: ' + value);
+  let messageObject: MessageObject = event.data;
+  let op: string = messageObject.operation;
+  let message: string = messageObject.message;
+  debugMsg('Message - operation: ' + op + ', message: ' + message);
   if (op === 'clear_cache') {
     deleteCache(event, cacheName);
     // send reply as message to client
@@ -167,7 +157,7 @@ self.addEventListener('message', (event: MessageEvent) => {
   } else if (op === 'get_cache') {
     debugMsg('Message: Get cache ');
     getCache(event).then((cacheContents: string[]) => {
-      debugMsg('  cache keys for msg length: ', cacheContents.length);
+      console.log('  cache keys for msg length: ', cacheContents.length);
       // send reply as message to client
       event.ports[0].postMessage(cacheContents);
     }, (error: Error) => {
