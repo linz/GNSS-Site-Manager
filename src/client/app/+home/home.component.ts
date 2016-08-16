@@ -90,7 +90,7 @@ export class HomeComponent implements OnInit {
     }, (error: Error) => {
       console.warn('Error in updateCacheList: '+ error.message);
     }).catch((error: any) => {
-      console.error("Caught error in updateCacheList:", error);
+      console.error('Caught error in updateCacheList:', error);
     });
   };
 }
