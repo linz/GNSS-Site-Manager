@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
   }
 
   setupSubscriptions() {
-    this.serviceWorkerSubscription = this.serviceWorkerService.clearCache$.subscribe(isCacheChanged => {
+    this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
       if (isCacheChanged) {
         this.updateCacheList();
       }
@@ -75,7 +75,7 @@ export class HomeComponent implements OnInit {
    * Component method to request the Service Worker clears it's cache.
    */
   clearCache=() => {
-    this.serviceWorkerService.clearCacheService().then((data: string) => {
+    this.serviceWorkerService.clearCache().then((data: string) => {
       console.debug('toolbar.component clearCache() success: ', data);
     }, (error: Error) => {
       throw new Error('Error in clearCache: '+ error.message);
