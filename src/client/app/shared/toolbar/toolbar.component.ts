@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {NameListService, ServiceWorkerService} from '../index';
-import {Subscription} from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { NameListService, ServiceWorkerService } from '../index';
+import { Subscription } from 'rxjs';
 
 /**
  * This class represents the toolbar component.
@@ -14,7 +14,6 @@ import {Subscription} from 'rxjs';
 export class ToolbarComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
-  private numberCacheItems: number = 0;
 
   constructor(private serviceWorkerService: ServiceWorkerService, public nameListService: NameListService) {
   }
@@ -25,7 +24,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   setupSubscriptions() {
-    this.serviceWorkerSubscription = this.serviceWorkerService.clearCache$.subscribe((isCacheChanged: boolean) => {
+    this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
       if (isCacheChanged) {
         this.updateCacheList();
       }
@@ -35,26 +34,22 @@ export class ToolbarComponent implements OnInit {
   /**
    * Component method to request the Service Worker clears it's cache.
    */
-  clearCache=() => {
-    this.serviceWorkerService.clearCacheService().then((data: string) => {
-      console.debug('toolbar.component clearCache() success: ', data);
+  clearCache = (): void => {
+    this.serviceWorkerService.clearCache().then((data: string) => {
+      console.debug('toolbar.component clearCacheObservable() success: ', data);
       // Force a reloading of the cache
       self.location.reload();
     }, (error: Error) => {
-      throw new Error('Error in clearCache: '+ error.message);
+      throw new Error('Error in clearCacheObservable: ' + error.message);
     });
   };
 
-  updateCacheList=() => {
+  updateCacheList = (): void => {
     this.serviceWorkerService.getCacheList().then((data: string[]) => {
       this.cacheItems.length = 0;
       this.cacheItems = data;
-      this.numberCacheItems = this.cacheItems.length;
-    }, (error: Error) => {
-      console.warn('Error in updateCacheList: '+ error.message);
     }).catch((error: any) => {
-      console.error("Caught error in updateCacheList:", error);
+      console.error('Caught error in updateCacheList:', error);
     });
   };
-
 }

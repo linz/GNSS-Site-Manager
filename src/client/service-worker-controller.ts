@@ -45,12 +45,11 @@ function deleteOtherCaches(event: any): void {
  * @param cacheToDelete to delete
  */
 function deleteCache(event: any, cacheToDelete: string): void {
-  debugMsg('  deleteCache function - clean cache: ' + cacheToDelete);
+  debugMsg('  deleteCache - clean cache: ' + cacheToDelete);
   event.waitUntil(
     self.caches.keys().then((cacheNames: string[]) => {
       // WARNING - Intellij says there is a syntax error here but AFIACT there isn't.  Don't spent time looking at this.
       return Promise.all(cacheNames.filter((cacheToTest: string) => {
-          debugMsg('    cache: ' + cacheToTest);
           return cacheToTest === cacheToDelete;
         }).map((cacheToDelete: string) => {
           self.caches.delete(cacheToDelete);
@@ -71,7 +70,7 @@ self.addEventListener('install', (event: InstallEvent) => {
   );
 });
 
-self.addEventListener('activate', function (event: ExtendableEvent) {
+self.addEventListener('activate', (event: ExtendableEvent) => {
   debugEvent(event);
   deleteOtherCaches(event);
 });
@@ -118,8 +117,8 @@ self.addEventListener('notificationclose', debugEvent);
  */
 function getCache(event: MessageEvent): Promise<string[]> {
   debugMsg('getCache: ' + cacheName);
-  let cacheUrls: any = [];
-  return new Promise((resolve: any, reject: any) => {
+  let cacheUrls: string[] = [];
+  return new Promise((resolve: Function, reject: Function) => {
     self.caches.has(cacheName).then(() => {
       self.caches.open(cacheName).then((cache: Cache) => {
         debugMsg('  cache: ', cache);
@@ -147,14 +146,14 @@ function getCache(event: MessageEvent): Promise<string[]> {
 self.addEventListener('message', (event: MessageEvent) => {
   debugEvent(event);
   let messageObject: MessageObject = event.data;
-  let op: string = messageObject.operation;
-  let message: string = messageObject.message;
-  debugMsg('Message - operation: ' + op + ', message: ' + message);
-  if (op === 'clear_cache') {
+  // let operator:string, message:string;
+  let {operation, message} = messageObject;
+  debugMsg('Message - operation: ' + operation + ', message: ' + message);
+  if (operation === 'clear_cache') {
     deleteCache(event, cacheName);
     // send reply as message to client
     event.ports[0].postMessage('message clear_cache complete');
-  } else if (op === 'get_cache') {
+  } else if (operation === 'get_cache') {
     debugMsg('Message: Get cache ');
     getCache(event).then((cacheContents: string[]) => {
       console.log('  cache keys for msg length: ', cacheContents.length);

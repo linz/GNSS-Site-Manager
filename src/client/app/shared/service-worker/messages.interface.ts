@@ -1,4 +1,4 @@
 interface MessageObject {
-  operation : string;
-  message? : string;
+  operation: string;
+  message?: string;
 }

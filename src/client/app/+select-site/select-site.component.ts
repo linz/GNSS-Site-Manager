@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
 import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 import { CorsSiteService } from '../shared/index';
 import { ServiceWorkerService } from '../shared/index';
 
@@ -26,7 +26,6 @@ export class SelectSiteComponent implements OnInit {
   public errorMessage: string;
   public isSearching: boolean = false;
   private cacheItems: Array<string> = [];
-  public numberCacheItems: number = 0;
 
 
   /**
@@ -35,7 +34,8 @@ export class SelectSiteComponent implements OnInit {
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Servcie Worker
    */
-  constructor(public corsSiteService: CorsSiteService, private serviceWorkerService: ServiceWorkerService) {}
+  constructor(public corsSiteService: CorsSiteService, private serviceWorkerService: ServiceWorkerService) {
+  }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -47,7 +47,7 @@ export class SelectSiteComponent implements OnInit {
   }
 
   setupSubscriptions() {
-    this.serviceWorkerSubscription = this.serviceWorkerService.clearCache$.subscribe((isCacheChanged: boolean) => {
+    this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
       if (isCacheChanged) {
         this.updateCacheList();
       }
@@ -61,16 +61,16 @@ export class SelectSiteComponent implements OnInit {
     this.isSearching = true;
     this.sites = [];
     this.corsSiteService.getCorsSitesBy(this.fourCharacterId, this.siteName)
-          .subscribe(
-            (responseJson: any) => this.sites = (responseJson._embedded ? responseJson._embedded.corsSites : []),
-            (error: any) =>  this.errorMessage = <any>error,
-            () => {
-              this.isSearching = false;
-              if (this.sites.length === 0)
-              this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
-            }
-          );
-   }
+      .subscribe(
+        (responseJson: any) => this.sites = (responseJson._embedded ? responseJson._embedded.corsSites : []),
+        (error: any) => this.errorMessage = <any>error,
+        () => {
+          this.isSearching = false;
+          if (this.sites.length === 0)
+            this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
+        }
+      );
+  }
 
   /**
    * Select a site from the search results of sites.
@@ -94,24 +94,23 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Component method to request the Service Worker clears it's cache.
    */
-  clearCache=() => {
-    this.serviceWorkerService.clearCacheService().then((data: string) => {
+  clearCache = (): void  => {
+    this.serviceWorkerService.clearCache().then((data: string) => {
       console.debug('select-site.component clearCache() success: ', data);
     }, (error: Error) => {
-      throw new Error('Error in clearCache: '+ error.message);
+      throw new Error('Error in clearCache: ' + error.message);
     });
   }
 
   /**
    * Component method to retrieve the list of URLs cached in the Service Worker and to update the this.cacheItem array
    */
-  updateCacheList=() => {
+  updateCacheList = (): void => {
     this.serviceWorkerService.getCacheList().then((data: string[]) => {
       this.cacheItems.length = 0;
       this.cacheItems = data;
-      this.numberCacheItems = this.cacheItems.length;
-    }, (error: Error) => {
-      throw new Error('Error in updateCacheList: '+ error.message);
+    }).catch((error: any) => {
+      console.error('Caught error in updateCacheList:', error);
     });
-  }
+  };
 }
