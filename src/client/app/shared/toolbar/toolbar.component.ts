@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NameListService, ServiceWorkerService } from '../index';
+import { Subscription } from 'rxjs';
 
 /**
  * This class represents the toolbar component.
@@ -9,4 +11,45 @@ import { Component } from '@angular/core';
   templateUrl: 'toolbar.component.html',
   styleUrls: ['toolbar.component.css']
 })
-export class ToolbarComponent {}
+export class ToolbarComponent implements OnInit {
+  private serviceWorkerSubscription: Subscription;
+  private cacheItems: Array<string> = [];
+
+  constructor(private serviceWorkerService: ServiceWorkerService, public nameListService: NameListService) {
+  }
+
+  ngOnInit() {
+    this.setupSubscriptions();
+    this.updateCacheList();
+  }
+
+  setupSubscriptions() {
+    this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
+      if (isCacheChanged) {
+        this.updateCacheList();
+      }
+    });
+  }
+
+  /**
+   * Component method to request the Service Worker clears it's cache.
+   */
+  clearCache = (): void => {
+    this.serviceWorkerService.clearCache().then((data: string) => {
+      console.debug('toolbar.component clearCacheObservable() success: ', data);
+      // Force a reloading of the cache
+      self.location.reload();
+    }, (error: Error) => {
+      throw new Error('Error in clearCacheObservable: ' + error.message);
+    });
+  };
+
+  updateCacheList = (): void => {
+    this.serviceWorkerService.getCacheList().then((data: string[]) => {
+      this.cacheItems.length = 0;
+      this.cacheItems = data;
+    }).catch((error: any) => {
+      console.error('Caught error in updateCacheList:', error);
+    });
+  };
+}
