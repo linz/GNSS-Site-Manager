@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CORE_DIRECTIVES} from '@angular/common';
 import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -16,26 +16,24 @@ import { CorsSiteService, CorsSetupService, SiteLogService } from '../shared/ind
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
   public site: any = null;
-  public receiver: any = null;
-  public prevReceivers: Array<any> = [];
-  public antenna: any = null;
-  public prevAntennas: Array<any> = [];
   public siteLocation: any = null;
+  public siteOwner: any = null;
+  public metadataCustodian: any = null;
+  public receivers: Array<any> = [];
+  public antennas: Array<any> = [];
   public errorMessage: string;
   public siteInfoTab: any = null;
 
-  public status: Object = {
+  public status: any = {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMedia: false,
     isSiteOwnerOpen: false,
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
-    isCurrentReceiverOpen: true,
-    isPrevReceiversOpen: [],
+    isReceiversOpen: [],
     isAntennaGroupOpen: false,
-    isCurrentAntennaOpen: true,
-    isPrevAntennasOpen: []
+    isAntennasOpen: []
   };
 
   /**
@@ -50,7 +48,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
-    public zone: NgZone,
     public corsSiteService: CorsSiteService,
     public corsSetupService: CorsSetupService,
     public siteLogService: SiteLogService
@@ -69,7 +66,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.corsSiteService.getSiteById(siteId).subscribe(
         (responseJson1: any) => {
           this.site = responseJson1._embedded.corsSites[0];
-          this.getCurrentSetup(this.site.fourCharacterId);
+          this.getAllCorsSetupsBySiteId(siteId);
           this.getSiteLog(this.site.fourCharacterId);
         },
         (error1: any) =>  this.errorMessage = <any>error1
@@ -78,39 +75,68 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Clear all input fields and clear sites array
+   * Clear all variables/arrays
    */
   public ngOnDestroy() {
     this.site = null;
-    this.receiver = null;
-    this.antenna = null;
+    this.siteLocation = null;
+    this.siteOwner = null;
+    this.metadataCustodian = null;
+    this.status = null;
+    this.receivers = [];
+    this.antennas = [];
+    this.errorMessage = '';
     this.siteInfoTab.unsubscribe();
   }
 
   /**
-   * Close the site-into tab and go back to the default home page (select-site tab)
+   * Close the site-info tab and go back to the default home page (select-site tab)
    */
   public goBack() {
     let link = ['/'];
     this.router.navigate(link);
   }
 
-  public update() {
-    this.zone.runOutsideAngular(() => {
-        //this.zone.run();
-    });
-  }
+  /* Triggers the next round of Angular change detection
+   * after one turn of the browser event loop
+   * ensuring display of msg added in onDestroy
+   */
+  public tick() { setTimeout(() => { console.log('tick ...');}, 100); }
 
-  private getCurrentSetup(fourCharacterId: string) {
-    this.corsSetupService.getCurrentSetupByFourCharacterId(fourCharacterId).subscribe(
+  public getAllCorsSetupsBySiteId(siteId: number) {
+    this.corsSetupService.getCorsSetupsBySiteId(siteId).subscribe(
       (responseJson: any) => {
-        for (let equip of responseJson.equipmentInUse) {
-          if ( equip.content.id.equipmentType === 'gnss receiver' ) {
-            this.receiver = equip.content;
-          } else if (equip.content.id.equipmentType === 'gnss antenna' ) {
-            this.antenna = equip.content;
+        let currentReceiver: any = null;
+        let currentAntenna: any = null;
+        for (let setupObj of responseJson._embedded.setups) {
+          for (let equipObj of setupObj.equipmentInUse) {
+            if ( equipObj.content.id.equipmentType === 'gnss receiver' ) {
+              if ( setupObj.current ) {
+                currentReceiver = equipObj.content;
+              } else {
+                this.receivers.push(equipObj.content);
+                this.status.isReceiversOpen.push(false);
+              }
+            } else if (equipObj.content.id.equipmentType === 'gnss antenna' ) {
+              if ( setupObj.current ) {
+                currentAntenna = equipObj.content;
+              } else {
+                this.antennas.push(equipObj.content);
+                this.status.isAntennasOpen.push(false);
+              }
+            }
           }
         }
+        // Sort by dateInstalled for all previous receivers/antennas
+        this.receivers.sort(this.compareDate);
+        this.antennas.sort(this.compareDate);
+
+        // Add current receiver/antenna (even if they are null) as the first item in the arrays,
+        // and set their accordion groups open by default
+        this.receivers.unshift(currentReceiver);
+        this.antennas.unshift(currentAntenna);
+        this.status.isReceiversOpen.unshift(true);
+        this.status.isAntennasOpen.unshift(true);
       },
       (error: any) =>  this.errorMessage = <any>error
     );
@@ -120,8 +146,24 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogService.getSiteLogByFourCharacterId(fourCharacterId).subscribe(
       (responseJson: any) => {
         this.siteLocation = responseJson.siteLocation;
+        this.siteOwner = responseJson.siteContact.party;
+        this.metadataCustodian = responseJson.siteMetadataCustodian.party;
       },
       (error: any) =>  this.errorMessage = <any>error
     );
   }
+
+  private compareDate(obj1: any, obj2: any) {
+    if (obj1 === null || obj1.period === null)
+      return 0;
+    if (obj2 === null || obj2.period === null)
+      return 0;
+
+    if (obj1.period.from < obj2.period.from)
+      return 1;
+    if (obj1.period.from > obj2.period.from)
+      return -1;
+    return 0;
+  }
+
 }

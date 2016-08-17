@@ -49,6 +49,10 @@ body {
   padding: 5px;
 }
 
+.panel-sub-heading {
+  background-color: e5f5f9 !important;
+}
+
 .accordion-group-icon {
   color: #fff !important;
   background-color: #555 !important;
