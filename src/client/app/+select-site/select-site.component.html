@@ -1,12 +1,12 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="panel-group">
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">
         <div *ngIf="isSearching" class="pull-right"><img src="../../assets/ajax-loader.gif" height="16" width="16">
         </div>
-        <h4 class="panel-title">
+        <div class="panel-title">
           Search Sites
-        </h4>
+        </div>
       </div>
       <div class="panel-body">
         <form name="searchSite" novalidate class="form-horizontal">
@@ -35,12 +35,12 @@
         </form>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div class="panel panel-info">
       <div class="panel-heading">
-        <h4 class="panel-title">
+        <div class="panel-title">
           Select a Site
           <span *ngIf="sites.length > 0" class="tips">(Click on a row below to view the site details)</span>
-        </h4>
+        </div>
       </div>
       <div class="panel-body clear-pad">
         <div *ngIf="sites.length == 0" class="hint">

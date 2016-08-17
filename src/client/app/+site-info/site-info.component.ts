@@ -27,7 +27,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public status: any = {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
-    isSiteMedia: false,
+    isSiteMediaOpen: false,
     isSiteOwnerOpen: false,
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
@@ -97,11 +97,58 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.router.navigate(link);
   }
 
-  /* Triggers the next round of Angular change detection
-   * after one turn of the browser event loop
-   * ensuring display of msg added in onDestroy
+  /**
+   * Update the isOpen flags for all accordions to make all open or close
    */
-  public tick() { setTimeout(() => { console.log('tick ...');}, 100); }
+  public toggleAll(flag: boolean) {
+    this.status.isSiteInfoGroupOpen = flag;
+    this.status.isSiteMediaOpen = flag;
+    this.status.isSiteOwnerOpen = flag;
+    this.status.isMetaCustodianOpen = flag;
+    this.status.isReceiverGroupOpen = flag;
+    for (let index in this.status.isReceiversOpen) {
+      this.status.isReceiversOpen[index] = flag;
+    }
+    this.status.isAntennaGroupOpen = flag;
+    for (let index in this.status.isAntennasOpen) {
+      this.status.isAntennasOpen[index] = flag;
+    }
+  }
+
+  public areAllOpen() {
+    let isAnyOpen: boolean = false;
+    return this.checkAllStatus(isAnyOpen);
+  }
+
+  public areAllClosed() {
+    let isAnyOpen: boolean = true;
+    return this.checkAllStatus(isAnyOpen);
+  }
+
+  public checkAllStatus(flag: boolean) {
+    if (this.status.isSiteInfoGroupOpen === flag
+      || this.status.isSiteMediaOpen === flag
+      || this.status.isSiteOwnerOpen === flag
+      || this.status.isMetaCustodianOpen === flag) {
+      return null;
+    }
+    if (this.status.isReceiverGroupOpen === flag
+      || this.status.isAntennaGroupOpen === flag) {
+      return null;
+    }
+
+    for (let isOpen of this.status.isReceiversOpen) {
+      if (isOpen === flag) {
+        return null;
+      }
+    }
+    for (let isOpen of this.status.isAntennasOpen) {
+      if (isOpen === flag) {
+        return null;
+      }
+    }
+    return true;
+  }
 
   public getAllCorsSetupsBySiteId(siteId: number) {
     this.corsSetupService.getCorsSetupsBySiteId(siteId).subscribe(
