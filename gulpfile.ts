@@ -20,6 +20,7 @@ gulp.task('build.dev', (done: any) =>
               'build.html_css',
               'build.js.dev',
               'build.index.dev',
+              'copy.js.local.dev',
               done));
 
 // --------------
@@ -52,6 +53,7 @@ gulp.task('build.prod', (done: any) =>
               'build.bundles',
               'build.bundles.app',
               'build.index.prod',
+              'copy.js.local.prod',
               done));
 
 // --------------
@@ -64,6 +66,7 @@ gulp.task('build.test', (done: any) =>
               'build.js.dev',
               'build.js.test',
               'build.index.dev',
+              'copy.js.local.dev',
               done));
 
 // --------------
