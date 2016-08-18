@@ -49,6 +49,12 @@ body {
   padding: 5px;
 }
 
+.button-xs {
+  background-color: #fff;
+  line-height: 18px !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
 .toggle-button {
   font-size: 18px;
   margin: 0;

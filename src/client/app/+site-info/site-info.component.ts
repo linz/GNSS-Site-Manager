@@ -116,34 +116,43 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   public areAllOpen() {
-    let isAnyOpen: boolean = false;
-    return this.checkAllStatus(isAnyOpen);
-  }
-
-  public areAllClosed() {
-    let isAnyOpen: boolean = true;
-    return this.checkAllStatus(isAnyOpen);
-  }
-
-  public checkAllStatus(flag: boolean) {
-    if (this.status.isSiteInfoGroupOpen === flag
-      || this.status.isSiteMediaOpen === flag
-      || this.status.isSiteOwnerOpen === flag
-      || this.status.isMetaCustodianOpen === flag) {
+    if (!this.status.isSiteInfoGroupOpen || !this.status.isSiteMediaOpen
+      || !this.status.isSiteOwnerOpen || !this.status.isMetaCustodianOpen) {
       return null;
-    }
-    if (this.status.isReceiverGroupOpen === flag
-      || this.status.isAntennaGroupOpen === flag) {
+    } else if (!this.status.isReceiverGroupOpen
+      || !this.status.isAntennaGroupOpen) {
       return null;
     }
 
     for (let isOpen of this.status.isReceiversOpen) {
-      if (isOpen === flag) {
+      if (!isOpen) {
         return null;
       }
     }
     for (let isOpen of this.status.isAntennasOpen) {
-      if (isOpen === flag) {
+      if (!isOpen) {
+        return null;
+      }
+    }
+    return true;
+  }
+
+  public areAllClosed() {
+    if (this.status.isSiteInfoGroupOpen || this.status.isSiteMediaOpen
+      || this.status.isSiteOwnerOpen || this.status.isMetaCustodianOpen) {
+      return null;
+    } else if (this.status.isReceiverGroupOpen
+      || this.status.isAntennaGroupOpen) {
+      return null;
+    }
+
+    for (let isOpen of this.status.isReceiversOpen) {
+      if (isOpen) {
+        return null;
+      }
+    }
+    for (let isOpen of this.status.isAntennasOpen) {
+      if (isOpen) {
         return null;
       }
     }

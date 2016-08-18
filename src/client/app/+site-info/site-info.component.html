@@ -1,9 +1,9 @@
 <div class="col-md-12 col-sm-12 col-xs-12">
   <div class="toggle-button">
-      <i class="glyphicon glyphicon-collapse-down" title="Click to show all info" [attr.disabled]="areAllOpen()"
-         (click)="toggleAll(true)"></i>
-      <i class="glyphicon glyphicon-collapse-up" title="Click to hide all info" [attr.disabled]="areAllClosed()"
-         (click)="toggleAll(false)"></i>
+      <button class="button-xs" [disabled]="areAllOpen()" (click)="toggleAll(true)"><i class="glyphicon glyphicon-collapse-down" title="Click to show all info"
+        ></i></button>
+    <button class="button-xs" [disabled]="areAllClosed()" (click)="toggleAll(false)"><i class="glyphicon glyphicon-collapse-up" title="Click to hide all info"
+        ></i></button>
   </div>
   <form name="siteInfo" novalidate class="form-horizontal">
     <div class="panel-group">
