@@ -14,6 +14,8 @@
     "express": "github:DefinitelyTyped/DefinitelyTyped/express/express.d.ts#5c3e47967affa3c4128a3875d1664ba206ae1b0f",
     "glob": "github:DefinitelyTyped/DefinitelyTyped/glob/glob.d.ts#5c3e47967affa3c4128a3875d1664ba206ae1b0f",
     "gulp": "github:DefinitelyTyped/DefinitelyTyped/gulp/gulp.d.ts#5c3e47967affa3c4128a3875d1664ba206ae1b0f",
+    "gulp-debug": "registry:dt/gulp-debug#2.0.1+20160316155526",
+    "gulp-if": "registry:dt/gulp-if#0.0.0+20160316155526",
     "gulp-load-plugins": "github:DefinitelyTyped/DefinitelyTyped/gulp-load-plugins/gulp-load-plugins.d.ts#e081148d88b857d66509e3b46edbd08b3f75f96a",
     "gulp-protractor": "registry:dt/gulp-protractor#1.0.0+20160316155526",
     "gulp-sass": "github:DefinitelyTyped/DefinitelyTyped/gulp-sass/gulp-sass.d.ts#56295f5058cac7ae458540423c50ac2dcf9fc711",
@@ -36,7 +38,7 @@
     "through2": "github:DefinitelyTyped/DefinitelyTyped/through2/through2.d.ts#5a8fc5ee71701431e4fdbb80c506e3c13f85a9ff",
     "vinyl": "github:DefinitelyTyped/DefinitelyTyped/vinyl/vinyl.d.ts#5a8fc5ee71701431e4fdbb80c506e3c13f85a9ff",
     "vinyl-source-stream": "github:DefinitelyTyped/DefinitelyTyped/vinyl-source-stream/vinyl-source-stream.d.ts#ffceea9dd124d277c4597c7bd12930666ec074c5",
-    "yargs": "github:DefinitelyTyped/DefinitelyTyped/yargs/yargs.d.ts#6a287502dab374e7d4cbf18ea1ac5dff7f74726a",
+    "yargs": "registry:dt/yargs#0.0.0+20160808125142",
     "zone.js": "github:DefinitelyTyped/DefinitelyTyped/zone.js/zone.js.d.ts#b923a5aaf013ac84c566f27ba6b5843211981c7a"
   }
 }

@@ -1,6 +1,7 @@
 import * as gulp from 'gulp';
 import * as util from 'gulp-util';
 import * as runSequence from 'run-sequence';
+import argv from 'yargs';
 
 import { PROJECT_TASKS_DIR, SEED_TASKS_DIR } from './tools/config';
 import { loadTasks } from './tools/utils';
@@ -9,18 +10,23 @@ import { loadTasks } from './tools/utils';
 loadTasks(SEED_TASKS_DIR);
 loadTasks(PROJECT_TASKS_DIR);
 
-
+let debug=argv.debug;
 // --------------
 // Build dev.
-gulp.task('build.dev', (done: any) =>
-  runSequence(//'clean.dev',
+gulp.task('build.dev', (done: any) => {
+  if (debug) {
+    console.log('debug true');
+  }
+  runSequence('clean.dev',
 //              'tslint',
 //              'css-lint',
               'build.assets.dev',
               'build.html_css',
               'build.js.dev',
               'build.index.dev',
-              done));
+              'copy.js.local.dev',
+              done);
+});
 
 // --------------
 // Build dev watch.
@@ -52,6 +58,7 @@ gulp.task('build.prod', (done: any) =>
               'build.bundles',
               'build.bundles.app',
               'build.index.prod',
+              'copy.js.local.prod',
               done));
 
 // --------------
@@ -64,6 +71,7 @@ gulp.task('build.test', (done: any) =>
               'build.js.dev',
               'build.js.test',
               'build.index.dev',
+              'copy.js.local.dev',
               done));
 
 // --------------
