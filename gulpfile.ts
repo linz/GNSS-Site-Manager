@@ -1,6 +1,7 @@
 import * as gulp from 'gulp';
 import * as util from 'gulp-util';
 import * as runSequence from 'run-sequence';
+import argv from 'yargs';
 
 import { PROJECT_TASKS_DIR, SEED_TASKS_DIR } from './tools/config';
 import { loadTasks } from './tools/utils';
@@ -9,11 +10,14 @@ import { loadTasks } from './tools/utils';
 loadTasks(SEED_TASKS_DIR);
 loadTasks(PROJECT_TASKS_DIR);
 
-
+let debug=argv.debug;
 // --------------
 // Build dev.
-gulp.task('build.dev', (done: any) =>
-  runSequence(//'clean.dev',
+gulp.task('build.dev', (done: any) => {
+  if (debug) {
+    console.log('debug true');
+  }
+  runSequence('clean.dev',
 //              'tslint',
 //              'css-lint',
               'build.assets.dev',
@@ -21,7 +25,8 @@ gulp.task('build.dev', (done: any) =>
               'build.js.dev',
               'build.index.dev',
               'copy.js.local.dev',
-              done));
+              done);
+});
 
 // --------------
 // Build dev watch.

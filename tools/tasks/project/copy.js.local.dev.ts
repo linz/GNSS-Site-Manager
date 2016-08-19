@@ -1,7 +1,8 @@
 import * as gulp from 'gulp';
 import * as debug from 'gulp-debug';
+import * as gulpif from 'gulp-if';
 import { join } from 'path';
-
+import { argv } from 'yargs';
 import { JS_DEST, DEV_DEST } from '../../config';
 
 /**
@@ -18,15 +19,18 @@ export = () => {
     let normalFiles=[join(dir, '**/*.js'),
                     '!' + serviceWorkerFiles];
 
-    if (debugx) {
+    let debugout = argv.debug;
+    if (debugout) {
         console.log("DEBUGx IS TRUE");
         console.log('copy.js.local - normal files: ', normalFiles);
         console.log('copy.js.local - service worker files: ', serviceWorkerFiles);
+    } else {
+        console.log("DEBUGx is FALSE");
     }
     gulp.src(normalFiles)
-        .pipe(debug({title:'copy.js.local normal files'}))
+        .pipe(gulpif(debugout, debug({title:'copy.js.local normal files'})))
         .pipe(gulp.dest(JS_DEST));
     gulp.src(serviceWorkerFiles)
-        .pipe(debug({title:'copy.js.local service worker files'}))
+        .pipe(gulpif(debugout, debug({title:'copy.js.local service worker files'})))
         .pipe(gulp.dest(DEV_DEST));
 };
