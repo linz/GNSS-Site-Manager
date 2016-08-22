@@ -69,7 +69,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.getAllCorsSetupsBySiteId(siteId);
           this.getSiteLog(this.site.fourCharacterId);
         },
-        (error1: any) =>  this.errorMessage = <any>error1
+        (error1: Error) =>  this.errorMessage = <any>error1
       );
     });
   }
@@ -83,8 +83,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteOwner = null;
     this.metadataCustodian = null;
     this.status = null;
-    this.receivers = [];
-    this.antennas = [];
+    this.receivers.length = 0;
+    this.antennas.length = 0;
     this.errorMessage = '';
     this.siteInfoTab.unsubscribe();
   }
@@ -164,20 +164,20 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       (responseJson: any) => {
         let currentReceiver: any = null;
         let currentAntenna: any = null;
-        for (let setupObj of responseJson._embedded.setups) {
-          for (let equipObj of setupObj.equipmentInUse) {
-            if ( equipObj.content.id.equipmentType === 'gnss receiver' ) {
-              if ( setupObj.current ) {
-                currentReceiver = equipObj.content;
+        for (let setup of responseJson._embedded.setups) {
+          for (let equip of setup.equipmentInUse) {
+            if ( equip.content.id.equipmentType === 'gnss receiver' ) {
+              if ( setup.current ) {
+                currentReceiver = equip.content;
               } else {
-                this.receivers.push(equipObj.content);
+                this.receivers.push(equip.content);
                 this.status.isReceiversOpen.push(false);
               }
-            } else if (equipObj.content.id.equipmentType === 'gnss antenna' ) {
-              if ( setupObj.current ) {
-                currentAntenna = equipObj.content;
+            } else if (equip.content.id.equipmentType === 'gnss antenna' ) {
+              if ( setup.current ) {
+                currentAntenna = equip.content;
               } else {
-                this.antennas.push(equipObj.content);
+                this.antennas.push(equip.content);
                 this.status.isAntennasOpen.push(false);
               }
             }
@@ -193,7 +193,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         this.status.isReceiversOpen.unshift(true);
         this.status.isAntennasOpen.unshift(true);
       },
-      (error: any) =>  this.errorMessage = <any>error
+      (error: Error) =>  this.errorMessage = <any>error
     );
   }
 
@@ -204,17 +204,21 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         this.siteOwner = responseJson.siteContact.party;
         this.metadataCustodian = responseJson.siteMetadataCustodian.party;
 
-        // Check the existence of contactInfo obj within siteOwner
-        if ( !this.siteOwner.contactInfo ){
+        // Check the existence of contactInfo/phone in siteOwner
+        if ( !this.siteOwner.contactInfo ) {
           this.siteOwner.contactInfo = {
             address: null,
             phone: {
               voices: [null]
             }
           };
+        } else if ( !this.siteOwner.contactInfo.phone ) {
+          this.siteOwner.contactInfo.phone = {
+            voices: [null]
+          }
         }
       },
-      (error: any) =>  this.errorMessage = <any>error
+      (error: Error) =>  this.errorMessage = <any>error
     );
   }
 

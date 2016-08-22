@@ -14,7 +14,6 @@ import { ServiceWorkerService } from '../shared/index';
   moduleId: module.id,
   selector: 'sd-select-site',
   templateUrl: 'select-site.component.html',
-  styleUrls: ['select-site.component.css'],
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
 export class SelectSiteComponent implements OnInit {
@@ -65,7 +64,7 @@ export class SelectSiteComponent implements OnInit {
     this.corsSiteService.getCorsSitesBy(this.fourCharacterId, this.siteName)
       .subscribe(
         (responseJson: any) => this.sites = (responseJson._embedded ? responseJson._embedded.corsSites : []),
-        (error: any) => this.errorMessage = <any>error,
+        (error: Error) => this.errorMessage = <any>error,
         () => {
           this.isSearching = false;
           if (this.sites.length === 0)
@@ -90,7 +89,7 @@ export class SelectSiteComponent implements OnInit {
     this.searchMsg = 'Please enter search criteria for searching desired sites.';
     this.siteName = '';
     this.fourCharacterId = '';
-    this.sites = [];
+    this.sites.length = 0;
     this.selectedSite = null;
     this.isSearching = false;
   }
