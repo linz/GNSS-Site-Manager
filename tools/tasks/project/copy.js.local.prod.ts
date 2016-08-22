@@ -1,6 +1,8 @@
 import * as gulp from 'gulp';
-import * as debug from 'gulp-debug';
+import * as gulpdebug from 'gulp-debug';
+import * as gulpif from 'gulp-if';
 import { join } from 'path';
+import { argv } from 'yargs';
 
 import { JS_DEST, TMP_DIR, PROD_DEST } from '../../config';
 
@@ -8,24 +10,26 @@ import { JS_DEST, TMP_DIR, PROD_DEST } from '../../config';
  * This sample task should come late in the build chain after the .ts are transpiled into .js under dist/tmp.  
  * It copies from there all JavaScript files under jslocal to the appropiate `dist/dev|prod|test/js` directory, 
  * where other .js artifacts are built.
+ * 
+ * 1. .js files are copied to the angular-2 built js/ directory.
+ * 2. Service Worker .js files (ones that start with 'service-worker') are copied to the root since that
+ * becomes the scope of the service-worker (putting the file(s) into 'js/' would limit its scope to only 
+ * that directory).
  */
-//export = () => {
-//  return gulp.src(join(TMP_DIR, 'jslocal', '**/*.js'))
-//    .pipe(debug({title:'copy.js.local'}))
-//    .pipe(gulp.dest(JS_DEST));
-//};
-
 export = () => {
+    let debug: boolean = argv.debug;
     let dir=join(TMP_DIR, 'jslocal');
     let serviceWorkerFiles = join(dir, '**/service-worker*.js');
     let normalFiles=[join(dir, '**/*.js'),
                     '!' + serviceWorkerFiles];
-    console.log('copy.js.local - normal files: ', normalFiles);
-    console.log('copy.js.local - service worker files: ', serviceWorkerFiles);
+    if (debug) {
+        console.log('copy.js.local - normal files: ', normalFiles);
+        console.log('copy.js.local - service worker files: ', serviceWorkerFiles);
+    }
     gulp.src(normalFiles)
-        .pipe(debug({title:'copy.js.local normal files'}))
+        .pipe(gulpif(debug, gulpdebug({title:'copy.js.local normal files'})))
         .pipe(gulp.dest(JS_DEST));
     gulp.src(serviceWorkerFiles)
-        .pipe(debug({title:'copy.js.local service worker files'}))
+        .pipe(gulpif(debug, gulpdebug({title:'copy.js.local service worker files'})))
         .pipe(gulp.dest(PROD_DEST));
 };
