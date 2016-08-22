@@ -14,9 +14,6 @@ let debug=argv.debug;
 // --------------
 // Build dev.
 gulp.task('build.dev', (done: any) => {
-  if (debug) {
-    console.log('debug true');
-  }
   runSequence('clean.dev',
 //              'tslint',
 //              'css-lint',
