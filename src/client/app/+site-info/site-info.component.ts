@@ -187,8 +187,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         this.receivers.sort(this.compareDate);
         this.antennas.sort(this.compareDate);
 
-        // Add current receiver/antenna (even if they are null) as the first item in the arrays,
-        // and set their accordion groups open by default
+        // Current receiver/antenna (even null) are the first item in the arrays and open by default
         this.receivers.unshift(currentReceiver);
         this.antennas.unshift(currentAntenna);
         this.status.isReceiversOpen.unshift(true);
@@ -204,6 +203,16 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         this.siteLocation = responseJson.siteLocation;
         this.siteOwner = responseJson.siteContact.party;
         this.metadataCustodian = responseJson.siteMetadataCustodian.party;
+
+        // Check the existence of contactInfo obj within siteOwner
+        if ( !this.siteOwner.contactInfo ){
+          this.siteOwner.contactInfo = {
+            address: null,
+            phone: {
+              voices: [null]
+            }
+          };
+        }
       },
       (error: any) =>  this.errorMessage = <any>error
     );
