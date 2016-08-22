@@ -10,7 +10,6 @@ import { loadTasks } from './tools/utils';
 loadTasks(SEED_TASKS_DIR);
 loadTasks(PROJECT_TASKS_DIR);
 
-let debug=argv.debug;
 // --------------
 // Build dev.
 gulp.task('build.dev', (done: any) => {
