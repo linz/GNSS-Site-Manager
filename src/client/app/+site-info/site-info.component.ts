@@ -215,7 +215,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         } else if ( !this.siteOwner.contactInfo.phone ) {
           this.siteOwner.contactInfo.phone = {
             voices: [null]
-          }
+          };
         }
       },
       (error: Error) =>  this.errorMessage = <any>error
