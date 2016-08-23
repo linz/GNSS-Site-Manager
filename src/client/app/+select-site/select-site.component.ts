@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
 import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
@@ -13,7 +14,6 @@ import { ServiceWorkerService } from '../shared/index';
   moduleId: module.id,
   selector: 'sd-select-site',
   templateUrl: 'select-site.component.html',
-  styleUrls: ['select-site.component.css'],
   directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
 export class SelectSiteComponent implements OnInit {
@@ -31,11 +31,12 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.
    *
+   * @param {Router} router - The injected Router for switching between select-site and site-info pages.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Servcie Worker
    */
-  constructor(public corsSiteService: CorsSiteService, private serviceWorkerService: ServiceWorkerService) {
-  }
+  constructor(public router: Router, public corsSiteService: CorsSiteService,
+      private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -63,7 +64,7 @@ export class SelectSiteComponent implements OnInit {
     this.corsSiteService.getCorsSitesBy(this.fourCharacterId, this.siteName)
       .subscribe(
         (responseJson: any) => this.sites = (responseJson._embedded ? responseJson._embedded.corsSites : []),
-        (error: any) => this.errorMessage = <any>error,
+        (error: Error) => this.errorMessage = <any>error,
         () => {
           this.isSearching = false;
           if (this.sites.length === 0)
@@ -77,6 +78,8 @@ export class SelectSiteComponent implements OnInit {
    */
   selectSite(site: any) {
     this.selectedSite = site;
+    let link = ['/siteInfo', site.id];
+    this.router.navigate(link);
   }
 
   /**
@@ -86,7 +89,7 @@ export class SelectSiteComponent implements OnInit {
     this.searchMsg = 'Please enter search criteria for searching desired sites.';
     this.siteName = '';
     this.fourCharacterId = '';
-    this.sites = [];
+    this.sites.length = 0;
     this.selectedSite = null;
     this.isSearching = false;
   }

@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { ROUTER_DIRECTIVES } from '@angular/router';
 import { HTTP_PROVIDERS } from '@angular/http';
 
-import { Config, CorsSiteService, NameListService, NavbarComponent, ToolbarComponent, ServiceWorkerService } from './shared/index';
+import { Config, CorsSiteService, CorsSetupService, SiteLogService, NameListService,
+          NavbarComponent, ToolbarComponent, ServiceWorkerService } from './shared/index';
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the
@@ -11,7 +12,7 @@ import { Config, CorsSiteService, NameListService, NavbarComponent, ToolbarCompo
 @Component({
   moduleId: module.id,
   selector: 'sd-app',
-  viewProviders: [CorsSiteService, NameListService, ServiceWorkerService, HTTP_PROVIDERS],
+  viewProviders: [CorsSiteService, CorsSetupService, SiteLogService, NameListService, ServiceWorkerService, HTTP_PROVIDERS],
   templateUrl: 'app.component.html',
   directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
