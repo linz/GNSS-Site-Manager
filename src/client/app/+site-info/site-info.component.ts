@@ -197,6 +197,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     );
   }
 
+  public getDate(datetime: string) {
+    if ( datetime === null || datetime.length < 10 ) {
+      return '';
+    }
+    return datetime.substring(0, 10);
+  }
+
   private getSiteLog(fourCharacterId: string) {
     this.siteLogService.getSiteLogByFourCharacterId(fourCharacterId).subscribe(
       (responseJson: any) => {

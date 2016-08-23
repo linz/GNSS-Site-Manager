@@ -182,10 +182,10 @@
                   </i>
 
                 <span *ngIf="i == 0">
-                  Current GNSS Receiver Information
+                  Current GNSS Receiver (Since {{ getDate(receiver.period.from) }})
                 </span>
                 <span *ngIf="i != 0">
-                  Previous GNSS Receiver Information {{i}}
+                  Previous GNSS Receiver ({{ getDate(receiver.period.from) }} &ndash; {{ getDate(receiver.period.to) }})
                 </span>
                 </div>
               </div>
@@ -275,10 +275,10 @@
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
                   </i>
                 <span *ngIf="i == 0">
-                Current GNSS Antenna Information
+                Current GNSS Antenna (Since {{ getDate(antenna.period.from) }})
                 </span>
                 <span *ngIf="i != 0">
-                  Previous GNSS Antenna Information {{i}}
+                  Previous GNSS Antenna ({{ getDate(antenna.period.from) }} &ndash; {{ getDate(antenna.period.to) }})
                 </span>
                 </div>
               </div>

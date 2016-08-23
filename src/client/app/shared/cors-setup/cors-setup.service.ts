@@ -40,7 +40,7 @@ export class CorsSetupService {
     if (typeof siteId !== 'undefined' && siteId !== null && siteId > 0) {
       params = 'siteId=' + siteId ;
     }
-    return this.http.get(this.WS_URL+'/setups?'+params)
+    return this.http.get(this.WS_URL+'/setups?'+params+'&size=1000')
             .map((response: Response) => response.json())
             .catch(this.handleError);
   }
