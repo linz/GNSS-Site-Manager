@@ -3,9 +3,6 @@ import * as gulpLoadPlugins from 'gulp-load-plugins';
 import { join } from 'path';
 import * as slash from 'slash';
 
-import * as debug from 'gulp-debug';
-import * as gulpif from 'gulp-if';
-
 import { APP_BASE, APP_DEST, APP_SRC, DEPENDENCIES, CSS_DEST, ASSETS_SRC } from '../../config';
 import { templateLocals } from '../../utils';
 
@@ -16,13 +13,10 @@ const plugins = <any>gulpLoadPlugins();
  * Executes the build process, injecting the shims and libs into the `index.hml` for the development environment.
  */
 export = () => {
-  let debugout = argv.debug;
-
   return gulp.src(join(APP_SRC, 'index.html'))
     .pipe(inject('shims'))
     .pipe(inject('libs'))
     .pipe(inject())
-    .pipe(gulpif(debugout, debug('build.index.dev')))
     .pipe(plugins.template(templateLocals()))
     .pipe(gulp.dest(APP_DEST));
 };
