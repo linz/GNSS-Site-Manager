@@ -5,6 +5,7 @@ import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
 import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { CorsSiteService } from '../shared/index';
+import { GlobalService } from '../shared/index';
 import { ServiceWorkerService } from '../shared/index';
 
 /**
@@ -36,7 +37,7 @@ export class SelectSiteComponent implements OnInit {
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Servcie Worker
    */
   constructor(public router: Router, public corsSiteService: CorsSiteService,
-      private serviceWorkerService: ServiceWorkerService) { }
+      private globalService: GlobalService, private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -45,6 +46,7 @@ export class SelectSiteComponent implements OnInit {
     this.setupSubscriptions();
     this.clearAll();
     this.updateCacheList();
+    this.globalService.setSelectedSiteId(null);
   }
 
   setupSubscriptions() {
@@ -78,6 +80,7 @@ export class SelectSiteComponent implements OnInit {
    */
   selectSite(site: any) {
     this.selectedSite = site;
+    this.globalService.setSelectedSiteId(site.fourCharacterId);
     let link = ['/siteInfo', site.id];
     this.router.navigate(link);
   }
