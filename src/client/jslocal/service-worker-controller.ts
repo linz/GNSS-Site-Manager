@@ -2,6 +2,8 @@
 // - found Events to use by looking at typings/globals/service_worker_api/index.d.ts and
 //   looking for the 'on' event functions.
 
+import { MessageObject } from '../app/shared/service-worker/messages.interface';
+
 function debugEvent(event: Event): void {
   console.debug('Event: ', event.type, event);
 };
@@ -75,28 +77,22 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
   deleteOtherCaches(event);
 });
 
+/**
+ * Retrieve from Cache and if not available then retrieve from network and store in cache
+ */
 self.addEventListener('fetch', (event: FetchEvent) => {
-  // debugEvent(event);
-  // Retrieve from Cache and if not available then retrieve from network and store in cache
-  // TODO: Implement https://github.com/GoogleChrome/sw-precache - it updates cache if content changes
-  // TODO: For this version you need to stop the service worker so the cache is cleared upon activation
-  // let caches: CacheStorage;
+  // TODO: Consider implementing https://github.com/GoogleChrome/sw-precache - it updates cache if content changes
   event.respondWith(
     self.caches.open(cacheName).then((cache: Cache) => {  // 'cache-v.3'
       return cache.match(event.request).then((response: Response) => {
         if (response) {
-          // debugMsg('  fetch: item in cache (' + cacheName + '): ', event.request.url);
           return response;
         }
         return self.fetch(event.request).then((response: Response) => {
-          // Only save resources we care about
-          let re = /(js|html|css|json|png|svg|jpeg|jpg)(\?.*)?$/;
-          // debugMsg('  fetch: Item not in cache - get and cache (if valid) to (' + cacheName + '): ', event.request.url);
           if (event.request.method.toString() === 'GET') {
             if (event.request.url.toString().startsWith('http')) {
-              if (re.test(event.request.url)) {
-                cache.put(event.request, response.clone());
-              }
+              cache.put(event.request, response.clone());
+              console.debug("cache: ", event.request.url);
             }
           }
           return response;
