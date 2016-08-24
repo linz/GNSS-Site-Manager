@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MessageObject } from './messages.interface';
 
 /**
  * This class provides the service for the application's service worker that is global to the browser.
