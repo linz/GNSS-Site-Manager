@@ -92,7 +92,7 @@ self.addEventListener('fetch', (event: FetchEvent) => {
           if (event.request.method.toString() === 'GET') {
             if (event.request.url.toString().startsWith('http')) {
               cache.put(event.request, response.clone());
-              console.debug("cache: ", event.request.url);
+              console.debug('cache: ', event.request.url);
             }
           }
           return response;
