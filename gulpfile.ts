@@ -1,7 +1,6 @@
 import * as gulp from 'gulp';
 import * as util from 'gulp-util';
 import * as runSequence from 'run-sequence';
-import argv from 'yargs';
 
 import { PROJECT_TASKS_DIR, SEED_TASKS_DIR } from './tools/config';
 import { loadTasks } from './tools/utils';
@@ -17,6 +16,7 @@ gulp.task('build.dev', (done: any) => {
 //              'tslint',
 //              'css-lint',
               'build.assets.dev',
+              'build.fonts',
               'build.html_css',
               'build.js.dev',
               'build.index.dev',
@@ -48,6 +48,7 @@ gulp.task('build.prod', (done: any) =>
               'tslint',
               'css-lint',
               'build.assets.prod',
+              'build.fonts',
               'build.html_css',
               'copy.js.prod',
               'build.js.prod',
@@ -63,6 +64,7 @@ gulp.task('build.test', (done: any) =>
   runSequence('clean.once',
               'tslint',
               'build.assets.dev',
+              'build.fonts',
               'build.html_css',
               'build.js.dev',
               'build.js.test',
