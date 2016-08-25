@@ -4,9 +4,7 @@ import { Router } from '@angular/router';
 import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
 import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
-import { CorsSiteService } from '../shared/index';
-import { GlobalService } from '../shared/index';
-import { ServiceWorkerService } from '../shared/index';
+import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -46,7 +44,6 @@ export class SelectSiteComponent implements OnInit {
     this.setupSubscriptions();
     this.clearAll();
     this.updateCacheList();
-    this.globalService.setSelectedSiteId(null);
   }
 
   setupSubscriptions() {
@@ -95,6 +92,7 @@ export class SelectSiteComponent implements OnInit {
     this.sites.length = 0;
     this.selectedSite = null;
     this.isSearching = false;
+    this.globalService.selectedSiteId = null;
   }
 
   /**

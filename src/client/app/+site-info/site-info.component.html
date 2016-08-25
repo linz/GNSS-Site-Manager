@@ -1,14 +1,10 @@
-<div class="col-md-12 col-sm-12 col-xs-12">
-  <div class="toggle-button">
-      <button class="button-xs" [disabled]="areAllOpen()" (click)="toggleAll(true)"><i class="glyphicon glyphicon-collapse-down" title="Click to show all info"
-        ></i></button>
-    <button class="button-xs" [disabled]="areAllClosed()" (click)="toggleAll(false)"><i class="glyphicon glyphicon-collapse-up" title="Click to hide all info"
-        ></i></button>
-  </div>
+<div class="col-md-12 col-sm-12 col-xs-12 pad-sm">
   <form name="siteInfo" novalidate class="form-horizontal">
     <div class="panel-group">
       <div class="panel panel-info">
         <div class="panel-heading" (click)="status.isSiteInfoGroupOpen = !status.isSiteInfoGroupOpen">
+          <div *ngIf="isLoading" class="pull-right"><img src="../../assets/ajax-loader.gif" height="24" width="24">
+          </div>
           <div class="panel-title">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
@@ -71,7 +67,7 @@
             </div>
           </div>
           <div class="panel panel-warning">
-            <div class="panel-heading" (click)="status.isSiteOwnerOpen = !status.isSiteOwnerOpen;">
+            <div class="panel-heading" (click)="status.isSiteOwnerOpen = !status.isSiteOwnerOpen">
               <div class="panel-sub-title">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isSiteOwnerOpen, 'glyphicon-plus-sign': !status.isSiteOwnerOpen}">
@@ -122,7 +118,7 @@
             </div>
           </div>
           <div class="panel panel-warning">
-            <div class="panel-heading" (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen;">
+            <div class="panel-heading" (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen">
               <div class="panel-sub-title">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isMetaCustodianOpen, 'glyphicon-plus-sign': !status.isMetaCustodianOpen}">
@@ -160,8 +156,8 @@
       </div>
 
       <div class="panel panel-info">
-        <div class="panel-heading" (click)="status.isReceiverGroupOpen = !status.isReceiverGroupOpen">
-          <div class="panel-title">
+        <div class="panel-heading">
+          <div class="panel-title" (click)="status.isReceiverGroupOpen = !status.isReceiverGroupOpen">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isReceiverGroupOpen, 'glyphicon-plus-sign': !status.isReceiverGroupOpen}">
             </i>
@@ -174,9 +170,9 @@
           </div>
           <div *ngFor="let receiver of receivers; let i = index">
             <div class="panel panel-warning">
-              <div class="panel-heading"
-                   (click)="status.isReceiversOpen[i] = !status.isReceiversOpen[i];">
-                <div class="panel-sub-title">
+              <div class="panel-heading">
+                <div class="panel-sub-title"
+                     (click)="status.isReceiversOpen[i] = !status.isReceiversOpen[i]">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isReceiversOpen[i], 'glyphicon-plus-sign': !status.isReceiversOpen[i]}">
                   </i>
@@ -187,6 +183,16 @@
                 <span *ngIf="i != 0">
                   Previous GNSS Receiver ({{ getDate(receiver.period.from) }} &ndash; {{ getDate(receiver.period.to) }})
                 </span>
+                </div>
+                <div *ngIf="i == 1 && receivers.length >= 3" class="toggle-button">
+                  <button class="button-xs" *ngIf="!arePrevReceiversOpen()" (click)="togglePrevReceivers(true)"
+                          title="Show all previous receivers">
+                    <i class="glyphicon glyphicon-collapse-down"></i>
+                  </button>
+                  <button class="button-xs" *ngIf="!arePrevReceiversClosed()" (click)="togglePrevReceivers(false)"
+                          title="Hide all previous receivers">
+                    <i class="glyphicon glyphicon-collapse-up"></i>
+                  </button>
                 </div>
               </div>
               <div class="panel-body" *ngIf="status.isReceiversOpen[i]">
@@ -254,7 +260,7 @@
       </div>
 
       <div class="panel panel-info">
-        <div class="panel-heading" (click)="status.isAntennaGroupOpen = !status.isAntennaGroupOpen; ">
+        <div class="panel-heading" (click)="status.isAntennaGroupOpen = !status.isAntennaGroupOpen">
           <div class="panel-title">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
@@ -268,9 +274,9 @@
           </div>
           <div *ngFor="let antenna of antennas; let i = index">
             <div class="panel panel-warning">
-              <div class="panel-heading"
-                   (click)="status.isAntennasOpen[i] = !status.isAntennasOpen[i];">
-                <div class="panel-sub-title">
+              <div class="panel-heading">
+                <div class="panel-sub-title"
+                     (click)="status.isAntennasOpen[i] = !status.isAntennasOpen[i]">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
                   </i>
@@ -280,6 +286,16 @@
                 <span *ngIf="i != 0">
                   Previous GNSS Antenna ({{ getDate(antenna.period.from) }} &ndash; {{ getDate(antenna.period.to) }})
                 </span>
+                </div>
+                <div *ngIf="i == 1 && antennas.length >= 3" class="toggle-button">
+                  <button class="button-xs" *ngIf="!arePrevAntennasOpen()" (click)="togglePrevAntennas(true)"
+                          title="Show all previous antennas">
+                    <i class="glyphicon glyphicon-collapse-down"></i>
+                  </button>
+                  <button class="button-xs" *ngIf="!arePrevAntennasClosed()" (click)="togglePrevAntennas(false)"
+                          title="Hide all previous antennas">
+                    <i class="glyphicon glyphicon-collapse-up"></i>
+                  </button>
                 </div>
               </div>
               <div class="panel-body" *ngIf="status.isAntennasOpen[i]">
