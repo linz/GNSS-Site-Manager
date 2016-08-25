@@ -19,7 +19,8 @@ export class ToolbarComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
 
-  constructor(private serviceWorkerService: ServiceWorkerService, public globalService: GlobalService, public nameListService: NameListService) {
+  constructor(private serviceWorkerService: ServiceWorkerService, public globalService: GlobalService,
+              public nameListService: NameListService) {
   }
 
   ngOnInit() {

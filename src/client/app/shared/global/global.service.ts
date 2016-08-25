@@ -1,11 +1,9 @@
-import {Injectable} from "@angular/core";
+import {Injectable} from '@angular/core';
 
 @Injectable()
 export class GlobalService {
     public selectedSiteId: string = '';
     public isRunning: boolean = false;
-
-    constructor() {}
 
     public setSelectedSiteId(value: string) {
         this.selectedSiteId = value;

@@ -1,6 +1,6 @@
 <div>
   <span class="btn-group pull-left" dropdown >
-    <button id="nemu-button" type="button" class="btn btn-info" dropdownToggle>
+    <button id="menu-button" type="button" class="btn menu-btn" dropdownToggle>
       <i class="glyphicon glyphicon-menu-hamburger"></i>
     </button>
     <ul dropdownMenu role="menu" aria-labelledby="menu-button">
@@ -10,6 +10,6 @@
       <li role="menuitem"><a (click)="clearCache()">Update Site</a></li>
     </ul>
   </span>
-  <span class="margin10"><h1>GNSS Site Manager</h1></span>
-  <span class="pull-right"><h5>{{globalService.selectedSiteId}}</h5></span>
+  <span class="title">GNSS Site Manager</span>
+  <span class="id-btn">{{globalService.selectedSiteId}}</span>
 </div>
