@@ -14,8 +14,8 @@ import { Config, CorsSiteService, CorsSetupService, SiteLogService, NameListServ
   selector: 'sd-app',
   viewProviders: [CorsSiteService, CorsSetupService, SiteLogService, NameListService, ServiceWorkerService, HTTP_PROVIDERS],
   templateUrl: 'app.component.html',
-  directives: [ROUTER_DIRECTIVES, NavbarComponent, ToolbarComponent]
 })
+
 export class AppComponent {
   constructor() {
     console.log('Environment config', Config);

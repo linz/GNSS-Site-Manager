@@ -1,4 +1,4 @@
-import { provideRouter, RouterConfig } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { AboutRoutes } from './+about/index';
 import { SelectSiteRoutes } from './+select-site/index';
@@ -8,10 +8,4 @@ import { HomeRoutes } from './+home/index';
 const routes: RouterConfig = [
   ...SiteInfoRoutes,
   ...SelectSiteRoutes,
-  ...HomeRoutes,
-  ...AboutRoutes
-];
-
-export const APP_ROUTER_PROVIDERS = [
-  provideRouter(routes),
 ];
