@@ -29,16 +29,15 @@
   color: rgba(255, 255, 255, 0.87);
 }
 .id-btn {
-    float: right !important;
-    font-size: 14px;
-    font-weight: normal;
-    padding-left: 5px;
+  float: right !important;
+  font-size: 14px;
+  font-weight: normal;
+  padding-left: 5px;
 }
 
 #clear {
-  background-color:  #106cc8;
+  background-color: #106cc8;
   float: right;
   margin-top: 35px;
-  border: 1px solid rgb(255,255,255);
-  vertical-align:middle;
+  border: 1px solid rgb(255, 255, 255);
 }
