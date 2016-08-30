@@ -1,28 +1,44 @@
 :host {
   background-color: #106cc8;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgb(255, 255, 255);
   display: block;
   height: 48px;
-  padding: 0 16px;
+  line-height: 35px;
+  padding: 5px 15px;
 }
 
-h1 {
-  display: inline;
+.title {
   font-size: 20px;
   font-weight: normal;
   letter-spacing: 0.1px;
-  line-height: 48px;
+  margin-left: 10px;
+  padding: 0;
+}
+
+.menu-btn {
+  background-color: #106cc8;
+  color: #fff;
+  font-size: 18px !important;
+  font-weight: 400 !important;
+  line-height: 20px;
+  padding: 7px 10px !important;
+}
+.menu-btn:hover {
+  background-color: #106cd8;
+  border: 1px solid rgba(255, 255, 255, 0.87) !important;
+  color: rgba(255, 255, 255, 0.87);
+}
+.id-btn {
+    float: right !important;
+    font-size: 14px;
+    font-weight: normal;
+    padding-left: 5px;
 }
 
 #clear {
-  /*background: url("./assets/svg/more.svg");*/
   background-color:  #106cc8;
   float: right;
-  /*height: 24px;*/
   margin-top: 35px;
-  /*padding-top: 15px;*/
-  /*margin-right: 2px;*/
   border: 1px solid rgb(255,255,255);
   vertical-align:middle;
-  /*width: 126px;*/
 }

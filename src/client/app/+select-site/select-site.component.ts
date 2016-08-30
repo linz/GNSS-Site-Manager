@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
 import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
-import { CorsSiteService } from '../shared/index';
-import { ServiceWorkerService } from '../shared/index';
+import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -27,6 +26,11 @@ export class SelectSiteComponent implements OnInit {
   public isSearching: boolean = false;
   private cacheItems: Array<string> = [];
 
+  public columns:Array<any> = [
+    {name: 'fourCharacterId', sort: ''},
+    {name: 'name', sort: ''}
+  ];
+
 
   /**
    * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.
@@ -36,7 +40,7 @@ export class SelectSiteComponent implements OnInit {
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Servcie Worker
    */
   constructor(public router: Router, public corsSiteService: CorsSiteService,
-      private serviceWorkerService: ServiceWorkerService) { }
+      private globalService: GlobalService, private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -78,6 +82,7 @@ export class SelectSiteComponent implements OnInit {
    */
   selectSite(site: any) {
     this.selectedSite = site;
+    this.globalService.setSelectedSiteId(site.fourCharacterId);
     let link = ['/siteInfo', site.id];
     this.router.navigate(link);
   }
@@ -92,6 +97,32 @@ export class SelectSiteComponent implements OnInit {
     this.sites.length = 0;
     this.selectedSite = null;
     this.isSearching = false;
+    this.globalService.selectedSiteId = null;
+  }
+
+
+  public sortField(columnIndex:number):any {
+    let sort = this.columns[columnIndex].sort;
+    for (let i = 0; i < this.columns.length; i ++) {
+      if ( i === columnIndex) {
+        if (!sort) {
+          sort = 'asc';
+        }
+        this.columns[i].sort = (sort === 'asc') ? 'desc' : 'asc';
+      } else {
+        this.columns[i].sort = '';
+      }
+    }
+
+    let columnName = this.columns[columnIndex].name;
+    this.sites = this.sites.sort((previous:any, current:any) => {
+      if (previous[columnName] > current[columnName]) {
+        return sort === 'desc' ? -1 : 1;
+      } else if (previous[columnName] < current[columnName]) {
+        return sort === 'asc' ? -1 : 1;
+      }
+      return 0;
+    });
   }
 
   /**

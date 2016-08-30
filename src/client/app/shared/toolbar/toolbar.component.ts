@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { NameListService, ServiceWorkerService } from '../index';
+import { CORE_DIRECTIVES } from '@angular/common';
+import { ROUTER_DIRECTIVES } from '@angular/router';
+import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs';
+import { NameListService, ServiceWorkerService, GlobalService } from '../index';
 
 /**
  * This class represents the toolbar component.
@@ -8,6 +11,7 @@ import { Subscription } from 'rxjs';
 @Component({
   moduleId: module.id,
   selector: 'sd-toolbar',
+  directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES],
   templateUrl: 'toolbar.component.html',
   styleUrls: ['toolbar.component.css']
 })
@@ -15,7 +19,8 @@ export class ToolbarComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
 
-  constructor(private serviceWorkerService: ServiceWorkerService, public nameListService: NameListService) {
+  constructor(private serviceWorkerService: ServiceWorkerService, public globalService: GlobalService,
+              public nameListService: NameListService) {
   }
 
   ngOnInit() {

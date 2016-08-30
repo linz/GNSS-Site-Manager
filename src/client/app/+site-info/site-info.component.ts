@@ -3,7 +3,7 @@ import { CORE_DIRECTIVES} from '@angular/common';
 import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ACCORDION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
-import { CorsSiteService, CorsSetupService, SiteLogService } from '../shared/index';
+import { GlobalService, CorsSiteService, CorsSetupService, SiteLogService } from '../shared/index';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing detailed information about site/receiver/antenna.
@@ -15,6 +15,7 @@ import { CorsSiteService, CorsSetupService, SiteLogService } from '../shared/ind
   directives: [ACCORDION_DIRECTIVES, CORE_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
+  public isLoading: boolean = false;
   public site: any = null;
   public siteLocation: any = null;
   public siteOwner: any = null;
@@ -41,6 +42,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    *
    * @param {Router} router - The injected Router.
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
+   * @param {GlobalService} globalService - The injected GlobalService.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {CorsSetupeService} corsSetupService - The injected CorsSetupService.
    * @param {SiteLogService} siteLogService - The injected SiteLogService.
@@ -48,28 +50,38 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   constructor(
     public router: Router,
     public route: ActivatedRoute,
+    public globalService: GlobalService,
     public corsSiteService: CorsSiteService,
     public corsSetupService: CorsSetupService,
     public siteLogService: SiteLogService
   ) {}
 
   /**
-   * Retrieve relevant information about the site with given Id from DB
+   * Initialise all data on loading the site-info page
    */
   public ngOnInit() {
     this.loadSiteInfoData();
   }
 
+  /**
+   * Retrieve relevant site/setup/log information from DB based on given Site Id
+   */
   public loadSiteInfoData() {
+    this.isLoading =  true;
     this.siteInfoTab = this.route.params.subscribe(params => {
       let siteId = +params['id'];
       this.corsSiteService.getSiteById(siteId).subscribe(
         (responseJson1: any) => {
           this.site = responseJson1._embedded.corsSites[0];
+          this.globalService.setSelectedSiteId(this.site.fourCharacterId);
           this.getAllCorsSetupsBySiteId(siteId);
           this.getSiteLog(this.site.fourCharacterId);
+          this.isLoading =  false;
         },
-        (error1: Error) =>  this.errorMessage = <any>error1
+        (error1: Error) =>  {
+          this.errorMessage = <any>error1;
+          this.isLoading =  false;
+        }
       );
     });
   }
@@ -78,6 +90,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Clear all variables/arrays
    */
   public ngOnDestroy() {
+    this.isLoading =  false;
     this.site = null;
     this.siteLocation = null;
     this.siteOwner = null;
@@ -86,80 +99,101 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.receivers.length = 0;
     this.antennas.length = 0;
     this.errorMessage = '';
+    this.globalService.selectedSiteId = null;
     this.siteInfoTab.unsubscribe();
   }
 
   /**
-   * Close the site-info tab and go back to the default home page (select-site tab)
+   * Close the site-info page and go back to the default home page (select-site tab)
    */
   public goBack() {
+    this.isLoading =  false;
+    this.globalService.selectedSiteId = null;
     let link = ['/'];
     this.router.navigate(link);
   }
 
   /**
-   * Update the isOpen flags for all accordions to make all open or close
+   * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
    */
-  public toggleAll(flag: boolean) {
-    this.status.isSiteInfoGroupOpen = flag;
-    this.status.isSiteMediaOpen = flag;
-    this.status.isSiteOwnerOpen = flag;
-    this.status.isMetaCustodianOpen = flag;
-    this.status.isReceiverGroupOpen = flag;
-    for (let index in this.status.isReceiversOpen) {
-      this.status.isReceiversOpen[index] = flag;
+  public getDate(datetime: string) {
+    if ( datetime === null) {
+      return '';
+    } else if (datetime.length < 10) {
+      return datetime;
     }
-    this.status.isAntennaGroupOpen = flag;
-    for (let index in this.status.isAntennasOpen) {
-      this.status.isAntennasOpen[index] = flag;
+    return datetime.substring(0, 10);
+  }
+
+  /**
+   * Update the isOpen flags for all previous GNSS receivers
+   */
+  public togglePrevReceivers(flag: boolean) {
+    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
+      this.status.isReceiversOpen[i] = flag;
     }
   }
 
-  public areAllOpen() {
-    if (!this.status.isSiteInfoGroupOpen || !this.status.isSiteMediaOpen
-      || !this.status.isSiteOwnerOpen || !this.status.isMetaCustodianOpen) {
-      return null;
-    } else if (!this.status.isReceiverGroupOpen
-      || !this.status.isAntennaGroupOpen) {
-      return null;
+  /**
+   * Update the isOpen flags for all previous GNSS antennas
+   */
+  public togglePrevAntennas(flag: boolean) {
+    for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
+      this.status.isAntennasOpen[i] = flag;
     }
+  }
 
-    for (let isOpen of this.status.isReceiversOpen) {
-      if (!isOpen) {
-        return null;
-      }
-    }
-    for (let isOpen of this.status.isAntennasOpen) {
-      if (!isOpen) {
-        return null;
+  /**
+   * Returns true if all previous GNSS receivers are open, otherwise returns false
+   */
+  public arePrevReceiversOpen() {
+    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
+      if (!this.status.isReceiversOpen[i]) {
+        return false;
       }
     }
     return true;
   }
 
-  public areAllClosed() {
-    if (this.status.isSiteInfoGroupOpen || this.status.isSiteMediaOpen
-      || this.status.isSiteOwnerOpen || this.status.isMetaCustodianOpen) {
-      return null;
-    } else if (this.status.isReceiverGroupOpen
-      || this.status.isAntennaGroupOpen) {
-      return null;
-    }
-
-    for (let isOpen of this.status.isReceiversOpen) {
-      if (isOpen) {
-        return null;
-      }
-    }
-    for (let isOpen of this.status.isAntennasOpen) {
-      if (isOpen) {
-        return null;
+  /**
+   * Returns true if all previous GNSS receivers are closed, otherwise returns false
+   */
+  public arePrevReceiversClosed() {
+    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
+      if (this.status.isReceiversOpen[i]) {
+        return false;
       }
     }
     return true;
   }
 
-  public getAllCorsSetupsBySiteId(siteId: number) {
+  /**
+   * Returns true if all previous GNSS antennas are open, otherwise returns false
+   */
+  public arePrevAntennasOpen() {
+    for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
+      if (!this.status.isAntennasOpen[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Returns true if all previous GNSS antennas are closed, otherwise returns false
+   */
+  public arePrevAntennasClosed() {
+    for (let index = 1; index < this.status.isAntennasOpen.length; index ++) {
+      if (this.status.isAntennasOpen[index]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private getAllCorsSetupsBySiteId(siteId: number) {
+    this.status.isReceiversOpen = [];
+    this.status.isAntennasOpen = [];
     this.corsSetupService.getCorsSetupsBySiteId(siteId).subscribe(
       (responseJson: any) => {
         let currentReceiver: any = null;
@@ -195,13 +229,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       },
       (error: Error) =>  this.errorMessage = <any>error
     );
-  }
-
-  public getDate(datetime: string) {
-    if ( datetime === null || datetime.length < 10 ) {
-      return '';
-    }
-    return datetime.substring(0, 10);
   }
 
   private getSiteLog(fourCharacterId: string) {
@@ -241,5 +268,4 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       return -1;
     return 0;
   }
-
 }

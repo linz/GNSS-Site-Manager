@@ -4,6 +4,7 @@
 export * from './cors-site/index';
 export * from './cors-setup/index';
 export * from './site-log/index';
+export * from './global/index';
 export * from './name-list/index';
 export * from './service-worker/index';
 export * from './navbar/index';
