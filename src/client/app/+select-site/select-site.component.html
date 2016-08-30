@@ -67,8 +67,8 @@
               </thead>
               <tbody>
               <tr role="row" *ngFor="let site of sites" (click)="selectSite(site)">
-                <td name="">{{site.fourCharacterId}}</td>
-                <td name="">{{site.name}}</td>
+                <td name="siteId">{{site.fourCharacterId}}</td>
+                <td name="sitename">{{site.name}}</td>
               </tr>
               </tbody>
             </table>
