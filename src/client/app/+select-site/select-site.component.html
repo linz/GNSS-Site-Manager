@@ -53,18 +53,22 @@
             <table class="table table-striped table-hover" style="width: 100%;" role="grid">
               <thead>
               <tr role="row">
-                <th name="">Four Character ID</th>
-                <th name="">Site Name</th>
-                <!--<th name="">Action</th>-->
+                <th name="column_1" (click)="sortField(0)">
+                  Four Character ID
+                  <i *ngIf="columns[0].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
+                  <i *ngIf="columns[0].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
+                </th>
+                <th name="column_2" (click)="sortField(1)">
+                  Site Name
+                  <i *ngIf="columns[1].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
+                  <i *ngIf="columns[1].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
+                </th>
               </tr>
               </thead>
               <tbody>
               <tr role="row" *ngFor="let site of sites" (click)="selectSite(site)">
                 <td name="">{{site.fourCharacterId}}</td>
                 <td name="">{{site.name}}</td>
-                <!--<td>
-                  <button class="btn btn-primary btn-xs" type="submit" (click)="selectSite(site)">Select</button>
-                </td>-->
               </tr>
               </tbody>
             </table>
