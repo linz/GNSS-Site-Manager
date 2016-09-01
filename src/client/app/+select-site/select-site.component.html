@@ -1,4 +1,4 @@
-<div class="col-md-12 col-sm-12 col-xs-12 pad-sm">
+<div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
   <div class="panel-group">
     <div class="panel panel-info">
       <div class="panel-heading">
@@ -12,21 +12,21 @@
       <div class="panel-body">
         <form name="searchSite" novalidate class="form-horizontal">
           <div class="form-group">
-            <label class="col-md-4 col-sm-4 col-xs-12 control-label">Four Character Id</label>
-            <div class="col-md-4 col-sm-5 col-xs-12">
+            <label class="col-md-4 col-sm-4 col-xs-4 col-xs-4 col-xxs-12 control-label">Four Character Id</label>
+            <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
               <input type="text" maxlength="9" class="form-control" name="fourCharacterId"
                      placeholder="Search by Four Character Id" [(ngModel)]="fourCharacterId"/>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 col-sm-4 col-xs-12 control-label">Site Name</label>
-            <div class="col-md-4 col-sm-5 col-xs-12">
+            <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Site Name</label>
+            <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
               <input type="text" maxlength="200" class="form-control" name="siteName"
                      placeholder="Search by Site Name" [(ngModel)]="siteName"/>
             </div>
           </div>
           <div class="form-group">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12">
               <div class="align-center">
                 <button class="btn btn-primary margin10" type="submit" (click)="searchSites()" title="Search desired CORS sites">Search</button>
                 <button class="btn btn-primary margin10" type="submit" (click)="clearAll()" title="Clear all inputs and search results if any">Clear All</button>
