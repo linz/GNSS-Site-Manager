@@ -68,7 +68,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       let siteId = +params['id'];
       this.corsSiteService.getSiteById(siteId).subscribe(
         (responseJson1: any) => {
-          this.site = responseJson1._embedded.corsSites[0];
+          // MODIFICATION for Jsonix change
+          // this.site = responseJson1._embedded.corsSites[0];
+          this.site = responseJson1;
           this.globalService.setSelectedSiteId(this.site.fourCharacterId);
           this.getAllCorsSetupsBySiteId(siteId);
           this.getSiteLog(this.site.fourCharacterId);
