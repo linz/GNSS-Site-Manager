@@ -3,6 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { JsonixService } from '../jsonix/index';
 
 /**
  * This class provides the service with methods to retrieve CORS sites from DB and select site.
@@ -17,9 +18,16 @@ export class CorsSiteService {
   /**
    * Creates a new CorsSiteService with the injected Http.
    * @param {Http} http - The injected Http.
+   * @param (JsonixService) jsonixService
    * @constructor
    */
-  constructor(private http: Http) {}
+
+  /**
+   * Creates a new CorsSiteService with the injected Http
+   * @param http - The injected Http.
+   * @param jsonixService - the service to receive GeodesyML and convert to JSON for consumption
+   */
+  constructor(private http: Http, private jsonixService: JsonixService ) {}
 
   /**
    * Returns an Observable for the HTTP GET request for the REST Web Service resource.
@@ -35,9 +43,10 @@ export class CorsSiteService {
     if (typeof siteName !== 'undefined' && siteName !== null && siteName !== '') {
       params += 'name='+siteName + '&';
     }
-    return this.http.get(this.WS_URL+'/corsSites?'+params+ 'size=1000')
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+    // let URL=this.WS_URL+'/siteLogs/search/findByFourCharacterId?id='+fourCharacterId+'&format=geodesyml';
+    // jsonixService.
+
+      return undefined;
   }
 
   /**
