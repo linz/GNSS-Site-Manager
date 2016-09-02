@@ -57,10 +57,10 @@ body {
   padding-right: 5px;
 }
 
-.table-hover tbody tr:hover > td,
-.table-hover tbody tr:hover > th {
-  background-color: #d0f9b6 !important;
+.table-hover tbody tr:hover > td {
+  background-color: #e5f5e0 !important;
   color: #2a2aff;
+  cursor: pointer;
 }
 
 .tips {

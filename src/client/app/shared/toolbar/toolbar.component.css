@@ -37,8 +37,9 @@
 
 .dropdown-menu > li > a:focus,
 .dropdown-menu > li > a:hover {
-    background-color: #d0f9b6 !important;
-    cursor: pointer;
+  background-color: #e5f5e0;
+  color: #2a2aff;
+  cursor: pointer;
 }
 
 #clear {
