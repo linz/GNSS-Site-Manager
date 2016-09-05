@@ -27,7 +27,7 @@ body {
 .align-center {
   margin: 0 auto;
   padding-top: 10px;
-  width: 300px;
+  width: 250px;
 }
 
 .loading-img {
@@ -37,11 +37,11 @@ body {
   width: 100%;
   height: 100%;
   z-index: 100;
-  background: url('../assets/ajax-loader.gif') 50% 50% no-repeat rgb(249, 249, 249);
+  background: url('../assets/ajax-loader.gif') 50% 50% no-repeat;
 }
 .loading-text {
   position: absolute;
-  top: 45%;
+  top: 43%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: #106cc8;
@@ -57,11 +57,12 @@ body {
   padding-right: 5px;
 }
 
-.table-hover tbody tr:hover > td,
-.table-hover tbody tr:hover > th {
-  background-color: #d0f9b6 !important;
+.table-hover tbody tr:hover > td {
+  background-color: #e5f5e0 !important;
   color: #2a2aff;
+  cursor: pointer;
 }
+
 .tips {
   font-family: Arial, sans-serif;
   font-size: 12px;
@@ -216,8 +217,211 @@ body {
   padding-top: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 451px) AND (max-width: 550px) {
+  .col-xs-7 {
+    padding-left: 0 !important;
+  }
+
+  .col-xs-5 {
+    padding-left: 0 !important;
+  }
+}
+
+@media (min-width: 451px) {
   .form-horizontal .control-label {
     padding-top: 0 !important;
+    text-align: right;
+  }
+}
+
+/* Special CSS classes -xxs for small devices such as smart phone (portrait) */
+@media (max-width: 450px) {
+  .col-xxs-1,
+  .col-xxs-10,
+  .col-xxs-11,
+  .col-xxs-12,
+  .col-xxs-2,
+  .col-xxs-3,
+  .col-xxs-4,
+  .col-xxs-5,
+  .col-xxs-6,
+  .col-xxs-7,
+  .col-xxs-8,
+  .col-xxs-9 {
+    float: left;
+    min-height: 1px;
+    padding: 0 5px;
+    position: relative;
+  }
+
+  .col-xxs-12 {
+    width: 100%;
+  }
+  .col-xxs-11 {
+    width: 91.6667%;
+  }
+  .col-xxs-10 {
+    width: 83.3333%;
+  }
+  .col-xxs-9 {
+    width: 75%;
+  }
+  .col-xxs-8 {
+    width: 66.6667%;
+  }
+  .col-xxs-7 {
+    width: 58.3333%;
+  }
+  .col-xxs-6 {
+    width: 50%;
+  }
+  .col-xxs-5 {
+    width: 41.6667%;
+  }
+  .col-xxs-4 {
+    width: 33.3333%;
+  }
+  .col-xxs-3 {
+    width: 25%;
+  }
+  .col-xxs-2 {
+    width: 16.6667%;
+  }
+  .col-xxs-1 {
+    width: 8.33333%;
+  }
+  .col-xxs-pull-12 {
+    right: 100%;
+  }
+  .col-xxs-pull-11 {
+    right: 91.6667%;
+  }
+  .col-xxs-pull-10 {
+    right: 83.3333%;
+  }
+  .col-xxs-pull-9 {
+    right: 75%;
+  }
+  .col-xxs-pull-8 {
+    right: 66.6667%;
+  }
+  .col-xxs-pull-7 {
+    right: 58.3333%;
+  }
+  .col-xxs-pull-6 {
+    right: 50%;
+  }
+  .col-xxs-pull-5 {
+    right: 41.6667%;
+  }
+  .col-xxs-pull-4 {
+    right: 33.3333%;
+  }
+  .col-xxs-pull-3 {
+    right: 25%;
+  }
+  .col-xxs-pull-2 {
+    right: 16.6667%;
+  }
+  .col-xxs-pull-1 {
+    right: 8.33333%;
+  }
+  .col-xxs-pull-0 {
+    right: auto;
+  }
+  .col-xxs-push-12 {
+    left: 100%;
+  }
+  .col-xxs-push-11 {
+    left: 91.6667%;
+  }
+  .col-xxs-push-10 {
+    left: 83.3333%;
+  }
+  .col-xxs-push-9 {
+    left: 75%;
+  }
+  .col-xxs-push-8 {
+    left: 66.6667%;
+  }
+  .col-xxs-push-7 {
+    left: 58.3333%;
+  }
+  .col-xxs-push-6 {
+    left: 50%;
+  }
+  .col-xxs-push-5 {
+    left: 41.6667%;
+  }
+  .col-xxs-push-4 {
+    left: 33.3333%;
+  }
+  .col-xxs-push-3 {
+    left: 25%;
+  }
+  .col-xxs-push-2 {
+    left: 16.6667%;
+  }
+  .col-xxs-push-1 {
+    left: 8.33333%;
+  }
+  .col-xxs-push-0 {
+    left: auto;
+  }
+  .col-xxs-offset-12 {
+    margin-left: 100%;
+  }
+  .col-xxs-offset-11 {
+    margin-left: 91.6667%;
+  }
+  .col-xxs-offset-10 {
+    margin-left: 83.3333%;
+  }
+  .col-xxs-offset-9 {
+    margin-left: 75%;
+  }
+  .col-xxs-offset-8 {
+    margin-left: 66.6667%;
+  }
+  .col-xxs-offset-7 {
+    margin-left: 58.3333%;
+  }
+  .col-xxs-offset-6 {
+    margin-left: 50%;
+  }
+  .col-xxs-offset-5 {
+    margin-left: 41.6667%;
+  }
+  .col-xxs-offset-4 {
+    margin-left: 33.3333%;
+  }
+  .col-xxs-offset-3 {
+    margin-left: 25%;
+  }
+  .col-xxs-offset-2 {
+    margin-left: 16.6667%;
+  }
+  .col-xxs-offset-1 {
+    margin-left: 8.33333%;
+  }
+  .col-xxs-offset-0 {
+    margin-left: 0;
+  }
+
+  .panel-body {
+    padding: 5px;
+  }
+  .form-horizontal .form-group {
+    margin: 0 -5px 5px -5px;
+  }
+
+  .navbar-btn.btn {
+    margin-bottom: 5px;
+    margin-top: 5px;
+  }
+
+  .well {
+    border-radius: 2px;
+    padding: 5px;
   }
 }

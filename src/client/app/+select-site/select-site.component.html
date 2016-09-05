@@ -1,4 +1,4 @@
-<div class="col-md-12 col-sm-12 col-xs-12 pad-sm">
+<div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
   <div class="panel-group">
     <div class="panel panel-info">
       <div class="panel-heading">
@@ -12,21 +12,21 @@
       <div class="panel-body">
         <form name="searchSite" novalidate class="form-horizontal">
           <div class="form-group">
-            <label class="col-md-4 col-sm-4 col-xs-12 control-label">Four Character Id</label>
-            <div class="col-md-4 col-sm-5 col-xs-12">
+            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Four Character Id</label>
+            <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
               <input type="text" maxlength="9" class="form-control" name="fourCharacterId"
                      placeholder="Search by Four Character Id" [(ngModel)]="fourCharacterId"/>
             </div>
           </div>
           <div class="form-group">
-            <label class="col-md-4 col-sm-4 col-xs-12 control-label">Site Name</label>
-            <div class="col-md-4 col-sm-5 col-xs-12">
+            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Site Name</label>
+            <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
               <input type="text" maxlength="200" class="form-control" name="siteName"
                      placeholder="Search by Site Name" [(ngModel)]="siteName"/>
             </div>
           </div>
           <div class="form-group">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12">
               <div class="align-center">
                 <button class="btn btn-primary margin10" type="submit" (click)="searchSites()" title="Search desired CORS sites">Search</button>
                 <button class="btn btn-primary margin10" type="submit" (click)="clearAll()" title="Clear all inputs and search results if any">Clear All</button>
@@ -53,12 +53,14 @@
             <table class="table table-striped table-hover" style="width: 100%;" role="grid">
               <thead>
               <tr role="row">
-                <th name="column_1" (click)="sortField(0)">
+                <th name="column_1" (click)="sortField(0)"
+                    title="Click to sort Four Character Id in {{ ( !columns[0].sort || columns[0].sort == 'asc' ) ? 'ascending' : 'descending'}} order">
                   Four Character ID
                   <i *ngIf="columns[0].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
                   <i *ngIf="columns[0].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
                 </th>
-                <th name="column_2" (click)="sortField(1)">
+                <th name="column_2" (click)="sortField(1)"
+                    title="Click to sort Site Name in {{ ( !columns[1].sort || columns[1].sort == 'asc' ) ? 'ascending' : 'descending'}} order">
                   Site Name
                   <i *ngIf="columns[1].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
                   <i *ngIf="columns[1].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
