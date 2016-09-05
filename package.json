@@ -130,7 +130,7 @@
     "zone.js": "^0.6.12",
     "bootstrap": "3.3.7",
     "ng2-table": "^1.0.2",
-    "ng2-bootstrap": "^1.0.24",
+    "ng2-bootstrap": "~1.0.24",
     "moment": "^2.14.1"
   }
 }
