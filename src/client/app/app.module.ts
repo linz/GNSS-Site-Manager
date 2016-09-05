@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 
-import { AboutModule } from './+about/about.module';
+import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
 // TODO - after upgrade to latest angular2-seed based on NG rc.5, there was conflict w new ngModules
 // TODO - work out how to get HomeModule working so we understand modules better

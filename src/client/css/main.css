@@ -56,6 +56,10 @@ body {
   padding-left: 5px;
   padding-right: 5px;
 }
+ul {
+  margin: 10px 0 0;
+  padding: 0 0 0 20px;
+}
 
 .table-hover tbody tr:hover > td {
   background-color: #e5f5e0 !important;
