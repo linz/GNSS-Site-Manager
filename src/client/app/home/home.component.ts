@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
-import {DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
+// import {ReactiveFormsModule} from '@angular/forms';
+// import {DropdownModule} from 'ng2-bootstrap/ng2-bootstrap';
 import {Subscription} from 'rxjs/Subscription';
 import {NameListService} from '../shared/index';
 import {ServiceWorkerService} from '../shared/index';
@@ -13,8 +13,8 @@ import {ServiceWorkerService} from '../shared/index';
   selector: 'sd-home',
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css'],
-  directives: [DropdownModule, REACTIVE_FORM_DIRECTIVES]
 })
+  // directives: [DropdownModule, ReactiveFormsModule]
 
 export class HomeComponent implements OnInit {
   serviceWorkerSubscription: Subscription;

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CORE_DIRECTIVES} from '@angular/common';
-import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
+// import { CORE_DIRECTIVES} from '@angular/common';
+// import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ACCORDION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
+// import { AccordionModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { GlobalService, CorsSiteService, CorsSetupService, SiteLogService } from '../shared/index';
 
 /**
@@ -12,8 +12,8 @@ import { GlobalService, CorsSiteService, CorsSetupService, SiteLogService } from
   moduleId: module.id,
   selector: 'sd-site-info',
   templateUrl: 'site-info.component.html',
-  directives: [ACCORDION_DIRECTIVES, CORE_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
+  // directives: [AccordionModule, ReactiveFormsModule]
 export class SiteInfoComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public site: any = null;
