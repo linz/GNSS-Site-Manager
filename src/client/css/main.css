@@ -217,7 +217,17 @@ body {
   padding-top: 0;
 }
 
-@media (min-width: 401px) {
+@media (min-width: 451px) AND (max-width: 550px) {
+  .col-xs-7 {
+    padding-left: 0 !important;
+  }
+
+  .col-xs-5 {
+    padding-left: 0 !important;
+  }
+}
+
+@media (min-width: 451px) {
   .form-horizontal .control-label {
     padding-top: 0 !important;
     text-align: right;
@@ -225,7 +235,7 @@ body {
 }
 
 /* Special CSS classes -xxs for small devices such as smart phone (portrait) */
-@media (max-width: 400px) {
+@media (max-width: 450px) {
   .col-xxs-1,
   .col-xxs-10,
   .col-xxs-11,

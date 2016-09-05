@@ -19,14 +19,14 @@
           </div>
           <div *ngIf=" site != null ">
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Four Character Id</label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Four Character Id</label>
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="9" class="form-control"
                        name="site.fourCharacterId" [(ngModel)]="site.fourCharacterId"/>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Site Name</label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Site Name</label>
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        name="site.name" [(ngModel)]="site.name"/>
@@ -34,7 +34,7 @@
             </div>
             <div *ngIf="siteLocation !=null">
               <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">City / Town</label>
+                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">City / Town</label>
                 <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                   <input type="text" maxlength="100" class="form-control"
                          name="siteLocation.city" [(ngModel)]="siteLocation.city"/>
@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">IERS DOMES Number </label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">IERS DOMES Number </label>
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        name="site.domesNumber" [(ngModel)]="site.domesNumber"/>
@@ -79,28 +79,28 @@
             <div class="panel-body" *ngIf="status.isSiteOwnerOpen">
               <div *ngIf="siteOwner != null">
                 <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Full Name</label>
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Full Name</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            name="site.owner.name" [(ngModel)]="siteOwner.individualName"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Organisation</label>
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Organisation</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            name="site.owner.organisation" [(ngModel)]="siteOwner.organisationName"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Position</label>
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            name="site.owner.position" [(ngModel)]="siteOwner.positionName"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Address</label>
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            name="site.owner.address" [(ngModel)]="siteOwner.contactInfo.address"/>
@@ -108,7 +108,7 @@
                 </div>
                 <div *ngFor="let ph of siteOwner.contactInfo.phone.voices; let i = index">
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Phone {{i+1}}</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Phone {{i+1}}</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="site.owner.phone" [(ngModel)]="siteOwner.contactInfo.phone.voices[i]"/>
@@ -130,21 +130,21 @@
             <div class="panel-body" *ngIf="status.isMetaCustodianOpen">
               <div *ngIf="metadataCustodian != null">
                 <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Full Name</label>
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Full Name</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            name="site.metadataCustodian.name" [(ngModel)]="metadataCustodian.individualName"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Organisation</label>
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Organisation</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            name="site.metadataCustodian.organisation" [(ngModel)]="metadataCustodian.organisationName"/>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Position</label>
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            name="site.metadataCustodian.position" [(ngModel)]="metadataCustodian.positionName"/>
@@ -202,21 +202,21 @@
                 </div>
                 <div *ngIf=" receiver != null ">
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Type</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Type</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="receiver.type_{{i}}" [(ngModel)]="receiver.id.type"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Serial Number</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Serial Number</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="receiver.serialNumber_{{i}}" [(ngModel)]="receiver.id.serialNumber"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Firmware Version</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Firmware Version</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="receiver.firmwareVersion_{{i}}"
@@ -224,7 +224,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Satellite System</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Satellite System</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="receiver.satelliteSystem_{{i}}"
@@ -232,7 +232,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Elevation Cutoff Setting</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Elevation Cutoff Setting</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="receiver.elevetionCutoffSetting_{{i}}"
@@ -240,14 +240,14 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Date Installed</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="receiver.dateInstalled_{{i}}" [(ngModel)]="receiver.period.from"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Date Removed</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="receiver.dateRemoved_{{i}}" [(ngModel)]="receiver.period.to"/>
@@ -305,21 +305,21 @@
                 </div>
                 <div *ngIf=" antenna != null ">
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Antenna Type</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Type</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.type_{{i}}" [(ngModel)]="antenna.id.type"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Serial Number</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Serial Number</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.serialNumber_{{i}}" [(ngModel)]="antenna.id.serialNumber"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Antenna Reference Point</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Reference Point</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.antennaReferencePoint_{{i}}"
@@ -327,7 +327,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Marker ARP Up Eccentricity</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP Up Eccentricity</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.markerArpUpEccentricity_{{i}}"
@@ -335,7 +335,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Marker ARP North Eccentricity</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP North Eccentricity</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.markerArpNorthEccentricity_{{i}}"
@@ -343,7 +343,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Marker ARP East Eccentricity</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP East Eccentricity</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.markerArpEastEccentricity_{{i}}"
@@ -351,7 +351,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Alignment From True North</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Alignment From True North</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.alignmentFromTrueNorth_{{i}}"
@@ -359,14 +359,14 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Radome Type</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Radome Type</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.radomeType_{{i}}" [(ngModel)]="antenna.configuration.radomeType"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Radome Serial Number</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Radome Serial Number</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.radomeSerialNumber_{{i}}"
@@ -374,7 +374,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Antenna Cable Type</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Cable Type</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.antennaCableType_{{i}}"
@@ -382,7 +382,7 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Antenna Cable Length</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Cable Length</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.antennaCableLength_{{i}}"
@@ -390,14 +390,14 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Date Installed</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.dateInstalled_{{i}}" [(ngModel)]="antenna.period.from"/>
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-4 col-xxs-12 control-label">Date Removed</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              name="antenna.dateRemoved_{{i}}" [(ngModel)]="antenna.period.to"/>
