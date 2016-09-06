@@ -61,7 +61,7 @@ export class CorsSiteService {
   getSiteById(id: number): Observable<any> {
     // Choose the real or mock solution (whilst developing this)
     // return this.realSite(id);
-    return this.mockSite();
+    return this.getMockAlic();
   }
 
   /*private realSite(id) {
@@ -69,24 +69,6 @@ export class CorsSiteService {
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }*/
-
-  private mockSite() {
-    return new Observable<any>((observer: any) => {
-      // let alic: any =
-      this.getMockAlic().subscribe(
-        (responseJson1: any) => {
-          // Extract the bits we want
-          let alic: any = JSON.parse(responseJson1);
-          let theData: any = alic['geo:GeodesyML']['elements'][0]['geo:siteLog'];
-          observer.next(theData);
-          observer.complete();
-        },
-        (error1: Error) => {
-          console.log('error with MockSite: ', error1);
-        }
-      );
-    });
-  }
 
   /**
    * Handle HTTP error
@@ -99,20 +81,9 @@ export class CorsSiteService {
   }
 
   private getMockAlic(): Observable<string> {
-    return new Observable<any>((observer: any) => {
-      let txt: string = '';
-      let xmlhttp: XMLHttpRequest = new XMLHttpRequest();
-      xmlhttp.onreadystatechange = function(){
-        if(xmlhttp.status === 200 && xmlhttp.readyState === 4) {
-          console.log('fileReader.onload');
-
-          txt = xmlhttp.responseText;
-          observer.next(txt);
-          observer.complete();
-        }
-      };
-      xmlhttp.open('GET','assets/ALIC.json',true);
-      xmlhttp.send();
-    });
+    console.log('getMockAlic Jsson ... ...');
+    return this.http.get('/assets/ALIC.json')
+            .map((res: Response) => res.json()['geo:GeodesyML']['elements'][0]['geo:siteLog'])
+            .catch(this.handleError);
   }
 }

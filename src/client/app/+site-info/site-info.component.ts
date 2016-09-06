@@ -67,13 +67,17 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab = this.route.params.subscribe(params => {
       let siteId = +params['id'];
       this.corsSiteService.getSiteById(siteId).subscribe(
-        (responseJson1: any) => {
+        (responseJson: any) => {
           // MODIFICATION for Jsonix change
           // this.site = responseJson1._embedded.corsSites[0];
-          this.site = responseJson1;
-          this.globalService.setSelectedSiteId(this.site.fourCharacterId);
-          this.getAllCorsSetupsBySiteId(siteId);
-          this.getSiteLog(this.site.fourCharacterId);
+          let siteLog = responseJson;
+          this.site = siteLog.siteIdentification;
+          this.siteLocation = siteLog.siteLocation;
+          this.siteOwner = siteLog.siteContact[0].ciResponsibleParty;
+          this.metadataCustodian = siteLog.siteMetadataCustodian.ciResponsibleParty;
+          this.setGnssReceivers(siteLog.gnssReceivers);
+          this.setGnssAntennas(siteLog.gnssAntennas);
+          this.globalService.setSelectedSiteId(this.site.fourCharacterID);
           this.isLoading =  false;
         },
         (error1: Error) =>  {
@@ -189,81 +193,55 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  private getAllCorsSetupsBySiteId(siteId: number) {
+  private setGnssReceivers(gnssReceivers: any) {
     this.status.isReceiversOpen = [];
+    let currentReceiver: any = null;
+    for (let receiverObj of gnssReceivers) {
+      let receiver = receiverObj.gnssReceiver;
+      if ( !receiver.dateRemoved.value || receiver.dateRemoved.value.length === 0 ) {
+        currentReceiver = receiver;
+      } else {
+        this.receivers.push(receiver);
+        this.status.isReceiversOpen.push(false);
+      }
+    }
+    // Sort by dateInstalled for all previous receivers
+    this.receivers.sort(this.compareDateInstalled);
+
+    // Current receiver (even null) are the first item in the arrays and open by default
+    this.receivers.unshift(currentReceiver);
+    this.status.isReceiversOpen.unshift(true);
+  }
+
+  private setGnssAntennas(gnssAntennas: any) {
     this.status.isAntennasOpen = [];
-    this.corsSetupService.getCorsSetupsBySiteId(siteId).subscribe(
-      (responseJson: any) => {
-        let currentReceiver: any = null;
-        let currentAntenna: any = null;
-        for (let setup of responseJson._embedded.setups) {
-          for (let equip of setup.equipmentInUse) {
-            if ( equip.content.id.equipmentType === 'gnss receiver' ) {
-              if ( setup.current ) {
-                currentReceiver = equip.content;
-              } else {
-                this.receivers.push(equip.content);
-                this.status.isReceiversOpen.push(false);
-              }
-            } else if (equip.content.id.equipmentType === 'gnss antenna' ) {
-              if ( setup.current ) {
-                currentAntenna = equip.content;
-              } else {
-                this.antennas.push(equip.content);
-                this.status.isAntennasOpen.push(false);
-              }
-            }
-          }
-        }
-        // Sort by dateInstalled for all previous receivers/antennas
-        this.receivers.sort(this.compareDate);
-        this.antennas.sort(this.compareDate);
+    let currentAntenna: any = null;
+    for (let antennaObj of gnssAntennas) {
+      let antenna = antennaObj.gnssAntenna;
+      if ( !antenna.dateRemoved.value || antenna.dateRemoved.value.length === 0 ) {
+        currentAntenna = antenna;
+      } else {
+        this.antennas.push(antenna);
+        this.status.isAntennasOpen.push(false);
+      }
+    }
+    // Sort by dateInstalled for all previous antennas
+    this.antennas.sort(this.compareDateInstalled);
 
-        // Current receiver/antenna (even null) are the first item in the arrays and open by default
-        this.receivers.unshift(currentReceiver);
-        this.antennas.unshift(currentAntenna);
-        this.status.isReceiversOpen.unshift(true);
-        this.status.isAntennasOpen.unshift(true);
-      },
-      (error: Error) =>  this.errorMessage = <any>error
-    );
+    // Current antenna (even null) are the first item in the arrays and open by default
+    this.antennas.unshift(currentAntenna);
+    this.status.isAntennasOpen.unshift(true);
   }
 
-  private getSiteLog(fourCharacterId: string) {
-    this.siteLogService.getSiteLogByFourCharacterId(fourCharacterId).subscribe(
-      (responseJson: any) => {
-        console.log('get-info.component - getSiteLog: ', responseJson);
-        this.siteLocation = responseJson.siteLocation;
-        this.siteOwner = responseJson.siteContact.party;
-        this.metadataCustodian = responseJson.siteMetadataCustodian.party;
-
-        // Check the existence of contactInfo/phone in siteOwner
-        if ( !this.siteOwner.contactInfo ) {
-          this.siteOwner.contactInfo = {
-            address: null,
-            phone: {
-              voices: [null]
-            }
-          };
-        } else if ( !this.siteOwner.contactInfo.phone ) {
-          this.siteOwner.contactInfo.phone = {
-            voices: [null]
-          };
-        }
-      },
-      (error: Error) =>  this.errorMessage = <any>error
-    );
-  }
-
-  private compareDate(obj1: any, obj2: any) {
-    if (obj1 === null || obj1.period === null)
+  private compareDateInstalled(obj1: any, obj2: any) {
+    if (obj1 === null || obj1.dateInstalled === null || obj1.dateInstalled.value === null || obj1.dateInstalled.value.length === 0)
       return 0;
-    if (obj2 === null || obj2.period === null)
+    if (obj2 === null || obj2.dateInstalled === null || obj2.dateInstalled.value === null || obj2.dateInstalled.value.length === 0)
       return 0;
 
-    if (obj1.period.from < obj2.period.from)
+    if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0])
       return 1;
-    if (obj1.period.from > obj2.period.from)
+    if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0])
       return -1;
     return 0;
   }
