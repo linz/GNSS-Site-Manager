@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import { CORE_DIRECTIVES } from '@angular/common';
-// import { ROUTER_DIRECTIVES } from '@angular/router';
-// import { DropdownModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs';
 import { NameListService, ServiceWorkerService, GlobalService } from '../index';
 
@@ -14,7 +11,6 @@ import { NameListService, ServiceWorkerService, GlobalService } from '../index';
   templateUrl: 'toolbar.component.html',
   styleUrls: ['toolbar.component.css']
 })
-  // directives: [ DropdownModule ],
 export class ToolbarComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];

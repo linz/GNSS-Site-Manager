@@ -8,5 +8,4 @@ import { SelectSiteComponent } from './select-site.component';
   declarations: [SelectSiteComponent],
   exports: [SelectSiteComponent],
 })
-  // providers: [NameListService]
 export class SelectSiteModule { }

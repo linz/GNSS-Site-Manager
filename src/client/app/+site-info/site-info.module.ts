@@ -8,5 +8,4 @@ import { SiteInfoComponent } from './site-info.component';
   declarations: [SiteInfoComponent],
   exports: [SiteInfoComponent],
 })
-  // providers: [NameListService]
 export class SiteInfoModule { }

@@ -18,11 +18,6 @@ import { CorsSiteService } from '../shared/index';
 import { SelectSiteModule } from './select-site.module';
 export function main() {
   describe('SelectSite component', () => {
-    // Disable old forms
-    // let providerArr: any[];
-
-    // beforeEach(() => { providerArr = [disableDeprecatedForms(), provideForms()]; });
-
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterModule, HttpModule, SelectSiteModule],
       declarations: [TestComponent],
@@ -66,6 +61,7 @@ export function main() {
 }
 
 @Component({
+  // TODO - update this when rewrite test using ng2 rc.5
   // providers: [
   //   HTTP_PROVIDERS,
   //   CorsSiteService,

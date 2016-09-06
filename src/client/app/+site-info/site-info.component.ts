@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-// import { CORE_DIRECTIVES} from '@angular/common';
-// import { ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-// import { AccordionModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { GlobalService, CorsSiteService, CorsSetupService, SiteLogService } from '../shared/index';
 
 /**
@@ -13,7 +10,6 @@ import { GlobalService, CorsSiteService, CorsSetupService, SiteLogService } from
   selector: 'sd-site-info',
   templateUrl: 'site-info.component.html',
 })
-  // directives: [AccordionModule, ReactiveFormsModule]
 export class SiteInfoComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public site: any = null;
