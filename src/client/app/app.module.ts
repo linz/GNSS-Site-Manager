@@ -11,9 +11,12 @@ import { SharedModule } from './shared/shared.module';
 // TODO - after upgrade to latest angular2-seed based on NG rc.5, there was conflict w new ngModules
 // TODO - work out how to get HomeModule working so we understand modules better
 // import { HomeModule } from './+home/home.module';
+import { SiteInfoModule } from './+site-info/site-info.module';
+import { SelectSiteModule } from './+select-site/select-site.module';
 
 @NgModule({
-  imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes), AboutModule, SharedModule.forRoot()],  // HomeModule
+  imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes), AboutModule, SiteInfoModule, SelectSiteModule,
+    SharedModule.forRoot()],  // HomeModule
   declarations: [AppComponent],
   providers: [{
     provide: APP_BASE_HREF,
@@ -23,4 +26,5 @@ import { SharedModule } from './shared/shared.module';
 
 })
 
-export class AppModule { }
+export class AppModule {
+}
