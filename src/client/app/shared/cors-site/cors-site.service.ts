@@ -11,7 +11,7 @@ import 'rxjs/add/operator/catch';
 export class CorsSiteService {
   // WS_URL : string = 'http://localhost:8080/geodesy-web-services';
   // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
-  WS_URL : string = 'https://test.geodesy.ga.gov.au'; // test
+  WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // test
 
 
   /**
