@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { REACTIVE_FORM_DIRECTIVES } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NG_TABLE_DIRECTIVES } from 'ng2-table/ng2-table';
-import { PAGINATION_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs/Subscription';
 import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/index';
 
@@ -13,7 +10,6 @@ import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/
   moduleId: module.id,
   selector: 'sd-select-site',
   templateUrl: 'select-site.component.html',
-  directives: [NG_TABLE_DIRECTIVES, PAGINATION_DIRECTIVES, REACTIVE_FORM_DIRECTIVES]
 })
 export class SelectSiteComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;

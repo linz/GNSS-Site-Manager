@@ -44,6 +44,9 @@
 
 #clear {
   background-color: transparent;
+}
+.more {
+  background: url("./assets/svg/more.svg");
   float: right;
   margin-top: 35px;
   border: 1px solid rgb(255, 255, 255);

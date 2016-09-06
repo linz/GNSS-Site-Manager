@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { HTTP_PROVIDERS } from '@angular/http';
+// import { HTTP_PROVIDERS } from '@angular/http';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, GlobalService, NameListService,
-          AutoHeightDirective, ServiceWorkerService } from './shared/index';
+          ServiceWorkerService } from './shared/index';
+// AutoHeightDirective
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the
@@ -10,11 +11,11 @@ import { Config, CorsSiteService, CorsSetupService, SiteLogService, GlobalServic
 @Component({
   moduleId: module.id,
   selector: 'sd-app',
-  directives: [AutoHeightDirective],
   viewProviders: [CorsSiteService, CorsSetupService, SiteLogService, GlobalService, NameListService,
-                  ServiceWorkerService, HTTP_PROVIDERS],
+                  ServiceWorkerService],
   templateUrl: 'app.component.html',
 })
+  // directives: [AutoHeightDirective],
 
 export class AppComponent {
   constructor() {

@@ -6,21 +6,22 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 
-import { AboutModule } from './+about/about.module';
+import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
-// TODO - after upgrade to latest angular2-seed based on NG rc.5, there was conflict w new ngModules
-// TODO - work out how to get HomeModule working so we understand modules better
-// import { HomeModule } from './+home/home.module';
+import { HomeModule } from './home/home.module';
+import { SiteInfoModule } from './+site-info/site-info.module';
+import { SelectSiteModule } from './+select-site/select-site.module';
 
 @NgModule({
-  imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes), AboutModule, SharedModule.forRoot()],  // HomeModule
+  imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes), AboutModule, SiteInfoModule, SelectSiteModule,
+    HomeModule, SharedModule.forRoot()],
   declarations: [AppComponent],
   providers: [{
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   }],
   bootstrap: [AppComponent]
-
 })
 
-export class AppModule { }
+export class AppModule {
+}

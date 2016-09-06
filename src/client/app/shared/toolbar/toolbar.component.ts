@@ -1,7 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CORE_DIRECTIVES } from '@angular/common';
-import { ROUTER_DIRECTIVES } from '@angular/router';
-import { DROPDOWN_DIRECTIVES } from 'ng2-bootstrap/ng2-bootstrap';
 import { Subscription } from 'rxjs';
 import { NameListService, ServiceWorkerService, GlobalService } from '../index';
 
@@ -11,7 +8,6 @@ import { NameListService, ServiceWorkerService, GlobalService } from '../index';
 @Component({
   moduleId: module.id,
   selector: 'sd-toolbar',
-  directives: [CORE_DIRECTIVES, ROUTER_DIRECTIVES, DROPDOWN_DIRECTIVES],
   templateUrl: 'toolbar.component.html',
   styleUrls: ['toolbar.component.css']
 })
