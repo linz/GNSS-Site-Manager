@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   async,
-  inject
 } from '@angular/core/testing';
 import {
   BaseRequestOptions,
@@ -16,7 +15,6 @@ import { MockBackend } from '@angular/http/testing';
 import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
 
 import { CorsSiteService } from '../shared/index';
-import { SelectSiteComponent } from './select-site.component';
 import { SelectSiteModule } from './select-site.module';
 export function main() {
   describe('SelectSite component', () => {
