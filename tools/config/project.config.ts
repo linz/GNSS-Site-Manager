@@ -18,7 +18,7 @@ export class ProjectConfig extends SeedConfig {
   constructor() {
     super();
 
-    this.APP_TITLE = 'GNSS Site Managerv';
+    this.APP_TITLE = 'GNSS Site Manager';
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
     // this.TYPED_COMPILE_INTERVAL = 5;

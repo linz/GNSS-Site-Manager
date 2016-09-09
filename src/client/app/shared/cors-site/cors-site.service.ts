@@ -81,7 +81,6 @@ export class CorsSiteService {
   }
 
   private getMockAlic(): Observable<string> {
-    console.log('getMockAlic Jsson ... ...');
     return this.http.get('/assets/ALIC.json')
             .map((res: Response) => res.json()['geo:GeodesyML']['elements'][0]['geo:siteLog'])
             .catch(this.handleError);

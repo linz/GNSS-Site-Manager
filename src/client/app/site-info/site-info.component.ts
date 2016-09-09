@@ -12,6 +12,7 @@ import { GlobalService, CorsSiteService, CorsSetupService, SiteLogService } from
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
+  public siteInfo: any = null;
   public site: any = null;
   public siteLocation: any = null;
   public siteOwner: any = null;
@@ -20,6 +21,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public antennas: Array<any> = [];
   public errorMessage: string;
   public siteInfoTab: any = null;
+
+  //public siteInfoForm.pristine = true;
+  public submitted: boolean = false;
 
   public status: any = {
     oneAtATime: false,
@@ -70,15 +74,16 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         (responseJson: any) => {
           // MODIFICATION for Jsonix change
           // this.site = responseJson1._embedded.corsSites[0];
-          let siteLog = responseJson;
-          this.site = siteLog.siteIdentification;
-          this.siteLocation = siteLog.siteLocation;
-          this.siteOwner = siteLog.siteContact[0].ciResponsibleParty;
-          this.metadataCustodian = siteLog.siteMetadataCustodian.ciResponsibleParty;
-          this.setGnssReceivers(siteLog.gnssReceivers);
-          this.setGnssAntennas(siteLog.gnssAntennas);
+          this.siteInfo = responseJson;
+          this.site = this.siteInfo.siteIdentification;
+          this.siteLocation = this.siteInfo.siteLocation;
+          this.siteOwner = this.siteInfo.siteContact[0].ciResponsibleParty;
+          this.metadataCustodian = this.siteInfo.siteMetadataCustodian.ciResponsibleParty;
+          this.setGnssReceivers(this.siteInfo.gnssReceivers);
+          this.setGnssAntennas(this.siteInfo.gnssAntennas);
           this.globalService.setSelectedSiteId(this.site.fourCharacterID);
           this.isLoading =  false;
+          //this.siteInfoForm.pristine = true;
         },
         (error1: Error) =>  {
           this.errorMessage = <any>error1;
@@ -93,6 +98,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public ngOnDestroy() {
     this.isLoading =  false;
+    this.siteInfo = null;
     this.site = null;
     this.siteLocation = null;
     this.siteOwner = null;
@@ -103,6 +109,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.errorMessage = '';
     this.globalService.selectedSiteId = null;
     this.siteInfoTab.unsubscribe();
+  }
+
+  public save() {
+    this.submitted = true;
+    //this.siteInfoForm.pristine = true;
+    console.log( this.siteInfo );
   }
 
   /**
@@ -119,7 +131,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
    */
   public getDate(datetime: string) {
-    if ( datetime === null) {
+    if ( datetime === null || typeof datetime === 'undefined') {
       return '';
     } else if (datetime.length < 10) {
       return datetime;
@@ -128,7 +140,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Update the isOpen flags for all previous GNSS receivers
+   * Update the isOpen flags for all previous GNSS receivers,sko
    */
   public togglePrevReceivers(flag: boolean) {
     for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
