@@ -10,6 +10,7 @@ import { NameListService } from './name-list/index';
 import { CorsSiteService } from './cors-site/index';
 import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
+// import { AutoHeightDirective } from './global/auto-height.directive';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -25,7 +26,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [NameListService, JsonixService, SiteLogService, CorsSiteService]
+      providers: [NameListService, JsonixService, SiteLogService, CorsSiteService]//, AutoHeightDirective]
     };
   }
 }
