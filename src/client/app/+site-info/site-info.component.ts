@@ -230,6 +230,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private getSiteLog(fourCharacterId: string) {
     this.siteLogService.getSiteLogByFourCharacterId(fourCharacterId).subscribe(
       (responseJson: any) => {
+        console.log('get-info.component - getSiteLog: ', responseJson);
         this.siteLocation = responseJson.siteLocation;
         this.siteOwner = responseJson.siteContact.party;
         this.metadataCustodian = responseJson.siteMetadataCustodian.party;

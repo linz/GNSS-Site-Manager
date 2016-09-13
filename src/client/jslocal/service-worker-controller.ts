@@ -117,7 +117,7 @@ function getCache(event: MessageEvent): Promise<string[]> {
   return new Promise((resolve: Function, reject: Function) => {
     self.caches.has(cacheName).then(() => {
       self.caches.open(cacheName).then((cache: Cache) => {
-        debugMsg('  cache: ', cache);
+        // debugMsg('  cache: ', cache);
         cache.keys().then((cacheKeys: Request[]) => {
           cacheKeys.map((request: Request) => {
             cacheUrls.push(request.url);

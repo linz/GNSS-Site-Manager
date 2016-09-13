@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { JsonixService } from '../jsonix/index';
+import { JsonixService } from '../jsonix/jsonix.service'
 
 /**
  * This class provides the service with methods to retrieve CORS sites from DB and select site.
@@ -41,12 +41,11 @@ export class CorsSiteService {
       params = 'fourCharacterId='+fourCharacterId.toUpperCase() + '&';
     }
     if (typeof siteName !== 'undefined' && siteName !== null && siteName !== '') {
-      params += 'name='+siteName + '&';
+      params += 'name=' + siteName + '&';
     }
-    // let URL=this.WS_URL+'/siteLogs/search/findByFourCharacterId?id='+fourCharacterId+'&format=geodesyml';
-    // jsonixService.
-
-      return undefined;
+    return this.http.get(this.WS_URL + '/corsSites?' + params + 'size=1000')
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
   }
 
   /**
