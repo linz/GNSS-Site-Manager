@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
-import { ErrorObservable } from "rxjs/observable/ErrorObservable";
+import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -14,7 +14,33 @@ export class SiteLogService {
   // WS_URL: string = 'http://localhost:8080/geodesy-web-services';
   WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
   // WS_URL: string = 'https://dev.geodesy.ga.gov.au'; // test
-  that: any = this;
+
+  private static handleData(response: Response) {
+    return response.json();
+  }
+
+   /**
+   * Handle HTTP error
+   */
+  private static handleError(error: any): ErrorObservable {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    errMsg += error.stack;
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
+
+  private handleXMLData(response: Response): string {
+    if (response.status === 200) {
+      var geodesyMl: any = response.text();
+      let json: string = this.jsonixService.geodesyMlToJson(geodesyMl);
+      console.log('handleXMLData - json: ', json);
+      return json;
+    } else {
+      let msg: string = 'Error with GET: ' + response.url;
+      throw new Error(msg);
+    }
+  }
 
   /**
    * Creates a new SiteLogService with the injected Http.
@@ -50,7 +76,7 @@ export class SiteLogService {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
     return this.http.get(this.WS_URL + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
       .map((response: Response) => {
-        return this.handleXMLData(response)
+        return this.handleXMLData(response);
       })
       .catch(SiteLogService.handleError);
   }
@@ -89,32 +115,5 @@ export class SiteLogService {
     return this.http.get(this.WS_URL + '/siteLogs?size=1000')
       .map(SiteLogService.handleData)
       .catch(SiteLogService.handleError);
-  }
-
-  private static handleData(response: Response) {
-    return response.json();
-  }
-
-  private handleXMLData(response: Response): string {
-    if (response.status === 200) {
-      let geodesyMl: string = <string> response['_body'];
-      let json = this.jsonixService.geodesyMlToJson(geodesyMl);
-      console.log('handleXMLData - json: ', json);
-      return json;
-    } else {
-      let msg: string = 'Error with GET: ' + response.url;
-      throw new Error(msg);
-    }
-  }
-
-  /**
-   * Handle HTTP error
-   */
-  private static handleError(error: any): ErrorObservable {
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    errMsg += error.stack;
-    console.error(errMsg);
-    return Observable.throw(errMsg);
   }
 }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
@@ -15,7 +14,8 @@ declare let OM_2_0: any;
 declare let GEODESYML_0_3: any;
 declare let Jsonix: any;
 
-let jsonIxMappings: any = [XLink_1_0, GML_3_2_1, GEODESYML_0_3, ISO19139_GMD_20070417, ISO19139_GCO_20070417, OM_2_0, ISO19139_GSR_20070417, ISO19139_GTS_20070417, ISO19139_GSS_20070417];
+let jsonIxMappings: any = [XLink_1_0, GML_3_2_1, GEODESYML_0_3, ISO19139_GMD_20070417, ISO19139_GCO_20070417, OM_2_0,
+  ISO19139_GSR_20070417, ISO19139_GTS_20070417, ISO19139_GSS_20070417];
 
 let jsonIxOptions: any = {
   mappingStyle: 'simplified'
