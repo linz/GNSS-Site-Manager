@@ -10,4 +10,4 @@ export * from './service-worker/index';
 export * from './navbar/index';
 export * from './toolbar/index';
 export * from './config/env.config';
-
+export * from './jsonix/index';

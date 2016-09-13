@@ -30,6 +30,16 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ng2-bootstrap/bundles/ng2-bootstrap.js', inject: 'libs'},
       {src: 'ng2-table/bundles/ng2-table.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
+      {src: 'jsonix/jsonix.js', inject: 'libs'},
+      {src: 'w3c-schemas/lib/XLink_1_0.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/GML_3_2_1.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/ISO19139_GMD_20070417.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/ISO19139_GCO_20070417.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/ISO19139_GSR_20070417.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/ISO19139_GTS_20070417.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/ISO19139_GSS_20070417.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/OM_2_0.js', inject: 'libs'},
+      {src: 'ogc-schemas/lib/GEODESYML_0_3.js', inject: 'libs'},
     ];
 
     this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =
