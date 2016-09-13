@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { GlobalService, CorsSiteService, CorsSetupService, SiteLogService } from '../shared/index';
+import { FormGroup } from '@angular/forms';
+import { GlobalService, CorsSiteService } from '../shared/index';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing detailed information about site/receiver/antenna.
@@ -22,7 +23,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public errorMessage: string;
   public siteInfoTab: any = null;
 
-  //public siteInfoForm.pristine = true;
+  public siteInfoForm: FormGroup = null;
   public submitted: boolean = false;
 
   public status: any = {
@@ -44,16 +45,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
    * @param {GlobalService} globalService - The injected GlobalService.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
-   * @param {CorsSetupeService} corsSetupService - The injected CorsSetupService.
-   * @param {SiteLogService} siteLogService - The injected SiteLogService.
    */
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     public globalService: GlobalService,
-    public corsSiteService: CorsSiteService,
-    public corsSetupService: CorsSetupService,
-    public siteLogService: SiteLogService
+    public corsSiteService: CorsSiteService
   ) {}
 
   /**
@@ -83,7 +80,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setGnssAntennas(this.siteInfo.gnssAntennas);
           this.globalService.setSelectedSiteId(this.site.fourCharacterID);
           this.isLoading =  false;
-          //this.siteInfoForm.pristine = true;
         },
         (error1: Error) =>  {
           this.errorMessage = <any>error1;

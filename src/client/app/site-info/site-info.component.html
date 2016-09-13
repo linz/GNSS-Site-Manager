@@ -23,9 +23,9 @@
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" minlength="4" maxlength="9" class="form-control" required
                        [(ngModel)]="site.fourCharacterID" name="fourCharacterID" #fourCharacterID="ngModel"/>
-                <div [hidden]="fourCharacterID.valid || fourCharacterID.pristine" class="alert alert-danger">
-                  "Four Character Id" is required and must be at least 4 characters
-                </div>
+                <small [hidden]="fourCharacterID.valid || fourCharacterID.pristine" class="alert alert-danger">
+                  "Four Character Id" is required (minimum 4 characters)
+                </small>
               </div>
             </div>
             <div class="form-group">
@@ -33,9 +33,9 @@
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control" required
                        [(ngModel)]="site.siteName" name="siteName" #siteName="ngModel"/>
-                <div [hidden]="siteName.valid || siteName.pristine" class="alert alert-danger">
+                <small [hidden]="siteName.valid || siteName.pristine" class="alert alert-danger">
                   "Site Name" is required
-                </div>
+                </small>
               </div>
             </div>
             <div class="form-group">
@@ -43,9 +43,9 @@
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control" required
                        [(ngModel)]="site.iersDOMESNumber" name="iersDomesNumber" #iersDomesNumber="ngModel"/>
-                <div [hidden]="iersDomesNumber.valid || iersDomesNumber.pristine" class="alert alert-danger">
+                <small [hidden]="iersDomesNumber.valid || iersDomesNumber.pristine" class="alert alert-danger">
                   "IERS DOMES Number" is required
-                </div>
+                </small>
               </div>
             </div>
             <div *ngIf="siteLocation !=null">
@@ -111,9 +111,9 @@
                     <input type="text" maxlength="100" class="form-control" required
                            [(ngModel)]="siteOwner.individualName.characterString['gco:CharacterString']"
                            name="ownerName" #ownerName="ngModel"/>
-                    <div [hidden]="ownerName.valid || ownerName.pristine" class="alert alert-danger">
+                    <small [hidden]="ownerName.valid || ownerName.pristine" class="alert alert-danger">
                       "Full Name" is required
-                    </div>
+                    </small>
                   </div>
                 </div>
                 <div class="form-group">
@@ -122,9 +122,9 @@
                     <input type="text" maxlength="100" class="form-control" required
                            [(ngModel)]="siteOwner.organisationName.characterString['gco:CharacterString']"
                            name="ownerOrganisation" #ownerOrganisation="ngModel"/>
-                    <div [hidden]="ownerOrganisation.valid || ownerOrganisation.pristine" class="alert alert-danger">
+                    <small [hidden]="ownerOrganisation.valid || ownerOrganisation.pristine" class="alert alert-danger">
                       "Organisation" is required
-                    </div>
+                    </small>
                   </div>
                 </div>
                 <div class="form-group">
@@ -156,9 +156,9 @@
                       <input type="email" maxlength="100" class="form-control"
                              [(ngModel)]="email.characterString['gco:CharacterString']"
                              name="ownerEmail_{{i}}" #ownerEmail_{{i}}="ngModel"/>
-                      <!--<div [hidden]="ownerEmail_{{i}}.valid || ownerEmail_{{i}}.pristine" class="alert alert-danger">
+                      <!--<small [hidden]="ownerEmail_{{i}}.valid || ownerEmail_{{i}}.pristine" class="alert alert-danger">
                         "Email" must not be empty or invalid
-                      </div>-->
+                      </small>-->
                     </div>
                   </div>
                 </div>
@@ -201,9 +201,9 @@
                     <input type="text" maxlength="100" class="form-control" required
                            [(ngModel)]="metadataCustodian.organisationName.characterString['gco:CharacterString']"
                            name="metadataCustodianOrganisation" #metadataCustodianOrganisation="ngModel"/>
-                    <div [hidden]="metadataCustodianOrganisation.valid || metadataCustodianOrganisation.pristine" class="alert alert-danger">
+                    <small [hidden]="metadataCustodianOrganisation.valid || metadataCustodianOrganisation.pristine" class="alert alert-danger">
                       "Organisation" is required
-                    </div>
+                    </small>
                   </div>
                 </div>
                 <div class="form-group">
