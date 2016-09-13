@@ -4,6 +4,7 @@ let
     name = "nodejs";
     paths = [
       nodejs-6_x
+      awscli
     ];
   };
 in
