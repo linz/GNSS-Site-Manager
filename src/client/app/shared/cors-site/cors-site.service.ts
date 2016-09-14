@@ -18,14 +18,8 @@ export class CorsSiteService {
   /**
    * Creates a new CorsSiteService with the injected Http.
    * @param {Http} http - The injected Http.
-   * @param (JsonixService) jsonixService
+   * @param (JsonixService) the service to receive GeodesyML and convert to JSON for consumption
    * @constructor
-   */
-
-  /**
-   * Creates a new CorsSiteService with the injected Http
-   * @param http - The injected Http.
-   * @param jsonixService - the service to receive GeodesyML and convert to JSON for consumption
    */
   constructor(private http: Http, private jsonixService: JsonixService ) {}
 
@@ -59,18 +53,24 @@ export class CorsSiteService {
   }
 
   getSiteById(id: number): Observable<any> {
-    return this.http.get(this.WS_URL+'/corsSites?id='+id)
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+    return this.http.get(this.WS_URL + '/corsSites?id=' + id)
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
   }
 
   /**
-    * Handle HTTP error
-    */
-  private handleError (error: any) {
+   * Handle HTTP error
+   */
+  private handleError(error: any) {
     let errMsg = (error.message) ? error.message :
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
+
+  /*private getMockAlic(): Observable<string> {
+    return this.http.get('/assets/ALIC.json')
+            .map((res: Response) => res.json()['geo:GeodesyML']['elements'][0]['geo:siteLog'])
+            .catch(this.handleError);
+  }*/
 }

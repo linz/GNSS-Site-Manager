@@ -5,12 +5,11 @@ import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
-
 import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
-import { SiteInfoModule } from './+site-info/site-info.module';
-import { SelectSiteModule } from './+select-site/select-site.module';
+import { SiteInfoModule } from './site-info/site-info.module';
+import { SelectSiteModule } from './select-site/select-site.module';
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
 @NgModule({
@@ -21,8 +20,7 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
     provide: APP_BASE_HREF,
     useValue: '<%= APP_BASE %>'
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [ AppComponent ]
 })
 
-export class AppModule {
-}
+export class AppModule { }
