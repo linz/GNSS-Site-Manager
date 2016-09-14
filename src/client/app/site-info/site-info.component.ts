@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { GlobalService, CorsSiteService } from '../shared/index';
+import { GlobalService, SiteLogService } from '../shared/index';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing detailed information about site/receiver/antenna.
@@ -44,13 +44,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {Router} router - The injected Router.
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
    * @param {GlobalService} globalService - The injected GlobalService.
-   * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
+   * @param {SiteLogService} siteLogService - The injected SiteLogService.
    */
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     public globalService: GlobalService,
-    public corsSiteService: CorsSiteService
+    public siteLogService: SiteLogService
   ) {}
 
   /**
@@ -64,21 +64,27 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Retrieve relevant site/setup/log information from DB based on given Site Id
    */
   public loadSiteInfoData() {
+    // Do not allow direct access to site-info page
+    let siteId: string = this.globalService.getSelectedSiteId();
+    if (!siteId) {
+      this.goBack();
+    }
+
     this.isLoading =  true;
-    this.siteInfoTab = this.route.params.subscribe(params => {
-      let siteId = +params['id'];
-      this.corsSiteService.getSiteById(siteId).subscribe(
+    this.siteInfoTab = this.route.params.subscribe(() => {
+      this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
         (responseJson: any) => {
-          // MODIFICATION for Jsonix change
-          // this.site = responseJson1._embedded.corsSites[0];
-          this.siteInfo = responseJson;
+          this.siteInfo = responseJson['geo:siteLog'];
           this.site = this.siteInfo.siteIdentification;
           this.siteLocation = this.siteInfo.siteLocation;
-          this.siteOwner = this.siteInfo.siteContact[0].ciResponsibleParty;
-          this.metadataCustodian = this.siteInfo.siteMetadataCustodian.ciResponsibleParty;
+          if (this.siteInfo.siteContact) {
+            this.siteOwner = this.siteInfo.siteContact[0].ciResponsibleParty;
+          }
+          if (this.siteInfo.siteMetadataCustodian) {
+            this.metadataCustodian = this.siteInfo.siteMetadataCustodian.ciResponsibleParty;
+          }
           this.setGnssReceivers(this.siteInfo.gnssReceivers);
           this.setGnssAntennas(this.siteInfo.gnssAntennas);
-          this.globalService.setSelectedSiteId(this.site.fourCharacterID);
           this.isLoading =  false;
         },
         (error1: Error) =>  {
@@ -206,7 +212,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     let currentReceiver: any = null;
     for (let receiverObj of gnssReceivers) {
       let receiver = receiverObj.gnssReceiver;
-      if ( !receiver.dateRemoved.value || receiver.dateRemoved.value.length === 0 ) {
+      this.checkReceiverFields(receiver);
+      let dateRemoved: string = ( receiver.dateRemoved && receiver.dateRemoved.value.length > 0 )
+                                ? receiver.dateRemoved.value[0] : null;
+      if ( !dateRemoved ) {
+        receiver.dateRemoved = {value: ['']};
         currentReceiver = receiver;
       } else {
         this.receivers.push(receiver);
@@ -226,7 +236,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     let currentAntenna: any = null;
     for (let antennaObj of gnssAntennas) {
       let antenna = antennaObj.gnssAntenna;
-      if ( !antenna.dateRemoved.value || antenna.dateRemoved.value.length === 0 ) {
+      this.checkAntennaFields(antenna);
+      let dateRemoved: string = ( antenna.dateRemoved && antenna.dateRemoved.value.length > 0 )
+                                ? antenna.dateRemoved.value[0] : null;
+      if ( !dateRemoved ) {
+        antenna.dateRemoved = {value: ['']};
         currentAntenna = antenna;
       } else {
         this.antennas.push(antenna);
@@ -242,9 +256,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   private compareDateInstalled(obj1: any, obj2: any) {
-    if (obj1 === null || obj1.dateInstalled === null || obj1.dateInstalled.value === null || obj1.dateInstalled.value.length === 0)
+    if (obj1 === null || obj1.dateInstalled === null
+      || obj1.dateInstalled.value === null
+      || obj1.dateInstalled.value.length === 0)
       return 0;
-    if (obj2 === null || obj2.dateInstalled === null || obj2.dateInstalled.value === null || obj2.dateInstalled.value.length === 0)
+    if (obj2 === null || obj2.dateInstalled === null
+      || obj2.dateInstalled.value === null
+      || obj2.dateInstalled.value.length === 0)
       return 0;
 
     if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0])
@@ -252,5 +270,67 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0])
       return -1;
     return 0;
+  }
+
+  // Check if there are any fields missing from receivers (remove later when jaxb can add null fields to GeodesyML)
+  private checkReceiverFields(receiver: any) {
+    if (!receiver.receiverType.value) {
+      receiver.receiverType = { value: null };
+    }
+    if (!receiver.serialNumber) {
+      receiver.serialNumber = null;
+    }
+    if (!receiver.firmwareVersion) {
+      receiver.firmwareVersion = null;
+    }
+    if (!receiver.satelliteSystem) {
+      receiver.satelliteSystem = [ {value: null} ];
+    }
+    if (!receiver.elevationCutoffSetting) {
+      receiver.elevationCutoffSetting = null;
+    }
+    if (!receiver.dateRemoved) {
+      receiver.dateRemoved = {value: ['']};
+    }
+  }
+
+  // Check if there are any fields missing from antennas (remove later when jaxb can add null fields to GeodesyML)
+  private checkAntennaFields(antenna: any) {
+    if (!antenna.antennaType.value) {
+      antenna.antennaType = { value: null };
+    }
+    if (!antenna.serialNumber) {
+      antenna.serialNumber = null;
+    }
+    if (!antenna.antennaReferencePoint) {
+      antenna.antennaReferencePoint = { value: null };
+    }
+    if (!antenna.antennaMarkerArpUpEcc) {
+      antenna.antennaMarkerArpUpEcc = null;
+    }
+    if (!antenna.markerArpNorthEcc) {
+      antenna.markerArpNorthEcc = null;
+    }
+    if (!antenna.markerArpEastEcc) {
+      antenna.markerArpEastEcc = null;
+    }
+    if (!antenna.alignmentFromTrueNorth) {
+      antenna.alignmentFromTrueNorth = null;
+    }
+    if (!antenna.antennaRadomeType) {
+      antenna.antennaRadomeType = { value: null };
+    }
+    if (!antenna.radomeSerialNumber) {
+      antenna.radomeSerialNumber = null;
+    }
+    if (!antenna.antennaCableType) {
+      antenna.antennaCableType = null;
+    }
+    if (!antenna.antennaCableLength) {
+      antenna.antennaCableLength = null;
+    }
+    if (!antenna.dateRemoved) {
+      antenna.dateRemoved = {value: ['']};
+    }
   }
 }

@@ -10,7 +10,8 @@ import { Config, CorsSiteService, CorsSetupService, SiteLogService, GlobalServic
 @Component({
   moduleId: module.id,
   selector: 'sd-app',
-  viewProviders: [CorsSiteService, CorsSetupService, SiteLogService, GlobalService, NameListService, ServiceWorkerService,
+  viewProviders: [CorsSiteService, CorsSetupService, SiteLogService, GlobalService,
+                  NameListService, AutoHeightDirective, ServiceWorkerService,
     JsonixService],
   templateUrl: 'app.component.html',
 })
