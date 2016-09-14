@@ -201,7 +201,8 @@
                     <input type="text" maxlength="100" class="form-control" required
                            [(ngModel)]="metadataCustodian.organisationName.characterString['gco:CharacterString']"
                            name="metadataCustodianOrganisation" #metadataCustodianOrganisation="ngModel"/>
-                    <small [hidden]="metadataCustodianOrganisation.valid || metadataCustodianOrganisation.pristine" class="alert alert-danger">
+                    <small [hidden]="metadataCustodianOrganisation.valid || metadataCustodianOrganisation.pristine"
+                           class="alert alert-danger">
                       "Organisation" is required
                     </small>
                   </div>
@@ -222,11 +223,20 @@
 
       <div class="panel panel-info">
         <div class="panel-heading">
-          <div class="panel-title" (click)="status.isReceiverGroupOpen = !status.isReceiverGroupOpen">
-            <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': status.isReceiverGroupOpen, 'glyphicon-plus-sign': !status.isReceiverGroupOpen}">
-            </i>
-            GNSS Receiver
+          <div class="panel-title">
+            <span (click)="status.isReceiverGroupOpen = !status.isReceiverGroupOpen">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isReceiverGroupOpen, 'glyphicon-plus-sign': !status.isReceiverGroupOpen}">
+              </i>
+              GNSS Receiver
+            </span>
+            <span class="pull-right">
+              <button class="btn btn-primary btn-xs" title="Add a new receiver as current one"
+                      (click)="addNewReceiver()">
+                <i class="glyphicon glyphicon-plus-sign"></i>
+                New Receiver
+              </button>
+            </span>
           </div>
         </div>
         <div class="panel-body" *ngIf="status.isReceiverGroupOpen">
@@ -347,12 +357,12 @@
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
                   </i>
-                <span *ngIf="i == 0">
-                  Current GNSS Antenna (Since {{ getDate(antenna.dateInstalled.value[0]) }})
-                </span>
-                <span *ngIf="i != 0">
-                  Previous GNSS Antenna ({{ getDate(antenna.dateInstalled.value[0]) }} &ndash; {{ getDate(antenna.dateRemoved.value[0]) }})
-                </span>
+                  <span *ngIf="i == 0">
+                    Current GNSS Antenna (Since {{ getDate(antenna.dateInstalled.value[0]) }})
+                  </span>
+                  <span *ngIf="i != 0">
+                    Previous GNSS Antenna ({{ getDate(antenna.dateInstalled.value[0]) }} &ndash; {{ getDate(antenna.dateRemoved.value[0]) }})
+                  </span>
                 </div>
                 <div *ngIf="i == 1 && antennas.length >= 3" class="toggle-button">
                   <button class="button-xs" *ngIf="!arePrevAntennasOpen()" (click)="togglePrevAntennas(true)"
@@ -398,7 +408,7 @@
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="number" step="0.0001" min="0.0000" class="form-control"
                              [(ngModel)]="antenna.antennaMarkerArpUpEcc" name="antennaMarkerArpUpEcc_{{i}}"
-                             />
+                      />
                       <!--<div [hidden]="antennaMarkerArpUpEcc_{{i}}.valid || antennaMarkerArpUpEcc_{{i}}.pristine" class="alert alert-danger">
                         "Marker ARP Up Ecc" must be a decimal number >= 0
                              #antennaMarkerArpUpEcc_{{i}}="ngModel"
@@ -422,7 +432,7 @@
                       Eccentricity</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="number" step="0.0001" min="0.0000" class="form-control"
-                             [(ngModel)]="antenna.markerArpEastEcc"name="antennaMarkerArpEastEcc_{{i}}"/>
+                             [(ngModel)]="antenna.markerArpEastEcc" name="antennaMarkerArpEastEcc_{{i}}"/>
                       <!--<div [hidden]="antennaMarkerArpEastEcc_{{i}}.valid || antennaMarkerArpEastEcc_{{i}}.pristine" class="alert alert-danger">
                         "Marker ARP East Ecc" must be a decimal number >= 0
                              #antennaMarkerArpEastEcc_{{i}}="ngModel"

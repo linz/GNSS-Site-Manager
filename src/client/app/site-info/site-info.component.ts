@@ -113,6 +113,47 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab.unsubscribe();
   }
 
+  public addNewReceiver() {
+    let presentDT = this.getPresentDateTime();
+    if (!this.receivers) {
+      this.receivers = [];
+    }
+
+    // Assign present date/time as default value to dateRemoved if it is empty
+    if (this.receivers.length > 0) {
+      this.status.isReceiversOpen[0] = false;
+      let currentReceiver: any = this.receivers[0];
+      if (!currentReceiver.dateRemoved.value[0] ) {
+        currentReceiver.dateRemoved.value[0] = presentDT;
+      }
+    }
+
+    // Create a new empty receiver with present date/time as default value to dateInstalled
+    let newReceiver = {
+      receiverType: {
+        value: ''
+      },
+      serialNumber: '',
+      firmwareVersion: '',
+      satelliteSystem: [
+        {
+          value: ''
+        }
+      ],
+      elevationCutoffSetting: '',
+      dateInstalled: {
+        value: [ presentDT ]
+      },
+      dateRemoved: {
+        value: ['']
+      }
+    };
+
+    // Add the new receiver as current one and open it by default
+    this.receivers.unshift(newReceiver);
+    this.status.isReceiversOpen.unshift(true);
+  }
+
   public save() {
     this.submitted = true;
     //this.siteInfoForm.pristine = true;
@@ -205,6 +246,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       }
     }
     return true;
+  }
+
+  private getPresentDateTime() {
+    let dt = new Date().toISOString();
+    return dt.slice(0, 19) + 'Z';
   }
 
   private setGnssReceivers(gnssReceivers: any) {
