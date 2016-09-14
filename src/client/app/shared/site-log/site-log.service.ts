@@ -60,8 +60,8 @@ export class SiteLogService {
   getSiteLogByFourCharacterId(fourCharacterId: string): Observable<any> {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
     return this.http.get(this.WS_URL + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
-      .map(this.handleData)
-      .catch(this.handleError);
+      .map(SiteLogService.handleData)
+      .catch(SiteLogService.handleError);
   }
 
   /**
@@ -78,7 +78,7 @@ export class SiteLogService {
       .map((response: Response) => {
         return this.handleXMLData(response);
       })
-      .catch(this.handleError);
+      .catch(SiteLogService.handleError);
   }
 
   /**
@@ -92,8 +92,8 @@ export class SiteLogService {
       params = 'siteId=' + siteId;
     }
     return this.http.get(this.WS_URL + '/siteLogs?' + params)
-      .map(this.handleData)
-      .catch(this.handleError);
+      .map(SiteLogService.handleData)
+      .catch(SiteLogService.handleError);
   }
 
   /**
@@ -103,8 +103,8 @@ export class SiteLogService {
    */
   getSiteLogById(id: number): Observable <any> {
     return this.http.get(this.WS_URL + '/siteLogs?id=' + id)
-      .map(this.handleData)
-      .catch(this.handleError);
+      .map(SiteLogService.handleData)
+      .catch(SiteLogService.handleError);
   }
 
   /**
@@ -113,34 +113,7 @@ export class SiteLogService {
    */
   getAllSiteLogs(): Observable <any[]> {
     return this.http.get(this.WS_URL + '/siteLogs?size=1000')
-      .map(this.handleData)
-      .catch(this.handleError);
-  }
-
-  private handleData(response: Response) {
-    return response.json();
-  }
-
-  private handleXMLData(response: Response): string {
-    if (response.status === 200) {
-      let geodesyMl: string = <string> response['_body'];
-      let json = this.jsonixService.geodesyMlToJson(geodesyMl);
-      console.log('handleXMLData - json: ', json);
-      return json;
-    } else {
-      let msg: string = 'Error with GET: ' + response.url;
-      throw new Error(msg);
-    }
-  }
-
-  /**
-   * Handle HTTP error
-   */
-  private handleError(error: any): ErrorObservable {
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    errMsg += error.stack;
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+      .map(SiteLogService.handleData)
+      .catch(SiteLogService.handleError);
   }
 }

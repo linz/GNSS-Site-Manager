@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 // import { HTTP_PROVIDERS } from '@angular/http';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, GlobalService, NameListService,
-          ServiceWorkerService, JsonixService } from './shared/index';
+          AutoHeightDirective, ServiceWorkerService, JsonixService } from './shared/index';
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the

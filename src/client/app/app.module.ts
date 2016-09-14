@@ -8,8 +8,8 @@ import { routes } from './app.routes';
 import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
-import { SiteInfoModule } from './+site-info/site-info.module';
-import { SelectSiteModule } from './+select-site/select-site.module';
+import { SiteInfoModule } from './site-info/site-info.module';
+import { SelectSiteModule } from './select-site/select-site.module';
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
 @NgModule({
