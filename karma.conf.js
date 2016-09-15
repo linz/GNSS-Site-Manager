@@ -35,6 +35,17 @@ module.exports = function (config) {
       'node_modules/zone.js/dist/proxy.js',
       'node_modules/zone.js/dist/jasmine-patch.js',
 
+      'node_modules/jsonix/jsonix.js',
+      'node_modules/w3c-schemas/lib/XLink_1_0.js',
+      'node_modules/ogc-schemas/lib/GML_3_2_1.js',
+      'node_modules/ogc-schemas/lib/ISO19139_GMD_20070417.js',
+      'node_modules/ogc-schemas/lib/ISO19139_GCO_20070417.js',
+      'node_modules/ogc-schemas/lib/ISO19139_GSR_20070417.js',
+      'node_modules/ogc-schemas/lib/ISO19139_GTS_20070417.js',
+      'node_modules/ogc-schemas/lib/ISO19139_GSS_20070417.js',
+      'node_modules/ogc-schemas/lib/OM_2_0.js',
+      'node_modules/ogc-schemas/lib/GEODESYML_0_3.js',
+
       // RxJs.
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },
