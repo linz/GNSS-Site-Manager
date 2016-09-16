@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { GlobalService } from "../global/global.service";
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -12,7 +13,7 @@ import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 @Injectable()
 export class SiteLogService {
   // WS_URL: string = 'http://localhost:8080/geodesy-web-services';
-  WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
+  // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
   // WS_URL: string = 'https://dev.geodesy.ga.gov.au'; // test
 
   private static handleData(response: Response) {
@@ -48,8 +49,7 @@ export class SiteLogService {
    * @param jsonixService - Service for translating GeodesyML to Json
    * @constructor
    */
-  constructor(private http: Http, private jsonixService: JsonixService) {
-    console.log('jsonixService: ', jsonixService);
+  constructor(private http: Http, private jsonixService: JsonixService, private globalService: GlobalService) {
   }
 
   /**
@@ -59,7 +59,7 @@ export class SiteLogService {
    */
   getSiteLogByFourCharacterId(fourCharacterId: string): Observable<any> {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-    return this.http.get(this.WS_URL + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
+    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
       .map(SiteLogService.handleData)
       .catch(SiteLogService.handleError);
   }
@@ -74,7 +74,7 @@ export class SiteLogService {
    */
   getSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-    return this.http.get(this.WS_URL + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
+    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
       .map((response: Response) => {
         return this.handleXMLData(response);
       })
@@ -91,7 +91,7 @@ export class SiteLogService {
     if (typeof siteId !== 'undefined' && siteId !== null && siteId > 0) {
       params = 'siteId=' + siteId;
     }
-    return this.http.get(this.WS_URL + '/siteLogs?' + params)
+    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?' + params)
       .map(SiteLogService.handleData)
       .catch(SiteLogService.handleError);
   }
@@ -102,7 +102,7 @@ export class SiteLogService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getSiteLogById(id: number): Observable <any> {
-    return this.http.get(this.WS_URL + '/siteLogs?id=' + id)
+    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?id=' + id)
       .map(SiteLogService.handleData)
       .catch(SiteLogService.handleError);
   }
@@ -112,7 +112,7 @@ export class SiteLogService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getAllSiteLogs(): Observable <any[]> {
-    return this.http.get(this.WS_URL + '/siteLogs?size=1000')
+    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?size=1000')
       .map(SiteLogService.handleData)
       .catch(SiteLogService.handleError);
   }

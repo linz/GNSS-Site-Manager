@@ -4,6 +4,7 @@ import {Injectable} from '@angular/core';
 export class GlobalService {
     public selectedSiteId: string = '';
     public isRunning: boolean = false;
+    private webServiceURL: string = 'http://localhost:8080/geodesy-web-services';
 
     public setSelectedSiteId(value: string) {
         this.selectedSiteId = value;
@@ -27,5 +28,9 @@ export class GlobalService {
 
     public getRunningStatus(): boolean {
         return this.isRunning;
+    }
+
+    public getWebServiceURL(): string {
+        return this.webServiceURL;
     }
 }

@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
+import { GlobalService } from "../global/global.service";
 
 /**
  * This class provides the service with methods to retrieve CORS sites from DB and select site.
@@ -12,7 +13,7 @@ import { JsonixService } from '../jsonix/jsonix.service';
 export class CorsSiteService {
   // WS_URL : string = 'http://localhost:8080/geodesy-web-services';
   // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
-  WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // test
+  // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // test
 
   /**
    * Creates a new CorsSiteService with the injected Http.
@@ -20,7 +21,7 @@ export class CorsSiteService {
    * @param (JsonixService) the service to receive GeodesyML and convert to JSON for consumption
    * @constructor
    */
-  constructor(private http: Http, private jsonixService: JsonixService ) {}
+  constructor(private http: Http, private jsonixService: JsonixService, private globalService: GlobalService) {}
 
   /**
    * Returns an Observable for the HTTP GET request for the REST Web Service resource.
@@ -36,7 +37,7 @@ export class CorsSiteService {
     if (typeof siteName !== 'undefined' && siteName !== null && siteName !== '') {
       params += 'name=' + siteName + '&';
     }
-    return this.http.get(this.WS_URL + '/corsSites?' + params + 'size=1000')
+    return this.http.get(this.globalService.getWebServiceURL() + '/corsSites?' + params + 'size=1000')
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }
@@ -46,13 +47,13 @@ export class CorsSiteService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getAllCorsSites(): Observable<any[]> {
-    return this.http.get(this.WS_URL+'/corsSites?size=1000')
+    return this.http.get(this.globalService.getWebServiceURL()+'/corsSites?size=1000')
             .map((response: Response) => response.json())
             .catch(this.handleError);
   }
 
   getSiteById(id: number): Observable<any> {
-    return this.http.get(this.WS_URL + '/corsSites?id=' + id)
+    return this.http.get(this.globalService.getWebServiceURL() + '/corsSites?id=' + id)
       .map((response: Response) => response.json())
       .catch(this.handleError);
   }

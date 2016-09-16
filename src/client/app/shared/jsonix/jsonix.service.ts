@@ -43,7 +43,7 @@ let marshaller: any = context.createMarshaller();
 export class JsonixService {
   // WS_URL : string = 'http://localhost:8080/geodesy-web-services';
   // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
-  static WS_URL: string = 'https://dev.geodesy.ga.gov.au'; // test
+  // static WS_URL: string = 'https://dev.geodesy.ga.gov.au'; // test
 
   /**
    * Given valid GeodesyML instatnce, translate to JSON.
