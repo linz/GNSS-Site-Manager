@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { GlobalService, SiteLogService } from '../shared/index';
 
 /**
- * This class represents the SiteInfoComponent for viewing and editing detailed information about site/receiver/antenna.
+ * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
  */
 @Component({
   moduleId: module.id,
@@ -90,6 +90,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         (error1: Error) =>  {
           this.errorMessage = <any>error1;
           this.isLoading =  false;
+          this.siteInfo = {
+            gnssReceivers: [],
+            gnssAnttenas: []
+          };
         }
       );
     });
@@ -113,6 +117,78 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab.unsubscribe();
   }
 
+  /**
+   * Add a new empty receiver as current one and push the 'old' current receiver into previous list
+   */
+  public addNewReceiver() {
+    let presentDT = this.getPresentDateTime();
+    if (!this.receivers) {
+      this.receivers = [];
+    }
+
+    // Assign present date/time as default value to dateRemoved if it is empty
+    if (this.receivers.length > 0) {
+      this.status.isReceiversOpen[0] = false;
+      let currentReceiver: any = this.receivers[0];
+      if (!currentReceiver.dateRemoved.value[0] ) {
+        currentReceiver.dateRemoved.value[0] = presentDT;
+      }
+    }
+
+    // Create a new empty receiver with present date/time as default value to dateInstalled
+    let newReceiver = {
+      receiverType: {
+        value: ''
+      },
+      serialNumber: '',
+      firmwareVersion: '',
+      satelliteSystem: [
+        {
+          value: ''
+        }
+      ],
+      elevationCutoffSetting: '',
+      dateInstalled: {
+        value: [ presentDT ]
+      },
+      dateRemoved: {
+        value: ['']
+      }
+    };
+
+    // Add the new receiver as current one and open it by default
+    this.receivers.unshift(newReceiver);
+    this.status.isReceiversOpen.unshift(true);
+
+    // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved later
+    let receiverObj: any = {};
+    if ( this.siteInfo.gnssReceivers && this.siteInfo.gnssReceivers.length > 0 ) {
+      receiverObj = (JSON.parse(JSON.stringify( this.siteInfo.gnssReceivers[0] )));
+    }
+    receiverObj.gnssReceiver = newReceiver;
+    this.siteInfo.gnssReceivers.unshift(receiverObj);
+  }
+
+  /**
+   * Return true if all required fields (Receiver Type, Satellite System) of current receiver are not empty,
+   * otherwise return false
+   */
+  public canAddNewReceiver() {
+    if (!this.receivers || this.receivers.length === 0) {
+      return true;
+    }
+    let currentReceiver = this.receivers[0];
+    if (!currentReceiver.receiverType.value) {
+      return false;
+    } else if (!currentReceiver.satelliteSystem || !currentReceiver.satelliteSystem[0].value) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Save changes made to siteLog
+   */
   public save() {
     this.submitted = true;
     //this.siteInfoForm.pristine = true;
@@ -207,12 +283,22 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     return true;
   }
 
+  /**
+   * Get present date and time string in format of "yyyy-mm-ddThh:mm:hhZ"
+   */
+  private getPresentDateTime() {
+    let dt = new Date().toISOString();
+    return dt.slice(0, 19) + 'Z';
+  }
+
+  /**
+   * Set current and previous receivers, and their show/hide flags
+   */
   private setGnssReceivers(gnssReceivers: any) {
     this.status.isReceiversOpen = [];
     let currentReceiver: any = null;
     for (let receiverObj of gnssReceivers) {
       let receiver = receiverObj.gnssReceiver;
-      this.checkReceiverFields(receiver);
       let dateRemoved: string = ( receiver.dateRemoved && receiver.dateRemoved.value.length > 0 )
                                 ? receiver.dateRemoved.value[0] : null;
       if ( !dateRemoved ) {
@@ -231,12 +317,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isReceiversOpen.unshift(true);
   }
 
+  /**
+   * Set current and previous antennas, and their show/hide flags
+   */
   private setGnssAntennas(gnssAntennas: any) {
     this.status.isAntennasOpen = [];
     let currentAntenna: any = null;
     for (let antennaObj of gnssAntennas) {
       let antenna = antennaObj.gnssAntenna;
-      this.checkAntennaFields(antenna);
       let dateRemoved: string = ( antenna.dateRemoved && antenna.dateRemoved.value.length > 0 )
                                 ? antenna.dateRemoved.value[0] : null;
       if ( !dateRemoved ) {
@@ -255,7 +343,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isAntennasOpen.unshift(true);
   }
 
-  private compareDateInstalled(obj1: any, obj2: any) {
+  /**
+   * Sort receivers/antennas based on their Date_Installed values in ascending order
+   */
+   private compareDateInstalled(obj1: any, obj2: any) {
     if (obj1 === null || obj1.dateInstalled === null
       || obj1.dateInstalled.value === null
       || obj1.dateInstalled.value.length === 0)
@@ -270,67 +361,5 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0])
       return -1;
     return 0;
-  }
-
-  // Check if there are any fields missing from receivers (remove later when jaxb can add null fields to GeodesyML)
-  private checkReceiverFields(receiver: any) {
-    if (!receiver.receiverType.value) {
-      receiver.receiverType = { value: null };
-    }
-    if (!receiver.serialNumber) {
-      receiver.serialNumber = null;
-    }
-    if (!receiver.firmwareVersion) {
-      receiver.firmwareVersion = null;
-    }
-    if (!receiver.satelliteSystem) {
-      receiver.satelliteSystem = [ {value: null} ];
-    }
-    if (!receiver.elevationCutoffSetting) {
-      receiver.elevationCutoffSetting = null;
-    }
-    if (!receiver.dateRemoved) {
-      receiver.dateRemoved = {value: ['']};
-    }
-  }
-
-  // Check if there are any fields missing from antennas (remove later when jaxb can add null fields to GeodesyML)
-  private checkAntennaFields(antenna: any) {
-    if (!antenna.antennaType.value) {
-      antenna.antennaType = { value: null };
-    }
-    if (!antenna.serialNumber) {
-      antenna.serialNumber = null;
-    }
-    if (!antenna.antennaReferencePoint) {
-      antenna.antennaReferencePoint = { value: null };
-    }
-    if (!antenna.antennaMarkerArpUpEcc) {
-      antenna.antennaMarkerArpUpEcc = null;
-    }
-    if (!antenna.markerArpNorthEcc) {
-      antenna.markerArpNorthEcc = null;
-    }
-    if (!antenna.markerArpEastEcc) {
-      antenna.markerArpEastEcc = null;
-    }
-    if (!antenna.alignmentFromTrueNorth) {
-      antenna.alignmentFromTrueNorth = null;
-    }
-    if (!antenna.antennaRadomeType) {
-      antenna.antennaRadomeType = { value: null };
-    }
-    if (!antenna.radomeSerialNumber) {
-      antenna.radomeSerialNumber = null;
-    }
-    if (!antenna.antennaCableType) {
-      antenna.antennaCableType = null;
-    }
-    if (!antenna.antennaCableLength) {
-      antenna.antennaCableLength = null;
-    }
-    if (!antenna.dateRemoved) {
-      antenna.dateRemoved = {value: ['']};
-    }
   }
 }
