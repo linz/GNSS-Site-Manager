@@ -230,7 +230,7 @@
               </i>
               GNSS Receiver
             </span>
-            <span class="pull-right">
+            <span *ngIf="canAddNewReceiver()" class="pull-right">
               <button class="btn btn-primary btn-xs" title="Add a new receiver as current one"
                       (click)="addNewReceiver()">
                 <i class="glyphicon glyphicon-plus-sign"></i>
@@ -505,7 +505,7 @@
         <div class="align-center">
           <button class="btn btn-primary margin10-first" type="submit" (click)="save()"
                   [disabled]="!siteInfoForm.valid || siteInfoForm.pristine"
-                  title="Save changes made if any">Save
+                  title="Save changes">Save
           </button>
           <button class="btn btn-primary margin10" type="submit" (click)="loadSiteInfoData()"
                   title="Reload data from database">Reload
