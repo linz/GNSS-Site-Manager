@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import { ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { AboutModule } from './about/about.module';
@@ -13,7 +14,7 @@ import { SelectSiteModule } from './select-site/select-site.module';
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
 @NgModule({
-  imports: [BrowserModule, HttpModule, RouterModule.forRoot(routes), AboutModule, SiteInfoModule, SelectSiteModule,
+  imports: [BrowserModule, HttpModule, ReactiveFormsModule, RouterModule.forRoot(routes), AboutModule, SiteInfoModule, SelectSiteModule,
     HomeModule, SharedModule.forRoot()],
   declarations: [AppComponent, AutoHeightDirective],
   providers: [{

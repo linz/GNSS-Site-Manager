@@ -14,7 +14,6 @@ export class CorsSiteService {
   // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
   WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // test
 
-
   /**
    * Creates a new CorsSiteService with the injected Http.
    * @param {Http} http - The injected Http.
