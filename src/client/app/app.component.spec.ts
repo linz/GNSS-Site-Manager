@@ -17,6 +17,8 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
+import { Http, BaseRequestOptions, ConnectionBackend, HttpModule } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 
 export function main() {
 
@@ -28,12 +30,20 @@ export function main() {
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, RouterTestingModule.withRoutes(config)],
+        imports: [FormsModule, HttpModule, RouterTestingModule.withRoutes(config)],
         declarations: [TestComponent, ToolbarComponent,
           NavbarComponent, AppComponent,
           HomeComponent, AboutComponent],
         providers: [
-          { provide: APP_BASE_HREF, useValue: '/' }
+          {provide: APP_BASE_HREF, useValue: '/'},
+          MockBackend,
+          BaseRequestOptions,
+          {
+            provide: Http, useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {
+              return new Http(backend, defaultOptions);
+            },
+            deps: [MockBackend, BaseRequestOptions]
+          }
         ]
       });
     });

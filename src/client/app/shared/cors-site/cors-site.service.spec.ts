@@ -4,6 +4,8 @@ import { MockBackend } from '@angular/http/testing';
 import { Observable } from 'rxjs/Observable';
 
 import { CorsSiteService } from './cors-site.service';
+import { JsonixService } from '../jsonix/jsonix.service';
+
 
 export function main() {
   describe('CorsSite Service', () => {
@@ -15,6 +17,7 @@ export function main() {
 
       let injector = ReflectiveInjector.resolveAndCreate([
         CorsSiteService,
+        JsonixService,
         BaseRequestOptions,
         MockBackend,
         {provide: Http,

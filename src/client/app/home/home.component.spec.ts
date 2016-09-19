@@ -14,6 +14,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { NameListService } from '../shared/index';
 import { HomeModule } from './home.module';
+import {ServiceWorkerService} from '../shared/index';
 
 export function main() {
   describe('Home component', () => {
@@ -25,6 +26,7 @@ export function main() {
         declarations: [TestComponent],
         providers: [
           NameListService,
+            ServiceWorkerService,
           BaseRequestOptions,
           MockBackend,
           {provide: Http, useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {

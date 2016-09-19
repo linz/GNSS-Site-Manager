@@ -1,82 +1,95 @@
 import { Component } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
-// import { disableDeprecatedForms, provideForms } from '@angular/forms';
+import { TestBed, async } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import {
-  async,
-} from '@angular/core/testing';
-import {
-  BaseRequestOptions,
-  ConnectionBackend,
-  Http, HttpModule
-} from '@angular/http';
+import { RouterModule, Route } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { BaseRequestOptions, ConnectionBackend, Http, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { getDOM } from '@angular/platform-browser/src/dom/dom_adapter';
 
-import { CorsSiteService } from '../shared/index';
+import { NameListService } from '../shared/index';
 import { SelectSiteModule } from './select-site.module';
+import { SelectSiteComponent } from './select-site.component';
+import { CorsSiteService } from '../shared/cors-site/cors-site.service';
+import { GlobalService } from '../shared/global/global.service';
+import { ServiceWorkerService } from '../shared/index';
+import { Observable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs';
+
 export function main() {
-  describe('SelectSite component', () => {
-    TestBed.configureTestingModule({
-      imports: [FormsModule, RouterModule, HttpModule, SelectSiteModule],
-      declarations: [TestComponent],
-      providers: [
-        BaseRequestOptions,
-        MockBackend,
-        {
-          provide: Http, useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {
-          return new Http(backend, defaultOptions);
-        },
-          deps: [MockBackend, BaseRequestOptions]
-        },
-      ]
+    describe('SelectSite component', () => {
+        let config: Route[] = [
+            {path: '', component: SelectSiteComponent},
+            {path: 'siteInfo', component: SelectSiteComponent}
+        ];
+
+        let fakeCorsSiteService = {
+            getCorsSitesBy(fourCharacterId: string, siteName: string): Observable<any> {
+                return new Observable((observer: Subscriber<any>) => {
+                    observer.next({_embedded: {corsSites: [{fourCharacterId: 'ALIC', name: 'ALICE SPRINGS'}]}});
+                    observer.complete();
+                });
+            }
+        };
+        let fakeGlobalService = {};
+
+        beforeEach(() => {
+            TestBed.configureTestingModule({
+                imports: [FormsModule, RouterModule, HttpModule, SelectSiteModule, RouterTestingModule.withRoutes(config)],
+                declarations: [TestComponent],
+                providers: [
+                    {provide: CorsSiteService, useValue: fakeCorsSiteService},
+                    {provide: GlobalService, useValue: fakeGlobalService},
+                    NameListService,
+                    ServiceWorkerService,
+                    BaseRequestOptions,
+                    MockBackend,
+                    {
+                        provide: Http,
+                        useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {
+                            return new Http(backend, defaultOptions);
+                        },
+                        deps: [MockBackend, BaseRequestOptions]
+                    },
+                ]
+            });
+        });
+
+        it('should have content',
+            async(() => {
+                TestBed
+                    .compileComponents()
+                    .then(() => {
+                        let fixture = TestBed.createComponent(TestComponent);
+                        fixture.detectChanges();
+
+
+                        let instance = fixture.debugElement.children[0].componentInstance;
+                        // A sanity check that the Component is what we expect
+                        expect(instance.cacheItems).toEqual(jasmine.any(Array));
+                        let domEl = fixture.debugElement.children[0].nativeElement;
+
+                        // No search has been made and we expect nothing is in this table yet
+                        let tableElement = domEl.querySelector('#select-site-sites-table');
+                        expect(tableElement).toBeNull();
+
+                        instance.fourCharacterId = 'ALIC';
+                        instance.searchSites();
+
+                        fixture.detectChanges();
+
+                        tableElement = domEl.querySelector('#select-site-sites-table');
+                        let tableCells: any[] = tableElement.querySelectorAll('td');
+                        expect(tableCells.length).toEqual(2);
+                        expect(tableCells[0].textContent).toEqual('ALIC');
+                    });
+
+            }));
     });
-
-    it('should work',
-      async(() => {
-        TestBed
-          .compileComponents()
-          .then(() => {
-            let fixture = TestBed.createComponent(TestComponent);
-            fixture.detectChanges();
-
-            let selectSiteInstance = fixture.debugElement.children[0].componentInstance;
-            let selectSiteDOMEl = fixture.debugElement.children[0].nativeElement;
-
-            expect(selectSiteInstance.corsSiteService).toEqual(jasmine.any(CorsSiteService));
-            expect(getDOM().querySelectorAll(selectSiteDOMEl, 'li').length).toEqual(0);
-
-            selectSiteInstance.fourCharacterId = 'ALIC';
-            selectSiteInstance.searchSites();
-
-            fixture.detectChanges();
-
-            expect(getDOM().querySelectorAll(selectSiteDOMEl, 'li').length).toEqual(1);
-            expect(getDOM().querySelectorAll(selectSiteDOMEl, 'li')[0].textContent).toEqual('ALIC');
-          });
-
-      }));
-  });
 }
 
 @Component({
-  // TODO - update this when rewrite test using ng2 rc.5
-  // providers: [
-  //   HTTP_PROVIDERS,
-  //   CorsSiteService,
-  //   BaseRequestOptions,
-  //   MockBackend,
-  //   provide(Http, {
-  //     useFactory: function(backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {
-  //       return new Http(backend, defaultOptions);
-  //     },
-  //     deps: [MockBackend, BaseRequestOptions]
-  //   }),
-  // ],
-  selector: 'test-cmp',
-  template: '<sd-select-site></sd-select-site>',
-  // directives: [SelectSiteComponent]
+    selector: 'test-cmp',
+    template: '<sd-select-site></sd-select-site>'
 })
 class TestComponent {
 }
