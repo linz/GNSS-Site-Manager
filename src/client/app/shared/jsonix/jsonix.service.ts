@@ -56,7 +56,7 @@ export class JsonixService {
     // console.debug('JsonixService - geodesyMlToJson - geodesyMl: ', geodesyMl);
 
     let json: string = unmarshaller.unmarshalString(geodesyMl);
-    console.log('JsonixService - geodesyMlToJson - translated JSON: ', json);
+    console.debug('JsonixService - geodesyMlToJson - translated JSON: ', json);
     return json;
   };
 
