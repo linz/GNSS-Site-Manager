@@ -25,6 +25,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   public siteInfoForm: FormGroup = null;
   public submitted: boolean = false;
+  public hasNewAntenna: boolean = false;
+  public hasNewReceiver: boolean = false;
 
   public status: any = {
     oneAtATime: false,
@@ -71,6 +73,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading =  true;
+    this.hasNewAntenna = false;
+    this.hasNewReceiver = false;
+    this.receivers.length = 0;
+    this.antennas.length = 0;
+
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
         (responseJson: any) => {
@@ -159,8 +166,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Add the new receiver as current one and open it by default
     this.receivers.unshift(newReceiver);
     this.status.isReceiversOpen.unshift(true);
+    this.status.isReceiverGroupOpen = true;
+    this.hasNewReceiver = true;
 
-    // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved later
+    // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
     let receiverObj: any = {};
     if ( this.siteInfo.gnssReceivers && this.siteInfo.gnssReceivers.length > 0 ) {
       receiverObj = (JSON.parse(JSON.stringify( this.siteInfo.gnssReceivers[0] )));
@@ -170,20 +179,91 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Return true if all required fields (Receiver Type, Satellite System) of current receiver are not empty,
-   * otherwise return false
+   * Remove the new current receiver from the receiver list and restore the old current receiver
    */
-  public canAddNewReceiver() {
-    if (!this.receivers || this.receivers.length === 0) {
-      return true;
+  public removeNewReceiver() {
+    this.siteInfo.gnssReceivers.shift();
+    this.receivers.shift();
+    this.status.isReceiversOpen.shift();
+    this.hasNewReceiver = false;
+    if (this.receivers.length > 0) {
+      this.status.isReceiversOpen[0] = true;
+      this.receivers[0].dateRemoved.value[0] = '';
     }
-    let currentReceiver = this.receivers[0];
-    if (!currentReceiver.receiverType.value) {
-      return false;
-    } else if (!currentReceiver.satelliteSystem || !currentReceiver.satelliteSystem[0].value) {
-      return false;
+  }
+
+  /**
+   * Add a new empty antenna as current one and push the 'old' current antenna into previous list
+   */
+  public addNewAntenna() {
+    let presentDT = this.getPresentDateTime();
+    if (!this.antennas) {
+      this.antennas = [];
     }
-    return true;
+
+    // Assign present date/time as default value to dateRemoved if it is empty
+    if (this.antennas.length > 0) {
+      this.status.isAntennasOpen[0] = false;
+      let currentAntenna: any = this.antennas[0];
+      if (!currentAntenna.dateRemoved.value[0] ) {
+        currentAntenna.dateRemoved.value[0] = presentDT;
+      }
+    }
+
+    // Create a new empty antenna with present date/time as default value to dateInstalled
+    let newAntenna = {
+      antennaType: {
+        value: ''
+      },
+      serialNumber: '',
+      antennaReferencePoint: {
+        value: ''
+      },
+      antennaMarkerArpUpEcc: '',
+      markerArpNorthEcc: '',
+      markerArpEastEcc: '',
+      alignmentFromTrueNorth: '',
+      antennaRadomeType: {
+          value: ''
+      },
+      radomeSerialNumber: '',
+      antennaCableType: '',
+      antennaCableLength: '',
+      dateInstalled: {
+        value: [ presentDT ]
+      },
+      dateRemoved: {
+        value: ['']
+      }
+    };
+
+    // Add the new antenna as current one and open it by default
+    this.antennas.unshift(newAntenna);
+    this.status.isAntennasOpen.unshift(true);
+    this.status.isAntennaGroupOpen = true;
+    this.hasNewAntenna = true;
+
+    // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
+    let antennaObj: any = {};
+    if ( this.siteInfo.gnssAntennas && this.siteInfo.gnssAntennas.length > 0 ) {
+      antennaObj = (JSON.parse(JSON.stringify( this.siteInfo.gnssAntennas[0] )));
+    }
+    antennaObj.gnssAntenna = newAntenna;
+    this.siteInfo.gnssAntennas.unshift(antennaObj);
+  }
+
+  /**
+   * Remove the new current antenna from the antenna list and restore the old current antenna
+   */
+  public removeNewAntenna() {
+    this.siteInfo.gnssAntennas.shift();
+    this.antennas.shift();
+    this.status.isAntennasOpen.shift();
+    this.hasNewAntenna = false;
+    if (this.antennas.length > 0) {
+      this.status.isAntennasOpen[0] = true;
+      this.antennas[0].dateRemoved.value[0] = '';
+    }
   }
 
   /**
@@ -191,6 +271,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public save() {
     this.submitted = true;
+    this.hasNewAntenna = false;
+    this.hasNewReceiver = false;
     //this.siteInfoForm.pristine = true;
     console.log( this.siteInfo );
   }
@@ -284,11 +366,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Get present date and time string in format of "yyyy-mm-ddThh:mm:hhZ"
+   * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
    */
   private getPresentDateTime() {
-    let dt = new Date().toISOString();
-    return dt.slice(0, 19) + 'Z';
+    return new Date().toISOString();
   }
 
   /**
