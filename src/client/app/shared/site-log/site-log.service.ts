@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { GlobalService } from "../global/global.service";
+import { GlobalService } from '../global/global.service';
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -56,7 +56,8 @@ export class SiteLogService {
    */
   getSiteLogByFourCharacterId(fourCharacterId: string): Observable<any> {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
+    return this.http.get(this.globalService.getWebServiceURL()
+                         + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
       .map(SiteLogService.handleData)
       .catch(SiteLogService.handleError);
   }
@@ -71,7 +72,8 @@ export class SiteLogService {
    */
   getSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
+    return this.http.get(this.globalService.getWebServiceURL()
+                         + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
       .map((response: Response) => {
         return this.handleXMLData(response);
       })

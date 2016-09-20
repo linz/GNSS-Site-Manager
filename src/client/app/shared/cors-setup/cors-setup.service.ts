@@ -3,7 +3,7 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { GlobalService } from "../global/global.service";
+import { GlobalService } from '../global/global.service';
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -16,7 +16,7 @@ export class CorsSetupService {
    * @param globalService - Common methods
    * @constructor
    */
-  constructor(private http: Http, , private globalService: GlobalService) {}
+  constructor(private http: Http, private globalService: GlobalService) {}
 
   /**
    * Returns an Observable for the HTTP GET request for the current Setup info.
