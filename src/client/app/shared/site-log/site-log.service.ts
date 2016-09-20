@@ -115,4 +115,22 @@ export class SiteLogService {
       .map(SiteLogService.handleData)
       .catch(SiteLogService.handleError);
   }
+
+  /**
+   * Take JSON input as handled by the client-side, convert to GeodesyML and post to backend service.
+   *
+   * @param siteLog in Json (that will be translated to GeodesyML before posting to the backend service)
+   */
+  saveSiteLog(siteLogJson: string): Observable<Response> {
+    console.log('saveSiteLog - json: ', siteLogJson);
+    var siteLogML: string = this.jsonixService.jsonToGeodesyMl(siteLogJson);
+    // Add wrapper element
+    let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.3" xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.3"' +
+        'xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:ns9="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd" ' +
+        'xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:om="http://www.opengis.net/om/2.0" xmlns:gco="http://www.isotc211.org/2005/gco"' +
+        'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
+    geodesyMl += siteLogML + '</geo:GeodesyML>';
+    console.log('saveSiteLog - geodesyMl: ', geodesyMl);
+    return this.http.post(this.globalService.getWebServiceURL() + '/siteLogs/upload', geodesyMl);
+  }
 }
