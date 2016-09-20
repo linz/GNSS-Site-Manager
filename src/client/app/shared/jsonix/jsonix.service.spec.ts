@@ -3,7 +3,7 @@ import { ReflectiveInjector } from '@angular/core';
 import { JsonixService } from './jsonix.service';
 
 export function main() {
-  describe('JsonIx Service', () => {
+  describe('Jsonix Service', () => {
     let jsonIxService: JsonixService;
 
     beforeEach(() => {
