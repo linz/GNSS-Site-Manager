@@ -12,10 +12,6 @@ import { GlobalService } from "../global/global.service";
  */
 @Injectable()
 export class SiteLogService {
-  // WS_URL: string = 'http://localhost:8080/geodesy-web-services';
-  // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
-  // WS_URL: string = 'https://dev.geodesy.ga.gov.au'; // test
-
   private static handleData(response: Response) {
     return response.json();
   }
@@ -47,6 +43,7 @@ export class SiteLogService {
    * Creates a new SiteLogService with the injected Http.
    * @param {Http} http - The injected Http.
    * @param jsonixService - Service for translating GeodesyML to Json
+   * @param globalService - Common methods
    * @constructor
    */
   constructor(private http: Http, private jsonixService: JsonixService, private globalService: GlobalService) {

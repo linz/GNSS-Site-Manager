@@ -10,17 +10,13 @@ import { GlobalService } from "../global/global.service";
  */
 @Injectable()
 export class CorsSetupService {
-  // WS_URL : string = 'http://localhost:8080/geodesy-web-services';
-  // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // dev
-  // WS_URL : string = 'https://dev.geodesy.ga.gov.au'; // test
-
   /**
    * Creates a new CorsSetupService with the injected Http.
    * @param {Http} http - The injected Http.
+   * @param globalService - Common methods
    * @constructor
    */
-  constructor(private http: Http, , private globalService: GlobalService
-  ) {}
+  constructor(private http: Http, , private globalService: GlobalService) {}
 
   /**
    * Returns an Observable for the HTTP GET request for the current Setup info.
