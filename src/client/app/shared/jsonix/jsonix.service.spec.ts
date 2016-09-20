@@ -15,7 +15,7 @@ export function main() {
     });
 
     it('should be defined', () => {
-      expect(JsonixService.WS_URL).not.toBeNull();
+      expect(JsonixService).not.toBeUndefined();
     });
 
     it('should parse valid GeodesyML', () => {
@@ -29,13 +29,13 @@ export function main() {
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">
 <geo:siteLog></geo:siteLog>
 </geo:GeodesyML>`;
-      let json: string = jsonIxService.geodesyMlToJson(geodesyml);
+      let json: string = jsonIxService.geodesyMLToJson(geodesyml);
       expect(json).not.toBeNull();
     });
 
     it('should parse valid Json', () => {
       let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_3.SiteLogType"}}`;
-      let geodesyMl: string = jsonIxService.jsonToGeodesyMl(JSON.parse(json));
+      let geodesyMl: string = jsonIxService.jsonToGeodesyML(JSON.parse(json));
       expect(geodesyMl).not.toBeNull();
     });
 
@@ -51,9 +51,9 @@ export function main() {
       let errorStr: string = 'Element [{http://www.w3.org/1999/xhtml}parsererror]'
        + ' could not be unmarshalled as is not known in this context and the property does not allow DOM content.';
       expect(function(){
-        jsonIxService.geodesyMlToJson(geodesyml);
+        jsonIxService.geodesyMLToJson(geodesyml);
       }).toThrow(new Error(errorStr));
-      // let json: string = jsonIxService.geodesyMlToJson(geodesyml);
+      // let json: string = jsonIxService.geodesyMLToJson(geodesyml);
       // console.debug('invalide gml return: ', json);
       // expect(json).not.toBeNull();
     });
@@ -62,7 +62,7 @@ export function main() {
       // xit commented out as it is Impossible to write invalide JSON since can't construct (or string parse) it
       let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_3.SiteLogType"`;
       expect(function() {
-        jsonIxService.jsonToGeodesyMl(JSON.parse(json));
+        jsonIxService.jsonToGeodesyML(JSON.parse(json));
       }).toThrow('some error');
     });
   });
