@@ -47,12 +47,12 @@ export class JsonixService {
    * @param geodesyMl valid input to translate
    * @return The  JSON representation of the given geodesyMl
    */
-  geodesyMlToJson(geodesyMl: string): string {
-    console.debug('JsonixService - geodesyMlToJson - geodesyMl (length): ', geodesyMl.length);
-    // console.debug('JsonixService - geodesyMlToJson - geodesyMl: ', geodesyMl);
+  geodesyMLToJson(geodesyMl: string): string {
+    console.debug('JsonixService - geodesyMLToJson - geodesyMl (length): ', geodesyMl.length);
+    // console.debug('JsonixService - geodesyMLToJson - geodesyMl: ', geodesyMl);
 
     let json: string = unmarshaller.unmarshalString(geodesyMl);
-    console.log('JsonixService - geodesyMlToJson - translated JSON: ', json);
+    console.debug('JsonixService - geodesyMLToJson - translated JSON: ', json);
     return json;
   };
 
@@ -61,13 +61,13 @@ export class JsonixService {
    * @param json that is 'valid' to translate
    * @returns {string} the valid GeodesyMl
    */
-  jsonToGeodesyMl(json: string): string {
+  jsonToGeodesyML(json: string): string {
     let jsonString: string = JSON.stringify(json);
-    console.debug('JsonixService - jsonToGeodesyMl - json (length): ', jsonString.length);
-    // console.debug('JsonixService - jsonToGeodesyMl - json: ', jsonString);
+    console.debug('JsonixService - jsonToGeodesyML - json (length): ', jsonString.length);
+    // console.debug('JsonixService - jsonToGeodesyML - json: ', jsonString);
 
     let geodesyMl: string = marshaller.marshalString(json);
-    console.log('JsonixService - jsonToGeodesyMl - translated geodesyMl: ', geodesyMl);
+    console.log('JsonixService - jsonToGeodesyML - translated geodesyMl: ', geodesyMl);
     return geodesyMl;
   }
 }

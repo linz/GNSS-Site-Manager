@@ -30,7 +30,7 @@ export class SiteLogService {
   private handleXMLData(response: Response): string {
     if (response.status === 200) {
       var geodesyMl: any = response.text();
-      let json: string = this.jsonixService.geodesyMlToJson(geodesyMl);
+      let json: string = this.jsonixService.geodesyMLToJson(geodesyMl);
       console.log('handleXMLData - json: ', json);
       return json;
     } else {
