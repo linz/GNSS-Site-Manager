@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { CorsSiteService } from './cors-site.service';
 import { JsonixService } from '../jsonix/jsonix.service';
-
+import { GlobalService } from '../global/global.service';
 
 export function main() {
   describe('CorsSite Service', () => {
@@ -18,6 +18,7 @@ export function main() {
       let injector = ReflectiveInjector.resolveAndCreate([
         CorsSiteService,
         JsonixService,
+        GlobalService,
         BaseRequestOptions,
         MockBackend,
         {provide: Http,
