@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { GlobalService } from '../global/global.service';
@@ -43,8 +43,8 @@ export class CorsSiteService {
    */
   getAllCorsSites(): Observable<any[]> {
     return this.http.get(this.globalService.getWebServiceURL()+'/corsSites?size=1000')
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+      .map((response: Response) => response.json())
+      .catch(this.handleError);
   }
 
   getSiteById(id: number): Observable<any> {

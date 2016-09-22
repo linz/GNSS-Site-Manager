@@ -61,7 +61,7 @@ export class JsonixService {
    * @param json that is 'valid' to translate
    * @returns {string} the valid GeodesyMl
    */
-  jsonToGeodesyML(json: string): string {
+  jsonToGeodesyML(json: any): string {
     let jsonString: string = JSON.stringify(json);
     console.debug('JsonixService - jsonToGeodesyML - json (length): ', jsonString.length);
     // console.debug('JsonixService - jsonToGeodesyML - json: ', jsonString);

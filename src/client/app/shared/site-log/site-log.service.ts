@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
@@ -121,9 +121,9 @@ export class SiteLogService {
    *
    * @param siteLogJson in Json (that will be translated to GeodesyML before posting to the backend service)
    */
-  saveSiteLog(siteLogJson: string): Observable<Response> {
+  saveSiteLog(siteLogJson: any): Observable<Response> {
     console.log('saveSiteLog - json: ', siteLogJson);
-    var siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJson);
+    let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJson);
     // Add wrapper element
     let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.3"' +
         ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.3" xmlns:gml="http://www.opengis.net/gml/3.2"' +
@@ -133,6 +133,8 @@ export class SiteLogService {
         ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
     geodesyMl += siteLogML + '</geo:GeodesyML>';
     console.log('saveSiteLog - geodesyMl: ', geodesyMl);
-    return this.http.post(this.globalService.getWebServiceURL() + '/siteLogs/upload', geodesyMl);
+    return this.http.post(this.globalService.getWebServiceURL() + '/siteLogs/upload', geodesyMl)
+      .map(SiteLogService.handleData)
+      .catch(SiteLogService.handleError);
   }
 }
