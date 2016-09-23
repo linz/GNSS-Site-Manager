@@ -84,54 +84,35 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isAntennasOpen.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
-      this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
-        (responseJson: any) => {
-          this.siteLogModel = responseJson['geo:siteLog'];
-          this.backupSiteLogJson();
-          this.site = this.siteLogModel.siteIdentification;
-          this.siteLocation = this.siteLogModel.siteLocation;
-          if (this.siteLogModel.siteContact) {
-            this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
-            if (!this.siteContact.positionName) {
-              this.siteContact.positionName = {value: ''};
-            }
-            if (!this.siteContact.contactInfo.ciContact.address.ciAddress) {
-              this.siteContact.contactInfo.ciContact.address.ciAddress = {
-                deliveryPoint: [{
-                  characterString: {'gco:CharacterString': ''}
-                }],
-                electronicMailAddress: [{
-                  characterString: {'gco:CharacterString': ''}
-                }]
+        this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
+            (responseJson: any) => {
+              console.log('loadSiteInfoData after siteLogService.getSiteLogByFourCharacterIdUsingGeodesyMLWFS');
+              if (responseJson.hasOwnProperty('_body')) {
+                responseJson = responseJson.text();
+              }
+              this.siteInfo = responseJson['geo:siteLog'];
+              this.site = this.siteInfo.siteIdentification;
+              this.siteLocation = this.siteInfo.siteLocation;
+              if (this.siteInfo.siteContact) {
+                this.siteOwner = this.siteInfo.siteContact[0].ciResponsibleParty;
+              }
+              if (this.siteInfo.siteMetadataCustodian) {
+                this.metadataCustodian = this.siteInfo.siteMetadataCustodian.ciResponsibleParty;
+              }
+              this.setGnssReceivers(this.siteInfo.gnssReceivers);
+              this.setGnssAntennas(this.siteInfo.gnssAntennas);
+              this.isLoading = false;
+            },
+            (error: Error) => {
+              console.error('ERROR in loadSiteInfoData: ', error);
+              this.errorMessage = <any>error;
+              this.isLoading = false;
+              this.siteInfo = {
+                gnssReceivers: [],
+                gnssAnttenas: []
               };
             }
-            if(!this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice) {
-              this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice = [{
-                characterString: {'gco:CharacterString': ''}
-              }];
-            }
-          }
-          if (this.siteLogModel.siteMetadataCustodian) {
-            this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
-            if(!this.metadataCustodian.contactInfo.ciContact) {
-              this.metadataCustodian.contactInfo.ciContact = {
-                address: { ciAddress: { id: '' } }
-              };
-            }
-          }
-          this.setGnssReceivers(this.siteLogModel.gnssReceivers);
-          this.setGnssAntennas(this.siteLogModel.gnssAntennas);
-          this.isLoading =  false;
-        },
-        (error: Error) =>  {
-          this.errorMessage = <any>error;
-          this.isLoading =  false;
-          this.siteLogModel = {
-            gnssReceivers: [],
-            gnssAnttenas: []
-          };
-        }
-      );
+        );
     });
   }
 

@@ -62,7 +62,6 @@ export function main() {
                         let fixture = TestBed.createComponent(TestComponent);
                         fixture.detectChanges();
 
-
                         let instance = fixture.debugElement.children[0].componentInstance;
                         // A sanity check that the Component is what we expect
                         expect(instance.cacheItems).toEqual(jasmine.any(Array));
