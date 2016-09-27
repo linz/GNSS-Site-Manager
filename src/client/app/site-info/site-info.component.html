@@ -96,22 +96,22 @@
           </div>-->
           <div class="panel panel-warning">
             <div class="panel-heading">
-              <span class="panel-sub-title cursor-ptr" (click)="status.isSiteOwnerOpen = !status.isSiteOwnerOpen">
+              <span class="panel-sub-title cursor-ptr" (click)="status.isSiteContactOpen = !status.isSiteContactOpen">
                 <i class="glyphicon"
-                   [ngClass]="{'glyphicon-minus-sign': status.isSiteOwnerOpen, 'glyphicon-plus-sign': !status.isSiteOwnerOpen}">
+                   [ngClass]="{'glyphicon-minus-sign': status.isSiteContactOpen, 'glyphicon-plus-sign': !status.isSiteContactOpen}">
                 </i>
-                Site Owner
+                Site Contact
               </span>
             </div>
-            <div class="panel-body" *ngIf="status.isSiteOwnerOpen">
-              <div *ngIf="siteOwner != null">
+            <div class="panel-body" *ngIf="status.isSiteContactOpen">
+              <div *ngIf="siteContact != null">
                 <div class="form-group">
                   <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Full Name</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control" required
-                           [(ngModel)]="siteOwner.individualName.characterString['gco:CharacterString']"
-                           name="ownerName" #ownerName="ngModel"/>
-                    <small [hidden]="ownerName.valid || ownerName.pristine" class="alert alert-danger">
+                           [(ngModel)]="siteContact.individualName.characterString['gco:CharacterString']"
+                           name="contactName" #contactName="ngModel"/>
+                    <small [hidden]="contactName.valid || contactName.pristine" class="alert alert-danger">
                       "Full Name" is required
                     </small>
                   </div>
@@ -120,9 +120,9 @@
                   <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Organisation</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control" required
-                           [(ngModel)]="siteOwner.organisationName.characterString['gco:CharacterString']"
-                           name="ownerOrganisation" #ownerOrganisation="ngModel"/>
-                    <small [hidden]="ownerOrganisation.valid || ownerOrganisation.pristine" class="alert alert-danger">
+                           [(ngModel)]="siteContact.organisationName.characterString['gco:CharacterString']"
+                           name="contactOrganisation" #contactOrganisation="ngModel"/>
+                    <small [hidden]="contactOrganisation.valid || contactOrganisation.pristine" class="alert alert-danger">
                       "Organisation" is required
                     </small>
                   </div>
@@ -131,45 +131,45 @@
                   <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
                   <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
-                           [(ngModel)]="siteOwner.role.ciRoleCode.value" name="ownerPosition"/>
+                           [(ngModel)]="siteContact.positionName.value" name="contactPosition"/>
                   </div>
                 </div>
                 <div
-                  *ngFor="let address of siteOwner.contactInfo.ciContact.address.ciAddress.deliveryPoint; let i = index">
+                  *ngFor="let address of siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint; let i = index">
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address
-                      {{siteOwner.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' : i+1}}</label>
+                      {{siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' : i+1}}</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              [(ngModel)]="address.characterString['gco:CharacterString']"
-                             name="ownerAddress_{{i}}"/>
+                             name="contactAddress_{{i}}"/>
                     </div>
                   </div>
                 </div>
                 <div
-                  *ngFor="let email of siteOwner.contactInfo.ciContact.address.ciAddress.electronicMailAddress; let i = index">
+                  *ngFor="let email of siteContact.contactInfo.ciContact.address.ciAddress.electronicMailAddress; let i = index">
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Email
-                      {{siteOwner.contactInfo.ciContact.address.ciAddress.electronicMailAddress.length <= 1 ? '' :
+                      {{siteContact.contactInfo.ciContact.address.ciAddress.electronicMailAddress.length <= 1 ? '' :
                       i+1}}</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="email" maxlength="100" class="form-control"
                              [(ngModel)]="email.characterString['gco:CharacterString']"
-                             name="ownerEmail_{{i}}" #ownerEmail_{{i}}="ngModel"/>
-                      <!--<small [hidden]="ownerEmail_{{i}}.valid || ownerEmail_{{i}}.pristine" class="alert alert-danger">
+                             name="contactEmail_{{i}}" #contactEmail_{{i}}="ngModel"/>
+                      <!--<small [hidden]="contactEmail_{{i}}.valid || contactEmail_{{i}}.pristine" class="alert alert-danger">
                         "Email" must not be empty or invalid
                       </small>-->
                     </div>
                   </div>
                 </div>
-                <div *ngFor="let phone of siteOwner.contactInfo.ciContact.phone.ciTelephone.voice; let i = index">
+                <div *ngFor="let phone of siteContact.contactInfo.ciContact.phone.ciTelephone.voice; let i = index">
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Phone
-                      {{siteOwner.contactInfo.ciContact.phone.ciTelephone.voice.length <= 1 ? '' : i+1}}</label>
+                      {{siteContact.contactInfo.ciContact.phone.ciTelephone.voice.length <= 1 ? '' : i+1}}</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              [(ngModel)]="phone.characterString['gco:CharacterString']"
-                             name="ownerPhone_{{i}}"/>
+                             name="contactPhone_{{i}}"/>
                     </div>
                   </div>
                 </div>

@@ -18,7 +18,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public siteLogModel: any = null;
   public site: any = null;
   public siteLocation: any = null;
-  public siteOwner: any = null;
+  public siteContact: any = null;
   public metadataCustodian: any = null;
   public receivers: Array<any> = [];
   public antennas: Array<any> = [];
@@ -34,7 +34,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
-    isSiteOwnerOpen: false,
+    isSiteContactOpen: false,
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
@@ -91,10 +91,33 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.site = this.siteLogModel.siteIdentification;
           this.siteLocation = this.siteLogModel.siteLocation;
           if (this.siteLogModel.siteContact) {
-            this.siteOwner = this.siteLogModel.siteContact[0].ciResponsibleParty;
+            this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
+            if (!this.siteContact.positionName) {
+              this.siteContact.positionName = {value: ''};
+            }
+            if (!this.siteContact.contactInfo.ciContact.address.ciAddress) {
+              this.siteContact.contactInfo.ciContact.address.ciAddress = {
+                deliveryPoint: [{
+                  characterString: {'gco:CharacterString': ''}
+                }],
+                electronicMailAddress: [{
+                  characterString: {'gco:CharacterString': ''}
+                }]
+              };
+            }
+            if(!this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice) {
+              this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice = [{
+                characterString: {'gco:CharacterString': ''}
+              }];
+            }
           }
           if (this.siteLogModel.siteMetadataCustodian) {
             this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
+            if(!this.metadataCustodian.contactInfo.ciContact) {
+              this.metadataCustodian.contactInfo.ciContact = {
+                address: { ciAddress: { id: '' } }
+              };
+            }
           }
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
@@ -120,7 +143,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogModel = null;
     this.site = null;
     this.siteLocation = null;
-    this.siteOwner = null;
+    this.siteContact = null;
     this.metadataCustodian = null;
     this.status = null;
     this.receivers.length = 0;
