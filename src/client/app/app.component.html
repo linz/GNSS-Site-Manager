@@ -1,4 +1,4 @@
-<sd-toolbar></sd-toolbar>
+<sd-toolbar (onSave)="onSave($event)"></sd-toolbar>
 <div autoHeight>
-  <router-outlet></router-outlet>
+    <router-outlet (activate)="onActivate($event)"></router-outlet>
 </div>

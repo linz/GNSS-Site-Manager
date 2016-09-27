@@ -61,16 +61,19 @@ export class SelectSiteComponent implements OnInit {
   searchSites() {
     this.isSearching = true;
     this.sites = [];
-    this.corsSiteService.getCorsSitesBy(this.fourCharacterId, this.siteName)
-      .subscribe(
-        (responseJson: any) => this.sites = (responseJson._embedded ? responseJson._embedded.corsSites : []),
-        (error: Error) => this.errorMessage = <any>error,
-        () => {
-          this.isSearching = false;
-          if (this.sites.length === 0)
-            this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
-        }
-      );
+    this.corsSiteService.getCorsSitesBy(this.fourCharacterId, this.siteName).subscribe(
+      (responseJson: any) => {
+        this.sites = responseJson._embedded ? responseJson._embedded.corsSites : [];
+        this.isSearching = false;
+        if (this.sites.length === 0)
+          this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
+      },
+      (error: Error) => {
+        this.errorMessage = <any>error;
+        this.isSearching = false;
+        console.log('Error in searching CORS sites: '+this.errorMessage);
+      }
+    );
   }
 
   /**
@@ -87,6 +90,7 @@ export class SelectSiteComponent implements OnInit {
    * Clear all input fields and clear sites array
    */
   clearAll() {
+    this.errorMessage = null;
     this.searchMsg = 'Please enter search criteria for searching desired sites.';
     this.siteName = '';
     this.fourCharacterId = '';

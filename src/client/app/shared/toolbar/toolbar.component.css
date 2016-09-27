@@ -4,7 +4,7 @@
   display: block;
   height: 48px;
   line-height: 35px;
-  padding: 5px 15px;
+  padding: 5px;
 }
 
 .title {
@@ -17,19 +17,25 @@
 
 .menu-btn {
   background-color: transparent;
-  color: #fff;
   font-size: 18px !important;
   font-weight: 400 !important;
   line-height: 20px;
-  padding: 7px 10px !important;
+  padding: 8px 8px 6px !important;
 }
-.menu-btn:hover {
-  background-color: #106cd8;
-  border: 1px solid rgba(255, 255, 255, 0.87) !important;
-  color: rgba(255, 255, 255, 0.87);
+.menu-btn:hover,
+.menu-btn:focus,
+.save-btn:hover,
+.save-btn:focus {
+  color: #d9edf7;
+  border-color: #d9edf7;
 }
-.id-btn {
-  float: right !important;
+.save-btn {
+  background-color: transparent;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  border-color: #bce8f1;
+}
+.id-label {
   font-size: 14px;
   font-weight: normal;
   padding-left: 5px;

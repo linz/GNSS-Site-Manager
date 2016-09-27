@@ -278,10 +278,10 @@
                 </div>
                 <div *ngIf=" receiver != null ">
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Type</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Receiver Type</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="receiver.receiverType.value"
+                             [(ngModel)]="receiver.receiverType.codeListValue"
                              name="receiverType_{{i}}"/>
                     </div>
                   </div>
@@ -289,7 +289,7 @@
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Serial Number</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="receiver.serialNumber"
+                             [(ngModel)]="receiver.manufacturerSerialNumber"
                              name="receiverSerialNumber_{{i}}"/>
                     </div>
                   </div>
@@ -400,7 +400,7 @@
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Type</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.antennaType.value" name="antennaType_{{i}}"/>
+                             [(ngModel)]="antenna.antennaType.codeListValue" name="antennaType_{{i}}"/>
                     </div>
                   </div>
                   <div class="form-group">
@@ -423,7 +423,7 @@
                       Eccentricity</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="number" step="0.0001" min="0.0000" class="form-control"
-                             [(ngModel)]="antenna.antennaMarkerArpUpEcc" name="antennaMarkerArpUpEcc_{{i}}"
+                             [(ngModel)]="antenna.markerArpUpEcc" name="antennaMarkerArpUpEcc_{{i}}"
                       />
                       <!--<div [hidden]="antennaMarkerArpUpEcc_{{i}}.valid || antennaMarkerArpUpEcc_{{i}}.pristine" class="alert alert-danger">
                         "Marker ARP Up Ecc" must be a decimal number >= 0
@@ -519,9 +519,8 @@
     <div class="form-group">
       <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12">
         <div class="align-center">
-          <button class="btn btn-primary margin10-first" type="submit" (click)="save()"
-                  [disabled]="!siteInfoForm.valid || siteInfoForm.pristine"
-                  title="Save changes">Save
+          <button class="btn btn-primary margin10-first" type="submit" (click)="save(siteInfoForm)"
+                  [disabled]="!siteInfoForm.valid || siteInfoForm.pristine" title="Save changes">Save
           </button>
           <button class="btn btn-primary margin10" type="submit" (click)="loadSiteInfoData()"
                   title="Reload data from database">Reload

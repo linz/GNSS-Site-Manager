@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NameListService, ServiceWorkerService, GlobalService } from '../index';
 
 /**
- * This class represents the toolbar component.
+ * This class represents the toolbar component which is the header of all UI pages.
  */
 @Component({
   moduleId: module.id,
@@ -12,6 +12,8 @@ import { NameListService, ServiceWorkerService, GlobalService } from '../index';
   styleUrls: ['toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
+  @Output() onSave = new EventEmitter<boolean>();
+  private saved: boolean = false;
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
 
@@ -22,6 +24,15 @@ export class ToolbarComponent implements OnInit {
   ngOnInit() {
     this.setupSubscriptions();
     this.updateCacheList();
+  }
+
+  save(siteLogJson: any) {
+    this.onSave.emit(siteLogJson);
+    this.saved = true;
+  }
+
+  hasFormChanged() {
+    return true;
   }
 
   setupSubscriptions() {

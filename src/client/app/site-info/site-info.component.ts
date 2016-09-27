@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { GlobalService, SiteLogService } from '../shared/index';
 
+
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
  */
@@ -13,7 +14,8 @@ import { GlobalService, SiteLogService } from '../shared/index';
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
-  public siteInfo: any = null;
+  public siteLogOrigin: any = {};
+  public siteLogModel: any = null;
   public site: any = null;
   public siteLocation: any = null;
   public siteOwner: any = null;
@@ -73,31 +75,35 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     this.isLoading =  true;
+    this.submitted = false;
     this.hasNewAntenna = false;
     this.hasNewReceiver = false;
     this.receivers.length = 0;
     this.antennas.length = 0;
+    this.status.isReceiversOpen.length = 0;
+    this.status.isAntennasOpen.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
         (responseJson: any) => {
-          this.siteInfo = responseJson['geo:siteLog'];
-          this.site = this.siteInfo.siteIdentification;
-          this.siteLocation = this.siteInfo.siteLocation;
-          if (this.siteInfo.siteContact) {
-            this.siteOwner = this.siteInfo.siteContact[0].ciResponsibleParty;
+          this.siteLogModel = responseJson['geo:siteLog'];
+          this.backupSiteLogJson();
+          this.site = this.siteLogModel.siteIdentification;
+          this.siteLocation = this.siteLogModel.siteLocation;
+          if (this.siteLogModel.siteContact) {
+            this.siteOwner = this.siteLogModel.siteContact[0].ciResponsibleParty;
           }
-          if (this.siteInfo.siteMetadataCustodian) {
-            this.metadataCustodian = this.siteInfo.siteMetadataCustodian.ciResponsibleParty;
+          if (this.siteLogModel.siteMetadataCustodian) {
+            this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
           }
-          this.setGnssReceivers(this.siteInfo.gnssReceivers);
-          this.setGnssAntennas(this.siteInfo.gnssAntennas);
+          this.setGnssReceivers(this.siteLogModel.gnssReceivers);
+          this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.isLoading =  false;
         },
-        (error1: Error) =>  {
-          this.errorMessage = <any>error1;
+        (error: Error) =>  {
+          this.errorMessage = <any>error;
           this.isLoading =  false;
-          this.siteInfo = {
+          this.siteLogModel = {
             gnssReceivers: [],
             gnssAnttenas: []
           };
@@ -111,7 +117,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public ngOnDestroy() {
     this.isLoading =  false;
-    this.siteInfo = null;
+    this.siteLogModel = null;
     this.site = null;
     this.siteLocation = null;
     this.siteOwner = null;
@@ -147,10 +153,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       receiverType: {
         value: ''
       },
+      manufacturerSerialNumber: '',
       serialNumber: '',
       firmwareVersion: '',
       satelliteSystem: [
         {
+          codeListValue: '',
           value: ''
         }
       ],
@@ -171,18 +179,18 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
     let receiverObj: any = {};
-    if ( this.siteInfo.gnssReceivers && this.siteInfo.gnssReceivers.length > 0 ) {
-      receiverObj = (JSON.parse(JSON.stringify( this.siteInfo.gnssReceivers[0] )));
+    if ( this.siteLogModel.gnssReceivers && this.siteLogModel.gnssReceivers.length > 0 ) {
+      receiverObj = JSON.parse(JSON.stringify( this.siteLogModel.gnssReceivers[0] ));
     }
     receiverObj.gnssReceiver = newReceiver;
-    this.siteInfo.gnssReceivers.unshift(receiverObj);
+    this.siteLogModel.gnssReceivers.unshift(receiverObj);
   }
 
   /**
    * Remove the new current receiver from the receiver list and restore the old current receiver
    */
   public removeNewReceiver() {
-    this.siteInfo.gnssReceivers.shift();
+    this.siteLogModel.gnssReceivers.shift();
     this.receivers.shift();
     this.status.isReceiversOpen.shift();
     this.hasNewReceiver = false;
@@ -213,13 +221,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Create a new empty antenna with present date/time as default value to dateInstalled
     let newAntenna = {
       antennaType: {
+        codeListValue: '',
         value: ''
       },
       serialNumber: '',
       antennaReferencePoint: {
         value: ''
       },
-      antennaMarkerArpUpEcc: '',
+      markerArpUpEcc: '',
       markerArpNorthEcc: '',
       markerArpEastEcc: '',
       alignmentFromTrueNorth: '',
@@ -245,18 +254,18 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
     let antennaObj: any = {};
-    if ( this.siteInfo.gnssAntennas && this.siteInfo.gnssAntennas.length > 0 ) {
-      antennaObj = (JSON.parse(JSON.stringify( this.siteInfo.gnssAntennas[0] )));
+    if ( this.siteLogModel.gnssAntennas && this.siteLogModel.gnssAntennas.length > 0 ) {
+      antennaObj = (JSON.parse(JSON.stringify( this.siteLogModel.gnssAntennas[0] )));
     }
     antennaObj.gnssAntenna = newAntenna;
-    this.siteInfo.gnssAntennas.unshift(antennaObj);
+    this.siteLogModel.gnssAntennas.unshift(antennaObj);
   }
 
   /**
    * Remove the new current antenna from the antenna list and restore the old current antenna
    */
   public removeNewAntenna() {
-    this.siteInfo.gnssAntennas.shift();
+    this.siteLogModel.gnssAntennas.shift();
     this.antennas.shift();
     this.status.isAntennasOpen.shift();
     this.hasNewAntenna = false;
@@ -267,14 +276,28 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Save changes made to siteLog
+   * Save changes made back to siteLog XML
    */
-  public save() {
+  public save(form: any) {
+    this.isLoading = true;
     this.submitted = true;
     this.hasNewAntenna = false;
     this.hasNewReceiver = false;
-    //this.siteInfoForm.pristine = true;
-    console.log( this.siteInfo );
+    // add root element before saving
+    let siteLogJson: any = { 'geo:siteLog': this.siteLogModel };
+    this.siteLogService.saveSiteLog(siteLogJson).subscribe(
+      (responseJson: any) => {
+        if (form)form.pristine = true;
+        this.isLoading = false;
+        this.backupSiteLogJson();
+        console.log('Done in saving site log data: ', responseJson);
+      },
+      (error: Error) =>  {
+        this.isLoading = false;
+        this.errorMessage = <any>error;
+        console.log('Error in saving changes: ' + this.errorMessage);
+      }
+    );
   }
 
   /**
@@ -285,6 +308,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.globalService.selectedSiteId = null;
     let link = ['/'];
     this.router.navigate(link);
+  }
+
+  public backupSiteLogJson() {
+    this.siteLogOrigin = JSON.parse(JSON.stringify( this.siteLogModel ));
   }
 
   /**

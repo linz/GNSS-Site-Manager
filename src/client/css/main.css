@@ -114,6 +114,11 @@ ul {
   margin-top: 0;
   margin-bottom: 0;
 }
+.panel-error {
+  border: 1px solid #f2dede;
+  margin: 10px 0;
+  padding: 15px;
+}
 
 .accordion-group-icon {
   color: #fff !important;

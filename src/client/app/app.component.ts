@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-// import { HTTP_PROVIDERS } from '@angular/http';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, GlobalService, NameListService,
           ServiceWorkerService, JsonixService } from './shared/index';
+import { SiteInfoComponent } from './site-info/site-info.component';
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the
@@ -17,7 +17,16 @@ import { Config, CorsSiteService, CorsSetupService, SiteLogService, GlobalServic
 })
 
 export class AppComponent {
+  private siteInfo: SiteInfoComponent;
   constructor() {
     console.log('Environment config', Config);
+  }
+
+  onSave(siteLogJson: any) {
+    this.siteInfo.save(null);
+  }
+
+  onActivate(a: any) {
+    this.siteInfo = a;
   }
 }
