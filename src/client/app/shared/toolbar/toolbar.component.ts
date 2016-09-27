@@ -1,9 +1,9 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NameListService, ServiceWorkerService, GlobalService } from '../index';
 
 /**
- * This class represents the toolbar component.
+ * This class represents the toolbar component which is the header of all UI pages.
  */
 @Component({
   moduleId: module.id,

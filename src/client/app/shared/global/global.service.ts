@@ -35,4 +35,5 @@ export class GlobalService {
     public getWebServiceURL(): string {
         return this.webServiceURL;
     }
+
 }

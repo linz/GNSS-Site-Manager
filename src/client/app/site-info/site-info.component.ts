@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { GlobalService, SiteLogService } from '../shared/index';
@@ -275,12 +275,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
   }
 
-  getJsonModel() {
-    console.log('called getJsonModel()');
-    console.log(this.siteLogModel);
-    this.onGetJson.emit(this.siteLogModel);
-  }
-
   /**
    * Save changes made back to siteLog XML
    */
@@ -293,7 +287,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     let siteLogJson: any = { 'geo:siteLog': this.siteLogModel };
     this.siteLogService.saveSiteLog(siteLogJson).subscribe(
       (responseJson: any) => {
-        if (form)form._pristine = true;
+        if (form)form.pristine = true;
         this.isLoading = false;
         this.backupSiteLogJson();
         console.log('Done in saving site log data: ', responseJson);

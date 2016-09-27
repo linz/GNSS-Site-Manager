@@ -4,7 +4,7 @@
   display: block;
   height: 48px;
   line-height: 35px;
-  padding: 5px 5px;
+  padding: 5px;
 }
 
 .title {
@@ -20,7 +20,7 @@
   font-size: 18px !important;
   font-weight: 400 !important;
   line-height: 20px;
-  padding: 8px 8px 6px 8px !important;
+  padding: 8px 8px 6px !important;
 }
 .menu-btn:hover,
 .menu-btn:focus,
