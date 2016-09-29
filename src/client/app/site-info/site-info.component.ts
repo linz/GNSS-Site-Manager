@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { GlobalService, SiteLogService } from '../shared/index';
+import { DialogService, GlobalService, SiteLogService } from '../shared/index';
 
 
 /**
@@ -50,14 +50,16 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    *
    * @param {Router} router - The injected Router.
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
+   * @param {DialogService} dialogService - The injected DialogService.
    * @param {GlobalService} globalService - The injected GlobalService.
-   * @param {SiteLogService} siteLogService - The injected SiteLogService.
+      * @param {SiteLogService} siteLogService - The injected SiteLogService.
    */
   constructor(
-      public router: Router,
-      public route: ActivatedRoute,
-      public globalService: GlobalService,
-      public siteLogService: SiteLogService
+    public router: Router,
+    public route: ActivatedRoute,
+    public dialogService: DialogService,
+    public globalService: GlobalService,
+    public siteLogService: SiteLogService
   ) {}
 
   /**
@@ -125,6 +127,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             this.setGnssReceivers(this.siteLogModel.gnssReceivers);
             this.setGnssAntennas(this.siteLogModel.gnssAntennas);
             this.isLoading =  false;
+            this.dialogService.showSuccessMessage(this.globalService.getSelectedSiteId() + ' SiteLog details loaded successfully.');
           },
           (error: Error) =>  {
             this.errorMessage = <any>error;
@@ -250,24 +253,38 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Save changes made back to siteLog XML
    */
   public save(form: any) {
-    this.isLoading = true;
-    this.submitted = true;
-    this.hasNewAntenna = false;
-    this.hasNewReceiver = false;
-    // add root element before saving
-    let siteLogJson: any = { 'geo:siteLog': this.siteLogModel };
-    this.siteLogService.saveSiteLog(siteLogJson).subscribe(
-        (responseJson: any) => {
-          if (form)form.pristine = true;
-          this.isLoading = false;
-          this.backupSiteLogJson();
-          console.log('Done in saving site log data: ', responseJson);
-        },
-        (error: Error) =>  {
-          this.isLoading = false;
-          this.errorMessage = <any>error;
-          console.log('Error in saving changes: ' + this.errorMessage);
-        }
+    let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
+    if ( diffMsg === null || diffMsg.trim() === '') {
+      this.dialogService.showLogMessage('No changes have been made for ' + this.globalService.getSelectedSiteId());
+      return;
+    }
+
+    let that: any = this;
+    this.dialogService.confirmSaveDialog(diffMsg,
+      function() {
+        that.isLoading = true;
+        that.submitted = true;
+        that.hasNewAntenna = false;
+        that.hasNewReceiver = false;
+        let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
+        that.siteLogService.saveSiteLog(siteLogJson).subscribe(
+          (responseJson: any) => {
+            //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
+            that.isLoading = false;
+            that.backupSiteLogJson();
+            that.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
+          },
+          (error: Error) =>  {
+            that.isLoading = false;
+            that.errorMessage = <any>error;
+            that.dialogService.showErrorMessage('Error in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
+          }
+        );
+      },
+      function() {
+        that.dialogService.showLogMessage('Cancelled in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
+        that.isLoading = false;
+      }
     );
   }
 

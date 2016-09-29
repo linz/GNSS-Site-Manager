@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { Config, CorsSiteService, CorsSetupService, SiteLogService, GlobalService, NameListService,
-          ServiceWorkerService, JsonixService } from './shared/index';
+import { Component, ViewContainerRef } from '@angular/core';
+import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, GlobalService,
+          NameListService, ServiceWorkerService, JsonixService } from './shared/index';
 import { SiteInfoComponent } from './site-info/site-info.component';
 
 /**
@@ -10,15 +10,24 @@ import { SiteInfoComponent } from './site-info/site-info.component';
 @Component({
   moduleId: module.id,
   selector: 'sd-app',
-  viewProviders: [CorsSiteService, CorsSetupService, SiteLogService, GlobalService,
-                  NameListService, ServiceWorkerService,
-    JsonixService],
+  viewProviders: [
+    CorsSiteService,
+    CorsSetupService,
+    DialogService,
+    GlobalService,
+    JsonixService,
+    NameListService,
+    ServiceWorkerService,
+    SiteLogService,
+    SiteInfoComponent
+  ],
   templateUrl: 'app.component.html',
 })
 
 export class AppComponent {
-  private siteInfo: SiteInfoComponent;
-  constructor() {
+  constructor(private siteInfo: SiteInfoComponent, private viewContainerRef: ViewContainerRef) {
+    // Need this small hack in order to catch application root view container ref
+    //this.viewContainerRef = viewContainerRef;
     console.log('Environment config', Config);
   }
 
