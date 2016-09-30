@@ -27,12 +27,12 @@ export class WFSService {
      * @return Observable containing a response with a JSON body containing the SiteLog from the WFS Server query.
      */
     wfsQuery(params: SelectSiteSearchType): Observable<any> {
-        console.log('wfsQuery - params: ', params);
+        console.debug('wfsQuery - params: ', params);
         let jsonQuery: string = this.buildJsonQuery(params);
         // console.log('wfsQuery - jsonQuery: ', jsonQuery);
-        console.log('wfsQuery - jsonQuery (length): ', jsonQuery.length);
+        // console.log('wfsQuery - jsonQuery (length): ', jsonQuery.length);
         let xmlQuery: string = this.convertWFSQueryToML(jsonQuery);
-        console.log('wfsQuery - xmlQuery: ', xmlQuery);
+        // console.log('wfsQuery - xmlQuery: ', xmlQuery);
         // console.log('wfsQuery - xmlQuery (length): ', xmlQuery.length);
 
         return this.doWFSQuery(xmlQuery);
@@ -112,11 +112,11 @@ export class WFSService {
      * @returns {Response}
      */
     private handleData(response: Response): Response {
-        console.debug('wfs service - handle data start yeah baby');
         let data: any = response.text();//.json();
         let status: number = response.status;
         let statustext: string = response.statusText;
-        console.debug('wfsQuery - status: ' + status + ' status text: ' + statustext + ' data: ', data);
+        // console.debug('wfsQuery - status: ' + status + ' status text: ' + statustext + ' data: ', data);
+        console.debug('wfsQuery - status: ' + status + ' status text: ' + statustext + ' data (length): ', data.length);
         return response;
     }
 
