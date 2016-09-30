@@ -146,7 +146,7 @@ export class SiteLogService {
     geodesyMl += siteLogML + '</geo:GeodesyML>';
     console.log('saveSiteLog - geodesyMl: ', geodesyMl);
     return this.http.post(this.globalService.getWebServiceURL() + '/siteLogs/upload', geodesyMl)
-      .map(SiteLogService.handleData)
-      .catch(SiteLogService.handleError);
+      .map(GlobalService.handleData)
+      .catch(GlobalService.handleError);
   }
 }
