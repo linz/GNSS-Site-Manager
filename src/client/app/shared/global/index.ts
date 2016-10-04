@@ -4,3 +4,4 @@
 export * from './auto-height.directive';
 export * from './dialog.service';
 export * from './global.service';
+export * from './json-diff.service';

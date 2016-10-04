@@ -30,6 +30,7 @@ export class ProjectConfig extends SeedConfig {
       {src: 'moment/moment.js', inject: 'libs'},
       {src: 'ng2-bootstrap/bundles/ng2-bootstrap.js', inject: 'libs'},
       {src: 'alertify.js/dist/js/ngAlertify.js', inject: 'libs'},
+      {src: 'diff-json/dist/changesets.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
       {src: 'jsonix/jsonix.js', inject: 'libs'},
       {src: 'w3c-schemas/lib/XLink_1_0.js', inject: 'libs'},
@@ -59,6 +60,14 @@ export class ProjectConfig extends SeedConfig {
 
     this.SYSTEM_BUILDER_CONFIG.packages['alertify'] = {
       main: 'alertify.js',
+      defaultExtension : 'js'
+    };
+
+    this.SYSTEM_CONFIG_DEV.paths['diff-json'] =
+      `${this.APP_BASE}node_modules/diff-json/dist/changesets`;
+
+    this.SYSTEM_BUILDER_CONFIG.packages['diff-json'] = {
+      main: 'changesets.js',
       defaultExtension : 'js'
     };
 

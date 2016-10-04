@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { DialogService, GlobalService, SiteLogService } from '../shared/index';
+import { DialogService, GlobalService, SiteLogService, JsonDiffService } from '../shared/index';
 
 
 /**
@@ -59,7 +59,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public dialogService: DialogService,
     public globalService: GlobalService,
-    public siteLogService: SiteLogService
+    public siteLogService: SiteLogService,
+    public jsonDiffService: JsonDiffService
   ) {}
 
   /**

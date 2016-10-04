@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, GlobalService,
-          NameListService, ServiceWorkerService, JsonixService } from './shared/index';
+          JsonDiffService, NameListService, ServiceWorkerService, JsonixService } from './shared/index';
 import { SiteInfoComponent } from './site-info/site-info.component';
 
 /**
@@ -19,15 +19,14 @@ import { SiteInfoComponent } from './site-info/site-info.component';
     NameListService,
     ServiceWorkerService,
     SiteLogService,
-    SiteInfoComponent
+    SiteInfoComponent,
+    JsonDiffService,
   ],
   templateUrl: 'app.component.html',
 })
 
 export class AppComponent {
   constructor(private siteInfo: SiteInfoComponent, private viewContainerRef: ViewContainerRef) {
-    // Need this small hack in order to catch application root view container ref
-    //this.viewContainerRef = viewContainerRef;
     console.log('Environment config', Config);
   }
 
