@@ -64,9 +64,9 @@ export function main() {
             });
 
             wfsService.wfsQuery(siteSearchQuery).subscribe(
-                (response: Response) => {
-                    let status: number = response.status;
-                    expect(status).toBe(200);
+                (wfsQueryData: any) => {
+                    expect(wfsQueryData).toBeDefined();
+                    expect(wfsQueryData.length).toBe(1);
                 },
                 (error: Error) => GlobalService.handleError
             );
