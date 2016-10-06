@@ -91,28 +91,21 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
-          (responseJson: any) => {
-            this.siteLogModel = responseJson['geo:siteLog'];
-            this.backupSiteLogJson();
-            this.site = this.siteLogModel.siteIdentification;
-            this.siteLocation = this.siteLogModel.siteLocation;
-            if (this.siteLogModel.siteContact) {
-              this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
-              if (!this.siteContact.positionName) {
-                this.siteContact.positionName = {value: ''};
-              }
-              if (!this.siteContact.contactInfo.ciContact.address.ciAddress) {
-                this.siteContact.contactInfo.ciContact.address.ciAddress = {
-                  deliveryPoint: [{
-                    characterString: {'gco:CharacterString': ''}
-                  }],
-                  electronicMailAddress: [{
-                    characterString: {'gco:CharacterString': ''}
-                  }]
-                };
-              }
-              if(!this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice) {
-                this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice = [{
+        (responseJson: any) => {
+          this.siteLogModel = responseJson['geo:siteLog'];
+          this.site = this.siteLogModel.siteIdentification;
+          this.siteLocation = this.siteLogModel.siteLocation;
+          if (this.siteLogModel.siteContact) {
+            this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
+            if (!this.siteContact.positionName) {
+              this.siteContact.positionName = {value: ''};
+            }
+            if (!this.siteContact.contactInfo.ciContact.address.ciAddress) {
+              this.siteContact.contactInfo.ciContact.address.ciAddress = {
+                deliveryPoint: [{
+                  characterString: {'gco:CharacterString': ''}
+                }],
+                electronicMailAddress: [{
                   characterString: {'gco:CharacterString': ''}
                 }];
               }
@@ -138,6 +131,20 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               gnssAnttenas: []
             };
           }
+          this.setGnssReceivers(this.siteLogModel.gnssReceivers);
+          this.setGnssAntennas(this.siteLogModel.gnssAntennas);
+          this.backupSiteLogJson();
+          this.isLoading =  false;
+          this.dialogService.showSuccessMessage(this.globalService.getSelectedSiteId() + ' SiteLog details loaded successfully.');
+        },
+        (error: Error) =>  {
+          this.errorMessage = <any>error;
+          this.isLoading =  false;
+          this.siteLogModel = {
+            gnssReceivers: [],
+            gnssAnttenas: []
+          };
+       }
       );
     });
   }
@@ -273,11 +280,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
             that.isLoading = false;
             that.backupSiteLogJson();
+            console.log('Done in saving site log data: ', responseJson);
             that.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
           },
           (error: Error) =>  {
             that.isLoading = false;
             that.errorMessage = <any>error;
+            console.log('Error in saving changes: ' + that.errorMessage);
             that.dialogService.showErrorMessage('Error in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
           }
         );

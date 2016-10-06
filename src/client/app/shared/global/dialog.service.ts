@@ -5,23 +5,33 @@ export class DialogService {
   private _alertify: any = require('alertify.js');
 
   /*
-   * Opens a confirmation dialog using the alertify.js lib
+   * Opens a customised dialog showing the changes made and prompts the user to confirm before saving
    */
-  public showConfirmDialog(message: string, okCallback: () => any) {
-    let that: any = this;
-    this._alertify
-      .okBtn('Yes')
-      .cancelBtn('Cancel')
+  public confirmSaveDialog(msg: string, okCallback: () => any, cancelCallback: () => any) {
+    let header: string = '<div class="panel-heading pad-sm"><div class="panel-title">Confirm changes made before saving</div></div>';
+    let body: string = '<div class="panel-body pad-sm">' + msg + '</div>';
+    let footer: string = '<p class="footer">Do you want to save changes made?</p>';
+    let msgHtml: string = '<div class="panel panel-info">' + header + body + '</div>' + footer;
+    this.showConfirmDialog(msgHtml, okCallback, cancelCallback);
+  }
+
+  /*
+   * Opens a confirmation dialog and acts accordingly in response to users' choice
+   */
+  public showConfirmDialog(message: string, okCallback: () => any, cancelCallback: () => any) {
+    this._alertify.okBtn('Yes').cancelBtn('Cancel')
       .confirm(message, function (event: any) {
         event.preventDefault();
         okCallback();
       }, function(event: any) {
         event.preventDefault();
-      });
+        cancelCallback();
+      }
+    );
   }
 
   /*
-   * Opens a confirmation dialog with an input field
+   * Opens a dialog prompting user to input a value for it
    */
   public showPromptDialog(message: string, okCallback: () => any) {
     let that: any = this;
@@ -36,6 +46,9 @@ export class DialogService {
     );
   }
 
+  /*
+   * Displays a dialog with alert message
+   */
   public showAlertDialog(message: string) {
     this._alertify.alert(message);
   }
