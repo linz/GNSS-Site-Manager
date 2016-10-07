@@ -8,7 +8,7 @@ export class DialogService {
    * Opens a customised dialog showing the changes made and prompts the user to confirm before saving
    */
   public confirmSaveDialog(msg: string, okCallback: () => any, cancelCallback: () => any) {
-    let header: string = '<div class="panel-heading pad-sm"><div class="panel-title">Confirm changes made before saving</div></div>';
+    let header: string = '<div class="panel-heading pad-sm"><div class="panel-title">Confirmation of Changes Made</div></div>';
     let body: string = '<div class="panel-body pad-sm">' + msg + '</div>';
     let footer: string = '<p class="footer">Do you want to save changes made?</p>';
     let msgHtml: string = '<div class="panel panel-info">' + header + body + '</div>' + footer;

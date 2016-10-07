@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class JsonDiffService {
-  private diffJson = require('diff-json');
+  private lodash: any = require('lodash');
+  private ADD: string = 'Add';
+  private REMOVE: string = 'Remove';
+  private UPDATE: string = 'Update';
   private diffArray: Array<any>;
 
   constructor() {
@@ -11,7 +14,7 @@ export class JsonDiffService {
 
   public getJsonDiffHtml(oldJson: any , newJson: any): string {
     this.diffArray = [];
-    let jsonDiff: any = this.diffJson.diff(oldJson, newJson);
+    let jsonDiff: any = this.compare(oldJson, newJson, []);
     console.log(jsonDiff);
     this.detectChanges(jsonDiff);
     return this.formatToHtml(this.diffArray);
@@ -48,7 +51,7 @@ export class JsonDiffService {
         this.traverse(obj, key);
       }
     } else {
-      console.log(jsonObj);
+      console.log('Unknown JSON type: '+objType);
     }
   }
 
@@ -58,30 +61,161 @@ export class JsonDiffService {
         this.traverse(change, key);
       }
     } else if (obj.value) {
-      console.log('Key: ' + obj.key);
-      if (obj.type === 'update') {
-        let updateField: string = 'Updated: ' + obj.key + '(Old Value: ' + obj.oldValue + ', New Value:' + obj.value + ')';
-        this.diffArray[<any>key].push(updateField);
-      } else if (obj.type === 'remove') {
-        let removeField: string = 'Removed: ' + obj.key + '(Value: ' + obj.value + ')';
-        this.diffArray[<any>key].push(removeField);
-      } else if (obj.type === 'add') {
-        let addField: string = 'Added: ' + obj.key + '(Value: ' + obj.value + ')';
-        this.diffArray[<any>key].push(addField);
+      let change: string = obj.type + ': ' + obj.key;
+      if (obj.type === this.UPDATE) {
+        change += '(Old Value: ' + obj.oldValue + ', New Value:' + obj.value + ')';
+      } else if (obj.type === this.REMOVE) {
+        change += '(Old Value: ' + obj.value + ')';
+      } else if (obj.type === this.ADD) {
+        change += '(New Value: ' + obj.value + ')';
       } else {
-        let addField: string = obj.type + ': ' + obj.key + '(Value: ' + obj.value + ')';
-        this.diffArray[<any>key].push(addField);
+        change += '(Value: ' + obj.value + ')';
       }
+      this.diffArray[<any>key].push(change);
     }
   }
 
   private getTypeOfObj(obj: any): string {
     if (typeof obj === 'undefined') {
       return 'undefined';
-    }
-    if (obj === null) {
+    } else if (obj === null) {
       return null;
     }
     return Object.prototype.toString.call(obj).match(/^\[object\s(.*)\]$/)[1];
+  }
+
+  private getKey(path: any): string {
+    let index: number = 1;
+    let key: string = path[path.length - index];
+    let excludedKeys: any = ['value', 'id', 'gco:CharacterString', 'characterString', 'codeListValue'];
+    while (this.contains(excludedKeys, key) && index < path.length) {
+      index += 1;
+      key = path[path.length - index];
+    }
+    return key;
+  }
+
+  private contains(array: any, item: string): boolean {
+    for (let k of array) {
+      if (k === item) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private compare(oldObj: any, newObj: any, path: any): any {
+    let changes: any = [];
+    let typeOfOldObj: any = this.getTypeOfObj(oldObj);
+    switch (typeOfOldObj) {
+      case 'Date':
+        changes = changes.concat(this.comparePrimitives(oldObj.getTime(), newObj.getTime(), path));
+        break;
+      case 'Object':
+        let diffs: any = this.compareObject(oldObj, newObj, path, false);
+        if (diffs.length > 0) {
+          if (path.length > 0) {
+            changes.push({
+              type: this.UPDATE,
+              key: this.getKey(path),
+              changes: diffs
+            });
+          } else {
+            changes = changes.concat(diffs);
+          }
+        }
+        break;
+      case 'Array':
+        changes = changes.concat(this.compareArray(oldObj, newObj, path));
+        break;
+      case 'Function':
+        break;
+      default:
+        changes = changes.concat(this.comparePrimitives(oldObj, newObj, path));
+    }
+    return changes;
+  }
+
+  private compareObject(oldObj: any, newObj: any, path: any, skipPath: boolean): any {
+    let changes: any = [];
+    let oldObjKeys: any = Object.keys(oldObj);
+    let newObjKeys: any = Object.keys(newObj);
+    let intersectionKeys: any = this.lodash.intersection(oldObjKeys, newObjKeys);
+    for (let k of intersectionKeys) {
+      let newPath: any = skipPath ? path : path.concat([k]);
+      let diffs: any = this.compare(oldObj[k], newObj[k], newPath);
+      if (diffs.length > 0) {
+        changes = changes.concat(diffs);
+      }
+    }
+    if (oldObjKeys.length!==newObjKeys.length) {console.log('oldObjKeys: '+oldObjKeys);console.log('newObjKeys: '+newObjKeys);}
+    let addedKeys: any = this.lodash.difference(newObjKeys, oldObjKeys);
+    for (let k of addedKeys) {
+      let newPath: any = skipPath ? path : path.concat([k]);
+      changes.push({
+        type: this.ADD,
+        key: this.getKey(newPath),
+        value: newObj[k]
+      });
+    }
+
+    // part of the path has been removed - won't happen in our application
+    let deletedKeys: any = this.lodash.difference(oldObjKeys, newObjKeys);
+    for (let k of deletedKeys) {
+      let newPath: any = skipPath ? path : path.concat([k]);
+      changes.push({
+        type: this.REMOVE,
+        key: this.getKey(newPath),
+        value: oldObj[k]
+      });
+    }
+    return changes;
+  }
+
+  private compareArray(oldObj: any, newObj: any, path: any): any {
+    let indexedOldObj: any = this.convertArrayToObj(oldObj);
+    let indexedNewObj: any = this.convertArrayToObj(newObj);
+    let diffs: any = this.compareObject(indexedOldObj, indexedNewObj, path, true);
+    if (diffs.length > 0) {
+      return [
+        {
+          type: this.UPDATE,
+          key: this.getKey(path),
+          embededKey: path[0],
+          changes: diffs
+        }
+      ];
+    }
+    return [];
+  }
+
+  private convertArrayToObj(array: any): any {
+    let obj: any = {};
+    for (let key in array) {
+      obj[key] = array[key];
+    }
+    return obj;
+  }
+
+  private comparePrimitives(oldObj: any, newObj: any, path: string): string {
+    let changes: any = [];
+    if (oldObj !== newObj) {
+      // Only the value of a field has been removed
+      if (newObj === null || newObj.trim() === '') {
+        changes.push({
+          type: this.REMOVE,
+          key: this.getKey(path),
+          value: oldObj
+        });
+      } else {
+        changes.push({
+          type: this.UPDATE,
+          key: this.getKey(path),
+          value: newObj,
+          oldValue: oldObj
+        });
+      }
+    }
+    return changes;
   }
 }
