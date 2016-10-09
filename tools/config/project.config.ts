@@ -41,9 +41,6 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/ISO19139_GSS_20070417.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/OM_2_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/GEODESYML_0_3.js', inject: 'libs'},
-      {src: 'ogc-schemas/lib/Filter_2_0.js', inject: 'libs'},
-      {src: 'ogc-schemas/lib/OWS_1_1_0.js', inject: 'libs'},
-      {src: 'ogc-schemas/lib/WFS_2_0.js', inject: 'libs'},
     ];
 
     this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =

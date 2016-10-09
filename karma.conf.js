@@ -42,12 +42,8 @@ module.exports = function (config) {
       'node_modules/ogc-schemas/lib/ISO19139_GCO_20070417.js',
       'node_modules/ogc-schemas/lib/ISO19139_GSR_20070417.js',
       'node_modules/ogc-schemas/lib/ISO19139_GTS_20070417.js',
-      'node_modules/ogc-schemas/lib/OWS_1_1_0.js',
-      // 'node_modules/ogc-schemas/lib/Filter_1_1_0.js',
-      'node_modules/ogc-schemas/lib/Filter_2_0.js',
       'node_modules/ogc-schemas/lib/ISO19139_GSS_20070417.js',
       'node_modules/ogc-schemas/lib/OM_2_0.js',
-      'node_modules/ogc-schemas/lib/WFS_2_0.js',
       'node_modules/ogc-schemas/lib/GEODESYML_0_3.js',
 
       // RxJs.

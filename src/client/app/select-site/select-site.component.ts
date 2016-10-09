@@ -33,8 +33,7 @@ export class SelectSiteComponent implements OnInit {
    *
    * @param {Router} router - The injected Router for switching between select-site and site-info pages.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
-   * @param {ServiceWorkerService} serviceWorkerService - service interface to the Service Worker
-   * @param {GlobalService} globalService - common constants and methods
+   * @param {ServiceWorkerService} serviceWorkerService - service interface to the Servcie Worker
    */
   constructor(public router: Router, public corsSiteService: CorsSiteService,
       private globalService: GlobalService, private serviceWorkerService: ServiceWorkerService) { }
@@ -59,7 +58,7 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Return a list of sites from DB based on the site name and/or four character Id.
    */
-  searchSites1() {
+  searchSites() {
     this.isSearching = true;
     this.sites = [];
     this.corsSiteService.getCorsSitesBy(this.fourCharacterId, this.siteName).subscribe(
@@ -75,24 +74,6 @@ export class SelectSiteComponent implements OnInit {
         console.log('Error in searching CORS sites: '+this.errorMessage);
       }
     );
-  }
-
-  /**
-   * Return a list of sites from DB based on the site name and/or four character Id.  Using WFS and XML.
-   */
-  searchSites() {
-    this.isSearching = true;
-    this.sites = [];
-    this.corsSiteService.getCorsSitesByUsingWFS(this.fourCharacterId, this.siteName)
-      .subscribe(
-        (responseJson: any) => this.sites = responseJson,    // ? responseJson._embedded.corsSites : []),
-        (error: Error) => this.errorMessage = <any>error,
-        () => {
-          this.isSearching = false;
-          if (this.sites.length === 0)
-            this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
-        }
-      );
   }
 
   /**

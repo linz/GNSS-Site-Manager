@@ -12,7 +12,6 @@ import { SelectSiteComponent } from './select-site.component';
 import { CorsSiteService } from '../shared/cors-site/cors-site.service';
 import { GlobalService } from '../shared/global/global.service';
 import { ServiceWorkerService } from '../shared/index';
-import { WFSService } from '../shared/wfs/wfs.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs';
 
@@ -29,17 +28,9 @@ export function main() {
                     observer.next({_embedded: {corsSites: [{fourCharacterId: 'ALIC', name: 'ALICE SPRINGS'}]}});
                     observer.complete();
                 });
-            },
-            getCorsSitesByUsingWFS(fourCharacterId: string, siteName: string): Observable<any> {
-                return new Observable((observer: Subscriber<any>) => {
-                    observer.next([{fourCharacterId: 'ALIC', name: 'ALICE SPRINGS'}]);
-                    observer.complete();
-                });
             }
         };
         let fakeGlobalService = {};
-        let fakeWFSService = {
-        };
 
         beforeEach(() => {
             TestBed.configureTestingModule({
@@ -48,7 +39,6 @@ export function main() {
                 providers: [
                     {provide: CorsSiteService, useValue: fakeCorsSiteService},
                     {provide: GlobalService, useValue: fakeGlobalService},
-                    {provide: WFSService, useValue: fakeWFSService},
                     NameListService,
                     ServiceWorkerService,
                     BaseRequestOptions,
@@ -71,6 +61,7 @@ export function main() {
                     .then(() => {
                         let fixture = TestBed.createComponent(TestComponent);
                         fixture.detectChanges();
+
 
                         let instance = fixture.debugElement.children[0].componentInstance;
                         // A sanity check that the Component is what we expect
