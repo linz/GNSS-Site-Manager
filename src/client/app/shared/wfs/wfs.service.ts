@@ -77,17 +77,19 @@ export class WFSService {
         let contents: string[] = [];
         let members: string[];
         let body: any = JSON.parse(wfsResponse.text());
-        if (body.hasOwnProperty('wfs:FeatureCollection')
-            && body['wfs:FeatureCollection'].hasOwnProperty('member')
-            ) {
-            members = body['wfs:FeatureCollection']['member'];
-            members.map((member: any) => {
-                if (member.hasOwnProperty('content')) {
-                    contents.push(member['content'][0]);
-                }
-            });
+        if (body.hasOwnProperty('ows:ExceptionReport')) {
+            throw new Error(JSON.stringify(body));
+        } else if (body.hasOwnProperty('wfs:FeatureCollection')) {
+            if (body['wfs:FeatureCollection'].hasOwnProperty('member')) {
+                let members: string[] = body['wfs:FeatureCollection']['member'];
+                members.map((member: any) => {
+                    if (member.hasOwnProperty('content')) {
+                        contents.push(member['content'][0]);
+                    }
+                });
+            }
         } else {
-            throw new Error('WFS Query - expecting it["wfs:FeatureCollection"]["member"]["content"] - got: '+ JSON.stringify(body));
+            throw new Error('WFS Query - unexpected response: '+ JSON.stringify(body));
         }
         console.debug('WFSQuery / getContent: ', contents);
         return contents;
