@@ -107,15 +107,15 @@ export class GnssReceiverInfoComponent implements OnInit {
    * Add a new empty receiver as current one and push the 'old' current receiver into previous list
    */
   public addNewReceiver() {
-    let presentDT = new Date().toISOString();
-    if (!this.gnssReceivers) {
-      this.gnssReceivers = [];
+    let presentDT = this.getPresentDateTime();
+    if (!this.receivers) {
+      this.receivers = [];
     }
 
     // Assign present date/time as default value to dateRemoved if it is empty
-    if (this.gnssReceivers.length > 0) {
+    if (this.receivers.length > 0) {
       this.status.isReceiversOpen[0] = false;
-      let currentReceiver: any = this.gnssReceivers[0];
+      let currentReceiver: any = this.receivers[0];
       if (!currentReceiver.dateRemoved.value[0] ) {
         currentReceiver.dateRemoved.value[0] = presentDT;
       }
@@ -137,25 +137,32 @@ export class GnssReceiverInfoComponent implements OnInit {
       ],
       elevationCutoffSetting: '',
       dateInstalled: {
-        value: [ presentDT ]
+        value: ['']
       },
       dateRemoved: {
         value: ['']
       }
     };
 
+    // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
+    let receiverObj: any = {};
+    if ( this.siteLogModel.gnssReceivers && this.siteLogModel.gnssReceivers.length > 0 ) {
+      receiverObj = this.cloneJsonObj(this.siteLogModel.gnssReceivers[0]);
+    }
+
+    // Keep a copy of the receiver object as the original one for comparison
+    let receiverObjCopy: any = this.cloneJsonObj(receiverObj);
+    receiverObjCopy.gnssReceiver = this.cloneJsonObj(newReceiver);
+    this.siteLogOrigin.gnssReceivers.unshift(receiverObjCopy);
+
+    newReceiver.dateInstalled.value[0] = presentDT;
+    receiverObj.gnssReceiver = newReceiver;
+    this.siteLogModel.gnssReceivers.unshift(receiverObj);
+
     // Add the new receiver as current one and open it by default
-    this.gnssReceivers.unshift(newReceiver);
+    this.receivers.unshift(newReceiver);
     this.status.isReceiversOpen.unshift(true);
     this.status.isReceiverGroupOpen = true;
     this.hasNewReceiver = true;
-
-    // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
-    let receiverObj: any = {};
-    if ( this.gnssReceivers && this.gnssReceivers.length > 0 ) {
-      receiverObj = JSON.parse(JSON.stringify( this.gnssReceivers[0] ));
-    }
-    receiverObj.gnssReceiver = newReceiver;
-    this.gnssReceivers.unshift(receiverObj);
   }
 }

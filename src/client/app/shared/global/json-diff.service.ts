@@ -225,7 +225,7 @@ export class JsonDiffService {
     return changes;
   }
 
-  // Typescript does not support '==' E.g., 0 !== '0'
+  // Typescript does not support '==' and '!='. E.g., 0 != '0'
   private isEqual(oldObj: any, newObj: any): boolean {
     if (oldObj === null || newObj === null) {
       return (oldObj === newObj);

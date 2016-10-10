@@ -231,12 +231,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
     let antennaObj: any = {};
     if ( this.siteLogModel.gnssAntennas && this.siteLogModel.gnssAntennas.length > 0 ) {
-      antennaObj = (JSON.parse(JSON.stringify( this.siteLogModel.gnssAntennas[0] )));
+      antennaObj = this.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
     }
 
     // Keep a copy of the anteena object as the original one for comparison
-    let antennaObjCopy: any = JSON.parse(JSON.stringify( antennaObj ));
-    antennaObjCopy.gnssAntenna = JSON.parse(JSON.stringify( newAntenna ));
+    let antennaObjCopy: any = this.cloneJsonObj(antennaObj);
+    antennaObjCopy.gnssAntenna = this.cloneJsonObj(newAntenna);
     this.siteLogOrigin.gnssAntennas.unshift(antennaObjCopy);
 
     newAntenna.dateInstalled.value[0] = presentDT;
@@ -315,7 +315,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   public backupSiteLogJson() {
-    this.siteLogOrigin = JSON.parse(JSON.stringify( this.siteLogModel ));
+    this.siteLogOrigin = this.cloneJsonObj(this.siteLogModel);
   }
 
   /**
@@ -434,5 +434,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0])
       return -1;
     return 0;
+  }
+
+  private cloneJsonObj(obj: any): any {
+    return JSON.parse(JSON.stringify(obj));
   }
 }
