@@ -167,12 +167,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab.unsubscribe();
   }
 
-
   /**
    * Remove the new current receiver from the receiver list and restore the old current receiver
    */
   public removeNewReceiver() {
     this.siteLogModel.gnssReceivers.shift();
+    this.siteLogOrigin.gnssReceivers.shift();
     this.receivers.shift();
     this.status.isReceiversOpen.shift();
     this.hasNewReceiver = false;
@@ -221,26 +221,33 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       antennaCableType: '',
       antennaCableLength: '',
       dateInstalled: {
-        value: [ presentDT ]
+        value: ['']
       },
       dateRemoved: {
         value: ['']
       }
     };
 
-    // Add the new antenna as current one and open it by default
-    this.antennas.unshift(newAntenna);
-    this.status.isAntennasOpen.unshift(true);
-    this.status.isAntennaGroupOpen = true;
-    this.hasNewAntenna = true;
-
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
     let antennaObj: any = {};
     if ( this.siteLogModel.gnssAntennas && this.siteLogModel.gnssAntennas.length > 0 ) {
       antennaObj = (JSON.parse(JSON.stringify( this.siteLogModel.gnssAntennas[0] )));
     }
+
+    // Keep a copy of the anteena object as the original one for comparison
+    let antennaObjCopy: any = JSON.parse(JSON.stringify( antennaObj ));
+    antennaObjCopy.gnssAntenna = JSON.parse(JSON.stringify( newAntenna ));
+    this.siteLogOrigin.gnssAntennas.unshift(antennaObjCopy);
+
+    newAntenna.dateInstalled.value[0] = presentDT;
     antennaObj.gnssAntenna = newAntenna;
     this.siteLogModel.gnssAntennas.unshift(antennaObj);
+
+    // Add the new antenna as current one and open it by default
+    this.antennas.unshift(newAntenna);
+    this.status.isAntennasOpen.unshift(true);
+    this.status.isAntennaGroupOpen = true;
+    this.hasNewAntenna = true;
   }
 
   /**
@@ -248,6 +255,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public removeNewAntenna() {
     this.siteLogModel.gnssAntennas.shift();
+    this.siteLogOrigin.gnssAntennas.shift();
     this.antennas.shift();
     this.status.isAntennasOpen.shift();
     this.hasNewAntenna = false;
@@ -280,13 +288,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
             that.isLoading = false;
             that.backupSiteLogJson();
-            console.log('Done in saving site log data: ', responseJson);
             that.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
           },
           (error: Error) =>  {
             that.isLoading = false;
             that.errorMessage = <any>error;
-            console.log('Error in saving changes: ' + that.errorMessage);
             that.dialogService.showErrorMessage('Error in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
           }
         );

@@ -15,7 +15,6 @@ export class JsonDiffService {
   public getJsonDiffHtml(oldJson: any , newJson: any): string {
     this.diffArray = [];
     let jsonDiff: any = this.compare(oldJson, newJson, []);
-    console.log(jsonDiff);
     this.detectChanges(jsonDiff);
     return this.formatToHtml(this.diffArray);
   }
@@ -29,10 +28,12 @@ export class JsonDiffService {
       }
       fmtHtml += '</ul>';
     }
-    if ( !fmtHtml ) {
-      fmtHtml += '<ul>' + fmtHtml + '</ul>';
+
+    if ( fmtHtml === '' ) {
+      return null;
+    } else {
+      return '<ul>' + fmtHtml + '</ul>';
     }
-    return fmtHtml;
   }
 
   private detectChanges(jsonObj: any) {
@@ -60,7 +61,7 @@ export class JsonDiffService {
       for (let change of obj.changes) {
         this.traverse(change, key);
       }
-    } else if (obj.value) {
+    } else if ( !this.isEmpty(obj.value) ) {
       let change: string = obj.type + ': ' + obj.key;
       if (obj.type === this.UPDATE) {
         change += '(Old Value: ' + obj.oldValue + ', New Value:' + obj.value + ')';
@@ -148,7 +149,7 @@ export class JsonDiffService {
         changes = changes.concat(diffs);
       }
     }
-    if (oldObjKeys.length!==newObjKeys.length) {console.log('oldObjKeys: '+oldObjKeys);console.log('newObjKeys: '+newObjKeys);}
+
     let addedKeys: any = this.lodash.difference(newObjKeys, oldObjKeys);
     for (let k of addedKeys) {
       let newPath: any = skipPath ? path : path.concat([k]);
@@ -199,13 +200,18 @@ export class JsonDiffService {
 
   private comparePrimitives(oldObj: any, newObj: any, path: string): string {
     let changes: any = [];
-    if (oldObj !== newObj) {
-      // Only the value of a field has been removed
-      if (newObj === null || newObj.trim() === '') {
+    if ( !this.isEqual(oldObj, newObj) ) {
+      if ( this.isEmpty(newObj) ) {
         changes.push({
           type: this.REMOVE,
           key: this.getKey(path),
           value: oldObj
+        });
+      } else if ( this.isEmpty(oldObj) ) {
+        changes.push({
+          type: this.ADD,
+          key: this.getKey(path),
+          value: newObj
         });
       } else {
         changes.push({
@@ -217,5 +223,38 @@ export class JsonDiffService {
       }
     }
     return changes;
+  }
+
+  // Typescript does not support '==' E.g., 0 !== '0'
+  private isEqual(oldObj: any, newObj: any): boolean {
+    if (oldObj === null || newObj === null) {
+      return (oldObj === newObj);
+    }
+    let oldType: string = this.getTypeOfObj(oldObj);
+    let newType: string = this.getTypeOfObj(newObj);
+    if (oldType === newType) {
+      return (oldObj === newObj);
+    } else if (oldType === 'String' && newType === 'Number') {
+      let newObj1: string = newObj.toString();
+      return (oldObj === newObj1);
+    } else if (oldType === 'Number' && newType === 'String') {
+      let oldObj1: string = oldObj.toString();
+      return (oldObj1 === newObj);
+    } else {
+      return (oldObj === newObj);
+    }
+  }
+
+  private isEmpty(obj: any): boolean {
+    let objType: string = this.getTypeOfObj(obj);
+    if (objType === null || objType === 'undefined') {
+      return true;
+    } else if (objType === 'String' && obj.trim() === '') {
+      return true;
+    } else if (typeof obj === 'Array' && obj.length === 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
