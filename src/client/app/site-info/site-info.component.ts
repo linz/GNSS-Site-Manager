@@ -52,7 +52,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
    * @param {DialogService} dialogService - The injected DialogService.
    * @param {GlobalService} globalService - The injected GlobalService.
-      * @param {SiteLogService} siteLogService - The injected SiteLogService.
+   * @param {SiteLogService} siteLogService - The injected SiteLogService.
+   * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
    */
   constructor(
     public router: Router,
@@ -107,29 +108,22 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 }],
                 electronicMailAddress: [{
                   characterString: {'gco:CharacterString': ''}
-                }];
-              }
+                }]
+              };
             }
-            if (this.siteLogModel.siteMetadataCustodian) {
-              this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
-              if(!this.metadataCustodian.contactInfo.ciContact) {
-                this.metadataCustodian.contactInfo.ciContact = {
-                  address: { ciAddress: { id: '' } }
-                };
-              }
+            if(!this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice) {
+              this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice = [{
+                characterString: {'gco:CharacterString': ''}
+              }];
             }
-            this.setGnssReceivers(this.siteLogModel.gnssReceivers);
-            this.setGnssAntennas(this.siteLogModel.gnssAntennas);
-            this.isLoading =  false;
-            this.dialogService.showSuccessMessage(this.globalService.getSelectedSiteId() + ' SiteLog details loaded successfully.');
-          },
-          (error: Error) =>  {
-            this.errorMessage = <any>error;
-            this.isLoading =  false;
-            this.siteLogModel = {
-              gnssReceivers: [],
-              gnssAnttenas: []
-            };
+          }
+          if (this.siteLogModel.siteMetadataCustodian) {
+            this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
+            if(!this.metadataCustodian.contactInfo.ciContact) {
+              this.metadataCustodian.contactInfo.ciContact = {
+                address: { ciAddress: { id: '' } }
+              };
+            }
           }
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
@@ -144,7 +138,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             gnssReceivers: [],
             gnssAnttenas: []
           };
-       }
+        }
       );
     });
   }
