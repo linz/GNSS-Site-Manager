@@ -75,7 +75,6 @@ export class WFSService {
      */
     private getContent(wfsResponse: Response): any[] {
         let contents: string[] = [];
-        let members: string[];
         let body: any = JSON.parse(wfsResponse.text());
         if (body.hasOwnProperty('ows:ExceptionReport')) {
             throw new Error(JSON.stringify(body));
