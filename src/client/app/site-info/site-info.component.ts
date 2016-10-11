@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { GlobalService, SiteLogService } from '../shared/index';
+import { GnssReceiverInfoComponent } from '../gnss-receiver-info/index';
 
 
 /**
@@ -10,12 +11,15 @@ import { GlobalService, SiteLogService } from '../shared/index';
 @Component({
   moduleId: module.id,
   selector: 'sd-site-info',
-  templateUrl: 'site-info.component.html',
+  templateUrl: 'site-info.component.html'
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public siteLogOrigin: any = {};
-  public siteLogModel: any = null;
+  public siteLogModel: any = {
+    gnssReceivers: [],
+    gnssAnttenas: []
+  };
   public site: any = null;
   public siteLocation: any = null;
   public siteContact: any = null;
@@ -153,61 +157,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab.unsubscribe();
   }
 
-  /**
-   * Add a new empty receiver as current one and push the 'old' current receiver into previous list
-   */
-  public addNewReceiver() {
-    let presentDT = this.getPresentDateTime();
-    if (!this.receivers) {
-      this.receivers = [];
-    }
-
-    // Assign present date/time as default value to dateRemoved if it is empty
-    if (this.receivers.length > 0) {
-      this.status.isReceiversOpen[0] = false;
-      let currentReceiver: any = this.receivers[0];
-      if (!currentReceiver.dateRemoved.value[0] ) {
-        currentReceiver.dateRemoved.value[0] = presentDT;
-      }
-    }
-
-    // Create a new empty receiver with present date/time as default value to dateInstalled
-    let newReceiver = {
-      receiverType: {
-        value: ''
-      },
-      manufacturerSerialNumber: '',
-      serialNumber: '',
-      firmwareVersion: '',
-      satelliteSystem: [
-        {
-          codeListValue: '',
-          value: ''
-        }
-      ],
-      elevationCutoffSetting: '',
-      dateInstalled: {
-        value: [ presentDT ]
-      },
-      dateRemoved: {
-        value: ['']
-      }
-    };
-
-    // Add the new receiver as current one and open it by default
-    this.receivers.unshift(newReceiver);
-    this.status.isReceiversOpen.unshift(true);
-    this.status.isReceiverGroupOpen = true;
-    this.hasNewReceiver = true;
-
-    // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
-    let receiverObj: any = {};
-    if ( this.siteLogModel.gnssReceivers && this.siteLogModel.gnssReceivers.length > 0 ) {
-      receiverObj = JSON.parse(JSON.stringify( this.siteLogModel.gnssReceivers[0] ));
-    }
-    receiverObj.gnssReceiver = newReceiver;
-    this.siteLogModel.gnssReceivers.unshift(receiverObj);
-  }
 
   /**
    * Remove the new current receiver from the receiver list and restore the old current receiver
