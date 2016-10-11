@@ -57,27 +57,6 @@ export class SelectSiteComponent implements OnInit {
   }
 
   /**
-   * Return a list of sites from DB based on the site name and/or four character Id.
-   */
-  searchSites1() {
-    this.isSearching = true;
-    this.sites = [];
-    this.corsSiteService.getCorsSitesBy(this.fourCharacterId, this.siteName).subscribe(
-      (responseJson: any) => {
-        this.sites = responseJson._embedded ? responseJson._embedded.corsSites : [];
-        this.isSearching = false;
-        if (this.sites.length === 0)
-          this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
-      },
-      (error: Error) => {
-        this.errorMessage = <any>error;
-        this.isSearching = false;
-        console.log('Error in searching CORS sites: '+this.errorMessage);
-      }
-    );
-  }
-
-  /**
    * Return a list of sites from DB based on the site name and/or four character Id.  Using WFS and XML.
    */
   searchSites() {

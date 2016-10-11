@@ -24,12 +24,6 @@ export function main() {
         ];
 
         let fakeCorsSiteService = {
-            getCorsSitesBy(fourCharacterId: string, siteName: string): Observable<any> {
-                return new Observable((observer: Subscriber<any>) => {
-                    observer.next({_embedded: {corsSites: [{fourCharacterId: 'ALIC', name: 'ALICE SPRINGS'}]}});
-                    observer.complete();
-                });
-            },
             getCorsSitesByUsingWFS(fourCharacterId: string, siteName: string): Observable<any> {
                 return new Observable((observer: Subscriber<any>) => {
                     observer.next([{fourCharacterId: 'ALIC', name: 'ALICE SPRINGS'}]);
