@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { GlobalService, SiteLogService } from '../shared/index';
-import { GnssReceiverInfoComponent } from '../gnss-receiver-info/index';
 
 
 /**
