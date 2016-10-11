@@ -21,25 +21,6 @@ export class CorsSiteService {
   constructor(private http: Http, private globalService: GlobalService, private wfsService: WFSService) {}
 
   /**
-   * Returns an Observable for the HTTP GET request for the REST Web Service resource.
-   * @param {string} fourCharacterId - The Four Character Id of the site.
-   * @param {string} siteName - The name of the site.
-   * @return {object[]} The Observable for the HTTP request.
-   */
-  getCorsSitesBy(fourCharacterId: string, siteName: string): Observable<any> {
-    let params = '';
-    if (typeof fourCharacterId !== 'undefined' && fourCharacterId !== null && fourCharacterId !== '') {
-      params = 'fourCharacterId='+fourCharacterId.toUpperCase() + '&';
-    }
-    if (typeof siteName !== 'undefined' && siteName !== null && siteName !== '') {
-      params += 'name=' + siteName + '&';
-    }
-    return this.http.get(this.globalService.getWebServiceURL() + '/corsSites?' + params + 'size=1000')
-      .map(GlobalService.handleDataDebug)
-      .catch(this.handleError);
-  }
-
-  /**
    * Returns an Observable for the HTTP GET request for the REST Web Service resource.  Using WFS Server for queries.
    * @param {string} fourCharacterId - The Four Character Id of the site.
    * @param {string} siteName - The name of the site.
