@@ -9,7 +9,7 @@ export class DialogService {
    */
   public confirmSaveDialog(msg: string, okCallback: () => any, cancelCallback: () => any) {
     let header: string = '<div class="panel-heading pad-sm"><div class="panel-title">Confirmation of Modification</div></div>';
-    let body: string = '<div class="panel-body pad-sm">' + msg + '</div>';
+    let body: string = '<div class="panel-body">' + msg + '</div>';
     let footer: string = '<p class="footer">Do you want to save all changes made?</p>';
     let msgHtml: string = '<div class="panel panel-info">' + header + body + '</div>' + footer;
     this.showConfirmDialog(msgHtml, okCallback, cancelCallback);

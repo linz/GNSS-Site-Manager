@@ -156,6 +156,10 @@ ul {
 .alertify .dialog .panel-body {
   max-height: 500px;
   overflow-y: auto;
+  padding: 0 !important;
+}
+.alertify .dialog ul {
+  padding: 0 0 0 10px !important;
 }
 .alertify .alert li,
 .alertify .dialog li {
@@ -171,6 +175,17 @@ ul {
   border: 1px solid #bce8f1;
   color: rgba(0, 0, 0, 0.87);
   font-size: 14px;
+}
+.alertify .alert .footer,
+.alertify .dialog .footer {
+  color: #106cc8;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: italic;
+  line-height: 1.42857143;
+}
+.alertify .dialog .msg {
+  padding: 0 !important;
 }
 
 /* Override bootstrap stylings */

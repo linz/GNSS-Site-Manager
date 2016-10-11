@@ -37,7 +37,20 @@ export class JsonDiffService {
   }
 
   private detectChanges(jsonObj: any) {
+    let newJsonObj: any = [];
     for (let obj of jsonObj) {
+      if (obj.key === 'gnssReceivers' || obj.key === 'gnssAntennas') {
+        for (let o1 of obj.changes) {
+          for (let o2 of o1.changes) {
+            newJsonObj.push(o2);
+          }
+        }
+      } else {
+        newJsonObj.push(obj);
+      }
+    }
+
+    for (let obj of newJsonObj) {
       this.diffArray[obj.key] = [];
       this.traverse(obj, obj.key);
     }
@@ -143,7 +156,7 @@ export class JsonDiffService {
     let newObjKeys: any = Object.keys(newObj);
     let intersectionKeys: any = this.lodash.intersection(oldObjKeys, newObjKeys);
     for (let k of intersectionKeys) {
-      let newPath: any = skipPath ? path : path.concat([k]);
+      let newPath: any = skipPath ? path : path.concat([this.addDateString(newObj, k)]);
       let diffs: any = this.compare(oldObj[k], newObj[k], newPath);
       if (diffs.length > 0) {
         changes = changes.concat(diffs);
@@ -152,7 +165,7 @@ export class JsonDiffService {
 
     let addedKeys: any = this.lodash.difference(newObjKeys, oldObjKeys);
     for (let k of addedKeys) {
-      let newPath: any = skipPath ? path : path.concat([k]);
+      let newPath: any = skipPath ? path : path.concat([this.addDateString(newObj, k)]);
       changes.push({
         type: this.ADD,
         key: this.getKey(newPath),
@@ -160,7 +173,7 @@ export class JsonDiffService {
       });
     }
 
-    // part of the path has been removed - won't happen in our application
+    // It won't happen as we don't remove any paths from JSON object
     let deletedKeys: any = this.lodash.difference(oldObjKeys, newObjKeys);
     for (let k of deletedKeys) {
       let newPath: any = skipPath ? path : path.concat([k]);
@@ -256,5 +269,26 @@ export class JsonDiffService {
     } else {
       return false;
     }
+  }
+
+  private addDateString(obj: any, key: string): string {
+    let obj1: any;
+    if ( obj.gnssReceiver ) {
+      obj1 = obj.gnssReceiver;
+    } else if ( obj.gnssAntenna ) {
+      obj1 = obj.gnssAntenna;
+    } else {
+      return key;
+    }
+    let dateStr: string = '';
+    if (obj1.dateInstalled) {
+      dateStr = '('+obj1.dateInstalled.value[0].substring(0, 10);
+      if (obj1.dateRemoved && obj1.dateRemoved.value[0]) {
+        dateStr += ' &ndash; ' + obj1.dateRemoved.value[0].substring(0, 10);
+      }
+      dateStr += ')';
+    }
+
+    return (dateStr === '') ? key : (key + ' ' + dateStr);
   }
 }
