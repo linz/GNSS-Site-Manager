@@ -6,12 +6,16 @@ import { Observable } from 'rxjs/Observable';
 import { CorsSiteService } from './cors-site.service';
 import { JsonixService } from '../jsonix/jsonix.service';
 import { GlobalService } from '../global/global.service';
+import { WFSService } from '../wfs/wfs.service';
 
 export function main() {
   describe('CorsSite Service', () => {
     let corsSiteService: CorsSiteService;
     let backend: MockBackend;
     let initialResponse: any;
+    let fakeWFSService = {
+    };
+
 
     beforeEach(() => {
 
@@ -27,6 +31,7 @@ export function main() {
           },
           deps: [MockBackend, BaseRequestOptions]
         },
+        {provide: WFSService, useValue: fakeWFSService},
       ]);
       corsSiteService = injector.get(CorsSiteService);
       backend = injector.get(MockBackend);

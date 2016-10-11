@@ -55,10 +55,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {SiteLogService} siteLogService - The injected SiteLogService.
    */
   constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public globalService: GlobalService,
-    public siteLogService: SiteLogService
+      public router: Router,
+      public route: ActivatedRoute,
+      public globalService: GlobalService,
+      public siteLogService: SiteLogService
   ) {}
 
   /**
@@ -89,52 +89,52 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
-        (responseJson: any) => {
-          this.siteLogModel = responseJson['geo:siteLog'];
-          this.backupSiteLogJson();
-          this.site = this.siteLogModel.siteIdentification;
-          this.siteLocation = this.siteLogModel.siteLocation;
-          if (this.siteLogModel.siteContact) {
-            this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
-            if (!this.siteContact.positionName) {
-              this.siteContact.positionName = {value: ''};
-            }
-            if (!this.siteContact.contactInfo.ciContact.address.ciAddress) {
-              this.siteContact.contactInfo.ciContact.address.ciAddress = {
-                deliveryPoint: [{
+          (responseJson: any) => {
+            this.siteLogModel = responseJson['geo:siteLog'];
+            this.backupSiteLogJson();
+            this.site = this.siteLogModel.siteIdentification;
+            this.siteLocation = this.siteLogModel.siteLocation;
+            if (this.siteLogModel.siteContact) {
+              this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
+              if (!this.siteContact.positionName) {
+                this.siteContact.positionName = {value: ''};
+              }
+              if (!this.siteContact.contactInfo.ciContact.address.ciAddress) {
+                this.siteContact.contactInfo.ciContact.address.ciAddress = {
+                  deliveryPoint: [{
+                    characterString: {'gco:CharacterString': ''}
+                  }],
+                  electronicMailAddress: [{
+                    characterString: {'gco:CharacterString': ''}
+                  }]
+                };
+              }
+              if(!this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice) {
+                this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice = [{
                   characterString: {'gco:CharacterString': ''}
-                }],
-                electronicMailAddress: [{
-                  characterString: {'gco:CharacterString': ''}
-                }]
-              };
+                }];
+              }
             }
-            if(!this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice) {
-              this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice = [{
-                characterString: {'gco:CharacterString': ''}
-              }];
+            if (this.siteLogModel.siteMetadataCustodian) {
+              this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
+              if(!this.metadataCustodian.contactInfo.ciContact) {
+                this.metadataCustodian.contactInfo.ciContact = {
+                  address: { ciAddress: { id: '' } }
+                };
+              }
             }
+            this.setGnssReceivers(this.siteLogModel.gnssReceivers);
+            this.setGnssAntennas(this.siteLogModel.gnssAntennas);
+            this.isLoading =  false;
+          },
+          (error: Error) =>  {
+            this.errorMessage = <any>error;
+            this.isLoading =  false;
+            this.siteLogModel = {
+              gnssReceivers: [],
+              gnssAnttenas: []
+            };
           }
-          if (this.siteLogModel.siteMetadataCustodian) {
-            this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
-            if(!this.metadataCustodian.contactInfo.ciContact) {
-              this.metadataCustodian.contactInfo.ciContact = {
-                address: { ciAddress: { id: '' } }
-              };
-            }
-          }
-          this.setGnssReceivers(this.siteLogModel.gnssReceivers);
-          this.setGnssAntennas(this.siteLogModel.gnssAntennas);
-          this.isLoading =  false;
-        },
-        (error: Error) =>  {
-          this.errorMessage = <any>error;
-          this.isLoading =  false;
-          this.siteLogModel = {
-            gnssReceivers: [],
-            gnssAnttenas: []
-          };
-        }
       );
     });
   }
@@ -205,7 +205,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       markerArpEastEcc: '',
       alignmentFromTrueNorth: '',
       antennaRadomeType: {
-          value: ''
+        value: ''
       },
       radomeSerialNumber: '',
       antennaCableType: '',
@@ -258,17 +258,17 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // add root element before saving
     let siteLogJson: any = { 'geo:siteLog': this.siteLogModel };
     this.siteLogService.saveSiteLog(siteLogJson).subscribe(
-      (responseJson: any) => {
-        if (form)form.pristine = true;
-        this.isLoading = false;
-        this.backupSiteLogJson();
-        console.log('Done in saving site log data: ', responseJson);
-      },
-      (error: Error) =>  {
-        this.isLoading = false;
-        this.errorMessage = <any>error;
-        console.log('Error in saving changes: ' + this.errorMessage);
-      }
+        (responseJson: any) => {
+          if (form)form.pristine = true;
+          this.isLoading = false;
+          this.backupSiteLogJson();
+          console.log('Done in saving site log data: ', responseJson);
+        },
+        (error: Error) =>  {
+          this.isLoading = false;
+          this.errorMessage = <any>error;
+          console.log('Error in saving changes: ' + this.errorMessage);
+        }
     );
   }
 
@@ -380,7 +380,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     for (let receiverObj of gnssReceivers) {
       let receiver = receiverObj.gnssReceiver;
       let dateRemoved: string = ( receiver.dateRemoved && receiver.dateRemoved.value.length > 0 )
-                                ? receiver.dateRemoved.value[0] : null;
+          ? receiver.dateRemoved.value[0] : null;
       if ( !dateRemoved ) {
         receiver.dateRemoved = {value: ['']};
         currentReceiver = receiver;
@@ -406,7 +406,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     for (let antennaObj of gnssAntennas) {
       let antenna = antennaObj.gnssAntenna;
       let dateRemoved: string = ( antenna.dateRemoved && antenna.dateRemoved.value.length > 0 )
-                                ? antenna.dateRemoved.value[0] : null;
+          ? antenna.dateRemoved.value[0] : null;
       if ( !dateRemoved ) {
         antenna.dateRemoved = {value: ['']};
         currentAntenna = antenna;
@@ -426,14 +426,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   /**
    * Sort receivers/antennas based on their Date_Installed values in ascending order
    */
-   private compareDateInstalled(obj1: any, obj2: any) {
+  private compareDateInstalled(obj1: any, obj2: any) {
     if (obj1 === null || obj1.dateInstalled === null
-      || obj1.dateInstalled.value === null
-      || obj1.dateInstalled.value.length === 0)
+        || obj1.dateInstalled.value === null
+        || obj1.dateInstalled.value.length === 0)
       return 0;
     if (obj2 === null || obj2.dateInstalled === null
-      || obj2.dateInstalled.value === null
-      || obj2.dateInstalled.value.length === 0)
+        || obj2.dateInstalled.value === null
+        || obj2.dateInstalled.value.length === 0)
       return 0;
 
     if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0])
