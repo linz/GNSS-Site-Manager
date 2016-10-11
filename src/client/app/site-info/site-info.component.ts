@@ -165,7 +165,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.receivers.shift();
     this.status.isReceiversOpen.shift();
     this.hasNewReceiver = false;
-    if (this.receivers.length > 0) {
+    if (this.receivers != null && this.receivers.length > 0) {
       this.status.isReceiversOpen[0] = true;
       this.receivers[0].dateRemoved.value[0] = '';
     }
@@ -181,7 +181,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     // Assign present date/time as default value to dateRemoved if it is empty
-    if (this.antennas.length > 0) {
+    if (this.antennas != null && this.antennas.length > 0) {
       this.status.isAntennasOpen[0] = false;
       let currentAntenna: any = this.antennas[0];
       if (!currentAntenna.dateRemoved.value[0] ) {
@@ -240,7 +240,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.antennas.shift();
     this.status.isAntennasOpen.shift();
     this.hasNewAntenna = false;
-    if (this.antennas.length > 0) {
+    if (this.antennas != null && this.antennas.length > 0) {
       this.status.isAntennasOpen[0] = true;
       this.antennas[0].dateRemoved.value[0] = '';
     }
@@ -298,63 +298,24 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Update the isOpen flags for all previous GNSS receivers,sko
-   */
-  public togglePrevReceivers(flag: boolean) {
-    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
-      this.status.isReceiversOpen[i] = flag;
-    }
-  }
-
-  /**
    * Update the isOpen flags for all previous GNSS antennas
    */
   public togglePrevAntennas(flag: boolean) {
+    if(this.status.isAntennasOpen == null) {
+      throw new Error("status.isAntennasOpen is null");
+    }
     for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
       this.status.isAntennasOpen[i] = flag;
     }
   }
 
   /**
-   * Returns true if all previous GNSS receivers are open, otherwise returns false
-   */
-  public arePrevReceiversOpen() {
-    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
-      if (!this.status.isReceiversOpen[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Returns true if all previous GNSS receivers are closed, otherwise returns false
-   */
-  public arePrevReceiversClosed() {
-    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
-      if (this.status.isReceiversOpen[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Returns true if all previous GNSS antennas are open, otherwise returns false
-   */
-  public arePrevAntennasOpen() {
-    for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
-      if (!this.status.isAntennasOpen[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
    * Returns true if all previous GNSS antennas are closed, otherwise returns false
    */
   public arePrevAntennasClosed() {
+    if(this.status.isAntennasOpen == null) {
+      throw new Error("status.isAntennasOpen is null");
+    }
     for (let index = 1; index < this.status.isAntennasOpen.length; index ++) {
       if (this.status.isAntennasOpen[index]) {
         return false;
