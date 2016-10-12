@@ -29,7 +29,6 @@ export class ProjectConfig extends SeedConfig {
       {src: 'systemjs/dist/system.src.js', inject: 'shims'},
       {src: 'moment/moment.js', inject: 'libs'},
       {src: 'ng2-bootstrap/bundles/ng2-bootstrap.js', inject: 'libs'},
-      {src: 'ng2-table/bundles/ng2-table.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
       {src: 'jsonix/jsonix.js', inject: 'libs'},
       {src: 'w3c-schemas/lib/XLink_1_0.js', inject: 'libs'},
@@ -44,6 +43,8 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/Filter_2_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/OWS_1_1_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/WFS_2_0.js', inject: 'libs'},
+      {src: 'alertify.js/dist/js/ngAlertify.js', inject: 'libs'},
+      {src: 'lodash/lodash.js', inject: 'libs'},
     ];
 
     this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =
@@ -54,11 +55,19 @@ export class ProjectConfig extends SeedConfig {
       defaultExtension : 'js'
     };
 
-    this.SYSTEM_CONFIG_DEV.paths['ng2-table'] =
-      `${this.APP_BASE}node_modules/ng2-table/ng2-table`;
+    this.SYSTEM_CONFIG_DEV.paths['alertify'] =
+      `${this.APP_BASE}node_modules/alertify.js/dist/js/ngAlertify`;
 
-    this.SYSTEM_BUILDER_CONFIG.packages['ng2-table'] = {
-      main: 'ng2-table.js',
+    this.SYSTEM_BUILDER_CONFIG.packages['alertify'] = {
+      main: 'alertify.js',
+      defaultExtension : 'js'
+    };
+
+    this.SYSTEM_CONFIG_DEV.paths['lodash'] =
+      `${this.APP_BASE}node_modules/lodash/lodash`;
+
+    this.SYSTEM_BUILDER_CONFIG.packages['lodash'] = {
+      main: 'lodash.js',
       defaultExtension : 'js'
     };
 

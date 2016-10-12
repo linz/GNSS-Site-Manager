@@ -122,13 +122,13 @@
     "yargs": "^4.8.1"
   },
   "dependencies": {
-    "@angular/common": "2.0.0",
-    "@angular/compiler": "2.0.0",
-    "@angular/core": "2.0.0",
-    "@angular/forms": "2.0.0",
-    "@angular/http": "2.0.0",
-    "@angular/platform-browser": "2.0.0",
-    "@angular/platform-browser-dynamic": "2.0.0",
+    "@angular/common": "2.0.2",
+    "@angular/compiler": "2.0.2",
+    "@angular/core": "2.0.2",
+    "@angular/forms": "2.0.2",
+    "@angular/http": "2.0.2",
+    "@angular/platform-browser": "2.0.2",
+    "@angular/platform-browser-dynamic": "2.0.2",
     "@angular/router": "3.0.0",
     "core-js": "^2.4.0",
     "es-module-loader": "^1.0.0",
@@ -136,9 +136,10 @@
     "rxjs": "5.0.0-beta.12",
     "systemjs": "0.19.27",
     "bootstrap": "3.3.7",
-    "ng2-table": "^1.0.2",
     "ng2-bootstrap": "~1.1.0",
     "moment": "^2.14.1",
-    "zone.js": "0.6.21"
+    "zone.js": "0.6.21",
+    "alertify.js": "^1.0.10",
+    "lodash": "^2.4.1"
   }
 }
