@@ -302,7 +302,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public togglePrevAntennas(flag: boolean) {
     if(this.status.isAntennasOpen === null) {
-      throw new Error("status.isAntennasOpen is null");
+      throw new Error('status.isAntennasOpen is null');
     }
     for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
       this.status.isAntennasOpen[i] = flag;
@@ -314,7 +314,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public arePrevAntennasClosed() {
     if(this.status.isAntennasOpen === null) {
-      throw new Error("status.isAntennasOpen is null");
+      throw new Error('status.isAntennasOpen is null');
     }
     for (let index = 1; index < this.status.isAntennasOpen.length; index ++) {
       if (this.status.isAntennasOpen[index]) {

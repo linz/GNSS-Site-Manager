@@ -81,7 +81,7 @@ export class GnssReceiverInfoComponent implements OnInit {
    */
   public arePrevReceiversClosed() {
     if(this.status.isReceiversOpen === null) {
-      throw new Error("status.isReceiversOpen is null");
+      throw new Error('status.isReceiversOpen is null');
     }
     for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
       if (this.status.isReceiversOpen[i]) {
@@ -96,7 +96,7 @@ export class GnssReceiverInfoComponent implements OnInit {
    */
   public togglePrevReceivers(flag: boolean) {
     if(this.status.isReceiversOpen === null) {
-      throw new Error("status.isReceiversOpen is null");
+      throw new Error('status.isReceiversOpen is null');
     }
     for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
       this.status.isReceiversOpen[i] = flag;
