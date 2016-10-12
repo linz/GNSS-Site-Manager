@@ -30,8 +30,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   public siteInfoForm: FormGroup = null;
   public submitted: boolean = false;
-  public hasNewAntenna: boolean = false;
-  public hasNewReceiver: boolean = false;
 
   public status: any = {
     oneAtATime: false,
@@ -42,7 +40,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
     isAntennaGroupOpen: false,
-    isAntennasOpen: []
+    isAntennasOpen: [],
+    hasNewAntenna: false,
+    hasNewReceiver: false,
   };
 
   /**
@@ -83,12 +83,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.isLoading =  true;
     this.submitted = false;
-    this.hasNewAntenna = false;
-    this.hasNewReceiver = false;
-    this.receivers.length = 0;
-    this.antennas.length = 0;
+    this.status.hasNewAntenna = false;
+    this.status.hasNewReceiver = false;
     this.status.isReceiversOpen.length = 0;
     this.status.isAntennasOpen.length = 0;
+    this.receivers.length = 0;
+    this.antennas.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
@@ -162,25 +162,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Remove the new current receiver from the receiver list and restore the old current receiver
-   */
-  public removeNewReceiver() {
-    this.siteLogModel.gnssReceivers.shift();
-    this.siteLogOrigin.gnssReceivers.shift();
-    this.receivers.shift();
-    this.status.isReceiversOpen.shift();
-    this.hasNewReceiver = false;
-    if (this.receivers !== null && this.receivers.length > 0) {
-      this.status.isReceiversOpen[0] = true;
-      this.receivers[0].dateRemoved.value[0] = '';
-    }
-  }
-
-  /**
    * Add a new empty antenna as current one and push the 'old' current antenna into previous list
    */
   public addNewAntenna() {
-    let presentDT = this.getPresentDateTime();
+    let presentDT = this.globalService.getPresentDateTime();
     if (!this.antennas) {
       this.antennas = [];
     }
@@ -225,12 +210,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
     let antennaObj: any = {};
     if ( this.siteLogModel.gnssAntennas && this.siteLogModel.gnssAntennas.length > 0 ) {
-      antennaObj = this.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
+      antennaObj = this.globalService.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
     }
 
     // Keep a copy of the anteena object as the original one for comparison
-    let antennaObjCopy: any = this.cloneJsonObj(antennaObj);
-    antennaObjCopy.gnssAntenna = this.cloneJsonObj(newAntenna);
+    let antennaObjCopy: any = this.globalService.cloneJsonObj(antennaObj);
+    antennaObjCopy.gnssAntenna = this.globalService.cloneJsonObj(newAntenna);
     this.siteLogOrigin.gnssAntennas.unshift(antennaObjCopy);
 
     newAntenna.dateInstalled.value[0] = presentDT;
@@ -241,7 +226,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.antennas.unshift(newAntenna);
     this.status.isAntennasOpen.unshift(true);
     this.status.isAntennaGroupOpen = true;
-    this.hasNewAntenna = true;
+    this.status.hasNewAntenna = true;
   }
 
   /**
@@ -252,7 +237,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin.gnssAntennas.shift();
     this.antennas.shift();
     this.status.isAntennasOpen.shift();
-    this.hasNewAntenna = false;
+    this.status.hasNewAntenna = false;
     if (this.antennas !== null && this.antennas.length > 0) {
       this.status.isAntennasOpen[0] = true;
       this.antennas[0].dateRemoved.value[0] = '';
@@ -274,8 +259,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       function() {
         that.isLoading = true;
         that.submitted = true;
-        that.hasNewAntenna = false;
-        that.hasNewReceiver = false;
+        that.status.hasNewAntenna = false;
+        that.status.hasNewReceiver = false;
         let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
         that.siteLogService.saveSiteLog(siteLogJson).subscribe(
           (responseJson: any) => {
@@ -309,7 +294,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   public backupSiteLogJson() {
-    this.siteLogOrigin = this.cloneJsonObj(this.siteLogModel);
+    this.siteLogOrigin = this.globalService.cloneJsonObj(this.siteLogModel);
   }
 
   /**
@@ -349,13 +334,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       }
     }
     return true;
-  }
-
-  /**
-   * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
-   */
-  private getPresentDateTime() {
-    return new Date().toISOString();
   }
 
   /**
@@ -428,9 +406,5 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0])
       return -1;
     return 0;
-  }
-
-  private cloneJsonObj(obj: any): any {
-    return JSON.parse(JSON.stringify(obj));
   }
 }

@@ -8,7 +8,7 @@
           </span>
           <span class="pull-right">
             <button class="btn btn-primary btn-xs" title="Add a new receiver as current one"
-                    [disabled]="hasNewReceiver" (click)="addNewReceiver()">
+                    [disabled]="status.hasNewReceiver" (click)="addNewReceiver()">
               <i class="glyphicon glyphicon-plus-sign"></i>
               New Receiver
             </button>
@@ -32,7 +32,7 @@
                     Previous GNSS Receiver ({{ getDate(receiver.dateInstalled.value[0]) }} &ndash; {{ getDate(receiver.dateRemoved.value[0]) }})
                   </span>
                 </span>
-                <span class="pull-right" *ngIf="i == 0 && hasNewReceiver">
+                <span class="pull-right" *ngIf="i == 0 && status.hasNewReceiver">
                   <button class="btn btn-danger btn-xs" title="Remove the new current receiver" (click)="removeNewReceiver()">
                     <i class="glyphicon glyphicon-remove"></i>
                     Remove

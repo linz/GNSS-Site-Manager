@@ -221,7 +221,8 @@
         </div>
       </div>
 
-      <gnss-receiever-info [status]="status" [gnssReceivers]="receivers"></gnss-receiever-info>
+      <gnss-receiever-info [status]="status" [gnssReceivers]="receivers"
+                           [siteLogModel]="siteLogModel" [siteLogOrigin]="siteLogOrigin"></gnss-receiever-info>
 
       <div class="panel panel-info">
         <div class="panel-heading">
@@ -233,7 +234,7 @@
           </span>
           <span class="pull-right">
             <button class="btn btn-primary btn-xs" title="Add a new antenna as current one"
-                    [disabled]="hasNewAntenna" (click)="addNewAntenna()">
+                    [disabled]="status.hasNewAntenna" (click)="addNewAntenna()">
               <i class="glyphicon glyphicon-plus-sign"></i>
               New Antenna
             </button>
@@ -257,7 +258,7 @@
                     Previous GNSS Antenna ({{ getDate(antenna.dateInstalled.value[0]) }} &ndash; {{ getDate(antenna.dateRemoved.value[0]) }})
                   </span>
                 </span>
-                <span class="pull-right" *ngIf="i == 0 && hasNewAntenna">
+                <span class="pull-right" *ngIf="i == 0 && status.hasNewAntenna">
                   <button class="btn btn-danger btn-xs" title="Remove the new current antenna" (click)="removeNewAntenna()">
                     <i class="glyphicon glyphicon-remove"></i>
                     Remove
