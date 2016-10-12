@@ -65,7 +65,7 @@ export class GnssReceiverInfoComponent implements OnInit {
    * Returns true if all previous GNSS receivers are open, otherwise returns false
    */
   public arePrevReceiversOpen() {
-    if(this.status.isReceiversOpen == null) {
+    if(this.status.isReceiversOpen === null) {
       throw new Error('status.isReceiversOpen is null');
     }
     for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
@@ -80,7 +80,7 @@ export class GnssReceiverInfoComponent implements OnInit {
    * Returns true if all previous GNSS receivers are closed, otherwise returns false
    */
   public arePrevReceiversClosed() {
-    if(this.status.isReceiversOpen == null) {
+    if(this.status.isReceiversOpen === null) {
       throw new Error("status.isReceiversOpen is null");
     }
     for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
@@ -95,7 +95,7 @@ export class GnssReceiverInfoComponent implements OnInit {
    * Update the isOpen flags for all previous GNSS receivers,sko
    */
   public togglePrevReceivers(flag: boolean) {
-    if(this.status.isReceiversOpen == null) {
+    if(this.status.isReceiversOpen === null) {
       throw new Error("status.isReceiversOpen is null");
     }
     for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
