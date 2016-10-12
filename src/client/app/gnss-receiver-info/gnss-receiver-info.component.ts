@@ -48,6 +48,60 @@ export class GnssReceiverInfoComponent implements OnInit {
     });
   };
 
+  /**
+   * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
+   */
+  public getDate(datetime: string) {
+    if ( datetime === null || typeof datetime === 'undefined') {
+      return '';
+    } else if (datetime.length < 10) {
+      return datetime;
+    }
+    return datetime.substring(0, 10);
+  }
+
+
+  /**
+   * Returns true if all previous GNSS receivers are open, otherwise returns false
+   */
+  public arePrevReceiversOpen() {
+    if(this.status.isReceiversOpen == null) {
+      throw new Error('status.isReceiversOpen is null');
+    }
+    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
+      if (!this.status.isReceiversOpen[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Returns true if all previous GNSS receivers are closed, otherwise returns false
+   */
+  public arePrevReceiversClosed() {
+    if(this.status.isReceiversOpen == null) {
+      throw new Error("status.isReceiversOpen is null");
+    }
+    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
+      if (this.status.isReceiversOpen[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Update the isOpen flags for all previous GNSS receivers,sko
+   */
+  public togglePrevReceivers(flag: boolean) {
+    if(this.status.isReceiversOpen == null) {
+      throw new Error("status.isReceiversOpen is null");
+    }
+    for (let i = 1; i < this.status.isReceiversOpen.length; i ++) {
+      this.status.isReceiversOpen[i] = flag;
+    }
+  }
 
   /**
    * Add a new empty receiver as current one and push the 'old' current receiver into previous list
