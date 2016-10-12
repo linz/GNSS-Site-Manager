@@ -57,6 +57,31 @@ export class SelectSiteComponent implements OnInit {
   }
 
   /**
+   * Run search function if users type any characters in "Four Character Id" input field, triggered by "change" event.
+   * Note: do not use "key up" event as it does not include paste and selection from dropdown hints
+   */
+  public onSiteIdChange(value: string) {
+    this.fourCharacterId = value;
+    if (this.fourCharacterId === null || this.fourCharacterId.trim() === '') {
+      return;
+    }
+    console.log('---- Four Character ID='+this.fourCharacterId+'; Site Name='+this.siteName);
+    this.searchSites();
+  }
+
+  /**
+   * Run search function if users type any characters in "Site Name" input field, triggered by "change" event.
+   */
+  public onSiteNameChange(value: string) {
+    this.siteName = value;
+    if (this.siteName === null || this.siteName.trim() === '') {
+      return;
+    }
+    console.log('---- Four Character ID='+this.fourCharacterId+'; Site Name='+this.siteName);
+    this.searchSites();
+  }
+
+  /**
    * Return a list of sites from DB based on the site name and/or four character Id.  Using WFS and XML.
    */
   searchSites() {
