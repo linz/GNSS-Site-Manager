@@ -204,7 +204,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       },
       dateRemoved: {
         value: ['']
-      }
+      },
+      notes: ''
     };
 
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved

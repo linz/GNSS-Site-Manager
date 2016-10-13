@@ -142,7 +142,8 @@ export class GnssReceiverInfoComponent implements OnInit {
       },
       dateRemoved: {
         value: ['']
-      }
+      },
+      notes: ''
     };
 
     // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved

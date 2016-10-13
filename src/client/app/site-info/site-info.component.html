@@ -122,7 +122,8 @@
                     <input type="text" maxlength="100" class="form-control" required
                            [(ngModel)]="siteContact.organisationName.characterString['gco:CharacterString']"
                            name="contactOrganisation" #contactOrganisation="ngModel"/>
-                    <small [hidden]="contactOrganisation.valid || contactOrganisation.pristine" class="alert alert-danger">
+                    <small [hidden]="contactOrganisation.valid || contactOrganisation.pristine"
+                           class="alert alert-danger">
                       "Organisation" is required
                     </small>
                   </div>
@@ -138,7 +139,8 @@
                   *ngFor="let address of siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint; let i = index">
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address
-                      {{siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' : i+1}}</label>
+                      {{siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' :
+                      i+1}}</label>
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              [(ngModel)]="address.characterString['gco:CharacterString']"
@@ -178,7 +180,8 @@
           </div>
           <div class="panel panel-warning">
             <div class="panel-heading">
-              <span class="panel-sub-title cursor-ptr" (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen">
+              <span class="panel-sub-title cursor-ptr"
+                    (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isMetaCustodianOpen, 'glyphicon-plus-sign': !status.isMetaCustodianOpen}">
                 </i>
@@ -259,7 +262,8 @@
                   </span>
                 </span>
                 <span class="pull-right" *ngIf="i == 0 && status.hasNewAntenna">
-                  <button class="btn btn-danger btn-xs" title="Remove the new current antenna" (click)="removeNewAntenna()">
+                  <button class="btn btn-danger btn-xs" title="Remove the new current antenna"
+                          (click)="removeNewAntenna()">
                     <i class="glyphicon glyphicon-remove"></i>
                     Remove
                   </button>
@@ -390,6 +394,14 @@
                     <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
                              [(ngModel)]="antenna.dateRemoved.value[0]" name="antennaDateRemoved_{{i}}"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Notes</label>
+                    <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+                      <textarea maxlength="2000" rows="2" class="form-textarea"
+                          [(ngModel)]="antenna.notes"
+                          name="antennaNotes_{{i}}"></textarea>
                     </div>
                   </div>
                 </div>
