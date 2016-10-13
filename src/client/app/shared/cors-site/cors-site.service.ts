@@ -27,17 +27,9 @@ export class CorsSiteService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getCorsSitesByUsingWFS(fourCharacterId: string, siteName: string): Observable<any> {
-    let params = '';
-    if (typeof fourCharacterId !== 'undefined' && fourCharacterId !== null && fourCharacterId !== '') {
-      params = 'fourCharacterId='+fourCharacterId.toUpperCase() + '&';
-    }
-    if (typeof siteName !== 'undefined' && siteName !== null && siteName !== '') {
-      params += 'name=' + siteName + '&';
-    }
-
-    console.log('getCorsSitesByUsingWFS(fourCharacterId: ', fourCharacterId);
     let wfsParams: SelectSiteSearchType = {
-      siteName: fourCharacterId
+      site4CharId: fourCharacterId,
+      siteName: siteName
     };
     return this.wfsService.wfsQuery(wfsParams)
         .map(this.fixWFSeData)

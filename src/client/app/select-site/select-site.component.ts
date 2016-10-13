@@ -57,9 +57,45 @@ export class SelectSiteComponent implements OnInit {
   }
 
   /**
+   * Run search function if users type any characters in "Four Character Id" input field, triggered by "change" event.
+   *
+   * Note: use ngModelChange event as it includes "keyup" event, paste and selection from dropdown hints.
+   */
+  public onSiteIdChange(value: string) {
+    this.fourCharacterId = value;
+    if (this.fourCharacterId === null || this.fourCharacterId.trim() === '') {
+      if (this.siteName === null || this.siteName.trim() === '') {
+        this.clearAll();
+      } else {
+        this.searchSites();
+      }
+    } else {
+      this.searchSites();
+    }
+  }
+
+  /**
+   * Run search function if users type any characters in "Site Name" input field, triggered by "change" event.
+   */
+  public onSiteNameChange(value: string) {
+    this.siteName = value;
+    if (this.siteName === null || this.siteName.trim() === '') {
+      if (this.fourCharacterId === null || this.fourCharacterId.trim() === '') {
+        this.clearAll();
+      } else {
+        this.searchSites();
+      }
+    } else {
+      this.searchSites();
+    }
+  }
+
+  /**
    * Return a list of sites from DB based on the site name and/or four character Id.  Using WFS and XML.
    */
   searchSites() {
+    console.log('---- Four Character ID='+this.fourCharacterId+'; Site Name='+this.siteName);
+    this.errorMessage = null;
     this.isSearching = true;
     this.sites = [];
     this.corsSiteService.getCorsSitesByUsingWFS(this.fourCharacterId, this.siteName)
@@ -99,7 +135,7 @@ export class SelectSiteComponent implements OnInit {
   }
 
 
-  public sortField(columnIndex:number):any {
+  public sortField(columnIndex: number):any {
     let sort = this.columns[columnIndex].sort;
     for (let i = 0; i < this.columns.length; i ++) {
       if ( i === columnIndex) {
@@ -144,5 +180,5 @@ export class SelectSiteComponent implements OnInit {
     }).catch((error: any) => {
       console.error('Caught error in updateCacheList:', error);
     });
-  };
+  }
 }
