@@ -27,9 +27,9 @@ export class CorsSiteService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getCorsSitesByUsingWFS(fourCharacterId: string, siteName: string): Observable<any> {
-    fourCharacterId = this.addWildcard(fourCharacterId).toUpperCase();
     let wfsParams: SelectSiteSearchType = {
-      siteName: fourCharacterId
+      site4CharId: fourCharacterId,
+      siteName: siteName
     };
     return this.wfsService.wfsQuery(wfsParams)
         .map(this.fixWFSeData)
@@ -77,19 +77,5 @@ export class CorsSiteService {
       error.status ? `${error.status} - ${error.statusText}` : 'Server error';
     console.error(errMsg);
     return Observable.throw(errMsg);
-  }
-
-  private addWildcard(value: string): string {
-    if (value === null) {
-      return '*';
-    }
-
-    let newValue: string = value.trim();
-    if (newValue === '') {
-      return '*';
-    } else if (newValue[-1] !== '*') {
-      newValue += '*';
-    }
-    return newValue;
   }
 }

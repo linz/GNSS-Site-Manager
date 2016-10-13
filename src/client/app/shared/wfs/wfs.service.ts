@@ -148,43 +148,83 @@ export class WFSService {
     }
 
     /**
+     * Escape twice: once for JSON and once for GeoServer.
+     */
+    private escapeRegEx(s: string): string {
+       s = s.replace(/\\/g, '\\\\\\\\');
+       s = s.replace(/\"/g, '\\$&');
+       return s.replace(/[-\/^$*+?.()|[\]{}]/g, '\\\\$&');
+    }
+
+    /**
      * Build a WFS Query (in JSON format) where query type is SelectSiteSearchType
-     * @param params
+     * @param params: a SelectSiteSearchType object contains site ID and name for searching of CORS sites
      * @returns {string}
      */
     private buildJsonQuery(params: SelectSiteSearchType): string {
-        let siteSearch = params.siteName;
-        console.log('buildJsonQuery - siteSearch: ', siteSearch);
-        return `
-                {
-                  "wfs:GetFeature": {
-                    "TYPE_NAME": "WFS_2_0.GetFeatureType",
-                    "service": "WFS",
-                    "version": "2.0.0",
-                    "abstractQueryExpression": [{
-                        "wfs:Query": {
-                            "TYPE_NAME": "WFS_2_0.QueryType",
-                            "typeNames": ["geo:Site"],
-                            "abstractSortingClause": {
-                                "fes:PropertyIsLike": {
-                                    "TYPE_NAME": "Filter_2_0.PropertyIsLikeType",
-                                    "wildCard": "*",
-                                    "singleChar": "#",
-                                    "escapeChar": "!",
+        let siteId: string = this.escapeRegEx(params.site4CharId);
+        let siteName: string = this.escapeRegEx(params.siteName);
+        console.log('buildJsonQuery - siteId: '+siteId+', siteName:'+siteName);
+        return `{
+            "wfs:GetFeature": {
+                "TYPE_NAME": "WFS_2_0.GetFeatureType",
+                "service": "WFS",
+                "version": "2.0.0",
+                "abstractQueryExpression": [{
+                    "wfs:Query": {
+                        "TYPE_NAME": "WFS_2_0.QueryType",
+                        "typeNames": ["geo:Site"],
+                        "abstractSortingClause": {
+                            "fes:And": [{
+                                "fes:PropertyIsEqualTo": {
+                                    "TYPE_NAME": "Filter_2_0.PropertyIsEqualToType",
                                     "expression": [{
-                                        "fes:ValueReference": "gml:identifier"
-                                    }, {
                                         "fes:Literal": {
-                                            "TYPE_NAME": "Filter_2_0.LiteralType",
-                                            "content": ["${siteSearch}"]
+                                            "TYPE_NAME": "Filter_2_0.BooleanType",
+                                            "content": ["true"]
+                                        }
+                                    }, {
+                                        "fes:Function": {
+                                            "name": "isLike",
+                                            "expression": [{
+                                                "fes:ValueReference": "gml:identifier"
+                                            }, {
+                                                "fes:Literal": {
+                                                    "TYPE_NAME": "Filter_2_0.LiteralType",
+                                                    "content": ["(?i)${siteId}.*"]
+                                                }
+                                            }]
                                         }
                                     }]
                                 }
-                            }
+                            }, {
+                                "fes:PropertyIsEqualTo": {
+                                    "TYPE_NAME": "Filter_2_0.PropertyIsEqualToType",
+                                    "expression": [{
+                                        "fes:Literal": {
+                                            "TYPE_NAME": "Filter_2_0.BooleanType",
+                                            "content": ["true"]
+                                        }
+                                    }, {
+                                        "fes:Function": {
+                                            "name": "isLike",
+                                            "expression": [{
+                                                "fes:ValueReference": "gml:name"
+                                            }, {
+                                                "fes:Literal": {
+                                                    "TYPE_NAME": "Filter_2_0.LiteralType",
+                                                    "content": ["(?i).*${siteName}.*"]
+                                                }
+                                            }]
+                                        }
+                                    }]
+                                }
+                            }]
                         }
-                    }]
-                  }
-                }`;
+                    }
+                }]
+            }
+        }`;
     }
 
     private convertWFSQueryToML(jsonQuery: string): string {
