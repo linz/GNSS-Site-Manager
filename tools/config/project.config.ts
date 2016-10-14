@@ -28,7 +28,7 @@ export class ProjectConfig extends SeedConfig {
       ...this.NPM_DEPENDENCIES,
       {src: 'systemjs/dist/system.src.js', inject: 'shims'},
       {src: 'moment/moment.js', inject: 'libs'},
-      {src: 'ng2-bootstrap/bundles/ng2-bootstrap.js', inject: 'libs'},
+      {src: 'ng2-bootstrap/bundles/ng2-bootstrap.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
       {src: 'jsonix/jsonix.js', inject: 'libs'},
       {src: 'w3c-schemas/lib/XLink_1_0.js', inject: 'libs'},
@@ -51,7 +51,7 @@ export class ProjectConfig extends SeedConfig {
       `${this.APP_BASE}node_modules/ng2-bootstrap/ng2-bootstrap`;
 
     this.SYSTEM_BUILDER_CONFIG.packages['ng2-bootstrap'] = {
-      main: 'ng2-bootstrap.js',
+      main: 'ng2-bootstrap',
       defaultExtension : 'js'
     };
 
@@ -59,7 +59,7 @@ export class ProjectConfig extends SeedConfig {
       `${this.APP_BASE}node_modules/alertify.js/dist/js/ngAlertify`;
 
     this.SYSTEM_BUILDER_CONFIG.packages['alertify'] = {
-      main: 'alertify.js',
+      main: 'ngAlertify',
       defaultExtension : 'js'
     };
 
@@ -67,7 +67,7 @@ export class ProjectConfig extends SeedConfig {
       `${this.APP_BASE}node_modules/lodash/lodash`;
 
     this.SYSTEM_BUILDER_CONFIG.packages['lodash'] = {
-      main: 'lodash.js',
+      main: 'lodash',
       defaultExtension : 'js'
     };
 
