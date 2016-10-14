@@ -95,6 +95,13 @@
               </div>
             </div>
             <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Temperature Stabilization</label>
+              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       [(ngModel)]="receiver.temperatureStabilization"
+                       name="receiverTemperatureStabilization_{{i}}"/>
+              </div>
+            </div>            <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"

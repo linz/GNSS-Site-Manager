@@ -137,6 +137,7 @@ export class GnssReceiverInfoComponent implements OnInit {
         }
       ],
       elevationCutoffSetting: '',
+      temperatureStabilization: '',
       dateInstalled: {
         value: ['']
       },
