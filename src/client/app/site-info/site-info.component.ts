@@ -322,12 +322,21 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Returns true if all previous GNSS antennas are open, otherwise returns false
+   */
+  public arePrevAntennasOpen() {
+    for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
+      if (!this.status.isAntennasOpen[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
    * Returns true if all previous GNSS antennas are closed, otherwise returns false
    */
   public arePrevAntennasClosed() {
-    if(this.status.isAntennasOpen === null) {
-      throw new Error('status.isAntennasOpen is null');
-    }
     for (let index = 1; index < this.status.isAntennasOpen.length; index ++) {
       if (this.status.isAntennasOpen[index]) {
         return false;
