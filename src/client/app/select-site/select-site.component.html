@@ -12,27 +12,14 @@
       <div class="panel-body">
         <form name="searchSite" novalidate class="form-horizontal">
           <div class="form-group">
-            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Four Character Id</label>
-            <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
-              <input type="text" maxlength="9" class="form-control" name="fourCharacterId"
-                     (ngModelChange)="onSiteIdChange($event)"
-                     placeholder="Search by Four Character Id" [(ngModel)]="fourCharacterId"/>
+            <!--<label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Search by Site Id or Site Name</label>-->
+            <div class="col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-8 col-xs-offset-1 col-xxs-12 col-xxs-offset-0 margin-top5">
+              <input type="text" maxlength="200" class="form-control" name="searchText"
+                     (ngModelChange)="onSearchTextChange($event)"
+                     placeholder="Search by Site Id or Site Name" [(ngModel)]="searchText"/>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Site Name</label>
-            <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
-              <input type="text" maxlength="200" class="form-control" name="siteName"
-                     (ngModelChange)="onSiteNameChange($event)"
-                     placeholder="Search by Site Name" [(ngModel)]="siteName"/>
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12">
-              <div class="align-center">
-                <button class="btn btn-primary margin10" type="submit" (click)="searchSites()" title="Search desired CORS sites">Search</button>
-                <button class="btn btn-primary margin10" type="submit" (click)="clearAll()" title="Clear all inputs and search results if any">Clear All</button>
-              </div>
+            <div class="col-md-2 col-sm-2 col-xs-1 col-xxs-12">
+              <button class="btn btn-primary col-xxs-center" type="submit" (click)="searchSites()" title="Search desired CORS sites">Search</button>
             </div>
           </div>
         </form>

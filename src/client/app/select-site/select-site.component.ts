@@ -13,8 +13,7 @@ import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/
 })
 export class SelectSiteComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
-  public siteName: string = '';
-  public fourCharacterId: string = '';
+  public searchText: string = '';
   public sites: Array<any> = [];
   public selectedSite: any = null;
   public searchMsg: string = '';
@@ -22,7 +21,7 @@ export class SelectSiteComponent implements OnInit {
   public isSearching: boolean = false;
   private cacheItems: Array<string> = [];
 
-  public columns:Array<any> = [
+  public columns: Array<any> = [
     {name: 'fourCharacterId', sort: ''},
     {name: 'name', sort: ''}
   ];
@@ -57,34 +56,14 @@ export class SelectSiteComponent implements OnInit {
   }
 
   /**
-   * Run search function if users type any characters in "Four Character Id" input field, triggered by "change" event.
+   * Run search function if users type any characters in "SearchText" input field, triggered by "change" event.
    *
    * Note: use ngModelChange event as it includes "keyup" event, paste and selection from dropdown hints.
    */
-  public onSiteIdChange(value: string) {
-    this.fourCharacterId = value;
-    if (this.fourCharacterId === null || this.fourCharacterId.trim() === '') {
-      if (this.siteName === null || this.siteName.trim() === '') {
-        this.clearAll();
-      } else {
-        this.searchSites();
-      }
-    } else {
-      this.searchSites();
-    }
-  }
-
-  /**
-   * Run search function if users type any characters in "Site Name" input field, triggered by "change" event.
-   */
-  public onSiteNameChange(value: string) {
-    this.siteName = value;
-    if (this.siteName === null || this.siteName.trim() === '') {
-      if (this.fourCharacterId === null || this.fourCharacterId.trim() === '') {
-        this.clearAll();
-      } else {
-        this.searchSites();
-      }
+  public onSearchTextChange(value: string) {
+    this.searchText = value;
+    if (this.searchText === null || this.searchText.trim() === '') {
+      this.clearAll();
     } else {
       this.searchSites();
     }
@@ -94,13 +73,16 @@ export class SelectSiteComponent implements OnInit {
    * Return a list of sites from DB based on the site name and/or four character Id.  Using WFS and XML.
    */
   searchSites() {
-    console.log('---- Four Character ID='+this.fourCharacterId+'; Site Name='+this.siteName);
+    // New rule: search text could be either Site Id or Site Name
+    let fourCharacterId: string = this.searchText;
+    let siteName: string = this.searchText;
+
     this.errorMessage = null;
     this.isSearching = true;
     this.sites = [];
-    this.corsSiteService.getCorsSitesByUsingWFS(this.fourCharacterId, this.siteName)
+    this.corsSiteService.getCorsSitesByUsingWFS(fourCharacterId, siteName)
       .subscribe(
-        (responseJson: any) => this.sites = responseJson,    // ? responseJson._embedded.corsSites : []),
+        (responseJson: any) => this.sites = responseJson,
         (error: Error) => this.errorMessage = <any>error,
         () => {
           this.isSearching = false;
@@ -126,8 +108,7 @@ export class SelectSiteComponent implements OnInit {
   clearAll() {
     this.errorMessage = null;
     this.searchMsg = 'Please enter search criteria for searching desired sites.';
-    this.siteName = '';
-    this.fourCharacterId = '';
+    this.searchText = '';
     this.sites.length = 0;
     this.selectedSite = null;
     this.isSearching = false;

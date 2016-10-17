@@ -175,7 +175,7 @@ export class WFSService {
                         "TYPE_NAME": "WFS_2_0.QueryType",
                         "typeNames": ["geo:Site"],
                         "abstractSortingClause": {
-                            "fes:And": [{
+                            "fes:Or": [{
                                 "fes:PropertyIsEqualTo": {
                                     "TYPE_NAME": "Filter_2_0.PropertyIsEqualToType",
                                     "expression": [{
