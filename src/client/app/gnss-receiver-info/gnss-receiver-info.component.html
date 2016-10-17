@@ -95,6 +95,13 @@
               </div>
             </div>
             <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Temperature Stabilization</label>
+              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+                <input type="text" maxlength="100" class="form-control"
+                       [(ngModel)]="receiver.temperatureStabilization"
+                       name="receiverTemperatureStabilization_{{i}}"/>
+              </div>
+            </div>            <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
               <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
@@ -108,6 +115,14 @@
                 <input type="text" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.dateRemoved.value[0]"
                        name="receiverDateRemoved_{{i}}"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Notes</label>
+              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+                <textarea maxlength="2000" rows="2" class="form-textarea"
+                       [(ngModel)]="receiver.notes"
+                       name="receiverNotes_{{i}}"></textarea>
               </div>
             </div>
           </div>

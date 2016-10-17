@@ -97,6 +97,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.site = this.siteLogModel.siteIdentification;
           this.siteLocation = this.siteLogModel.siteLocation;
           if (this.siteLogModel.siteContact) {
+            // TODO: do we need to add both primaryContact and secondaryContact to the "Site Contact" section ?
             this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
             if (!this.siteContact.positionName) {
               this.siteContact.positionName = {value: ''};
@@ -204,7 +205,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       },
       dateRemoved: {
         value: ['']
-      }
+      },
+      notes: ''
     };
 
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
