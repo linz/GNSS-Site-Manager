@@ -3,6 +3,8 @@
 export interface EnvConfig {
   API?: string;
   ENV?: string;
+  WEBSERVICEURL?: string;
+  WFSGEOSERVERURL?: string;
 }
 
 export const Config: EnvConfig = JSON.parse('<%= ENV_CONFIG %>');

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
+import { Config } from '../config/env.config';
 
 @Injectable()
 export class GlobalService {
@@ -9,11 +10,8 @@ export class GlobalService {
     public isRunning: boolean = false;
     private statusText: string = '';
 
-    // TODO: move to a configuration file
-    private webServiceURL: string = 'https://dev.geodesy.ga.gov.au';
-    // private webServiceURL: string = 'http://localhost:8080/geodesy-web-services';
-    private wfsGeoserverURL: string = 'https://devgeodesy-geoserverelb.geodesy.ga.gov.au/geoserver/wfs';
-    // private wfsGeoserverURL: string = 'http://localhost:8080/geoserver/wfs';
+    private webServiceURL: string = Config.WEBSERVICEURL;
+    private wfsGeoserverURL: string = Config.WFSGEOSERVERURL;
 
     public static handleData(response: Response) {
         return response.json();
