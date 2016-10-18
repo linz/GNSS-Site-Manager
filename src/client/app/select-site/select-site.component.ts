@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
+import 'rxjs/add/operator/debounceTime';
 import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/index';
 
 /**
@@ -13,6 +15,7 @@ import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/
 })
 export class SelectSiteComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
+  public searchTextSubject = new Subject<any>();
   public searchText: string = '';
   public sites: Array<any> = [];
   public selectedSite: any = null;
@@ -42,6 +45,9 @@ export class SelectSiteComponent implements OnInit {
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
+    this.searchTextSubject
+        .debounceTime(1000)
+        .subscribe((newText: string) => this.onSearchTextChange(newText));
     this.setupSubscriptions();
     this.clearAll();
     this.updateCacheList();
@@ -72,7 +78,7 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Return a list of sites from DB based on the site name and/or four character Id.  Using WFS and XML.
    */
-  searchSites() {
+  public searchSites() {
     // New rule: search text could be either Site Id or Site Name
     let fourCharacterId: string = this.searchText;
     let siteName: string = this.searchText;
@@ -95,7 +101,7 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Select a site from the search results of sites.
    */
-  selectSite(site: any) {
+  public selectSite(site: any) {
     this.selectedSite = site;
     this.globalService.setSelectedSiteId(site.fourCharacterId);
     let link = ['/siteInfo', site.id];
@@ -103,9 +109,9 @@ export class SelectSiteComponent implements OnInit {
   }
 
   /**
-   * Clear all input fields and clear sites array
+   * Clear all input fields and search results of sites
    */
-  clearAll() {
+  public clearAll() {
     this.errorMessage = null;
     this.searchMsg = 'Please enter search criteria for searching desired sites.';
     this.searchText = '';
@@ -115,6 +121,15 @@ export class SelectSiteComponent implements OnInit {
     this.globalService.selectedSiteId = null;
   }
 
+  public getSortingOrder(index: number): string {
+    if (index < 0 || index >= this.columns.length) {
+      return 'ascending';
+    } else if (!this.columns[index].sort || this.columns[index].sort === 'asc') {
+      return 'ascending';
+    } else {
+      return 'descending';
+    }
+  }
 
   public sortField(columnIndex: number):any {
     let sort = this.columns[columnIndex].sort;

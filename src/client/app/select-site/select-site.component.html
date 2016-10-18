@@ -10,18 +10,19 @@
         </div>
       </div>
       <div class="panel-body">
-        <form name="searchSite" novalidate class="form-horizontal">
-          <div class="form-group">
-            <div class="col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-8 col-xs-offset-1 col-xxs-12 col-xxs-offset-0 margin-top5">
-              <input type="text" maxlength="200" class="form-control" name="searchText"
-                     (ngModelChange)="onSearchTextChange($event)"
-                     placeholder="Search by Site Id or Site Name" [(ngModel)]="searchText"/>
-            </div>
-            <div class="col-md-2 col-sm-2 col-xs-1 col-xxs-12">
-              <button class="btn btn-primary col-xxs-center" type="submit" (click)="searchSites()" title="Search desired CORS sites">Search</button>
-            </div>
+        <div class="form-group">
+          <div class="col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1
+                      col-xs-8 col-xs-offset-1 col-xxs-12 col-xxs-offset-0 margin-top5">
+            <input type="text" name="searchText" maxlength="200" class="form-control"
+                   (input)="searchTextSubject.next($event.target.value)"
+                   placeholder="Search by Site Id or Site Name"/>
           </div>
-        </form>
+          <div class="col-md-2 col-sm-2 col-xs-1 col-xxs-12">
+            <button class="btn btn-primary col-xxs-center" (click)="searchSites()" title="Search desired CORS sites">
+              Search
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="panel-error" *ngIf="errorMessage">
@@ -35,7 +36,8 @@
       </span>
       <br><br>
       <span>
-        Please <a href="http://www.ga.gov.au/contact-us" target="_blank">contact Geoscience Australia</a> to report the error.
+        Please <a href="http://www.ga.gov.au/contact-us" target="_blank">contact Geoscience Australia</a>
+        to report the error.
       </span>
     </div>
     <div class="panel panel-info">
@@ -52,22 +54,23 @@
         </div>
         <div *ngIf="sites.length != 0">
           <div>
-            <table id="select-site-sites-table" class="table table-striped table-hover" style="width: 100%;" role="grid">
+            <table id="select-site-sites-table" class="table table-striped table-hover" style="width: 100%;"
+                   role="grid">
               <thead>
-              <tr role="row">
-                <th name="column_1" (click)="sortField(0)"
-                    title="Click to sort Four Character Id in {{ ( !columns[0].sort || columns[0].sort == 'asc' ) ? 'ascending' : 'descending'}} order">
-                  Four Character ID
-                  <i *ngIf="columns[0].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
-                  <i *ngIf="columns[0].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
-                </th>
-                <th name="column_2" (click)="sortField(1)"
-                    title="Click to sort Site Name in {{ ( !columns[1].sort || columns[1].sort == 'asc' ) ? 'ascending' : 'descending'}} order">
-                  Site Name
-                  <i *ngIf="columns[1].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
-                  <i *ngIf="columns[1].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
-                </th>
-              </tr>
+                <tr role="row">
+                  <th name="column_1" (click)="sortField(0)"
+                      title="Click to sort Four Character Id in {{ getSortingOrder(0) }} order">
+                    Four Character ID
+                    <i *ngIf="columns[0].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
+                    <i *ngIf="columns[0].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
+                  </th>
+                  <th name="column_2" (click)="sortField(1)"
+                      title="Click to sort Site Name in {{ getSortingOrder(1) }} order">
+                    Site Name
+                    <i *ngIf="columns[1].sort == 'asc'" class="glyphicon glyphicon-chevron-up"></i>
+                    <i *ngIf="columns[1].sort == 'desc'" class="glyphicon glyphicon-chevron-down"></i>
+                  </th>
+                </tr>
               </thead>
               <tbody>
               <tr role="row" *ngFor="let site of sites" (click)="selectSite(site)">
