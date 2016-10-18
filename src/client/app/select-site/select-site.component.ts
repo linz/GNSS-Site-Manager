@@ -15,7 +15,7 @@ import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/
 })
 export class SelectSiteComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
-  public searchTextSubject = new Subject<any>();
+  public searchTextSubject = new Subject<string>();
   public searchText: string = '';
   public sites: Array<any> = [];
   public selectedSite: any = null;
