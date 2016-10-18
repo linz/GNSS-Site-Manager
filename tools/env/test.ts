@@ -2,8 +2,8 @@ import {EnvConfig} from './env-config.interface';
 
 const TestConfig: EnvConfig = {
   ENV: 'TEST',
-  WEBSERVICEURL: 'https://test.geodesy.ga.gov.au',
-  WFSGEOSERVERURL: 'https://testgeodesy-geoserverelb.geodesy.ga.gov.au/geoserver/wfs',
+  WEB_SERVICE_URL: 'https://test.geodesy.ga.gov.au',
+  WFS_GEOSERVER_URL: 'https://testgeodesy-geoserverelb.geodesy.ga.gov.au/geoserver/wfs',
 };
 
 export = TestConfig;

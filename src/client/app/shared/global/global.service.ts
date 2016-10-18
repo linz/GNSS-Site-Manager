@@ -10,8 +10,8 @@ export class GlobalService {
     public isRunning: boolean = false;
     private statusText: string = '';
 
-    private webServiceURL: string = Config.WEBSERVICEURL;
-    private wfsGeoserverURL: string = Config.WFSGEOSERVERURL;
+    private webServiceURL: string = Config.WEB_SERVICE_URL;
+    private wfsGeoserverURL: string = Config.WFS_GEOSERVER_URL;
 
     public static handleData(response: Response) {
         return response.json();
