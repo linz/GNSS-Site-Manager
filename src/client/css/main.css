@@ -125,6 +125,12 @@ ul {
   background-color: #555 !important;
 }
 
+.margin-top5 {
+  margin-top: 5px;
+}
+.margin-top10 {
+  margin-top: 10px;
+}
 .margin-top20 {
   float: left;
   margin-top: 20px;
@@ -477,6 +483,14 @@ ul {
   }
   .col-xxs-offset-0 {
     margin-left: 0;
+  }
+
+  .col-xxs-center {
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
   }
 
   .panel-body {
