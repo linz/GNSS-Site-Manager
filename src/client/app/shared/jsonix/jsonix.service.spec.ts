@@ -58,12 +58,12 @@ export function main() {
       // expect(json).not.toBeNull();
     });
 
-    xit('should error on invalid Json', () => {
+    it('should error on invalid Json', () => {
       // xit commented out as it is Impossible to write invalide JSON since can't construct (or string parse) it
       let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_3.SiteLogType"`;
       expect(function() {
         jsonixService.jsonToGeodesyML(JSON.parse(json));
-      }).toThrow('some error');
+      }).toThrow(new SyntaxError('Unexpected end of JSON input'));
     });
 
     it('should parse valid wfs XML to help me develop the WFS Service (smiley) and than marshall back to XML', () => {

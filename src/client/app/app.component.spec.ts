@@ -19,6 +19,9 @@ import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { Http, BaseRequestOptions, ConnectionBackend, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { WFSService } from './shared/wfs/wfs.service';
+import { JsonixService } from './shared/jsonix/jsonix.service';
+import { GlobalService } from './shared/global/global.service';
 
 export function main() {
 
@@ -37,6 +40,9 @@ export function main() {
         providers: [
           {provide: APP_BASE_HREF, useValue: '/'},
           MockBackend,
+          WFSService,
+          JsonixService,
+          GlobalService,
           BaseRequestOptions,
           {
             provide: Http, useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {

@@ -159,7 +159,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.antennas.length = 0;
     this.errorMessage = '';
     this.globalService.selectedSiteId = null;
-    this.siteInfoTab.unsubscribe();
+    // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
+    // object is created.  Hence this field might not have been created.
+    if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
+      this.siteInfoTab.unsubscribe();
+    }
   }
 
   /**

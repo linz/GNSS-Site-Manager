@@ -162,8 +162,8 @@ export class WFSService {
      * @returns {string}
      */
     private buildJsonQuery(params: SelectSiteSearchType): string {
-        let siteId: string = this.escapeRegEx(params.site4CharId);
-        let siteName: string = this.escapeRegEx(params.siteName);
+        let siteId: string = params.site4CharId !== undefined ? this.escapeRegEx(params.site4CharId) : '';
+        let siteName: string = params.siteName !== undefined ? this.escapeRegEx(params.siteName) : '';
         console.log('buildJsonQuery - siteId: '+siteId+', siteName:'+siteName);
         return `{
             "wfs:GetFeature": {
