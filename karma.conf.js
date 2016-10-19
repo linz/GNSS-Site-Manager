@@ -50,6 +50,9 @@ module.exports = function (config) {
       'node_modules/ogc-schemas/lib/WFS_2_0.js',
       'node_modules/ogc-schemas/lib/GEODESYML_0_3.js',
 
+      'node_modules/alertify.js/dist/js/alertify.js',
+      'node_modules/lodash/lodash.js',
+
       // RxJs.
       { pattern: 'node_modules/rxjs/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/rxjs/**/*.js.map', included: false, watched: false },
