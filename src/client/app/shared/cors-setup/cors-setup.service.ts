@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { GlobalService } from '../global/global.service';
+import { HttpUtilsService } from '../global/http-utils.service';
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -25,8 +26,8 @@ export class CorsSetupService {
    */
   getCurrentSetupByFourCharacterId(fourCharacterId: string): Observable<any> {
     return this.http.get(this.globalService.getWebServiceURL()+'/setups/search/findCurrentByFourCharacterId?id='+fourCharacterId)
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+            .map(HttpUtilsService.handleJsonData)
+            .catch(HttpUtilsService.handleError);
   }
 
   /**
@@ -39,8 +40,8 @@ export class CorsSetupService {
       params = 'siteId=' + siteId ;
     }
     return this.http.get(this.globalService.getWebServiceURL()+'/setups?'+params+'&size=1000')
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+            .map(HttpUtilsService.handleJsonData)
+            .catch(HttpUtilsService.handleError);
   }
 
   /**
@@ -49,23 +50,13 @@ export class CorsSetupService {
    */
   getAllCorsSetups(): Observable<any[]> {
     return this.http.get(this.globalService.getWebServiceURL()+'/setups?size=1000')
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
+            .map(HttpUtilsService.handleJsonData)
+            .catch(HttpUtilsService.handleError);
   }
 
   getCorsSetupById(id: number): Observable<any> {
     return this.http.get(this.globalService.getWebServiceURL()+'/setups?id='+id)
-            .map((response: Response) => response.json())
-            .catch(this.handleError);
-  }
-
-  /**
-    * Handle HTTP error
-    */
-  private handleError (error: any) {
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+            .map(HttpUtilsService.handleJsonData)
+            .catch(HttpUtilsService.handleError);
   }
 }

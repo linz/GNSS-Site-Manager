@@ -5,6 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { GlobalService } from '../global/global.service';
+import { HttpUtilsService } from '../global/http-utils.service';
+
 /**
  * This class provides the service to work with WFS in Geoservers.
  */
@@ -60,7 +62,7 @@ export class WFSService {
                     observer.next(content);
                     observer.complete();
                 },
-                (error: Error) => GlobalService.handleError
+                (error: Error) => HttpUtilsService.handleError
             );
         });
     }
@@ -104,7 +106,7 @@ export class WFSService {
         console.debug('WFS Query being POSTed to "' + this.globalService.getWFSGeoserverURL() + '": ', xmlQuery);
         return this.http.post(this.globalService.getWFSGeoserverURL(), xmlQuery)
             .map(this.handleData)
-            .catch(GlobalService.handleError);
+            .catch(HttpUtilsService.handleError);
     }
 
     /**

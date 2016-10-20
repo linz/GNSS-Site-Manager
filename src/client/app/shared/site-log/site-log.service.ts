@@ -6,6 +6,7 @@ import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
 import { GlobalService } from '../global/global.service';
 import { WFSService, SelectSiteSearchType } from '../wfs/wfs.service';
+import { HttpUtilsService } from '../global/http-utils.service';
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -45,8 +46,8 @@ export class SiteLogService {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
     return this.http.get(this.globalService.getWebServiceURL()
                          + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
-      .map(GlobalService.handleData)
-      .catch(GlobalService.handleError);
+      .map(HttpUtilsService.handleJsonData)
+      .catch(HttpUtilsService.handleError);
   }
 
   /**
@@ -64,7 +65,7 @@ export class SiteLogService {
       .map((response: Response) => {
         return this.handleXMLData(response);
       })
-      .catch(GlobalService.handleError);
+      .catch(HttpUtilsService.handleError);
   }
 
   getSiteLogByFourCharacterIdUsingGeodesyMLWFS(fourCharacterId: string): Observable<any> {
@@ -103,8 +104,8 @@ export class SiteLogService {
       params = 'siteId=' + siteId;
     }
     return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?' + params)
-      .map(GlobalService.handleData)
-      .catch(GlobalService.handleError);
+      .map(HttpUtilsService.handleJsonData)
+      .catch(HttpUtilsService.handleError);
   }
 
   /**
@@ -114,8 +115,8 @@ export class SiteLogService {
    */
   getSiteLogById(id: number): Observable <any> {
     return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?id=' + id)
-      .map(GlobalService.handleData)
-      .catch(GlobalService.handleError);
+      .map(HttpUtilsService.handleJsonData)
+      .catch(HttpUtilsService.handleError);
   }
 
   /**
@@ -124,8 +125,8 @@ export class SiteLogService {
    */
   getAllSiteLogs(): Observable <any[]> {
     return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?size=1000')
-      .map(GlobalService.handleData)
-      .catch(GlobalService.handleError);
+      .map(HttpUtilsService.handleJsonData)
+      .catch(HttpUtilsService.handleError);
   }
 
   /**
@@ -146,7 +147,7 @@ export class SiteLogService {
     geodesyMl += siteLogML + '</geo:GeodesyML>';
     console.log('saveSiteLog - geodesyMl: ', geodesyMl);
     return this.http.post(this.globalService.getWebServiceURL() + '/siteLogs/upload', geodesyMl)
-      .map(GlobalService.handleData)
-      .catch(GlobalService.handleError);
+      .map(HttpUtilsService.handleJsonData)
+      .catch(HttpUtilsService.handleError);
   }
 }

@@ -5,6 +5,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { WFSService, SelectSiteSearchType } from './wfs.service';
 import { JsonixService } from '../jsonix/jsonix.service';
 import { GlobalService } from '../global/global.service';
+import { HttpUtilsService } from '../global/http-utils.service';
 
 export function main() {
     let backend: MockBackend = null;
@@ -68,7 +69,7 @@ export function main() {
                     expect(wfsQueryData).toBeDefined();
                     expect(wfsQueryData.length).toBe(1);
                 },
-                (error: Error) => GlobalService.handleError
+                (error: Error) => HttpUtilsService.handleError
             );
         });
 

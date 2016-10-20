@@ -1,7 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import { Observable } from 'rxjs/Rx';
-import { Response } from '@angular/http';
 import { Config } from '../config/env.config';
 
 @Injectable()
@@ -12,27 +9,6 @@ export class GlobalService {
 
     private webServiceURL: string = Config.WEB_SERVICE_URL;
     private wfsGeoserverURL: string = Config.WFS_GEOSERVER_URL;
-
-    public static handleData(response: Response) {
-        return response.json();
-    }
-
-    public static handleDataDebug(response: Response) {
-        let data: any = response.json();
-        console.debug('handleDataDebug: ', data);
-        return data;
-    }
-
-    /**
-     * Handle HTTP error
-     */
-    public static handleError(error: any): ErrorObservable {
-        let errMsg = (error.message) ? error.message :
-            error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-        errMsg += error.stack;
-        console.error(errMsg);
-        return Observable.throw(error.json().error || 'Server error');
-    }
 
     /**
      * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
