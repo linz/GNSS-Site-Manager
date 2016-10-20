@@ -22,18 +22,29 @@ export class JsonDiffService {
   private formatToHtml(_array: any): string {
     let fmtHtml: string = '';
     for (let key in _array) {
-      fmtHtml += '<li>' + key + '</li><ul>';
-      for (let item of _array[key]) {
-        fmtHtml += '<li>' + item + '</li>';
-      }
-      fmtHtml += '</ul>';
+      fmtHtml += this.formatToTable(key, _array[key]);
+    }
+    return fmtHtml;
+  }
+
+  private formatToTable(tableName: string, rows: any): string {
+    let tableHtml: string = '';
+    if (!tableName || !rows || rows.length === 0) {
+      return tableHtml;
     }
 
-    if ( fmtHtml === '' ) {
-      return null;
-    } else {
-      return '<ul>' + fmtHtml + '</ul>';
+    tableHtml += '<table class="table table-striped table-hover">';
+    tableHtml += '<caption>'+tableName+'<caption>';
+    tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
+              + '<th title="Old value">Old</th>'
+              + '<th title="New value">New</th></tr></thead>';
+    tableHtml += '<tbody>';
+    for (let row of rows) {
+      tableHtml += '<tr><td>' + row.attrName + '</td><td>'
+                + row.oldValue + '</td><td>' + row.newValue + '</td></tr>';
     }
+    tableHtml += '</tbody></table>';
+    return tableHtml;
   }
 
   private detectChanges(jsonObj: any) {
@@ -51,8 +62,11 @@ export class JsonDiffService {
     }
 
     for (let obj of newJsonObj) {
-      this.diffArray[obj.key] = [];
-      this.traverse(obj, obj.key);
+      let title: any = this.formatTitle(obj.key);
+      if (this.diffArray[title] === undefined) {
+        this.diffArray[title] = [];
+      }
+      this.traverse(obj, title);
     }
   }
 
@@ -75,17 +89,39 @@ export class JsonDiffService {
         this.traverse(change, key);
       }
     } else if ( !this.isEmpty(obj.value) ) {
-      let change: string = obj.type + ': ' + obj.key;
+      let changeObj: any = {attrName: obj.key, action: obj.type, oldValue: '', newValue: ''};
       if (obj.type === this.UPDATE) {
-        change += '(Old Value: ' + obj.oldValue + ', New Value:' + obj.value + ')';
+        changeObj.oldValue = obj.oldValue;
+        changeObj.newValue = obj.value;
       } else if (obj.type === this.REMOVE) {
-        change += '(Old Value: ' + obj.value + ')';
+        changeObj.oldValue = obj.value;
       } else if (obj.type === this.ADD) {
-        change += '(New Value: ' + obj.value + ')';
+        changeObj.newValue = obj.value;
       } else {
-        change += '(Value: ' + obj.value + ')';
+        console.log('Unknown action type: ' + obj.type + ' for ' + obj.key);
       }
-      this.diffArray[<any>key].push(change);
+      this.diffArray[<any>key].push(changeObj);
+    }
+  }
+
+  /*
+   * Format the key from xml to the title shown on site-info page
+   */
+  private formatTitle(key: string): string {
+    if (key === null || key.trim().length === 0) {
+      return '';
+    }
+
+    if (key === 'siteIdentification' || key === 'siteLocation') {
+      return 'Site Information';
+    } else if (key.startsWith('gnss')) {
+      return 'GNSS ' + key.substring(4);
+    } else if (key === 'siteMetadataCustodian') {
+      return 'Site Metadata Custodian';
+    } else if (key === 'siteContact') {
+      return 'Site Contact';
+    } else {
+      return key;
     }
   }
 

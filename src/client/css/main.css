@@ -53,8 +53,8 @@ body {
   padding: 0 !important;
 }
 .pad-sm {
-  padding-left: 5px;
-  padding-right: 5px;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 ul {
   margin: 10px 0 0;
@@ -102,8 +102,7 @@ ul {
 }
 .panel-heading,
 .panel-body {
-  padding-top: 7px !important;
-  padding-bottom: 7px !important;
+  padding: 5px !important;
 }
 .panel-title {
   font-family: "Roboto", sans-serif !important;
@@ -158,23 +157,39 @@ ul {
 }
 
 /* Override alertify.js for global dialogs */
-.alertify .alert .panel-body,
-.alertify .dialog .panel-body {
-  max-height: 500px;
+.alertify .dialog .title {
+  background: #d9edf7;
+  color: #31708f;
+  font-family: "Roboto", sans-serif;
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  margin-bottom: 8px;
+  padding: 8px;
+}
+.alertify .dialog .body {
+  max-height: 450px;
   overflow-y: auto;
   padding: 0 !important;
+  border: 0 !important;
+}
+.alertify .dialog .footer {
+  color: #106cc8;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  font-weight: italic;
+  line-height: 1.42857143;
+  margin-top: 10px;
 }
 .alertify .dialog ul {
   padding: 0 0 0 10px !important;
 }
-.alertify .alert li,
 .alertify .dialog li {
   font-size: 12px;
   margin: 10px;
   padding: 0;
   text-align: left;
 }
-.alertify .alert nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button),
 .alertify .dialog nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
   background: transparent;
   border-radius: 2px;
@@ -182,16 +197,37 @@ ul {
   color: rgba(0, 0, 0, 0.87);
   font-size: 14px;
 }
-.alertify .alert .footer,
-.alertify .dialog .footer {
-  color: #106cc8;
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-  font-weight: italic;
-  line-height: 1.42857143;
-}
 .alertify .dialog .msg {
   padding: 0 !important;
+}
+.alertify .dialog .table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #bce8f1;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 5px;
+}
+.alertify .dialog .table caption {
+  color: #286090;
+  font-size: 13px;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+.alertify .dialog .table td {
+  border-collapse: separate;
+  border: 1px solid #bce8f1;
+  font-size: 12px;
+  padding: 1px 2px;
+  text-align: left;
+}
+.alertify .dialog .table th {
+  border-collapse: separate;
+  border: 1px solid #bce8f1;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 1px 2px;
+  text-align: center;
 }
 
 /* Override bootstrap stylings */
