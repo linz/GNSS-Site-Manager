@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { GlobalService } from '../global/global.service';
 import { SelectSiteSearchType, WFSService } from '../wfs/wfs.service';
+import { HttpUtilsService } from '../global/http-utils.service';
+import { ConstantsService } from '../global/constants.service';
 
 /**
  * This class provides the service with methods to retrieve CORS sites from DB and select site.
@@ -16,9 +17,10 @@ export class CorsSiteService {
    * @param {Http} http - The injected Http.
    * @param globalService - Common methods
    * @param wfsService - Use Geoserver WFS for queries
+   * @param constantsService - Constants used in the application
    * @constructor
    */
-  constructor(private http: Http, private globalService: GlobalService, private wfsService: WFSService) {}
+  constructor(private http: Http, private wfsService: WFSService, private constantsService: ConstantsService) {}
 
   /**
    * Returns an Observable for the HTTP GET request for the REST Web Service resource.  Using WFS Server for queries.
@@ -58,24 +60,14 @@ export class CorsSiteService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getAllCorsSites(): Observable<any[]> {
-    return this.http.get(this.globalService.getWebServiceURL()+'/corsSites?size=1000')
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
+    return this.http.get(this.constantsService.getWebServiceURL()+'/corsSites?size=1000')
+      .map(HttpUtilsService.handleJsonData)
+      .catch(HttpUtilsService.handleError);
   }
 
   getSiteById(id: number): Observable<any> {
-    return this.http.get(this.globalService.getWebServiceURL() + '/corsSites?id=' + id)
-      .map((response: Response) => response.json())
-      .catch(this.handleError);
-  }
-
-  /**
-   * Handle HTTP error
-   */
-  private handleError(error: any) {
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+    return this.http.get(this.constantsService.getWebServiceURL() + '/corsSites?id=' + id)
+      .map(HttpUtilsService.handleJsonData)
+      .catch(HttpUtilsService.handleError);
   }
 }

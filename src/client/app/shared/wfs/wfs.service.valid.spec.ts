@@ -4,13 +4,14 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { WFSService, SelectSiteSearchType } from './wfs.service';
 import { JsonixService } from '../jsonix/jsonix.service';
-import { GlobalService } from '../global/global.service';
+import { HttpUtilsService } from '../global/http-utils.service';
+import { ConstantsService } from '../global/constants.service';
 
 export function main() {
     let backend: MockBackend = null;
     let wfsService: WFSService;
 
-    describe('WFS Service (exception)', () => {
+    describe('WFS Service (valid)', () => {
         let validResponse: string = `<?xml version="1.0" encoding="UTF-8"?>
 <wfs:FeatureCollection xmlns:wfs="http://www.opengis.net/wfs/2.0" 
     xmlns:xs="http://www.w3.org/2001/XMLSchema" 
@@ -39,7 +40,7 @@ export function main() {
             let injector = ReflectiveInjector.resolveAndCreate([
                 WFSService,
                 JsonixService,
-                GlobalService,
+                ConstantsService,
                 BaseRequestOptions,
                 MockBackend,
                 {
@@ -68,7 +69,7 @@ export function main() {
                     expect(wfsQueryData).toBeDefined();
                     expect(wfsQueryData.length).toBe(1);
                 },
-                (error: Error) => GlobalService.handleError
+                (error: Error) => HttpUtilsService.handleError
             );
         });
 

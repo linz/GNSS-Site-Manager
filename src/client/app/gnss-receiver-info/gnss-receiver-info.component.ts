@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { GlobalService, ServiceWorkerService } from '../shared/index';
+import { MiscUtilsService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -20,7 +20,7 @@ export class GnssReceiverInfoComponent implements OnInit {
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private globalService: GlobalService, private serviceWorkerService: ServiceWorkerService) { }
+  constructor(private miscUtilsService: MiscUtilsService, private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -108,7 +108,7 @@ export class GnssReceiverInfoComponent implements OnInit {
    * Add a new empty receiver as current one and push the 'old' current receiver into previous list
    */
   public addNewReceiver() {
-    let presentDT = this.globalService.getPresentDateTime();
+    let presentDT = this.miscUtilsService.getPresentDateTime();
     if (!this.gnssReceivers) {
       this.gnssReceivers = [];
     }
@@ -150,12 +150,12 @@ export class GnssReceiverInfoComponent implements OnInit {
     // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
     let receiverObj: any = {};
     if ( this.siteLogModel.gnssReceivers && this.siteLogModel.gnssReceivers.length > 0 ) {
-      receiverObj = this.globalService.cloneJsonObj(this.siteLogModel.gnssReceivers[0]);
+      receiverObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.gnssReceivers[0]);
     }
 
     // Keep a copy of the receiver object as the original one for comparison
-    let receiverObjCopy: any = this.globalService.cloneJsonObj(receiverObj);
-    receiverObjCopy.gnssReceiver = this.globalService.cloneJsonObj(newReceiver);
+    let receiverObjCopy: any = this.miscUtilsService.cloneJsonObj(receiverObj);
+    receiverObjCopy.gnssReceiver = this.miscUtilsService.cloneJsonObj(newReceiver);
     this.siteLogOrigin.gnssReceivers.unshift(receiverObjCopy);
 
     newReceiver.dateInstalled.value[0] = presentDT;

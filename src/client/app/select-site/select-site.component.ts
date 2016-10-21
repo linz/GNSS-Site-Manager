@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
-import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/index';
+import { MiscUtilsService, CorsSiteService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -15,13 +15,13 @@ import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/
 })
 export class SelectSiteComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
-  public searchTextSubject = new Subject<string>();
-  public searchText: string = '';
-  public sites: Array<any> = [];
-  public selectedSite: any = null;
-  public searchMsg: string = '';
-  public errorMessage: string;
-  public isSearching: boolean = false;
+  private searchTextSubject = new Subject<string>();
+  private searchText: string = '';
+  private sites: Array<any> = [];
+  private selectedSite: any = null;
+  private searchMsg: string = '';
+  private errorMessage: string;
+  private isSearching: boolean = false;
   private cacheItems: Array<string> = [];
 
   public columns: Array<any> = [
@@ -36,17 +36,17 @@ export class SelectSiteComponent implements OnInit {
    * @param {Router} router - The injected Router for switching between select-site and site-info pages.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Service Worker
-   * @param {GlobalService} globalService - common constants and methods
+   * @param {MiscUtilsService} misc-utilsService - common constants and methods
    */
   constructor(public router: Router, public corsSiteService: CorsSiteService,
-      private globalService: GlobalService, private serviceWorkerService: ServiceWorkerService) { }
+              private miscUtilsService: MiscUtilsService, private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
     this.searchTextSubject
-        .debounceTime(1000)
+        .debounceTime(400)
         .subscribe((newText: string) => this.onSearchTextChange(newText));
     this.setupSubscriptions();
     this.clearAll();
@@ -103,8 +103,7 @@ export class SelectSiteComponent implements OnInit {
    */
   public selectSite(site: any) {
     this.selectedSite = site;
-    this.globalService.setSelectedSiteId(site.fourCharacterId);
-    let link = ['/siteInfo', site.id];
+    let link = ['/siteInfo', site.fourCharacterId];
     this.router.navigate(link);
   }
 
@@ -118,7 +117,6 @@ export class SelectSiteComponent implements OnInit {
     this.sites.length = 0;
     this.selectedSite = null;
     this.isSearching = false;
-    this.globalService.selectedSiteId = null;
   }
 
   public getSortingOrder(index: number): string {

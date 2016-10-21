@@ -11,10 +11,10 @@
     </ul>
   </span>
   <span class="title">GNSS Site Manager</span>
-  <span class="pull-right" *ngIf="globalService.selectedSiteId">
+  <span class="pull-right" *ngIf="this.siteId">
     <button class="btn save-btn" type="submit" (click)="save()"
       [disabled]="!hasFormChanged()" title="Save changes">Save
     </button>
-    <span class="id-label">{{globalService.selectedSiteId}}</span>
+    <span class="id-label">{{this.siteId}}</span>
   </span>
 </div>

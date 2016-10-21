@@ -4,7 +4,9 @@ import { Http, Response, ResponseOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
-import { GlobalService } from '../global/global.service';
+import { HttpUtilsService } from '../global/http-utils.service';
+import { ConstantsService } from '../global/constants.service';
+
 /**
  * This class provides the service to work with WFS in Geoservers.
  */
@@ -18,7 +20,14 @@ export interface SelectSiteSearchType {
 @Injectable()
 export class WFSService {
 
-    constructor(private jsonixService: JsonixService, private globalService: GlobalService, private http: Http) {
+    /**
+     * Creates a new CorsSetupService with the injected Http.
+     * @param jsonixService - Service for translating GeodesyML to Json
+     * @param {Http} http - The injected Http.
+     * @param constantsService - Constants used in the application
+     * @constructor
+     */
+    constructor(private jsonixService: JsonixService, private http: Http, private constantsService: ConstantsService) {
     }
 
     /**
@@ -60,7 +69,7 @@ export class WFSService {
                     observer.next(content);
                     observer.complete();
                 },
-                (error: Error) => GlobalService.handleError
+                (error: Error) => HttpUtilsService.handleError
             );
         });
     }
@@ -101,10 +110,10 @@ export class WFSService {
      * @returns {Observable<R>}
      */
     private doWFSPost(xmlQuery: string): Observable < any > {
-        console.debug('WFS Query being POSTed to "' + this.globalService.getWFSGeoserverURL() + '": ', xmlQuery);
-        return this.http.post(this.globalService.getWFSGeoserverURL(), xmlQuery)
+        console.debug('WFS Query being POSTed to "' + this.constantsService.getWFSGeoserverURL() + '": ', xmlQuery);
+        return this.http.post(this.constantsService.getWFSGeoserverURL(), xmlQuery)
             .map(this.handleData)
-            .catch(GlobalService.handleError);
+            .catch(HttpUtilsService.handleError);
     }
 
     /**
