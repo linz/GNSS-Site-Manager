@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class GlobalService {
-    public isRunning: boolean = false;
-    private statusText: string = '';
-
     /**
      * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
      */
@@ -17,29 +14,5 @@ export class GlobalService {
      */
     public cloneJsonObj(obj: any): any {
       return JSON.parse(JSON.stringify(obj));
-    }
-
-    public startRunning() {
-        this.isRunning = true;
-    }
-
-    public stopRunning() {
-        this.isRunning = false;
-    }
-
-    setRunningStatus(value: boolean) {
-        this.isRunning = value;
-    }
-
-    public getRunningStatus(): boolean {
-        return this.isRunning;
-    }
-
-    public setStatusText(status:string) {
-        this.statusText = status;
-    }
-
-    public getStatusText() {
-        return this.statusText;
     }
 }
