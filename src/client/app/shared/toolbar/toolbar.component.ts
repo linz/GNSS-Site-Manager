@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { NameListService, ServiceWorkerService, MiscUtilsService } from '../index';
+import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 
 /**
  * This class represents the toolbar component which is the header of all UI pages.
@@ -16,9 +17,11 @@ export class ToolbarComponent implements OnInit {
   private saved: boolean = false;
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
+  private siteId: string;
 
   constructor(private serviceWorkerService: ServiceWorkerService, public miscUtilsService: MiscUtilsService,
-              public nameListService: NameListService) {
+              public nameListService: NameListService, private route: ActivatedRoute,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -35,12 +38,32 @@ export class ToolbarComponent implements OnInit {
     return true;
   }
 
-  setupSubscriptions() {
+  private setupSubscriptions() {
+    this.setupServiceWorkerSubscription();
+    this.setupRouterSubscription();
+  }
+
+  private setupServiceWorkerSubscription() {
     this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
       if (isCacheChanged) {
         this.updateCacheList();
       }
     });
+  }
+
+  private setupRouterSubscription() {
+    this.router.events
+        .filter(event => event instanceof NavigationEnd)
+        .subscribe(event => {
+          let currentRoute: ActivatedRoute = this.route.root;
+          while (currentRoute.children[0] !== undefined) {
+            currentRoute = currentRoute.children[0];
+          }
+          currentRoute.params.subscribe((param: Params) => {
+            let obj: {id: string} = <any> param.valueOf();
+            this.siteId = obj.id;
+          });
+        });
   }
 
   /**
