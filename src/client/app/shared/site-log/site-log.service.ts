@@ -4,9 +4,9 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
-import { GlobalService } from '../global/global.service';
 import { WFSService, SelectSiteSearchType } from '../wfs/wfs.service';
 import { HttpUtilsService } from '../global/http-utils.service';
+import { ConstantsService } from '../global/constants.service';
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -29,12 +29,12 @@ export class SiteLogService {
    * Creates a new SiteLogService with the injected Http.
    * @param {Http} http - The injected Http.
    * @param jsonixService - Service for translating GeodesyML to Json
-   * @param globalService - Common methods
+   * @param constantsService - Constants used in the application
    * @param wfsService - serice to make wfs queries to backend geoserver
    * @constructor
    */
-  constructor(private http: Http, private jsonixService: JsonixService, private globalService: GlobalService,
-              private wfsService: WFSService) {
+  constructor(private http: Http, private jsonixService: JsonixService,
+              private wfsService: WFSService, private constantsService: ConstantsService) {
   }
 
   /**
@@ -44,7 +44,7 @@ export class SiteLogService {
    */
   getSiteLogByFourCharacterId(fourCharacterId: string): Observable<any> {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-    return this.http.get(this.globalService.getWebServiceURL()
+    return this.http.get(this.constantsService.getWebServiceURL()
                          + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
       .map(HttpUtilsService.handleJsonData)
       .catch(HttpUtilsService.handleError);
@@ -60,7 +60,7 @@ export class SiteLogService {
    */
   getSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
     console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-    return this.http.get(this.globalService.getWebServiceURL()
+    return this.http.get(this.constantsService.getWebServiceURL()
                          + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
       .map((response: Response) => {
         return this.handleXMLData(response);
@@ -103,7 +103,7 @@ export class SiteLogService {
     if (typeof siteId !== 'undefined' && siteId !== null && siteId > 0) {
       params = 'siteId=' + siteId;
     }
-    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?' + params)
+    return this.http.get(this.constantsService.getWebServiceURL() + '/siteLogs?' + params)
       .map(HttpUtilsService.handleJsonData)
       .catch(HttpUtilsService.handleError);
   }
@@ -114,7 +114,7 @@ export class SiteLogService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getSiteLogById(id: number): Observable <any> {
-    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?id=' + id)
+    return this.http.get(this.constantsService.getWebServiceURL() + '/siteLogs?id=' + id)
       .map(HttpUtilsService.handleJsonData)
       .catch(HttpUtilsService.handleError);
   }
@@ -124,7 +124,7 @@ export class SiteLogService {
    * @return {object[]} The Observable for the HTTP request.
    */
   getAllSiteLogs(): Observable <any[]> {
-    return this.http.get(this.globalService.getWebServiceURL() + '/siteLogs?size=1000')
+    return this.http.get(this.constantsService.getWebServiceURL() + '/siteLogs?size=1000')
       .map(HttpUtilsService.handleJsonData)
       .catch(HttpUtilsService.handleError);
   }
@@ -146,7 +146,7 @@ export class SiteLogService {
         ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
     geodesyMl += siteLogML + '</geo:GeodesyML>';
     console.log('saveSiteLog - geodesyMl: ', geodesyMl);
-    return this.http.post(this.globalService.getWebServiceURL() + '/siteLogs/upload', geodesyMl)
+    return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/upload', geodesyMl)
       .map(HttpUtilsService.handleJsonData)
       .catch(HttpUtilsService.handleError);
   }

@@ -1,14 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Config } from '../config/env.config';
 
 @Injectable()
 export class GlobalService {
     public selectedSiteId: string = '';
     public isRunning: boolean = false;
     private statusText: string = '';
-
-    private webServiceURL: string = Config.WEB_SERVICE_URL;
-    private wfsGeoserverURL: string = Config.WFS_GEOSERVER_URL;
 
     /**
      * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
@@ -46,14 +42,6 @@ export class GlobalService {
 
     public getRunningStatus(): boolean {
         return this.isRunning;
-    }
-
-    public getWebServiceURL(): string {
-        return this.webServiceURL;
-    }
-
-    public getWFSGeoserverURL(): string {
-        return this.wfsGeoserverURL;
     }
 
     public setStatusText(status:string) {
