@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class GlobalService {
+export class MiscUtilsService {
     /**
      * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
      */

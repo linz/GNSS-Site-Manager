@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NameListService, ServiceWorkerService, GlobalService } from '../index';
+import { NameListService, ServiceWorkerService, MiscUtilsService } from '../index';
 
 /**
  * This class represents the toolbar component which is the header of all UI pages.
@@ -17,7 +17,7 @@ export class ToolbarComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
 
-  constructor(private serviceWorkerService: ServiceWorkerService, public globalService: GlobalService,
+  constructor(private serviceWorkerService: ServiceWorkerService, public miscUtilsService: MiscUtilsService,
               public nameListService: NameListService) {
   }
 

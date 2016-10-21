@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup } from '@angular/forms';
-import { DialogService, GlobalService, SiteLogService, JsonDiffService } from '../shared/index';
+import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService } from '../shared/index';
 
 
 /**
@@ -52,7 +52,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {Router} router - The injected Router.
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
    * @param {DialogService} dialogService - The injected DialogService.
-   * @param {GlobalService} globalService - The injected GlobalService.
+   * @param {MiscUtilsService} misc-utilsService - The injected MiscUtilsService.
    * @param {SiteLogService} siteLogService - The injected SiteLogService.
    * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
    */
@@ -60,7 +60,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private dialogService: DialogService,
-    private globalService: GlobalService,
+    private miscUtilsService: MiscUtilsService,
     private siteLogService: SiteLogService,
     private jsonDiffService: JsonDiffService
   ) {}
@@ -174,7 +174,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Add a new empty antenna as current one and push the 'old' current antenna into previous list
    */
   public addNewAntenna() {
-    let presentDT = this.globalService.getPresentDateTime();
+    let presentDT = this.miscUtilsService.getPresentDateTime();
     if (!this.antennas) {
       this.antennas = [];
     }
@@ -220,12 +220,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
     let antennaObj: any = {};
     if ( this.siteLogModel.gnssAntennas && this.siteLogModel.gnssAntennas.length > 0 ) {
-      antennaObj = this.globalService.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
+      antennaObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
     }
 
     // Keep a copy of the anteena object as the original one for comparison
-    let antennaObjCopy: any = this.globalService.cloneJsonObj(antennaObj);
-    antennaObjCopy.gnssAntenna = this.globalService.cloneJsonObj(newAntenna);
+    let antennaObjCopy: any = this.miscUtilsService.cloneJsonObj(antennaObj);
+    antennaObjCopy.gnssAntenna = this.miscUtilsService.cloneJsonObj(newAntenna);
     this.siteLogOrigin.gnssAntennas.unshift(antennaObjCopy);
 
     newAntenna.dateInstalled.value[0] = presentDT;
@@ -303,7 +303,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   public backupSiteLogJson() {
-    this.siteLogOrigin = this.globalService.cloneJsonObj(this.siteLogModel);
+    this.siteLogOrigin = this.miscUtilsService.cloneJsonObj(this.siteLogModel);
   }
 
   /**
