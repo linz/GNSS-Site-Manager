@@ -1,15 +1,27 @@
 import { Injectable } from '@angular/core';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class JsonDiffService {
   private lodash: any = require('lodash');
+  private xmlAttrMappingFile: string = '/assets/xml-attr-mapping.json';
   private ADD: string = 'Add';
   private REMOVE: string = 'Remove';
   private UPDATE: string = 'Update';
   private diffArray: Array<any>;
+  private attrMappingJson: any = {};
 
-  constructor() {
+  constructor(private http: Http) {
     this.diffArray = [];
+
+    // Load the XML attribute name mapping JSON object from assets
+    this.loadJsonObject(this.xmlAttrMappingFile).subscribe(
+      json => this.attrMappingJson = json,
+      error => console.log('Error in loading Json file: ' + error)
+    );
   }
 
   public getJsonDiffHtml(oldJson: any , newJson: any): string {
@@ -19,12 +31,40 @@ export class JsonDiffService {
     return this.formatToHtml(this.diffArray);
   }
 
+  /**
+   * Returns an Observable for the HTTP GET request for the JSON resource.
+   * @return {string[]} The Observable for the HTTP request.
+   */
+  public loadJsonObject(jsonFilePath: string): Observable<string[]> {
+    return this.http.get(jsonFilePath)
+        .map((res: Response) => res.json())
+        .catch(this.handleError);
+  }
+
+  /**
+   * Handle HTTP error
+   */
+  private handleError (error: any) {
+    let errMsg = (error.message) ? error.message :
+      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
+    return Observable.throw(errMsg);
+  }
+
   private formatToHtml(_array: any): string {
     let fmtHtml: string = '';
     for (let key in _array) {
       fmtHtml += this.formatToTable(key, _array[key]);
     }
     return fmtHtml;
+  }
+
+  private getMappedName(attrName: string): string {
+    if (attrName === null || attrName.trim() === '') {
+      return '';
+    } else if (this.attrMappingJson[attrName] === undefined) {
+      return attrName;
+    }
+    return this.attrMappingJson[attrName];
   }
 
   private formatToTable(tableName: string, rows: any): string {
@@ -36,11 +76,10 @@ export class JsonDiffService {
     tableHtml += '<table class="table table-striped table-hover">';
     tableHtml += '<caption>'+tableName+'<caption>';
     tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
-              + '<th title="Old value">Old</th>'
-              + '<th title="New value">New</th></tr></thead>';
+              + '<th>Old value</th><th>New value</th></tr></thead>';
     tableHtml += '<tbody>';
     for (let row of rows) {
-      tableHtml += '<tr><td>' + row.attrName + '</td><td>'
+      tableHtml += '<tr><td>' + this.getMappedName(row.attrName) + '</td><td>'
                 + row.oldValue + '</td><td>' + row.newValue + '</td></tr>';
     }
     tableHtml += '</tbody></table>';
