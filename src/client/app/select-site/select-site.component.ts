@@ -15,13 +15,13 @@ import { GlobalService, CorsSiteService, ServiceWorkerService } from '../shared/
 })
 export class SelectSiteComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
-  public searchTextSubject = new Subject<string>();
-  public searchText: string = '';
-  public sites: Array<any> = [];
-  public selectedSite: any = null;
-  public searchMsg: string = '';
-  public errorMessage: string;
-  public isSearching: boolean = false;
+  private searchTextSubject = new Subject<string>();
+  private searchText: string = '';
+  private sites: Array<any> = [];
+  private selectedSite: any = null;
+  private searchMsg: string = '';
+  private errorMessage: string;
+  private isSearching: boolean = false;
   private cacheItems: Array<string> = [];
 
   public columns: Array<any> = [
@@ -46,7 +46,7 @@ export class SelectSiteComponent implements OnInit {
    */
   ngOnInit() {
     this.searchTextSubject
-        .debounceTime(1000)
+        .debounceTime(400)
         .subscribe((newText: string) => this.onSearchTextChange(newText));
     this.setupSubscriptions();
     this.clearAll();
@@ -103,8 +103,7 @@ export class SelectSiteComponent implements OnInit {
    */
   public selectSite(site: any) {
     this.selectedSite = site;
-    this.globalService.setSelectedSiteId(site.fourCharacterId);
-    let link = ['/siteInfo', site.id];
+    let link = ['/siteInfo', site.fourCharacterId];
     this.router.navigate(link);
   }
 
@@ -118,7 +117,6 @@ export class SelectSiteComponent implements OnInit {
     this.sites.length = 0;
     this.selectedSite = null;
     this.isSearching = false;
-    this.globalService.selectedSiteId = null;
   }
 
   public getSortingOrder(index: number): string {

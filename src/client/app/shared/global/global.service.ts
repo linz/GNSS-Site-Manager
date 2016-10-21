@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class GlobalService {
-    public selectedSiteId: string = '';
     public isRunning: boolean = false;
     private statusText: string = '';
 
@@ -18,14 +17,6 @@ export class GlobalService {
      */
     public cloneJsonObj(obj: any): any {
       return JSON.parse(JSON.stringify(obj));
-    }
-
-    public setSelectedSiteId(value: string) {
-        this.selectedSiteId = value;
-    }
-
-    public getSelectedSiteId(): string {
-        return this.selectedSiteId;
     }
 
     public startRunning() {

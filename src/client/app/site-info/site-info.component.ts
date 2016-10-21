@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { DialogService, GlobalService, SiteLogService, JsonDiffService } from '../shared/index';
 
@@ -13,25 +13,26 @@ import { DialogService, GlobalService, SiteLogService, JsonDiffService } from '.
   templateUrl: 'site-info.component.html'
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
-  public isLoading: boolean = false;
-  public siteLogOrigin: any = {};
-  public siteLogModel: any = {
+  private siteId: string;
+  private isLoading: boolean = false;
+  private siteLogOrigin: any = {};
+  private siteLogModel: any = {
     gnssReceivers: [],
     gnssAnttenas: []
   };
-  public site: any = null;
-  public siteLocation: any = null;
-  public siteContact: any = null;
-  public metadataCustodian: any = null;
-  public receivers: Array<any> = [];
-  public antennas: Array<any> = [];
-  public errorMessage: string;
-  public siteInfoTab: any = null;
+  private site: any = null;
+  private siteLocation: any = null;
+  private siteContact: any = null;
+  private metadataCustodian: any = null;
+  private receivers: Array<any> = [];
+  private antennas: Array<any> = [];
+  private errorMessage: string;
+  private siteInfoTab: any = null;
 
-  public siteInfoForm: FormGroup = null;
-  public submitted: boolean = false;
+  private siteInfoForm: FormGroup = null; // Used in html only
+  private submitted: boolean = false;
 
-  public status: any = {
+  private status: any = {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
@@ -56,18 +57,23 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
    */
   constructor(
-    public router: Router,
-    public route: ActivatedRoute,
-    public dialogService: DialogService,
-    public globalService: GlobalService,
-    public siteLogService: SiteLogService,
-    public jsonDiffService: JsonDiffService
+    private router: Router,
+    private route: ActivatedRoute,
+    private dialogService: DialogService,
+    private globalService: GlobalService,
+    private siteLogService: SiteLogService,
+    private jsonDiffService: JsonDiffService
   ) {}
 
   /**
    * Initialise all data on loading the site-info page
    */
   public ngOnInit() {
+    this.route.params.forEach((params: Params) => {
+      let id: string = params['id'];
+      this.siteId = id;
+    });
+
     this.loadSiteInfoData();
   }
 
@@ -76,8 +82,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public loadSiteInfoData() {
     // Do not allow direct access to site-info page
-    let siteId: string = this.globalService.getSelectedSiteId();
-    if (!siteId) {
+    if (!this.siteId) {
       this.goBack();
     }
 
@@ -91,7 +96,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.antennas.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
-      this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(siteId).subscribe(
+      this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
           this.siteLogModel = responseJson['geo:siteLog'];
           this.site = this.siteLogModel.siteIdentification;
@@ -130,7 +135,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.backupSiteLogJson();
           this.isLoading =  false;
-          this.dialogService.showSuccessMessage(this.globalService.getSelectedSiteId() + ' SiteLog details loaded successfully.');
+          this.dialogService.showSuccessMessage(this.siteId + ' SiteLog details loaded successfully.');
         },
         (error: Error) =>  {
           this.errorMessage = <any>error;
@@ -158,7 +163,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.receivers.length = 0;
     this.antennas.length = 0;
     this.errorMessage = '';
-    this.globalService.selectedSiteId = null;
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
     if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
@@ -256,7 +260,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public save(form: any) {
     let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
     if ( diffMsg === null || diffMsg.trim() === '') {
-      this.dialogService.showLogMessage('No changes have been made for ' + this.globalService.getSelectedSiteId());
+      this.dialogService.showLogMessage('No changes have been made for '+this.siteId);
       return;
     }
 
@@ -273,17 +277,17 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
             that.isLoading = false;
             that.backupSiteLogJson();
-            that.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
+            that.dialogService.showSuccessMessage('Done in saving SiteLog data for '+this.siteId);
           },
           (error: Error) =>  {
             that.isLoading = false;
             that.errorMessage = <any>error;
-            that.dialogService.showErrorMessage('Error in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
+            that.dialogService.showErrorMessage('Error in saving SiteLog data for '+this.siteId);
           }
         );
       },
       function() {
-        that.dialogService.showLogMessage('Cancelled in saving SiteLog data for ' + that.globalService.getSelectedSiteId());
+        that.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+this.siteId);
         that.isLoading = false;
       }
     );
@@ -294,7 +298,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public goBack() {
     this.isLoading =  false;
-    this.globalService.selectedSiteId = null;
     let link = ['/'];
     this.router.navigate(link);
   }
