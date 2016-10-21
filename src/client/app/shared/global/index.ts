@@ -6,3 +6,4 @@ export * from './dialog.service';
 export * from './misc-utils.service';
 export * from './json-diff.service';
 export * from './constants.service';
+export * from './http-utils.service';
