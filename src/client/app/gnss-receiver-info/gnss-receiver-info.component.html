@@ -56,7 +56,7 @@
           <div *ngIf=" receiver != null ">
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Receiver Type</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.receiverType.codeListValue"
                        name="receiverType_{{i}}"/>
@@ -64,7 +64,7 @@
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Serial Number</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.manufacturerSerialNumber"
                        name="receiverSerialNumber_{{i}}"/>
@@ -72,7 +72,7 @@
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Firmware Version</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.firmwareVersion"
                        name="receiverFirmwareVersion_{{i}}"/>
@@ -80,7 +80,7 @@
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Satellite System</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.satelliteSystem[0].value"
                        name="receiverSatelliteSystem_{{i}}"/>
@@ -88,22 +88,23 @@
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Elevation Cutoff Setting (&deg;C)</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
-                <input type="text" maxlength="100" class="form-control"
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
+                <input type="number" step="0.01" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.elevationCutoffSetting"
                        name="receiverElevetionCutoffSetting_{{i}}"/>
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Temperature Stabilization</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
-                <input type="text" maxlength="100" class="form-control"
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
+                <input type="number" step="0.01" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.temperatureStabilization"
                        name="receiverTemperatureStabilization_{{i}}"/>
               </div>
-            </div>            <div class="form-group">
+            </div>
+            <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.dateInstalled.value[0]"
                        name="receiverDateInstalled_{{i}}"/>
@@ -111,7 +112,7 @@
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
                 <input type="text" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.dateRemoved.value[0]"
                        name="receiverDateRemoved_{{i}}"/>
@@ -119,7 +120,7 @@
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Notes</label>
-              <div class="col-md-4 col-sm-5 col-xs-7 col-xxs-12">
+              <div class="col-md-8 col-sm-8 col-xs-7 col-xxs-12">
                 <textarea maxlength="2000" rows="2" class="form-textarea"
                        [(ngModel)]="receiver.notes"
                        name="receiverNotes_{{i}}"></textarea>

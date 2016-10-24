@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { FormGroup } from '@angular/forms';
 import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService } from '../shared/index';
 
 
@@ -28,8 +27,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private antennas: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
-
-  private siteInfoForm: FormGroup = null; // Used in html only
   private submitted: boolean = false;
 
   private status: any = {
@@ -277,17 +274,17 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
             that.isLoading = false;
             that.backupSiteLogJson();
-            that.dialogService.showSuccessMessage('Done in saving SiteLog data for '+this.siteId);
+            that.dialogService.showSuccessMessage('Done in saving SiteLog data for '+that.siteId);
           },
           (error: Error) =>  {
             that.isLoading = false;
             that.errorMessage = <any>error;
-            that.dialogService.showErrorMessage('Error in saving SiteLog data for '+this.siteId);
+            that.dialogService.showErrorMessage('Error in saving SiteLog data for '+that.siteId);
           }
         );
       },
       function() {
-        that.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+this.siteId);
+        that.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+that.siteId);
         that.isLoading = false;
       }
     );
