@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
+import { HttpUtilsService } from './http-utils.service';
 
 @Injectable()
 export class JsonDiffService {
@@ -14,11 +11,11 @@ export class JsonDiffService {
   private diffArray: Array<any>;
   private attrMappingJson: any = {};
 
-  constructor(private http: Http) {
+  constructor(private httpService: HttpUtilsService) {
     this.diffArray = [];
 
     // Load the XML attribute name mapping JSON object from assets
-    this.loadJsonObject(this.xmlAttrMappingFile).subscribe(
+    this.httpService.loadJsonObject(this.xmlAttrMappingFile).subscribe(
       json => this.attrMappingJson = json,
       error => console.log('Error in loading Json file: ' + error)
     );
@@ -29,25 +26,6 @@ export class JsonDiffService {
     let jsonDiff: any = this.compare(oldJson, newJson, []);
     this.detectChanges(jsonDiff);
     return this.formatToHtml(this.diffArray);
-  }
-
-  /**
-   * Returns an Observable for the HTTP GET request for the JSON resource.
-   * @return {string[]} The Observable for the HTTP request.
-   */
-  public loadJsonObject(jsonFilePath: string): Observable<string[]> {
-    return this.http.get(jsonFilePath)
-        .map((res: Response) => res.json())
-        .catch(this.handleError);
-  }
-
-  /**
-   * Handle HTTP error
-   */
-  private handleError (error: any) {
-    let errMsg = (error.message) ? error.message :
-      error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-    return Observable.throw(errMsg);
   }
 
   private formatToHtml(_array: any): string {

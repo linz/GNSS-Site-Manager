@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Http } from '@angular/http';
 import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
 import { Observable } from 'rxjs/Rx';
 import { Response } from '@angular/http';
@@ -31,5 +32,22 @@ export class HttpUtilsService {
         errMsg += error.stack;
         console.error(errMsg);
         return Observable.throw(error.json().error || 'Server error');
+    }
+
+    /**
+     * Creates a new NameListService with the injected Http.
+     * @param {Http} http - The injected Http.
+     * @constructor
+    */
+    constructor(private http: Http) {}
+
+    /**
+     * Returns an Observable for the HTTP GET request for the JSON resource.
+     * @return {string[]} The Observable for the HTTP request.
+    */
+    public loadJsonObject(jsonFilePath: string): Observable<string[]> {
+        return this.http.get(jsonFilePath)
+            .map(HttpUtilsService.handleJsonData)
+            .catch(HttpUtilsService.handleError);
     }
 }

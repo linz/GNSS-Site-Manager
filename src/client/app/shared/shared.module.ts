@@ -12,7 +12,7 @@ import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
 import { WFSService } from './wfs/index';
 import { MiscUtilsService } from './global/index';
-import { ConstantsService } from './global/index';
+import { ConstantsService, HttpUtilsService } from './global/index';
 
 /**
  * Do not specify providers for modules that might be imported by a lazy loaded module.
@@ -28,7 +28,8 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [MiscUtilsService, NameListService, JsonixService, SiteLogService, CorsSiteService, WFSService, ConstantsService]
+      providers: [MiscUtilsService, NameListService, JsonixService, SiteLogService,
+                  CorsSiteService, WFSService, ConstantsService, HttpUtilsService]
     };
   }
 }
