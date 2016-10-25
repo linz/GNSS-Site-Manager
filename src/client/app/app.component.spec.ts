@@ -22,6 +22,7 @@ import { MockBackend } from '@angular/http/testing';
 import { WFSService } from './shared/wfs/wfs.service';
 import { JsonixService } from './shared/jsonix/jsonix.service';
 import { ConstantsService } from './shared/global/constants.service';
+import { HttpUtilsService } from './shared/global/http-utils.service';
 
 export function main() {
 
@@ -43,6 +44,7 @@ export function main() {
           WFSService,
           JsonixService,
           ConstantsService,
+          HttpUtilsService,
           BaseRequestOptions,
           {
             provide: Http, useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {
