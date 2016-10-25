@@ -8,4 +8,9 @@ export const routes: Routes = [
   ...SiteInfoRoutes,
   ...SelectSiteRoutes,
   ...AboutRoutes,
+  {
+    // Default
+    path: '**',
+    redirectTo: '/'
+  }
 ];
