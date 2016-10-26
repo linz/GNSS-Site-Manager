@@ -396,15 +396,17 @@
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
                     <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.dateInstalled.value[0]" name="antennaDateInstalled_{{i}}"/>
+                      <!--<input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="antenna.dateInstalled.value[0]" name="antennaDateInstalled_{{i}}"/>-->
+                      <datetime-picker [datetimeString]="antenna.dateRemoved.value[0]"></datetime-picker>
                     </div>
                   </div>
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
                     <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.dateRemoved.value[0]" name="antennaDateRemoved_{{i}}"/>
+                      <!--<input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="antenna.dateRemoved.value[0]" name="antennaDateRemoved_{{i}}"/>-->
+                      <datetime-picker [datetimeString]="antenna.dateRemoved.value[0]"></datetime-picker>
                     </div>
                   </div>
                   <div class="form-group">
