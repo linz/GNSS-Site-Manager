@@ -1,5 +1,9 @@
 <div>
-  <input type="text" class="form-control" maxlength="24" [(ngModel)]="datetimeString" (focus)="showCalendar()"/>
+  <input type="text" class="input-control" maxlength="24" [(ngModel)]="datetime" (focus)="showCalendar()"/><!--
+     remove space between input box and calendar button
+  --><div class="btn btn-primary btn-calendar" (click)="showDatetimePicker = !showDatetimePicker">
+    <span class="glyphicon glyphicon-calendar"></span>
+  </div>
   <div class="popup" *ngIf="showDatetimePicker">
     <datepicker [(ngModel)]="datetimeModel" [showWeeks]="false"
         (selectionDone)="setSelectedDatetime($event)"></datepicker>

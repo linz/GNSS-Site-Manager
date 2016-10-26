@@ -22,14 +22,14 @@ export class DatetimePickerComponent implements OnInit {
   private invalidSeconds: boolean = false;
   private showDatetimePicker: boolean = false;
 
-  @Input() public datetimeString: string = '';
-  @Output() public datetimeStringChange: EventEmitter<any> = new EventEmitter<any>();
+  @Input() public datetime: string = '';
+  @Output() public datetimeChange: EventEmitter<any> = new EventEmitter<any>();
 
   /**
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
-    this.datetimeModel = this.convertToDateObject(this.datetimeString);
+    this.datetimeModel = this.convertToDateObject(this.datetime);
   }
 
   public showCalendar(): void {
@@ -46,9 +46,9 @@ export class DatetimePickerComponent implements OnInit {
     this.datetimeModel.setMinutes(this.minutes);
     this.datetimeModel.setSeconds(this.seconds);
 
-    this.datetimeString = this.formatDateToString(this.datetimeModel);
-    this.datetimeStringChange.emit(this.datetimeString);
-    console.log('Selected Date: ' + this.datetimeString);
+    this.datetime = this.formatDateToString(this.datetimeModel);
+    this.datetimeChange.emit(this.datetime);
+    console.log('Selected Date: ' + this.datetime);
   }
 
   public updateHours(): void {
