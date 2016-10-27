@@ -1,8 +1,16 @@
 <div>
-  <input type="text" class="input-control" maxlength="24" [(ngModel)]="datetime" (focus)="showCalendar()"/><!--
-     remove space between input box and calendar button
-  --><div class="btn btn-primary btn-calendar" (click)="showDatetimePicker = !showDatetimePicker">
-    <span class="glyphicon glyphicon-calendar"></span>
+  <small [hidden]="!invalidDatetime" class="alert alert-danger">
+    Input date must be in format of "YYYY-MM-DDThh:mm:ss.sssZ"
+  </small>
+  <div class="input-group">
+    <input type="text" class="form-control z-lowest" maxlength="24" [(ngModel)]="datetime"
+           [ngClass]="{ 'ng-invalid': invalidDatetime }"
+           (focus)="showCalendar()" (change)="updateCalendar()"/>
+    <span class="input-group-btn z-lowest">
+      <button type="button" class="btn btn-default btn-calendar z-lowest" (click)="showDatetimePicker = !showDatetimePicker">
+        <span class="glyphicon glyphicon-calendar"></span>
+      </button>
+    </span>
   </div>
   <div class="popup" *ngIf="showDatetimePicker">
     <datepicker [(ngModel)]="datetimeModel" [showWeeks]="false"

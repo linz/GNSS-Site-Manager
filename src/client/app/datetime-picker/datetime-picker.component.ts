@@ -20,16 +20,23 @@ export class DatetimePickerComponent implements OnInit {
   private invalidHours: boolean = false;
   private invalidMinutes: boolean = false;
   private invalidSeconds: boolean = false;
+  private invalidDatetime: boolean = false;
   private showDatetimePicker: boolean = false;
 
+  @Input() public required: boolean = true;
   @Input() public datetime: string = '';
-  @Output() public datetimeChange: EventEmitter<any> = new EventEmitter<any>();
+  @Output() public datetimeChange: EventEmitter<string> = new EventEmitter<string>();
 
   /**
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
-    this.datetimeModel = this.convertToDateObject(this.datetime);
+    let inputDate: Date = this.convertToDateObject(this.datetime);
+    if (inputDate !== null) {
+      this.datetimeModel = inputDate;
+    } else {
+      this.datetimeModel = new Date();
+    }
   }
 
   public showCalendar(): void {
@@ -40,15 +47,29 @@ export class DatetimePickerComponent implements OnInit {
     if (this.invalidHours || this.invalidMinutes || this.invalidSeconds) {
       return;
     }
-    this.showDatetimePicker = false;
+
     this.datetimeModel = event;
     this.datetimeModel.setHours(this.hours);
     this.datetimeModel.setMinutes(this.minutes);
     this.datetimeModel.setSeconds(this.seconds);
-
     this.datetime = this.formatDateToString(this.datetimeModel);
     this.datetimeChange.emit(this.datetime);
-    console.log('Selected Date: ' + this.datetime);
+    this.showDatetimePicker = false;
+    this.invalidDatetime = false;
+  }
+
+  public updateCalendar(): void {
+    let newDate: Date = this.convertToDateObject(this.datetime);
+    if (newDate !== null) {
+      this.datetimeModel = newDate;
+      this.hours = this.datetimeModel.getHours();
+      this.hoursString = this.padTwo(this.hours);
+      this.minutes = this.datetimeModel.getMinutes();
+      this.minutesString = this.padTwo(this.minutes);
+      this.seconds = this.datetimeModel.getSeconds();
+      this.secondsString = this.padTwo(this.seconds);
+      this.invalidDatetime = false;
+    }
   }
 
   public updateHours(): void {
@@ -158,15 +179,36 @@ export class DatetimePickerComponent implements OnInit {
     this.secondsString = this.padTwo(this.seconds);
   }
 
+  public validateDatetime(): void {
+    if (this.datetime === null || this.datetime.trim().length === 0) {
+      if (this.required) {
+        this.invalidDatetime = true;
+      } else {
+        this.invalidDatetime = false;
+      }
+    } else if (this.datetime.length < 19) {
+      this.invalidDatetime = true;
+    } else {
+      if (!this.datetime.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])T([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d).?\d{0,3}Z$/g)) {
+        this.invalidDatetime = true;
+      } else {
+        this.invalidDatetime = false;
+      }
+    }
+  }
+
   /**
    * Convert a Date-time string 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
    */
   private convertToDateObject(dtStr: string): Date {
-    if (dtStr !== null && dtStr.length >= 19) {
-      console.log('Input Date: ' + dtStr.substring(0, 19));
-      return new Date(dtStr.substring(0, 19));
-    }
-    return new Date();
+    this.validateDatetime();
+    try {
+      let date: Date = new Date(dtStr.substring(0, 19));
+      if (date !== null && date.toString() !== 'Invalid Date') {
+        return date;
+      }
+    } catch(error) { /*Do nothing*/ }
+    return null;
   }
 
   /**

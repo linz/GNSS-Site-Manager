@@ -26,10 +26,10 @@
                      [ngClass]="{'glyphicon-minus-sign': status.isReceiversOpen[i], 'glyphicon-plus-sign': !status.isReceiversOpen[i]}">
                   </i>
                   <span *ngIf="i == 0">
-                    Current GNSS Receiver (Since {{ getDate(receiver.dateInstalled.value[0]) }})
+                    Current Receiver (Since {{ getDate(receiver.dateInstalled.value[0]) }})
                   </span>
                   <span *ngIf="i != 0">
-                    Previous GNSS Receiver ({{ getDate(receiver.dateInstalled.value[0]) }} &ndash; {{ getDate(receiver.dateRemoved.value[0]) }})
+                    Previous Receiver ({{ getDate(receiver.dateInstalled.value[0]) }} &ndash; {{ getDate(receiver.dateRemoved.value[0]) }})
                   </span>
                 </span>
                 <span class="pull-right" *ngIf="i == 0 && status.hasNewReceiver">
@@ -105,13 +105,13 @@
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
               <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                <datetime-picker [(datetime)]="receiver.dateInstalled.value[0]"></datetime-picker>
+                <datetime-picker [(datetime)]="receiver.dateInstalled.value[0]" [required]="true"></datetime-picker>
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
               <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                <datetime-picker [(datetime)]="receiver.dateRemoved.value[0]"></datetime-picker>
+                <datetime-picker [(datetime)]="receiver.dateRemoved.value[0]" [required]="i != 0"></datetime-picker>
               </div>
             </div>
             <div class="form-group">
