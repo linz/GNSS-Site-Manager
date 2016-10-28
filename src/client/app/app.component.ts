@@ -30,11 +30,40 @@ export class AppComponent {
     console.log('Environment config', Config);
   }
 
-  onSave(siteLogJson: any) {
-    this.siteInfo.save(null);
+  /**
+   * Invoke the save() method of SiteInfo component triggered by the "Save" button on Toolbar component
+   *
+   * @event: boolean - true if the selected siteId is not null
+   */
+  onSave(event: any) {
+    if (event) {
+      this.siteInfo.save(null);
+    }
   }
 
-  onActivate(a: any) {
-    this.siteInfo = a;
+  /**
+   * Invoke the loadSiteInfoData() method of SiteInfo c triggered by the "Reload" button on Toolbar component
+   *
+   * @event: boolean - true if the selected siteId is not null
+   */
+  onReload(event: any) {
+    if (event) {
+      this.siteInfo.loadSiteInfoData();
+    }
+  }
+
+  /**
+   * Invoke the goBack() method of SiteInfo component triggered by the "Close" button on Toolbar component
+   *
+   * @event: boolean - true if the selected siteId is not null
+   */
+  onClose(event: any) {
+    if (event) {
+      this.siteInfo.goBack();
+    }
+  }
+
+  onActivate(event: any) {
+    this.siteInfo = event;
   }
 }

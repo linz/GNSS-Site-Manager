@@ -13,8 +13,9 @@ import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
-  @Output() onSave = new EventEmitter<boolean>();
-  private saved: boolean = false;
+  @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onReload: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
   private siteId: string;
@@ -29,9 +30,16 @@ export class ToolbarComponent implements OnInit {
     this.updateCacheList();
   }
 
-  save(siteLogJson: any) {
-    this.onSave.emit(siteLogJson);
-    this.saved = true;
+  save() {
+    this.onSave.emit( this.siteId !== null );
+  }
+
+  reload() {
+    this.onReload.emit( this.siteId !== null );
+  }
+
+  close() {
+    this.onClose.emit( this.siteId !== null );
   }
 
   hasFormChanged() {

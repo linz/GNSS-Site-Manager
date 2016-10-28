@@ -11,10 +11,15 @@
     </ul>
   </span>
   <span class="title">GNSS Site Manager</span>
-  <span class="pull-right" *ngIf="this.siteId">
+  <span class="pull-right" *ngIf="siteId">
     <button class="btn save-btn" type="submit" (click)="save()"
       [disabled]="!hasFormChanged()" title="Save changes">Save
     </button>
-    <span class="id-label">{{this.siteId}}</span>
+    <button class="btn save-btn" type="submit" (click)="reload()" title="Reload data from database">Reload
+    </button>
+    <button class="btn save-btn" type="submit" (click)="close()"
+            title="Close current page and go back to Home page">Close
+    </button>
+    <span class="id-label">{{siteId}}</span>
   </span>
 </div>

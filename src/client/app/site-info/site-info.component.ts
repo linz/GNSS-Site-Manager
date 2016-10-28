@@ -295,6 +295,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public goBack() {
     this.isLoading =  false;
+    this.siteId = null;
     let link = ['/'];
     this.router.navigate(link);
   }
