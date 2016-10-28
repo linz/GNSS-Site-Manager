@@ -118,6 +118,9 @@ ul {
   margin: 10px 0;
   padding: 15px;
 }
+form .ng-invalid {
+  border: 1px solid #a94442;
+}
 
 .accordion-group-icon {
   color: #fff !important;
