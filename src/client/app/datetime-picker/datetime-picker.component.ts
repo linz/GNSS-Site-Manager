@@ -79,7 +79,7 @@ export class DatetimePickerComponent implements OnInit {
       this.hours = 0;
     } else {
       this.invalidHours = false;
-      this.hoursString = this.padTwo(this.hours);
+      this.updateTime();
     }
   }
 
@@ -90,7 +90,7 @@ export class DatetimePickerComponent implements OnInit {
       this.minutes = 0;
     } else {
       this.invalidMinutes = false;
-      this.minutesString = this.padTwo(this.minutes);
+      this.updateTime();
     }
   }
 
@@ -101,7 +101,7 @@ export class DatetimePickerComponent implements OnInit {
       this.seconds = 0;
     } else {
       this.invalidSeconds = false;
-      this.secondsString = this.padTwo(this.seconds);
+      this.updateTime();
     }
   }
 
@@ -113,7 +113,7 @@ export class DatetimePickerComponent implements OnInit {
       this.hours = 23;
     }
     this.invalidHours = false;
-    this.hoursString = this.padTwo(this.hours);
+    this.updateTime();
   }
 
   public decrementHours(): void {
@@ -124,7 +124,7 @@ export class DatetimePickerComponent implements OnInit {
       this.hours = 23;
     }
     this.invalidHours = false;
-    this.hoursString = this.padTwo(this.hours);
+    this.updateTime();
   }
 
   public incrementMinutes(): void {
@@ -137,7 +137,7 @@ export class DatetimePickerComponent implements OnInit {
       this.decrementHours();
     }
     this.invalidMinutes = false;
-    this.minutesString = this.padTwo(this.minutes);
+    this.updateTime();
   }
 
   public decrementMinutes(): void {
@@ -150,7 +150,7 @@ export class DatetimePickerComponent implements OnInit {
       this.decrementHours();
     }
     this.invalidMinutes = false;
-    this.minutesString = this.padTwo(this.minutes);
+    this.updateTime();
   }
 
   public incrementSeconds(): void {
@@ -163,7 +163,7 @@ export class DatetimePickerComponent implements OnInit {
       this.decrementMinutes();
     }
     this.invalidSeconds = false;
-    this.secondsString = this.padTwo(this.seconds);
+    this.updateTime();
   }
 
   public decrementSeconds(): void {
@@ -176,7 +176,7 @@ export class DatetimePickerComponent implements OnInit {
       this.decrementMinutes();
     }
     this.invalidSeconds = false;
-    this.secondsString = this.padTwo(this.seconds);
+    this.updateTime();
   }
 
   public validateDatetime(): void {
@@ -195,6 +195,17 @@ export class DatetimePickerComponent implements OnInit {
         this.invalidDatetime = false;
       }
     }
+  }
+
+  private updateTime() {
+    this.hoursString = this.padTwo(this.hours);
+    this.minutesString = this.padTwo(this.minutes);
+    this.secondsString = this.padTwo(this.seconds);
+    this.datetimeModel.setHours(this.hours);
+    this.datetimeModel.setMinutes(this.minutes);
+    this.datetimeModel.setSeconds(this.seconds);
+    this.datetime = this.formatDateToString(this.datetimeModel);
+    this.datetimeChange.emit(this.datetime);
   }
 
   /**
