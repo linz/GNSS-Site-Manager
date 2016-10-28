@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -22,10 +22,16 @@ export class DatetimePickerComponent implements OnInit {
   private invalidSeconds: boolean = false;
   private invalidDatetime: boolean = false;
   private showDatetimePicker: boolean = false;
+  private elemRef: ElementRef;
 
-  @Input() public required: boolean = true;
   @Input() public datetime: string = '';
+  @Input() public name: string = 'Date';
+  @Input() public required: boolean = true;
   @Output() public datetimeChange: EventEmitter<string> = new EventEmitter<string>();
+
+  constructor(element: ElementRef) {
+    this.elemRef = element;
+  }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -39,8 +45,24 @@ export class DatetimePickerComponent implements OnInit {
     }
   }
 
-  public showCalendar(): void {
-    this.showDatetimePicker = true;
+  /**
+   * Close the calendar if mouse clicks outside of it
+   */
+  @HostListener('document:click', ['$event'])
+  public handleClickOutside(event: any) {
+    if (this.showDatetimePicker) {
+      var clickedComponent: any = event.target;
+      var isInside: boolean = false;
+      do {
+        if (clickedComponent === this.elemRef.nativeElement) {
+          isInside = true;
+          break;
+        }
+        clickedComponent = clickedComponent.parentNode;
+      } while (clickedComponent);
+
+      this.showDatetimePicker = isInside;
+    }
   }
 
   public setSelectedDatetime(event: any): void {
