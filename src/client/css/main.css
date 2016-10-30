@@ -548,4 +548,30 @@ form .ng-invalid {
     border-radius: 2px;
     padding: 5px;
   }
+
+  .hidden-xxs {
+    display: none !important;
+  }
+  .visible-xxs {
+    display: block !important;
+  }
+  table.visible-xxs {
+    display: table !important;
+  }
+  tr.visible-xxs {
+    display: table-row !important;
+  }
+  th.visible-xxs,
+  td.visible-xxs {
+    display: table-cell !important;
+  }
+  .visible-xxs-block {
+    display: block !important;
+  }
+  .visible-xxs-inline {
+    display: inline !important;
+  }
+  .visible-xxs-inline-block {
+    display: inline-block !important;
+  }
 }
