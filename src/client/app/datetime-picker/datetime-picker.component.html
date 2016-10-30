@@ -1,0 +1,54 @@
+<div>
+  <small [hidden]="!invalidDatetime" class="alert alert-danger">
+    "{{name}}" is {{ (required && datetime.length == 0) ? "required" : "not valid" }}.
+    <br>&nbsp;&nbsp;&nbsp;&nbsp;<i>(Valid Date Format: YYYY-MM-DDThh:mm:ss.sssZ)</i>
+  </small>
+  <div class="input-group">
+    <input type="text" class="form-control z-lowest" maxlength="24" [(ngModel)]="datetime"
+           [ngClass]="{ 'ng-invalid': invalidDatetime }"
+           (focus)="showDatetimePicker = true" (change)="updateCalendar()"/>
+    <span class="input-group-btn z-lowest">
+      <button id="calendar-btn" type="button" class="btn btn-default btn-calendar z-lowest"
+              (click)="showDatetimePicker = !showDatetimePicker">
+        <span id="calendar-icon" class="glyphicon glyphicon-calendar"></span>
+      </button>
+    </span>
+  </div>
+  <div class="popup" *ngIf="showDatetimePicker">
+    <datepicker [(ngModel)]="datetimeModel" [showWeeks]="false"
+        (selectionDone)="setSelectedDatetime($event)"></datepicker>
+    <div class="center">
+    <table>
+      <tbody>
+        <tr class="text-center">
+          <td><a (click)="incrementHours()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
+          <td>&nbsp;</td>
+          <td><a (click)="incrementMinutes()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
+          <td>&nbsp;</td>
+          <td><a (click)="incrementSeconds()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
+        </tr>
+        <tr>
+          <td class="form-group" [ngClass]="{'has-error': invalidHours}">
+            <input style="width:50px;" type="text" [(ngModel)]="hoursString" (change)="updateHours()" class="form-control text-center" maxlength="2">
+          </td>
+          <td>:</td>
+          <td class="form-group" [ngClass]="{'has-error': invalidMinutes}">
+            <input style="width:50px;" type="text" [(ngModel)]="minutesString" (change)="updateMinutes()" class="form-control text-center" maxlength="2">
+          </td>
+          <td>:</td>
+          <td class="form-group" [ngClass]="{'has-error': invalidSeconds}">
+            <input style="width:50px;" type="text" [(ngModel)]="secondsString" (change)="updateSeconds()" class="form-control text-center" maxlength="2">
+          </td>
+        </tr>
+        <tr class="text-center">
+          <td><a (click)="decrementHours()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
+          <td>&nbsp;</td>
+          <td><a (click)="decrementMinutes()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
+          <td>&nbsp;</td>
+          <td><a (click)="decrementSeconds()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
