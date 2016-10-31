@@ -2,7 +2,7 @@
   <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
     <form #siteInfoForm="ngForm" novalidate class="form-horizontal">
       <div class="panel-group">
-        <div class="panel panel-info">
+        <div class="panel panel-level-1">
           <div class="panel-heading">
           <span class="panel-title cursor-ptr" (click)="status.isSiteInfoGroupOpen = !status.isSiteInfoGroupOpen">
             <i class="glyphicon"
@@ -77,7 +77,7 @@
                 </div>
               </div>
             </div>
-            <!--<div class="panel panel-warning">
+            <!--<div class="panel panel-level-2">
               <div class="panel-heading">
                 <span class="panel-sub-title cursor-ptr" (click)="status.isSiteMediaOpen = !status.isSiteMediaOpen">
                   <i class="glyphicon"
@@ -95,7 +95,7 @@
                 </div>
               </div>
             </div>-->
-            <div class="panel panel-warning">
+            <div class="panel panel-level-2">
               <div class="panel-heading">
               <span class="panel-sub-title cursor-ptr" (click)="status.isSiteContactOpen = !status.isSiteContactOpen">
                 <i class="glyphicon"
@@ -190,7 +190,7 @@
                 </div>
               </div>
             </div>
-            <div class="panel panel-warning">
+            <div class="panel panel-level-2">
               <div class="panel-heading">
               <span class="panel-sub-title cursor-ptr"
                     (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen">
@@ -238,7 +238,7 @@
 
         <gnss-receiever-info [status]="status" [gnssReceivers]="receivers"
                              [siteLogModel]="siteLogModel" [siteLogOrigin]="siteLogOrigin"></gnss-receiever-info>
-        <div class="panel panel-info">
+        <div class="panel panel-level-1">
           <div class="panel-heading">
           <span class="panel-title cursor-ptr" (click)="status.isAntennaGroupOpen = !status.isAntennaGroupOpen">
             <i class="glyphicon"
@@ -247,7 +247,7 @@
             GNSS Antenna
           </span>
           <span class="pull-right">
-            <button class="btn btn-primary btn-xs" title="Add a new antenna as current one"
+            <button class="btn btn-similar btn-xs" title="Add a new antenna as current one"
                     [disabled]="status.hasNewAntenna" (click)="addNewAntenna()">
               <i class="glyphicon glyphicon-plus-sign"></i>
               New Antenna
@@ -259,7 +259,7 @@
               No Information available for GNSS Antenna
             </div>
             <div *ngFor="let antenna of antennas; let i = index">
-              <div class="panel panel-warning">
+              <div class="panel panel-level-2">
                 <div class="panel-heading">
                 <span class="panel-sub-title cursor-ptr" (click)="status.isAntennasOpen[i] = !status.isAntennasOpen[i]">
                   <i class="glyphicon"

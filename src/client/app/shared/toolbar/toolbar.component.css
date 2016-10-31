@@ -1,6 +1,6 @@
 :host {
-  background-color: #106cc8;
-  color: rgb(255, 255, 255);
+  background-color: #205081;
+  color: #fff;
   display: block;
   height: 48px;
   line-height: 35px;
@@ -33,7 +33,7 @@
 }
 .small-btn {
   background-color: transparent;
-  border-color: #bce8f1;
+  border-color: #fff;
   font-size: 13px !important;
   font-weight: 400 !important;
   padding: 3px 6px;
@@ -41,7 +41,7 @@
 }
 .wrap-btn {
   background-color: transparent;
-  border-color: #bce8f1;
+  border-color: #fff;
   font-size: 13px !important;
   font-weight: 400 !important;
   padding: 3px 6px;

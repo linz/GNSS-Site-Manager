@@ -1,4 +1,4 @@
-<div class="panel panel-info">
+<div class="panel panel-level-1">
   <div class="panel-heading">
           <span class="panel-title cursor-ptr" (click)="status.isReceiverGroupOpen = !status.isReceiverGroupOpen">
             <i class="glyphicon"
@@ -7,7 +7,7 @@
             GNSS Receiver
           </span>
           <span class="pull-right">
-            <button class="btn btn-primary btn-xs" title="Add a new receiver as current one"
+            <button class="btn btn-similar btn-xs" title="Add a new receiver as current one"
                     [disabled]="status.hasNewReceiver" (click)="addNewReceiver()">
               <i class="glyphicon glyphicon-plus-sign"></i>
               New Receiver
@@ -19,7 +19,7 @@
       No information available for GNSS Receivers
     </div>
     <div *ngFor="let receiver of gnssReceivers; let i = index">
-      <div class="panel panel-warning">
+      <div class="panel panel-level-2">
         <div class="panel-heading">
                 <span class="panel-sub-title cursor-ptr" (click)="status.isReceiversOpen[i] = !status.isReceiversOpen[i]">
                   <i class="glyphicon"
