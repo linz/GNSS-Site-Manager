@@ -95,7 +95,7 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Temperature Stabilization</label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Temperature Stabilization (&deg;C)</label>
               <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                 <input type="number" step="0.01" maxlength="100" class="form-control"
                        [(ngModel)]="receiver.temperatureStabilization"
@@ -103,13 +103,13 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
               <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                 <datetime-picker [(datetime)]="receiver.dateInstalled.value[0]" [name]=" 'Date Installed' " [required]="true"></datetime-picker>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
               <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                 <datetime-picker [(datetime)]="receiver.dateRemoved.value[0]" [name]=" 'Date Removed' " [required]="i != 0"></datetime-picker>
               </div>
