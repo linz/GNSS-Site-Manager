@@ -1,4 +1,4 @@
-<div>
+<div class="container centered clear-pad">
   <span dropdown class="btn-group pull-left">
     <button dropdownToggle id="left-menu" type="button" class="btn menu-btn">
       <i class="glyphicon glyphicon-menu-hamburger"></i>
@@ -16,7 +16,7 @@
       <button class="btn small-btn" type="submit" (click)="save()"
               [disabled]="!hasFormChanged()" title="Save changes">Save
       </button>
-      <button class="btn small-btn" type="submit" (click)="reload()" title="Reload data from database">Reload
+      <button class="btn small-btn" type="submit" (click)="reload()" title="Discard changes">Revert
       </button>
       <button class="btn small-btn" type="submit" (click)="close()"
               title="Close current page and go back to Home page">Close
@@ -31,7 +31,7 @@
         </button>
         <ul dropdownMenu role="menu" aria-labelledby="menu-button">
           <li role="menuitem"><a (click)="save()">Save</a></li>
-          <li role="menuitem"><a (click)="reload()">Reload</a></li>
+          <li role="menuitem"><a (click)="reload()" title="Discard changes">Revert</a></li>
           <li class="divider dropdown-divider"></li>
           <li role="menuitem"><a (click)="close()">Close</a></li>
         </ul>
