@@ -65,6 +65,10 @@
   color: #2a2aff;
   cursor: pointer;
 }
+.dropdown-menu-right {
+  right: 0;
+  float: right;
+}
 
 #clear {
   background-color: transparent;
