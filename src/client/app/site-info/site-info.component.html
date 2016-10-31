@@ -1,8 +1,9 @@
-<div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
-  <form #siteInfoForm="ngForm" novalidate class="form-horizontal">
-    <div class="panel-group">
-      <div class="panel panel-info">
-        <div class="panel-heading">
+<div class="container centered clear-pad">
+  <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
+    <form #siteInfoForm="ngForm" novalidate class="form-horizontal">
+      <div class="panel-group">
+        <div class="panel panel-info">
+          <div class="panel-heading">
           <span class="panel-title cursor-ptr" (click)="status.isSiteInfoGroupOpen = !status.isSiteInfoGroupOpen">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
@@ -12,185 +13,185 @@
           <span *ngIf="isLoading" class="pull-right">
             <img src="../../assets/ajax-loader.gif" height="24" width="24">
           </span>
-        </div>
-        <div class="panel-body" *ngIf="status.isSiteInfoGroupOpen">
-          <div *ngIf=" site == null ">
-            No information available for the site
           </div>
-          <div *ngIf=" site != null ">
-            <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Four Character Id</label>
-              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                <input type="text" minlength="4" maxlength="9" class="form-control" required
-                       [(ngModel)]="site.fourCharacterID" name="fourCharacterID" #fourCharacterID="ngModel"/>
-                <small [hidden]="fourCharacterID.valid || fourCharacterID.pristine" class="alert alert-danger">
-                  "Four Character Id" is required (minimum 4 characters)
-                </small>
-              </div>
+          <div class="panel-body" *ngIf="status.isSiteInfoGroupOpen">
+            <div *ngIf=" site == null ">
+              No information available for the site
             </div>
-            <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Site Name</label>
-              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                <input type="text" maxlength="100" class="form-control" required
-                       [(ngModel)]="site.siteName" name="siteName" #siteName="ngModel"/>
-                <small [hidden]="siteName.valid || siteName.pristine" class="alert alert-danger">
-                  "Site Name" is required
-                </small>
-              </div>
-            </div>
-            <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">IERS DOMES Number</label>
-              <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                <input type="text" maxlength="100" class="form-control" required
-                       [(ngModel)]="site.iersDOMESNumber" name="iersDomesNumber" #iersDomesNumber="ngModel"/>
-                <small [hidden]="iersDomesNumber.valid || iersDomesNumber.pristine" class="alert alert-danger">
-                  "IERS DOMES Number" is required
-                </small>
-              </div>
-            </div>
-            <div *ngIf="siteLocation !=null">
+            <div *ngIf=" site != null ">
               <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">City / Town</label>
-                <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                  <input type="text" maxlength="100" class="form-control"
-                         [(ngModel)]="siteLocation.city" name="siteCity" #siteCity="ngModel"/>
+                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Four Character Id</label>
+                <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                  <input type="text" minlength="4" maxlength="9" class="form-control" required
+                         [(ngModel)]="site.fourCharacterID" name="fourCharacterID" #fourCharacterID="ngModel"/>
+                  <small [hidden]="fourCharacterID.valid || fourCharacterID.pristine" class="alert alert-danger">
+                    "Four Character Id" is required (minimum 4 characters)
+                  </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Site Name</label>
+                <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                  <input type="text" maxlength="100" class="form-control" required
+                         [(ngModel)]="site.siteName" name="siteName" #siteName="ngModel"/>
+                  <small [hidden]="siteName.valid || siteName.pristine" class="alert alert-danger">
+                    "Site Name" is required
+                  </small>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">IERS DOMES Number</label>
+                <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                  <input type="text" maxlength="100" class="form-control" required
+                         [(ngModel)]="site.iersDOMESNumber" name="iersDomesNumber" #iersDomesNumber="ngModel"/>
+                  <small [hidden]="iersDomesNumber.valid || iersDomesNumber.pristine" class="alert alert-danger">
+                    "IERS DOMES Number" is required
+                  </small>
+                </div>
+              </div>
+              <div *ngIf="siteLocation !=null">
+                <div class="form-group">
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">City / Town</label>
+                  <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                    <input type="text" maxlength="100" class="form-control"
+                           [(ngModel)]="siteLocation.city" name="siteCity" #siteCity="ngModel"/>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="siteLocation !=null">
+                <div class="form-group">
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">State</label>
+                  <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                    <input type="text" maxlength="100" class="form-control"
+                           [(ngModel)]="siteLocation.state" name="siteState" #siteState="ngModel"/>
+                  </div>
+                </div>
+              </div>
+              <div *ngIf="siteLocation !=null">
+                <div class="form-group">
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Country</label>
+                  <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                    <input type="text" maxlength="100" class="form-control"
+                           [(ngModel)]="siteLocation.countryCodeISO" name="siteCountry" #siteCountry="ngModel"/>
+                  </div>
                 </div>
               </div>
             </div>
-            <div *ngIf="siteLocation !=null">
-              <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">State</label>
-                <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                  <input type="text" maxlength="100" class="form-control"
-                         [(ngModel)]="siteLocation.state" name="siteState" #siteState="ngModel"/>
+            <!--<div class="panel panel-warning">
+              <div class="panel-heading">
+                <span class="panel-sub-title cursor-ptr" (click)="status.isSiteMediaOpen = !status.isSiteMediaOpen">
+                  <i class="glyphicon"
+                     [ngClass]="{'glyphicon-minus-sign': status.isSiteMediaOpen, 'glyphicon-plus-sign': !status.isSiteMediaOpen}">
+                  </i>
+                  Site Media (Photos, PDFs, etc)
+                </span>
+              </div>
+              <div class="panel-body" *ngIf="status.isSiteMediaOpen">
+                <div class="form-group">
+                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">View PDFs </label>
+                </div>
+                <div class="form-group">
+                  <label class="col-md-5 col-sm-6 col-xs-6 col-xxs-12 control-label">View Photos</label>
                 </div>
               </div>
-            </div>
-            <div *ngIf="siteLocation !=null">
-              <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Country</label>
-                <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                  <input type="text" maxlength="100" class="form-control"
-                         [(ngModel)]="siteLocation.countryCodeISO" name="siteCountry" #siteCountry="ngModel"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!--<div class="panel panel-warning">
-            <div class="panel-heading">
-              <span class="panel-sub-title cursor-ptr" (click)="status.isSiteMediaOpen = !status.isSiteMediaOpen">
-                <i class="glyphicon"
-                   [ngClass]="{'glyphicon-minus-sign': status.isSiteMediaOpen, 'glyphicon-plus-sign': !status.isSiteMediaOpen}">
-                </i>
-                Site Media (Photos, PDFs, etc)
-              </span>
-            </div>
-            <div class="panel-body" *ngIf="status.isSiteMediaOpen">
-              <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">View PDFs </label>
-              </div>
-              <div class="form-group">
-                <label class="col-md-5 col-sm-6 col-xs-7 col-xxs-12 control-label">View Photos</label>
-              </div>
-            </div>
-          </div>-->
-          <div class="panel panel-warning">
-            <div class="panel-heading">
+            </div>-->
+            <div class="panel panel-warning">
+              <div class="panel-heading">
               <span class="panel-sub-title cursor-ptr" (click)="status.isSiteContactOpen = !status.isSiteContactOpen">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isSiteContactOpen, 'glyphicon-plus-sign': !status.isSiteContactOpen}">
                 </i>
                 Site Contact
               </span>
-            </div>
-            <div class="panel-body" *ngIf="status.isSiteContactOpen">
-              <div *ngIf="siteContact != null">
-                <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Full Name</label>
-                  <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                    <input type="text" maxlength="100" class="form-control" required
-                           [(ngModel)]="siteContact.individualName.characterString['gco:CharacterString']"
-                           name="contactName" #contactName="ngModel"/>
-                    <small [hidden]="contactName.valid || contactName.pristine" class="alert alert-danger">
-                      "Full Name" is required
-                    </small>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Organisation</label>
-                  <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                    <input type="text" maxlength="100" class="form-control" required
-                           [(ngModel)]="siteContact.organisationName.characterString['gco:CharacterString']"
-                           name="contactOrganisation" #contactOrganisation="ngModel"/>
-                    <small [hidden]="contactOrganisation.valid || contactOrganisation.pristine"
-                           class="alert alert-danger">
-                      "Organisation" is required
-                    </small>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
-                  <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                    <input type="text" maxlength="100" class="form-control"
-                           [(ngModel)]="siteContact.positionName.value" name="contactPosition"/>
-                  </div>
-                </div>
-                <div
-                  *ngFor="let address of siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint; let i = index">
+              </div>
+              <div class="panel-body" *ngIf="status.isSiteContactOpen">
+                <div *ngIf="siteContact != null">
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address
-                      {{siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' :
-                      i+1}}</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="address.characterString['gco:CharacterString']"
-                             name="contactAddress_{{i}}"/>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Full Name</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control" required
+                             [(ngModel)]="siteContact.individualName.characterString['gco:CharacterString']"
+                             name="contactName" #contactName="ngModel"/>
+                      <small [hidden]="contactName.valid || contactName.pristine" class="alert alert-danger">
+                        "Full Name" is required
+                      </small>
                     </div>
                   </div>
-                </div>
-                <div
-                  *ngFor="let email of siteContact.contactInfo.ciContact.address.ciAddress.electronicMailAddress; let i = index">
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Email
-                      {{siteContact.contactInfo.ciContact.address.ciAddress.electronicMailAddress.length <= 1 ? '' :
-                      i+1}}</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="email" maxlength="100" class="form-control"
-                             [(ngModel)]="email.characterString['gco:CharacterString']"
-                             name="contactEmail_{{i}}" #contactEmail_{{i}}="ngModel"/>
-                      <!--<small [hidden]="contactEmail_{{i}}.valid || contactEmail_{{i}}.pristine" class="alert alert-danger">
-                        "Email" must not be empty or invalid
-                      </small>-->
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Organisation</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control" required
+                             [(ngModel)]="siteContact.organisationName.characterString['gco:CharacterString']"
+                             name="contactOrganisation" #contactOrganisation="ngModel"/>
+                      <small [hidden]="contactOrganisation.valid || contactOrganisation.pristine"
+                             class="alert alert-danger">
+                        "Organisation" is required
+                      </small>
                     </div>
                   </div>
-                </div>
-                <div *ngFor="let phone of siteContact.contactInfo.ciContact.phone.ciTelephone.voice; let i = index">
                   <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Phone
-                      {{siteContact.contactInfo.ciContact.phone.ciTelephone.voice.length <= 1 ? '' : i+1}}</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="phone.characterString['gco:CharacterString']"
-                             name="contactPhone_{{i}}"/>
+                             [(ngModel)]="siteContact.positionName.value" name="contactPosition"/>
                     </div>
                   </div>
-                </div>
-                <div *ngFor="let fax of siteContact.contactInfo.ciContact.phone.ciTelephone.facsimile; let i = index">
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Facsimile
-                      {{siteContact.contactInfo.ciContact.phone.ciTelephone.facsimile.length <= 1 ? '' : i+1}}</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="fax.characterString['gco:CharacterString']"
-                             name="contactFax_{{i}}"/>
+                  <div
+                    *ngFor="let address of siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint; let i = index">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address
+                        {{siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' :
+                        i+1}}</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="address.characterString['gco:CharacterString']"
+                               name="contactAddress_{{i}}"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    *ngFor="let email of siteContact.contactInfo.ciContact.address.ciAddress.electronicMailAddress; let i = index">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Email
+                        {{siteContact.contactInfo.ciContact.address.ciAddress.electronicMailAddress.length <= 1 ? '' :
+                        i+1}}</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="email" maxlength="100" class="form-control"
+                               [(ngModel)]="email.characterString['gco:CharacterString']"
+                               name="contactEmail_{{i}}" #contactEmail_{{i}}="ngModel"/>
+                        <!--<small [hidden]="contactEmail_{{i}}.valid || contactEmail_{{i}}.pristine" class="alert alert-danger">
+                          "Email" must not be empty or invalid
+                        </small>-->
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngFor="let phone of siteContact.contactInfo.ciContact.phone.ciTelephone.voice; let i = index">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Phone
+                        {{siteContact.contactInfo.ciContact.phone.ciTelephone.voice.length <= 1 ? '' : i+1}}</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="phone.characterString['gco:CharacterString']"
+                               name="contactPhone_{{i}}"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngFor="let fax of siteContact.contactInfo.ciContact.phone.ciTelephone.facsimile; let i = index">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Facsimile
+                        {{siteContact.contactInfo.ciContact.phone.ciTelephone.facsimile.length <= 1 ? '' : i+1}}</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="fax.characterString['gco:CharacterString']"
+                               name="contactFax_{{i}}"/>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="panel panel-warning">
-            <div class="panel-heading">
+            <div class="panel panel-warning">
+              <div class="panel-heading">
               <span class="panel-sub-title cursor-ptr"
                     (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen">
                 <i class="glyphicon"
@@ -198,47 +199,47 @@
                 </i>
                 Site Metadata Custodian
               </span>
-            </div>
-            <div class="panel-body" *ngIf="status.isMetaCustodianOpen">
-              <div *ngIf="metadataCustodian != null">
-                <!--<div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Full Name</label>
-                  <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                    <input type="text" maxlength="100" class="form-control"
-                           [(ngModel)]="metadataCustodian.individualName"
-                           name="metadataCustodianName"/>
+              </div>
+              <div class="panel-body" *ngIf="status.isMetaCustodianOpen">
+                <div *ngIf="metadataCustodian != null">
+                  <!--<div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Full Name</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="metadataCustodian.individualName"
+                             name="metadataCustodianName"/>
+                    </div>
+                  </div>-->
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Organisation</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control" required
+                             [(ngModel)]="metadataCustodian.organisationName.characterString['gco:CharacterString']"
+                             name="metadataCustodianOrganisation" #metadataCustodianOrganisation="ngModel"/>
+                      <small [hidden]="metadataCustodianOrganisation.valid || metadataCustodianOrganisation.pristine"
+                             class="alert alert-danger">
+                        "Organisation" is required
+                      </small>
+                    </div>
                   </div>
-                </div>-->
-                <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Organisation</label>
-                  <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                    <input type="text" maxlength="100" class="form-control" required
-                           [(ngModel)]="metadataCustodian.organisationName.characterString['gco:CharacterString']"
-                           name="metadataCustodianOrganisation" #metadataCustodianOrganisation="ngModel"/>
-                    <small [hidden]="metadataCustodianOrganisation.valid || metadataCustodianOrganisation.pristine"
-                           class="alert alert-danger">
-                      "Organisation" is required
-                    </small>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address</label>
-                  <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                    <input type="text" maxlength="100" class="form-control"
-                           [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.id"
-                           name="metadataCustodianAddress"/>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.id"
+                             name="metadataCustodianAddress"/>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <gnss-receiever-info [status]="status" [gnssReceivers]="receivers"
-                           [siteLogModel]="siteLogModel" [siteLogOrigin]="siteLogOrigin"></gnss-receiever-info>
-      <div class="panel panel-info">
-        <div class="panel-heading">
+        <gnss-receiever-info [status]="status" [gnssReceivers]="receivers"
+                             [siteLogModel]="siteLogModel" [siteLogOrigin]="siteLogOrigin"></gnss-receiever-info>
+        <div class="panel panel-info">
+          <div class="panel-heading">
           <span class="panel-title cursor-ptr" (click)="status.isAntennaGroupOpen = !status.isAntennaGroupOpen">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
@@ -252,14 +253,14 @@
               New Antenna
             </button>
           </span>
-        </div>
-        <div class="panel-body" *ngIf="status.isAntennaGroupOpen">
-          <div *ngIf=" antennas.length == 0 ">
-            No Information available for GNSS Antenna
           </div>
-          <div *ngFor="let antenna of antennas; let i = index">
-            <div class="panel panel-warning">
-              <div class="panel-heading">
+          <div class="panel-body" *ngIf="status.isAntennaGroupOpen">
+            <div *ngIf=" antennas.length == 0 ">
+              No Information available for GNSS Antenna
+            </div>
+            <div *ngFor="let antenna of antennas; let i = index">
+              <div class="panel panel-warning">
+                <div class="panel-heading">
                 <span class="panel-sub-title cursor-ptr" (click)="status.isAntennasOpen[i] = !status.isAntennasOpen[i]">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
@@ -288,128 +289,133 @@
                     <i class="glyphicon glyphicon-collapse-up"></i>
                   </button>
                 </span>
-              </div>
-              <div class="panel-body" *ngIf="status.isAntennasOpen[i]">
-                <div *ngIf=" antenna == null ">
-                  No information available for current GNSS Antenna
                 </div>
-                <div *ngIf=" antenna != null ">
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Type</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.antennaType.codeListValue" name="antennaType_{{i}}"/>
-                    </div>
+                <div class="panel-body" *ngIf="status.isAntennasOpen[i]">
+                  <div *ngIf=" antenna == null ">
+                    No information available for current GNSS Antenna
                   </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Serial Number</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.serialNumber" name="antennaSerialNumber_{{i}}"/>
+                  <div *ngIf=" antenna != null ">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Type</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="antenna.antennaType.codeListValue" name="antennaType_{{i}}"/>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Reference Point</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.antennaReferencePoint.value"
-                             name="antennaReferencePoint_{{i}}"/>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Serial Number</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="antenna.serialNumber" name="antennaSerialNumber_{{i}}"/>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP Up
-                      Eccentricity</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="number" step="0.0001" min="0.0000" class="form-control"
-                             [(ngModel)]="antenna.markerArpUpEcc" name="antennaMarkerArpUpEcc_{{i}}"
-                      />
-                      <!--<div [hidden]="antennaMarkerArpUpEcc_{{i}}.valid || antennaMarkerArpUpEcc_{{i}}.pristine" class="alert alert-danger">
-                        "Marker ARP Up Ecc" must be a decimal number >= 0
-                             #antennaMarkerArpUpEcc_{{i}}="ngModel"
-                      </div>-->
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Reference Point</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="antenna.antennaReferencePoint.value"
+                               name="antennaReferencePoint_{{i}}"/>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP North
-                      Eccentricity</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="number" step="0.0001" min="0.0000" class="form-control"
-                             [(ngModel)]="antenna.markerArpNorthEcc" name="antennaMarkerArpNorthEcc_{{i}}"/>
-                      <!--<div [hidden]="antennaMarkerArpNorthEcc_{{i}}.valid || antennaMarkerArpNorthEcc_{{i}}.pristine" class="alert alert-danger">
-                        Marker ARP North Ecc must be a decimal number >= 0
-                             #antennaMarkerArpNorthEcc_{{i}}="ngModel"
-                      </div>-->
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP Up
+                        Eccentricity</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="number" step="0.0001" min="0.0000" class="form-control"
+                               [(ngModel)]="antenna.markerArpUpEcc" name="antennaMarkerArpUpEcc_{{i}}"
+                        />
+                        <!--<div [hidden]="antennaMarkerArpUpEcc_{{i}}.valid || antennaMarkerArpUpEcc_{{i}}.pristine" class="alert alert-danger">
+                          "Marker ARP Up Ecc" must be a decimal number >= 0
+                               #antennaMarkerArpUpEcc_{{i}}="ngModel"
+                        </div>-->
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP East
-                      Eccentricity</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="number" step="0.0001" min="0.0000" class="form-control"
-                             [(ngModel)]="antenna.markerArpEastEcc" name="antennaMarkerArpEastEcc_{{i}}"/>
-                      <!--<div [hidden]="antennaMarkerArpEastEcc_{{i}}.valid || antennaMarkerArpEastEcc_{{i}}.pristine" class="alert alert-danger">
-                        "Marker ARP East Ecc" must be a decimal number >= 0
-                             #antennaMarkerArpEastEcc_{{i}}="ngModel"
-                      </div>-->
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP North
+                        Eccentricity</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="number" step="0.0001" min="0.0000" class="form-control"
+                               [(ngModel)]="antenna.markerArpNorthEcc" name="antennaMarkerArpNorthEcc_{{i}}"/>
+                        <!--<div [hidden]="antennaMarkerArpNorthEcc_{{i}}.valid || antennaMarkerArpNorthEcc_{{i}}.pristine" class="alert alert-danger">
+                          Marker ARP North Ecc must be a decimal number >= 0
+                               #antennaMarkerArpNorthEcc_{{i}}="ngModel"
+                        </div>-->
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Alignment From True North (degrees)</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="number" step="0.01" min="-359.99" max="359.99" class="form-control"
-                             [(ngModel)]="antenna.alignmentFromTrueNorth" name="antennaAlignmentFromTrueNorth_{{i}}"/>
-                      <!--<div [hidden]="antennaAlignmentFromTrueNorth_{{i}}.valid || antennaAlignmentFromTrueNorth_{{i}}.pristine" class="alert alert-danger">
-                        "Alignment From True North" must be a decimal number between -360 and 360
-                             #antennaAlignmentFromTrueNorth_{{i}}="ngModel"
-                      </div>-->
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP East
+                        Eccentricity</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="number" step="0.0001" min="0.0000" class="form-control"
+                               [(ngModel)]="antenna.markerArpEastEcc" name="antennaMarkerArpEastEcc_{{i}}"/>
+                        <!--<div [hidden]="antennaMarkerArpEastEcc_{{i}}.valid || antennaMarkerArpEastEcc_{{i}}.pristine" class="alert alert-danger">
+                          "Marker ARP East Ecc" must be a decimal number >= 0
+                               #antennaMarkerArpEastEcc_{{i}}="ngModel"
+                        </div>-->
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Radome Type</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.antennaRadomeType.value" name="antennaRadomeType_{{i}}"/>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Alignment From True North
+                        (degrees)</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="number" step="0.01" min="-359.99" max="359.99" class="form-control"
+                               [(ngModel)]="antenna.alignmentFromTrueNorth" name="antennaAlignmentFromTrueNorth_{{i}}"/>
+                        <!--<div [hidden]="antennaAlignmentFromTrueNorth_{{i}}.valid || antennaAlignmentFromTrueNorth_{{i}}.pristine" class="alert alert-danger">
+                          "Alignment From True North" must be a decimal number between -360 and 360
+                               #antennaAlignmentFromTrueNorth_{{i}}="ngModel"
+                        </div>-->
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Radome Serial Number</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.radomeSerialNumber" name="antennaRadomeSerialNumber_{{i}}"/>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Radome Type</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="antenna.antennaRadomeType.value" name="antennaRadomeType_{{i}}"/>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Cable Type</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="antenna.antennaCableType" name="antennaCableType_{{i}}"/>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Radome Serial Number</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="antenna.radomeSerialNumber" name="antennaRadomeSerialNumber_{{i}}"/>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Cable Length (m)</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <input type="number" step="0.001" min="0" class="form-control"
-                             [(ngModel)]="antenna.antennaCableLength" name="antennaCableLength_{{i}}"/>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Cable Type</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="antenna.antennaCableType" name="antennaCableType_{{i}}"/>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <datetime-picker [(datetime)]="antenna.dateInstalled.value[0]" [name]=" 'Date Installed' " [required]="true"></datetime-picker>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Antenna Cable Length
+                        (m)</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="number" step="0.001" min="0" class="form-control"
+                               [(ngModel)]="antenna.antennaCableLength" name="antennaCableLength_{{i}}"/>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
-                    <div class="col-md-5 col-sm-6 col-xs-7 col-xxs-12">
-                      <datetime-picker [(datetime)]="antenna.dateRemoved.value[0]" [name]=" 'Date Removed' " [required]="i != 0"></datetime-picker>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <datetime-picker [(datetime)]="antenna.dateInstalled.value[0]" [name]=" 'Date Installed' "
+                                         [required]="true"></datetime-picker>
+                      </div>
                     </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Notes</label>
-                    <div class="col-md-8 col-sm-8 col-xs-7 col-xxs-12">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <datetime-picker [(datetime)]="antenna.dateRemoved.value[0]" [name]=" 'Date Removed' "
+                                         [required]="i != 0"></datetime-picker>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Notes</label>
+                      <div class="col-md-8 col-sm-8 col-xs-7 col-xxs-12">
                       <textarea maxlength="2000" rows="2" class="form-textarea"
-                          [(ngModel)]="antenna.notes"
-                          name="antennaNotes_{{i}}"></textarea>
+                                [(ngModel)]="antenna.notes"
+                                name="antennaNotes_{{i}}"></textarea>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -418,22 +424,6 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="form-group">
-      <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12">
-        <div class="align-center">
-          <button class="btn btn-primary margin10-first" type="submit" (click)="save(siteInfoForm)"
-                  [disabled]="!siteInfoForm.valid || siteInfoForm.pristine" title="Save changes">Save
-          </button>
-          <button class="btn btn-primary margin10" type="submit" (click)="loadSiteInfoData()"
-                  title="Reload data from database">Reload
-          </button>
-          <button class="btn btn-primary margin10" type="submit" (click)="goBack()"
-                  title="Close current page and go back to Home page">Close
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
 </div>

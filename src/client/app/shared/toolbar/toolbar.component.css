@@ -24,21 +24,39 @@
 }
 .menu-btn:hover,
 .menu-btn:focus,
-.save-btn:hover,
-.save-btn:focus {
+.small-btn:hover,
+.small-btn:focus,
+.wrap-btn:hover,
+.wrap-btn:focus {
   color: #d9edf7;
   border-color: #d9edf7;
 }
-.save-btn {
+.small-btn {
   background-color: transparent;
-  font-size: 14px !important;
-  font-weight: 400 !important;
   border-color: #bce8f1;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  padding: 3px 6px;
+  margin-right: 10px;
+}
+.wrap-btn {
+  background-color: transparent;
+  border-color: #bce8f1;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  padding: 3px 6px;
+  margin-right: 10px;
+  margin-top: 4px;
 }
 .id-label {
   font-size: 14px;
   font-weight: normal;
-  padding-left: 5px;
+  margin-right: 10px;
+}
+.btn-label {
+  font-size: 14px;
+  font-weight: normal;
+  margin-right: 0;
 }
 
 .dropdown-menu > li > a:focus,

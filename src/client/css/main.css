@@ -1,21 +1,7 @@
 body {
-  min-width: 200px;
+  min-width: 300px;
+  width: 100%;
   word-wrap: break-word;
-}
-
-.container {
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 980px;
-}
-.container::before {
-  content: "";
-  display: table;
-}
-.container::after {
-  clear: both;
-  content: "";
-  display: table;
 }
 
 .centered {
@@ -334,12 +320,17 @@ form .ng-invalid {
 }
 
 @media (min-width: 451px) AND (max-width: 550px) {
-  .col-xs-7 {
+  .col-xs-10,
+  .col-xs-9,
+  .col-xs-8,
+  .col-xs-7,
+  .col-xs-6,
+  .col-xs-5,
+  .col-xs-4 {
     padding-left: 0 !important;
   }
-
-  .col-xs-5 {
-    padding-left: 0 !important;
+  .col-xs-6 {
+    padding-right: 0 !important;
   }
 }
 
@@ -547,5 +538,31 @@ form .ng-invalid {
   .well {
     border-radius: 2px;
     padding: 5px;
+  }
+
+  .hidden-xxs {
+    display: none !important;
+  }
+  .visible-xxs {
+    display: block !important;
+  }
+  table.visible-xxs {
+    display: table !important;
+  }
+  tr.visible-xxs {
+    display: table-row !important;
+  }
+  th.visible-xxs,
+  td.visible-xxs {
+    display: table-cell !important;
+  }
+  .visible-xxs-block {
+    display: block !important;
+  }
+  .visible-xxs-inline {
+    display: inline !important;
+  }
+  .visible-xxs-inline-block {
+    display: inline-block !important;
   }
 }
