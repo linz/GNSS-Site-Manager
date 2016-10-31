@@ -42,11 +42,11 @@ export class AppComponent {
   }
 
   /**
-   * Invoke the loadSiteInfoData() method of SiteInfo c triggered by the "Reload" button on Toolbar component
+   * Invoke the loadSiteInfoData() method of SiteInfo c triggered by the "Revert" button on Toolbar component
    *
    * @event: boolean - true if the selected siteId is not null
    */
-  onReload(event: any) {
+  onRevert(event: any) {
     if (event) {
       this.siteInfo.loadSiteInfoData();
     }

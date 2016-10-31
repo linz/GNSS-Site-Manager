@@ -14,7 +14,7 @@ import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class ToolbarComponent implements OnInit {
   @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() onReload: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() onRevert: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
@@ -34,8 +34,8 @@ export class ToolbarComponent implements OnInit {
     this.onSave.emit( this.siteId !== null );
   }
 
-  reload() {
-    this.onReload.emit( this.siteId !== null );
+  revert() {
+    this.onRevert.emit( this.siteId !== null );
   }
 
   close() {
