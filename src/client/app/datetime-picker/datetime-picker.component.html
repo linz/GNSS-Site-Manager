@@ -1,10 +1,10 @@
 <div>
   <small [hidden]="!invalidDatetime" class="alert alert-danger">
     "{{name}}" is {{ (required && datetime.length == 0) ? "required" : "not valid" }}.
-    <br>&nbsp;&nbsp;&nbsp;&nbsp;<i>(Valid Date Format: YYYY-MM-DDThh:mm:ss.sssZ)</i>
+    <br><i>(Valid Date Format: YYYY-MM-DD hh:mm:ss)</i>
   </small>
   <div class="input-group">
-    <input type="text" class="form-control z-lowest" maxlength="24" [(ngModel)]="datetime"
+    <input type="text" class="form-control z-lowest" maxlength="24" [(ngModel)]="datetimeDisplay"
            [ngClass]="{ 'ng-invalid': invalidDatetime }"
            (focus)="showDatetimePicker = true" (change)="updateCalendar()"/>
     <span class="input-group-btn z-lowest">

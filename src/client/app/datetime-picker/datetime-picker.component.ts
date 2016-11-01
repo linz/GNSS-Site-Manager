@@ -11,6 +11,8 @@ import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Outpu
 })
 export class DatetimePickerComponent implements OnInit {
   public datetimeModel: Date;
+  private datetimeDisplay: string = '';
+  private datetimeSuffix: string = '.000Z';
   private hours: number = 0;
   private minutes: number = 0;
   private seconds: number = 0;
@@ -37,7 +39,8 @@ export class DatetimePickerComponent implements OnInit {
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
-    let inputDate: Date = this.convertToDateObject(this.datetime);
+    this.formatInputDatetime(this.datetime);
+    let inputDate: Date = this.convertStringToDate(this.datetimeDisplay);
     if (inputDate !== null) {
       this.datetimeModel = inputDate;
     } else {
@@ -65,24 +68,30 @@ export class DatetimePickerComponent implements OnInit {
     }
   }
 
+  /**
+   * Set the selected datetime value to the datetime model when users select a date on calendar
+   */
   public setSelectedDatetime(event: any): void {
     if (this.invalidHours || this.invalidMinutes || this.invalidSeconds) {
       return;
     }
 
+    this.showDatetimePicker = false;
+    this.invalidDatetime = false;
     this.datetimeModel = event;
     this.datetimeModel.setHours(this.hours);
     this.datetimeModel.setMinutes(this.minutes);
     this.datetimeModel.setSeconds(this.seconds);
-    this.datetime = this.formatDateToString(this.datetimeModel);
-    this.datetimeChange.emit(this.datetime);
-    this.showDatetimePicker = false;
-    this.invalidDatetime = false;
+    this.emitOutputDatetime();
   }
 
+  /**
+   * Update the calendar and datetime model in response to direct changes made in the input box
+   */
   public updateCalendar(): void {
-    let newDate: Date = this.convertToDateObject(this.datetime);
+    let newDate: Date = this.convertStringToDate(this.datetimeDisplay);
     if (newDate !== null) {
+      this.invalidDatetime = false;
       this.datetimeModel = newDate;
       this.hours = this.datetimeModel.getHours();
       this.hoursString = this.padTwo(this.hours);
@@ -90,7 +99,7 @@ export class DatetimePickerComponent implements OnInit {
       this.minutesString = this.padTwo(this.minutes);
       this.seconds = this.datetimeModel.getSeconds();
       this.secondsString = this.padTwo(this.seconds);
-      this.invalidDatetime = false;
+      this.emitOutputDatetime();
     }
   }
 
@@ -106,7 +115,7 @@ export class DatetimePickerComponent implements OnInit {
   }
 
   public updateMinutes(): void {
-    this.minutes = this.toInteger(this.minutesString, 0, 23);
+    this.minutes = this.toInteger(this.minutesString, 0, 59);
     if (this.minutes === null) {
       this.invalidMinutes = true;
       this.minutes = 0;
@@ -117,7 +126,7 @@ export class DatetimePickerComponent implements OnInit {
   }
 
   public updateSeconds(): void {
-    this.seconds = this.toInteger(this.secondsString, 0, 23);
+    this.seconds = this.toInteger(this.secondsString, 0, 59);
     if (this.seconds === null) {
       this.invalidSeconds = true;
       this.seconds = 0;
@@ -202,23 +211,22 @@ export class DatetimePickerComponent implements OnInit {
   }
 
   public validateDatetime(): void {
-    if (this.datetime === null || this.datetime.trim().length === 0) {
-      if (this.required) {
-        this.invalidDatetime = true;
-      } else {
-        this.invalidDatetime = false;
-      }
-    } else if (this.datetime.length < 19) {
+    if (this.datetimeDisplay === null || this.datetimeDisplay.trim().length === 0) {
+      this.invalidDatetime = this.required ? true : false;
+    } else if (this.datetimeDisplay.length < 19) {
       this.invalidDatetime = true;
     } else {
-      if (!this.datetime.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])T([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d).?\d{0,3}Z$/g)) {
-        this.invalidDatetime = true;
-      } else {
+      if (this.datetimeDisplay.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g)) {
         this.invalidDatetime = false;
+      } else {
+        this.invalidDatetime = true;
       }
     }
   }
 
+  /**
+   * Update the datetime model in response to any changes in hours, minutes, and seconds.
+   */
   private updateTime() {
     this.hoursString = this.padTwo(this.hours);
     this.minutesString = this.padTwo(this.minutes);
@@ -226,33 +234,63 @@ export class DatetimePickerComponent implements OnInit {
     this.datetimeModel.setHours(this.hours);
     this.datetimeModel.setMinutes(this.minutes);
     this.datetimeModel.setSeconds(this.seconds);
-    this.datetime = this.formatDateToString(this.datetimeModel);
-    this.datetimeChange.emit(this.datetime);
+    this.emitOutputDatetime();
   }
 
   /**
-   * Convert a Date-time string 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
+   * Convert a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
    */
-  private convertToDateObject(dtStr: string): Date {
-    this.validateDatetime();
+  private convertStringToDate(dtStr: string): Date {
+    if (dtStr === null || dtStr.trim().length === 0) {
+      this.invalidDatetime = this.required ? true : false;
+      return null;
+    } else if (dtStr.trim().length < 19) {
+      this.invalidDatetime = true;
+      return null;
+    }
+
     try {
       let date: Date = new Date(dtStr.substring(0, 19));
       if (date !== null && date.toString() !== 'Invalid Date') {
+        this.invalidDatetime = false;
         return date;
       }
     } catch(error) { /*Do nothing*/ }
+
+    this.invalidDatetime = true;
     return null;
   }
 
   /**
-   * Format a Date object to a Date-time string in format of 'YYYY-MM-DDThh:mm:ss.sssZ'.
+   * Format the input datetime string to format of 'YYYY-MM-DD hh:mm:ss' and display it on calendar
    */
-  private formatDateToString(date: Date): string {
-    if (date === null) {
-      return '';
+  private formatInputDatetime(dtStr: string): void {
+    if (dtStr !== null && dtStr.trim().length >= 19) {
+      this.datetimeDisplay = dtStr.substring(0, 19).replace('T', ' ');
+      if (dtStr.length >= 24) {
+        this.datetimeSuffix = dtStr.substring(19, 24);
+      }
     }
-    return date.getFullYear() + '-' + this.padTwo(date.getMonth() + 1) + '-' + this.padTwo(date.getDate())
-            + 'T' + this.hoursString + ':' + this.minutesString + ':' + this.secondsString + '.000' + 'Z';
+  }
+
+  /**
+   * Emit a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
+   */
+  private emitOutputDatetime(): void {
+    if (this.datetimeModel === null) {
+      return;
+    }
+
+    let dateStr: string = this.datetimeModel.getFullYear() + '-'
+                        + this.padTwo(this.datetimeModel.getMonth() + 1) + '-'
+                        + this.padTwo(this.datetimeModel.getDate());
+    let timeStr: string = this.padTwo(this.datetimeModel.getHours()) + ':'
+                        + this.padTwo(this.datetimeModel.getMinutes()) + ':'
+                        + this.padTwo(this.datetimeModel.getSeconds());
+
+    this.datetimeDisplay = dateStr + ' ' + timeStr;
+    this.datetime = dateStr + 'T' + timeStr + this.datetimeSuffix;
+    this.datetimeChange.emit(this.datetime);
   }
 
   /**
