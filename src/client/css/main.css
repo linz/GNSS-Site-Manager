@@ -48,7 +48,7 @@ ul {
 }
 
 .table-hover tbody tr:hover > td {
-  background-color: #e5f5e0 !important;
+  background-color: #e5f5e0;
   color: #2a2aff;
   cursor: pointer;
 }
@@ -64,7 +64,7 @@ ul {
 .tips {
   font-family: Arial, sans-serif;
   font-size: 12px;
-  color: #106cc8;
+  color: #fff;
 }
 .hint {
   color: #999;
@@ -76,7 +76,7 @@ ul {
   cursor: pointer;
 }
 .button-xs {
-  background-color: #fff;
+  background-color: transparent;
   line-height: 18px !important;
   border: 0 !important;
   padding: 0 !important;
@@ -85,6 +85,23 @@ ul {
   float: right;
   font-size: 18px;
   margin: 0;
+}
+
+.panel-level-1 {
+  border-color: #31708f;
+}
+.panel-level-1 > .panel-heading {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #31708f;
+}
+.panel-level-2 {
+  border-color: #bce8f1;
+}
+.panel-level-2 > .panel-heading {
+  background-color: #d9edf7;
+  border-color: #bce8f1;
+  color: #2e3d54;
 }
 .panel-heading,
 .panel-body {
@@ -104,6 +121,18 @@ ul {
   margin: 10px 0;
   padding: 15px;
 }
+.btn-similar {
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff;
+}
+.btn-similar:hover,
+.btn-similar:focus {
+  background-color: #286090;
+  border-color: #d9edf7;
+  color: #d9edf7;
+}
+
 form .ng-invalid {
   border: 1px solid #a94442;
 }
@@ -147,8 +176,8 @@ form .ng-invalid {
 
 /* Override alertify.js for global dialogs */
 .alertify .dialog .title {
-  background: #d9edf7;
-  color: #31708f;
+  background: #337ab7;
+  color: #fff;
   font-family: "Roboto", sans-serif;
   font-size: 18px;
   font-weight: normal;

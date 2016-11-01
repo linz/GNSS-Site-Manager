@@ -1,8 +1,10 @@
 :host {
   display: block;
-  padding: 0 16px;
+  padding: 0 5px;
 }
-
+.text {
+  padding: 15px !important;
+}
 h2 {
   font-size: 20px;
   font-weight: 500;
