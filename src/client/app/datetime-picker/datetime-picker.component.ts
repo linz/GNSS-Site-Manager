@@ -60,6 +60,13 @@ export class DatetimePickerComponent implements OnInit {
         if (clickedComponent === this.elemRef.nativeElement) {
           isInside = true;
           break;
+        } else if (clickedComponent.id && clickedComponent.id.startsWith('datepicker')) {
+          isInside = true;
+          break;
+        } else if (clickedComponent.type && clickedComponent.type === 'button'
+                && clickedComponent.tabIndex && clickedComponent.tabIndex === -1) {
+          isInside = true;
+          break;
         }
         clickedComponent = clickedComponent.parentNode;
       } while (clickedComponent);
