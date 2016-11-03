@@ -4,21 +4,22 @@
       <div class="panel-group">
         <div class="panel panel-level-1">
           <div class="panel-heading">
-          <span class="panel-title cursor-ptr" (click)="status.isSiteInfoGroupOpen = !status.isSiteInfoGroupOpen">
-            <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
-            </i>
-            Site Information
-          </span>
-          <span *ngIf="isLoading" class="pull-right">
-            <img src="../../assets/ajax-loader.gif" height="24" width="24">
-          </span>
+            <span class="panel-title cursor-ptr"
+                  (click)="status.isSiteInfoGroupOpen = miscUtilsService.scrollIntoView($event, status.isSiteInfoGroupOpen)">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
+              </i>
+              Site Information
+            </span>
+            <span *ngIf="isLoading" class="pull-right">
+              <img src="../../assets/ajax-loader.gif" height="24" width="24">
+            </span>
           </div>
           <div class="panel-body" *ngIf="status.isSiteInfoGroupOpen">
             <div *ngIf=" site == null ">
               No information available for the site
             </div>
-            <div *ngIf=" site != null ">
+            <div class="margin-bottom15" *ngIf=" site != null ">
               <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Four Character Id</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
@@ -79,7 +80,8 @@
             </div>
             <!--<div class="panel panel-level-2">
               <div class="panel-heading">
-                <span class="panel-sub-title cursor-ptr" (click)="status.isSiteMediaOpen = !status.isSiteMediaOpen">
+                <span class="panel-sub-title cursor-ptr"
+                      (click)="status.isSiteMediaOpen = miscUtilsService.scrollIntoView($event, status.isSiteMediaOpen)">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isSiteMediaOpen, 'glyphicon-plus-sign': !status.isSiteMediaOpen}">
                   </i>
@@ -97,7 +99,8 @@
             </div>-->
             <div class="panel panel-level-2">
               <div class="panel-heading">
-              <span class="panel-sub-title cursor-ptr" (click)="status.isSiteContactOpen = !status.isSiteContactOpen">
+              <span class="panel-sub-title cursor-ptr"
+                    (click)="status.isSiteContactOpen = miscUtilsService.scrollIntoView($event, status.isSiteContactOpen)">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isSiteContactOpen, 'glyphicon-plus-sign': !status.isSiteContactOpen}">
                 </i>
@@ -193,7 +196,7 @@
             <div class="panel panel-level-2">
               <div class="panel-heading">
               <span class="panel-sub-title cursor-ptr"
-                    (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen">
+                    (click)="status.isMetaCustodianOpen = miscUtilsService.scrollIntoView($event, status.isMetaCustodianOpen)">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isMetaCustodianOpen, 'glyphicon-plus-sign': !status.isMetaCustodianOpen}">
                 </i>
@@ -240,19 +243,20 @@
                              [siteLogModel]="siteLogModel" [siteLogOrigin]="siteLogOrigin"></gnss-receiever-info>
         <div class="panel panel-level-1">
           <div class="panel-heading">
-          <span class="panel-title cursor-ptr" (click)="status.isAntennaGroupOpen = !status.isAntennaGroupOpen">
-            <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
-            </i>
-            GNSS Antenna
-          </span>
-          <span class="pull-right">
-            <button class="btn btn-similar btn-xs" title="Add a new antenna as current one"
-                    [disabled]="status.hasNewAntenna" (click)="addNewAntenna()">
-              <i class="glyphicon glyphicon-plus-sign"></i>
-              New Antenna
-            </button>
-          </span>
+            <span class="panel-title cursor-ptr"
+                  (click)="status.isAntennaGroupOpen = miscUtilsService.scrollIntoView($event, status.isAntennaGroupOpen)">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
+              </i>
+              GNSS Antenna
+            </span>
+            <span class="pull-right">
+              <button class="btn btn-similar btn-xs" title="Add a new antenna as current one"
+                      [disabled]="status.hasNewAntenna" (click)="addNewAntenna(); miscUtilsService.showFullView($event);">
+                <i class="glyphicon glyphicon-plus-sign"></i>
+                New Antenna
+              </button>
+            </span>
           </div>
           <div class="panel-body" *ngIf="status.isAntennaGroupOpen">
             <div *ngIf=" antennas.length == 0 ">
@@ -261,7 +265,8 @@
             <div *ngFor="let antenna of antennas; let i = index">
               <div class="panel panel-level-2">
                 <div class="panel-heading">
-                <span class="panel-sub-title cursor-ptr" (click)="status.isAntennasOpen[i] = !status.isAntennasOpen[i]">
+                <span class="panel-sub-title cursor-ptr"
+                      (click)="status.isAntennasOpen[i] = miscUtilsService.scrollIntoView($event, status.isAntennasOpen[i])">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
                   </i>

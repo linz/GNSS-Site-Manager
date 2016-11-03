@@ -36,7 +36,7 @@ export class SelectSiteComponent implements OnInit {
    * @param {Router} router - The injected Router for switching between select-site and site-info pages.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Service Worker
-   * @param {MiscUtilsService} misc-utilsService - common constants and methods
+   * @param {MiscUtilsService} miscUtilsService - common constants and methods
    */
   constructor(public router: Router, public corsSiteService: CorsSiteService,
               private miscUtilsService: MiscUtilsService, private serviceWorkerService: ServiceWorkerService) { }

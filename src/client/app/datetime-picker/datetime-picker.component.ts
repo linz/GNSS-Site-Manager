@@ -1,4 +1,5 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { MiscUtilsService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -24,16 +25,13 @@ export class DatetimePickerComponent implements OnInit {
   private invalidSeconds: boolean = false;
   private invalidDatetime: boolean = false;
   private showDatetimePicker: boolean = false;
-  private elemRef: ElementRef;
 
   @Input() public datetime: string = '';
   @Input() public name: string = 'Date';
   @Input() public required: boolean = true;
   @Output() public datetimeChange: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(element: ElementRef) {
-    this.elemRef = element;
-  }
+  constructor(private elemRef: ElementRef, private utilsService: MiscUtilsService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -54,8 +52,9 @@ export class DatetimePickerComponent implements OnInit {
   @HostListener('document:click', ['$event'])
   public handleClickOutside(event: any) {
     if (this.showDatetimePicker) {
-      var clickedComponent: any = event.target;
-      var isInside: boolean = false;
+      event.preventDefault();
+      let clickedComponent: any = event.target;
+      let isInside: boolean = false;
       do {
         if (clickedComponent === this.elemRef.nativeElement) {
           isInside = true;
@@ -223,7 +222,8 @@ export class DatetimePickerComponent implements OnInit {
     } else if (this.datetimeDisplay.length < 19) {
       this.invalidDatetime = true;
     } else {
-      if (this.datetimeDisplay.match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g)) {
+      if (this.datetimeDisplay
+              .match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g)) {
         this.invalidDatetime = false;
       } else {
         this.invalidDatetime = true;

@@ -49,7 +49,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {Router} router - The injected Router.
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
    * @param {DialogService} dialogService - The injected DialogService.
-   * @param {MiscUtilsService} misc-utilsService - The injected MiscUtilsService.
+   * @param {MiscUtilsService} miscUtilsService - The injected MiscUtilsService.
    * @param {SiteLogService} siteLogService - The injected SiteLogService.
    * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
    */

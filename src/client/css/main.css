@@ -1,4 +1,9 @@
+html {
+  height: 100%;
+  overflow: auto;
+}
 body {
+  height: 100%;
   min-width: 300px;
   width: 100%;
   word-wrap: break-word;
@@ -7,6 +12,7 @@ body {
 .centered {
   display: block;
   float: none;
+  height: 100%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -69,7 +75,6 @@ ul {
 .hint {
   color: #999;
   line-height: 30px;
-  padding: 5px;
 }
 
 .cursor-ptr {
@@ -87,40 +92,54 @@ ul {
   margin: 0;
 }
 
-.panel-level-1 {
-  border-color: #31708f;
+.panel-group .panel-level-1 {
+  margin-top: 15px !important;
 }
-.panel-level-1 > .panel-heading {
-  color: #fff;
+.panel-group .panel-level-2 {
+  margin-bottom: 15px !important;
+}
+.panel-group .panel-heading {
+  padding: 5px 15px !important;
+}
+.panel-group .panel-level-1 .panel-body {
+  padding: 15px 15px 0 !important;
+}
+.panel-group .panel-level-2 .panel-body {
+  padding: 15px 15px 7px !important;
+}
+.panel-group .panel-level-1 > .panel-heading {
   background-color: #337ab7;
+  color: #fff;
+}
+.panel-group .panel-level-1,
+.panel-group .panel-level-1 > .panel-heading,
+.panel-group .panel-level-1 > .panel-body {
   border-color: #31708f;
 }
-.panel-level-2 {
-  border-color: #bce8f1;
-}
-.panel-level-2 > .panel-heading {
+.panel-group .panel-level-2 > .panel-heading {
   background-color: #d9edf7;
-  border-color: #bce8f1;
   color: #2e3d54;
 }
-.panel-heading,
-.panel-body {
-  padding: 5px !important;
+.panel-group .panel-level-2,
+.panel-group .panel-level-2 > .panel-heading,
+.panel-group .panel-level-2 > .panel-body {
+  border-color: #bce8f1;
 }
-.panel-title {
+.panel-group .panel-title {
   font-family: "Roboto", sans-serif !important;
 }
-.panel-sub-title {
+.panel-group .panel-sub-title {
   font-size: 14px;
   font-family: "Roboto", sans-serif !important;
   margin-top: 0;
   margin-bottom: 0;
 }
-.panel-error {
+.panel-group .panel-error {
   border: 1px solid #f2dede;
   margin: 10px 0;
   padding: 15px;
 }
+
 .btn-similar {
   background-color: transparent;
   border-color: #fff;
@@ -131,10 +150,6 @@ ul {
   background-color: #286090;
   border-color: #d9edf7;
   color: #d9edf7;
-}
-
-form .ng-invalid {
-  border: 1px solid #a94442;
 }
 
 .accordion-group-icon {
@@ -151,6 +166,15 @@ form .ng-invalid {
 .margin-top20 {
   float: left;
   margin-top: 20px;
+}
+.margin-bottom10 {
+  margin-bottom: 10px;
+}
+.margin-bottom15 {
+  margin-bottom: 15px;
+}
+.margin-bottom20 {
+  margin-bottom: 20px;
 }
 .margin50 {
   margin-left: 50px !important;
@@ -270,18 +294,15 @@ form .ng-invalid {
   }
 }
 
+form .ng-invalid {
+  border: 1px solid #a94442;
+}
 .form-control {
   height: 26px !important;
   padding: 0 8px !important;
 }
 .form-group {
   margin-bottom: 8px !important;
-}
-.panel-group .panel {
-  margin-top: 5px;
-}
-.panel-group .panel-body {
-  border-top: 1px solid #ddd !important;
 }
 .form-textarea {
   display: block;

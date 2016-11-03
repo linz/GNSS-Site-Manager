@@ -5,11 +5,11 @@
   </small>
   <div class="input-group">
     <input type="text" class="form-control z-lowest" maxlength="24" [(ngModel)]="datetimeDisplay"
-           [ngClass]="{ 'ng-invalid': invalidDatetime }"
-           (focus)="showDatetimePicker = true" (change)="updateCalendar()"/>
+           [ngClass]="{ 'ng-invalid': invalidDatetime }" (change)="updateCalendar()"
+           (focus)="utilsService.scrollIntoView($event, showDatetimePicker); showDatetimePicker = true;"/>
     <span class="input-group-btn z-lowest">
       <button id="calendar-btn" type="button" class="btn btn-default btn-calendar z-lowest"
-              (click)="showDatetimePicker = !showDatetimePicker">
+              (click)="showDatetimePicker = utilsService.scrollIntoView($event, showDatetimePicker)">
         <span id="calendar-icon" class="glyphicon glyphicon-calendar"></span>
       </button>
     </span>
@@ -21,31 +21,61 @@
     <table>
       <tbody>
         <tr class="text-center">
-          <td><a (click)="incrementHours()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
+          <td>
+            <a (click)="incrementHours()" class="btn btn-time">
+              <span class="glyphicon glyphicon-chevron-up"></span>
+            </a>
+          </td>
           <td>&nbsp;</td>
-          <td><a (click)="incrementMinutes()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
+          <td>
+            <a (click)="incrementMinutes()" class="btn btn-time">
+              <span class="glyphicon glyphicon-chevron-up"></span>
+            </a>
+          </td>
           <td>&nbsp;</td>
-          <td><a (click)="incrementSeconds()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-up"></span></a></td>
+          <td>
+            <a (click)="incrementSeconds()" class="btn btn-time">
+              <span class="glyphicon glyphicon-chevron-up"></span>
+            </a>
+          </td>
         </tr>
         <tr>
           <td class="form-group" [ngClass]="{'has-error': invalidHours}">
-            <input style="width:50px;" type="text" [(ngModel)]="hoursString" (change)="updateHours()" class="form-control text-center" maxlength="2">
+            <input style="width:50px;" type="text" [(ngModel)]="hoursString"
+                   (change)="updateHours()"
+                   class="form-control text-center" maxlength="2">
           </td>
           <td>:</td>
           <td class="form-group" [ngClass]="{'has-error': invalidMinutes}">
-            <input style="width:50px;" type="text" [(ngModel)]="minutesString" (change)="updateMinutes()" class="form-control text-center" maxlength="2">
+            <input style="width:50px;" type="text" [(ngModel)]="minutesString"
+                   (change)="updateMinutes()"
+                   class="form-control text-center" maxlength="2">
           </td>
           <td>:</td>
           <td class="form-group" [ngClass]="{'has-error': invalidSeconds}">
-            <input style="width:50px;" type="text" [(ngModel)]="secondsString" (change)="updateSeconds()" class="form-control text-center" maxlength="2">
+            <input style="width:50px;" type="text" [(ngModel)]="secondsString"
+                   (change)="updateSeconds()"
+                   class="form-control text-center" maxlength="2">
           </td>
         </tr>
         <tr class="text-center">
-          <td><a (click)="decrementHours()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
+          <td>
+            <a (click)="decrementHours()" class="btn btn-time">
+              <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+          </td>
           <td>&nbsp;</td>
-          <td><a (click)="decrementMinutes()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
+          <td>
+            <a (click)="decrementMinutes()" class="btn btn-time">
+              <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+          </td>
           <td>&nbsp;</td>
-          <td><a (click)="decrementSeconds()" class="btn btn-time"><span class="glyphicon glyphicon-chevron-down"></span></a></td>
+          <td>
+            <a (click)="decrementSeconds()" class="btn btn-time">
+              <span class="glyphicon glyphicon-chevron-down"></span>
+            </a>
+          </td>
         </tr>
         </tbody>
       </table>
