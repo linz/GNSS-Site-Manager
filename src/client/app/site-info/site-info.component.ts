@@ -15,10 +15,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteId: string;
   private isLoading: boolean = false;
   private siteLogOrigin: any = {};
-  private siteLogModel: any = {
-    gnssReceivers: [],
-    gnssAnttenas: []
-  };
+  private siteLogModel: any = {};
   private site: any = null;
   private siteLocation: any = null;
   private siteContact: any = null;
@@ -49,7 +46,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * @param {Router} router - The injected Router.
    * @param {ActivatedRoute} route - The injected ActivatedRoute.
    * @param {DialogService} dialogService - The injected DialogService.
-   * @param {MiscUtilsService} misc-utilsService - The injected MiscUtilsService.
+   * @param {MiscUtilsService} miscUtilsService - The injected MiscUtilsService.
    * @param {SiteLogService} siteLogService - The injected SiteLogService.
    * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
    */
@@ -70,6 +67,16 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       let id: string = params['id'];
       this.siteId = id;
     });
+
+    this.siteLogModel = {
+      gnssReceivers: [],
+      gnssAntennas: []
+    };
+
+    this.siteLogOrigin = {
+      gnssReceivers: [],
+      gnssAntennas: []
+    };
 
     this.loadSiteInfoData();
   }
@@ -132,15 +139,16 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.backupSiteLogJson();
           this.isLoading =  false;
-          this.dialogService.showSuccessMessage(this.siteId + ' SiteLog details loaded successfully.');
+          this.dialogService.showSuccessMessage('Site log info loaded successfully for '+ this.siteId);
         },
         (error: Error) =>  {
           this.errorMessage = <any>error;
           this.isLoading =  false;
           this.siteLogModel = {
             gnssReceivers: [],
-            gnssAnttenas: []
+            gnssAntennas: []
           };
+          this.dialogService.showErrorMessage('No site log info found for '+this.siteId);
         }
       );
     });
@@ -220,7 +228,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       antennaObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
     }
 
-    // Keep a copy of the anteena object as the original one for comparison
+    // Keep a copy of the antenna object as the original one for comparison
     let antennaObjCopy: any = this.miscUtilsService.cloneJsonObj(antennaObj);
     antennaObjCopy.gnssAntenna = this.miscUtilsService.cloneJsonObj(newAntenna);
     this.siteLogOrigin.gnssAntennas.unshift(antennaObjCopy);
@@ -320,9 +328,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Update the isOpen flags for all previous GNSS antennas
    */
   public togglePrevAntennas(flag: boolean) {
-    if(this.status.isAntennasOpen === null) {
-      throw new Error('status.isAntennasOpen is null');
-    }
     for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
       this.status.isAntennasOpen[i] = flag;
     }

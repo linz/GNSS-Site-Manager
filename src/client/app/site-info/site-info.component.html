@@ -4,21 +4,22 @@
       <div class="panel-group">
         <div class="panel panel-level-1">
           <div class="panel-heading">
-          <span class="panel-title cursor-ptr" (click)="status.isSiteInfoGroupOpen = !status.isSiteInfoGroupOpen">
-            <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
-            </i>
-            Site Information
-          </span>
-          <span *ngIf="isLoading" class="pull-right">
-            <img src="../../assets/ajax-loader.gif" height="24" width="24">
-          </span>
+            <span class="panel-title cursor-ptr"
+                  (click)="status.isSiteInfoGroupOpen = miscUtilsService.scrollIntoView($event, status.isSiteInfoGroupOpen)">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
+              </i>
+              Site Information
+            </span>
+            <span *ngIf="isLoading" class="pull-right">
+              <img src="../../assets/ajax-loader.gif" height="24" width="24">
+            </span>
           </div>
           <div class="panel-body" *ngIf="status.isSiteInfoGroupOpen">
-            <div *ngIf=" site == null ">
-              No information available for the site
+            <div class="margin-bottom15" *ngIf=" site == null ">
+              No information available for the GNSS site: {{siteId}}
             </div>
-            <div *ngIf=" site != null ">
+            <div class="margin-bottom15" *ngIf=" site != null ">
               <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Four Character Id</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
@@ -79,7 +80,8 @@
             </div>
             <!--<div class="panel panel-level-2">
               <div class="panel-heading">
-                <span class="panel-sub-title cursor-ptr" (click)="status.isSiteMediaOpen = !status.isSiteMediaOpen">
+                <span class="panel-sub-title cursor-ptr"
+                      (click)="status.isSiteMediaOpen = miscUtilsService.scrollIntoView($event, status.isSiteMediaOpen)">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isSiteMediaOpen, 'glyphicon-plus-sign': !status.isSiteMediaOpen}">
                   </i>
@@ -97,7 +99,8 @@
             </div>-->
             <div class="panel panel-level-2">
               <div class="panel-heading">
-              <span class="panel-sub-title cursor-ptr" (click)="status.isSiteContactOpen = !status.isSiteContactOpen">
+              <span class="panel-sub-title cursor-ptr"
+                    (click)="status.isSiteContactOpen = miscUtilsService.scrollIntoView($event, status.isSiteContactOpen)">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isSiteContactOpen, 'glyphicon-plus-sign': !status.isSiteContactOpen}">
                 </i>
@@ -193,7 +196,7 @@
             <div class="panel panel-level-2">
               <div class="panel-heading">
               <span class="panel-sub-title cursor-ptr"
-                    (click)="status.isMetaCustodianOpen = !status.isMetaCustodianOpen">
+                    (click)="status.isMetaCustodianOpen = miscUtilsService.scrollIntoView($event, status.isMetaCustodianOpen)">
                 <i class="glyphicon"
                    [ngClass]="{'glyphicon-minus-sign': status.isMetaCustodianOpen, 'glyphicon-plus-sign': !status.isMetaCustodianOpen}">
                 </i>
@@ -240,28 +243,30 @@
                              [siteLogModel]="siteLogModel" [siteLogOrigin]="siteLogOrigin"></gnss-receiever-info>
         <div class="panel panel-level-1">
           <div class="panel-heading">
-          <span class="panel-title cursor-ptr" (click)="status.isAntennaGroupOpen = !status.isAntennaGroupOpen">
-            <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
-            </i>
-            GNSS Antenna
-          </span>
-          <span class="pull-right">
-            <button class="btn btn-similar btn-xs" title="Add a new antenna as current one"
-                    [disabled]="status.hasNewAntenna" (click)="addNewAntenna()">
-              <i class="glyphicon glyphicon-plus-sign"></i>
-              New Antenna
-            </button>
-          </span>
+            <span class="panel-title cursor-ptr"
+                  (click)="status.isAntennaGroupOpen = miscUtilsService.scrollIntoView($event, status.isAntennaGroupOpen)">
+              <i class="glyphicon"
+                 [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
+              </i>
+              GNSS Antenna
+            </span>
+            <span class="pull-right">
+              <button class="btn btn-similar btn-xs" title="Add a new antenna as current one"
+                      [disabled]="status.hasNewAntenna" (click)="addNewAntenna(); miscUtilsService.showFullView($event);">
+                <i class="glyphicon glyphicon-plus-sign"></i>
+                New Antenna
+              </button>
+            </span>
           </div>
           <div class="panel-body" *ngIf="status.isAntennaGroupOpen">
-            <div *ngIf=" antennas.length == 0 ">
-              No Information available for GNSS Antenna
+            <div class="margin-bottom15" *ngIf=" antennas.length == 0 ">
+              No information available for GNSS Antenna
             </div>
             <div *ngFor="let antenna of antennas; let i = index">
-              <div class="panel panel-level-2">
+              <div class="panel panel-level-2" id="antenna_{{i}}">
                 <div class="panel-heading">
-                <span class="panel-sub-title cursor-ptr" (click)="status.isAntennasOpen[i] = !status.isAntennasOpen[i]">
+                <span class="panel-sub-title cursor-ptr"
+                      (click)="status.isAntennasOpen[i] = miscUtilsService.scrollIntoView($event, status.isAntennasOpen[i])">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
                   </i>
@@ -279,19 +284,21 @@
                     Remove
                   </button>
                 </span>
-                <span *ngIf="i == 1 && antennas.length >= 3" class="toggle-button">
-                  <button class="button-xs" *ngIf="!arePrevAntennasOpen()" (click)="togglePrevAntennas(true)"
+                <span *ngIf="i == 1 && antennas.length >= 3" class="pull-right">
+                  <button class="btn-toggle" *ngIf="!arePrevAntennasOpen()"
+                          (click)="togglePrevAntennas(true); miscUtilsService.showElemById('antenna_1');"
                           title="Show all previous antennas">
                     <i class="glyphicon glyphicon-collapse-down"></i>
                   </button>
-                  <button class="button-xs" *ngIf="!arePrevAntennasClosed()" (click)="togglePrevAntennas(false)"
+                  <button class="btn-toggle" *ngIf="!arePrevAntennasClosed()"
+                          (click)="togglePrevAntennas(false)"
                           title="Hide all previous antennas">
                     <i class="glyphicon glyphicon-collapse-up"></i>
                   </button>
                 </span>
                 </div>
                 <div class="panel-body" *ngIf="status.isAntennasOpen[i]">
-                  <div *ngIf=" antenna == null ">
+                  <div class="margin-bottom15" *ngIf=" antenna == null ">
                     No information available for current GNSS Antenna
                   </div>
                   <div *ngIf=" antenna != null ">
@@ -319,7 +326,7 @@
                     </div>
                     <div class="form-group">
                       <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP Up
-                        Eccentricity</label>
+                        Eccentricity (m)</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                         <input type="number" step="0.0001" min="0.0000" class="form-control"
                                [(ngModel)]="antenna.markerArpUpEcc" name="antennaMarkerArpUpEcc_{{i}}"
@@ -332,7 +339,7 @@
                     </div>
                     <div class="form-group">
                       <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP North
-                        Eccentricity</label>
+                        Eccentricity (m)</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                         <input type="number" step="0.0001" min="0.0000" class="form-control"
                                [(ngModel)]="antenna.markerArpNorthEcc" name="antennaMarkerArpNorthEcc_{{i}}"/>
@@ -344,7 +351,7 @@
                     </div>
                     <div class="form-group">
                       <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Marker ARP East
-                        Eccentricity</label>
+                        Eccentricity (m)</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                         <input type="number" step="0.0001" min="0.0000" class="form-control"
                                [(ngModel)]="antenna.markerArpEastEcc" name="antennaMarkerArpEastEcc_{{i}}"/>
@@ -396,14 +403,14 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed</label>
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                         <datetime-picker [(datetime)]="antenna.dateInstalled.value[0]" [name]=" 'Date Installed' "
                                          [required]="true"></datetime-picker>
                       </div>
                     </div>
                     <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed</label>
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                         <datetime-picker [(datetime)]="antenna.dateRemoved.value[0]" [name]=" 'Date Removed' "
                                          [required]="i != 0"></datetime-picker>

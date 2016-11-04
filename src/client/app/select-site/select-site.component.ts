@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
-import { MiscUtilsService, CorsSiteService, ServiceWorkerService } from '../shared/index';
+import { DialogService, MiscUtilsService, CorsSiteService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -35,11 +35,15 @@ export class SelectSiteComponent implements OnInit {
    *
    * @param {Router} router - The injected Router for switching between select-site and site-info pages.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
+   * @param {DialogService} dialogService - The injected DialogService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Service Worker
-   * @param {MiscUtilsService} misc-utilsService - common constants and methods
+   * @param {MiscUtilsService} miscUtilsService - common constants and methods
    */
-  constructor(public router: Router, public corsSiteService: CorsSiteService,
-              private miscUtilsService: MiscUtilsService, private serviceWorkerService: ServiceWorkerService) { }
+  constructor(public router: Router,
+              public corsSiteService: CorsSiteService,
+              private dialogService: DialogService,
+              private miscUtilsService: MiscUtilsService,
+              private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -92,8 +96,12 @@ export class SelectSiteComponent implements OnInit {
         (error: Error) => this.errorMessage = <any>error,
         () => {
           this.isSearching = false;
-          if (this.sites.length === 0)
+          if (this.sites.length === 0) {
             this.searchMsg = 'No sites found. Please refine your search criteria and try it again.';
+          } else {
+            let msg: string = this.sites.length + (this.sites.length === 1 ? ' site' : ' sites') + ' found.';
+            this.dialogService.showSuccessMessage(msg);
+          }
         }
       );
   }
