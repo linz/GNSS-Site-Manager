@@ -23,7 +23,7 @@ export class MiscUtilsService {
     isBlockOpen = !isBlockOpen;
     if(isBlockOpen && event && event.target) {
       setTimeout(function() {
-        event.target.scrollIntoView();
+        event.target.scrollIntoView( {behavior: 'smooth'} );
       }, 10);
     }
 
@@ -37,7 +37,7 @@ export class MiscUtilsService {
     event.preventDefault();
     if(event && event.target) {
       setTimeout(function() {
-        event.target.scrollIntoView();
+        event.target.scrollIntoView( {behavior: 'smooth'} );
       }, 10);
     }
   }
@@ -49,7 +49,7 @@ export class MiscUtilsService {
     let elem: any = document.getElementById(id);
     if (elem !== null) {
       setTimeout(function() {
-        elem.scrollIntoView();
+        elem.scrollIntoView( {behavior: 'smooth'} );
       }, 10);
     }
   }
