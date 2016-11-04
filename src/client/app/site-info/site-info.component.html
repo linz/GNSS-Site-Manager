@@ -16,8 +16,8 @@
             </span>
           </div>
           <div class="panel-body" *ngIf="status.isSiteInfoGroupOpen">
-            <div *ngIf=" site == null ">
-              No information available for the site
+            <div class="margin-bottom15" *ngIf=" site == null ">
+              No information available for the GNSS site: {{siteId}}
             </div>
             <div class="margin-bottom15" *ngIf=" site != null ">
               <div class="form-group">
@@ -259,11 +259,11 @@
             </span>
           </div>
           <div class="panel-body" *ngIf="status.isAntennaGroupOpen">
-            <div *ngIf=" antennas.length == 0 ">
-              No Information available for GNSS Antenna
+            <div class="margin-bottom15" *ngIf=" antennas.length == 0 ">
+              No information available for GNSS Antenna
             </div>
             <div *ngFor="let antenna of antennas; let i = index">
-              <div class="panel panel-level-2">
+              <div class="panel panel-level-2" id="antenna_{{i}}">
                 <div class="panel-heading">
                 <span class="panel-sub-title cursor-ptr"
                       (click)="status.isAntennasOpen[i] = miscUtilsService.scrollIntoView($event, status.isAntennasOpen[i])">
@@ -284,19 +284,21 @@
                     Remove
                   </button>
                 </span>
-                <span *ngIf="i == 1 && antennas.length >= 3" class="toggle-button">
-                  <button class="button-xs" *ngIf="!arePrevAntennasOpen()" (click)="togglePrevAntennas(true)"
+                <span *ngIf="i == 1 && antennas.length >= 3" class="pull-right">
+                  <button class="btn-toggle" *ngIf="!arePrevAntennasOpen()"
+                          (click)="togglePrevAntennas(true); miscUtilsService.showElemById('antenna_1');"
                           title="Show all previous antennas">
                     <i class="glyphicon glyphicon-collapse-down"></i>
                   </button>
-                  <button class="button-xs" *ngIf="!arePrevAntennasClosed()" (click)="togglePrevAntennas(false)"
+                  <button class="btn-toggle" *ngIf="!arePrevAntennasClosed()"
+                          (click)="togglePrevAntennas(false)"
                           title="Hide all previous antennas">
                     <i class="glyphicon glyphicon-collapse-up"></i>
                   </button>
                 </span>
                 </div>
                 <div class="panel-body" *ngIf="status.isAntennasOpen[i]">
-                  <div *ngIf=" antenna == null ">
+                  <div class="margin-bottom15" *ngIf=" antenna == null ">
                     No information available for current GNSS Antenna
                   </div>
                   <div *ngIf=" antenna != null ">

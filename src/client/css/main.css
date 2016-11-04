@@ -80,16 +80,23 @@ ul {
 .cursor-ptr {
   cursor: pointer;
 }
-.button-xs {
+.btn-toggle {
   background-color: transparent;
-  line-height: 18px !important;
   border: 0 !important;
-  padding: 0 !important;
-}
-.toggle-button {
-  float: right;
   font-size: 18px;
   margin: 0;
+  padding: 0 !important;
+}
+.btn-similar {
+  background-color: transparent;
+  border-color: #fff;
+  color: #fff;
+}
+.btn-similar:hover,
+.btn-similar:focus {
+  background-color: #286090;
+  border-color: #d9edf7;
+  color: #d9edf7;
 }
 
 .panel-group .panel-level-1 {
@@ -138,18 +145,6 @@ ul {
   border: 1px solid #f2dede;
   margin: 10px 0;
   padding: 15px;
-}
-
-.btn-similar {
-  background-color: transparent;
-  border-color: #fff;
-  color: #fff;
-}
-.btn-similar:hover,
-.btn-similar:focus {
-  background-color: #286090;
-  border-color: #d9edf7;
-  color: #d9edf7;
 }
 
 .accordion-group-icon {
