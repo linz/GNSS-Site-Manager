@@ -1,7 +1,7 @@
 <div>
   <small [hidden]="!invalidDatetime" class="alert alert-danger">
     "{{name}}" is {{ (required && datetime.length == 0) ? "required" : "not valid" }}.
-    <br><i>(Valid Date Format: YYYY-MM-DD hh:mm:ss)</i>
+    (Valid Date Format: YYYY-MM-DD hh:mm:ss)
   </small>
   <div class="input-group">
     <input type="text" class="form-control z-lowest" maxlength="24" [(ngModel)]="datetimeDisplay"
@@ -14,7 +14,7 @@
       </button>
     </span>
   </div>
-  <div class="popup" *ngIf="showDatetimePicker">
+  <div class="calendar-popup" *ngIf="showDatetimePicker">
     <datepicker [(ngModel)]="datetimeModel" [showWeeks]="false"
         (selectionDone)="setSelectedDatetime($event)"></datepicker>
     <div class="center">
@@ -41,21 +41,21 @@
         </tr>
         <tr>
           <td class="form-group" [ngClass]="{'has-error': invalidHours}">
-            <input style="width:50px;" type="text" [(ngModel)]="hoursString"
+            <input type="text" [(ngModel)]="hoursString"
                    (change)="updateHours()"
-                   class="form-control text-center" maxlength="2">
+                   class="form-control text-center input-time" maxlength="2">
           </td>
           <td>:</td>
           <td class="form-group" [ngClass]="{'has-error': invalidMinutes}">
-            <input style="width:50px;" type="text" [(ngModel)]="minutesString"
+            <input type="text" [(ngModel)]="minutesString"
                    (change)="updateMinutes()"
-                   class="form-control text-center" maxlength="2">
+                   class="form-control text-center input-time" maxlength="2">
           </td>
           <td>:</td>
           <td class="form-group" [ngClass]="{'has-error': invalidSeconds}">
-            <input style="width:50px;" type="text" [(ngModel)]="secondsString"
+            <input type="text" [(ngModel)]="secondsString"
                    (change)="updateSeconds()"
-                   class="form-control text-center" maxlength="2">
+                   class="form-control text-center input-time" maxlength="2">
           </td>
         </tr>
         <tr class="text-center">
