@@ -5,9 +5,10 @@ import { SiteInfoComponent } from './site-info.component';
 import { GnssReceiverInfoModule } from '../gnss-receiver-info/gnss-receiver-info.module';
 import { FrequencyStandardModule } from '../frequency-standard/frequency-standard.module';
 import { DatetimePickerModule } from '../datetime-picker/datetime-picker.module';
+import { HumiditySensorModule } from '../sensor-humidity/humidity-sensor.module';
 
 @NgModule({
-  imports: [CommonModule, SharedModule, GnssReceiverInfoModule, FrequencyStandardModule, DatetimePickerModule],
+  imports: [CommonModule, SharedModule, GnssReceiverInfoModule, DatetimePickerModule, HumiditySensorModule, FrequencyStandardModule],
   declarations: [SiteInfoComponent],
   exports: [SiteInfoComponent],
 })

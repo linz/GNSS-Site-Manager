@@ -58,7 +58,7 @@ export class JsonixService {
     // console.debug('JsonixService - geodesyMLToJson - geodesyMl: ', geodesyMl);
 
     let json: string = unmarshaller.unmarshalString(geodesyMl);
-    // console.debug('JsonixService - geodesyMLToJson - translated JSON: ', JSON.stringify(json));
+    // console.debug('JsonixService - geodesyMLToJson - translated JSON: ', json);
     console.debug('JsonixService - geodesyMLToJson - translated JSON (length): ', JSON.stringify(json).length);
     return json;
   };
@@ -77,8 +77,8 @@ export class JsonixService {
       } else {
           jsonSObj = JSON.parse(json);
       }
-      console.debug('JsonixService - jsonToGeodesyML - json (length): ', jsonSObj.length);
-      // console.debug('JsonixService - jsonToGeodesyML - json: ', jsonString);
+      // console.debug('JsonixService - jsonToGeodesyML - json (length): ', jsonSObj.length);
+      console.debug('JsonixService - jsonToGeodesyML - json: ', jsonSObj);
 
       let geodesyMl: string = marshaller.marshalString(jsonSObj);
       // console.log('JsonixService - jsonToGeodesyML - translated geodesyMl: ', geodesyMl);
