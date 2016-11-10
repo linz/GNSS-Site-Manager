@@ -257,8 +257,8 @@ export class DatetimePickerComponent implements OnInit {
       return null;
     }
 
-    try {console.log('dtStr='+dtStr);
-      let date: Date = new Date(dtStr.substring(0, 19).replace(' ', 'T'));console.log(date);
+    try {
+      let date: Date = new Date(dtStr.substring(0, 19).replace(' ', 'T'));
       if (date !== null && date.toString() !== 'Invalid Date') {
         this.invalidDatetime = false;
         return date;
@@ -267,7 +267,7 @@ export class DatetimePickerComponent implements OnInit {
       console.log('Error:'+error);
     }
 
-    this.invalidDatetime = true;console.log('4. dtStr='+dtStr);
+    this.invalidDatetime = true;
     return null;
   }
 
