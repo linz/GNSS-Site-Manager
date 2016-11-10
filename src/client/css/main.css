@@ -203,8 +203,10 @@ ul {
 }
 
 /* Override alertify.js for global dialogs */
-.alertify .alert,
 .alertify .dialog {
+  height: 500px;
+  max-height: 95%;
+  overflow-y: auto;
   -ms-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -o-transform: translateY(-50%);
@@ -221,8 +223,6 @@ ul {
   padding: 8px;
 }
 .alertify .dialog .body {
-  max-height: 450px;
-  overflow-y: auto;
   padding: 0 !important;
   border: 0 !important;
 }
@@ -479,9 +479,9 @@ form .ng-invalid {
   }
 
   .alertify .dialog {
+    height: 400px;
     padding: 8px;
   }
-  .alertify .alert > *,
   .alertify .dialog > * {
     width: 375px;
     max-width: 99%;
@@ -492,9 +492,6 @@ form .ng-invalid {
     line-height: 1.3;
     margin-bottom: 6px;
     padding: 6px;
-  }
-  .alertify .dialog .body {
-    max-height: 425px;
   }
   .alertify .dialog .footer {
     font-size: 13px;
@@ -811,9 +808,9 @@ form .ng-invalid {
   }
 
   .alertify .dialog {
+    height: 300px;
     padding: 5px;
   }
-  .alertify .alert > *,
   .alertify .dialog > * {
     width: 300px;
     max-width: 100%;
@@ -824,9 +821,6 @@ form .ng-invalid {
     line-height: 1.2;
     margin-bottom: 4px;
     padding: 4px;
-  }
-  .alertify .dialog .body {
-    max-height: 400px;
   }
   .alertify .dialog .footer {
     font-size: 12px;
