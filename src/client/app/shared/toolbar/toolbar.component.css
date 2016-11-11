@@ -17,10 +17,10 @@
 
 .menu-btn {
   background-color: transparent;
-  font-size: 18px !important;
-  font-weight: 400 !important;
+  font-size: 18px;
+  font-weight: 400;
   line-height: 20px;
-  padding: 8px 8px 6px !important;
+  padding: 8px 8px 6px;
 }
 .menu-btn:hover,
 .menu-btn:focus,
@@ -65,9 +65,9 @@
   color: #2a2aff;
   cursor: pointer;
 }
-.dropdown-menu-right {
-  right: 0;
-  float: right;
+.dropdown-menu {
+  min-width: 140px;
+  border-color: #00441b;
 }
 
 #clear {
@@ -78,4 +78,70 @@
   float: right;
   margin-top: 35px;
   border: 1px solid rgb(255, 255, 255);
+}
+
+/* Special CSS classes defined for small devices such as smart phone (landscape) */
+@media (min-width: 451px) AND (max-width: 767px) {
+  :host {
+    height: 44px;
+    line-height: 31px;
+    padding: 7px 10px 10px;
+  }
+  .title {
+    font-size: 18px;
+  }
+  .menu-btn {
+    font-size: 16px;
+    line-height: 16px;
+    padding: 6px;
+  }
+  .wrap-btn {
+    font-size: 12px;
+    padding: 2px 6px;
+    margin-right: 8px;
+    margin-top: 2px;
+  }
+  .dropdown-menu {
+    min-width: 120px;
+    font-size: 13px;
+  }
+  .dropdown-menu .divider {
+    margin: 7px 0;
+  }
+  .btn-label {
+    font-size: 13px;
+  }
+}
+
+/* Special CSS classes defined for small devices such as smart phone (portrait) */
+@media (max-width: 450px) {
+  :host {
+    height: 40px;
+    line-height: 27px;
+    padding: 7px 5px;
+  }
+  .title {
+    font-size: 16px;
+  }
+  .menu-btn {
+    font-size: 14px;
+    line-height: 14px;
+    padding: 5px 4px 3px;
+  }
+  .wrap-btn {
+    font-size: 11px !important;
+    padding: 2px 4px;
+    margin-right: 5px;
+    margin-top: 1px;
+  }
+  .dropdown-menu {
+    min-width: 100px;
+    font-size: 12px;
+  }
+  .dropdown-menu .divider {
+    margin: 5px 0;
+  }
+  .btn-label {
+    font-size: 12px;
+  }
 }

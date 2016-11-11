@@ -9,7 +9,8 @@
     </span>
     <span class="pull-right">
       <button class="btn btn-similar btn-xs" title="Add a new receiver as current one"
-              [disabled]="status.hasNewReceiver" (click)="addNewReceiver(); miscUtilsService.showFullView($event);">
+              [disabled]="status.hasNewReceiver"
+              (click)="addNewReceiver(); miscUtilsService.showFullView($event);">
         <i class="glyphicon glyphicon-plus-sign"></i>
         New Receiver
       </button>
@@ -22,7 +23,7 @@
     <div *ngFor="let receiver of gnssReceivers; let i = index">
       <div class="panel panel-level-2" id="receiver_{{i}}">
         <div class="panel-heading">
-          <span class="panel-sub-title cursor-ptr"
+          <span class="panel-title cursor-ptr"
                 (click)="status.isReceiversOpen[i] = miscUtilsService.scrollIntoView($event, status.isReceiversOpen[i])">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isReceiversOpen[i], 'glyphicon-plus-sign': !status.isReceiversOpen[i]}">
@@ -31,13 +32,16 @@
               Current Receiver (Since {{ getDate(receiver.dateInstalled.value[0]) }})
             </span>
             <span *ngIf="i != 0">
-              Previous Receiver ({{ getDate(receiver.dateInstalled.value[0]) }} &ndash; {{ getDate(receiver.dateRemoved.value[0]) }})
+              Previous Receiver ({{ getDate(receiver.dateInstalled.value[0]) }}
+              &ndash; {{ getDate(receiver.dateRemoved.value[0]) }})
             </span>
           </span>
           <span *ngIf="i == 0 && status.hasNewReceiver" class="pull-right">
-            <button class="btn btn-danger btn-xs" title="Remove the new current receiver" (click)="removeNewReceiver()">
+            <button class="btn btn-danger btn-rm"
+                    title="Remove the new current receiver"
+                    (click)="removeNewReceiver()">
               <i class="glyphicon glyphicon-remove"></i>
-              Remove
+              <span class="hidden-xs">Remove</span>
             </button>
           </span>
           <span *ngIf="i == 1 && gnssReceivers.length >= 3" class="pull-right">
@@ -109,13 +113,17 @@
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
               <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                <datetime-picker [(datetime)]="receiver.dateInstalled.value[0]" [name]=" 'Date Installed' " [required]="true"></datetime-picker>
+                <datetime-picker [(datetime)]="receiver.dateInstalled.value[0]"
+                                 [name]=" 'Date Installed' "
+                                 [required]="true"></datetime-picker>
               </div>
             </div>
             <div class="form-group">
               <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
               <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                <datetime-picker [(datetime)]="receiver.dateRemoved.value[0]" [name]=" 'Date Removed' " [required]="i != 0"></datetime-picker>
+                <datetime-picker [(datetime)]="receiver.dateRemoved.value[0]"
+                                 [name]=" 'Date Removed' "
+                                 [required]="i != 0"></datetime-picker>
               </div>
             </div>
             <div class="form-group">

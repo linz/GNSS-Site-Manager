@@ -38,8 +38,9 @@ export class DatetimePickerComponent implements OnInit {
    */
   ngOnInit() {
     this.formatInputDatetime(this.datetime);
-    let inputDate: Date = this.convertStringToDate(this.datetimeDisplay);
+    let inputDate: Date = this.convertStringToDate(this.datetime);
     if (inputDate !== null) {
+      this.invalidDatetime = false;
       this.datetimeModel = inputDate;
     } else {
       this.datetimeModel = new Date();
@@ -257,12 +258,14 @@ export class DatetimePickerComponent implements OnInit {
     }
 
     try {
-      let date: Date = new Date(dtStr.substring(0, 19));
+      let date: Date = new Date(dtStr.substring(0, 19).replace(' ', 'T'));
       if (date !== null && date.toString() !== 'Invalid Date') {
         this.invalidDatetime = false;
         return date;
       }
-    } catch(error) { /*Do nothing*/ }
+    } catch(error) {
+      console.log('Error:'+error);
+    }
 
     this.invalidDatetime = true;
     return null;
