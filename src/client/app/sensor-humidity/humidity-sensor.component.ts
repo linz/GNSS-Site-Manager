@@ -1,6 +1,5 @@
-import {Component, OnInit, Input} from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { MiscUtilsService, ServiceWorkerService } from '../shared/index';
+import {Component, Input} from '@angular/core';
+import { MiscUtilsService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -10,44 +9,14 @@ import { MiscUtilsService, ServiceWorkerService } from '../shared/index';
   selector: 'gnss-humidity-sensor',
   templateUrl: 'humidity-sensor.component.html',
 })
-export class GnssHumiditySensorComponent implements OnInit {
-  private serviceWorkerSubscription: Subscription;
+export class GnssHumiditySensorComponent {
   public errorMessage: string;
-  private cacheItems: Array<string> = [];
-  public hasNewReceiver: boolean = false;
   @Input() status: any;
   @Input() humiditySensors: any;
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService, private serviceWorkerService: ServiceWorkerService) { }
-
-  /**
-   * Initialize relevant variables when the directive is instantiated
-   */
-  ngOnInit() {
-    this.setupSubscriptions();
-  }
-
-  setupSubscriptions() {
-    this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
-      if (isCacheChanged) {
-        this.updateCacheList();
-      }
-    });
-  }
-
-  /**
-   * Component method to retrieve the list of URLs cached in the Service Worker and to update the this.cacheItem array
-   */
-  updateCacheList = (): void => {
-    this.serviceWorkerService.getCacheList().then((data: string[]) => {
-      this.cacheItems.length = 0;
-      this.cacheItems = data;
-    }).catch((error: any) => {
-      console.error('Caught error in updateCacheList:', error);
-    });
-  };
+  constructor(private miscUtilsService: MiscUtilsService) { }
 
   /**
    * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
@@ -63,7 +32,7 @@ export class GnssHumiditySensorComponent implements OnInit {
 
 
   /**
-   * Returns true if all previous GNSS receivers are open, otherwise returns false
+   * Returns true if all previous GNSS humidity sensors are open, otherwise returns false
    */
   public arePrevHumiditySensorsOpen() {
     if(this.status.isHumiditySensorsOpen === null) {
@@ -78,7 +47,7 @@ export class GnssHumiditySensorComponent implements OnInit {
   }
 
   /**
-   * Returns true if all previous GNSS receivers are closed, otherwise returns false
+   * Returns true if all previous GNSS humidity sensors are closed, otherwise returns false
    */
   public arePrevHumiditySensorsClosed() {
     if(this.status.isHumiditySensorsOpen === null) {
@@ -93,7 +62,7 @@ export class GnssHumiditySensorComponent implements OnInit {
   }
 
   /**
-   * Update the isOpen flags for all previous GNSS receivers,sko
+   * Update the isOpen flags for all previous GNSS humidity sensors
    */
   public togglePrevHumiditySensors(flag: boolean) {
     if(this.status.isHumiditySensorsOpen === null) {
@@ -105,14 +74,25 @@ export class GnssHumiditySensorComponent implements OnInit {
   }
 
   /**
-   * Add a new empty receiver as current one and push the 'old' current receiver into previous list
+   * Add a new empty humidity sensors as current one and push the 'old' current humidity sensors into previous list
    */
-  public addNewhumiditySensor() {
+  public addNewHumiditySensor() {
     let presentDT = this.miscUtilsService.getPresentDateTime();
 
     if (!this.humiditySensors) {
       this.humiditySensors = [];
     }
+
+    // Assign present date/time as default value to dateRemoved if it is empty
+    if (this.humiditySensors.length > 0) {
+      this.status.isHumiditySensorsOpen[0] = false;
+      let currentHumiditySensor: any = this.humiditySensors[0];
+      if (!currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]
+      || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] === '') {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] = presentDT;
+      }
+    }
+
     // TODO - EffectiveDate is listed as a displayed field in https://igscb.jpl.nasa.gov/igscb/station/general/blank.log
     // But isn't available in GeodesyML.
     let newSensor = {
@@ -127,24 +107,37 @@ export class GnssHumiditySensorComponent implements OnInit {
       heightDiffToAntenna: 0,
       calibrationDate: {
         value: ['']
+      },
+      validTime: {
+        abstractTimePrimitive: {
+          'gml:TimePeriod': {
+            beginPosition: {
+              value: ['']
+            },
+            endPosition: {
+              value: ['']
+            }
+          }
+        }
       }
     };
-    // // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
+    // // Clone from one of GNSS humidity sensor objects so that the "new" humidity sensor object can be saved
     let sensorObj: any = {};
     if ( this.siteLogModel.humiditySensors && this.siteLogModel.humiditySensors.length > 0 ) {
       sensorObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.humiditySensors[0]);
     }
 
-    // Keep a copy of the receiver object as the original one for comparison
+    // Keep a copy of the humidity sensor object as the original one for comparison
     let sensorObjCopy: any = this.miscUtilsService.cloneJsonObj(sensorObj);
     sensorObjCopy.humiditySensor = this.miscUtilsService.cloneJsonObj(newSensor);
     this.siteLogOrigin.humiditySensors.unshift(sensorObjCopy);
 
     newSensor.calibrationDate.value[0] = presentDT;
+    newSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] = presentDT;
     sensorObj.humiditySensor = newSensor;
     this.siteLogModel.humiditySensors.unshift(sensorObj);
 
-    // Add the new receiver as current one and open it by default
+    // Add the new humidity sensor as current one and open it by default
     this.humiditySensors.unshift(newSensor);
     this.status.isHumiditySensorsOpen.unshift(true);
     this.status.isHumiditySensorsGroupOpen = true;
@@ -152,7 +145,7 @@ export class GnssHumiditySensorComponent implements OnInit {
   }
 
   /**
-   * Remove the new current receiver from the receiver list and restore the old current receiver
+   * Remove the new current humidity sensor from the humidity sensor list and restore the old current humidity sensor
    */
   public removeNewHumiditySensors() {
     this.siteLogModel.humiditySensors.shift();
@@ -167,7 +160,7 @@ export class GnssHumiditySensorComponent implements OnInit {
   }
 
   /**
-   * Date is 'dateTtime where time includes '.000z'.  Don't need the 'T', the milliseconds or the time zone (UTC default)
+   * Date is a dateTime where time includes '.000z'.  This strips the 'T', the milliseconds and the time zone (UTC default)
    *
    * @param dateString
    */

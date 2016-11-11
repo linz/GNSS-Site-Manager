@@ -8,7 +8,7 @@
         </span>
         <span class="pull-right">
             <button class="btn btn-similar btn-xs" title="Add a new humidity sensor as current one"
-                    [disabled]="status.hasNewHumiditySensor" (click)="addNewhumiditySensor()">
+                    [disabled]="status.hasNewHumiditySensor" (click)="addNewHumiditySensor()">
             <i class="glyphicon glyphicon-plus-sign"></i>
             New Humidity Sensor
             </button>
@@ -26,7 +26,12 @@
                       <i class="glyphicon"
                          [ngClass]="{'glyphicon-minus-sign': status.isHumiditySensorsOpen[i], 'glyphicon-plus-sign': !status.isHumiditySensorsOpen[i]}"></i>
                     </span>
-                    <span> (Calibration date: {{formatDateString(humiditySensor.calibrationDate.value[0])}})</span>
+                     <span *ngIf="i == 0">
+                        Current Humidity Sensor (Since {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                     </span>
+                     <span *ngIf="i != 0">
+                        Previous Humidity Sensor ({{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                    </span>
                     <span class="pull-right" *ngIf="i == 0 && status.hasNewHumiditySensor">
                       <button class="btn btn-danger btn-xs" title="Remove the new current humiditySensor"
                               (click)="removeNewHumiditySensors()">
@@ -49,7 +54,7 @@
                 </div>
                 <div class="panel-body" *ngIf="status.isHumiditySensorsOpen[i]">
                     <div *ngIf=" humiditySensor == null ">
-                        No information available for current GNSS humiditySensor
+                        No information available for current GNSS humidity sensor
                     </div>
                     <div *ngIf=" humiditySensor != null ">
                         <div class="form-group">
@@ -69,7 +74,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Data Sampling Interval (sec)</label>
+                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Data Sampling Interval (s)</label>
                             <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                                 <input type="number" step="0.01" maxlength="100" class="form-control"
                                        [(ngModel)]="humiditySensor.dataSamplingInterval"
@@ -93,8 +98,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Height diff to
-                                antenna (m)</label>
+                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Height Diff to Antenna (m)</label>
                             <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                                 <input type="number" step="0.01" maxlength="100" class="form-control"
                                        [(ngModel)]="humiditySensor.heightDiffToAntenna"
@@ -105,6 +109,20 @@
                             <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Calibration Date</label>
                             <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                                 <datetime-picker [(datetime)]="humiditySensor.calibrationDate.value[0]" [name]=" 'calibrationDate' "
+                                                 [required]="false"></datetime-picker>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
+                            <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                                <datetime-picker [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]" [name]=" 'effectiveDateStart' "
+                                                 [required]="false"></datetime-picker>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
+                            <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                                <datetime-picker [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]" [name]=" 'effectiveDateEnd' "
                                                  [required]="false"></datetime-picker>
                             </div>
                         </div>

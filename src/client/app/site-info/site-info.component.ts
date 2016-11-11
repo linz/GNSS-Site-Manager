@@ -507,9 +507,33 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     let currentHumiditySensor: any = null;
     for (let humiditySensorObj of humiditySensorsLocal) {
       currentHumiditySensor = humiditySensorObj.humiditySensor;
-      let validDate: boolean = ( currentHumiditySensor.calibrationDate && currentHumiditySensor.calibrationDate.value.length > 0 );
-      if (!validDate) {
+      let validCalibrationDate: boolean = ( currentHumiditySensor.calibrationDate
+      && currentHumiditySensor.calibrationDate.value.length > 0 );
+      if (!validCalibrationDate) {
         currentHumiditySensor.calibrationDate = {value: ['']};
+      }
+      if (!currentHumiditySensor.validTime ) {
+        currentHumiditySensor.validTime = {};
+      }
+      if (!currentHumiditySensor.validTime.abstractTimePrimitive ) {
+        currentHumiditySensor.validTime.abstractTimePrimitive = {};
+      }
+      if (!currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'] = {};
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition ) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = {};
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value
+        || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value = [''];
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition ) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {};
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value
+        || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length === 0) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value = [''];
       }
       this.humiditySensors.push(currentHumiditySensor);
       this.status.isHumiditySensorsOpen.push(false);
@@ -568,7 +592,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       > obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) {
       return -1;
     }
-
     return 0;
   }
 }
