@@ -204,13 +204,17 @@ ul {
 
 /* Override alertify.js for global dialogs */
 .alertify .dialog {
-  height: 500px;
-  max-height: 95%;
+  max-height: 98%;
+  max-width: 98%;
   overflow-y: auto;
   -ms-transform: translateY(-50%);
   -moz-transform: translateY(-50%);
   -o-transform: translateY(-50%);
   -webkit-transform: translateY(-50%);
+}
+.alertify .dialog > * {
+  width: 650px;
+  min-width: 285px;
 }
 .alertify .dialog .title {
   background: #337ab7;
@@ -411,21 +415,13 @@ form .ng-invalid {
   }
 }
 
-/* For Mobile review - landscape */
-@media (min-width: 451px) AND (max-width: 767px) {
-  body {
-    font-size: 13px;
-    height: 18px;
-    line-height: 1.31;
-  }
+/* For Mobile devices - portrait and landscape */
+@media (max-width: 767px) {
   .well {
     padding: 7px;
   }
   .form-control {
-    font-size: 13px;
-    height: 24px;
-    line-height: 1.31;
-    padding: 0 6px;
+    padding: 0 5px;
   }
   .form-group {
     margin-bottom: 6px;
@@ -468,7 +464,6 @@ form .ng-invalid {
   }
   .calendar-popup .btn-sm {
     border-radius: 3px;
-    font-size: 11px;
     line-height: 1.4;
     padding: 4px 8px;
   }
@@ -479,13 +474,10 @@ form .ng-invalid {
   }
 
   .alertify .dialog {
-    height: 400px;
-    padding: 8px;
+    padding: 5px;
   }
   .alertify .dialog > * {
-    width: 375px;
-    max-width: 99%;
-    padding: 10px;
+    width: 95%;
   }
   .alertify .dialog .title {
     font-size: 15px;
@@ -517,12 +509,7 @@ form .ng-invalid {
     margin-bottom: 6px;
   }
   .alertify .dialog .table caption {
-    font-size: 12px;
     padding: 8px 8px 6px 0;
-  }
-  .alertify .dialog .table td,
-  .alertify .dialog .table th {
-    font-size: 11px;
   }
 }
 
@@ -740,117 +727,5 @@ form .ng-invalid {
   }
   .visible-xxs-inline-block {
     display: inline-block !important;
-  }
-
-  /* For Mobile review - */
-  body {
-    font-size: 12px;
-    height: 16px;
-    line-height: 1.2;
-  }
-  .well {
-    border-radius: 2px;
-    padding: 5px;
-  }
-  .form-control {
-    font-size: 12px;
-    height: 22px;
-    line-height: 1.2;
-    padding: 0 4px;
-  }
-  .panel-group .panel-level-1 {
-    margin-top: 5px;
-  }
-  .panel-group .panel-level-2 {
-    margin-bottom: 5px;
-  }
-  .panel-group .panel-heading {
-    padding: 2px 5px;
-  }
-  .panel-group .panel-level-1 .panel-title {
-    font-size: 14px;
-  }
-  .panel-group .panel-level-2 .panel-title {
-    font-size: 13px;
-  }
-  .panel-group .panel-level-1 .panel-body {
-    padding: 5px 5px 0;
-  }
-  .panel-group .panel-level-2 .panel-body {
-    padding: 5px 5px 3px;
-  }
-  .panel-group .panel-error {
-    margin: 5px 0;
-    padding: 5px;
-  }
-  .btn-xs {
-    font-size: 11px;
-    line-height: 1.1;
-  }
-  .btn-rm {
-    font-size: 10px;
-    line-height: 1;
-    padding: 0 3px;
-  }
-  .btn-toggle {
-    font-size: 14px;
-  }
-  .calendar-popup .btn-sm {
-    border-radius: 2px;
-    font-size: 10px;
-    line-height: 1.3;
-    padding: 3px 6px;
-  }
-
-  .ajax-loader-img {
-    height: 18px;
-    width: 18px;
-  }
-
-  .alertify .dialog {
-    height: 300px;
-    padding: 5px;
-  }
-  .alertify .dialog > * {
-    width: 300px;
-    max-width: 100%;
-    padding: 5px;
-  }
-  .alertify .dialog .title {
-    font-size: 14px;
-    line-height: 1.2;
-    margin-bottom: 4px;
-    padding: 4px;
-  }
-  .alertify .dialog .footer {
-    font-size: 12px;
-    line-height: 1.2;
-    margin: 5px 0;
-  }
-  .alertify .dialog ul {
-    padding: 0 0 0 5px;
-  }
-  .alertify .dialog li {
-    font-size: 10px;
-    margin: 5px;
-  }
-  .alertify .dialog nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
-    font-size: 12px;
-    line-height: 24px;
-    min-height: 24px;
-    min-width: 68px;
-    margin: 3px 4px;
-    padding: 0 2px;
-  }
-  .alertify .dialog .table {
-    margin-bottom: 3px;
-  }
-  .alertify .dialog .table caption {
-    font-size: 11px;
-    padding: 5px 5px 3px 0;
-  }
-  .alertify .dialog .table td,
-  .alertify .dialog .table th {
-    font-size: 10px;
   }
 }

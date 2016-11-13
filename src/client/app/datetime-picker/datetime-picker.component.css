@@ -11,11 +11,6 @@
   padding: 2px 10px;
   width: 40px;
 }
-.calendar-popup .center {
-  margin: 0 auto;
-  padding-top: 0;
-  width: 150px;
-}
 .calendar-popup .btn-time {
   color: #337ab7;
   background-color: transparent;
@@ -29,6 +24,11 @@
   background-color: #f0f0f0;
   border-color: #ddd;
 }
+.calendar-popup .center {
+  margin: 0 auto;
+  padding-top: 0;
+  width: 150px;
+}
 .btn-calendar {
   border-radius: 0;
   padding: 2px 6px;
@@ -38,28 +38,21 @@
   z-index: 0 !important;
 }
 
-/* Special CSS classes for mobile - landscape */
-@media (min-width: 451px) AND (max-width: 767px) {
+/* Special CSS classes for mobile devices - portrait and landscape */
+@media (max-width: 767px) {
   .calendar-popup {
     height: 300px;
-    right: 15px;
   }
   .calendar-popup .input-time {
-    padding: 2px 7px;
+    padding: 2px 5px;
     width: 35px;
   }
   .calendar-popup .btn-time {
-    font-size: 11px;
-    line-height: 1.2;
     border-radius: 2px;
     padding: 1px 3px;
   }
   .calendar-popup .center {
     width: 110px;
-  }
-  .btn-calendar {
-    height: 24px;
-    padding: 2px 4px;
   }
 }
 
@@ -68,28 +61,8 @@
     right: 0;
   }
 }
-
-/* Special CSS classes for mobile - portrait */
 @media (max-width: 450px) {
   .calendar-popup {
-    height: 265px;
     right: 5px;
-  }
-  .calendar-popup .input-time {
-    padding: 1px 5px;
-    width: 30px;
-  }
-  .calendar-popup .btn-time {
-    font-size: 10px;
-    line-height: 1.1;
-    border-radius: 2px;
-    padding: 0 1px;
-  }
-  .calendar-popup .center {
-    width: 95px;
-  }
-  .btn-calendar {
-    height: 22px;
-    padding: 2px;
   }
 }
