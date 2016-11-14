@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService } from '../shared/index';
 
-
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
  */
@@ -56,7 +55,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     private dialogService: DialogService,
     private miscUtilsService: MiscUtilsService,
     private siteLogService: SiteLogService,
-    private jsonDiffService: JsonDiffService
+    private jsonDiffService: JsonDiffService,
   ) {}
 
   /**
@@ -127,7 +126,15 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               }];
             }
           }
+          // Coming shortly ...
+          // javascriptUtilsService.checkObjectPathCreateEmpty(this.siteLogModel, 'siteMetadataCustodian.ciResponsibleParty');
           if (this.siteLogModel.siteMetadataCustodian) {
+            if (! this.siteLogModel.siteMetadataCustodian.ciResponsibleParty) {
+              this.siteLogModel.siteMetadataCustodian.ciResponsibleParty = {};
+              if (! this.siteLogModel.siteMetadataCustodian.ciResponsibleParty.contactInfo) {
+                this.siteLogModel.siteMetadataCustodian.ciResponsibleParty.contactInfo = {};
+              }
+            }
             this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
             if(!this.metadataCustodian.contactInfo.ciContact) {
               this.metadataCustodian.contactInfo.ciContact = {
