@@ -6,8 +6,9 @@
     <ul dropdownMenu role="menu" aria-labelledby="menu-button">
       <li role="menuitem"><a [routerLink]="['/']">Select Site</a></li>
       <li role="menuitem"><a [routerLink]="['/about']">About</a></li>
-      <li class="divider dropdown-divider"></li>
-      <li role="menuitem"><a (click)="clearCache()">Update Application</a></li>
+      <!-- TODO: Disable service worker for now -->
+      <!-- <li class="divider dropdown&#45;divider"></li> -->
+      <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
     </ul>
   </span>
   <span class="title">GNSS Site Manager</span>
