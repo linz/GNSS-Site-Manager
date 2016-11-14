@@ -145,10 +145,22 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               }
             }
             this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
-            if(this.metadataCustodian && !this.metadataCustodian.contactInfo.ciContact) {
-              this.metadataCustodian.contactInfo.ciContact = {
-                address: { ciAddress: { id: '' } }
-              };
+            if (this.metadataCustodian) {
+              if (!this.metadataCustodian.contactInfo.ciContact) {
+                this.metadataCustodian.contactInfo.ciContact = {
+                  address: { ciAddress: { id: '' } }
+                };
+              }
+              if (!this.metadataCustodian.contactInfo.ciContact.address) {
+                this.metadataCustodian.contactInfo.ciContact.address = {
+                  ciAddress: { id: '' }
+                };
+              }
+              if (!this.metadataCustodian.contactInfo.ciContact.address.ciAddress) {
+                this.metadataCustodian.contactInfo.ciContact.address.ciAddress = {
+                  id: ''
+                };
+              }
             }
           }
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
