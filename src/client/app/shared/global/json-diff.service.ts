@@ -138,7 +138,7 @@ export class JsonDiffService {
     } else if (key === 'siteContact') {
       return 'Site Contact';
     } else {
-      return key;
+      return this.getMappedName(key);
     }
   }
 

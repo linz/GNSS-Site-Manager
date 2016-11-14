@@ -7,7 +7,7 @@ import { MiscUtilsService, ServiceWorkerService } from '../shared/index';
  */
 @Component({
   moduleId: module.id,
-  selector: 'frequency-standard',
+  selector: 'gnss-frequency-standard',
   templateUrl: 'frequency-standard.component.html',
 })
 export class FrequencyStandardComponent implements OnInit {
@@ -98,18 +98,17 @@ export class FrequencyStandardComponent implements OnInit {
   /**
    * Add a new empty frequency standard as current one and push the 'old' current frequency standard into previous list
    */
-  public addNewFrequencyStd() {
+  public addNewFrequencyStandard() {
     let presentDT = this.miscUtilsService.getPresentDateTime();
     if (!this.frequencyStandards) {
       this.frequencyStandards = [];
     }
 
-    // Assign present date/time as default value to dateRemoved if it is empty
+    // Assign present date/time as default value to endDate if it is empty
     if (this.frequencyStandards.length > 0) {
       this.status.isFrequencyStdsOpen[0] = false;
-      let currentFrequencyStd: any = this.frequencyStandards[0];
-      if (!currentFrequencyStd.dateRemoved.value[0] ) {
-        currentFrequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] = presentDT;
+      if (!this.frequencyStandards[0].validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] ) {
+        this.frequencyStandards[0].validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] = presentDT;
       }
     }
 

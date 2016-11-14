@@ -110,7 +110,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
-          this.siteLogModel = responseJson['geo:siteLog'];console.log(this.siteLogModel);
+          this.siteLogModel = responseJson['geo:siteLog'];
           this.site = this.siteLogModel.siteIdentification;
           this.siteLocation = this.siteLogModel.siteLocation;
           if (this.siteLogModel.siteContact) {
@@ -437,10 +437,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     let currentFrequencyStd: any = null;
     for (let frequencyStdObj of frequencyStds) {
       let frequencyStd = frequencyStdObj.frequencyStandard;
-      let dateRemoved: string = ( frequencyStd.dateRemoved && frequencyStd.dateRemoved.value.length > 0 )
-          ? frequencyStd.dateRemoved.value[0] : null;
-      if ( !dateRemoved ) {
-        frequencyStd.dateRemoved = {value: ['']};
+      let endDate: string = ( frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition
+          && frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0 )
+          ? frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;
+      if ( !endDate ) {
+        frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {value: ['']};
         currentFrequencyStd = frequencyStd;
       } else {
         this.frequencyStandards.push(frequencyStd);
