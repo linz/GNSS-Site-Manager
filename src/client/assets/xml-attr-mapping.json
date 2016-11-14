@@ -37,6 +37,7 @@
   "longitudeEast": "Longitude East",
   "siteOwner": "Site Owner",
   "siteContact": "Site Contact",
+  "siteMetadataCustodian": "Site Metadata Custodian",
   "ciResponsibleParty": "CI Responsible Party",
   "individualName": "Full Name",
   "organisationName": "Organisation",
@@ -83,5 +84,11 @@
   "formInformation": "Form Information",
   "preparedBy": "Prepared By",
   "datePrepared": "Date Prepared",
-  "reportType": "Report Type"
+  "reportType": "Report Type",
+  "frequencyStandards": "Frequency Standards",
+  "frequencyStandard": "Frequency Standard",
+  "standardType": "Standard Type",
+  "inputFrequency": "Input Frequency",
+  "beginPosition": "Start Date",
+  "endPosition": "End Date"
 }
