@@ -4,22 +4,27 @@
     (Valid Date Format: YYYY-MM-DD hh:mm:ss)
   </small>
   <div class="input-group">
-    <input type="text" class="form-control z-lowest" maxlength="24" [(ngModel)]="datetimeDisplay"
-           [ngClass]="{ 'ng-invalid': invalidDatetime }" (change)="updateCalendar()"
+    <input type="text" maxlength="24"
+           class="form-control z-lowest"
+           [(ngModel)]="datetimeDisplay"
+           [ngClass]="{ 'ng-invalid': invalidDatetime }"
+           (change)="updateCalendar()"
            (focus)="utilsService.scrollIntoView($event, showDatetimePicker); showDatetimePicker = true;"/>
     <span class="input-group-btn z-lowest">
-      <button id="calendar-btn" type="button" class="btn btn-default btn-calendar z-lowest"
+      <button id="calendar-btn" type="button"
+              class="btn btn-default btn-calendar z-lowest"
               (click)="showDatetimePicker = utilsService.scrollIntoView($event, showDatetimePicker)">
         <span id="calendar-icon" class="glyphicon glyphicon-calendar"></span>
       </button>
     </span>
   </div>
   <div class="calendar-popup" *ngIf="showDatetimePicker">
-    <datepicker [(ngModel)]="datetimeModel" [showWeeks]="false"
-        (selectionDone)="setSelectedDatetime($event)"></datepicker>
+    <datepicker [(ngModel)]="datetimeModel"
+                [showWeeks]="false"
+                (selectionDone)="updateDate($event)"></datepicker>
     <div class="center">
-    <table>
-      <tbody>
+      <table>
+        <tbody>
         <tr class="text-center">
           <td>
             <a (click)="incrementHours()" class="btn btn-time">
@@ -79,6 +84,20 @@
         </tr>
         </tbody>
       </table>
+    </div>
+    <div class="center-btns">
+      <button class="btn btn-ok btn-xs margin-top5"
+              (click)="setSelectedDatetime()"
+              title="Set selected date/time and close calendar">
+        <i class="glyphicon glyphicon-ok"></i>
+        OK
+      </button>
+      <button class="btn btn-cancel btn-xs margin-top5"
+              (click)="cancelSelectedDatetime()"
+              title="Cancel selected date/time and close calendar">
+        <i class="glyphicon glyphicon-remove"></i>
+        Cancel
+      </button>
     </div>
   </div>
 </div>
