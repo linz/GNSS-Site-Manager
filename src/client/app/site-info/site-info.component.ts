@@ -21,6 +21,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private metadataCustodian: any = null;
   private receivers: Array<any> = [];
   private antennas: Array<any> = [];
+  private frequencyStandards: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
@@ -35,8 +36,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isReceiversOpen: [],
     isAntennaGroupOpen: false,
     isAntennasOpen: [],
+    isFrequencyStdGroupOpen: false,
+    isFrequencyStdsOpen: [],
     hasNewAntenna: false,
     hasNewReceiver: false,
+    hasNewFrequencyStd: false,
   };
 
   /**
@@ -69,12 +73,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteLogModel = {
       gnssReceivers: [],
-      gnssAntennas: []
+      gnssAntennas: [],
+      frequencyStandards: []
     };
 
     this.siteLogOrigin = {
       gnssReceivers: [],
-      gnssAntennas: []
+      gnssAntennas: [],
+      frequencyStandards: []
     };
 
     this.loadSiteInfoData();
@@ -93,15 +99,18 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.submitted = false;
     this.status.hasNewAntenna = false;
     this.status.hasNewReceiver = false;
+    this.status.hasNewFrequencyStd = false;
     this.status.isReceiversOpen.length = 0;
     this.status.isAntennasOpen.length = 0;
+    this.status.isFrequencyStdsOpen.length = 0;
     this.receivers.length = 0;
     this.antennas.length = 0;
+    this.frequencyStandards.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
-          this.siteLogModel = responseJson['geo:siteLog'];
+          this.siteLogModel = responseJson['geo:siteLog'];console.log(this.siteLogModel);
           this.site = this.siteLogModel.siteIdentification;
           this.siteLocation = this.siteLogModel.siteLocation;
           if (this.siteLogModel.siteContact) {
@@ -136,7 +145,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               }
             }
             this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
-            if(!this.metadataCustodian.contactInfo.ciContact) {
+            if(this.metadataCustodian && !this.metadataCustodian.contactInfo.ciContact) {
               this.metadataCustodian.contactInfo.ciContact = {
                 address: { ciAddress: { id: '' } }
               };
@@ -144,6 +153,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           }
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
+          this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.backupSiteLogJson();
           this.isLoading =  false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for '+ this.siteId);
@@ -153,7 +163,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.isLoading =  false;
           this.siteLogModel = {
             gnssReceivers: [],
-            gnssAntennas: []
+            gnssAntennas: [],
+            frequencyStandards: []
           };
           this.dialogService.showErrorMessage('No site log info found for '+this.siteId);
         }
@@ -174,6 +185,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status = null;
     this.receivers.length = 0;
     this.antennas.length = 0;
+    this.frequencyStandards.length = 0;
     this.errorMessage = '';
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
@@ -283,6 +295,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.submitted = true;
         that.status.hasNewAntenna = false;
         that.status.hasNewReceiver = false;
+        that.status.hasNewFrequencyStd = false;
         let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
         that.siteLogService.saveSiteLog(siteLogJson).subscribe(
           (responseJson: any) => {
@@ -417,6 +430,32 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Set current and previous frequency standards, and their show/hide flags
+   */
+  private setFrequencyStandards(frequencyStds: any) {
+    this.status.isFrequencyStdsOpen = [];
+    let currentFrequencyStd: any = null;
+    for (let frequencyStdObj of frequencyStds) {
+      let frequencyStd = frequencyStdObj.frequencyStandard;
+      let dateRemoved: string = ( frequencyStd.dateRemoved && frequencyStd.dateRemoved.value.length > 0 )
+          ? frequencyStd.dateRemoved.value[0] : null;
+      if ( !dateRemoved ) {
+        frequencyStd.dateRemoved = {value: ['']};
+        currentFrequencyStd = frequencyStd;
+      } else {
+        this.frequencyStandards.push(frequencyStd);
+        this.status.isFrequencyStdsOpen.push(false);
+      }
+    }
+    // Sort by effective start dates for all previous frequency standards
+    this.frequencyStandards.sort(this.compareEffectiveStartDates);
+
+    // Current frequency standard (even null) are the first item in the arrays and open by default
+    this.frequencyStandards.unshift(currentFrequencyStd);
+    this.status.isFrequencyStdsOpen.unshift(true);
+  }
+
+  /**
    * Sort receivers/antennas based on their Date_Installed values in ascending order
    */
   private compareDateInstalled(obj1: any, obj2: any) {
@@ -432,6 +471,28 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0])
       return 1;
     if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0])
+      return -1;
+    return 0;
+  }
+
+  /**
+   * Sort frequency standards based on their effective start dates in ascending order
+   */
+  private compareEffectiveStartDates(obj1: any, obj2: any) {
+    if (obj1 === null || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
+        || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
+        || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0)
+      return 0;
+    if (obj2 === null || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
+        || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
+        || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0)
+      return 0;
+
+    if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
+        < obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0])
+      return 1;
+    if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
+        > obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0])
       return -1;
     return 0;
   }
