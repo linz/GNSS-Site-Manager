@@ -12,7 +12,7 @@
               [disabled]="status.hasNewFrequencyStd"
               (click)="addNewFrequencyStandard(); miscUtilsService.showFullView($event);">
         <i class="glyphicon glyphicon-plus-sign"></i>
-        New Frequency Standard
+        New <span class="hide-xxs">Frequency Standard</span>
       </button>
     </span>
   </div>
@@ -79,18 +79,18 @@
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Start Date (UTC)</label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
               <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                 <datetime-picker [(datetime)]="frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]"
-                                 [name]=" 'Effective Date Start' "
+                                 [name]=" 'Date Installed' "
                                  [required]="true"></datetime-picker>
               </div>
             </div>
             <div class="form-group">
-              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">End Date (UTC)</label>
+              <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
               <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                 <datetime-picker [(datetime)]="frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]"
-                                 [name]=" 'Effective Date End' "
+                                 [name]=" 'Date Removed' "
                                  [required]="i != 0"></datetime-picker>
               </div>
             </div>

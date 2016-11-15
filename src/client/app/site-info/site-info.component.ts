@@ -145,10 +145,22 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               }
             }
             this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
-            if(this.metadataCustodian && !this.metadataCustodian.contactInfo.ciContact) {
-              this.metadataCustodian.contactInfo.ciContact = {
-                address: { ciAddress: { id: '' } }
-              };
+            if (this.metadataCustodian) {
+              if (!this.metadataCustodian.contactInfo.ciContact) {
+                this.metadataCustodian.contactInfo.ciContact = {
+                  address: { ciAddress: { id: '' } }
+                };
+              }
+              if (!this.metadataCustodian.contactInfo.ciContact.address) {
+                this.metadataCustodian.contactInfo.ciContact.address = {
+                  ciAddress: { id: '' }
+                };
+              }
+              if (!this.metadataCustodian.contactInfo.ciContact.address.ciAddress) {
+                this.metadataCustodian.contactInfo.ciContact.address.ciAddress = {
+                  id: ''
+                };
+              }
             }
           }
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
@@ -437,6 +449,22 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     let currentFrequencyStd: any = null;
     for (let frequencyStdObj of frequencyStds) {
       let frequencyStd = frequencyStdObj.frequencyStandard;
+      if (!frequencyStd.validTime) {
+        frequencyStd.validTime = {};
+      }
+      if (!frequencyStd.validTime.abstractTimePrimitive) {
+        frequencyStd.validTime.abstractTimePrimitive = {
+          'gml:TimePeriod': {
+            beginPosition: {
+              value: ['']
+            },
+            endPosition: {
+              value: ['']
+            }
+          }
+        };
+      }
+
       let endDate: string = ( frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition
           && frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0 )
           ? frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;

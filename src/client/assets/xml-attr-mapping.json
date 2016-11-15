@@ -89,6 +89,6 @@
   "frequencyStandard": "Frequency Standard",
   "standardType": "Standard Type",
   "inputFrequency": "Input Frequency",
-  "beginPosition": "Start Date",
-  "endPosition": "End Date"
+  "beginPosition": "Date Installed",
+  "endPosition": "Date Removed"
 }
