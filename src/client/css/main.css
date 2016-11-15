@@ -415,6 +415,15 @@ form .ng-invalid {
   }
 }
 
+.hide-xxs {
+  display: inherit;
+}
+@media (max-width: 450px) {
+  .hide-xxs {
+    display: none;
+  }
+}
+
 /* For Mobile devices - portrait and landscape */
 @media (max-width: 767px) {
   .well {
