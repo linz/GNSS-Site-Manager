@@ -7,6 +7,7 @@
   },
   "scripts": {
     "build.dev": "gulp build.dev --color --config-env dev",
+    "build.local": "gulp build.dev --color --config-env local",
     "build.dev.watch": "gulp build.dev.watch --color",
     "build.e2e": "gulp build.e2e --color",
     "build.prod": "gulp build.prod --color",
@@ -25,6 +26,7 @@
     "reinstall": "npm cache clean && npm install",
     "serve.coverage": "remap-istanbul -b src/ -i coverage/coverage-final.json -o coverage -t html && npm run gulp -- serve.coverage --color",
     "serve.dev": "gulp serve.dev --color --config-env dev",
+    "serve.local": "gulp serve.dev --color --config-env local",
     "serve.e2e": "gulp serve.e2e --color",
     "serve.prod": "gulp serve.prod --color --config-env prod",
     "serve.test": "gulp serve.prod --color --config-env test",

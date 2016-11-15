@@ -89,6 +89,18 @@
   "frequencyStandard": "Frequency Standard",
   "standardType": "Standard Type",
   "inputFrequency": "Input Frequency",
-  "beginPosition": "Date Installed",
-  "endPosition": "Date Removed"
+  "humiditySensors": "Humidity sensors",
+  "humiditySensor": "Humidity sensor",
+  "calibrationDate": "Calibration date",
+  "heightDiffToAntenna": "Height diff to antenna (m)",
+  "beginPosition": "Date installed (UTC)",
+  "endPosition": "Date removed (UTC)",
+  "dataSamplingInterval": "Data sampling interval (sec)",
+  "accuracyPercentRelativeHumidity": "Accuracy (% rel h)",
+  "manufacturer": "Manufacturer",
+  "aspiration": "Aspiration",
+  "siteLocation": "Site Information",
+  "siteIdentification": "Site Information",
+  "siteMetadataCustodian": "Site Metadata Custodian",
+  "siteContact":"Site Contact"
 }

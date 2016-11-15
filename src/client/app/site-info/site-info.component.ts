@@ -22,6 +22,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private receivers: Array<any> = [];
   private antennas: Array<any> = [];
   private frequencyStandards: Array<any> = [];
+  private humiditySensors: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
@@ -41,6 +42,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewAntenna: false,
     hasNewReceiver: false,
     hasNewFrequencyStd: false,
+    isHumiditySensorsGroupOpen: false,
+    isHumiditySensorsOpen: [],
+    hasNewHumiditySensor: false,
   };
 
   /**
@@ -75,12 +79,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       gnssReceivers: [],
       gnssAntennas: [],
       frequencyStandards: []
+      humiditySensors: []
     };
 
     this.siteLogOrigin = {
       gnssReceivers: [],
       gnssAntennas: [],
       frequencyStandards: []
+      humiditySensors: []
     };
 
     this.loadSiteInfoData();
@@ -106,6 +112,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.receivers.length = 0;
     this.antennas.length = 0;
     this.frequencyStandards.length = 0;
+    this.humiditySensors.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
@@ -166,6 +173,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
+          this.setHumiditySensors(this.siteLogModel.humiditySensors);
           this.backupSiteLogJson();
           this.isLoading =  false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for '+ this.siteId);
@@ -177,6 +185,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             gnssReceivers: [],
             gnssAntennas: [],
             frequencyStandards: []
+            humiditySensors: []
           };
           this.dialogService.showErrorMessage('No site log info found for '+this.siteId);
         }
@@ -198,6 +207,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.receivers.length = 0;
     this.antennas.length = 0;
     this.frequencyStandards.length = 0;
+    this.humiditySensors.length = 0;
     this.errorMessage = '';
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
@@ -308,6 +318,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewAntenna = false;
         that.status.hasNewReceiver = false;
         that.status.hasNewFrequencyStd = false;
+        that.status.hasNewHumiditySensor = false;
         let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
         that.siteLogService.saveSiteLog(siteLogJson).subscribe(
           (responseJson: any) => {
@@ -424,8 +435,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     for (let antennaObj of gnssAntennas) {
       let antenna = antennaObj.gnssAntenna;
       let dateRemoved: string = ( antenna.dateRemoved && antenna.dateRemoved.value.length > 0 )
-          ? antenna.dateRemoved.value[0] : null;
-      if ( !dateRemoved ) {
+        ? antenna.dateRemoved.value[0] : null;
+      if (!dateRemoved) {
         antenna.dateRemoved = {value: ['']};
         currentAntenna = antenna;
       } else {
@@ -471,9 +482,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       }
 
       let endDate: string = ( frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition
-          && frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0 )
-          ? frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;
-      if ( !endDate ) {
+      && frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0 )
+        ? frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;
+      if (!endDate) {
         frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {value: ['']};
         currentFrequencyStd = frequencyStd;
       } else {
@@ -490,44 +501,98 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Set current and previous humidity sensors, and their show/hide flags
+   */
+  private setHumiditySensors(humiditySensorsLocal: any) {
+    this.status.isHumiditySensorsOpen = [];
+    let currentHumiditySensor: any = null;
+    for (let humiditySensorObj of humiditySensorsLocal) {
+      currentHumiditySensor = humiditySensorObj.humiditySensor;
+      let validCalibrationDate: boolean = ( currentHumiditySensor.calibrationDate
+      && currentHumiditySensor.calibrationDate.value.length > 0 );
+      if (!validCalibrationDate) {
+        currentHumiditySensor.calibrationDate = {value: ['']};
+      }
+      if (!currentHumiditySensor.validTime ) {
+        currentHumiditySensor.validTime = {};
+      }
+      if (!currentHumiditySensor.validTime.abstractTimePrimitive ) {
+        currentHumiditySensor.validTime.abstractTimePrimitive = {};
+      }
+      if (!currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'] = {};
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition ) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = {};
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value
+        || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value = [''];
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition ) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {};
+      }
+      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value
+        || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length === 0) {
+        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value = [''];
+      }
+      this.humiditySensors.push(currentHumiditySensor);
+      this.status.isHumiditySensorsOpen.push(false);
+    }
+    this.humiditySensors.sort(this.compareEffectiveStartDates);
+
+    // the first item in the array is open by default
+    this.status.isHumiditySensorsOpen.pop();
+    this.status.isHumiditySensorsOpen.unshift(true);
+  }
+
+  /**
    * Sort receivers/antennas based on their Date_Installed values in ascending order
    */
   private compareDateInstalled(obj1: any, obj2: any) {
     if (obj1 === null || obj1.dateInstalled === null
         || obj1.dateInstalled.value === null
-        || obj1.dateInstalled.value.length === 0)
+        || obj1.dateInstalled.value.length === 0) {
       return 0;
+    }
     if (obj2 === null || obj2.dateInstalled === null
         || obj2.dateInstalled.value === null
-        || obj2.dateInstalled.value.length === 0)
+        || obj2.dateInstalled.value.length === 0) {
       return 0;
+    }
 
-    if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0])
+    if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
       return 1;
-    if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0])
+    }
+    if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
       return -1;
+    }
     return 0;
   }
 
   /**
-   * Sort frequency standards based on their effective start dates in ascending order
+   * Sort frequency standards and sensors based on their effective start dates in ascending order
    */
   private compareEffectiveStartDates(obj1: any, obj2: any) {
     if (obj1 === null || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
-        || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
-        || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0)
+      || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
+      || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
       return 0;
+    }
     if (obj2 === null || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
-        || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
-        || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0)
+      || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
+      || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
       return 0;
+    }
 
     if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
-        < obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0])
+      < obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) {
       return 1;
+    }
     if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
-        > obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0])
+      > obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) {
       return -1;
+    }
     return 0;
   }
 }
