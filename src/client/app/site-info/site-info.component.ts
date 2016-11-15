@@ -445,6 +445,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Set current and previous frequency standards, and their show/hide flags
    */
   private setFrequencyStandards(frequencyStds: any) {
+    if (!frequencyStds) {
+      this.frequencyStandards = [];
+      return;
+    }
+
     this.status.isFrequencyStdsOpen = [];
     let currentFrequencyStd: any = null;
     for (let frequencyStdObj of frequencyStds) {
