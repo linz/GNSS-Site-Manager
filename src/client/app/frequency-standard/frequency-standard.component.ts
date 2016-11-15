@@ -142,10 +142,16 @@ export class FrequencyStandardComponent implements OnInit {
     // Keep a copy of the frequency standard object as the original one for comparison
     let frequencyStdObjCopy: any = this.miscUtilsService.cloneJsonObj(frequencyStdObj);
     frequencyStdObjCopy.frequencyStandard = this.miscUtilsService.cloneJsonObj(newFrequencyStd);
+    if (!this.siteLogOrigin.frequencyStandards) {
+      this.siteLogOrigin.frequencyStandards = [];
+    }
     this.siteLogOrigin.frequencyStandards.unshift(frequencyStdObjCopy);
 
     newFrequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] = presentDT;
     frequencyStdObj.frequencyStandard = newFrequencyStd;
+    if (!this.siteLogModel.frequencyStandards) {
+      this.siteLogModel.frequencyStandards = [];
+    }
     this.siteLogModel.frequencyStandards.unshift(frequencyStdObj);
 
     // Add the new frequency standard as current one and open it by default
