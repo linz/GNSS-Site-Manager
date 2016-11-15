@@ -98,13 +98,13 @@ export class JsonDiffService {
     return differenceArray;
   }
 
-  private traverse(differenceArray, jsonObj: any, key: string) {
+  private traverse(differenceArray:any, jsonObj: any, key: string) {
     let objType: string = this.getTypeOfObj(jsonObj);
     if (objType === 'Object') {
       this.traverseObj(differenceArray, jsonObj, key);
     } else if (objType === 'Array') {
       for (let obj of jsonObj) {
-        this.traverse(obj, key);
+        this.traverse(differenceArray, obj, key);
       }
     } else {
       console.log('Unknown JSON type: '+objType);

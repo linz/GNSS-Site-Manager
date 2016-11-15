@@ -128,11 +128,17 @@ export class GnssHumiditySensorComponent {
     // Keep a copy of the humidity sensor object as the original one for comparison
     let sensorObjCopy: any = this.miscUtilsService.cloneJsonObj(sensorObj);
     sensorObjCopy.humiditySensor = this.miscUtilsService.cloneJsonObj(newSensor);
+    if (!this.siteLogOrigin.humiditySensors) {
+      this.siteLogOrigin.humiditySensors = [];
+    }
     this.siteLogOrigin.humiditySensors.unshift(sensorObjCopy);
 
     newSensor.calibrationDate.value[0] = presentDT;
     newSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] = presentDT;
     sensorObj.humiditySensor = newSensor;
+    if (!this.siteLogModel.humiditySensors) {
+      this.siteLogModel.humiditySensors = [];
+    }
     this.siteLogModel.humiditySensors.unshift(sensorObj);
 
     // Add the new humidity sensor as current one and open it by default
