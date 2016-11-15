@@ -74,9 +74,9 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Data Sampling Interval (s)</label>
+                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Data Sampling Interval (sec)</label>
                             <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                                <input type="number" step="0.01" maxlength="100" class="form-control"
+                                <input type="number" min="0" maxlength="100" class="form-control"
                                        [(ngModel)]="humiditySensor.dataSamplingInterval"
                                        name="humiditySensorManufacturer_{{i}}"/>
                             </div>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Accuracy (% rel  h)</label>
                             <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                                <input type="number" step="0.01" maxlength="100" class="form-control"
+                                <input type="number" min="0" maxlength="100" class="form-control"
                                        [(ngModel)]="humiditySensor.accuracyPercentRelativeHumidity"
                                        name="humiditySensorManufacturer_{{i}}"/>
                             </div>
@@ -100,7 +100,7 @@
                         <div class="form-group">
                             <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Height Diff to Antenna (m)</label>
                             <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                                <input type="number" step="0.01" maxlength="100" class="form-control"
+                                <input type="number" step="0.001" maxlength="100" class="form-control"
                                        [(ngModel)]="humiditySensor.heightDiffToAntenna"
                                        name="humiditySensorHeightDiffToAntenna_{{i}}"/>
                             </div>
