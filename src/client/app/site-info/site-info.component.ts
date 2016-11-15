@@ -78,14 +78,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogModel = {
       gnssReceivers: [],
       gnssAntennas: [],
-      frequencyStandards: []
+      frequencyStandards: [],
       humiditySensors: []
     };
 
     this.siteLogOrigin = {
       gnssReceivers: [],
       gnssAntennas: [],
-      frequencyStandards: []
+      frequencyStandards: [],
       humiditySensors: []
     };
 
@@ -184,7 +184,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.siteLogModel = {
             gnssReceivers: [],
             gnssAntennas: [],
-            frequencyStandards: []
+            frequencyStandards: [],
             humiditySensors: []
           };
           this.dialogService.showErrorMessage('No site log info found for '+this.siteId);
@@ -504,6 +504,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Set current and previous humidity sensors, and their show/hide flags
    */
   private setHumiditySensors(humiditySensorsLocal: any) {
+    if (!humiditySensorsLocal) {
+      this.humiditySensors = [];
+      return;
+    }
+
     this.status.isHumiditySensorsOpen = [];
     let currentHumiditySensor: any = null;
     for (let humiditySensorObj of humiditySensorsLocal) {
