@@ -253,10 +253,6 @@
                              [gnssReceivers]="receivers"
                              [siteLogModel]="siteLogModel"
                              [siteLogOrigin]="siteLogOrigin"></gnss-receiever-info>
-        <gnss-humidity-sensor [status]="status"
-                              [humiditySensors]="humiditySensors"
-                              [siteLogModel]="siteLogModel"
-                              [siteLogOrigin]="siteLogOrigin"></gnss-humidity-sensor>
         <div class="panel panel-level-1">
           <div class="panel-heading">
             <span class="panel-title cursor-ptr"
@@ -476,6 +472,10 @@
                             [frequencyStandards]="frequencyStandards"
                             [siteLogModel]="siteLogModel"
                             [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
+        <gnss-humidity-sensor [status]="status"
+                              [humiditySensors]="humiditySensors"
+                              [siteLogModel]="siteLogModel"
+                              [siteLogOrigin]="siteLogOrigin"></gnss-humidity-sensor>
       </div>
     </form>
   </div>

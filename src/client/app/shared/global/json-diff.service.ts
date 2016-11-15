@@ -8,12 +8,9 @@ export class JsonDiffService {
   private ADD: string = 'Add';
   private REMOVE: string = 'Remove';
   private UPDATE: string = 'Update';
-  private diffArray: Array<any>;
   private attrMappingJson: any = {};
 
   constructor(private httpService: HttpUtilsService) {
-    this.diffArray = [];
-
     // Load the XML attribute name mapping JSON object from assets
     this.httpService.loadJsonObject(this.xmlAttrMappingFile).subscribe(
       json => this.attrMappingJson = json,
@@ -22,10 +19,10 @@ export class JsonDiffService {
   }
 
   public getJsonDiffHtml(oldJson: any , newJson: any): string {
-    this.diffArray = [];
     let jsonDiff: any = this.compare(oldJson, newJson, []);
-    this.detectChanges(jsonDiff);
-    return this.formatToHtml(this.diffArray);
+    let diffArray: any = this.detectChanges(jsonDiff);
+    let result: string = this.formatToHtml(diffArray);
+    return result;
   }
 
   private formatToHtml(_array: any): string {
@@ -37,12 +34,22 @@ export class JsonDiffService {
   }
 
   private getMappedName(attrName: string): string {
-    if (attrName === null || attrName.trim() === '') {
+    attrName = attrName.trim();
+    if (! attrName === null) {
       return '';
-    } else if (this.attrMappingJson[attrName] === undefined) {
+    }
+    // We want first word token in key as eg. might receive 'gnssReceiver (2016-11-15)'
+    let normalAttrName: string = attrName.replace(/^(\w+).*/, '$1');
+    let attrRemainder: string = attrName.replace(/^\w+(.*)/, '$1');
+    attrRemainder = attrRemainder ? ' ' + attrRemainder : '';
+    console.log('map key: '+ attrName + ', first token: "'+ normalAttrName + '"');
+    if (this.attrMappingJson[normalAttrName] === undefined) {
+      console.log('  not in mapping');
       return attrName;
     }
-    return this.attrMappingJson[attrName];
+    let map: string = this.attrMappingJson[normalAttrName] + attrRemainder;
+    console.log(' mapped to: :', map);
+    return map;
   }
 
   private formatToTable(tableName: string, rows: any): string {
@@ -64,10 +71,12 @@ export class JsonDiffService {
     return tableHtml;
   }
 
-  private detectChanges(jsonObj: any) {
+  detectChanges(jsonObj: any): any {
     let newJsonObj: any = [];
+    let differenceArray: any = [];
     for (let obj of jsonObj) {
-      if (obj.key === 'gnssReceivers' || obj.key === 'gnssAntennas') {
+      console.log('detectChanges - key: ', obj.key);
+      if (obj.key === 'gnssReceivers' || obj.key === 'gnssAntennas' || obj.key === 'humiditySensors') {
         for (let o1 of obj.changes) {
           for (let o2 of o1.changes) {
             newJsonObj.push(o2);
@@ -80,17 +89,19 @@ export class JsonDiffService {
 
     for (let obj of newJsonObj) {
       let title: any = this.formatTitle(obj.key);
-      if (this.diffArray[title] === undefined) {
-        this.diffArray[title] = [];
+      if (differenceArray[title] === undefined) {
+        differenceArray[title] = [];
       }
-      this.traverse(obj, title);
+      this.traverse(differenceArray, obj, title);
     }
+
+    return differenceArray;
   }
 
-  private traverse(jsonObj: any, key: string) {
+  private traverse(differenceArray, jsonObj: any, key: string) {
     let objType: string = this.getTypeOfObj(jsonObj);
     if (objType === 'Object') {
-      this.traverseObj(jsonObj, key);
+      this.traverseObj(differenceArray, jsonObj, key);
     } else if (objType === 'Array') {
       for (let obj of jsonObj) {
         this.traverse(obj, key);
@@ -98,12 +109,14 @@ export class JsonDiffService {
     } else {
       console.log('Unknown JSON type: '+objType);
     }
+
+    return differenceArray;
   }
 
-  private traverseObj(obj: any, key: string) {
+  private traverseObj(differenceArray:any, obj: any, key: string): any {
     if (obj.changes) {
       for (let change of obj.changes) {
-        this.traverse(change, key);
+        this.traverse(differenceArray, change, key);
       }
     } else if ( !this.isEmpty(obj.value) ) {
       let changeObj: any = {attrName: obj.key, action: obj.type, oldValue: '', newValue: ''};
@@ -117,29 +130,36 @@ export class JsonDiffService {
       } else {
         console.log('Unknown action type: ' + obj.type + ' for ' + obj.key);
       }
-      this.diffArray[<any>key].push(changeObj);
+      differenceArray[<any>key].push(changeObj);
     }
+
+    return differenceArray;
   }
 
   /*
-   * Format the key from xml to the title shown on site-info page
+   * Format the key from xml to how it should be displayed in the diff
    */
   private formatTitle(key: string): string {
+    let returnVal: string = '';
     if (key === null || key.trim().length === 0) {
-      return '';
+      returnVal = '';
     }
 
-    if (key === 'siteIdentification' || key === 'siteLocation') {
-      return 'Site Information';
-    } else if (key.startsWith('gnss')) {
-      return 'GNSS ' + key.substring(4);
-    } else if (key === 'siteMetadataCustodian') {
-      return 'Site Metadata Custodian';
-    } else if (key === 'siteContact') {
-      return 'Site Contact';
-    } else {
-      return this.getMappedName(key);
-    }
+    // TODO - to be replaced by better mechanism of attribute mapping.  Removed this once happy it works.
+    // if (key === 'siteIdentification' || key === 'siteLocation') {
+    //   return 'Site Information';
+    // } else if (key.startsWith('gnss')) {
+    //   return 'GNSS ' + key.substring(4);
+    // } else if (key === 'siteMetadataCustodian') {
+    //   return 'Site Metadata Custodian';
+    // } else if (key === 'siteContact') {
+    //   return 'Site Contact';
+    // } else {
+    //   return this.getMappedName(key);
+    // }
+    returnVal = this.getMappedName(key);
+    console.log('formatTitle - key: '+key+', return title: ', returnVal);
+    return returnVal;
   }
 
   private getTypeOfObj(obj: any): string {
@@ -171,9 +191,10 @@ export class JsonDiffService {
     return false;
   }
 
-  private compare(oldObj: any, newObj: any, path: any): any {
+  compare(oldObj: any, newObj: any, path: any): any {
     let changes: any = [];
     let typeOfOldObj: any = this.getTypeOfObj(oldObj);
+    // console.log('compare - objType: '+ typeOfOldObj+', path: ['+path+'], newObj: ', newObj);
     switch (typeOfOldObj) {
       case 'Date':
         changes = changes.concat(this.comparePrimitives(oldObj.getTime(), newObj.getTime(), path));
@@ -204,6 +225,8 @@ export class JsonDiffService {
   }
 
   private compareObject(oldObj: any, newObj: any, path: any, skipPath: boolean): any {
+    // console.log('compareObject - path: ['+path+'], skipPath: '+skipPath+', newObj: ', newObj);
+
     let changes: any = [];
     let oldObjKeys: any = Object.keys(oldObj);
     let newObjKeys: any = Object.keys(newObj);
@@ -240,6 +263,7 @@ export class JsonDiffService {
   }
 
   private compareArray(oldObj: any, newObj: any, path: any): any {
+    // console.log('compareArray - path: ['+path+'], newObj: ', newObj);
     let indexedOldObj: any = this.convertArrayToObj(oldObj);
     let indexedNewObj: any = this.convertArrayToObj(newObj);
     let diffs: any = this.compareObject(indexedOldObj, indexedNewObj, path, true);
@@ -324,23 +348,71 @@ export class JsonDiffService {
     }
   }
 
-  private addDateString(obj: any, key: string): string {
+  /**
+   * Given an object with maps and arrays, and a path of those maps and arrays find the value at path.  Or '' if
+   * any part of path doesn't exist.
+   *
+   * @param path in object structure - eg 'a.b.1' (array indices are .X)
+   * @param obj with path eg. alpha = {a: {b: [fred, whilma, barney]}}
+   * @returns object at path in obj or '' - eg. resolves to 'whilma'
+   */
+  private resolveObjectPath(obj: any, path: string) {
+    let a:any =  path.split('.').reduce(function(prev, curr) {
+      return prev ? prev[curr] : undefined;
+    }, obj || self);
+
+    return a?a:'';
+  }
+
+  getDate(obj: any, dateType: string, position: string): string {
+    if (dateType === 'dateInstalledRemoved') {
+      if (position === 'start') {
+        return this.resolveObjectPath(obj, 'dateInstalled.value.0');
+      } else {
+        return this.resolveObjectPath(obj, 'dateRemoved.value.0');
+      }
+    }
+    if (dateType === 'dateBeginEnd') {
+      if (position === 'start') {
+        // return this.dateFromPath(obj, "validTime.abstractTimePrimitive.['gml:TimePeriod'].beginPosition.value.[0]");
+        return this.resolveObjectPath(obj, 'validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value.0');
+      } else {
+        return this.resolveObjectPath(obj, 'validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value.0');
+      }
+    }
+
+    return 'getDate() - unkonwn dateType: '+ dateType;
+  }
+
+   // TODO - once we have types (eg. HumiditySensorClass) then delegate this function to that
+  addDateString(obj: any, key: string): string {
     let obj1: any;
-    if ( obj.gnssReceiver ) {
+    let startDate: any;
+    let endDate: any;
+    let dateStr: string = '';
+
+    // console.log('addDateString - obj: '+obj.TYPE_NAME+', key: '+key);
+
+    if (obj.gnssReceiver) {
       obj1 = obj.gnssReceiver;
-    } else if ( obj.gnssAntenna ) {
+      startDate = this.getDate(obj1, 'dateInstalledRemoved', 'start');
+      endDate = this.getDate(obj1, 'dateInstalledRemoved', 'end');
+    } else if (obj.gnssAntenna) {
       obj1 = obj.gnssAntenna;
+      startDate = this.getDate(obj1, 'dateInstalledRemoved', 'start');
+      endDate = this.getDate(obj1, 'dateInstalledRemoved', 'end');
+    } else if (obj.humiditySensor) {
+      obj1 = obj.humiditySensor;
+      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
+      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
     } else {
       return key;
     }
-    let dateStr: string = '';
-    if (obj1.dateInstalled) {
-      dateStr = '('+obj1.dateInstalled.value[0].substring(0, 10);
-      if (obj1.dateRemoved && obj1.dateRemoved.value[0]) {
-        dateStr += ' &ndash; ' + obj1.dateRemoved.value[0].substring(0, 10);
-      }
-      dateStr += ')';
+    dateStr = '(' + startDate.substring(0, 10);
+    if (endDate) {
+      dateStr += ' &ndash; ' + endDate.substring(0, 10);
     }
+    dateStr += ')';
 
     return (dateStr === '') ? key : (key + ' ' + dateStr);
   }

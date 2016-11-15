@@ -25,8 +25,8 @@ export function main() {
           .then(() => {
             let fixture = TestBed.createComponent(TestComponent);
             let aboutDOMEl = fixture.debugElement.children[0].nativeElement;
-
-	          expect(aboutDOMEl.querySelectorAll('span')[0].textContent).toEqual('About GNSS Site Manager');
+            let value: string = aboutDOMEl.querySelectorAll('span')[0].textContent;
+            expect(value.trim()).toEqual('About GNSS Site Manager');
           });
         }));
     });

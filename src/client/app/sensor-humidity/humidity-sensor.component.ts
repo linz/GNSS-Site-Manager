@@ -93,8 +93,6 @@ export class GnssHumiditySensorComponent {
       }
     }
 
-    // TODO - EffectiveDate is listed as a displayed field in https://igscb.jpl.nasa.gov/igscb/station/general/blank.log
-    // But isn't available in GeodesyML.
     let newSensor = {
       // Defined in equipment.xsd - humiditySensorType
       dataSamplingInterval: 0,

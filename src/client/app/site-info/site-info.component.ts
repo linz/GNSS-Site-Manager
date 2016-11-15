@@ -318,6 +318,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewAntenna = false;
         that.status.hasNewReceiver = false;
         that.status.hasNewFrequencyStd = false;
+        that.status.hasNewHumiditySensor = false;
         let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
         that.siteLogService.saveSiteLog(siteLogJson).subscribe(
           (responseJson: any) => {

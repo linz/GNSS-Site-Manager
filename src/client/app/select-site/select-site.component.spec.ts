@@ -13,6 +13,7 @@ import { CorsSiteService } from '../shared/cors-site/cors-site.service';
 import { MiscUtilsService } from '../shared/global/misc-utils.service';
 import { ServiceWorkerService } from '../shared/index';
 import { WFSService } from '../shared/wfs/wfs.service';
+import { DialogService } from  '../shared/global/dialog.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs';
 
@@ -45,6 +46,7 @@ export function main() {
                     {provide: WFSService, useValue: fakeWFSService},
                     NameListService,
                     ServiceWorkerService,
+                    DialogService,
                     BaseRequestOptions,
                     MockBackend,
                     {
