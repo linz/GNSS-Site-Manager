@@ -102,5 +102,8 @@
   "siteLocation": "Site Information",
   "siteIdentification": "Site Information",
   "siteMetadataCustodian": "Site Metadata Custodian",
-  "siteContact":"Site Contact"
+  "siteContact":"Site Contact",
+  "event":"Event",
+  "beginPosition":"Start Date",
+  "endPosition":"End Date"
 }
