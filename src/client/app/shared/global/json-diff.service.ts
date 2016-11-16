@@ -76,7 +76,7 @@ export class JsonDiffService {
     let differenceArray: any = [];
     for (let obj of jsonObj) {
       console.log('detectChanges - key: ', obj.key);
-      if (obj.key === 'gnssReceivers' || obj.key === 'gnssAntennas' || obj.key === 'humiditySensors') {
+      if (obj.key === 'gnssReceivers' || obj.key === 'gnssAntennas' || obj.key === 'humiditySensors' || obj.key === 'frequencyStandards') {
         for (let o1 of obj.changes) {
           for (let o2 of o1.changes) {
             newJsonObj.push(o2);
@@ -391,7 +391,7 @@ export class JsonDiffService {
     let endDate: any;
     let dateStr: string = '';
 
-    // console.log('addDateString - obj: '+obj.TYPE_NAME+', key: '+key);
+    // console.log('addDateString - key: '+key+', obj:', obj);
 
     if (obj.gnssReceiver) {
       obj1 = obj.gnssReceiver;
@@ -403,6 +403,10 @@ export class JsonDiffService {
       endDate = this.getDate(obj1, 'dateInstalledRemoved', 'end');
     } else if (obj.humiditySensor) {
       obj1 = obj.humiditySensor;
+      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
+      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
+    } else if (obj.frequencyStandard) {
+      obj1 = obj.frequencyStandard;
       startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
       endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
     } else {
