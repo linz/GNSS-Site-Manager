@@ -331,13 +331,19 @@
           </div>
         </div>
         <gnss-frequency-standard [status]="status"
-                                 [frequencyStandards]="frequencyStandards"
-                                 [siteLogModel]="siteLogModel"
-                                 [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
-        <gnss-humidity-sensor [status]="status"
-                              [humiditySensors]="humiditySensors"
-                              [siteLogModel]="siteLogModel"
-                              [siteLogOrigin]="siteLogOrigin"></gnss-humidity-sensor>
+                            [frequencyStandards]="frequencyStandards"
+                            [siteLogModel]="siteLogModel"
+                            [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
+        <gnss-episodic-effect [status]="status"
+                             [episodicEffects]="episodicEffects"
+                             [siteLogModel]="siteLogModel"
+                             [siteLogOrigin]="siteLogOrigin"></gnss-episodic-effect>
+        <!--<gnss-humidity-sensor [status]="status"-->
+                              <!--[humiditySensors]="humiditySensors"-->
+                              <!--[siteLogModel]="siteLogModel"-->
+                              <!--[siteLogOrigin]="siteLogOrigin"></gnss-humidity-sensor>-->
+        <gnss-humidity-sensors-group [siteLogModel]="siteLogModel"
+                                     [originalSiteLogModel]="siteLogOrigin"></gnss-humidity-sensors-group>
         <gnss-pressure-sensor [status]="status"
                               [pressureSensors]="pressureSensors"
                               [siteLogModel]="siteLogModel"
@@ -349,11 +355,7 @@
         <gnss-water-vapor-sensor [status]="status"
                               [waterVaporSensors]="waterVaporSensors"
                               [siteLogModel]="siteLogModel"
-                              [siteLogOrigin]="siteLogOrigin"></gnss-water-vapor-sensor>        
-        <gnss-episodic-effect [status]="status"
-                              [episodicEffects]="episodicEffects"
-                              [siteLogModel]="siteLogModel"
-                              [siteLogOrigin]="siteLogOrigin"></gnss-episodic-effect>
+                              [siteLogOrigin]="siteLogOrigin"></gnss-water-vapor-sensor>
       </div>
     </form>
   </div>

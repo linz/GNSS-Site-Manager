@@ -1,0 +1,34 @@
+<div class="panel panel-level-1">
+    <div class="panel-heading">
+        <span class="panel-title cursor-ptr" (click)="isGroupOpen = !isGroupOpen">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isGroupOpen, 'glyphicon-plus-sign': !isGroupOpen}">
+            </i>
+            Humidity Sensors
+        </span>
+        <span class="pull-right">
+            <button class="btn btn-similar btn-xs" title="Add a new humidity sensor as current one"
+                    [disabled]="hasGroupANewItem" (click)="addNew()">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+            New Humidity Sensor
+            </button>
+        </span>
+    </div>
+    <div class="panel-body" *ngIf="isGroupOpen">
+        <div *ngIf="humiditySensors == null || humiditySensors.length == 0 ">
+            No information available for Humidity Sensors
+        </div>
+        <div *ngFor="let humiditySensor of humiditySensors; let i = index">
+            <!-- [geodesyEvent] - send event to child components -->
+            <!-- (open/close Above/Below Event) - receive events from child components -->
+            <!-- (returnEvents) - single point to call events on parent -->
+            <gnss-humidity-sensor-item [theHumiditySensor]="humiditySensor"
+                                       [index]="i"
+                                       [total]="humiditySensors.length"
+                                       [geodesyEvent]="geodesyEvent"
+                                       (returnEvents)="returnEvents($event)"></gnss-humidity-sensor-item>
+
+            <!--(openBelowEvent)="openBelowEvent($event)"-->
+        </div>
+    </div>
+</div>
