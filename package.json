@@ -16,6 +16,7 @@
     "build.test.watch": "gulp test.watch --color",
     "deploy.dev": "aws --profile geodesy s3 sync dist/prod s3://gnss-site-manager --acl public-read",
     "deploy.test": "aws --profile geodesy s3 sync dist/prod s3://test-gnss-site-manager --acl public-read",
+    "deploy.uat": "aws --profile geodesy s3 sync dist/prod s3://uat-gnss-site-manager --acl public-read",
     "generate.manifest": "gulp generate.manifest --color",
     "e2e": "protractor",
     "e2e.live": "protractor --elementExplorer",
