@@ -4,9 +4,128 @@ import { MockBackend } from '@angular/http/testing';
 
 import { JsonDiffService } from './json-diff.service';
 import { HttpUtilsService } from './http-utils.service';
+import { MiscUtilsService } from './misc-utils.service';
 
 // TODO - fix the tests in here (not quite right - most are commented out)
 export function main() {
+  describe('Json Merge Service', () => {
+    let jsonDiffService: JsonDiffService;
+    let receiverFull: any = {
+      receiverType: {
+        value: ''
+      },
+      manufacturerSerialNumber: '',
+      serialNumber: '',
+      firmwareVersion: '',
+      satelliteSystem: [
+        {
+          codeListValue: '',
+          value: ''
+        }
+      ],
+      elevationCutoffSetting: '',
+      temperatureStabilization: '',
+      dateInstalled: {
+        value: ['']
+      },
+      dateRemoved: {
+        value: ['']
+      },
+      notes: ''
+    };
+
+    let receiver: any = {
+      manufacturerSerialNumber: 'be234',
+      firmwareVersion: 'v1.2.3',
+      satelliteSystem: [],
+      elevationCutoffSetting: 5,
+      temperatureStabilization: 'abc',
+      dateInstalled: {},
+      dateRemoved: {
+        value: ['2016-01-01T12:34:65.000Z']
+      },
+      notes: 'Testing'
+    };
+
+    let frequencyStdFull: any = {
+      standardType: {
+        value: ''
+      },
+      inputFrequency: '',
+      validTime: {
+        abstractTimePrimitive: {
+          'gml:TimePeriod': {
+            beginPosition: {
+              value: ['']
+            },
+            endPosition: {
+              value: ['']
+            }
+          }
+        }
+      },
+      notes: ''
+    };
+
+    let frequencyStd: any = {
+      standardType: {
+        value: 'INTERNAL'
+      },
+      inputFrequency: 2,
+      validTime: {
+        abstractTimePrimitive: {
+          'gml:TimePeriod': {
+            beginPosition: {
+              value: ['2016-01-01T12:34:65.000Z']
+            }
+          }
+        }
+      }
+    };
+
+    beforeEach(() => {
+      let injector = ReflectiveInjector.resolveAndCreate([
+        JsonDiffService,
+        HttpUtilsService,
+        MiscUtilsService,
+        BaseRequestOptions,
+        MockBackend,
+        {
+          provide: Http,
+          useFactory: function (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) {
+            return new Http(backend, defaultOptions);
+          },
+          deps: [MockBackend, BaseRequestOptions]
+        },
+      ]);
+      jsonDiffService = injector.get(JsonDiffService);
+    });
+
+    it('should be defined', () => {
+      expect(JsonDiffService).not.toBeUndefined();
+    });
+
+    it('should have a new Receiver object with all missing paths added', () => {
+      jsonDiffService.merge(receiver, receiverFull);
+      expect(receiver).toBeDefined();
+      console.log('Merge Receiver Json objects: ', receiver);
+      expect(receiver.receiverType.value).toEqual('');
+      expect(receiver.serialNumber).toEqual('');
+      expect(receiver.dateInstalled.value.length).toEqual(1);
+      expect(receiver.satelliteSystem[0].value).toEqual('');
+    });
+
+    it('should have a new Frequency Standard object with all missing paths added', () => {
+      jsonDiffService.merge(frequencyStd, frequencyStdFull);
+      expect(frequencyStd).toBeDefined();
+      console.log('Merge Frequency Standard  Json objects: ', frequencyStd);
+      expect(frequencyStd.standardType.value).toEqual('INTERNAL');
+      expect(frequencyStd.notes).toEqual('');
+      expect(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]).toEqual('2016-01-01T12:34:65.000Z');
+      expect(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length).toEqual(1);
+    });
+  });
+
   describe('Json Diff Service', () => {
     let jsonDiffService: JsonDiffService;
     let humiditySensor_old = {
@@ -386,6 +505,7 @@ export function main() {
       let injector = ReflectiveInjector.resolveAndCreate([
         JsonDiffService,
         HttpUtilsService,
+        MiscUtilsService,
         BaseRequestOptions,
         MockBackend,
         {

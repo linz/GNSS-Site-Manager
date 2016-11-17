@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpUtilsService } from './http-utils.service';
+import { MiscUtilsService } from './misc-utils.service';
 
 @Injectable()
 export class JsonDiffService {
@@ -10,12 +11,45 @@ export class JsonDiffService {
   private UPDATE: string = 'Update';
   private attrMappingJson: any = {};
 
-  constructor(private httpService: HttpUtilsService) {
+  constructor(private httpService: HttpUtilsService, private utilsService: MiscUtilsService) {
     // Load the XML attribute name mapping JSON object from assets
     this.httpService.loadJsonObject(this.xmlAttrMappingFile).subscribe(
       json => this.attrMappingJson = json,
       error => console.log('Error in loading Json file: ' + error)
     );
+  }
+
+  /**
+   *
+   */
+  public merge(json1: any, json2: any): any {
+    let objType1: any = this.getTypeOfObj(json1);
+    let objType2: any = this.getTypeOfObj(json2);
+    if (objType2 === 'Object') {
+      for (let attrName in json2) {
+        if (json1.hasOwnProperty(attrName)) {
+          this.merge(json1[attrName], json2[attrName]);
+        } else {
+          json1[attrName] = this.utilsService.cloneJsonObj(json2[attrName]);
+        }
+      }
+    } else if (objType2 === 'Array' && json2.length > 0) {
+      if (objType1 !== 'Array') {
+        json1 = [];
+      }
+
+      if (json1.length === 0) {
+        json1.push(this.utilsService.cloneJsonObj(json2[0]));
+      } else {
+        for (let i in json2) {
+          if (json1.length <= i) {
+            json1.push(this.utilsService.cloneJsonObj(json2[i]));
+          } else {
+            this.merge(json1[i], json2[i]);
+          }
+        }
+      }
+    }
   }
 
   public getJsonDiffHtml(oldJson: any , newJson: any): string {
