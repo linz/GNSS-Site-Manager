@@ -10,6 +10,7 @@ import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService } from
   selector: 'sd-site-info',
   templateUrl: 'site-info.component.html'
 })
+
 export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteId: string;
   private isLoading: boolean = false;
@@ -22,6 +23,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private receivers: Array<any> = [];
   private antennas: Array<any> = [];
   private frequencyStandards: Array<any> = [];
+  private episodicEffects: Array<any> = [];
   private humiditySensors: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
@@ -38,10 +40,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isAntennaGroupOpen: false,
     isAntennasOpen: [],
     isFrequencyStdGroupOpen: false,
+    isEpisodicEffectGroupOpen: false,
     isFrequencyStdsOpen: [],
+    isEpisodicEffectOpen: [],
     hasNewAntenna: false,
     hasNewReceiver: false,
     hasNewFrequencyStd: false,
+    hasNewEpisodicEffect: false,
     isHumiditySensorsGroupOpen: false,
     isHumiditySensorsOpen: [],
     hasNewHumiditySensor: false,
@@ -79,6 +84,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       gnssReceivers: [],
       gnssAntennas: [],
       frequencyStandards: [],
+      localEpisodicEventsSet: [],
       humiditySensors: []
     };
 
@@ -86,6 +92,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       gnssReceivers: [],
       gnssAntennas: [],
       frequencyStandards: [],
+      localEpisodicEventsSet: [],
       humiditySensors: []
     };
 
@@ -106,12 +113,15 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.hasNewAntenna = false;
     this.status.hasNewReceiver = false;
     this.status.hasNewFrequencyStd = false;
+    this.status.hasNewEpisodicEffect = false;
     this.status.isReceiversOpen.length = 0;
     this.status.isAntennasOpen.length = 0;
     this.status.isFrequencyStdsOpen.length = 0;
+    this.status.isEpisodicEffectOpen.length = 0;
     this.receivers.length = 0;
     this.antennas.length = 0;
     this.frequencyStandards.length = 0;
+    this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
@@ -173,6 +183,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
+          this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.setHumiditySensors(this.siteLogModel.humiditySensors);
           this.backupSiteLogJson();
           this.isLoading =  false;
@@ -185,6 +196,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             gnssReceivers: [],
             gnssAntennas: [],
             frequencyStandards: [],
+            localEpisodicEventsSet: [],
             humiditySensors: []
           };
           this.dialogService.showErrorMessage('No site log info found for '+this.siteId);
@@ -207,6 +219,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.receivers.length = 0;
     this.antennas.length = 0;
     this.frequencyStandards.length = 0;
+    this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
     this.errorMessage = '';
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
@@ -311,6 +324,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     let that: any = this;
+
     this.dialogService.confirmSaveDialog(diffMsg,
       function() {
         that.isLoading = true;
@@ -319,6 +333,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewReceiver = false;
         that.status.hasNewFrequencyStd = false;
         that.status.hasNewHumiditySensor = false;
+        that.status.hasNewEpisodicEffect = false;
         let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
         that.siteLogService.saveSiteLog(siteLogJson).subscribe(
           (responseJson: any) => {
@@ -452,6 +467,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isAntennasOpen.unshift(true);
   }
 
+
   /**
    * Set current and previous frequency standards, and their show/hide flags
    */
@@ -499,6 +515,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.frequencyStandards.unshift(currentFrequencyStd);
     this.status.isFrequencyStdsOpen.unshift(true);
   }
+
 
   /**
    * Set current and previous humidity sensors, and their show/hide flags
@@ -550,6 +567,68 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isHumiditySensorsOpen.pop();
     this.status.isHumiditySensorsOpen.unshift(true);
   }
+
+
+  /**
+   * Set current and previous episodic effects, and their show/hide flags
+   */
+  private setEpisodicEffects(episodicEffectSet: any) {
+    if (!episodicEffectSet) { /* an empty set*/
+      this.episodicEffects = [];
+      return;
+    }
+
+    this.status.isEpisodicEffectOpen = [];
+    let currentEpisodicEffect: any = null;
+    for (let episodicEffectWrapper of episodicEffectSet) {
+      let episodicEffect = episodicEffectWrapper.localEpisodicEvents;
+      if (!episodicEffect.validTime) {
+        episodicEffect.validTime = {};
+      }
+      if (!episodicEffect.validTime.abstractTimePrimitive) {
+        episodicEffect.validTime.abstractTimePrimitive = {
+          'gml:TimePeriod': {
+            beginPosition: {
+              value: ['']
+            },
+            endPosition: {
+              value: ['']
+            }
+          }
+        };
+      }
+
+      let endDate: string =
+        (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition &&
+         (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0)) ?
+         episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;
+
+      if (!endDate) {
+        episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {value: ['']};
+      ////  currentEpisodicEffect = episodicEffect;
+      }
+
+      let startDate: string =
+        (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition &&
+         (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length > 0)) ?
+         episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] : null;
+
+      if (!startDate) {
+        episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = {value: ['']};
+      }
+
+      this.episodicEffects.push(episodicEffect);
+      this.status.isEpisodicEffectOpen.push(false);
+    }
+
+    // Sort by effective start dates for all previous episodic effects
+    this.episodicEffects.sort(this.compareEffectiveStartDates);
+
+    // Current episodic effect (even null) are the first item in the arrays and open by default
+    ////this.episodicEffects.unshift(currentEpisodicEffect);
+    this.status.isEpisodicEffectOpen.unshift(true);
+  }
+
 
   /**
    * Sort receivers/antennas based on their Date_Installed values in ascending order
