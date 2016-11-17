@@ -579,7 +579,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     this.status.isEpisodicEffectOpen = [];
-    let currentEpisodicEffect: any = null;
     for (let episodicEffectWrapper of episodicEffectSet) {
       let episodicEffect = episodicEffectWrapper.localEpisodicEvents;
       if (!episodicEffect.validTime) {
@@ -605,7 +604,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
       if (!endDate) {
         episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {value: ['']};
-      ////  currentEpisodicEffect = episodicEffect;
       }
 
       let startDate: string =
@@ -625,7 +623,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.episodicEffects.sort(this.compareEffectiveStartDates);
 
     // Current episodic effect (even null) are the first item in the arrays and open by default
-    ////this.episodicEffects.unshift(currentEpisodicEffect);
     this.status.isEpisodicEffectOpen.unshift(true);
   }
 

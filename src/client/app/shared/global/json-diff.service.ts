@@ -78,7 +78,7 @@ export class JsonDiffService {
       console.log('detectChanges - key: ', obj.key);
       if (obj.key === 'gnssReceivers' ||
           obj.key === 'gnssAntennas' ||
-          obj.key === 'humiditySensors' || 
+          obj.key === 'humiditySensors' ||
           obj.key === 'localEpisodicEventsSet' ||
           obj.key === 'frequencyStandards') {
         for (let o1 of obj.changes) {
