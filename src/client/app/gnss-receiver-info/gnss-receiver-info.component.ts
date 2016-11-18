@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { MiscUtilsService, ServiceWorkerService } from '../shared/index';
+import { MiscUtilsService, JsonCheckService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -20,7 +20,9 @@ export class GnssReceiverInfoComponent implements OnInit {
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService, private serviceWorkerService: ServiceWorkerService) { }
+  constructor(private miscUtilsService: MiscUtilsService,
+              private jsonCheckService: JsonCheckService,
+              private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -114,29 +116,7 @@ export class GnssReceiverInfoComponent implements OnInit {
     }
 
     // Create a new empty receiver with present date/time as default value to dateInstalled
-    let newReceiver = {
-      receiverType: {
-        value: ''
-      },
-      manufacturerSerialNumber: '',
-      serialNumber: '',
-      firmwareVersion: '',
-      satelliteSystem: [
-        {
-          codeListValue: '',
-          value: ''
-        }
-      ],
-      elevationCutoffSetting: '',
-      temperatureStabilization: '',
-      dateInstalled: {
-        value: ['']
-      },
-      dateRemoved: {
-        value: ['']
-      },
-      notes: ''
-    };
+    let newReceiver = this.jsonCheckService.getNewReceiver();
 
     // Clone from one of GNSS Receiver objects so that the "new" receiver object can be saved
     let receiverObj: any = {};

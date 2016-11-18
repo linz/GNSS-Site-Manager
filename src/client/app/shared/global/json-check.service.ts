@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { MiscUtilsService } from './misc-utils.service';
 
+/**
+ * This service class maintains the definitions of all GeodesyML elements for web UI, and provides methods to ensure
+ * the existence of all required parameters/paths in the input SiteLog JSON objects.
+ */
 @Injectable()
 export class JsonCheckService {
-  private metadataCustodian: any = {
-     ciResponsibleParty: {
-      contactInfo: {
-        ciContact: {
-          address: {
-            ciAddress: {
-              id: ''
-            }
-          }
-        }
-      }
-    }
-
+  private siteLog: any = {
+    siteIdentification: {},
+    siteLocation: {},
+    siteMetadataCustodian: {},
+    siteDataSource: {},
+    siteOwner: {},
+    siteContact: [],
+    gnssAntennas: [],
+    gnssReceivers: [],
+    frequencyStandards: [],
+    humiditySensors: [],
+    localEpisodicEventsSet: []
   };
 
   private siteContact: any = {
-    positionName: {
-      value: ''
-    },
     contactInfo: {
       ciContact: {
         address: {
@@ -32,40 +32,105 @@ export class JsonCheckService {
             electronicMailAddress: [{
               characterString: {'gco:CharacterString': ''}
             }]
-          },
-          phone: {
-            ciTelephone: {
-              voice: [{
-                characterString: {'gco:CharacterString': ''}
-              }]
-            }
+          }
+        },
+        contactInstructions: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        hoursOfService: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        onlineResource: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        phone: {
+          ciTelephone: {
+            voice: [{
+              characterString: {'gco:CharacterString': ''}
+            }]
           }
         }
       }
+    },
+    individualName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    organisationName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    positionName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    role: {
+      characterString: {'gco:CharacterString': ''}
     }
   };
 
-  private receiver: any = {
-    receiverType: {
-      value: ''
+  private metadataCustodian: any = {
+    contactInfo: {
+      ciContact: {
+        address: {
+          ciAddress: { id: '' }
+        },
+        contactInstructions: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        hoursOfService: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        onlineResource: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        phone: {
+          ciTelephone: {
+            voice: [{
+              characterString: {'gco:CharacterString': ''}
+            }]
+          }
+        }
+      }
     },
+    individualName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    organisationName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    positionName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    role: {
+      characterString: {'gco:CharacterString': ''}
+    }
+  };
+
+  private siteLocation: any = {
+    approximatePositionITRF: {
+      elevationMEllips: '',
+      xCoordinateInMeters: '',
+      yCoordinateInMeters: '',
+      zCoordinateInMeters: ''
+    },
+    city: '',
+    state: '',
+    countryCodeISO: '',
+    notes: '',
+    tectonicPlate: { value: '' }
+  };
+
+  private receiver: any = {
+    receiverType: { value: '' },
     manufacturerSerialNumber: '',
     serialNumber: '',
     firmwareVersion: '',
-    satelliteSystem: [
-      {
-        codeListValue: '',
-        value: ''
-      }
-    ],
+    satelliteSystem: [{
+      codeListValue: '',
+      value: ''
+    }],
     elevationCutoffSetting: '',
     temperatureStabilization: '',
-    dateInstalled: {
-      value: ['']
-    },
-    dateRemoved: {
-      value: ['']
-    },
+    dateInstalled: { value: [''] },
+    dateRemoved: { value: [''] },
     notes: ''
   };
 
@@ -75,42 +140,28 @@ export class JsonCheckService {
       value: ''
     },
     serialNumber: '',
-    antennaReferencePoint: {
-      value: ''
-    },
+    antennaReferencePoint: { value: '' },
     markerArpUpEcc: '',
     markerArpNorthEcc: '',
     markerArpEastEcc: '',
     alignmentFromTrueNorth: '',
-    antennaRadomeType: {
-      value: ''
-    },
+    antennaRadomeType: { value: '' },
     radomeSerialNumber: '',
     antennaCableType: '',
     antennaCableLength: '',
-    dateInstalled: {
-      value: ['']
-    },
-    dateRemoved: {
-      value: ['']
-    },
+    dateInstalled: { value: [''] },
+    dateRemoved: { value: [''] },
     notes: ''
   };
 
   private frequencyStandard: any = {
-    standardType: {
-      value: ''
-    },
+    standardType: { value: '' },
     inputFrequency: '',
     validTime: {
       abstractTimePrimitive: {
         'gml:TimePeriod': {
-          beginPosition: {
-            value: ['']
-          },
-          endPosition: {
-            value: ['']
-          }
+          beginPosition: { value: [''] },
+          endPosition: { value: [''] }
         }
       }
     },
@@ -125,18 +176,12 @@ export class JsonCheckService {
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
-    calibrationDate: {
-      value: ['']
-    },
+    calibrationDate: { value: [''] },
     validTime: {
       abstractTimePrimitive: {
         'gml:TimePeriod': {
-          beginPosition: {
-            value: ['']
-          },
-          endPosition: {
-            value: ['']
-          }
+          beginPosition: { value: [''] },
+          endPosition: { value: [''] }
         }
       }
     }
@@ -147,12 +192,8 @@ export class JsonCheckService {
     validTime: {
       abstractTimePrimitive: {
         'gml:TimePeriod': {
-          beginPosition: {
-            value: ['']
-          },
-          endPosition: {
-            value: ['']
-          }
+          beginPosition: { value: [''] },
+          endPosition: { value: [''] }
         }
       }
     }
@@ -160,56 +201,77 @@ export class JsonCheckService {
 
   constructor(private utilsService: MiscUtilsService) {}
 
-  public checkMetadataCustodian(json: any): void {
-    this.merge(json, this.metadataCustodian);
+  public getValidSiteLog(json: any): any {
+    this.merge(json, this.siteLog);
+    return json;
   }
 
-  public getNewMetadataCustodian(): any {
-    return this.metadataCustodian;
-  }
-
-  public checkSiteContact(json: any): void {
+  public getValidSiteContact(json: any): any {
     this.merge(json, this.siteContact);
+    return json;
   }
 
   public getNewSiteContact(): any {
     return this.siteContact;
   }
 
-  public checkReceiver(json: any): void {
+  public getValidSiteLocation(json: any): any {
+    this.merge(json, this.siteLocation);
+    return json;
+  }
+
+  public getNewSiteLocation(): any {
+    return this.siteLocation;
+  }
+
+  public getValidMetadataCustodian(json: any): any {
+    this.merge(json, this.metadataCustodian);
+    return json;
+  }
+
+  public getNewMetadataCustodian(): any {
+    return this.metadataCustodian;
+  }
+
+  public getValidReceiver(json: any): any {
     this.merge(json, this.receiver);
+    return json;
   }
 
   public getNewReceiver(): any {
     return this.receiver;
   }
 
-  public checkAntenna(json: any): void {
+  public getValidAntenna(json: any): any {
     this.merge(json, this.antenna);
+    return json;
   }
 
   public getNewAntenna(): any {
     return this.antenna;
   }
 
-  public checkFrequencyStandard(json: any): void {
+  public getValidFrequencyStandard(json: any): any {
     this.merge(json, this.frequencyStandard);
+    return json;
   }
 
   public getNewFrequencyStandard(): any {
     return this.frequencyStandard;
   }
 
-  public checkHumiditySensor(json: any): void {
+  public getValidHumiditySensor(json: any): any {
     this.merge(json, this.humiditySensor);
+    return json;
   }
 
   public getNewHumiditySensor(): any {
     return this.humiditySensor;
   }
 
-  public checkEpisodicEffect(json: any): void {
+  public getValidEpisodicEffect(json: any): any {
     this.merge(json, this.episodicEffect);
+    return json;
   }
 
   public getNewEpisodicEffect(): any {
@@ -220,9 +282,12 @@ export class JsonCheckService {
    * Merge two JSON objects by copying any missing paths from json2 to json1
    *
    * @param json1: a JSON object with valid values, but some of its mandatory paths/fields may be missing
-   * @param json2: a JSON object contains all mandatory paths/fields for UI,  but with null/empty values
+   * @param json2: a JSON object contains all mandatory paths/fields for UI, but with null/empty values
    */
   public merge(json1: any, json2: any): void {
+    if (!json1) {
+      return;
+    }
     let objType1: any = this.utilsService.getObjectType(json1);
     let objType2: any = this.utilsService.getObjectType(json2);
     if (objType2 === 'Object') {

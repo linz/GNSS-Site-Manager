@@ -1,6 +1,6 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, MiscUtilsService,
-          JsonDiffService, NameListService, ServiceWorkerService, JsonixService } from './shared/index';
+          JsonDiffService, JsonCheckService, NameListService, ServiceWorkerService, JsonixService } from './shared/index';
 import { SiteInfoComponent } from './site-info/site-info.component';
 
 /**
@@ -21,6 +21,7 @@ import { SiteInfoComponent } from './site-info/site-info.component';
     SiteLogService,
     SiteInfoComponent,
     JsonDiffService,
+    JsonCheckService,
   ],
   templateUrl: 'app.component.html',
 })

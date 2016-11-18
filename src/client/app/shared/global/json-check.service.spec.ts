@@ -9,7 +9,7 @@ export function main() {
   describe('Test Json-Check Service ...', () => {
     let jsonCheckService: JsonCheckService;
 
-    let receiver: any = {
+    let receiverMissing: any = {
       manufacturerSerialNumber: 'be234',
       firmwareVersion: 'v1.2.3',
       satelliteSystem: [],
@@ -22,7 +22,9 @@ export function main() {
       notes: 'Testing'
     };
 
-    let frequencyStd: any = {
+    let antennaEmpty: any = {};
+
+    let frequencyStdMissing: any = {
       standardType: {
         value: 'INTERNAL'
       },
@@ -60,22 +62,33 @@ export function main() {
     });
 
     fit('should have a new Receiver object with all missing paths added', () => {
-      jsonCheckService.checkReceiver(receiver);
+      let receiver: any = jsonCheckService.getValidReceiver(receiverMissing);
       expect(receiver).toBeDefined();
-      console.log('Merge Receiver Json objects: ', receiver);
+      console.log('Merge Receiver json objects: ', receiver);
       expect(receiver.receiverType.value).toEqual('');
       expect(receiver.serialNumber).toEqual('');
       expect(receiver.dateInstalled.value.length).toEqual(1);
       expect(receiver.satelliteSystem[0].value).toEqual('');
     });
 
-    fit('should have a new Frequency Standard object with all missing paths added', () => {
-      jsonCheckService.checkFrequencyStandard(frequencyStd);
+    fit('should have a new Antenna object with all missing paths added', () => {
+      let antenna: any = jsonCheckService.getValidAntenna(antennaEmpty);
+      expect(antenna).toBeDefined();
+      console.log('Merge Antenna json objects: ', antenna);
+      expect(antenna.antennaType.value).toEqual('');
+      expect(antenna.serialNumber).toEqual('');
+      expect(antenna.dateInstalled.value.length).toEqual(1);
+      expect(antenna.antennaReferencePoint.value).toEqual('');
+    });
+
+    fit('should have a new Frequency-Standard object with all missing paths added', () => {
+      let frequencyStd: any = jsonCheckService.getValidFrequencyStandard(frequencyStdMissing);
       expect(frequencyStd).toBeDefined();
-      console.log('Merge Frequency Standard  Json objects: ', frequencyStd);
+      console.log('Merge Frequency-Standard json objects: ', frequencyStd);
       expect(frequencyStd.standardType.value).toEqual('INTERNAL');
       expect(frequencyStd.notes).toEqual('');
-      expect(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]).toEqual('2016-01-01T12:34:65.000Z');
+      expect(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod']
+                          .beginPosition.value[0]).toEqual('2016-01-01T12:34:65.000Z');
       expect(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length).toEqual(1);
     });
   });
