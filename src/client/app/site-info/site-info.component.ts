@@ -143,12 +143,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.setHumiditySensors(this.siteLogModel.humiditySensors);
           this.backupSiteLogJson();
-          this.isLoading =  false;
-          this.dialogService.showSuccessMessage('Site log info loaded successfully for '+ this.siteId);
+          this.isLoading = false;
+          this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
         },
         (error: Error) =>  {
           this.errorMessage = <any>error;
-          this.isLoading =  false;
+          this.isLoading = false;
           this.siteLogModel = {
             gnssReceivers: [],
             gnssAntennas: [],
@@ -156,7 +156,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             localEpisodicEventsSet: [],
             humiditySensors: []
           };
-          this.dialogService.showErrorMessage('No site log info found for '+this.siteId);
+          this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
         }
       );
     });
@@ -392,7 +392,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isAntennasOpen.unshift(true);
   }
 
-
   /**
    * Set current and previous frequency standards, and their show/hide flags
    */
@@ -416,7 +415,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isFrequencyStdsOpen.unshift(true);
   }
 
-
   /**
    * Set current and previous humidity sensors, and their show/hide flags
    */
@@ -424,7 +422,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isHumiditySensorsOpen = [];
     let currentHumiditySensor: any = null;
     for (let humiditySensorObj of humiditySensorsLocal) {
-      currentHumiditySensor = humiditySensorObj.humiditySensor;
+      currentHumiditySensor = this.jsonCheckService.getValidHumiditySensor(humiditySensorObj.humiditySensor);
       this.humiditySensors.push(currentHumiditySensor);
       this.status.isHumiditySensorsOpen.push(false);
     }
@@ -435,53 +433,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isHumiditySensorsOpen.unshift(true);
   }
 
-
   /**
    * Set current and previous episodic effects, and their show/hide flags
    */
   private setEpisodicEffects(episodicEffectSet: any) {
-    if (!episodicEffectSet) { /* an empty set*/
-      this.episodicEffects = [];
-      return;
-    }
-
     this.status.isEpisodicEffectOpen = [];
     for (let episodicEffectWrapper of episodicEffectSet) {
-      let episodicEffect = episodicEffectWrapper.localEpisodicEvents;
-      if (!episodicEffect.validTime) {
-        episodicEffect.validTime = {};
-      }
-      if (!episodicEffect.validTime.abstractTimePrimitive) {
-        episodicEffect.validTime.abstractTimePrimitive = {
-          'gml:TimePeriod': {
-            beginPosition: {
-              value: ['']
-            },
-            endPosition: {
-              value: ['']
-            }
-          }
-        };
-      }
-
-      let endDate: string =
-        (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition &&
-         (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0)) ?
-         episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;
-
-      if (!endDate) {
-        episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {value: ['']};
-      }
-
-      let startDate: string =
-        (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition &&
-         (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length > 0)) ?
-         episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] : null;
-
-      if (!startDate) {
-        episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = {value: ['']};
-      }
-
+      let episodicEffect = this.jsonCheckService.getValidEpisodicEffect(episodicEffectWrapper.localEpisodicEvents);
       this.episodicEffects.push(episodicEffect);
       this.status.isEpisodicEffectOpen.push(false);
     }
@@ -489,30 +447,21 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Sort by effective start dates for all previous episodic effects
     this.episodicEffects.sort(this.compareEffectiveStartDates);
 
-    // Current episodic effect (even null) are the first item in the arrays and open by default
-    this.status.isEpisodicEffectOpen.unshift(true);
+    // The first episodic effect after sorting is the current one and should be open by default
+    if (this.status.isEpisodicEffectOpen.length > 0) {
+      this.status.isEpisodicEffectOpen[0] = true;
+    }
   }
-
 
   /**
    * Sort receivers/antennas based on their Date_Installed values in ascending order
    */
   private compareDateInstalled(obj1: any, obj2: any) {
-    if (obj1 === null || obj1.dateInstalled === null
-        || obj1.dateInstalled.value === null
-        || obj1.dateInstalled.value.length === 0) {
+    if (obj1 === null || obj2 === null) {
       return 0;
-    }
-    if (obj2 === null || obj2.dateInstalled === null
-        || obj2.dateInstalled.value === null
-        || obj2.dateInstalled.value.length === 0) {
-      return 0;
-    }
-
-    if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
+    } else if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
       return 1;
-    }
-    if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
+    } else if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
       return -1;
     }
     return 0;
@@ -522,22 +471,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Sort frequency standards and sensors based on their effective start dates in ascending order
    */
   private compareEffectiveStartDates(obj1: any, obj2: any) {
-    if (obj1 === null || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
-      || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
-      || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
+    if (obj1 === null || obj2 === null ) {
       return 0;
-    }
-    if (obj2 === null || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
-      || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
-      || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
-      return 0;
-    }
-
-    if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
+    } else if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
       < obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) {
       return 1;
-    }
-    if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
+    }else if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
       > obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) {
       return -1;
     }
