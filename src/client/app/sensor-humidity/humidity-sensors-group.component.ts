@@ -2,6 +2,10 @@ import { Component, Input } from '@angular/core';
 import { MiscUtilsService } from '../shared/index';
 import { SensorsGroupBase } from './SensorsGroupBase';
 import { GeodesyEvent, EventNames } from './Event';
+import {
+  HumiditySensor, AbstractTimePrimitive, ValidTime, TimePeriod, BeginPosition,
+  EndPosition, HumiditySensorContainer, ValidTime2
+} from './HumiditySensor';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -12,12 +16,8 @@ import { GeodesyEvent, EventNames } from './Event';
   templateUrl: 'humidity-sensors-group.component.html',
 })
 export class HumiditySensorsGroupComponent extends SensorsGroupBase {
-  constructor(private miscUtilsService: MiscUtilsService) {
-    super();
-  }
-
-  private humiditySensors: any;
-  private humiditySensorsOriginal: any;
+  private humiditySensors: HumiditySensor[];
+  private humiditySensorsOriginal: HumiditySensor[];
 
   /**
    * Event mechanism to communicate with children.  Simply change the value of this.
@@ -39,11 +39,15 @@ export class HumiditySensorsGroupComponent extends SensorsGroupBase {
     console.log('humiditySensorsOriginal: ', this.humiditySensorsOriginal);
   }
 
+  constructor(private miscUtilsService: MiscUtilsService) {
+    super();
+  }
+
   getItemsCollection(): any {
     return this.humiditySensors;
   }
 
-  setItemsCollection(passedHumiditySensors: any) {
+  setItemsCollection(passedHumiditySensors: HumiditySensor[]) {
     this.humiditySensors = passedHumiditySensors;
   }
 
@@ -70,6 +74,73 @@ export class HumiditySensorsGroupComponent extends SensorsGroupBase {
    */
 
   /**
+   * Use this on existing humitySensors to populate missing fields or on new to fully define it.
+   *
+   * @param hs - humiditySensor
+   */
+  private makeExist(hs: HumiditySensor) {
+    if (!hs.validTime) {
+      let validTime: ValidTime = <ValidTime>{};
+      hs.validTime = validTime;
+    }
+    if (!hs.validTime.abstractTimePrimitive) {
+      let abstractTimePrimitive: AbstractTimePrimitive = <AbstractTimePrimitive>{};
+      hs.validTime.abstractTimePrimitive = abstractTimePrimitive;
+    }
+    if (!hs.validTime.abstractTimePrimitive['gml:TimePeriod']) {
+      let timePeriod: TimePeriod = <TimePeriod>{};
+      hs.validTime.abstractTimePrimitive['gml:TimePeriod'] = timePeriod;
+    }
+    if (!hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition) {
+      let beginPosition: BeginPosition = <BeginPosition>{};
+      hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = beginPosition;
+    }
+    if (!hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value
+      || hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
+      hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value = [''];
+    }
+    if (!hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition) {
+      let endPosition: EndPosition = <EndPosition>{};
+      hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = endPosition;
+    }
+    if (!hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value
+      || hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length === 0) {
+      hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value = [''];
+    }
+
+    // Defined in equipment.xsd - hsType
+    if (!hs.dataSamplingInterval) {
+      hs.dataSamplingInterval = 0;
+    }
+    if (!hs.accuracyPercentRelativeHumidity) {
+      hs.accuracyPercentRelativeHumidity = 0;
+    }
+    if (!hs.aspiration) {
+      hs.aspiration = '';
+    }
+    if (!hs.notes) {
+      hs.notes = '';
+    }
+    // Defined in equipment.xsd - baseSensorEquipmentType
+    if (!hs.manufacturer) {
+      hs.manufacturer = '';
+    }
+    if (!hs.serialNumber) {
+      hs.serialNumber = '';
+    }
+    if (!hs.heightDiffToAntenna) {
+      hs.heightDiffToAntenna = 0;
+    }
+    if (!hs.calibrationDate) {
+      let validTime2: ValidTime2 = <ValidTime2>{};
+      hs.calibrationDate = validTime2;
+    }
+    if (!hs.calibrationDate.value || hs.calibrationDate.value.length === 0) {
+      hs.calibrationDate.value = [''];
+    }
+  }
+
+  /**
    * Make sure the loaded Humidity Sensors have all values including any default ones.
    *
    * @param humiditySensors
@@ -82,71 +153,57 @@ export class HumiditySensorsGroupComponent extends SensorsGroupBase {
     }
   }
 
-  /**
-   * Use this on existing humitySensors to populate missing fields or on new to fully define it.
-   *
-   * @param hs - humiditySensor
-   */
-  private makeExist(hs: any) {
-    (hs.validTime) || (hs.validTime = {});
-    (hs.validTime.abstractTimePrimitive) || (hs.validTime.abstractTimePrimitive = {});
-    (hs.validTime.abstractTimePrimitive['gml:TimePeriod'])
-    || (hs.validTime.abstractTimePrimitive['gml:TimePeriod'] = {});
-
-    (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition)
-    || (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = {});
-    ((hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value)
-    && (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length > 0))
-    || (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value = ['']);
-
-    (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition)
-    || (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {});
-    ((hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value)
-    && (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0))
-    || (hs.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value = ['']);
-
-    // Defined in equipment.xsd - hsType
-    (hs.dataSamplingInterval) || (hs.dataSamplingInterval = 0);
-    (hs.accuracyPercentRelativeHumidity) || (hs.accuracyPercentRelativeHumidity = 0);
-    (hs.aspiration) || (hs.aspiration = '');
-    (hs.notes) || (hs.notes = '');
-    // Defined in equipment.xsd - baseSensorEquipmentType
-    (hs.manufacturer) || (hs.manufacturer = '');
-    (hs.serialNumber) || (hs.serialNumber = '');
-    (hs.heightDiffToAntenna) || (hs.heightDiffToAntenna = 0);
-    (hs.calibrationDate) || (hs.calibrationDate = {});
-    ((hs.calibrationDate.value) && (hs.calibrationDate.value.length > 0)) || (hs.calibrationDate.value = ['']);
-  }
-
-  private makeContainerExist(c: any) {
-    (c.TYPE_NAME) || (c.TYPE_NAME = 'GEODESYML_0.3.HumiditySensorPropertyType');
-    (c.dateDeleted) || (c.dateDeleted = {});
-    (c.dateDeleted.TYPE_NAME) || (c.dateDeleted.TYPE_NAME = 'GML_3_2_1.TimePositionType');
-    (c.dateDeleted.value) || (c.dateDeleted.value = []);
-    (c.dateInserted) || (c.dateInserted = {});
-    (c.dateInserted.TYPE_NAME) || (c.dateInserted.TYPE_NAME = 'GML_3_2_1.TimePositionType');
-    (c.dateInserted.value) || (c.dateInserted.value = []);
-    (c.deletedReason) || (c.deletedReason = '');
-    (c.humiditySensor) || (c.humiditySensor = {});
+  private makeContainerExist(c: HumiditySensorContainer) {
+    if (!c.TYPE_NAME) {
+      c.TYPE_NAME = 'GEODESYML_0.3.HumiditySensorPropertyType';
+    }
+    if (!c.dateDeleted) {
+      let validTime2_1: ValidTime2 = <ValidTime2>{};
+      c.dateDeleted = validTime2_1;
+    }
+    if (!c.dateDeleted.TYPE_NAME) {
+      c.dateDeleted.TYPE_NAME = 'GML_3_2_1.TimePositionType';
+    }
+    if (!c.dateDeleted.value) {
+      c.dateDeleted.value = [''];
+    }
+    if (!c.dateInserted) {
+      let validTime2_2: ValidTime2 = <ValidTime2>{};
+      c.dateInserted = validTime2_2;
+    }
+    if (!c.dateInserted.TYPE_NAME) {
+      c.dateInserted.TYPE_NAME = 'GML_3_2_1.TimePositionType';
+    }
+    if (!c.dateInserted.value) {
+      c.dateInserted.value = [''];
+    }
+    if (!c.deletedReason) {
+      c.deletedReason = '';
+    }
+    if (!c.humiditySensor) {
+      let humiditySensor: HumiditySensor = <HumiditySensor>{};
+      c.humiditySensor = humiditySensor;
+    }
   }
 
   private newSensor(): any {
-    let newSensor: any = {};
+    let newSensor: HumiditySensor = <HumiditySensor>{};
     this.makeExist(newSensor);
     return newSensor;
   }
 
-  private newSensorContainer(theHumiditySensor: any): any {
-    let newSensorContainer = {};
+  private newSensorContainer(theHumiditySensor: HumiditySensor): HumiditySensorContainer {
+    let newSensorContainer: HumiditySensorContainer = <HumiditySensorContainer>{};
     this.makeContainerExist(newSensorContainer);
-    newSensorContainer['humiditySensor'] = theHumiditySensor;
+
+    newSensorContainer.humiditySensor = theHumiditySensor;
     return newSensorContainer;
   }
 
   /**
    * Add a new empty humidity sensors as current one and push the 'old' current humidity sensors into previous list
    */
-  public addNew() {
+  public addNew(): void {
     let presentDT = this.miscUtilsService.getPresentDateTime();
 
     if (!this.getItemsCollection()) {
@@ -155,7 +212,7 @@ export class HumiditySensorsGroupComponent extends SensorsGroupBase {
 
     // Assign present date/time as default value to dateRemoved if it is empty
     if (this.getItemsCollection().length > 0) {
-      let currentHumiditySensor: any = this.getItemsCollection()[0].humiditySensor;
+      let currentHumiditySensor: HumiditySensor = this.getItemsCollection()[0].humiditySensor;
       this.makeExist(currentHumiditySensor);
       if (!currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]
         || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] === '') {

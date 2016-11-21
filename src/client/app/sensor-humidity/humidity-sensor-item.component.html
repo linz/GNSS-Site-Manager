@@ -101,7 +101,6 @@
             </div>
             <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
-                <label>{{humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]}}</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <datetime-picker [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]" [name]=" 'effectiveDateEnd' "
                                      [required]="false"></datetime-picker>

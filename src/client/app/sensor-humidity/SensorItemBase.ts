@@ -4,7 +4,15 @@ import { EventEmitter, DoCheck  } from '@angular/core';
 export abstract class SensorItemBase implements DoCheck {
   protected isNew: boolean = false;
 
-  isOpen: boolean = true;
+  protected isOpen: boolean = true;
+
+  /**
+   * Keep a copy of the last GeodesyEvent so can detect when it has changed nad have a new event.
+   *
+   * @type {{name: EventNames}}
+   */
+  private lastGeodesyEvent: GeodesyEvent = {name: EventNames.none};
+
 
   /**
    * Get the (@Output) GeodesyEvent used to communicate from parent to child.
@@ -21,12 +29,6 @@ export abstract class SensorItemBase implements DoCheck {
    */
   abstract getReturnEvents(): EventEmitter<GeodesyEvent>;
 
-  /**
-   * Keep a copy of the last GeodesyEvent so can detect when it has changed nad have a new event.
-   * 
-   * @type {{name: EventNames}}
-   */
-  private lastGeodesyEvent: GeodesyEvent = {name: EventNames.none};
 
   /**
    * Angular doesn't detect changes in objects and need to perform the check with this lifecycle hook ourselves.
@@ -78,7 +80,7 @@ export abstract class SensorItemBase implements DoCheck {
       this.isOpen = true;
     }
   }
-  
+
   /**
    * Keep a lastGeodesyEvent so can see in ngDoCheck() if the event has changed
    */

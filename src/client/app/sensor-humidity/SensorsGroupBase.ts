@@ -5,7 +5,7 @@ export abstract class SensorsGroupBase {
 
   abstract getItemsCollection(): any;
 
-  abstract setItemsCollection(any): void;
+  abstract setItemsCollection(collection: any[]): void;
 
   abstract getItemsOriginalCollection(): any;
 
@@ -14,7 +14,7 @@ export abstract class SensorsGroupBase {
   /**
    * Add a new item
    */
-  abstract addNew();
+  abstract addNew(): void;
 
 
   /* **************************************************

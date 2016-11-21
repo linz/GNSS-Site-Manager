@@ -11,11 +11,7 @@ import { GeodesyEvent } from './Event';
   templateUrl: 'humidity-sensor-item.component.html',
 })
 export class HumiditySensorItemComponent extends SensorItemBase {
-  constructor(private miscUtilsService: MiscUtilsService) {
-    super();
-  }
-
-  /**
+   /**
    * Total number of humiditySensors
    */
   @Input() total: number;
@@ -26,7 +22,7 @@ export class HumiditySensorItemComponent extends SensorItemBase {
   /**
    * The HumiditySensor in question.
    */
-  humiditySensor: any;
+  protected humiditySensor: any;
 
   @Input()
   set theHumiditySensor(passedhumiditySensor: any) {
@@ -47,6 +43,10 @@ export class HumiditySensorItemComponent extends SensorItemBase {
    * @type {EventEmitter<boolean>}
    */
   @Output() returnEvents = new EventEmitter<GeodesyEvent>();
+
+  constructor(private miscUtilsService: MiscUtilsService) {
+    super();
+  }
 
   getGeodesyEvent(): GeodesyEvent {
     return this.geodesyEvent;
