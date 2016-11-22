@@ -104,20 +104,45 @@
             <div class="panel panel-level-2">
               <div class="panel-heading">
               <span class="panel-title cursor-ptr"
-                    (click)="status.isSiteContactOpen = miscUtilsService.scrollIntoView($event, status.isSiteContactOpen)">
+                    (click)="status.isSiteContactsOpen = miscUtilsService.scrollIntoView($event, status.isSiteContactsOpen)">
                 <i class="glyphicon"
-                   [ngClass]="{'glyphicon-minus-sign': status.isSiteContactOpen, 'glyphicon-plus-sign': !status.isSiteContactOpen}">
+                   [ngClass]="{'glyphicon-minus-sign': status.isSiteContactsOpen, 'glyphicon-plus-sign': !status.isSiteContactsOpen}">
                 </i>
                 Site Contact
               </span>
+              <span class="pull-right">
+                <button class="btn btn-primary btn-xs"
+                        title="Add a new site contact"
+                        [disabled]="status.hasNewSiteContact"
+                        (click)="addNewSiteContact(); miscUtilsService.showFullView($event);">
+                  <i class="glyphicon glyphicon-plus-sign"></i>
+                  New Site Contact
+                </button>
+              </span>
               </div>
-              <div class="panel-body" *ngIf="status.isSiteContactOpen">
+              <div class="panel-body" *ngIf="status.isSiteContactsOpen">
                 <div *ngIf="siteContacts == null || siteContacts.length == 0" class="margin-bottom15">
                   No information available for Site Contact
                 </div>
                 <div *ngFor="let siteContact of siteContacts; let i = index">
-                  <div *ngIf="siteContacts.length > 1" class="form-group">
-                    <label class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 control-label">Contact {{i+1}}</label>
+                  <div *ngIf="siteContacts.length > 1" class="form-group panel-subtitle">
+                    <label class="col-md-8 col-sm-8 col-xs-8 col-xxs-9">Contact {{i+1}}</label>
+                    <div class="col-md-4 col-sm-4 col-xs-4 col-xxs-3" *ngIf="i == 0 && status.hasNewSiteContact">
+                      <button class="btn btn-danger btn-rm pull-right"
+                              title="Remove the new Site Contact"
+                              (click)="removeNewSiteContact()">
+                        <i class="glyphicon glyphicon-remove"></i>
+                        <span class="hidden-xxs">Remove</span>
+                      </button>
+                    </div>
+                  </div>
+                  <div *ngIf="siteContacts.length == 1 && status.hasNewSiteContact" class="pull-right">
+                    <button class="btn btn-danger btn-rm"
+                            title="Remove the new Site Contact"
+                            (click)="removeNewSiteContact()">
+                      <i class="glyphicon glyphicon-remove"></i>
+                      <span class="hidden-xs">Remove</span>
+                    </button>
                   </div>
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Full Name</label>
@@ -147,8 +172,7 @@
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
                     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100"
-                             class="form-control"
+                      <input type="text" maxlength="100" class="form-control"
                              [(ngModel)]="siteContact.positionName.value"
                              name="contactPosition_{{i}}"/>
                     </div>
@@ -156,7 +180,7 @@
                   <div
                     *ngFor="let address of siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint; let j = index">
                     <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Delivery Point
                         {{siteContact.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' :
                         j+1}}</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
@@ -164,6 +188,38 @@
                                [(ngModel)]="address.characterString['gco:CharacterString']"
                                name="contactAddress_{{i}}_{{j}}"/>
                       </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">City</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="siteContact.contactInfo.ciContact.address.ciAddress.city.characterString['gco:CharacterString']"
+                             name="contactCity_{{i}}" #contactOrganisation="ngModel"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Administrative Area</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="siteContact.contactInfo.ciContact.address.ciAddress.administrativeArea.characterString['gco:CharacterString']"
+                             name="contactAdminArea_{{i}}" #contactOrganisation="ngModel"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Postal Code</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="siteContact.contactInfo.ciContact.address.ciAddress.postalCode.characterString['gco:CharacterString']"
+                             name="contactPostCode_{{i}}" #contactOrganisation="ngModel"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Country</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="siteContact.contactInfo.ciContact.address.ciAddress.country.characterString['gco:CharacterString']"
+                             name="contactCountry_{{i}}" #contactOrganisation="ngModel"/>
                     </div>
                   </div>
                   <div
@@ -176,9 +232,6 @@
                         <input type="email" maxlength="100" class="form-control"
                                [(ngModel)]="email.characterString['gco:CharacterString']"
                                name="contactEmail_{{i}}" #contactEmail_{{i}}_{{j}}="ngModel"/>
-                        <!--<small [hidden]="contactEmail_{{i}}.valid || contactEmail_{{i}}.pristine" class="alert alert-danger">
-                          "Email" must not be empty or invalid
-                        </small>-->
                       </div>
                     </div>
                   </div>
@@ -247,28 +300,88 @@
                   <div class="form-group">
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
                     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100"
-                             class="form-control"
+                      <input type="text" maxlength="100" class="form-control"
                              [(ngModel)]="metadataCustodian.positionName.value"
-                             name="custodianPosition"/>
+                             name="contactPosition_{{i}}"/>
+                    </div>
+                  </div>
+                  <div
+                    *ngFor="let address of metadataCustodian.contactInfo.ciContact.address.ciAddress.deliveryPoint; let j = index">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Delivery Point
+                        {{metadataCustodian.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' :
+                        j+1}}</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="address.characterString['gco:CharacterString']"
+                               name="contactAddress_{{i}}_{{j}}"/>
+                      </div>
                     </div>
                   </div>
                   <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Address</label>
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">City</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.city.characterString['gco:CharacterString']"
+                             name="contactCity_{{i}}" #contactOrganisation="ngModel"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Administrative Area</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.administrativeArea.characterString['gco:CharacterString']"
+                             name="contactAdminArea_{{i}}" #contactOrganisation="ngModel"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Postal Code</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.postalCode.characterString['gco:CharacterString']"
+                             name="contactPostCode_{{i}}" #contactOrganisation="ngModel"/>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Country</label>
+                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                      <input type="text" maxlength="100" class="form-control"
+                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.country.characterString['gco:CharacterString']"
+                             name="contactCountry_{{i}}" #contactOrganisation="ngModel"/>
+                    </div>
+                  </div>
+                  <div
+                    *ngFor="let email of metadataCustodian.contactInfo.ciContact.address.ciAddress.electronicMailAddress; let j = index">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Email
+                        {{metadataCustodian.contactInfo.ciContact.address.ciAddress.electronicMailAddress.length <= 1 ? '' :
+                        j+1}}</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                        <input type="text" maxlength="100" class="form-control"
-                               [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.id"
-                               name="custodianAddress"/>
+                        <input type="email" maxlength="100" class="form-control"
+                               [(ngModel)]="email.characterString['gco:CharacterString']"
+                               name="contactEmail_{{i}}" #contactEmail_{{i}}_{{j}}="ngModel"/>
                       </div>
                     </div>
-                  <div *ngFor="let phone of metadataCustodian.contactInfo.ciContact.phone.ciTelephone.voice; let i = index">
+                  </div>
+                  <div *ngFor="let phone of metadataCustodian.contactInfo.ciContact.phone.ciTelephone.voice; let j = index">
                     <div class="form-group">
                       <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Phone
-                        {{metadataCustodian.contactInfo.ciContact.phone.ciTelephone.voice.length <= 1 ? '' : i+1}}</label>
+                        {{metadataCustodian.contactInfo.ciContact.phone.ciTelephone.voice.length <= 1 ? '' : j+1}}</label>
                       <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                         <input type="text" maxlength="100" class="form-control"
                                [(ngModel)]="phone.characterString['gco:CharacterString']"
-                               name="custodianPhone_{{i}}"/>
+                               name="contactPhone_{{i}}_{{j}}"/>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngFor="let fax of metadataCustodian.contactInfo.ciContact.phone.ciTelephone.facsimile; let j = index">
+                    <div class="form-group">
+                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Facsimile
+                        {{metadataCustodian.contactInfo.ciContact.phone.ciTelephone.facsimile.length <= 1 ? '' : j+1}}</label>
+                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+                        <input type="text" maxlength="100" class="form-control"
+                               [(ngModel)]="fax.characterString['gco:CharacterString']"
+                               name="contactFax_{{i}}_{{j}}"/>
                       </div>
                     </div>
                   </div>
@@ -497,17 +610,17 @@
           </div>
         </div>
         <gnss-frequency-standard [status]="status"
-                            [frequencyStandards]="frequencyStandards"
-                            [siteLogModel]="siteLogModel"
-                            [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
+                                 [frequencyStandards]="frequencyStandards"
+                                 [siteLogModel]="siteLogModel"
+                                 [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
         <gnss-humidity-sensor [status]="status"
                               [humiditySensors]="humiditySensors"
                               [siteLogModel]="siteLogModel"
                               [siteLogOrigin]="siteLogOrigin"></gnss-humidity-sensor>
         <gnss-episodic-effect [status]="status"
-                             [episodicEffects]="episodicEffects"
-                             [siteLogModel]="siteLogModel"
-                             [siteLogOrigin]="siteLogOrigin"></gnss-episodic-effect>
+                              [episodicEffects]="episodicEffects"
+                              [siteLogModel]="siteLogModel"
+                              [siteLogOrigin]="siteLogOrigin"></gnss-episodic-effect>
       </div>
     </form>
   </div>

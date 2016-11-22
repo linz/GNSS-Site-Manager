@@ -21,89 +21,6 @@ export class JsonCheckService {
     localEpisodicEventsSet: []
   };
 
-  private siteContact: any = {
-    contactInfo: {
-      ciContact: {
-        address: {
-          ciAddress: {
-            deliveryPoint: [{
-              characterString: {'gco:CharacterString': ''}
-            }],
-            electronicMailAddress: [{
-              characterString: {'gco:CharacterString': ''}
-            }]
-          }
-        },
-        contactInstructions: {
-          characterString: {'gco:CharacterString': ''}
-        },
-        hoursOfService: {
-          characterString: {'gco:CharacterString': ''}
-        },
-        onlineResource: {
-          characterString: {'gco:CharacterString': ''}
-        },
-        phone: {
-          ciTelephone: {
-            voice: [{
-              characterString: {'gco:CharacterString': ''}
-            }]
-          }
-        }
-      }
-    },
-    individualName: {
-      characterString: {'gco:CharacterString': ''}
-    },
-    organisationName: {
-      characterString: {'gco:CharacterString': ''}
-    },
-    positionName: {
-      characterString: {'gco:CharacterString': ''}
-    },
-    role: {
-      characterString: {'gco:CharacterString': ''}
-    }
-  };
-
-  private metadataCustodian: any = {
-    contactInfo: {
-      ciContact: {
-        address: {
-          ciAddress: { id: '' }
-        },
-        contactInstructions: {
-          characterString: {'gco:CharacterString': ''}
-        },
-        hoursOfService: {
-          characterString: {'gco:CharacterString': ''}
-        },
-        onlineResource: {
-          characterString: {'gco:CharacterString': ''}
-        },
-        phone: {
-          ciTelephone: {
-            voice: [{
-              characterString: {'gco:CharacterString': ''}
-            }]
-          }
-        }
-      }
-    },
-    individualName: {
-      characterString: {'gco:CharacterString': ''}
-    },
-    organisationName: {
-      characterString: {'gco:CharacterString': ''}
-    },
-    positionName: {
-      characterString: {'gco:CharacterString': ''}
-    },
-    role: {
-      characterString: {'gco:CharacterString': ''}
-    }
-  };
-
   private siteLocation: any = {
     approximatePositionITRF: {
       elevationMEllips: '',
@@ -116,6 +33,63 @@ export class JsonCheckService {
     countryCodeISO: '',
     notes: '',
     tectonicPlate: { value: '' }
+  };
+
+  private contactDetails: any = {
+    individualName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    organisationName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    positionName: {
+      characterString: {'gco:CharacterString': ''}
+    },
+    contactInfo: {
+      ciContact: {
+        address: {
+          ciAddress: {
+            deliveryPoint: [{
+              characterString: {'gco:CharacterString': ''}
+            }],
+            electronicMailAddress: [{
+              characterString: {'gco:CharacterString': ''}
+            }],
+            city: {
+              characterString: {'gco:CharacterString': ''}
+            },
+            administrativeArea: {
+              characterString: {'gco:CharacterString': ''}
+            },
+            postalCode: {
+              characterString: {'gco:CharacterString': ''}
+            },
+            country: {
+              characterString: {'gco:CharacterString': ''}
+            },
+          }
+        },
+        contactInstructions: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        hoursOfService: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        onlineResource: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        phone: {
+          ciTelephone: {
+            voice: [{
+              characterString: {'gco:CharacterString': ''}
+            }],
+            facsimile: [{
+              characterString: {'gco:CharacterString': ''}
+            }]
+          }
+        }
+      }
+    }
   };
 
   private receiver: any = {
@@ -206,15 +180,6 @@ export class JsonCheckService {
     return json;
   }
 
-  public getValidSiteContact(json: any): any {
-    this.merge(json, this.siteContact);
-    return json;
-  }
-
-  public getNewSiteContact(): any {
-    return this.siteContact;
-  }
-
   public getValidSiteLocation(json: any): any {
     this.merge(json, this.siteLocation);
     return json;
@@ -224,13 +189,22 @@ export class JsonCheckService {
     return this.siteLocation;
   }
 
+  public getValidSiteContact(json: any): any {
+    this.merge(json, this.contactDetails);
+    return json;
+  }
+
+  public getNewSiteContact(): any {
+    return this.contactDetails;
+  }
+
   public getValidMetadataCustodian(json: any): any {
-    this.merge(json, this.metadataCustodian);
+    this.merge(json, this.contactDetails);
     return json;
   }
 
   public getNewMetadataCustodian(): any {
-    return this.metadataCustodian;
+    return this.contactDetails;
   }
 
   public getValidReceiver(json: any): any {

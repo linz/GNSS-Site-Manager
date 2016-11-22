@@ -33,7 +33,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
-    isSiteContactOpen: false,
+    isSiteContactsOpen: false,
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
@@ -184,6 +184,52 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
       this.siteInfoTab.unsubscribe();
     }
+  }
+
+  /**
+   * Add a new empty site contact
+   */
+  public addNewSiteContact() {
+    if (!this.siteContacts) {
+      this.siteContacts = [];
+    }
+    if (!this.siteLogModel.siteContact) {
+      this.siteLogModel.siteContact = [];
+    }
+    if (!this.siteLogOrigin.siteContact) {
+      this.siteLogOrigin.siteContact = [];
+    }
+
+    let newSiteContact = this.jsonCheckService.getNewSiteContact();
+
+    // Clone from one of SiteContacts objects so that the "new" SiteContact object can be saved
+    let siteContactObj: any = {};
+    if ( this.siteLogModel.siteContact.length > 0 ) {
+      siteContactObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.siteContact[0]);
+    }
+
+    // Keep a copy of the contact object as the original one for comparison
+    let siteContactObjCopy: any = this.miscUtilsService.cloneJsonObj(siteContactObj);
+    siteContactObjCopy.siteContact = this.miscUtilsService.cloneJsonObj(newSiteContact);
+    this.siteLogOrigin.siteContact.unshift(siteContactObjCopy);
+
+    siteContactObj.siteContact = newSiteContact;
+    this.siteLogModel.siteContact.unshift(siteContactObj);
+
+    // Add the new contact as current one and open it by default
+    this.siteContacts.unshift(newSiteContact);
+    this.status.hasNewSiteContact = true;
+    this.status.isSiteContactsOpen = true;
+  }
+
+  /**
+   * Remove the new SiteContact from the site contacts list
+   */
+  public removeNewSiteContact() {
+    this.siteLogModel.siteContact.shift();
+    this.siteLogOrigin.siteContact.shift();
+    this.siteContacts.shift();
+    this.status.hasNewSiteContact = false;
   }
 
   /**
