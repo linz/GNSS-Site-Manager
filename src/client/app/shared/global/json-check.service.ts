@@ -10,10 +10,9 @@ export class JsonCheckService {
   private siteLog: any = {
     siteIdentification: {},
     siteLocation: {},
-    siteMetadataCustodian: {},
-    siteDataSource: {},
     siteOwner: {},
     siteContact: [],
+    siteMetadataCustodian: {},
     gnssAntennas: [],
     gnssReceivers: [],
     frequencyStandards: [],

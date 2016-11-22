@@ -173,7 +173,7 @@
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
                     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="siteContact.positionName.value"
+                             [(ngModel)]="siteContact.positionName.characterString['gco:CharacterString']"
                              name="contactPosition_{{i}}"/>
                     </div>
                   </div>
@@ -301,7 +301,7 @@
                     <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
                     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                       <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="metadataCustodian.positionName.value"
+                             [(ngModel)]="metadataCustodian.positionName.characterString['gco:CharacterString']"
                              name="contactPosition_{{i}}"/>
                     </div>
                   </div>

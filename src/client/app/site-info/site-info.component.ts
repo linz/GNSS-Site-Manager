@@ -193,14 +193,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (!this.siteContacts) {
       this.siteContacts = [];
     }
-    if (!this.siteLogModel.siteContact) {
-      this.siteLogModel.siteContact = [];
-    }
-    if (!this.siteLogOrigin.siteContact) {
-      this.siteLogOrigin.siteContact = [];
-    }
-
-    let newSiteContact = this.jsonCheckService.getNewSiteContact();
 
     // Clone from one of SiteContacts objects so that the "new" SiteContact object can be saved
     let siteContactObj: any = {};
@@ -208,15 +200,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       siteContactObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.siteContact[0]);
     }
 
-    // Keep a copy of the contact object as the original one for comparison
+    // Assign a new SiteContact object to both original and backup models for comparison
+    let newSiteContact = this.jsonCheckService.getNewSiteContact();
     let siteContactObjCopy: any = this.miscUtilsService.cloneJsonObj(siteContactObj);
     siteContactObjCopy.siteContact = this.miscUtilsService.cloneJsonObj(newSiteContact);
     this.siteLogOrigin.siteContact.unshift(siteContactObjCopy);
-
-    siteContactObj.siteContact = newSiteContact;
+    siteContactObj.siteContact = this.miscUtilsService.cloneJsonObj(newSiteContact);
     this.siteLogModel.siteContact.unshift(siteContactObj);
-
-    // Add the new contact as current one and open it by default
     this.siteContacts.unshift(newSiteContact);
     this.status.hasNewSiteContact = true;
     this.status.isSiteContactsOpen = true;
