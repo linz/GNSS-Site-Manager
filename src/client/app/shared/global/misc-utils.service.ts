@@ -17,6 +17,18 @@ export class MiscUtilsService {
   }
 
   /**
+   * Return the type of the object obj
+   */
+  public getObjectType(obj: any): string {
+    if (typeof obj === 'undefined') {
+      return 'undefined';
+    } else if (obj === null) {
+      return null;
+    }
+    return Object.prototype.toString.call(obj).match(/^\[object\s(.*)\]$/)[1];
+  }
+
+  /**
    * Scroll the element clicked into full-view on the page and return a flag for switching block open/hide option.
    */
   public scrollIntoView(event: any, isBlockOpen: boolean): boolean {

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService } from '../shared/index';
+import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -18,8 +18,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteLogModel: any = {};
   private site: any = null;
   private siteLocation: any = null;
-  private siteContact: any = null;
   private metadataCustodian: any = null;
+  private siteContacts: Array<any> = [];
   private receivers: Array<any> = [];
   private antennas: Array<any> = [];
   private frequencyStandards: Array<any> = [];
@@ -33,7 +33,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
-    isSiteContactOpen: false,
+    isSiteContactsOpen: false,
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
@@ -69,6 +69,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     private miscUtilsService: MiscUtilsService,
     private siteLogService: SiteLogService,
     private jsonDiffService: JsonDiffService,
+    private jsonCheckService: JsonCheckService
   ) {}
 
   /**
@@ -127,71 +128,27 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
-          this.siteLogModel = responseJson['geo:siteLog'];
+          this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson['geo:siteLog']);
           this.site = this.siteLogModel.siteIdentification;
-          this.siteLocation = this.siteLogModel.siteLocation;
-          if (this.siteLogModel.siteContact) {
-            // TODO: do we need to add both primaryContact and secondaryContact to the "Site Contact" section ?
-            this.siteContact = this.siteLogModel.siteContact[0].ciResponsibleParty;
-            if (!this.siteContact.positionName) {
-              this.siteContact.positionName = {value: ''};
-            }
-            if (!this.siteContact.contactInfo.ciContact.address.ciAddress) {
-              this.siteContact.contactInfo.ciContact.address.ciAddress = {
-                deliveryPoint: [{
-                  characterString: {'gco:CharacterString': ''}
-                }],
-                electronicMailAddress: [{
-                  characterString: {'gco:CharacterString': ''}
-                }]
-              };
-            }
-            if(!this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice) {
-              this.siteContact.contactInfo.ciContact.phone.ciTelephone.voice = [{
-                characterString: {'gco:CharacterString': ''}
-              }];
-            }
+          this.siteLocation = this.jsonCheckService.getValidSiteLocation(this.siteLogModel.siteLocation);
+          this.siteContacts = [];
+          for (let contact of this.siteLogModel.siteContact) {
+            this.siteContacts.push(this.jsonCheckService.getValidSiteContact(contact.ciResponsibleParty));
           }
-          // Coming shortly ...
-          // javascriptUtilsService.checkObjectPathCreateEmpty(this.siteLogModel, 'siteMetadataCustodian.ciResponsibleParty');
-          if (this.siteLogModel.siteMetadataCustodian) {
-            if (! this.siteLogModel.siteMetadataCustodian.ciResponsibleParty) {
-              this.siteLogModel.siteMetadataCustodian.ciResponsibleParty = {};
-              if (! this.siteLogModel.siteMetadataCustodian.ciResponsibleParty.contactInfo) {
-                this.siteLogModel.siteMetadataCustodian.ciResponsibleParty.contactInfo = {};
-              }
-            }
-            this.metadataCustodian = this.siteLogModel.siteMetadataCustodian.ciResponsibleParty;
-            if (this.metadataCustodian) {
-              if (!this.metadataCustodian.contactInfo.ciContact) {
-                this.metadataCustodian.contactInfo.ciContact = {
-                  address: { ciAddress: { id: '' } }
-                };
-              }
-              if (!this.metadataCustodian.contactInfo.ciContact.address) {
-                this.metadataCustodian.contactInfo.ciContact.address = {
-                  ciAddress: { id: '' }
-                };
-              }
-              if (!this.metadataCustodian.contactInfo.ciContact.address.ciAddress) {
-                this.metadataCustodian.contactInfo.ciContact.address.ciAddress = {
-                  id: ''
-                };
-              }
-            }
-          }
+          this.metadataCustodian = this.jsonCheckService
+                  .getValidMetadataCustodian(this.siteLogModel.siteMetadataCustodian.ciResponsibleParty);
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.setHumiditySensors(this.siteLogModel.humiditySensors);
           this.backupSiteLogJson();
-          this.isLoading =  false;
-          this.dialogService.showSuccessMessage('Site log info loaded successfully for '+ this.siteId);
+          this.isLoading = false;
+          this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
         },
         (error: Error) =>  {
           this.errorMessage = <any>error;
-          this.isLoading =  false;
+          this.isLoading = false;
           this.siteLogModel = {
             gnssReceivers: [],
             gnssAntennas: [],
@@ -199,7 +156,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             localEpisodicEventsSet: [],
             humiditySensors: []
           };
-          this.dialogService.showErrorMessage('No site log info found for '+this.siteId);
+          this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
         }
       );
     });
@@ -213,7 +170,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogModel = null;
     this.site = null;
     this.siteLocation = null;
-    this.siteContact = null;
+    this.siteContacts.length = 0;
     this.metadataCustodian = null;
     this.status = null;
     this.receivers.length = 0;
@@ -227,6 +184,42 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
       this.siteInfoTab.unsubscribe();
     }
+  }
+
+  /**
+   * Add a new empty site contact
+   */
+  public addNewSiteContact() {
+    if (!this.siteContacts) {
+      this.siteContacts = [];
+    }
+
+    // Clone from one of SiteContacts objects so that the "new" SiteContact object can be saved
+    let siteContactObj: any = {};
+    if ( this.siteLogModel.siteContact.length > 0 ) {
+      siteContactObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.siteContact[0]);
+    }
+
+    // Assign a new SiteContact object to both original and backup models for comparison
+    let newSiteContact = this.jsonCheckService.getNewSiteContact();
+    let siteContactObjCopy: any = this.miscUtilsService.cloneJsonObj(siteContactObj);
+    siteContactObjCopy.siteContact = this.miscUtilsService.cloneJsonObj(newSiteContact);
+    this.siteLogOrigin.siteContact.unshift(siteContactObjCopy);
+    siteContactObj.siteContact = this.miscUtilsService.cloneJsonObj(newSiteContact);
+    this.siteLogModel.siteContact.unshift(siteContactObj);
+    this.siteContacts.unshift(newSiteContact);
+    this.status.hasNewSiteContact = true;
+    this.status.isSiteContactsOpen = true;
+  }
+
+  /**
+   * Remove the new SiteContact from the site contacts list
+   */
+  public removeNewSiteContact() {
+    this.siteLogModel.siteContact.shift();
+    this.siteLogOrigin.siteContact.shift();
+    this.siteContacts.shift();
+    this.status.hasNewSiteContact = false;
   }
 
   /**
@@ -248,33 +241,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     // Create a new empty antenna with present date/time as default value to dateInstalled
-    let newAntenna = {
-      antennaType: {
-        codeListValue: '',
-        value: ''
-      },
-      serialNumber: '',
-      antennaReferencePoint: {
-        value: ''
-      },
-      markerArpUpEcc: '',
-      markerArpNorthEcc: '',
-      markerArpEastEcc: '',
-      alignmentFromTrueNorth: '',
-      antennaRadomeType: {
-        value: ''
-      },
-      radomeSerialNumber: '',
-      antennaCableType: '',
-      antennaCableLength: '',
-      dateInstalled: {
-        value: ['']
-      },
-      dateRemoved: {
-        value: ['']
-      },
-      notes: ''
-    };
+    let newAntenna = this.jsonCheckService.getNewAntenna();
 
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
     let antennaObj: any = {};
@@ -422,11 +389,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isReceiversOpen = [];
     let currentReceiver: any = null;
     for (let receiverObj of gnssReceivers) {
-      let receiver = receiverObj.gnssReceiver;
-      let dateRemoved: string = ( receiver.dateRemoved && receiver.dateRemoved.value.length > 0 )
-          ? receiver.dateRemoved.value[0] : null;
-      if ( !dateRemoved ) {
-        receiver.dateRemoved = {value: ['']};
+      let receiver = this.jsonCheckService.getValidReceiver(receiverObj.gnssReceiver);
+      if ( !receiver.dateRemoved.value[0] ) {
         currentReceiver = receiver;
       } else {
         this.receivers.push(receiver);
@@ -448,11 +412,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isAntennasOpen = [];
     let currentAntenna: any = null;
     for (let antennaObj of gnssAntennas) {
-      let antenna = antennaObj.gnssAntenna;
-      let dateRemoved: string = ( antenna.dateRemoved && antenna.dateRemoved.value.length > 0 )
-        ? antenna.dateRemoved.value[0] : null;
-      if (!dateRemoved) {
-        antenna.dateRemoved = {value: ['']};
+      let antenna = this.jsonCheckService.getValidAntenna(antennaObj.gnssAntenna);
+      if (!antenna.dateRemoved.value[0]) {
         currentAntenna = antenna;
       } else {
         this.antennas.push(antenna);
@@ -467,41 +428,15 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isAntennasOpen.unshift(true);
   }
 
-
   /**
    * Set current and previous frequency standards, and their show/hide flags
    */
   private setFrequencyStandards(frequencyStds: any) {
-    if (!frequencyStds) {
-      this.frequencyStandards = [];
-      return;
-    }
-
     this.status.isFrequencyStdsOpen = [];
     let currentFrequencyStd: any = null;
     for (let frequencyStdObj of frequencyStds) {
-      let frequencyStd = frequencyStdObj.frequencyStandard;
-      if (!frequencyStd.validTime) {
-        frequencyStd.validTime = {};
-      }
-      if (!frequencyStd.validTime.abstractTimePrimitive) {
-        frequencyStd.validTime.abstractTimePrimitive = {
-          'gml:TimePeriod': {
-            beginPosition: {
-              value: ['']
-            },
-            endPosition: {
-              value: ['']
-            }
-          }
-        };
-      }
-
-      let endDate: string = ( frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition
-      && frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0 )
-        ? frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;
-      if (!endDate) {
-        frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {value: ['']};
+      let frequencyStd = this.jsonCheckService.getValidFrequencyStandard(frequencyStdObj.frequencyStandard);
+      if (!frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) {
         currentFrequencyStd = frequencyStd;
       } else {
         this.frequencyStandards.push(frequencyStd);
@@ -516,48 +451,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isFrequencyStdsOpen.unshift(true);
   }
 
-
   /**
    * Set current and previous humidity sensors, and their show/hide flags
    */
   private setHumiditySensors(humiditySensorsLocal: any) {
-    if (!humiditySensorsLocal) {
-      this.humiditySensors = [];
-      return;
-    }
-
     this.status.isHumiditySensorsOpen = [];
     let currentHumiditySensor: any = null;
     for (let humiditySensorObj of humiditySensorsLocal) {
-      currentHumiditySensor = humiditySensorObj.humiditySensor;
-      let validCalibrationDate: boolean = ( currentHumiditySensor.calibrationDate
-      && currentHumiditySensor.calibrationDate.value.length > 0 );
-      if (!validCalibrationDate) {
-        currentHumiditySensor.calibrationDate = {value: ['']};
-      }
-      if (!currentHumiditySensor.validTime ) {
-        currentHumiditySensor.validTime = {};
-      }
-      if (!currentHumiditySensor.validTime.abstractTimePrimitive ) {
-        currentHumiditySensor.validTime.abstractTimePrimitive = {};
-      }
-      if (!currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']) {
-        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'] = {};
-      }
-      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition ) {
-        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = {};
-      }
-      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value
-        || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
-        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value = [''];
-      }
-      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition ) {
-        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {};
-      }
-      if (! currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value
-        || currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length === 0) {
-        currentHumiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value = [''];
-      }
+      currentHumiditySensor = this.jsonCheckService.getValidHumiditySensor(humiditySensorObj.humiditySensor);
       this.humiditySensors.push(currentHumiditySensor);
       this.status.isHumiditySensorsOpen.push(false);
     }
@@ -568,53 +469,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isHumiditySensorsOpen.unshift(true);
   }
 
-
   /**
    * Set current and previous episodic effects, and their show/hide flags
    */
   private setEpisodicEffects(episodicEffectSet: any) {
-    if (!episodicEffectSet) { /* an empty set*/
-      this.episodicEffects = [];
-      return;
-    }
-
     this.status.isEpisodicEffectOpen = [];
     for (let episodicEffectWrapper of episodicEffectSet) {
-      let episodicEffect = episodicEffectWrapper.localEpisodicEvents;
-      if (!episodicEffect.validTime) {
-        episodicEffect.validTime = {};
-      }
-      if (!episodicEffect.validTime.abstractTimePrimitive) {
-        episodicEffect.validTime.abstractTimePrimitive = {
-          'gml:TimePeriod': {
-            beginPosition: {
-              value: ['']
-            },
-            endPosition: {
-              value: ['']
-            }
-          }
-        };
-      }
-
-      let endDate: string =
-        (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition &&
-         (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0)) ?
-         episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] : null;
-
-      if (!endDate) {
-        episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition = {value: ['']};
-      }
-
-      let startDate: string =
-        (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition &&
-         (episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length > 0)) ?
-         episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] : null;
-
-      if (!startDate) {
-        episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition = {value: ['']};
-      }
-
+      let episodicEffect = this.jsonCheckService.getValidEpisodicEffect(episodicEffectWrapper.localEpisodicEvents);
       this.episodicEffects.push(episodicEffect);
       this.status.isEpisodicEffectOpen.push(false);
     }
@@ -622,30 +483,21 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Sort by effective start dates for all previous episodic effects
     this.episodicEffects.sort(this.compareEffectiveStartDates);
 
-    // Current episodic effect (even null) are the first item in the arrays and open by default
-    this.status.isEpisodicEffectOpen.unshift(true);
+    // The first episodic effect after sorting is the current one and should be open by default
+    if (this.status.isEpisodicEffectOpen.length > 0) {
+      this.status.isEpisodicEffectOpen[0] = true;
+    }
   }
-
 
   /**
    * Sort receivers/antennas based on their Date_Installed values in ascending order
    */
   private compareDateInstalled(obj1: any, obj2: any) {
-    if (obj1 === null || obj1.dateInstalled === null
-        || obj1.dateInstalled.value === null
-        || obj1.dateInstalled.value.length === 0) {
+    if (obj1 === null || obj2 === null) {
       return 0;
-    }
-    if (obj2 === null || obj2.dateInstalled === null
-        || obj2.dateInstalled.value === null
-        || obj2.dateInstalled.value.length === 0) {
-      return 0;
-    }
-
-    if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
+    } else if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
       return 1;
-    }
-    if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
+    } else if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
       return -1;
     }
     return 0;
@@ -655,22 +507,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Sort frequency standards and sensors based on their effective start dates in ascending order
    */
   private compareEffectiveStartDates(obj1: any, obj2: any) {
-    if (obj1 === null || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
-      || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
-      || obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
+    if (obj1 === null || obj2 === null ) {
       return 0;
-    }
-    if (obj2 === null || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition === null
-      || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value === null
-      || obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length === 0) {
-      return 0;
-    }
-
-    if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
+    } else if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
       < obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) {
       return 1;
-    }
-    if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
+    }else if (obj1.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]
       > obj2.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) {
       return -1;
     }

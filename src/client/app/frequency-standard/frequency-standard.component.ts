@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { MiscUtilsService, ServiceWorkerService } from '../shared/index';
+import { MiscUtilsService, JsonCheckService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the FrequencyStandardComponent for viewing and editing frequency standard details.
@@ -20,7 +20,9 @@ export class FrequencyStandardComponent implements OnInit {
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService, private serviceWorkerService: ServiceWorkerService) { }
+  constructor(private miscUtilsService: MiscUtilsService,
+              private jsonCheckService: JsonCheckService,
+              private serviceWorkerService: ServiceWorkerService) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated
@@ -60,7 +62,6 @@ export class FrequencyStandardComponent implements OnInit {
     }
     return datetime.substring(0, 10);
   }
-
 
   /**
    * Returns true if all previous frequency standards are open, otherwise returns false
@@ -113,25 +114,7 @@ export class FrequencyStandardComponent implements OnInit {
     }
 
     // Create a new empty frequency standard with present date/time as default value to dateInstalled
-    let newFrequencyStd = {
-      standardType: {
-        value: ''
-      },
-      inputFrequency: '',
-      validTime: {
-        abstractTimePrimitive: {
-          'gml:TimePeriod': {
-            beginPosition: {
-              value: ['']
-            },
-            endPosition: {
-              value: ['']
-            }
-          }
-        }
-      },
-      notes: ''
-    };
+    let newFrequencyStd = this.jsonCheckService.getNewFrequencyStandard();
 
     // Clone from one of Frequency Standard objects so that the "new" frequency standard object can be saved
     let frequencyStdObj: any = {};

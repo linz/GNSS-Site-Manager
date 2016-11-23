@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpUtilsService } from './http-utils.service';
+import { MiscUtilsService } from './misc-utils.service';
 
 @Injectable()
 export class JsonDiffService {
@@ -10,7 +11,7 @@ export class JsonDiffService {
   private UPDATE: string = 'Update';
   private attrMappingJson: any = {};
 
-  constructor(private httpService: HttpUtilsService) {
+  constructor(private httpService: HttpUtilsService, private utilsService: MiscUtilsService) {
     // Load the XML attribute name mapping JSON object from assets
     this.httpService.loadJsonObject(this.xmlAttrMappingFile).subscribe(
       json => this.attrMappingJson = json,
@@ -103,7 +104,7 @@ export class JsonDiffService {
   }
 
   private traverse(differenceArray: any, jsonObj: any, key: string) {
-    let objType: string = this.getTypeOfObj(jsonObj);
+    let objType: string = this.utilsService.getObjectType(jsonObj);
     if (objType === 'Object') {
       this.traverseObj(differenceArray, jsonObj, key);
     } else if (objType === 'Array') {
@@ -166,15 +167,6 @@ export class JsonDiffService {
     return returnVal;
   }
 
-  private getTypeOfObj(obj: any): string {
-    if (typeof obj === 'undefined') {
-      return 'undefined';
-    } else if (obj === null) {
-      return null;
-    }
-    return Object.prototype.toString.call(obj).match(/^\[object\s(.*)\]$/)[1];
-  }
-
   private getKey(path: any): string {
     let index: number = 1;
     let key: string = path[path.length - index];
@@ -197,7 +189,7 @@ export class JsonDiffService {
 
   compare(oldObj: any, newObj: any, path: any): any {
     let changes: any = [];
-    let typeOfOldObj: any = this.getTypeOfObj(oldObj);
+    let typeOfOldObj: any = this.utilsService.getObjectType(oldObj);
     // console.log('compare - objType: '+ typeOfOldObj+', path: ['+path+'], newObj: ', newObj);
     switch (typeOfOldObj) {
       case 'Date':
@@ -324,8 +316,8 @@ export class JsonDiffService {
     if (oldObj === null || newObj === null) {
       return (oldObj === newObj);
     }
-    let oldType: string = this.getTypeOfObj(oldObj);
-    let newType: string = this.getTypeOfObj(newObj);
+    let oldType: string = this.utilsService.getObjectType(oldObj);
+    let newType: string = this.utilsService.getObjectType(newObj);
     if (oldType === newType) {
       return (oldObj === newObj);
     } else if (oldType === 'String' && newType === 'Number') {
@@ -340,7 +332,7 @@ export class JsonDiffService {
   }
 
   private isEmpty(obj: any): boolean {
-    let objType: string = this.getTypeOfObj(obj);
+    let objType: string = this.utilsService.getObjectType(obj);
     if (objType === null || objType === 'undefined') {
       return true;
     } else if (objType === 'String' && obj.trim() === '') {

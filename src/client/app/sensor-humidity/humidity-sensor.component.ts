@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { MiscUtilsService } from '../shared/index';
+import { MiscUtilsService, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -16,7 +16,8 @@ export class GnssHumiditySensorComponent {
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService) { }
+  constructor(private miscUtilsService: MiscUtilsService,
+              private jsonCheckService: JsonCheckService) { }
 
   /**
    * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
@@ -93,33 +94,9 @@ export class GnssHumiditySensorComponent {
       }
     }
 
-    let newSensor = {
-      // Defined in equipment.xsd - humiditySensorType
-      dataSamplingInterval: 0,
-      accuracyPercentRelativeHumidity: 0,
-      aspiration: '',
-      notes: '',
-      // Defined in equipment.xsd - baseSensorEquipmentType
-      manufacturer: '',
-      serialNumber: '',
-      heightDiffToAntenna: 0,
-      calibrationDate: {
-        value: ['']
-      },
-      validTime: {
-        abstractTimePrimitive: {
-          'gml:TimePeriod': {
-            beginPosition: {
-              value: ['']
-            },
-            endPosition: {
-              value: ['']
-            }
-          }
-        }
-      }
-    };
-    // // Clone from one of GNSS humidity sensor objects so that the "new" humidity sensor object can be saved
+    let newSensor = this.jsonCheckService.getNewHumiditySensor();
+
+    // Clone from one of humidity sensor objects so that the "new" humidity sensor object can be saved
     let sensorObj: any = {};
     if ( this.siteLogModel.humiditySensors && this.siteLogModel.humiditySensors.length > 0 ) {
       sensorObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.humiditySensors[0]);

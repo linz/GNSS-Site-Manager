@@ -150,6 +150,12 @@ ul {
   margin-top: 0;
   margin-bottom: 0;
 }
+.panel-group .panel-level-2 .panel-subtitle {
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 10px 0;
+  border-bottom: 1px solid #d9edf7;
+}
 .panel-group .panel-error {
   border: 1px solid #f2dede;
   margin: 10px 0;
