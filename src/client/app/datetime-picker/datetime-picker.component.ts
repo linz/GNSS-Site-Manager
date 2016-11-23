@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, DoCheck} from '@angular/core';
 import { MiscUtilsService } from '../shared/index';
 
 /**
@@ -10,7 +10,7 @@ import { MiscUtilsService } from '../shared/index';
   templateUrl: 'datetime-picker.component.html',
   styleUrls: ['datetime-picker.component.css']
 })
-export class DatetimePickerComponent implements OnInit {
+export class DatetimePickerComponent implements OnInit, DoCheck {
   public datetimeModel: Date;
   private datetimeDisplay: string = '';
   private datetimeSuffix: string = '.000Z';
@@ -25,6 +25,7 @@ export class DatetimePickerComponent implements OnInit {
   private invalidSeconds: boolean = false;
   private invalidDatetime: boolean = false;
   private showDatetimePicker: boolean = false;
+  private datetimeLast: string = '';
 
   @Input() public datetime: string = '';
   @Input() public name: string = 'Date';
@@ -37,10 +38,19 @@ export class DatetimePickerComponent implements OnInit {
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
+    this.datetimeLast = this.datetime;
     this.formatInputDatetime(this.datetime);
     this.updateCalendar();
   }
 
+  ngDoCheck(): void {
+    // If the @Input is changed externally, want to update the displayed date
+    if (this.datetimeLast !== this.datetime) {
+      this.datetimeLast = this.datetime;
+      this.formatInputDatetime(this.datetime);
+    }
+  }
+  
   /**
    * Close the calendar if mouse clicks outside of it
    */
@@ -302,6 +312,7 @@ export class DatetimePickerComponent implements OnInit {
                         + this.padTwo(this.datetimeModel.getSeconds());
 
     this.datetimeDisplay = dateStr + ' ' + timeStr;
+    this.datetimeLast = this.datetime;
     this.datetime = dateStr + 'T' + timeStr + this.datetimeSuffix;
     this.datetimeChange.emit(this.datetime);
   }
