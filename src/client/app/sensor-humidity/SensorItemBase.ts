@@ -44,21 +44,6 @@ export abstract class SensorItemBase implements DoCheck {
       this.copyEventToLast();
       console.log('child event: ', EventNames[this.getGeodesyEvent().name]);
       switch (this.getGeodesyEvent().name) {
-        case EventNames.openAbove:
-          this.openIfAbove(this.getGeodesyEvent().valueNumber);
-          break;
-        case EventNames.openBelow:
-          this.openIfBelow(this.getGeodesyEvent().valueNumber);
-          break;
-        case EventNames.closeAbove:
-          this.closeIfAbove(this.getGeodesyEvent().valueNumber);
-          break;
-        case EventNames.openBelow:
-          this.openIfBelow(this.getGeodesyEvent().valueNumber);
-          break;
-        case EventNames.closeBelow:
-          this.closeIfBelow(this.getGeodesyEvent().valueNumber);
-          break;
         case EventNames.newSensor:
           this.newItem(this.getGeodesyEvent().valueNumber);
           break;
@@ -89,87 +74,6 @@ export abstract class SensorItemBase implements DoCheck {
     this.lastGeodesyEvent.valueNumber = this.getGeodesyEvent().valueNumber;
     this.lastGeodesyEvent.valueObject = this.getGeodesyEvent().valueObject;
     this.lastGeodesyEvent.valueString = this.getGeodesyEvent().valueString;
-  }
-
-
-  /**
-   * The methods in the child component that handles an open event.
-   * @param ifAboveThisIndex
-   */
-  private openIfAbove(ifAboveThisIndex: number) {
-    if (this.getIndex() < ifAboveThisIndex) {
-      this.isOpen = true;
-    }
-  }
-
-  /**
-   * The methods in the child component that handles a close event.
-   * @param ifAboveThisIndex
-   */
-  private closeIfAbove(ifAboveThisIndex: number) {
-    if (this.getIndex() < ifAboveThisIndex) {
-      this.isOpen = false;
-    }
-  }
-
-  /**
-   * The methods in the child component that handles an open event.
-   * @param ifBelowThisIndex
-   */
-  private openIfBelow(ifBelowThisIndex: number) {
-    if (this.getIndex() > ifBelowThisIndex) {
-      this.isOpen = true;
-    }
-  }
-
-  /**
-   * The methods in the child component that handles a close event.
-   * @param ifBelowThisIndex
-   */
-  private closeIfBelow(ifBelowThisIndex: number) {
-    if (this.getIndex() > ifBelowThisIndex) {
-      this.isOpen = false;
-    }
-  }
-
-  /**
-   * Tell the parent and then the siblings below this component to open
-   * @param index
-   */
-  public openBelow(index: number) {
-    console.log('child call openBelow(' + index + ')');
-    let geodesyEvent: GeodesyEvent = {name: EventNames.openBelow, valueNumber: index};
-    this.getReturnEvents().emit(geodesyEvent);
-  }
-
-  /**
-   * Tell the parent and then the siblings below this component to open
-   * @param index
-   */
-  public closeBelow(index: number) {
-    console.log('child call closeBelow(' + index + ')');
-    let geodesyEvent: GeodesyEvent = {name: EventNames.closeBelow, valueNumber: index};
-    this.getReturnEvents().emit(geodesyEvent);
-  }
-
-  /**
-   * Tell the parent and then the siblings abpve this component to open
-   * @param index
-   */
-  public openAbove(index: number) {
-    console.log('child call openAbove(' + index + ')');
-    let geodesyEvent: GeodesyEvent = {name: EventNames.openAbove, valueNumber: index};
-    this.getReturnEvents().emit(geodesyEvent);
-  }
-
-  /**
-   * Tell the parent and then the siblings abpve this component to open
-   * @param index
-   */
-  public closeAbove(index: number) {
-    console.log('child call closeAbove(' + index + ')');
-    let geodesyEvent: GeodesyEvent = {name: EventNames.closeAbove, valueNumber: index};
-    this.getReturnEvents().emit(geodesyEvent);
   }
 
   removeItem(index: number) {

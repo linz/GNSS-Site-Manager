@@ -6,29 +6,18 @@
           <i class="glyphicon"
              [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}"></i>
         </span>
-         <span *ngIf="index == 0">
+        <span *ngIf="index == 0">
             Current Humidity Sensor (Since {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
          </span>
-         <span *ngIf="index != 0">
-            Previous Humidity Sensor ({{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+        <span *ngIf="index != 0">
+            Previous Humidity Sensor ({{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash;
+            {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
           <button class="btn btn-danger btn-xs" title="Remove the humiditySensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
             Remove
-          </button>
-        </span>
-        <span *ngIf="index < total - 1 && total > 1" class="pull-right">
-          <button class="btn-toggle"
-                  (click)="openBelow(index)"
-                  title="Show all previous humiditySensors">
-            <i class="glyphicon glyphicon-collapse-down"></i>
-          </button>
-          <button class="btn-toggle"
-                  (click)="closeBelow(index)"
-                  title="Hide all previous humiditySensors">
-            <i class="glyphicon glyphicon-collapse-up"></i>
           </button>
         </span>
     </div>
@@ -54,7 +43,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Data Sampling Interval (s)</label>
+                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Data Sampling Interval (seconds)</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <input type="number" step="0.01" maxlength="100" class="form-control"
                            [(ngModel)]="humiditySensor.dataSamplingInterval"
@@ -62,7 +51,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Accuracy (% rel  h)</label>
+                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Accuracy (% rel h)</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <input type="number" step="0.01" maxlength="100" class="form-control"
                            [(ngModel)]="humiditySensor.accuracyPercentRelativeHumidity"
@@ -70,7 +59,8 @@
                 </div>
             </div>
             <div class="form-group">
-                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Aspiration (unaspirated/natural/fan/etc)</label>
+                <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Aspiration
+                    (unaspirated/natural/fan/etc)</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            [(ngModel)]="humiditySensor.aspiration"
@@ -95,23 +85,27 @@
             <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                    <datetime-picker [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]" [name]=" 'effectiveDateStart' "
-                                     [required]="false"></datetime-picker>
+                    <datetime-picker
+                            [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]"
+                            [name]=" 'effectiveDateStart' "
+                            [required]="false"></datetime-picker>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                    <datetime-picker [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]" [name]=" 'effectiveDateEnd' "
-                                     [required]="false"></datetime-picker>
+                    <datetime-picker
+                            [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]"
+                            [name]=" 'effectiveDateEnd' "
+                            [required]="false"></datetime-picker>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Notes</label>
                 <div class="col-md-8 col-sm-8 col-xs-7 col-xxs-12">
                     <textarea maxlength="2000" rows="2" class="form-textarea"
-                    [(ngModel)]="humiditySensor.notes"
-                    name="humiditySensorNotes_{{index}}"></textarea>
+                              [(ngModel)]="humiditySensor.notes"
+                              name="humiditySensorNotes_{{index}}"></textarea>
                 </div>
             </div>
         </div>

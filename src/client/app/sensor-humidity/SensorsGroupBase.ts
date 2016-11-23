@@ -16,74 +16,14 @@ export abstract class SensorsGroupBase {
    */
   abstract addNew(): void;
 
-
-  /* **************************************************
-   * Events received from and sent to children.
-   *
-   * returnEvents() is the handler called and it calls the below methods.
-   * In each of these methods it sets values on the GeodesyEvent object and the
-   * children receive notice of this change and use it as an event driver.
-   */
-  private eventValidation(childComponetIndex: number) {
-    if (childComponetIndex < 0 || childComponetIndex >= this.getItemsCollection().length) {
-      throw new Error('open/closes event - index is outside range of 0 to (<) ' +
-        this.getItemsCollection().length + ': ' + childComponetIndex);
-    }
-  }
-
-  private openAboveEvent(childComponetIndex: number) {
-    console.log('parent openAboveEvent - ', childComponetIndex);
-    this.eventValidation(childComponetIndex);
-    let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-    geodesyEvent.name = EventNames.openAbove;
-    geodesyEvent.valueNumber = childComponetIndex;
-  }
-
-  private closeAboveEvent(childComponetIndex: number) {
-    console.log('parent closeAboveEvent - ', childComponetIndex);
-    this.eventValidation(childComponetIndex);
-    let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-    geodesyEvent.name = EventNames.closeAbove;
-    geodesyEvent.valueNumber = childComponetIndex;
-  }
-
-  private openBelowEvent(childComponetIndex: number) {
-    console.log('parent openBelowEvent - ', childComponetIndex);
-    this.eventValidation(childComponetIndex);
-    let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-    geodesyEvent.name = EventNames.openBelow;
-    geodesyEvent.valueNumber = childComponetIndex;
-  }
-
-  private closeBelowEvent(childComponetIndex: number) {
-    console.log('parent closeBelowEvent - ', childComponetIndex);
-    this.eventValidation(childComponetIndex);
-    let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-    geodesyEvent.name = EventNames.closeBelow;
-    geodesyEvent.valueNumber = childComponetIndex;
-  }
-
   /**
    * This is the event handler called by children
    * @param geodesyEvent
    */
   returnEvents(geodesyEvent: GeodesyEvent) {
-    // this.eventValidation(childComponetIndex);  TODO this
     console.log('Parent - returnEvent: ', geodesyEvent);
 
     switch (geodesyEvent.name) {
-      case EventNames.openAbove:
-        this.openAboveEvent(geodesyEvent.valueNumber);
-        break;
-      case EventNames.openBelow:
-        this.openBelowEvent(geodesyEvent.valueNumber);
-        break;
-      case EventNames.closeAbove:
-        this.closeAboveEvent(geodesyEvent.valueNumber);
-        break;
-      case EventNames.closeBelow:
-        this.closeBelowEvent(geodesyEvent.valueNumber);
-        break;
       case EventNames.removeItem:
         this.removeItem(geodesyEvent.valueNumber);
         break;

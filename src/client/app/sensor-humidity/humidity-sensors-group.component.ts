@@ -1,10 +1,16 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtilsService } from '../shared/index';
-import { SensorsGroupBase } from './SensorsGroupBase';
-import { GeodesyEvent, EventNames } from './Event';
+import {Component, Input} from '@angular/core';
+import {MiscUtilsService} from '../shared/index';
+import {SensorsGroupBase} from './SensorsGroupBase';
+import {GeodesyEvent, EventNames} from './Event';
 import {
-  HumiditySensor, AbstractTimePrimitive, ValidTime, TimePeriod, BeginPosition,
-  EndPosition, HumiditySensorContainer, ValidTime2
+  HumiditySensor,
+  AbstractTimePrimitive,
+  ValidTime,
+  TimePeriod,
+  BeginPosition,
+  EndPosition,
+  HumiditySensorContainer,
+  ValidTime2
 } from './HumiditySensor';
 
 /**
@@ -67,6 +73,8 @@ export class HumiditySensorsGroupComponent extends SensorsGroupBase {
     let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
     geodesyEvent.name = EventNames.newSensor;
     geodesyEvent.valueNumber = 0;
+
+    // Send event to close and open the previous item to prevent problem where the updated ... maybe try timeout instead ...
   }
 
   /* **************************************************
