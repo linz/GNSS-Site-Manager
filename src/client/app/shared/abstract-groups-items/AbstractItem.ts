@@ -1,4 +1,4 @@
-import { GeodesyEvent, EventNames } from '../../sensor-humidity/Event';
+import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { EventEmitter, DoCheck  } from '@angular/core';
 
 export abstract class AbstractItem implements DoCheck {
@@ -44,7 +44,7 @@ export abstract class AbstractItem implements DoCheck {
       this.copyEventToLast();
       console.log('child event: ', EventNames[this.getGeodesyEvent().name]);
       switch (this.getGeodesyEvent().name) {
-        case EventNames.newSensor:
+        case EventNames.newItem:
           this.newItem(this.getGeodesyEvent().valueNumber);
           break;
 

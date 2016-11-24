@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {MiscUtilsService} from '../shared/index';
 import {AbstractGroup} from '../shared/abstract-groups-items/AbstractGroup';
-import {GeodesyEvent, EventNames} from './Event';
+import {GeodesyEvent, EventNames} from '../shared/events-messages/Event';
 import {
   HumiditySensor,
   AbstractTimePrimitive,
@@ -26,11 +26,11 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
   /**
    * All the HumiditySensors (items)
    */
-  private humiditySensors: HumiditySensorProperty[];
+  private humiditySensorProperties: HumiditySensorProperty[];
   /**
    * A backup of the original list of HumiditySensors.  Used to diff against upon Save.
    */
-  private humiditySensorsOriginal: HumiditySensorProperty[];
+  private humiditySensorsOriginalProperties: HumiditySensorProperty[];
 
   /**
    * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -41,13 +41,13 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
   @Input()
   set siteLogModel(siteLogModel: any) {
     this.setItemsCollection(siteLogModel.humiditySensors);
-    console.log('humiditySensors: ', this.humiditySensors);
+    console.log('humiditySensorProperties: ', this.humiditySensorProperties);
   }
 
   @Input()
   set originalSiteLogModel(originalSiteLogModel: any) {
     this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
-    console.log('humiditySensorsOriginal: ', this.humiditySensorsOriginal);
+    console.log('humiditySensorsOriginalProperties: ', this.humiditySensorsOriginalProperties);
   }
 
   constructor(private miscUtilsService: MiscUtilsService) {
@@ -59,26 +59,26 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
   }
 
   getItemsCollection(): any {
-    return this.humiditySensors;
+    return this.humiditySensorProperties;
   }
 
   getItemsOriginalCollection(): any {
-    return this.humiditySensorsOriginal;
+    return this.humiditySensorsOriginalProperties;
   }
 
   setItemsCollection(humiditySensorProperties: HumiditySensorProperty[]) {
-    this.humiditySensors = humiditySensorProperties;
+    this.humiditySensorProperties = humiditySensorProperties;
     if (humiditySensorProperties && humiditySensorProperties.length > 0) {
-      this.populateDefaultExistingItems(this.humiditySensors);
-      this.sortUsingComparator(this.humiditySensors);
+      this.populateDefaultExistingItems(this.humiditySensorProperties);
+      this.sortUsingComparator(this.humiditySensorProperties);
     }
   }
 
   setItemsOriginalCollection(humiditySensorProperties: HumiditySensorProperty[]) {
-    this.humiditySensorsOriginal = humiditySensorProperties;
+    this.humiditySensorsOriginalProperties = humiditySensorProperties;
     if (humiditySensorProperties && humiditySensorProperties.length > 0) {
-      this.populateDefaultExistingItems(this.humiditySensorsOriginal);
-      this.sortUsingComparator(this.humiditySensorsOriginal);
+      this.populateDefaultExistingItems(this.humiditySensorsOriginalProperties);
+      this.sortUsingComparator(this.humiditySensorsOriginalProperties);
     }
   }
 
@@ -106,7 +106,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
   newSensorEvent() {
     console.log('parent newSensorEvent');
     let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-    geodesyEvent.name = EventNames.newSensor;
+    geodesyEvent.name = EventNames.newItem;
     geodesyEvent.valueNumber = 0;
 
     // Send event to close and open the previous item to prevent problem where the updated ... maybe try timeout instead ...

@@ -1,11 +1,7 @@
 export enum EventNames {
   none,
-  newSensor,
+  newItem,
   removeItem,
-  openAbove,
-  openBelow,
-  closeAbove,
-  closeBelow,
 }
 export interface GeodesyEvent {
   name: EventNames;

@@ -1,4 +1,4 @@
-import {GeodesyEvent, EventNames} from '../../sensor-humidity/Event';
+import {GeodesyEvent, EventNames} from '../events-messages/Event';
 export abstract class AbstractGroup {
   isGroupOpen: boolean = true;
   hasGroupANewItem: boolean = false;

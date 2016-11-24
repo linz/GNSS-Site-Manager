@@ -5,27 +5,27 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isGroupOpen, 'glyphicon-plus-sign': !isGroupOpen}">
             </i>
-            {{itemName}}s
+            {{getItemName()}}s
         </span>
         <span class="pull-right">
-            <button class="btn btn-similar btn-xs" title="Add a new humidity sensor"
+            <button class="btn btn-similar btn-xs" title="Add a new getItemName()"
                     [disabled]="hasGroupANewItem" (click)="addNew()">
             <i class="glyphicon glyphicon-plus-sign"></i>
-            New Humidity Sensor
+            New {{getItemName()}}}}
             </button>
         </span>
   </div>
   <div class="panel-body" *ngIf="isGroupOpen">
-    <div *ngIf="humiditySensors == null || humiditySensors.length == 0 ">
+    <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
       No information available for Humidity Sensors
     </div>
-    <div *ngFor="let humiditySensor of humiditySensors; let i = index">
+    <div *ngFor="let humiditySensorProperty of getItemsCollection(); let i = index">
       <!-- [geodesyEvent] - send event to child components -->
       <!-- (open/close Above/Below Event) - receive events from child components -->
       <!-- (returnEvents) - single point to call events on parent -->
-      <gnss-humidity-sensor-item [humiditySensorWrapper]="humiditySensor"
+      <gnss-humidity-sensor-item [humiditySensorProperty]="humiditySensorProperty"
+                                 [total]="humiditySensorProperties.length"
                                  [index]="i"
-                                 [total]="humiditySensors.length"
                                  [geodesyEvent]="geodesyEvent"
                                  (returnEvents)="returnEvents($event)"></gnss-humidity-sensor-item>
     </div>

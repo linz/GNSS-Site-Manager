@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
 import {MiscUtilsService} from '../shared/index';
 import {AbstractItem} from '../shared/abstract-groups-items/AbstractItem';
-import {GeodesyEvent} from './Event';
+import {GeodesyEvent} from '../shared/events-messages/Event';
 import {HumiditySensor} from './HumiditySensor';
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -26,10 +26,10 @@ export class HumiditySensorItemComponent extends AbstractItem {
   protected humiditySensor: HumiditySensor;
 
   @Input()
-  set humiditySensorWrapper(humiditySensorWrapper: any) {
+  set humiditySensorProperty(humiditySensorProperty: any) {
     // Done this way to give use the option of extracting the other fields -
     // dateInserted and Deleted and deletedReason from the HS wrapper
-    this.humiditySensor = humiditySensorWrapper.humiditySensor;
+    this.humiditySensor = humiditySensorProperty.humiditySensor;
     console.log('humiditySensor: ', this.humiditySensor);
   }
 
