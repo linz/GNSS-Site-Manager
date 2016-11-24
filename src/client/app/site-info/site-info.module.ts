@@ -7,6 +7,7 @@ import { FrequencyStandardModule } from '../frequency-standard/frequency-standar
 import { EpisodicEffectModule } from '../episodic-effect/episodic-effect.module';
 import { DatetimePickerModule } from '../datetime-picker/datetime-picker.module';
 import { HumiditySensorModule } from '../sensor-humidity/humidity-sensor.module';
+import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { HumiditySensorModule } from '../sensor-humidity/humidity-sensor.module'
     GnssReceiverInfoModule,
     DatetimePickerModule,
     HumiditySensorModule,
+    PressureSensorModule,
     EpisodicEffectModule,
     FrequencyStandardModule
   ],

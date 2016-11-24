@@ -25,6 +25,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private frequencyStandards: Array<any> = [];
   private episodicEffects: Array<any> = [];
   private humiditySensors: Array<any> = [];
+  private pressureSensors: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
@@ -50,6 +51,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isHumiditySensorsGroupOpen: false,
     isHumiditySensorsOpen: [],
     hasNewHumiditySensor: false,
+    isPressureSensorsGroupOpen: false,
+    isPressureSensorsOpen: [],
+    hasNewPressureSensor: false
   };
 
   /**
@@ -86,7 +90,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       gnssAntennas: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
-      humiditySensors: []
+      humiditySensors: [],
+      pressureSensors: []
     };
 
     this.siteLogOrigin = {
@@ -94,7 +99,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       gnssAntennas: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
-      humiditySensors: []
+      humiditySensors: [],
+      pressureSensors: []
     };
 
     this.loadSiteInfoData();
@@ -124,7 +130,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
-
+    this.pressureSensors.length = 0;
+    
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
@@ -142,6 +149,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.setHumiditySensors(this.siteLogModel.humiditySensors);
+          this.setPressureSensors(this.siteLogModel.pressureSensors);
           this.backupSiteLogJson();
           this.isLoading = false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
@@ -154,7 +162,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             gnssAntennas: [],
             frequencyStandards: [],
             localEpisodicEventsSet: [],
-            humiditySensors: []
+            humiditySensors: [],
+            pressureSensors: []
           };
           this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
         }
@@ -178,6 +187,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
+    this.pressureSensors.length = 0;
     this.errorMessage = '';
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
@@ -469,6 +479,24 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isHumiditySensorsOpen.unshift(true);
   }
 
+  /**
+   * Set current and previous pressure sensors, and their show/hide flags
+   */
+  private setPressureSensors(pressureSensorsLocal: any) {
+    this.status.isPressureSensorsOpen = [];
+    let currentPressureSensor: any = null;
+    for (let pressureSensorObj of pressureSensorsLocal) {
+      currentPressureSensor = this.jsonCheckService.getValidPressureSensor(pressureSensorObj.pressureSensor);
+      this.pressureSensors.push(currentPressureSensor);
+      this.status.isPressureSensorsOpen.push(false);
+    }
+    this.pressureSensors.sort(this.compareEffectiveStartDates);
+
+    // the first item in the array is open by default
+    this.status.isPressureSensorsOpen.pop();
+    this.status.isPressureSensorsOpen.unshift(true);
+  }
+  
   /**
    * Set current and previous episodic effects, and their show/hide flags
    */
