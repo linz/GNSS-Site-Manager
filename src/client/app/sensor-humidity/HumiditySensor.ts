@@ -37,7 +37,7 @@ export interface HumiditySensor {
   calibrationDate: ValidTime2;
 }
 
-export interface HumiditySensorContainer {
+export interface HumiditySensorProperty {
   TYPE_NAME: string;
   dateDeleted: ValidTime2;
   dateInserted: ValidTime2;

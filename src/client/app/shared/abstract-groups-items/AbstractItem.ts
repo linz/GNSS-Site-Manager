@@ -1,7 +1,7 @@
-import { GeodesyEvent, EventNames } from './Event';
+import { GeodesyEvent, EventNames } from '../../sensor-humidity/Event';
 import { EventEmitter, DoCheck  } from '@angular/core';
 
-export abstract class SensorItemBase implements DoCheck {
+export abstract class AbstractItem implements DoCheck {
   protected isNew: boolean = false;
 
   protected isOpen: boolean = true;
@@ -56,7 +56,7 @@ export abstract class SensorItemBase implements DoCheck {
 
   /**
    * Event Handler - if this item has the given indexOfNew, then this is a new item.
-   * 
+   *
    * @param indexOfNew
    */
   private newItem(indexOfNew: number) {
