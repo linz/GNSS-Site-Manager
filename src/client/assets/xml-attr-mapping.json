@@ -91,6 +91,8 @@
   "inputFrequency": "Input Frequency",
   "humiditySensors": "Humidity sensors",
   "humiditySensor": "Humidity sensor",
+  "pressureSensors": "Pressure sensors",
+  "pressureSensor": "Pressure sensor",
   "calibrationDate": "Calibration date",
   "heightDiffToAntenna": "Height diff to antenna (m)",
   "beginPosition": "Date installed (UTC)",
