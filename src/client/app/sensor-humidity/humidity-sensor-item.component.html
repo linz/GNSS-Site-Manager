@@ -1,17 +1,18 @@
 <!-- Input: humiditySensor (single) -->
 <div class="panel panel-level-2">
     <div class="panel-heading">
-        <span class="panel-sub-title cursor-ptr"
-              (click)="isOpen = !isOpen">
-          <i class="glyphicon"
-             [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}"></i>
-        </span>
-        <span *ngIf="index == 0">
-            Current Humidity Sensor (Since {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
-         </span>
-        <span *ngIf="index != 0">
-            Previous Humidity Sensor ({{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash;
-            {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+        <span class="panel-title cursor-ptr"
+              (click)="isOpen = miscUtilsService.scrollIntoView($event, isOpen)">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+            </i>
+            <span *ngIf="index == 0">
+                Current Humidity Sensor (Since {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+            </span>
+            <span *ngIf="index != 0">
+                Previous Humidity Sensor ({{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash;
+                {{ getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+            </span>
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
           <button class="btn btn-danger btn-xs" title="Remove the humiditySensor"

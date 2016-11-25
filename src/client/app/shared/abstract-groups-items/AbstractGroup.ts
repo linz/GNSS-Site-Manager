@@ -1,6 +1,6 @@
 import {GeodesyEvent, EventNames} from '../events-messages/Event';
 export abstract class AbstractGroup {
-  isGroupOpen: boolean = true;
+  isGroupOpen: boolean = false;
   hasGroupANewItem: boolean = false;
 
   abstract getItemsCollection(): any;

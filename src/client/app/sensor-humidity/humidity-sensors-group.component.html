@@ -1,7 +1,7 @@
 <div class="panel panel-level-1">
   <div class="panel-heading">
       <span class="panel-title cursor-ptr"
-            (click)="status.isGroupOpen = miscUtilsService.scrollIntoView($event, status.isGroupOpen)">
+            (click)="isGroupOpen = miscUtilsService.scrollIntoView($event, isGroupOpen)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isGroupOpen, 'glyphicon-plus-sign': !isGroupOpen}">
             </i>
