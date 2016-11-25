@@ -310,6 +310,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewReceiver = false;
         that.status.hasNewFrequencyStd = false;
         that.status.hasNewHumiditySensor = false;
+        that.status.hasNewPressureSensor = false;
         that.status.hasNewEpisodicEffect = false;
         let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
         that.siteLogService.saveSiteLog(siteLogJson).subscribe(
@@ -482,10 +483,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   /**
    * Set current and previous pressure sensors, and their show/hide flags
    */
-  private setPressureSensors(pressureSensorsLocal: any) {
+  private setPressureSensors(pressureSensors: any) {
     this.status.isPressureSensorsOpen = [];
     let currentPressureSensor: any = null;
-    for (let pressureSensorObj of pressureSensorsLocal) {
+    for (let pressureSensorObj of pressureSensors) {
       currentPressureSensor = this.jsonCheckService.getValidPressureSensor(pressureSensorObj.pressureSensor);
       this.pressureSensors.push(currentPressureSensor);
       this.status.isPressureSensorsOpen.push(false);

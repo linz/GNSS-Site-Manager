@@ -163,7 +163,7 @@ export class JsonCheckService {
   
   private pressureSensor: any = {
     dataSamplingInterval: 0,
-    accuracyPercentRelativeHumidity: 0,
+    accuracyHPa: 0,
     notes: '',
     manufacturer: '',
     serialNumber: '',
