@@ -80,8 +80,9 @@ export class JsonDiffService {
       if (obj.key === 'gnssReceivers' ||
           obj.key === 'gnssAntennas' ||
           obj.key === 'humiditySensors' ||
-          obj.key === 'pressureSensors' ||          
-          obj.key === 'temperatureSensors' ||     
+          obj.key === 'pressureSensors' ||
+          obj.key === 'temperatureSensors' ||
+          obj.key === 'waterVaporSensors' ||
           obj.key === 'localEpisodicEventsSet' ||
           obj.key === 'frequencyStandards') {
         for (let o1 of obj.changes) {
@@ -410,7 +411,11 @@ export class JsonDiffService {
     } else if (obj.temperatureSensor) {
       obj1 = obj.temperatureSensor;
       startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
-      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');      
+      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
+    } else if (obj.waterVaporSensor) {
+      obj1 = obj.waterVaporSensor;
+      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
+      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
     } else if (obj.localEpisodicEvents) {
       obj1 = obj.localEpisodicEvents;
       startDate = this.getDate(obj1, 'dateBeginEnd', 'start');

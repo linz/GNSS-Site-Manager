@@ -50,7 +50,7 @@ export class DatetimePickerComponent implements OnInit, DoCheck {
       this.formatInputDatetime(this.datetime);
     }
   }
-  
+
   /**
    * Close the calendar if mouse clicks outside of it
    */

@@ -6,8 +6,8 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
  */
 @Component({
   moduleId: module.id,
-  selector: 'gnss-waterVapor-sensor',
-  templateUrl: 'waterVapor-sensor.component.html',
+  selector: 'gnss-water-vapor-sensor',
+  templateUrl: 'water-vapor-sensor.component.html',
 })
 export class GnssWaterVaporSensorComponent {
   public errorMessage: string;

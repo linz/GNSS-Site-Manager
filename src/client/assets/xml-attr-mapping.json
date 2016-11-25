@@ -95,6 +95,8 @@
   "pressureSensor": "Pressure sensor",
   "temperatureSensors": "Temperature sensors",
   "temperatureSensor": "Temperature sensor",
+  "waterVaporSensors": "Water Vapor sensors",
+  "waterVaporSensor": "Water Vapor sensor",
   "calibrationDate": "Calibration date",
   "heightDiffToAntenna": "Height diff to antenna (m)",
   "beginPosition": "Date installed (UTC)",

@@ -27,6 +27,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private humiditySensors: Array<any> = [];
   private pressureSensors: Array<any> = [];
   private temperatureSensors: Array<any> = [];
+  private waterVaporSensors: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
@@ -57,7 +58,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewPressureSensor: false,
     isTemperatureSensorsGroupOpen: false,
     isTemperatureSensorsOpen: [],
-    hasNewTemperatureSensor: false
+    hasNewTemperatureSensor: false,
+    isWaterVaporSensorsGroupOpen: false,
+    isWaterVaporSensorsOpen: [],
+    hasNewWaterVaporSensor: false
   };
 
   /**
@@ -96,7 +100,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       localEpisodicEventsSet: [],
       humiditySensors: [],
       pressureSensors: [],
-      temperatureSensors: []
+      temperatureSensors: [],
+      waterVaporSensors: []
     };
 
     this.siteLogOrigin = {
@@ -106,7 +111,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       localEpisodicEventsSet: [],
       humiditySensors: [],
       pressureSensors: [],
-      temperatureSensors: []
+      temperatureSensors: [],
+      waterVaporSensors: []
     };
 
     this.loadSiteInfoData();
@@ -138,7 +144,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.humiditySensors.length = 0;
     this.pressureSensors.length = 0;
     this.temperatureSensors.length = 0;
-        
+    this.waterVaporSensors.length = 0;
+
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
@@ -158,6 +165,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setHumiditySensors(this.siteLogModel.humiditySensors);
           this.setPressureSensors(this.siteLogModel.pressureSensors);
           this.setTemperatureSensors(this.siteLogModel.temperatureSensors);
+          this.setWaterVaporSensors(this.siteLogModel.waterVaporSensors);
           this.backupSiteLogJson();
           this.isLoading = false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
@@ -172,7 +180,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             localEpisodicEventsSet: [],
             humiditySensors: [],
             pressureSensors: [],
-            temperatureSensors: []
+            temperatureSensors: [],
+            waterVaporSensors: []
           };
           this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
         }
@@ -198,6 +207,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.humiditySensors.length = 0;
     this.pressureSensors.length = 0;
     this.temperatureSensors.length = 0;
+    this.waterVaporSensors.length = 0;
     this.errorMessage = '';
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
@@ -321,6 +331,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewFrequencyStd = false;
         that.status.hasNewHumiditySensor = false;
         that.status.hasNewPressureSensor = false;
+        that.status.hasNewTemperatureSensor = false;
+        that.status.hasNewWaterVaporSensor = false;
         that.status.hasNewEpisodicEffect = false;
         let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
         that.siteLogService.saveSiteLog(siteLogJson).subscribe(
@@ -525,7 +537,25 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isTemperatureSensorsOpen.pop();
     this.status.isTemperatureSensorsOpen.unshift(true);
   }
-  
+
+  /**
+   * Set current and previous water vapor sensors, and their show/hide flags
+   */
+  private setWaterVaporSensors(waterVaporSensors: any) {
+    this.status.isWaterVaporSensorsOpen = [];
+    let currentWaterVaporSensor: any = null;
+    for (let waterVaporSensorObj of waterVaporSensors) {
+      currentWaterVaporSensor = this.jsonCheckService.getValidWaterVaporSensor(waterVaporSensorObj.waterVaporSensor);
+      this.waterVaporSensors.push(currentWaterVaporSensor);
+      this.status.isWaterVaporSensorsOpen.push(false);
+    }
+    this.waterVaporSensors.sort(this.compareEffectiveStartDates);
+
+    // the first item in the array is open by default
+    this.status.isWaterVaporSensorsOpen.pop();
+    this.status.isWaterVaporSensorsOpen.unshift(true);
+  }
+
   /**
    * Set current and previous episodic effects, and their show/hide flags
    */

@@ -4,19 +4,19 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isWaterVaporSensorsGroupOpen, 'glyphicon-plus-sign': !status.isWaterVaporSensorsGroupOpen}">
             </i>
-            WaterVapor Sensors
+            Water Vapor Sensors
         </span>
         <span class="pull-right">
             <button class="btn btn-similar btn-xs" title="Add a new waterVapor sensor as current one"
                     [disabled]="status.hasNewWaterVaporSensor" (click)="addNewWaterVaporSensor()">
             <i class="glyphicon glyphicon-plus-sign"></i>
-            New WaterVapor Sensor
+            New Water Vapor Sensor
             </button>
         </span>
     </div>
     <div class="panel-body" *ngIf="status.isWaterVaporSensorsGroupOpen">
         <div *ngIf="waterVaporSensors == null || waterVaporSensors.length == 0 ">
-            No information available for WaterVapor Sensors
+            No information available for Water Vapor Sensors
         </div>
         <div *ngFor="let waterVaporSensor of waterVaporSensors; let i = index">
             <div class="panel panel-level-2">
@@ -27,10 +27,10 @@
                          [ngClass]="{'glyphicon-minus-sign': status.isWaterVaporSensorsOpen[i], 'glyphicon-plus-sign': !status.isWaterVaporSensorsOpen[i]}"></i>
                     </span>
                      <span *ngIf="i == 0">
-                        Current WaterVapor Sensor (Since {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                        Current Water Vapor Sensor (Since {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
                      </span>
                      <span *ngIf="i != 0">
-                        Previous WaterVapor Sensor ({{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                        Previous Water Vapor Sensor ({{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
                     </span>
                     <span class="pull-right" *ngIf="i == 0 && status.hasNewWaterVaporSensor">
                       <button class="btn btn-danger btn-xs" title="Remove the new current waterVaporSensor"
@@ -81,22 +81,6 @@
                          			class="alert alert-danger">
                     				"Serial Number" is required    
                     			 </small>	
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Data Sampling Interval (sec)</label>
-                            <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                                <input type="number" min="0" maxlength="100" class="form-control"
-                                       [(ngModel)]="waterVaporSensor.dataSamplingInterval"
-                                       name="waterVaporSensorDataSamplingInterval_{{i}}"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Accuracy (hPa)</label>
-                            <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                                <input type="number" min="0" maxlength="100" class="form-control"
-                                       [(ngModel)]="waterVaporSensor.accuracyHPa"
-                                       name="waterVaporSensorAccuracyHPa_{{i}}"/>
                             </div>
                         </div>
                         <div class="form-group">
