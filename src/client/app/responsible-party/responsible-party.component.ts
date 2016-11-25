@@ -3,14 +3,14 @@ import { Subscription } from 'rxjs/Subscription';
 import { MiscUtilsService, JsonCheckService, ServiceWorkerService } from '../shared/index';
 
 /**
- * This class represents the ContactInfoComponent for viewing and editing siteContacts and metadataCustodian information.
+ * This class represents the ResponsiblePartyComponent for viewing and editing siteContact and metadataCustodian information.
  */
 @Component({
   moduleId: module.id,
-  selector: 'gnss-contact-info',
-  templateUrl: 'contact-info.component.html',
+  selector: 'gnss-responsible-party',
+  templateUrl: 'responsible-party.component.html',
 })
-export class ContactInfoComponent implements OnInit {
+export class ResponsiblePartyComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
   public errorMessage: string;
   private cacheItems: Array<string> = [];
