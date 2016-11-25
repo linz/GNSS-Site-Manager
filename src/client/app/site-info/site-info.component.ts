@@ -36,7 +36,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
-    isSiteContactGroupOpen: false,
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],

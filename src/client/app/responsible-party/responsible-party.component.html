@@ -1,45 +1,37 @@
 <div class="panel panel-level-2">
   <div class="panel-heading">
     <span class="panel-title cursor-ptr"
-          (click)="status.isSiteContactGroupOpen = miscUtilsService.scrollIntoView($event, status.isSiteContactGroupOpen)">
+          (click)="isPartyGroupOpen = miscUtilsService.scrollIntoView($event, isPartyGroupOpen)">
       <i class="glyphicon"
-         [ngClass]="{'glyphicon-minus-sign': status.isSiteContactGroupOpen, 'glyphicon-plus-sign': !status.isSiteContactGroupOpen}">
+         [ngClass]="{'glyphicon-minus-sign': isPartyGroupOpen, 'glyphicon-plus-sign': !isPartyGroupOpen}">
       </i>
-      Site Contact
+      {{partyName}}
     </span>
-    <span class="pull-right">
+    <span *ngIf="siteLogModel" class="pull-right">
       <button class="btn btn-primary btn-xs"
-              title="Add a new site contact"
-              [disabled]="status.hasNewSiteContact"
+              title="Add a new {{partyName}}"
+              [disabled]="hasNewResponsibleParty()"
               (click)="addNewSiteContact(); miscUtilsService.showFullView($event);">
         <i class="glyphicon glyphicon-plus-sign"></i>
-        New Site Contact
+        New {{partyName}}
       </button>
     </span>
   </div>
-  <div class="panel-body" *ngIf="status.isSiteContactGroupOpen">
-    <div *ngIf="siteContacts == null || siteContacts.length == 0" class="margin-bottom15">
-      No information available for Site Contact
+  <div class="panel-body" *ngIf="isPartyGroupOpen">
+    <div *ngIf="responsibleParties == null || responsibleParties.length == 0" class="margin-bottom15">
+      No information available for {{partyName}}
     </div>
-    <div *ngFor="let siteContact of siteContacts; let i = index">
-      <div *ngIf="siteContacts.length > 1" class="form-group panel-subtitle">
-        <label class="col-md-8 col-sm-8 col-xs-8 col-xxs-9">Contact {{i+1}}</label>
-        <div class="col-md-4 col-sm-4 col-xs-4 col-xxs-3" *ngIf="i == 0 && status.hasNewSiteContact">
+    <div *ngFor="let siteContact of responsibleParties; let i = index">
+      <div class="form-group" [ngClass]="{'panel-subtitle': responsibleParties.length > 1}">
+        <label class="col-md-8 col-sm-8 col-xs-8 col-xxs-9">{{responsibleParties.length > 1 ? 'Contact '+(i+1) : ''}}</label>
+        <div class="col-md-4 col-sm-4 col-xs-4 col-xxs-3" *ngIf="i == 0 && hasNewResponsibleParty()">
           <button class="btn btn-danger btn-rm pull-right"
-                  title="Remove the new Site Contact"
+                  title="Remove the new {{partyName}}"
                   (click)="removeNewSiteContact()">
             <i class="glyphicon glyphicon-remove"></i>
             <span class="hidden-xxs">Remove</span>
           </button>
         </div>
-      </div>
-      <div *ngIf="siteContacts.length == 1 && status.hasNewSiteContact" class="pull-right">
-        <button class="btn btn-danger btn-rm"
-                title="Remove the new Site Contact"
-                (click)="removeNewSiteContact()">
-          <i class="glyphicon glyphicon-remove"></i>
-          <span class="hidden-xs">Remove</span>
-        </button>
       </div>
       <div class="form-group">
         <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Full Name</label>

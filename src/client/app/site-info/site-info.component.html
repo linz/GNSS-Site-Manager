@@ -101,138 +101,14 @@
                 </div>
               </div>
             </div>-->
-            <gnss-responsible-party [status]="status"
-                               [siteContacts]="siteContacts"
-                               [siteLogModel]="siteLogModel"
-                               [siteLogOrigin]="siteLogOrigin"></gnss-responsible-party>
-            <div class="panel panel-level-2">
-              <div class="panel-heading">
-              <span class="panel-title cursor-ptr"
-                    (click)="status.isMetaCustodianOpen = miscUtilsService.scrollIntoView($event, status.isMetaCustodianOpen)">
-                <i class="glyphicon"
-                   [ngClass]="{'glyphicon-minus-sign': status.isMetaCustodianOpen, 'glyphicon-plus-sign': !status.isMetaCustodianOpen}">
-                </i>
-                Site Metadata Custodian
-              </span>
-              </div>
-              <div class="panel-body" *ngIf="status.isMetaCustodianOpen">
-                <div *ngIf="metadataCustodian != null">
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Full Name</label>
-                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control" required
-                             [(ngModel)]="metadataCustodian.individualName.characterString['gco:CharacterString']"
-                             name="custodianName" #custodianName="ngModel"/>
-                      <small [hidden]="custodianName.valid || custodianName.pristine"
-                             class="alert alert-danger">
-                        "Full Name" is required
-                      </small>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Organisation</label>
-                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100"
-                             class="form-control" required
-                             [(ngModel)]="metadataCustodian.organisationName.characterString['gco:CharacterString']"
-                             name="custodianOrg" #custodianOrg="ngModel"/>
-                      <small [hidden]="custodianOrg.valid || custodianOrg.pristine"
-                             class="alert alert-danger">
-                        "Organisation" is required
-                      </small>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Position</label>
-                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="metadataCustodian.positionName.characterString['gco:CharacterString']"
-                             name="contactPosition_{{i}}"/>
-                    </div>
-                  </div>
-                  <div
-                    *ngFor="let address of metadataCustodian.contactInfo.ciContact.address.ciAddress.deliveryPoint; let j = index">
-                    <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Delivery Point
-                        {{metadataCustodian.contactInfo.ciContact.address.ciAddress.deliveryPoint.length <= 1 ? '' :
-                        j+1}}</label>
-                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                        <input type="text" maxlength="100" class="form-control"
-                               [(ngModel)]="address.characterString['gco:CharacterString']"
-                               name="contactAddress_{{i}}_{{j}}"/>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">City</label>
-                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.city.characterString['gco:CharacterString']"
-                             name="contactCity_{{i}}" #contactOrganisation="ngModel"/>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Administrative Area</label>
-                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.administrativeArea.characterString['gco:CharacterString']"
-                             name="contactAdminArea_{{i}}" #contactOrganisation="ngModel"/>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Postal Code</label>
-                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.postalCode.characterString['gco:CharacterString']"
-                             name="contactPostCode_{{i}}" #contactOrganisation="ngModel"/>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Country</label>
-                    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                      <input type="text" maxlength="100" class="form-control"
-                             [(ngModel)]="metadataCustodian.contactInfo.ciContact.address.ciAddress.country.characterString['gco:CharacterString']"
-                             name="contactCountry_{{i}}" #contactOrganisation="ngModel"/>
-                    </div>
-                  </div>
-                  <div
-                    *ngFor="let email of metadataCustodian.contactInfo.ciContact.address.ciAddress.electronicMailAddress; let j = index">
-                    <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Email
-                        {{metadataCustodian.contactInfo.ciContact.address.ciAddress.electronicMailAddress.length <= 1 ? '' :
-                        j+1}}</label>
-                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                        <input type="email" maxlength="100" class="form-control"
-                               [(ngModel)]="email.characterString['gco:CharacterString']"
-                               name="contactEmail_{{i}}" #contactEmail_{{i}}_{{j}}="ngModel"/>
-                      </div>
-                    </div>
-                  </div>
-                  <div *ngFor="let phone of metadataCustodian.contactInfo.ciContact.phone.ciTelephone.voice; let j = index">
-                    <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Phone
-                        {{metadataCustodian.contactInfo.ciContact.phone.ciTelephone.voice.length <= 1 ? '' : j+1}}</label>
-                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                        <input type="text" maxlength="100" class="form-control"
-                               [(ngModel)]="phone.characterString['gco:CharacterString']"
-                               name="contactPhone_{{i}}_{{j}}"/>
-                      </div>
-                    </div>
-                  </div>
-                  <div *ngFor="let fax of metadataCustodian.contactInfo.ciContact.phone.ciTelephone.facsimile; let j = index">
-                    <div class="form-group">
-                      <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Facsimile
-                        {{metadataCustodian.contactInfo.ciContact.phone.ciTelephone.facsimile.length <= 1 ? '' : j+1}}</label>
-                      <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                        <input type="text" maxlength="100" class="form-control"
-                               [(ngModel)]="fax.characterString['gco:CharacterString']"
-                               name="contactFax_{{i}}_{{j}}"/>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <gnss-responsible-party [partyName]=" 'Site Contact' "
+                                    [status]="status"
+                                    [responsibleParties]="siteContacts"
+                                    [siteLogModel]="siteLogModel"
+                                    [siteLogOrigin]="siteLogOrigin"></gnss-responsible-party>
+            <gnss-responsible-party [partyName]=" 'Site Metadata Custodian' "
+                                    [status]="status"
+                                    [responsibleParties]="[metadataCustodian]"></gnss-responsible-party>
           </div>
         </div>
         <gnss-receiever-info [status]="status"

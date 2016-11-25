@@ -14,10 +14,12 @@ export class ResponsiblePartyComponent implements OnInit {
   private serviceWorkerSubscription: Subscription;
   public errorMessage: string;
   private cacheItems: Array<string> = [];
-  @Input() status: any;
-  @Input() siteContacts: any;
+  private isPartyGroupOpen: boolean = false;
+  @Input() partyName: string;
+  @Input() responsibleParties: any;
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
+  @Input() status: any;
 
   constructor(private miscUtilsService: MiscUtilsService,
               private jsonCheckService: JsonCheckService,
@@ -54,36 +56,43 @@ export class ResponsiblePartyComponent implements OnInit {
    * Add a new empty site contact
    */
   public addNewSiteContact() {
-    if (!this.siteContacts) {
-      this.siteContacts = [];
+    if (!this.siteLogModel) {
+      return;
     }
 
-    // Clone from one of SiteContacts objects so that the "new" SiteContact object can be saved
-    let siteContactObj: any = {};
-    if ( this.siteLogModel.siteContact.length > 0 ) {
-      siteContactObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.siteContact[0]);
-    }
-
-    // Assign a new SiteContact object to both original and backup models for comparison
     let newSiteContact = this.jsonCheckService.getNewSiteContact();
-    let siteContactObjCopy: any = this.miscUtilsService.cloneJsonObj(siteContactObj);
-    siteContactObjCopy.siteContact = this.miscUtilsService.cloneJsonObj(newSiteContact);
-    this.siteLogOrigin.siteContact.unshift(siteContactObjCopy);
-    siteContactObj.siteContact = this.miscUtilsService.cloneJsonObj(newSiteContact);
+    let siteContactObj: any = {};
+    siteContactObj.siteContact = newSiteContact;
     this.siteLogModel.siteContact.unshift(siteContactObj);
-    this.siteContacts.unshift(newSiteContact);
+    if (!this.responsibleParties) {
+      this.responsibleParties = [];
+    }
+    this.responsibleParties.unshift(newSiteContact);
     this.status.hasNewSiteContact = true;
-    this.status.isSiteContactGroupOpen = true;
+    this.isPartyGroupOpen = true;
+
+    // Add a copy of the new SiteContact to the original model for tracking any changes to be made
+    this.siteLogOrigin.siteContact.unshift(this.miscUtilsService.cloneJsonObj(siteContactObj));
   }
 
   /**
    * Remove the new SiteContact from the site contacts list
    */
   public removeNewSiteContact() {
+    if (!this.siteLogModel) {
+      return;
+    }
     this.siteLogModel.siteContact.shift();
     this.siteLogOrigin.siteContact.shift();
-    this.siteContacts.shift();
+    this.responsibleParties.shift();
     this.status.hasNewSiteContact = false;
+  }
+
+  public hasNewResponsibleParty(): boolean {
+    if (!this.siteLogModel) {
+      return false;
+    }
+    return this.status.hasNewSiteContact;
   }
 
   /**
