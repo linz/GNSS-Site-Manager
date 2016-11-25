@@ -45,7 +45,7 @@ export class HumiditySensorItemComponent extends AbstractItem {
    */
   @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
-  constructor(private ref: ChangeDetectorRef, private miscUtilsService: MiscUtilsService) {
+  constructor() {
     super();
   }
 

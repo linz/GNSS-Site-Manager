@@ -22,97 +22,39 @@ import {
   templateUrl: 'humidity-sensors-group.component.html',
 })
 export class HumiditySensorsGroupComponent extends AbstractGroup {
-  private itemName: string = 'Humidity Sensor';
-  /**
-   * All the HumiditySensors (items)
-   */
-  private humiditySensorProperties: HumiditySensorProperty[];
-  /**
-   * A backup of the original list of HumiditySensors.  Used to diff against upon Save.
-   */
-  private humiditySensorsOriginalProperties: HumiditySensorProperty[];
-
-  /**
-   * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
-   * @type {{name: EventNames}}
-   */
-  private geodesyEvent: GeodesyEvent = {name: EventNames.none};
-
   @Input()
   set siteLogModel(siteLogModel: any) {
     this.setItemsCollection(siteLogModel.humiditySensors);
-    console.log('humiditySensorProperties: ', this.humiditySensorProperties);
+    console.log('HumiditySensors: ', this.getItemsCollection());
   }
 
   @Input()
   set originalSiteLogModel(originalSiteLogModel: any) {
     this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
-    console.log('humiditySensorsOriginalProperties: ', this.humiditySensorsOriginalProperties);
+    console.log('HumiditySensors (Original): ', this.getItemsOriginalCollection());
   }
 
   constructor(private miscUtilsService: MiscUtilsService) {
     super();
   }
 
-  getItemName(): string {
-    return this.itemName;
+  getWhatIsTheItemName(): string {
+    return 'Humidity Sensor';
   }
 
-  getItemsCollection(): any {
-    return this.humiditySensorProperties;
-  }
-
-  getItemsOriginalCollection(): any {
-    return this.humiditySensorsOriginalProperties;
-  }
-
-  setItemsCollection(humiditySensorProperties: HumiditySensorProperty[]) {
-    this.humiditySensorProperties = humiditySensorProperties;
-    if (humiditySensorProperties && humiditySensorProperties.length > 0) {
-      this.populateDefaultExistingItems(this.humiditySensorProperties);
-      this.sortUsingComparator(this.humiditySensorProperties);
+  getComparator = (obj1: HumiditySensorProperty, obj2: HumiditySensorProperty): number => {
+    if (obj1 === null || obj2 === null) {
+      return 0;
+    } else if (obj1.humiditySensor === null || obj1.humiditySensor === null) {
+      return 0;
+    } else {
+      let date1: string = this.getBeginPositionDate(obj1.humiditySensor);
+      let date2: string = this.getBeginPositionDate(obj2.humiditySensor);
+      return this.compareDates(date1, date2);
     }
   }
 
-  setItemsOriginalCollection(humiditySensorProperties: HumiditySensorProperty[]) {
-    this.humiditySensorsOriginalProperties = humiditySensorProperties;
-    if (humiditySensorProperties && humiditySensorProperties.length > 0) {
-      this.populateDefaultExistingItems(this.humiditySensorsOriginalProperties);
-      this.sortUsingComparator(this.humiditySensorsOriginalProperties);
-    }
-  }
-
-  getGeodesyEvent(): GeodesyEvent {
-    return this.geodesyEvent;
-  }
-
-  getComparator(): (obj1: HumiditySensorProperty, obj2: HumiditySensorProperty) => void {
-    return ((obj1, obj2) => {
-      if (obj1 === null || obj2 === null) {
-        return 0;
-      } else if (obj1.humiditySensor === null || obj1.humiditySensor === null) {
-        return 0;
-      } else {
-        let date1: string = this.getDateInstalled(obj1.humiditySensor);
-        let date2: string = this.getDateInstalled(obj2.humiditySensor);
-        return this.compareDates(date1, date2);
-      }
-    });
-  }
-
-  /**
-   * After a new sensor is created, send this so it can init itself.
-   */
-  newSensorEvent() {
-    console.log('parent newSensorEvent');
-    let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-    geodesyEvent.name = EventNames.newItem;
-    geodesyEvent.valueNumber = 0;
-
-    // Send event to close and open the previous item to prevent problem where the updated ... maybe try timeout instead ...
-  }
-
-  /* **************************************************
+   /* **************************************************
    * Other methods
    */
 
@@ -121,7 +63,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
    *
    * @param hs - humiditySensor
    */
-  private makeExist(hs: HumiditySensor) {
+  makeItemExist(hs: HumiditySensor) {
     if (!hs.validTime) {
       let validTime: ValidTime = <ValidTime>{};
       hs.validTime = validTime;
@@ -183,20 +125,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
     }
   }
 
-  /**
-   * Make sure the loaded Humidity Sensors have all values including any default ones.
-   *
-   * @param humiditySensors
-   */
-  private populateDefaultExistingItems(humiditySensors: HumiditySensorProperty[]) {
-    if (humiditySensors) {
-      for (let humiditySensorProperty of humiditySensors) {
-        this.makeExist(humiditySensorProperty.humiditySensor);
-      }
-    }
-  }
-
-  private makePropertyExist(c: HumiditySensorProperty) {
+  makeItemsPropertyExist(c: HumiditySensorProperty) {
     if (!c.TYPE_NAME) {
       c.TYPE_NAME = 'GEODESYML_0.3.HumiditySensorPropertyType';
     }
@@ -231,13 +160,13 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
 
   private newSensor(): HumiditySensor {
     let newSensor: HumiditySensor = <HumiditySensor>{};
-    this.makeExist(newSensor);
+    this.makeItemExist(newSensor);
     return newSensor;
   }
 
   private newSensorProperty(theHumiditySensor: HumiditySensor): HumiditySensorProperty {
     let newSensorContainer: HumiditySensorProperty = <HumiditySensorProperty>{};
-    this.makePropertyExist(newSensorContainer);
+    this.makeItemsPropertyExist(newSensorContainer);
 
     newSensorContainer.humiditySensor = theHumiditySensor;
     return newSensorContainer;
@@ -246,7 +175,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
   /**
    * Add a new empty humidity sensors as current one and push the 'old' current humidity sensors into previous list
    */
-  public addNew(): void {
+  public addNewItem(): void {
     let presentDT = this.miscUtilsService.getPresentDateTime();
 
     if (!this.getItemsCollection()) {
@@ -256,7 +185,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
     // Assign present date/time as default value to dateRemoved if it is empty
     if (this.getItemsCollection().length > 0) {
       let currentSensor: HumiditySensor = this.getItemsCollection()[0].humiditySensor;
-      this.makeExist(currentSensor);
+      this.makeItemExist(currentSensor);
       if (! this.getBeginPositionDate(currentSensor) || this.getBeginPositionDate(currentSensor) === '') {
         currentSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] = presentDT;
         // console.log('Update last current sensor - set endPosition: ',this.getBeginPositionDate(currentSensor));
@@ -278,6 +207,6 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
     // Add the new humidity sensor (copy) into the original list so a diff of the fields can be performed
     this.getItemsOriginalCollection().unshift(newSensorPropertyCopy);
 
-    this.newSensorEvent();
+    this.newItemEvent();
   }
 }

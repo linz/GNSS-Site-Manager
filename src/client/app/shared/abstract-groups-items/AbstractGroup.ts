@@ -2,27 +2,106 @@ import {GeodesyEvent, EventNames} from '../events-messages/Event';
 export abstract class AbstractGroup {
   isGroupOpen: boolean = false;
   hasGroupANewItem: boolean = false;
-
-  abstract getItemsCollection(): any;
-
-  abstract setItemsCollection(collection: any[]): void;
-
-  abstract getItemsOriginalCollection(): any;
-
-  abstract getGeodesyEvent(): GeodesyEvent;
+  private itemName: string = 'Humidity Sensor';
 
   /**
-   * Return the comparator used to sort the collection.  There are simple options in here such as:
-   * - comparatorEffectiveStartDates
-   * - comparatorDateInstalled
-   *
+   * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
+   * @type {{name: EventNames}}
    */
-  abstract getComparator(): any;
+  private geodesyEvent: GeodesyEvent = {name: EventNames.none};
+
+  /**
+   * All the items (eg. HumiditySensors)
+   */
+  private itemProperties: any[];
+
+  /**
+   * A backup of the original list of items.  Used to diff against upon Save.
+   */
+  private itemOriginalProperties: any[];
+
+  /**
+   * Get the item name to be usedb in the subclasses.
+   */
+  abstract getWhatIsTheItemName(): string;
 
   /**
    * Add a new item
    */
-  abstract addNew(): void;
+  abstract addNewItem(): void;
+
+  /**
+   * Method that constructs the items and makes sure that all mandatory (or used somewhere) fields exist.
+   * On the item.
+   *
+   * @param item
+   */
+  abstract makeItemExist(item: any);
+
+  /**
+   * Method that constructs the itemsProperty and makes sure that all mandatory (or used somewhere) fields exist.
+   * @param itemsProperty
+   */
+  abstract makeItemsPropertyExist(itemsProperty: any);
+
+  /**
+   * Subclasses can create a comparator relevant for their data structures.  Reduce size in these by
+   * using getDateInstalled(), getBeginPositionDate.
+   *
+   * @param obj1
+   * @param obj2
+   */
+  abstract getComparator(obj1: any, obj2: any): number;
+
+  constructor() {
+    this.itemName = this.getWhatIsTheItemName();
+  }
+
+  /**
+   * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
+   *
+   * @returns {GeodesyEvent}
+   */
+  getGeodesyEvent(): GeodesyEvent {
+    return this.geodesyEvent;
+  }
+
+  getIsGroupOpen(): boolean {
+    return this.isGroupOpen;
+  }
+
+  getHasGroupANewItem(): boolean {
+    return this.hasGroupANewItem;
+  }
+
+  getItemName(): string {
+    return this.itemName;
+  }
+
+
+  getItemsCollection(): any {
+    return this.itemProperties;
+  }
+
+  getItemsOriginalCollection(): any {
+    return this.itemOriginalProperties;
+  }
+
+  setItemsCollection(itemProperties: any[]) {
+    this.itemProperties = itemProperties;
+    if (itemProperties && itemProperties.length > 0) {
+      this.populateDefaultExistingItems(this.itemProperties);
+      this.sortUsingComparator(this.itemProperties);
+    }
+  }
+
+  setItemsOriginalCollection(itemProperties: any[]) {
+    this.itemOriginalProperties = itemProperties;
+    if (itemProperties && itemProperties.length > 0) {
+      this.populateDefaultExistingItems(this.itemOriginalProperties);
+      this.sortUsingComparator(this.itemOriginalProperties);
+    }
+  }
 
   /**
    * This is the event handler called by children
@@ -38,6 +117,34 @@ export abstract class AbstractGroup {
       default:
         console.log('returnEvents - unknown event: ', EventNames[geodesyEvent.name]);
     }
+  }
+
+  /**
+   * Make sure the loaded Humidity Sensors have all values including any default ones.
+   *
+   * @param humiditySensors
+   */
+  private populateDefaultExistingItems(items: any[]) {
+    if (items) {
+      for (let humiditySensorProperty of items) {
+        this.makeItemExist(humiditySensorProperty.humiditySensor);
+      }
+    }
+  }
+
+  private addNew() {
+    this.addNewItem();
+    this.newItemEvent();
+  }
+
+  /**
+   * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
+   */
+  newItemEvent() {
+    console.log('parent newItemEvent');
+    let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
+    geodesyEvent.name = EventNames.newItem;
+    geodesyEvent.valueNumber = 0;
   }
 
   /**

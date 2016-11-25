@@ -24,7 +24,7 @@
       <!-- (open/close Above/Below Event) - receive events from child components -->
       <!-- (returnEvents) - single point to call events on parent -->
       <gnss-humidity-sensor-item [humiditySensorProperty]="humiditySensorProperty"
-                                 [total]="humiditySensorProperties.length"
+                                 [total]="itemProperties.length"
                                  [index]="i"
                                  [geodesyEvent]="geodesyEvent"
                                  (returnEvents)="returnEvents($event)"></gnss-humidity-sensor-item>
