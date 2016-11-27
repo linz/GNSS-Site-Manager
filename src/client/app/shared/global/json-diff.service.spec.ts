@@ -72,11 +72,15 @@ export function main() {
         },
         dateInserted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+            ''
+          ]
         },
         dateDeleted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+            ''
+          ]
         },
         deletedReason: ''
       }
@@ -144,11 +148,15 @@ export function main() {
         },
         dateInserted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         dateDeleted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         deletedReason: ''
       }
@@ -216,11 +224,15 @@ export function main() {
         },
         dateInserted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         dateDeleted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         deletedReason: ''
       }
@@ -294,11 +306,15 @@ export function main() {
         },
         dateInserted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         dateDeleted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         deletedReason: ''
       }
@@ -372,11 +388,15 @@ export function main() {
         },
         dateInserted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         dateDeleted: {
           TYPE_NAME: 'GML_3_2_1.TimePositionType',
-          value: []
+          value: [
+	        ''
+	      ]
         },
         deletedReason: ''
       }
@@ -436,7 +456,7 @@ export function main() {
 
     it('should get date for humidity sensor', () => {
 
-      let dateStart: string = jsonDiffService.getDate(humiditySensor_old.humiditySensor, 'dateBeginEnd', 'start');
+      let dateStart: string = jsonDiffService.getDate(humiditySensor_old.humiditySensors, 'dateBeginEnd', 'start');
       expect(dateStart).toBeDefined();
       // expect(dateStart).toContain('2016-11-15');
     });
