@@ -21,7 +21,10 @@ export = () => {
   let result = gulp.src(src)
     .pipe(plugins.plumber())
     .pipe(plugins.sourcemaps.init())
-    .pipe(plugins.typescript(tsProject));
+    .pipe(plugins.typescript(tsProject))
+    .once('error', function(e: any) {
+      this.once('finish', () => process.exit(1));
+    });
 
   return result.js
     .pipe(plugins.sourcemaps.write())

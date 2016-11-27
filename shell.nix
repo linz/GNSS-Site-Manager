@@ -16,8 +16,10 @@ let
   devEnv = with pkgs; buildEnv {
     name = "devEnv";
     paths = [
-      nodejs-6_x
       awscli
+      chromium
+      nodejs-6_x
+      xvfb_run
     ];
   };
 in
@@ -26,8 +28,6 @@ in
       devEnv
     ];
     shellHook = ''
-      if [[ -e ./node_modules ]]; then
-        export PATH=./node_modules/.bin:$PATH
-      fi
+      export PATH=./node_modules/.bin:$PATH
     '';
   } ""
