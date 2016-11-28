@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/GeoscienceAustralia/gnss-site-manager.svg?branch=master)](https://travis-ci.org/GeoscienceAustralia/gnss-site-manager)
+[![Build Status](https://travis-ci.org/GeoscienceAustralia/GNSS-Site-Manager.svg?branch=master)](https://travis-ci.org/GeoscienceAustralia/GNSS-Site-Manager)
 
 To run the application use npm.
 
