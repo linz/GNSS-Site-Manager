@@ -20,6 +20,11 @@ export class JsonDiffService {
   }
 
   public getJsonDiffHtml(oldJson: any , newJson: any): string {
+    // This is an alternative diff engine - setup with:
+    // npm install --save deep-diff
+    // typings install dt~deep-diff --global --save
+    // import * as diff from 'deep-diff';
+    // let jsonDiff: any =  diff.diff(newJson, oldJson);
     let jsonDiff: any = this.compare(oldJson, newJson, []);
     let diffArray: any = this.detectChanges(jsonDiff);
     let result: string = this.formatToHtml(diffArray);

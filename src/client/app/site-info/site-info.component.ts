@@ -16,6 +16,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private isLoading: boolean = false;
   private siteLogOrigin: any = {};
   private siteLogModel: any = {};
+  private siteLogModelXXX: any = {};
   private site: any = null;
   private siteLocation: any = null;
   private metadataCustodian: any = null;
@@ -93,7 +94,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteId = id;
     });
 
-    this.siteLogModel = {
+    this.siteLogModelXXX = {
       gnssReceivers: [],
       gnssAntennas: [],
       frequencyStandards: [],
@@ -162,7 +163,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
-          this.setHumiditySensors(this.siteLogModel.humiditySensors);
           this.setPressureSensors(this.siteLogModel.pressureSensors);
           this.setTemperatureSensors(this.siteLogModel.temperatureSensors);
           this.setWaterVaporSensors(this.siteLogModel.waterVaporSensors);
@@ -280,8 +280,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public save(form: any) {
     let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
     if ( diffMsg === null || diffMsg.trim() === '') {
-      this.dialogService.showLogMessage('No changes have been made for '+this.siteId);
-      return;
+      this.dialogService.showLogMessage('No changes have been made for '+this.siteId + ' BUT TESTING REMOVE SO SAVING');
+      // return;
     }
 
     let that: any = this;
@@ -447,24 +447,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Current frequency standard (even null) are the first item in the arrays and open by default
     this.frequencyStandards.unshift(currentFrequencyStd);
     this.status.isFrequencyStdsOpen.unshift(true);
-  }
-
-  /**
-   * Set current and previous humidity sensors, and their show/hide flags
-   */
-  private setHumiditySensors(humiditySensorsLocal: any) {
-    this.status.isHumiditySensorsOpen = [];
-    let currentHumiditySensor: any = null;
-    for (let humiditySensorObj of humiditySensorsLocal) {
-      currentHumiditySensor = this.jsonCheckService.getValidHumiditySensor(humiditySensorObj.humiditySensor);
-      this.humiditySensors.push(currentHumiditySensor);
-      this.status.isHumiditySensorsOpen.push(false);
-    }
-    this.humiditySensors.sort(this.compareEffectiveStartDates);
-
-    // the first item in the array is open by default
-    this.status.isHumiditySensorsOpen.pop();
-    this.status.isHumiditySensorsOpen.unshift(true);
   }
 
   /**
