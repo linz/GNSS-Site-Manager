@@ -1,13 +1,16 @@
 language: nix
 sudo: true
 services:
-  - docker
+- docker
 branches:
   only:
   - master
 cache:
   timeout: 86400
   directories:
-  - /tmp/src/node_modules
-
-script: docker run -it -v $(pwd):/tmp/src -w /tmp/src nixos/nix:1.11 ./travis/build.sh
+  - "/tmp/src/node_modules"
+script: docker run -it -v $(pwd):/tmp/src -w /tmp/src -e TRAVIS_AWS_ACCESS_KEY_ID -e TRAVIS_AWS_SECRET_KEY_ID nixos/nix:1.11 ./travis/build.sh
+env:
+  global:
+  - secure: t5gEZ54qOaXI1a2ONCXm30f5LfQaS6InVnwQ0PnNNgU9HmxpYSyNW9K8wu/M9WHfu7T5RPhgvJ5NmtiABEw3oMVcYlhyP71s7/IYXKUXvRfpyoiZvrRhBS79SI98tpWlKtFIb+KeiCRYkNVIoc4VCj0BtI+Hb714ZNO1lBcrgvlLRwqQl/O1g55ls8lsN8F4KsQGi9S6lVwwJ7+VBqxaOozOGTIjpy24k8KVrdb4ZK/o7Mcaqd55GwDkUn1lC5ZQLVeu+x4iWw7/CZw6rlGh/4158HICvrDeXfAfs3oNlEo6ImE5GB0rafkiue/hOu+jYpXHJrZlzP7w/QMBQBpjLnWvXDQvWphM7IZNQerv+pmRgG3z60JND8WDp86GUmKcf+HU6lPSn9nl4eXTLCzRSwWZTZZ1060Vy9aegd8ktVNobYZW/CRxBzg2tTEoqzYP7KzkMnCH5+++8cdnfB/qm19KTlr9hLkt99fSIHDVdlUv+Pw1BcC0/hSmKywCQU2GZLWFcj2yyARGeydQDsJpUloxlSKqBi5sxQPM1eHIRtCsKa/c2U+zEZ5ZBW6wl+M9jKcshHK1ory8UeiN2NuABHiI1jRjZl0sOlSV9PwGBucHU2FH+IZud3/u505ud3iIzYwEaPhZML5/8y7zaSdjwhvT9P8Ij8mMczOcaxUOybg=
+  - secure: YyVjxk4s3AWjOdtvLokLM7nH0FTr6Cji4Q5JKp/NdyzcTOqNpFMuO9Tm/vw0nHAvL9VKK8gmygqdrh5CV0n4Ot3hdSDw5kkjMGupm104ZY8Fh2+A+Q92oZ7gfwRY7to7oNfz8kaoNzewdmZYY7v7AYqz1UWA55DpcPJ9zo90lONHw6/WPsvs8S2pLdM2mOdcWaAfVOEU5dZhJHQ/rkMwGJjUbjixRp+3B17SuREcK1Nw1EAWMTZUvWfiP/dOT3YCrOgs4y0fAV0R+6bV6kTV8hQtNji92ewcJp0/55pA8z3Wn6t/E4mtVI8PzKQOeGj2lOg5u3UGfekmvBYLM2XX6N26GyUi5OIKww2vzwFIQfq9TV8if+cnTxroif2AadUf1Rg1sHwRc1RevWbGrhb6r7re+3PmgssqoFhDsnIvgi85ArkbMT7VzLtBqqK+KEW5Yna5wo/17PRKWJfnrhB3IBGxeQdLGoSUq/GavObfnXJ8VDWhYvu9JmCwMurjV0119zlcqsf9VgyResQwbVbhmkCDi+pCdxOy1OLDkYkGPX2I1kwH5Xjmo2ORB8wr/4QURpDm7d6t8lyKRlpwE89hBYp6jK6FA5z4qSPt8ssJjxwWq2hJ50WPNcdnC6bC0ZQjFJ3/yXKS/FWgafddOJoE71XtyvEWJQd4k+oxjavBNmU=
