@@ -35,7 +35,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   private status: any = {
     oneAtATime: false,
-    isSiteInfoGroupOpen: false,
+    isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,

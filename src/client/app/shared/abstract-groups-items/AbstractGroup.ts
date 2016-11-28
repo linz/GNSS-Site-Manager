@@ -3,6 +3,7 @@ export abstract class AbstractGroup {
   isGroupOpen: boolean = false;
   hasGroupANewItem: boolean = false;
   private itemName: string = 'Humidity Sensor';
+  that: any;
 
   /**
    * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -20,6 +21,69 @@ export abstract class AbstractGroup {
    */
   private itemOriginalProperties: any[];
 
+
+  /**
+   * Retrieve the obj.dateInstalled.value[0] or '' if no parts of the path exists.
+   * @param obj
+   * @returns {any}
+   *
+   * TODO - replace by inline Dottie call
+   */
+  public static getDateInstalled(obj: any) {
+    if (obj && obj.dateInstalled
+      && obj.dateInstalled.value
+      && obj.dateInstalled.length > 0) {
+      return obj.dateInstalled.value[0];
+    } else {
+      return '';
+    }
+  }
+
+  /**
+   * Retrieve the obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] or '' if no parts of
+   * the path exists.
+   * @param obj
+   * @returns {any}
+   *
+   * TODO - replace by inline Dottie call
+   */
+  public static getBeginPositionDate(obj: any) {
+    if (obj && obj.validTime && obj.validTime.abstractTimePrimitive && obj.validTime.abstractTimePrimitive['gml:TimePeriod']
+      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition
+      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value
+      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length > 0) {
+      return obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0];
+    }
+  }
+
+  // TODO - replace by inline Dottie call
+  public static getEndPositionDate(obj: any) {
+    if (obj && obj.validTime && obj.validTime.abstractTimePrimitive && obj.validTime.abstractTimePrimitive['gml:TimePeriod']
+      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition
+      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value
+      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value.length > 0) {
+      return obj.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0];
+    }
+  }
+
+
+  /**
+   * This is used in comparators but isn't a comparator - just a helper function.  In the comparator, extract the dates
+   * (using getDateInstalled(), getBeginPositionDate(), ...) and return compareDates(date1, date2)
+   * @param date1
+   * @param date2
+   * @return -1: date1 < date2; 1: date1 > date2; 0: date1 == date2
+   */
+  public static compareDates(date1: string, date2: string): number {
+    if (date1 < date2) {
+      return 1;
+    } else if (date1 > date2) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
   /**
    * Get the item name to be usedb in the subclasses.
    */
@@ -36,13 +100,13 @@ export abstract class AbstractGroup {
    *
    * @param item
    */
-  abstract makeItemExist(item: any);
+  abstract makeItemExist(item: any): void;
 
   /**
    * Method that constructs the itemsProperty and makes sure that all mandatory (or used somewhere) fields exist.
    * @param itemsProperty
    */
-  abstract makeItemsPropertyExist(itemsProperty: any);
+  abstract makeItemsPropertyExist(itemsProperty: any): void;
 
   /**
    * Subclasses can create a comparator relevant for their data structures.  Reduce size in these by
@@ -51,11 +115,13 @@ export abstract class AbstractGroup {
    * @param obj1
    * @param obj2
    */
+  // abstract getComparator = (obj1: any, obj2: any): number
   abstract getComparator(obj1: any, obj2: any): number;
 
   constructor() {
     this.itemName = this.getWhatIsTheItemName();
   }
+
 
   /**
    * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -103,6 +169,7 @@ export abstract class AbstractGroup {
     }
   }
 
+
   /**
    * This is the event handler called by children
    * @param geodesyEvent
@@ -132,7 +199,7 @@ export abstract class AbstractGroup {
     }
   }
 
-  private addNew() {
+  addNew() {
     this.addNewItem();
     this.newItemEvent();
   }
@@ -189,23 +256,6 @@ export abstract class AbstractGroup {
   }
 
   /**
-   * This is used in comparators but isn't a comparator - just a helper function.  In the comparator, extract the dates
-   * (using getDateInstalled(), getBeginPositionDate(), ...) and return compareDates(date1, date2)
-   * @param date1
-   * @param date2
-   * @return -1: date1 < date2; 1: date1 > date2; 0: date1 == date2
-   */
-  public compareDates(date1: string, date2: string): number {
-    if (date1 < date2) {
-      return 1;
-    } else if (date1 > date2) {
-      return -1;
-    } else {
-      return 0;
-    }
-  }
-
-  /**
    * Comparator for sorting by object.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0].
    * @param obj1
    * @param obj2
@@ -215,9 +265,9 @@ export abstract class AbstractGroup {
     if (obj1 === null || obj2 === null) {
       return 0;
     } else {
-      let date1: string = this.getBeginPositionDate(obj1);
-      let date2: string = this.getBeginPositionDate(obj2);
-      return this.compareDates(date1, date2);
+      let date1: string = AbstractGroup.getBeginPositionDate(obj1);
+      let date2: string = AbstractGroup.getBeginPositionDate(obj2);
+      return AbstractGroup.compareDates(date1, date2);
     }
   }
 
@@ -231,39 +281,10 @@ export abstract class AbstractGroup {
     if (obj1 === null || obj2 === null) {
       return 0;
     } else {
-      let date1: string = this.getDateInstalled(obj1);
-      let date2: string = this.getDateInstalled(obj2);
-      return this.compareDates(date1, date2);
+      let date1: string = AbstractGroup.getDateInstalled(obj1);
+      let date2: string = AbstractGroup.getDateInstalled(obj2);
+      return AbstractGroup.compareDates(date1, date2);
     }
   }
 
-  /**
-   * Retrieve the obj.dateInstalled.value[0] or '' if no parts of the path exists.
-   * @param obj
-   * @returns {any}
-   */
-  public getDateInstalled(obj: any) {
-    if (obj && obj.dateInstalled
-      && obj.dateInstalled.value
-      && obj.dateInstalled.length > 0) {
-      return obj.dateInstalled.value[0];
-    } else {
-      return '';
-    }
-  }
-
-  /**
-   * Retrieve the obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] or '' if no parts of
-   * the path exists.
-   * @param obj
-   * @returns {any}
-   */
-  public getBeginPositionDate(obj: any) {
-    if (obj && obj.validTime && obj.validTime.abstractTimePrimitive && obj.validTime.abstractTimePrimitive['gml:TimePeriod']
-      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition
-      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value
-      && obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value.length > 0) {
-      return obj.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0];
-    }
-  }
 }

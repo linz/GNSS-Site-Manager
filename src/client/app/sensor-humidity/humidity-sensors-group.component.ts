@@ -1,7 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {MiscUtilsService} from '../shared/index';
 import {AbstractGroup} from '../shared/abstract-groups-items/AbstractGroup';
-import {GeodesyEvent, EventNames} from '../shared/events-messages/Event';
 import {
   HumiditySensor,
   AbstractTimePrimitive,
@@ -42,15 +41,15 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
     return 'Humidity Sensor';
   }
 
-  getComparator = (obj1: HumiditySensorProperty, obj2: HumiditySensorProperty): number => {
+  getComparator(obj1: HumiditySensorProperty, obj2: HumiditySensorProperty): number {
     if (obj1 === null || obj2 === null) {
       return 0;
     } else if (obj1.humiditySensor === null || obj1.humiditySensor === null) {
       return 0;
     } else {
-      let date1: string = this.getBeginPositionDate(obj1.humiditySensor);
-      let date2: string = this.getBeginPositionDate(obj2.humiditySensor);
-      return this.compareDates(date1, date2);
+      let date1: string = AbstractGroup.getBeginPositionDate(obj1.humiditySensor);
+      let date2: string = AbstractGroup.getBeginPositionDate(obj2.humiditySensor);
+      return AbstractGroup.compareDates(date1, date2);
     }
   }
 
@@ -176,6 +175,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
    * Add a new empty humidity sensors as current one and push the 'old' current humidity sensors into previous list
    */
   public addNewItem(): void {
+    this.isGroupOpen = true;
     let presentDT = this.miscUtilsService.getPresentDateTime();
 
     if (!this.getItemsCollection()) {
@@ -186,7 +186,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
     if (this.getItemsCollection().length > 0) {
       let currentSensor: HumiditySensor = this.getItemsCollection()[0].humiditySensor;
       this.makeItemExist(currentSensor);
-      if (! this.getBeginPositionDate(currentSensor) || this.getBeginPositionDate(currentSensor) === '') {
+      if (! AbstractGroup.getEndPositionDate(currentSensor) || AbstractGroup.getEndPositionDate(currentSensor) === '') {
         currentSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0] = presentDT;
         // console.log('Update last current sensor - set endPosition: ',this.getBeginPositionDate(currentSensor));
       }

@@ -1,10 +1,10 @@
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
-import { EventEmitter, DoCheck  } from '@angular/core';
+import {EventEmitter, DoCheck, OnInit } from '@angular/core';
 
-export abstract class AbstractItem implements DoCheck {
+export abstract class AbstractItem implements DoCheck, OnInit {
   protected isNew: boolean = false;
 
-  protected isOpen: boolean = true;
+  protected isOpen: boolean = false;
 
   /**
    * Keep a copy of the last GeodesyEvent so can detect when it has changed nad have a new event.
@@ -29,6 +29,9 @@ export abstract class AbstractItem implements DoCheck {
    */
   abstract getReturnEvents(): EventEmitter<GeodesyEvent>;
 
+  ngOnInit() {
+    this.isOpen = this.getIndex() === 0 ? true: false;
+  }
 
   /**
    * Angular doesn't detect changes in objects and need to perform the check with this lifecycle hook ourselves.

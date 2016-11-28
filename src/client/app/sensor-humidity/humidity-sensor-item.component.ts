@@ -1,5 +1,4 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
-import {MiscUtilsService} from '../shared/index';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {AbstractItem} from '../shared/abstract-groups-items/AbstractItem';
 import {GeodesyEvent} from '../shared/events-messages/Event';
 import {HumiditySensor} from './HumiditySensor';
