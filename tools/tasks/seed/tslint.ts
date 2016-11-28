@@ -21,7 +21,5 @@ export = () => {
     .pipe(plugins.tslint({
       rulesDirectory: Config.CODELYZER_RULES
     }))
-    .pipe(plugins.tslint.report({
-      emitError: require('is-ci')
-    }));
+    .pipe(plugins.tslint.report());
 };
