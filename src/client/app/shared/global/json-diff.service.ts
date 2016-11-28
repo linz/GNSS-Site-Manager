@@ -43,13 +43,13 @@ export class JsonDiffService {
     let normalAttrName: string = attrName.replace(/^(\w+).*/, '$1');
     let attrRemainder: string = attrName.replace(/^\w+(.*)/, '$1');
     attrRemainder = attrRemainder ? ' ' + attrRemainder : '';
-    console.log('map key: '+ attrName + ', first token: "'+ normalAttrName + '"');
+    //console.log('map key: '+ attrName + ', first token: "'+ normalAttrName + '"');
     if (this.attrMappingJson[normalAttrName] === undefined) {
-      console.log('  not in mapping');
+      console.log(attrName + ' not in mapping');
       return attrName;
     }
     let map: string = this.attrMappingJson[normalAttrName] + attrRemainder;
-    console.log(' mapped to: :', map);
+    //console.log(' mapped to: :', map);
     return map;
   }
 
@@ -89,6 +89,12 @@ export class JsonDiffService {
           for (let o2 of o1.changes) {
             newJsonObj.push(o2);
           }
+        }
+      } else if (obj.key === 'siteContact') {
+        let order: number = 1;
+        for (let o1 of obj.changes) {
+          o1.key += ' ' + (order++);
+          newJsonObj.push(o1);
         }
       } else {
         newJsonObj.push(obj);
@@ -153,20 +159,8 @@ export class JsonDiffService {
       returnVal = '';
     }
 
-    // TODO - to be replaced by better mechanism of attribute mapping.  Removed this once happy it works.
-    // if (key === 'siteIdentification' || key === 'siteLocation') {
-    //   return 'Site Information';
-    // } else if (key.startsWith('gnss')) {
-    //   return 'GNSS ' + key.substring(4);
-    // } else if (key === 'siteMetadataCustodian') {
-    //   return 'Site Metadata Custodian';
-    // } else if (key === 'siteContact') {
-    //   return 'Site Contact';
-    // } else {
-    //   return this.getMappedName(key);
-    // }
     returnVal = this.getMappedName(key);
-    console.log('formatTitle - key: '+key+', return title: ', returnVal);
+    //console.log('formatTitle - key: '+key+', return title: ', returnVal);
     return returnVal;
   }
 
@@ -193,7 +187,6 @@ export class JsonDiffService {
   compare(oldObj: any, newObj: any, path: any): any {
     let changes: any = [];
     let typeOfOldObj: any = this.utilsService.getObjectType(oldObj);
-    // console.log('compare - objType: '+ typeOfOldObj+', path: ['+path+'], newObj: ', newObj);
     switch (typeOfOldObj) {
       case 'Date':
         changes = changes.concat(this.comparePrimitives(oldObj.getTime(), newObj.getTime(), path));
@@ -224,8 +217,6 @@ export class JsonDiffService {
   }
 
   private compareObject(oldObj: any, newObj: any, path: any, skipPath: boolean): any {
-    // console.log('compareObject - path: ['+path+'], skipPath: '+skipPath+', newObj: ', newObj);
-
     let changes: any = [];
     let oldObjKeys: any = Object.keys(oldObj);
     let newObjKeys: any = Object.keys(newObj);
@@ -262,7 +253,6 @@ export class JsonDiffService {
   }
 
   private compareArray(oldObj: any, newObj: any, path: any): any {
-    // console.log('compareArray - path: ['+path+'], newObj: ', newObj);
     let indexedOldObj: any = this.convertArrayToObj(oldObj);
     let indexedNewObj: any = this.convertArrayToObj(newObj);
     let diffs: any = this.compareObject(indexedOldObj, indexedNewObj, path, true);
@@ -389,8 +379,6 @@ export class JsonDiffService {
     let startDate: any;
     let endDate: any;
     let dateStr: string = '';
-
-    // console.log('addDateString - key: '+key+', obj:', obj);
 
     if (obj.gnssReceiver) {
       obj1 = obj.gnssReceiver;

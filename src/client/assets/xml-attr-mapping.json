@@ -44,7 +44,7 @@
   "positionName": "Position",
   "voice": "Phone",
   "facsimile": "Facsimile",
-  "deliveryPoint": "Address",
+  "deliveryPoint": "Delivery Point",
   "electronicMailAddress": "Email",
   "ciAddress": "Address",
   "gnssReceiver": "GNSS Receiver",
@@ -112,5 +112,8 @@
   "siteContact":"Site Contact",
   "event":"Event",
   "beginPosition":"Start Date",
-  "endPosition":"End Date"
+  "endPosition":"End Date",
+  "administrativeArea":"Administrative Area",
+  "postalCode":"Postal Code",
+  "country":"Country"
 }
