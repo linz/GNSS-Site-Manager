@@ -330,10 +330,13 @@
             </div>
           </div>
         </div>
+        <gnss-surveyed-local-tie [status]="status"
+			[surveyedLocalTies]="surveyedLocalTies" [siteLogModel]="siteLogModel"
+			[siteLogOrigin]="siteLogOrigin"></gnss-surveyed-local-tie>
         <gnss-frequency-standard [status]="status"
-                            [frequencyStandards]="frequencyStandards"
-                            [siteLogModel]="siteLogModel"
-                            [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
+                        [frequencyStandards]="frequencyStandards"
+                        [siteLogModel]="siteLogModel"
+                        [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
         <gnss-episodic-effect [status]="status"
                              [episodicEffects]="episodicEffects"
                              [siteLogModel]="siteLogModel"

@@ -23,6 +23,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteContacts: Array<any> = [];
   private receivers: Array<any> = [];
   private antennas: Array<any> = [];
+  private surveyedLocalTies: Array<any> = [];
   private frequencyStandards: Array<any> = [];
   private episodicEffects: Array<any> = [];
   private humiditySensors: Array<any> = [];
@@ -62,7 +63,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewTemperatureSensor: false,
     isWaterVaporSensorsGroupOpen: false,
     isWaterVaporSensorsOpen: [],
-    hasNewWaterVaporSensor: false
+    hasNewWaterVaporSensor: false,
+    isSurveyedLocalTiesGroupOpen: false,
+    isSurveyedLocalTiesOpen: [],
+    hasNewSurveyedLocalTie: false
   };
 
   /**
@@ -97,6 +101,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogModelXXX = {
       gnssReceivers: [],
       gnssAntennas: [],
+      surveyedLocalTies: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
       humiditySensors: [],
@@ -108,6 +113,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin = {
       gnssReceivers: [],
       gnssAntennas: [],
+      surveyedLocalTies: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
       humiditySensors: [],
@@ -140,6 +146,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.isEpisodicEffectOpen.length = 0;
     this.receivers.length = 0;
     this.antennas.length = 0;
+    this.surveyedLocalTies.length = 0;
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
@@ -161,6 +168,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                   .getValidMetadataCustodian(this.siteLogModel.siteMetadataCustodian.ciResponsibleParty);
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
+          this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.setPressureSensors(this.siteLogModel.pressureSensors);
@@ -176,6 +184,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.siteLogModel = {
             gnssReceivers: [],
             gnssAntennas: [],
+            surveyedLocalTies: [],
             frequencyStandards: [],
             localEpisodicEventsSet: [],
             humiditySensors: [],
@@ -202,6 +211,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status = null;
     this.receivers.length = 0;
     this.antennas.length = 0;
+    this.surveyedLocalTies.length = 0;
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
@@ -293,6 +303,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewSiteContact = false;
         that.status.hasNewAntenna = false;
         that.status.hasNewReceiver = false;
+        that.status.hasNewSurveyedLocalTie = false;
         that.status.hasNewFrequencyStd = false;
         that.status.hasNewHumiditySensor = false;
         that.status.hasNewPressureSensor = false;
@@ -427,6 +438,24 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Set current and previous Surveyed Local Ties, and their show/hide flags
+   */
+  private setSurveyedLocalTies(surveyedLocalTies: any) {
+    this.status.isSurveyedLocalTiesOpen = [];
+    let currentSurveyedLocalTie: any = null;
+    for (let surveyedLocalTieObj of surveyedLocalTies) {
+      currentSurveyedLocalTie = this.jsonCheckService.getValidSurveyedLocalTie(surveyedLocalTieObj.surveyedLocalTies);
+      this.surveyedLocalTies.push(currentSurveyedLocalTie);
+      this.status.isSurveyedLocalTiesOpen.push(false);
+    }
+    this.surveyedLocalTies.sort(this.compareDateMeasured);
+
+    // the first item in the array is open by default
+    this.status.isSurveyedLocalTiesOpen.pop();
+    this.status.isSurveyedLocalTiesOpen.unshift(true);
+  }
+
+  /**
    * Set current and previous frequency standards, and their show/hide flags
    */
   private setFrequencyStandards(frequencyStds: any) {
@@ -532,6 +561,20 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     } else if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
       return 1;
     } else if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
+      return -1;
+    }
+    return 0;
+  }
+
+  /**
+   * Sort objects based on their Date_Measured values in ascending order
+   */
+  private compareDateMeasured(obj1: any, obj2: any) {
+    if (obj1 === null || obj2 === null) {
+      return 0;
+    } else if (obj1.dateMeasured.value[0] < obj2.dateMeasured.value[0]) {
+      return 1;
+    } else if (obj1.dateMeasured.value[0] > obj2.dateMeasured.value[0]) {
       return -1;
     }
     return 0;

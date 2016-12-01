@@ -84,6 +84,7 @@ export class JsonDiffService {
       console.log('detectChanges - key: ', obj.key);
       if (obj.key === 'gnssReceivers' ||
           obj.key === 'gnssAntennas' ||
+          obj.key === 'surveyedLocalTies' ||
           obj.key === 'humiditySensors' ||
           obj.key === 'pressureSensors' ||
           obj.key === 'temperatureSensors' ||
@@ -393,6 +394,9 @@ export class JsonDiffService {
       obj1 = obj.gnssAntenna;
       startDate = this.getDate(obj1, 'dateInstalledRemoved', 'start');
       endDate = this.getDate(obj1, 'dateInstalledRemoved', 'end');
+    } else if (obj.surveyedLocalTie) {
+        obj1 = obj.surveyedLocalTie;
+        startDate = this.getDate(obj1, 'dateMeasured', 'start');
     } else if (obj.humiditySensor) {
       obj1 = obj.humiditySensor;
       startDate = this.getDate(obj1, 'dateBeginEnd', 'start');

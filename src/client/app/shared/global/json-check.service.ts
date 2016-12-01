@@ -15,6 +15,7 @@ export class JsonCheckService {
     siteMetadataCustodian: {},
     gnssAntennas: [],
     gnssReceivers: [],
+    surveyedLocalTies: [],
     frequencyStandards: [],
     humiditySensors: [],
     pressureSensors: [],
@@ -127,6 +128,22 @@ export class JsonCheckService {
     antennaCableLength: '',
     dateInstalled: { value: [''] },
     dateRemoved: { value: [''] },
+    notes: ''
+  };
+
+  private surveyedLocalTie: any = {
+    tiedMarkerName: '',
+    tiedMarkerUsage: '',
+    tiedMarkerCDPNumber: '',
+    tiedMarkerDOMESNumber: '',
+    differentialComponentsGNSSMarkerToTiedMonumentITRS: [{
+      dx: '',
+      dy: '',
+      dz: ''
+    }],
+    localSiteTiesAccuracy: '',
+    surveyMethod: '',
+    dateMeasured: { value: [''] },
     notes: ''
   };
 
@@ -324,6 +341,15 @@ export class JsonCheckService {
 
   public getNewWaterVaporSensor(): any {
     return this.waterVaporSensor;
+  }
+
+  public getValidSurveyedLocalTie(json: any): any {
+    this.merge(json, this.surveyedLocalTie);
+    return json;
+  }
+
+  public getNewSurveyedLocalTie(): any {
+    return this.surveyedLocalTie;
   }
 
   public getValidEpisodicEffect(json: any): any {
