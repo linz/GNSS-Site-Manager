@@ -115,5 +115,16 @@
   "endPosition":"End Date",
   "administrativeArea":"Administrative Area",
   "postalCode":"Postal Code",
-  "country":"Country"
+  "country":"Country",
+  "surveyedLocalTies": "Surveyed Local Ties",
+  "surveyedLocalTie": "Surveyed Local Tie",
+  "tiedMarkerName":"Tied Marker Name",
+  "tiedMarkerUsage":"Tied Marker Usage",
+  "tiedMarkerCDPNumber":"Tied Marker CDP Number",
+  "tiedMarkerDOMESNumber":"Tied Marker DOMES Number",
+  "differentialComponentsGNSSMarkerToTiedMonumentITRS":"Differential Components from GNSS Marker to the tied monument",
+  "localSiteTiesAccuracy":"Local Site Ties Accuracy",
+  "surveyMethod":"Survey Method",
+  "dateMeasured":"Date Measured"
+  
 }
