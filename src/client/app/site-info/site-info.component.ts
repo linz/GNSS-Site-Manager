@@ -185,7 +185,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             gnssReceivers: [],
             gnssAntennas: [],
             surveyedLocalTies: [],
-			frequencyStandards: [],
+            frequencyStandards: [],
             localEpisodicEventsSet: [],
             humiditySensors: [],
             pressureSensors: [],
