@@ -64,7 +64,6 @@ export function main() {
     it('should have a new Receiver object with all missing paths added', () => {
       let receiver: any = jsonCheckService.getValidReceiver(receiverMissing);
       expect(receiver).toBeDefined();
-      console.log('Merge Receiver json objects: ', receiver);
       expect(receiver.receiverType.value).toEqual('');
       expect(receiver.serialNumber).toEqual('');
       expect(receiver.dateInstalled.value.length).toEqual(1);
@@ -74,7 +73,6 @@ export function main() {
     it('should have a new Antenna object with all missing paths added', () => {
       let antenna: any = jsonCheckService.getValidAntenna(antennaEmpty);
       expect(antenna).toBeDefined();
-      console.log('Merge Antenna json objects: ', antenna);
       expect(antenna.antennaType.value).toEqual('');
       expect(antenna.serialNumber).toEqual('');
       expect(antenna.dateInstalled.value.length).toEqual(1);
@@ -84,7 +82,6 @@ export function main() {
     it('should have a new Frequency-Standard object with all missing paths added', () => {
       let frequencyStd: any = jsonCheckService.getValidFrequencyStandard(frequencyStdMissing);
       expect(frequencyStd).toBeDefined();
-      console.log('Merge Frequency-Standard json objects: ', frequencyStd);
       expect(frequencyStd.standardType.value).toEqual('INTERNAL');
       expect(frequencyStd.notes).toEqual('');
       expect(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod']
