@@ -87,5 +87,20 @@ export function main() {
               .toEqual('8 Kemba Street, Mitchell, ACT');
     });
 
+    it('Test setting with existing path', () => {
+      let path: string = '/organisationName/characterString/gco:CharacterString';
+      let newValue: string = 'victor hugo';
+      expect(jsonPathService.exists(jsonObj, path)).toEqual(true);
+      jsonPathService.set(jsonObj, path, newValue);
+      expect(jsonPathService.get(jsonObj, path)).toEqual(newValue);
+    });
+
+    it('Test setting with NON-existing path - it should then exist', () => {
+      let path: string = '/this/path/doesnt/exist';
+      let newValue: string = 'victor hugo';
+      expect(jsonPathService.exists(jsonObj, path)).toEqual(false);
+      jsonPathService.set(jsonObj, path, newValue);
+      expect(jsonPathService.get(jsonObj, path)).toEqual(newValue);
+    });
   });
 }

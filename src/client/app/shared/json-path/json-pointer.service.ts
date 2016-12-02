@@ -5,33 +5,39 @@ import * as JsonPointer from 'json-pointer';
 
 @Injectable()
 export class JsonPointerService {
-  // private jsonPointer: any = require('json-pointer/index.js');
-  // private viewPathMappingFile: string = '/assets/view-path-mapping.json';
-  // private pathMappingJson: any = {};
 
-  // constructor(private httpService: HttpUtilsService) {
-  /*this.httpService.loadJsonObject(this.viewPathMappingFile).subscribe(
-   (json: any) => this.pathMappingJson = json,
-   (error: any) => console.log('Error in loading View-Path mapping Json file: ' + error)
-   );*/
-  // }
-
+  /**
+   * Get value at given path in the jsonObj
+   * @param jsonObj
+   * @param path into the jsonObj (that may or may not exist)
+   * @returns {any} the value at given path in the jsonObj or null if it doesnt exist.
+   */
   public get(jsonObj: any, path: string): string {
     if (JsonPointer.has(jsonObj, path)) {
       return JsonPointer.get(jsonObj, path);
     } else {
       return null;
     }
-    // return 'bozo';
   }
 
+  /**
+   * Set the item (obj) at the path in jsonObj.
+   *
+   * @param jsonObj
+   * @param path
+   * @param value
+   */
   public set(jsonObj: any, path: string, value: string): void {
     JsonPointer.set(jsonObj, path, value);
   }
 
-  //
+  /**
+   *
+   * @param jsonObj
+   * @param path
+   * @returns {boolean} if the path in jsonObj exists.
+   */
   public exists(jsonObj: any, path: string): boolean {
     return JsonPointer.has(jsonObj, path);
-    // return true;
   }
 }

@@ -45,10 +45,8 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/WFS_2_0.js', inject: 'libs'},
       {src: 'alertify.js/dist/js/ngAlertify.js', inject: 'libs'},
       {src: 'lodash/lodash.js', inject: 'libs'},
-      // {src: 'jsonpointer/jsonpointer.js', inject: 'libs'},
       {src: 'foreach/index.js', inject: 'libs'},
       {src: 'json-pointer/index.js', inject: 'libs'},
-      // {src: 'jsonpath-object-transform/index.js', inject: 'libs'},
     ];
 
     this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =
@@ -82,16 +80,6 @@ export class ProjectConfig extends SeedConfig {
       main: 'index',
       defaultExtension : 'js'
     };
-
-    // this.SYSTEM_CONFIG_DEV.paths['json-pointer'] =
-    //   `${this.APP_BASE}node_modules/json-pointer/index`;
-
-    // this.SYSTEM_BUILDER_CONFIG.packages['json-pointer'] =
-    //   `${this.APP_BASE}node_modules/json-pointer`;
-    // this.SYSTEM_BUILDER_CONFIG.packages['json-pointer'] = {
-    //   main: 'index',
-    //   defaultExtension : 'js'
-    // };
 
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
