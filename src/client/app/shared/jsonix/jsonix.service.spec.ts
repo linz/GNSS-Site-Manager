@@ -48,14 +48,11 @@ export function main() {
  xmlns:gmx="http://www.isotc211.org/2005/gmx" 
  xmlns:om="http://www.opengis.net/om/2.0" xmlns:gco="http://www.isotc211.org/2005/gco" 
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">`;
-      let errorStr: string = 'Element [{http://www.w3.org/1999/xhtml}parsererror]'
-       + ' could not be unmarshalled as is not known in this context and the property does not allow DOM content.';
+      // let errorStrrorStr: string = '/Element \[[^\]+\].*';
+       // + ' could not be unmarshalled as is not known in this context and the property does not allow DOM content.';
       expect(function(){
         jsonixService.geodesyMLToJson(geodesyml);
-      }).toThrow(new Error(errorStr));
-      // let json: string = jsonixService.geodesyMLToJson(geodesyml);
-      // console.debug('invalide gml return: ', json);
-      // expect(json).not.toBeNull();
+      }).toThrowError(/Element .*? could not be unmarshalled as is not known in this context and the property /);
     });
 
     it('should error on invalid Json', () => {

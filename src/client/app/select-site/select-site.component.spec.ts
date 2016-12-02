@@ -18,6 +18,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs';
 
 export function main() {
+    let originalTimeout: number;
     describe('SelectSite component', () => {
         let config: Route[] = [
             {path: '', component: SelectSiteComponent},
@@ -37,7 +38,10 @@ export function main() {
         };
 
         beforeEach(() => {
-            TestBed.configureTestingModule({
+          originalTimeout = jasmine.DEFAULT_TIMEOUT_INTERVAL;
+          jasmine.DEFAULT_TIMEOUT_INTERVAL = 10000;
+
+          TestBed.configureTestingModule({
                 imports: [FormsModule, RouterModule, HttpModule, SelectSiteModule, RouterTestingModule.withRoutes(config)],
                 declarations: [TestComponent],
                 providers: [
@@ -65,6 +69,8 @@ export function main() {
                 TestBed
                     .compileComponents()
                     .then(() => {
+                        console.debug('JASMINE originalTimeout: ', originalTimeout);
+                        console.debug('JASMINE Timeout now: ', jasmine.DEFAULT_TIMEOUT_INTERVAL);
                         let fixture = TestBed.createComponent(TestComponent);
                         fixture.detectChanges();
 
@@ -89,6 +95,7 @@ export function main() {
                     });
 
             }));
+
     });
 }
 
