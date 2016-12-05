@@ -81,6 +81,11 @@ export class ProjectConfig extends SeedConfig {
       defaultExtension : 'js'
     };
 
+    this.SYSTEM_BUILDER_CONFIG.packages['json-pointer'] = {
+      main: 'index',
+      defaultExtension : 'js'
+    };
+
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
       ...this.APP_ASSETS,
