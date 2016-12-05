@@ -54,11 +54,10 @@ export function main() {
     });
 
     it('should error on invalid Json', () => {
-      // xit commented out as it is Impossible to write invalide JSON since can't construct (or string parse) it
       let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_3.SiteLogType"`;
       expect(function() {
         jsonixService.jsonToGeodesyML(JSON.parse(json));
-      }).toThrow(new SyntaxError('Unexpected end of JSON input'));
+      }).toThrowError(/Unexpected end of JSON input|JSON.parse: end of data/);
     });
 
     it('should parse valid wfs XML to help me develop the WFS Service (smiley) and than marshall back to XML', () => {
@@ -115,7 +114,6 @@ export function main() {
       let wfsBackAgain: string = jsonixService.jsonToGeodesyML(wfsJson);
       console.log('wfs xml marshalled from unmarshalled json (length): ', wfsBackAgain.length);
       expect(wfsBackAgain).not.toBeNull();
-
     });
   });
 

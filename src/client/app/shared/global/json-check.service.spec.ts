@@ -61,7 +61,7 @@ export function main() {
       expect(JsonCheckService).not.toBeUndefined();
     });
 
-    fit('should have a new Receiver object with all missing paths added', () => {
+    it('should have a new Receiver object with all missing paths added', () => {
       let receiver: any = jsonCheckService.getValidReceiver(receiverMissing);
       expect(receiver).toBeDefined();
       console.log('Merge Receiver json objects: ', receiver);
@@ -71,7 +71,7 @@ export function main() {
       expect(receiver.satelliteSystem[0].value).toEqual('');
     });
 
-    fit('should have a new Antenna object with all missing paths added', () => {
+    it('should have a new Antenna object with all missing paths added', () => {
       let antenna: any = jsonCheckService.getValidAntenna(antennaEmpty);
       expect(antenna).toBeDefined();
       console.log('Merge Antenna json objects: ', antenna);
@@ -81,7 +81,7 @@ export function main() {
       expect(antenna.antennaReferencePoint.value).toEqual('');
     });
 
-    fit('should have a new Frequency-Standard object with all missing paths added', () => {
+    it('should have a new Frequency-Standard object with all missing paths added', () => {
       let frequencyStd: any = jsonCheckService.getValidFrequencyStandard(frequencyStdMissing);
       expect(frequencyStd).toBeDefined();
       console.log('Merge Frequency-Standard json objects: ', frequencyStd);
