@@ -8,7 +8,7 @@ import { SurveyedLocalTiesModule } from '../surveyed-local-ties/surveyed-local-t
 import { FrequencyStandardModule } from '../frequency-standard/frequency-standard.module';
 import { EpisodicEffectModule } from '../episodic-effect/episodic-effect.module';
 import { DatetimePickerModule } from '../datetime-picker/datetime-picker.module';
-import { HumiditySensorModule } from '../sensor-humidity/humidity-sensor.module';
+import { HumiditySensorModule } from '../humidity-sensor/humidity-sensor.module';
 import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module';
 import { TemperatureSensorModule } from '../temperature-sensor/temperature-sensor.module';
 import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor.module';
