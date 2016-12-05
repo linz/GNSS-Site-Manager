@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
-// import { HttpUtilsService } from '../global/http-utils.service';
 import * as JsonPointer from 'json-pointer';
-// declare let get: any;
 
 @Injectable()
 export class JsonPointerService {
