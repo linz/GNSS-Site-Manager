@@ -48,8 +48,6 @@ export function main() {
  xmlns:gmx="http://www.isotc211.org/2005/gmx" 
  xmlns:om="http://www.opengis.net/om/2.0" xmlns:gco="http://www.isotc211.org/2005/gco" 
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">`;
-      // let errorStrrorStr: string = '/Element \[[^\]+\].*';
-       // + ' could not be unmarshalled as is not known in this context and the property does not allow DOM content.';
       expect(function(){
         jsonixService.geodesyMLToJson(geodesyml);
       }).toThrowError(/Element .*? could not be unmarshalled as is not known in this context and the property /);
