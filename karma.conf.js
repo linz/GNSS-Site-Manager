@@ -72,10 +72,12 @@ module.exports = function (config) {
 
       { pattern: 'node_modules/ng2-bootstrap/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/moment/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/foreach/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/json-pointer/**/*.js', included: false, watched: false },
 
       'test-config.js',
       'dist/dev/app/system-config.js',
-      'test-main.js'
+      'test-main.js',
     ],
 
     // must go along with above, suppress annoying 404 warnings.
@@ -117,6 +119,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
+    //   'Chrome', Firefox
     browsers: [
       'Chrome'
     ],

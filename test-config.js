@@ -5,7 +5,9 @@ System.config({
       'moment': 'moment/moment',
       'ng2-bootstrap': 'ng2-bootstrap/ng2-bootstrap',
       'lodash': 'lodash/lodash',
-      'alertify.js': 'alertify.js/dist/js/alertify.js'
+      'alertify.js': 'alertify.js/dist/js/alertify.js',
+      'json-pointer': 'json-pointer/index',
+      'foreach': 'foreach/index'
   }
 });
 
