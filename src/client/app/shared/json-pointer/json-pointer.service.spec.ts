@@ -62,7 +62,7 @@ export function main() {
       expect(JsonPointerService).not.toBeUndefined();
     });
 
-    it('Test dotted path - exists(), get() ... ...', () => {
+    it('Test json pointer path - exists(), get() ... ...', () => {
       expect(jsonObj).toBeDefined();
       expect(jsonPathService.exists(jsonObj, '/standardType/value')).toEqual(true);
       expect(jsonPathService.exists(jsonObj, '/individualName/characterString')).toEqual(true);

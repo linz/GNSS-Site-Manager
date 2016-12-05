@@ -18,6 +18,7 @@ let
     paths = [
       awscli
       chromium
+      firefox
       nodejs-6_x
       xvfb_run
     ];
