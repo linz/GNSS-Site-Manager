@@ -46,7 +46,6 @@ export class ProjectConfig extends SeedConfig {
       {src: 'alertify.js/dist/js/ngAlertify.js', inject: 'libs'},
       {src: 'lodash/lodash.js', inject: 'libs'},
       {src: 'foreach/index.js', inject: 'libs'},
-      {src: 'json-pointer/index.js', inject: 'libs'},
     ];
 
     this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =
@@ -77,11 +76,6 @@ export class ProjectConfig extends SeedConfig {
       `${this.APP_BASE}node_modules/foreach`;
 
     this.SYSTEM_BUILDER_CONFIG.packages['foreach'] = {
-      main: 'index',
-      defaultExtension : 'js'
-    };
-
-    this.SYSTEM_BUILDER_CONFIG.packages['json-pointer'] = {
       main: 'index',
       defaultExtension : 'js'
     };
