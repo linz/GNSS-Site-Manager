@@ -3,37 +3,40 @@ import { JsonPointerService } from './json-pointer.service';
 
 export function main() {
   describe('Testing of JsonPointerService', () => {
-    // let JsonPointerService: JsonPointerService;
-    let jsonObj: any = {
-      standardType: { value: '' },
-      inputFrequency: '',
-      validTime: {
-        abstractTimePrimitive: {
-          'gml:TimePeriod': {
-            beginPosition: { value: [''] },
-            endPosition: { value: [''] }
+    let jsonObj: any;
+
+    beforeEach(() => {
+      jsonObj = {
+        standardType: { value: '' },
+        inputFrequency: '',
+        validTime: {
+          abstractTimePrimitive: {
+            'gml:TimePeriod': {
+              beginPosition: { value: [''] },
+              endPosition: { value: [''] }
+            }
           }
-        }
-      },
-      notes: 'Testing',
-      individualName: {
-        characterString: {'gco:CharacterString': 'Mark Smith'}
-      },
-      organisationName: {
-        characterString: {'gco:CharacterString': ''}
-      },
-      contactInfo: {
-        ciContact: {
-          address: {
-            ciAddress: {
-              deliveryPoint: [{
-                characterString: {'gco:CharacterString': '8 Kemba Street, Mitchell, ACT'}
-              }]
+        },
+        notes: 'Testing',
+        individualName: {
+          characterString: {'gco:CharacterString': 'Mark Smith'}
+        },
+        organisationName: {
+          characterString: {'gco:CharacterString': ''}
+        },
+        contactInfo: {
+          ciContact: {
+            address: {
+              ciAddress: {
+                deliveryPoint: [{
+                  characterString: {'gco:CharacterString': '8 Kemba Street, Mitchell, ACT'}
+                }]
+              }
             }
           }
         }
-      }
-    };
+      };
+    });
 
     it('JsonPointerService should be defined', () => {
       expect(JsonPointerService).not.toBeUndefined();
@@ -78,6 +81,16 @@ export function main() {
       expect(JsonPointerService.exists(jsonObj, path)).toEqual(false);
       JsonPointerService.set(jsonObj, path, newValue);
       expect(JsonPointerService.get(jsonObj, path)).toEqual(newValue);
+    });
+
+    it('Test get value when doesnt exist', () => {
+      let path: string = '/this/path/doesnt/exist';
+      expect(JsonPointerService.get(jsonObj, path)).toBeNull();
+    });
+
+    it('Test get string when doesnt exist', () => {
+      let path: string = '/this/path/doesnt/exist';
+      expect(JsonPointerService.getString(jsonObj, path)).toEqual('');
     });
   });
 }
