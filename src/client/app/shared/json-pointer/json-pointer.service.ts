@@ -10,12 +10,23 @@ export class JsonPointerService {
    * @param path into the jsonObj (that may or may not exist)
    * @returns {any} the value at given path in the jsonObj or null if it doesnt exist.
    */
-  public static get(jsonObj: any, path: string): string {
+  public static get(jsonObj: any, path: string): any {
     if (JsonPointer.has(jsonObj, path)) {
       return JsonPointer.get(jsonObj, path);
     } else {
       return null;
     }
+  }
+
+  /**
+   * Get value at given path in the jsonObj as a string and '' if doesnt exist.
+   * @param jsonObj
+   * @param path into the jsonObj (that may or may not exist)
+   * @returns {any} the string value at given path in the jsonObj or '' if it doesnt exist.
+   */
+  public static getString(jsonObj: any, path: string): string {
+    let value: string = JsonPointerService.get(jsonObj, path);
+    return  value ? value: '';
   }
 
   /**
