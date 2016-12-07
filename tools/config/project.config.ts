@@ -43,9 +43,6 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/Filter_2_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/OWS_1_1_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/WFS_2_0.js', inject: 'libs'},
-      {src: 'alertify.js/dist/js/ngAlertify.js', inject: 'libs'},
-      {src: 'lodash/lodash.js', inject: 'libs'},
-      {src: 'foreach/index.js', inject: 'libs'},
     ];
 
     this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =
@@ -53,30 +50,6 @@ export class ProjectConfig extends SeedConfig {
 
     this.SYSTEM_BUILDER_CONFIG.packages['ng2-bootstrap'] = {
       main: 'ng2-bootstrap',
-      defaultExtension : 'js'
-    };
-
-    this.SYSTEM_CONFIG_DEV.paths['alertify'] =
-      `${this.APP_BASE}node_modules/alertify.js/dist/js/ngAlertify`;
-
-    this.SYSTEM_BUILDER_CONFIG.packages['alertify'] = {
-      main: 'ngAlertify',
-      defaultExtension : 'js'
-    };
-
-    this.SYSTEM_CONFIG_DEV.paths['lodash'] =
-      `${this.APP_BASE}node_modules/lodash/lodash`;
-
-    this.SYSTEM_BUILDER_CONFIG.packages['lodash'] = {
-      main: 'lodash',
-      defaultExtension : 'js'
-    };
-
-    this.SYSTEM_CONFIG_DEV.paths['foreach'] =
-      `${this.APP_BASE}node_modules/foreach`;
-
-    this.SYSTEM_BUILDER_CONFIG.packages['foreach'] = {
-      main: 'index',
       defaultExtension : 'js'
     };
 
