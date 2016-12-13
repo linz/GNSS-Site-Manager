@@ -16,16 +16,16 @@
             </span>
           </div>
           <div class="panel-body" *ngIf="status.isSiteInfoGroupOpen">
-            <div class="margin-bottom15" *ngIf=" site == null ">
+            <div class="margin-bottom15" *ngIf=" siteIdentification == null ">
               No information available for the GNSS site: {{siteId}}
             </div>
-            <div class="margin-bottom15" *ngIf=" site != null ">
+            <div class="margin-bottom15" *ngIf=" siteIdentification != null ">
               <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Four Character Id</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                   <input type="text" minlength="4" maxlength="9"
                          class="form-control" required
-                         [(ngModel)]="site.fourCharacterID"
+                         [(ngModel)]="siteIdentification.fourCharacterID"
                          name="fourCharacterID"
                          #fourCharacterID="ngModel"/>
                   <small [hidden]="fourCharacterID.valid || fourCharacterID.pristine"
@@ -38,7 +38,7 @@
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">Site Name</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                   <input type="text" maxlength="100" class="form-control" required
-                         [(ngModel)]="site.siteName" name="siteName" #siteName="ngModel"/>
+                         [(ngModel)]="siteIdentification.siteName" name="siteName" #siteName="ngModel"/>
                   <small [hidden]="siteName.valid || siteName.pristine" class="alert alert-danger">
                     "Site Name" is required
                   </small>
@@ -48,7 +48,7 @@
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">IERS DOMES Number</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                   <input type="text" maxlength="100" class="form-control" required
-                         [(ngModel)]="site.iersDOMESNumber" name="iersDomesNumber" #iersDomesNumber="ngModel"/>
+                         [(ngModel)]="siteIdentification.iersDOMESNumber" name="iersDomesNumber" #iersDomesNumber="ngModel"/>
                   <small [hidden]="iersDomesNumber.valid || iersDomesNumber.pristine" class="alert alert-danger">
                     "IERS DOMES Number" is required
                   </small>
@@ -101,14 +101,26 @@
                 </div>
               </div>
             </div>-->
-            <gnss-responsible-party [partyName]=" 'Site Contact' "
+            <gnss-responsible-party [partyName]="siteContactName"
                                     [status]="status"
                                     [responsibleParties]="siteContacts"
-                                    [siteLogModel]="siteLogModel"
-                                    [siteLogOrigin]="siteLogOrigin"></gnss-responsible-party>
-            <gnss-responsible-party [partyName]=" 'Site Metadata Custodian' "
+                                    [dataModel]="siteLogModel.siteContact"
+                                    [dataModelCopy]="siteLogOrigin.siteContact"></gnss-responsible-party>
+            <gnss-responsible-party [partyName]="siteMetadataCustodianName"
                                     [status]="status"
-                                    [responsibleParties]="[metadataCustodian]"></gnss-responsible-party>
+                                    [responsibleParties]="[siteMetadataCustodian]"
+                                    [dataModel]="siteLogModel.siteMetadataCustodian"
+                                    [dataModelCopy]="siteLogOrigin.siteMetadataCustodian"></gnss-responsible-party>
+            <gnss-responsible-party [partyName]="siteDataCenterName"
+                                    [status]="status"
+                                    [responsibleParties]="siteDataCenters"
+                                    [dataModel]="siteLogModel.siteDataCenter"
+                                    [dataModelCopy]="siteLogOrigin.siteDataCenter"></gnss-responsible-party>
+            <gnss-responsible-party [partyName]="siteDataSourceName"
+                                    [status]="status"
+                                    [responsibleParties]="siteDataSource ? [siteDataSource] : []"
+                                    [dataModel]="siteLogModel.siteDataSource"
+                                    [dataModelCopy]="siteLogOrigin.siteDataSource"></gnss-responsible-party>
           </div>
         </div>
         <gnss-receiever-info [status]="status"

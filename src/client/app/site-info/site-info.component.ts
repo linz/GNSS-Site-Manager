@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
+import { ConstantsService, DialogService, MiscUtilsService,
+         SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -10,17 +11,18 @@ import { DialogService, MiscUtilsService, SiteLogService, JsonDiffService, JsonC
   selector: 'sd-site-info',
   templateUrl: 'site-info.component.html'
 })
-
 export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteId: string;
   private isLoading: boolean = false;
   private siteLogOrigin: any = {};
   private siteLogModel: any = {};
   private siteLogModelXXX: any = {};
-  private site: any = null;
-  private siteLocation: any = null;
-  private metadataCustodian: any = null;
+  private siteIdentification: any = null;
+  private siteLocation: any = {};
   private siteContacts: Array<any> = [];
+  private siteMetadataCustodian: any = {};
+  private siteDataCenters: Array<any> = [];
+  private siteDataSource: any = {};
   private receivers: Array<any> = [];
   private antennas: Array<any> = [];
   private surveyedLocalTies: Array<any> = [];
@@ -33,6 +35,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
+
+  public siteContactName: string = ConstantsService.SITE_CONTACT;
+  public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
+  public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
+  public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
 
   private status: any = {
     oneAtATime: false,
@@ -48,6 +55,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isFrequencyStdsOpen: [],
     isEpisodicEffectOpen: [],
     hasNewSiteContact: false,
+    hasNewSiteMetadataCustodian: false,
+    hasNewSiteDataCenter: false,
+    hasNewSiteDataSource: false,
     hasNewAntenna: false,
     hasNewReceiver: false,
     hasNewFrequencyStd: false,
@@ -158,14 +168,21 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
           this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson['geo:siteLog']);
-          this.site = this.siteLogModel.siteIdentification;
+          this.siteIdentification = this.siteLogModel.siteIdentification;
           this.siteLocation = this.jsonCheckService.getValidSiteLocation(this.siteLogModel.siteLocation);
           this.siteContacts = [];
           for (let contact of this.siteLogModel.siteContact) {
-            this.siteContacts.push(this.jsonCheckService.getValidSiteContact(contact.ciResponsibleParty));
+            this.siteContacts.push(this.jsonCheckService.getValidResponsibleParty(contact.ciResponsibleParty));
           }
-          this.metadataCustodian = this.jsonCheckService
-                  .getValidMetadataCustodian(this.siteLogModel.siteMetadataCustodian.ciResponsibleParty);
+          this.siteMetadataCustodian = this.jsonCheckService
+                  .getValidResponsibleParty(this.siteLogModel.siteMetadataCustodian.ciResponsibleParty);
+          this.siteDataCenters = [];
+          for (let siteDataCenter of this.siteLogModel.siteDataCenter) {
+            this.siteDataCenters.push(this.jsonCheckService.getValidResponsibleParty(siteDataCenter.ciResponsibleParty));
+          }
+          this.siteDataSource = !this.siteLogModel.siteDataSource.ciResponsibleParty ? null : this.jsonCheckService
+                  .getValidResponsibleParty(this.siteLogModel.siteDataSource.ciResponsibleParty);
+
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
@@ -204,10 +221,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.isLoading =  false;
     this.siteLogModel = null;
-    this.site = null;
+    this.siteIdentification = null;
     this.siteLocation = null;
     this.siteContacts.length = 0;
-    this.metadataCustodian = null;
+    this.siteMetadataCustodian = null;
+    this.siteDataCenters.length = 0;
+    this.siteDataSource = null;
     this.status = null;
     this.receivers.length = 0;
     this.antennas.length = 0;
@@ -301,6 +320,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.isLoading = true;
         that.submitted = true;
         that.status.hasNewSiteContact = false;
+        that.status.hasNewSiteMetadataCustodian = false;
+        that.status.hasNewSiteDataCenter = false;
+        that.status.hasNewSiteDataSource = false;
         that.status.hasNewAntenna = false;
         that.status.hasNewReceiver = false;
         that.status.hasNewSurveyedLocalTie = false;

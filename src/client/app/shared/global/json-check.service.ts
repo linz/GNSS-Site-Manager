@@ -13,6 +13,8 @@ export class JsonCheckService {
     siteOwner: {},
     siteContact: [],
     siteMetadataCustodian: {},
+    siteDataCenter: [],
+    siteDataSource: {},
     gnssAntennas: [],
     gnssReceivers: [],
     surveyedLocalTies: [],
@@ -38,7 +40,7 @@ export class JsonCheckService {
     tectonicPlate: { value: '' }
   };
 
-  private contactDetails: any = {
+  private responsibleParty: any = {
     individualName: {
       characterString: {'gco:CharacterString': ''}
     },
@@ -262,22 +264,16 @@ export class JsonCheckService {
     return this.siteLocation;
   }
 
-  public getValidSiteContact(json: any): any {
-    this.merge(json, this.contactDetails);
+  /**
+   * For Site Owner, Site Contact, Site Metadata Custodian,Site Data Center and Site Data Source
+   */
+  public getValidResponsibleParty(json: any): any {
+    this.merge(json, this.responsibleParty);
     return json;
   }
 
-  public getNewSiteContact(): any {
-    return this.contactDetails;
-  }
-
-  public getValidMetadataCustodian(json: any): any {
-    this.merge(json, this.contactDetails);
-    return json;
-  }
-
-  public getNewMetadataCustodian(): any {
-    return this.contactDetails;
+  public getNewResponsibleParty(): any {
+    return this.responsibleParty;
   }
 
   public getValidReceiver(json: any): any {
