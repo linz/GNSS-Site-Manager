@@ -104,16 +104,16 @@ export class ResponsiblePartyComponent implements OnInit {
       this.dataModelCopy.shift();
       this.status.hasNewSiteContact = false;
     } else if (this.partyName === ConstantsService.SITE_METADATA_CUSTODIAN) {
-      this.dataModel = null;
-      this.dataModelCopy = null;
+      this.dataModel['ciResponsibleParty'] = null;
+      this.dataModelCopy['ciResponsibleParty'] = null;
       this.status.hasNewSiteMetadataCustodian = false;
     } else if (this.partyName === ConstantsService.SITE_DATA_CENTER) {
       this.dataModel.shift();
       this.dataModelCopy.shift();
       this.status.hasNewSiteDataCenter = false;
     } else if (this.partyName === ConstantsService.SITE_DATA_SOURCE) {
-      this.dataModel = null;
-      this.dataModelCopy = null;
+      this.dataModel['ciResponsibleParty'] = null;
+      this.dataModelCopy['ciResponsibleParty'] = null;
       this.status.hasNewSiteDataSource = false;
     }
   }
