@@ -10,7 +10,7 @@
             <button class="btn btn-similar btn-xs" title="Add a new waterVapor sensor as current one"
                     [disabled]="status.hasNewWaterVaporSensor" (click)="addNewWaterVaporSensor()">
             <i class="glyphicon glyphicon-plus-sign"></i>
-            New Water Vapor Sensor
+            New <span class="hide-xxs">Water Vapor Sensor</span>
             </button>
         </span>
     </div>
@@ -36,7 +36,7 @@
                       <button class="btn btn-danger btn-xs" title="Remove the new current waterVaporSensor"
                               (click)="removeNewWaterVaporSensors()">
                         <i class="glyphicon glyphicon-remove"></i>
-                        Remove
+                        <span class="hidden-xs">Remove</span>
                       </button>
                     </span>
                     <span *ngIf="i == 1 && waterVaporSensors.length >= 3" class="pull-right">
@@ -66,7 +66,7 @@
                                        #manufacturer="ngModel"/>
                                  <small [hidden]="manufacturer.valid || manufacturer.pristine"
                          			class="alert alert-danger">
-                    				"Manufacturer" is required       
+                    				"Manufacturer" is required
                     			 </small>
                             </div>
                         </div>
@@ -79,8 +79,8 @@
                                        #serialNumber="ngModel"/>
                                  <small [hidden]="serialNumber.valid || serialNumber.pristine"
                          			class="alert alert-danger">
-                    				"Serial Number" is required    
-                    			 </small>	
+                    				"Serial Number" is required
+                    			 </small>
                             </div>
                         </div>
                         <div class="form-group">
@@ -95,7 +95,7 @@
                             <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Calibration Date</label>
                             <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                                 <datetime-picker [(datetime)]="waterVaporSensor.calibrationDate.value[0]" [name]=" 'calibrationDate' "
-                                                 [required]="false"></datetime-picker>    
+                                                 [required]="false"></datetime-picker>
                             </div>
                         </div>
                         <div class="form-group">
