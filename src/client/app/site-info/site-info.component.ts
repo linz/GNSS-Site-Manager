@@ -309,8 +309,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public save(form: any) {
     let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
     if ( diffMsg === null || diffMsg.trim() === '') {
-      this.dialogService.showLogMessage('No changes have been made for '+this.siteId + ' BUT TESTING REMOVE SO SAVING');
-      // return;
+      this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
+      return;
     }
 
     let that: any = this;
