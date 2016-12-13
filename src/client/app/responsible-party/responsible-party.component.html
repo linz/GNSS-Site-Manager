@@ -13,7 +13,7 @@
               [disabled]="isToEnableAddNewButton()"
               (click)="addNewResponsibleParty(); miscUtilsService.showFullView($event);">
         <i class="glyphicon glyphicon-plus-sign"></i>
-        New {{partyName}}
+        New <span class="hide-xxs">{{partyName}}</span>
       </button>
     </span>
   </div>
@@ -29,7 +29,7 @@
                   title="Remove the new {{partyName}}"
                   (click)="removeNewResponsibleParty()">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xxs">Remove</span>
+            <span class="hidden-xs">Remove</span>
           </button>
         </div>
       </div>

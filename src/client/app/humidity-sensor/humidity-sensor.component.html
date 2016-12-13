@@ -10,7 +10,7 @@
             <button class="btn btn-similar btn-xs" title="Add a new humidity sensor as current one"
                     [disabled]="status.hasNewHumiditySensor" (click)="addNewHumiditySensor()">
             <i class="glyphicon glyphicon-plus-sign"></i>
-            New Humidity Sensor
+            New <span class="hide-xxs">Humidity Sensor</span>
             </button>
         </span>
     </div>
@@ -36,7 +36,7 @@
                       <button class="btn btn-danger btn-xs" title="Remove the new current humiditySensor"
                               (click)="removeNewHumiditySensors()">
                         <i class="glyphicon glyphicon-remove"></i>
-                        Remove
+                        <span class="hidden-xs">Remove</span>
                       </button>
                     </span>
                     <span *ngIf="i == 1 && humiditySensors.length >= 3" class="pull-right">
