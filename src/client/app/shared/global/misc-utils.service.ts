@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class MiscUtilsService {
+
+  private _scrollIntoView: any = require('scroll-into-view');
+  private _settings: any = {time: 1000, align: {top: 0, left: 0}};
+
   /**
    * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
    */
@@ -34,9 +38,7 @@ export class MiscUtilsService {
   public scrollIntoView(event: any, isBlockOpen: boolean): boolean {
     isBlockOpen = !isBlockOpen;
     if(isBlockOpen && event && event.target) {
-      setTimeout(function() {
-        event.target.scrollIntoView( {behavior: 'smooth'} );
-      }, 10);
+      this._scrollIntoView(event.target, this._settings);
     }
 
     return isBlockOpen;
@@ -48,9 +50,7 @@ export class MiscUtilsService {
   public showFullView(event: any) {
     event.preventDefault();
     if(event && event.target) {
-      setTimeout(function() {
-        event.target.scrollIntoView( {behavior: 'smooth'} );
-      }, 10);
+      this._scrollIntoView(event.target, this._settings);
     }
   }
 
@@ -60,9 +60,7 @@ export class MiscUtilsService {
   public showElemById(id: string) {
     let elem: any = document.getElementById(id);
     if (elem !== null) {
-      setTimeout(function() {
-        elem.scrollIntoView( {behavior: 'smooth'} );
-      }, 10);
+      this._scrollIntoView(elem, this._settings);
     }
   }
 }
