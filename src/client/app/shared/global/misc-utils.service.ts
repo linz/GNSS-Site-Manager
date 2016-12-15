@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 export class MiscUtilsService {
 
   private _scrollIntoView: any = require('scroll-into-view');
-  private _settings: any = {time: 1000, align: {top: 0, left: 0}};
 
   /**
    * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
@@ -38,7 +37,7 @@ export class MiscUtilsService {
   public scrollIntoView(event: any, isBlockOpen: boolean): boolean {
     isBlockOpen = !isBlockOpen;
     if(isBlockOpen && event && event.target) {
-      this._scrollIntoView(event.target, this._settings);
+      this.smoothScrollTo(event.target);
     }
 
     return isBlockOpen;
@@ -50,7 +49,7 @@ export class MiscUtilsService {
   public showFullView(event: any) {
     event.preventDefault();
     if(event && event.target) {
-      this._scrollIntoView(event.target, this._settings);
+      this.smoothScrollTo(event.target);
     }
   }
 
@@ -60,7 +59,24 @@ export class MiscUtilsService {
   public showElemById(id: string) {
     let elem: any = document.getElementById(id);
     if (elem !== null) {
-      this._scrollIntoView(elem, this._settings);
+      this.smoothScrollTo(elem);
+    }
+  }
+
+  /**
+   * Smoothly scroll the element elem into full-view on the page for FF, Chrome, Opera and Safari. Note that it dose not
+   * work in IE at all, so we have to use scrollIntoView() function instead (not smooth).
+   */
+  public smoothScrollTo(elem: any): void {
+    if (elem === null) {
+      return;
+    } else if(navigator.userAgent.indexOf('MSIE') !== -1 || !!navigator.userAgent.match(/Trident\/7\./)) {
+      setTimeout(function() {
+        elem.scrollIntoView( {behavior: 'smooth'} );
+      }, 500);
+    } else {
+      let _settings: any = {time: 1000, align: {top: 0, left: 0}};
+      this._scrollIntoView(elem, _settings);
     }
   }
 }
