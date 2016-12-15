@@ -145,6 +145,7 @@
     "ng2-bootstrap": "1.1.11",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-beta.12",
+    "scroll-into-view": "1.7.1",
     "systemjs": "0.19.27",
     "zone.js": "0.6.21"
   }

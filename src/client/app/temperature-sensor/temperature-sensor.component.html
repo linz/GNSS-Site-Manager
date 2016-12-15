@@ -1,6 +1,7 @@
 <div class="panel panel-level-1">
     <div class="panel-heading">
-        <span class="panel-title cursor-ptr" (click)="status.isTemperatureSensorsGroupOpen = !status.isTemperatureSensorsGroupOpen">
+        <span class="panel-title cursor-ptr"
+              (click)="status.isTemperatureSensorsGroupOpen = miscUtilsService.scrollIntoView($event, status.isTemperatureSensorsGroupOpen)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isTemperatureSensorsGroupOpen, 'glyphicon-plus-sign': !status.isTemperatureSensorsGroupOpen}">
             </i>
@@ -8,7 +9,8 @@
         </span>
         <span class="pull-right">
             <button class="btn btn-similar btn-xs" title="Add a new temperature sensor as current one"
-                    [disabled]="status.hasNewTemperatureSensor" (click)="addNewTemperatureSensor()">
+                    [disabled]="status.hasNewTemperatureSensor"
+                    (click)="addNewTemperatureSensor(); miscUtilsService.showFullView($event);">
             <i class="glyphicon glyphicon-plus-sign"></i>
             New <span class="hide-xxs">Temperature Sensor</span>
             </button>
@@ -22,15 +24,15 @@
             <div class="panel panel-level-2">
                 <div class="panel-heading">
                     <span class="panel-sub-title cursor-ptr"
-                          (click)="status.isTemperatureSensorsOpen[i] = !status.isTemperatureSensorsOpen[i]">
+                          (click)="status.isTemperatureSensorsOpen[i] = miscUtilsService.scrollIntoView($event, status.isTemperatureSensorsOpen[i])">
                       <i class="glyphicon"
                          [ngClass]="{'glyphicon-minus-sign': status.isTemperatureSensorsOpen[i], 'glyphicon-plus-sign': !status.isTemperatureSensorsOpen[i]}"></i>
-                    </span>
-                     <span *ngIf="i == 0">
-                        Current Temperature Sensor (Since {{ getDate(temperatureSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
-                     </span>
-                     <span *ngIf="i != 0">
-                        Previous Temperature Sensor ({{ getDate(temperatureSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(temperatureSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                       <span *ngIf="i == 0">
+                          Current Temperature Sensor (Since {{ getDate(temperatureSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                       </span>
+                       <span *ngIf="i != 0">
+                          Previous Temperature Sensor ({{ getDate(temperatureSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(temperatureSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                      </span>
                     </span>
                     <span class="pull-right" *ngIf="i == 0 && status.hasNewTemperatureSensor">
                       <button class="btn btn-danger btn-xs" title="Remove the new current temperatureSensor"
