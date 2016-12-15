@@ -1,6 +1,7 @@
 <div class="panel panel-level-1">
     <div class="panel-heading">
-        <span class="panel-title cursor-ptr" (click)="status.isWaterVaporSensorsGroupOpen = !status.isWaterVaporSensorsGroupOpen">
+        <span class="panel-title cursor-ptr"
+              (click)="status.isWaterVaporSensorsGroupOpen = miscUtilsService.scrollIntoView($event, status.isWaterVaporSensorsGroupOpen)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isWaterVaporSensorsGroupOpen, 'glyphicon-plus-sign': !status.isWaterVaporSensorsGroupOpen}">
             </i>
@@ -8,7 +9,8 @@
         </span>
         <span class="pull-right">
             <button class="btn btn-similar btn-xs" title="Add a new waterVapor sensor as current one"
-                    [disabled]="status.hasNewWaterVaporSensor" (click)="addNewWaterVaporSensor()">
+                    [disabled]="status.hasNewWaterVaporSensor"
+                    (click)="addNewWaterVaporSensor(); miscUtilsService.showFullView($event);">
             <i class="glyphicon glyphicon-plus-sign"></i>
             New <span class="hide-xxs">Water Vapor Sensor</span>
             </button>
@@ -22,15 +24,15 @@
             <div class="panel panel-level-2">
                 <div class="panel-heading">
                     <span class="panel-sub-title cursor-ptr"
-                          (click)="status.isWaterVaporSensorsOpen[i] = !status.isWaterVaporSensorsOpen[i]">
+                          (click)="status.isWaterVaporSensorsOpen[i] = miscUtilsService.scrollIntoView($event, status.isWaterVaporSensorsOpen[i])">
                       <i class="glyphicon"
                          [ngClass]="{'glyphicon-minus-sign': status.isWaterVaporSensorsOpen[i], 'glyphicon-plus-sign': !status.isWaterVaporSensorsOpen[i]}"></i>
-                    </span>
-                     <span *ngIf="i == 0">
-                        Current Water Vapor Sensor (Since {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
-                     </span>
-                     <span *ngIf="i != 0">
-                        Previous Water Vapor Sensor ({{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                       <span *ngIf="i == 0">
+                          Current Water Vapor Sensor (Since {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                       </span>
+                       <span *ngIf="i != 0">
+                          Previous Water Vapor Sensor ({{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                      </span>
                     </span>
                     <span class="pull-right" *ngIf="i == 0 && status.hasNewWaterVaporSensor">
                       <button class="btn btn-danger btn-xs" title="Remove the new current waterVaporSensor"

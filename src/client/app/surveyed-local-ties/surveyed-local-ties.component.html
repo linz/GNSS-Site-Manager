@@ -1,6 +1,7 @@
 <div class="panel panel-level-1">
     <div class="panel-heading">
-        <span class="panel-title cursor-ptr" (click)="status.isSurveyedLocalTiesGroupOpen = !status.isSurveyedLocalTiesGroupOpen">
+        <span class="panel-title cursor-ptr"
+              (click)="status.isSurveyedLocalTiesGroupOpen = miscUtilsService.scrollIntoView($event, status.isSurveyedLocalTiesGroupOpen)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isSurveyedLocalTiesGroupOpen, 'glyphicon-plus-sign': !status.isSurveyedLocalTiesGroupOpen}">
             </i>
@@ -8,7 +9,8 @@
         </span>
         <span class="pull-right">
             <button class="btn btn-similar btn-xs" title="Add a new Surveyed Local Tie as current one"
-                    [disabled]="status.hasNewSurveyedLocalTie" (click)="addNewSurveyedLocalTie()">
+                    [disabled]="status.hasNewSurveyedLocalTie"
+                    (click)="addNewSurveyedLocalTie(); miscUtilsService.showFullView($event);">
             <i class="glyphicon glyphicon-plus-sign"></i>
             New <span class="hide-xxs">Surveyed Local Tie</span>
             </button>
@@ -22,15 +24,15 @@
             <div class="panel panel-level-2">
                 <div class="panel-heading">
                     <span class="panel-sub-title cursor-ptr"
-                          (click)="status.isSurveyedLocalTiesOpen[i] = !status.isSurveyedLocalTiesOpen[i]">
+                          (click)="status.isSurveyedLocalTiesOpen[i] = miscUtilsService.scrollIntoView($event, status.isSurveyedLocalTiesOpen[i])">
                       <i class="glyphicon"
                          [ngClass]="{'glyphicon-minus-sign': status.isSurveyedLocalTiesOpen[i], 'glyphicon-plus-sign': !status.isSurveyedLocalTiesOpen[i]}"></i>
-                    </span>
-                     <span *ngIf="i == 0">
-                        Current Surveyed Local Tie (Since {{ getDate(surveyedLocalTie.dateMeasured.value[0]) }})
-                     </span>
-                     <span *ngIf="i != 0">
-                        Previous Surveyed Local Tie ({{ getDate(surveyedLocalTie.dateMeasured.value[0]) }})
+                       <span *ngIf="i == 0">
+                          Current Surveyed Local Tie (Since {{ getDate(surveyedLocalTie.dateMeasured.value[0]) }})
+                       </span>
+                       <span *ngIf="i != 0">
+                          Previous Surveyed Local Tie ({{ getDate(surveyedLocalTie.dateMeasured.value[0]) }})
+                      </span>
                     </span>
                     <span class="pull-right">
                       <button class="btn btn-danger btn-xs" title="Remove the Surveyed Local Tie"
