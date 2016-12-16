@@ -15,7 +15,7 @@ export class MiscUtilsService {
   /**
    * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
    */
-  public getDate(datetime: string) {
+  public getDate(datetime: string): string {
     if (datetime === null || typeof datetime === 'undefined') {
       return '';
     } else if (datetime.length < 10) {
