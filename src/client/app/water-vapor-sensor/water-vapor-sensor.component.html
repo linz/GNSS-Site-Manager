@@ -28,10 +28,11 @@
                       <i class="glyphicon"
                          [ngClass]="{'glyphicon-minus-sign': status.isWaterVaporSensorsOpen[i], 'glyphicon-plus-sign': !status.isWaterVaporSensorsOpen[i]}"></i>
                        <span *ngIf="i == 0">
-                          Current Water Vapor Sensor (Since {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                          Current Water Vapor Sensor (Since {{ miscUtilsService.getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
                        </span>
                        <span *ngIf="i != 0">
-                          Previous Water Vapor Sensor ({{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash; {{ getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                          Previous Water Vapor Sensor ({{ miscUtilsService.getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }}
+                          &ndash; {{ miscUtilsService.getDate(waterVaporSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
                       </span>
                     </span>
                     <span class="pull-right" *ngIf="i == 0 && status.hasNewWaterVaporSensor">

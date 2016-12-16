@@ -84,22 +84,4 @@ export abstract class AbstractItem implements DoCheck, OnInit {
     let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index};
     this.getReturnEvents().emit(geodesyEvent);
   }
-
-
-  /* ===============================================================
-   * Utility Methods
-   * TODO - move duplicates to common base class
-   */
-
-  /**
-   * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
-   */
-  public getDate(datetime: string) {
-    if (datetime === null || typeof datetime === 'undefined') {
-      return '';
-    } else if (datetime.length < 10) {
-      return datetime;
-    }
-    return datetime.substring(0, 10);
-  }
 }

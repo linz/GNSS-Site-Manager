@@ -29,11 +29,11 @@
                [ngClass]="{'glyphicon-minus-sign': status.isFrequencyStdsOpen[i], 'glyphicon-plus-sign': !status.isFrequencyStdsOpen[i]}">
             </i>
             <span *ngIf="i == 0">
-              Current Frequency Standard (Since {{ getDate(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+              Current Frequency Standard (Since {{ miscUtilsService.getDate(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
             </span>
             <span *ngIf="i != 0">
-              Previous Frequency Standard ({{ getDate(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }}
-              &ndash; {{ getDate(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+              Previous Frequency Standard ({{ miscUtilsService.getDate(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }}
+              &ndash; {{ miscUtilsService.getDate(frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
             </span>
           </span>
           <span *ngIf="i == 0 && status.hasNewFrequencyStd" class="pull-right">
