@@ -29,11 +29,11 @@
                [ngClass]="{'glyphicon-minus-sign': status.isEpisodicEffectOpen[i], 'glyphicon-plus-sign': !status.isEpisodicEffectOpen[i]}">
             </i>
             <span *ngIf="i == 0">
-              Current Episodic Effect (Since {{ getDate(episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+              Current Episodic Effect (Since {{ miscUtilsService.getDate(episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
             </span>
             <span *ngIf="i != 0">
-              Previous Episodic Effect ({{ getDate(episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }}
-              &ndash; {{ getDate(episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+              Previous Episodic Effect ({{ miscUtilsService.getDate(episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }}
+              &ndash; {{ miscUtilsService.getDate(episodicEffect.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
             </span>
           </span>
           <span *ngIf="i == 0 && status.hasNewEpisodicEffect" class="pull-right">

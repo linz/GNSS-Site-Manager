@@ -29,11 +29,11 @@
                [ngClass]="{'glyphicon-minus-sign': status.isReceiversOpen[i], 'glyphicon-plus-sign': !status.isReceiversOpen[i]}">
             </i>
             <span *ngIf="i == 0">
-              Current Receiver (Since {{ getDate(receiver.dateInstalled.value[0]) }})
+              Current Receiver (Since {{ miscUtilsService.getDate(receiver.dateInstalled.value[0]) }})
             </span>
             <span *ngIf="i != 0">
-              Previous Receiver ({{ getDate(receiver.dateInstalled.value[0]) }}
-              &ndash; {{ getDate(receiver.dateRemoved.value[0]) }})
+              Previous Receiver ({{ miscUtilsService.getDate(receiver.dateInstalled.value[0]) }}
+              &ndash; {{ miscUtilsService.getDate(receiver.dateRemoved.value[0]) }})
             </span>
           </span>
           <span *ngIf="i == 0 && status.hasNewReceiver" class="pull-right">

@@ -159,10 +159,11 @@
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
                   </i>
                   <span *ngIf="i == 0">
-                    Current Antenna (Since {{ getDate(antenna.dateInstalled.value[0]) }})
+                    Current Antenna (Since {{ miscUtilsService.getDate(antenna.dateInstalled.value[0]) }})
                   </span>
                   <span *ngIf="i != 0">
-                    Previous Antenna ({{ getDate(antenna.dateInstalled.value[0]) }} &ndash; {{ getDate(antenna.dateRemoved.value[0]) }})
+                    Previous Antenna ({{ miscUtilsService.getDate(antenna.dateInstalled.value[0]) }}
+                    &ndash; {{ miscUtilsService.getDate(antenna.dateRemoved.value[0]) }})
                   </span>
                 </span>
                 <span class="pull-right" *ngIf="i == 0 && status.hasNewAntenna">

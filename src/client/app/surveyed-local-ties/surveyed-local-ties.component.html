@@ -28,10 +28,10 @@
                       <i class="glyphicon"
                          [ngClass]="{'glyphicon-minus-sign': status.isSurveyedLocalTiesOpen[i], 'glyphicon-plus-sign': !status.isSurveyedLocalTiesOpen[i]}"></i>
                        <span *ngIf="i == 0">
-                          Current Surveyed Local Tie (Since {{ getDate(surveyedLocalTie.dateMeasured.value[0]) }})
+                          Current Surveyed Local Tie (Since {{ miscUtilsService.getDate(surveyedLocalTie.dateMeasured.value[0]) }})
                        </span>
                        <span *ngIf="i != 0">
-                          Previous Surveyed Local Tie ({{ getDate(surveyedLocalTie.dateMeasured.value[0]) }})
+                          Previous Surveyed Local Tie ({{ miscUtilsService.getDate(surveyedLocalTie.dateMeasured.value[0]) }})
                       </span>
                     </span>
                     <span class="pull-right">

@@ -369,18 +369,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
-   */
-  public getDate(datetime: string) {
-    if ( datetime === null || typeof datetime === 'undefined') {
-      return '';
-    } else if (datetime.length < 10) {
-      return datetime;
-    }
-    return datetime.substring(0, 10);
-  }
-
-  /**
    * Update the isOpen flags for all previous GNSS antennas
    */
   public togglePrevAntennas(flag: boolean) {
