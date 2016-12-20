@@ -8,7 +8,9 @@ System.config({
       'alertify.js': 'alertify.js/dist/js/alertify.js',
       'json-pointer': 'json-pointer/index',
       'scroll-into-view': 'scroll-into-view/scrollIntoView.js',
-      'foreach': 'foreach/index'
+      'foreach': 'foreach/index',
+      'raf': 'raf/index',
+      'performance-now': 'performance-now/lib/performance-now'
   }
 });
 
