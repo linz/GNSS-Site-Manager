@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { MiscUtilsService, JsonCheckService, ServiceWorkerService } from '../shared/index';
+import { MiscUtils, JsonCheckService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the EpisodicEffectComponent for viewing and editing episodic effect details.
@@ -17,7 +17,7 @@ export class EpisodicEffectComponent implements OnInit {
   public errorMessage: string;
   private cacheItems: Array<string> = [];
   public hasNewEpisodicEffect: boolean = false;
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
   @Input() status: any;
   @Input() episodicEffects: any;
   @Input() siteLogModel: any;
@@ -92,7 +92,7 @@ export class EpisodicEffectComponent implements OnInit {
    * Add a new empty frequency standard as current one and push the 'old' current frequency standard into previous list
    */
   public addNewEpisodicEffect() {
-    let presentDT = MiscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
     if (!this.episodicEffects) {
       this.episodicEffects = [];
     }
@@ -111,12 +111,12 @@ export class EpisodicEffectComponent implements OnInit {
     // Clone from one of Frequency Standard objects so that the "new" frequency standard object can be saved
     let oneEpisodicEffectSet: any = {};
     if ( this.siteLogModel.localEpisodicEventsSet && this.siteLogModel.localEpisodicEventsSet.length > 0 ) {
-      oneEpisodicEffectSet = MiscUtilsService.cloneJsonObj(this.siteLogModel.localEpisodicEventsSet[0]);
+      oneEpisodicEffectSet = MiscUtils.cloneJsonObj(this.siteLogModel.localEpisodicEventsSet[0]);
     }
 
     // Keep a copy of the frequency standard object as the original one for comparison
-    let episodicEffectBackup: any = MiscUtilsService.cloneJsonObj(oneEpisodicEffectSet);
-    episodicEffectBackup.localEpisodicEvents = MiscUtilsService.cloneJsonObj(newEpisodicEffect);
+    let episodicEffectBackup: any = MiscUtils.cloneJsonObj(oneEpisodicEffectSet);
+    episodicEffectBackup.localEpisodicEvents = MiscUtils.cloneJsonObj(newEpisodicEffect);
     if (!this.siteLogOrigin.localEpisodicEventsSet) {
       this.siteLogOrigin.localEpisodicEventsSet = [];
     }

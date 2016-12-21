@@ -5,7 +5,7 @@
         <div class="panel panel-level-1">
           <div class="panel-heading">
             <span class="panel-title cursor-ptr"
-                  (click)="status.isSiteInfoGroupOpen = miscUtilsService.scrollIntoView($event, status.isSiteInfoGroupOpen)">
+                  (click)="status.isSiteInfoGroupOpen = miscUtils.scrollIntoView($event, status.isSiteInfoGroupOpen)">
               <i class="glyphicon"
                  [ngClass]="{'glyphicon-minus-sign': status.isSiteInfoGroupOpen, 'glyphicon-plus-sign': !status.isSiteInfoGroupOpen}">
               </i>
@@ -85,7 +85,7 @@
             <!--<div class="panel panel-level-2">
               <div class="panel-heading">
                 <span class="panel-title cursor-ptr"
-                      (click)="status.isSiteMediaOpen = miscUtilsService.scrollIntoView($event, status.isSiteMediaOpen)">
+                      (click)="status.isSiteMediaOpen = miscUtils.scrollIntoView($event, status.isSiteMediaOpen)">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isSiteMediaOpen, 'glyphicon-plus-sign': !status.isSiteMediaOpen}">
                   </i>
@@ -130,7 +130,7 @@
         <div class="panel panel-level-1">
           <div class="panel-heading">
             <span class="panel-title cursor-ptr"
-                  (click)="status.isAntennaGroupOpen = miscUtilsService.scrollIntoView($event, status.isAntennaGroupOpen)">
+                  (click)="status.isAntennaGroupOpen = miscUtils.scrollIntoView($event, status.isAntennaGroupOpen)">
               <i class="glyphicon"
                  [ngClass]="{'glyphicon-minus-sign': status.isAntennaGroupOpen, 'glyphicon-plus-sign': !status.isAntennaGroupOpen}">
               </i>
@@ -140,7 +140,7 @@
               <button class="btn btn-similar btn-xs"
                       title="Add a new antenna as current one"
                       [disabled]="status.hasNewAntenna"
-                      (click)="addNewAntenna(); miscUtilsService.showFullView($event);">
+                      (click)="addNewAntenna(); miscUtils.showFullView($event);">
                 <i class="glyphicon glyphicon-plus-sign"></i>
                 New <span class="hide-xxs">Antenna</span>
               </button>
@@ -154,16 +154,16 @@
               <div class="panel panel-level-2" id="antenna_{{i}}">
                 <div class="panel-heading">
                 <span class="panel-title cursor-ptr"
-                      (click)="status.isAntennasOpen[i] = miscUtilsService.scrollIntoView($event, status.isAntennasOpen[i])">
+                      (click)="status.isAntennasOpen[i] = miscUtils.scrollIntoView($event, status.isAntennasOpen[i])">
                   <i class="glyphicon"
                      [ngClass]="{'glyphicon-minus-sign': status.isAntennasOpen[i], 'glyphicon-plus-sign': !status.isAntennasOpen[i]}">
                   </i>
                   <span *ngIf="i == 0">
-                    Current Antenna (Since {{ miscUtilsService.getDate(antenna.dateInstalled.value[0]) }})
+                    Current Antenna (Since {{ miscUtils.getDate(antenna.dateInstalled.value[0]) }})
                   </span>
                   <span *ngIf="i != 0">
-                    Previous Antenna ({{ miscUtilsService.getDate(antenna.dateInstalled.value[0]) }}
-                    &ndash; {{ miscUtilsService.getDate(antenna.dateRemoved.value[0]) }})
+                    Previous Antenna ({{ miscUtils.getDate(antenna.dateInstalled.value[0]) }}
+                    &ndash; {{ miscUtils.getDate(antenna.dateRemoved.value[0]) }})
                   </span>
                 </span>
                 <span class="pull-right" *ngIf="i == 0 && status.hasNewAntenna">
@@ -176,7 +176,7 @@
                 </span>
                 <span *ngIf="i == 1 && antennas.length >= 3" class="pull-right">
                   <button class="btn-toggle" *ngIf="!arePrevAntennasOpen()"
-                          (click)="togglePrevAntennas(true); miscUtilsService.showElemById('antenna_1');"
+                          (click)="togglePrevAntennas(true); miscUtils.showElemById('antenna_1');"
                           title="Show all previous antennas">
                     <i class="glyphicon glyphicon-collapse-down"></i>
                   </button>

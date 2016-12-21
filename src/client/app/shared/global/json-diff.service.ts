@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpUtilsService } from './http-utils.service';
-import { MiscUtilsService } from './misc-utils.service';
+import { MiscUtils } from './misc-utils';
 
 @Injectable()
 export class JsonDiffService {
@@ -119,7 +119,7 @@ export class JsonDiffService {
   }
 
   private traverse(differenceArray: any, jsonObj: any, key: string) {
-    let objType: string = MiscUtilsService.getObjectType(jsonObj);
+    let objType: string = MiscUtils.getObjectType(jsonObj);
     if (objType === 'Object') {
       this.traverseObj(differenceArray, jsonObj, key);
     } else if (objType === 'Array') {
@@ -192,7 +192,7 @@ export class JsonDiffService {
 
   compare(oldObj: any, newObj: any, path: any): any {
     let changes: any = [];
-    let typeOfOldObj: any = MiscUtilsService.getObjectType(oldObj);
+    let typeOfOldObj: any = MiscUtils.getObjectType(oldObj);
     switch (typeOfOldObj) {
       case 'Date':
         changes = changes.concat(this.comparePrimitives(oldObj.getTime(), newObj.getTime(), path));
@@ -315,8 +315,8 @@ export class JsonDiffService {
     if (oldObj === null || newObj === null) {
       return (oldObj === newObj);
     }
-    let oldType: string = MiscUtilsService.getObjectType(oldObj);
-    let newType: string = MiscUtilsService.getObjectType(newObj);
+    let oldType: string = MiscUtils.getObjectType(oldObj);
+    let newType: string = MiscUtils.getObjectType(newObj);
     if (oldType === newType) {
       return (oldObj === newObj);
     } else if (oldType === 'String' && newType === 'Number') {
@@ -331,7 +331,7 @@ export class JsonDiffService {
   }
 
   private isEmpty(obj: any): boolean {
-    let objType: string = MiscUtilsService.getObjectType(obj);
+    let objType: string = MiscUtils.getObjectType(obj);
     if (objType === null || objType === 'undefined') {
       return true;
     } else if (objType === 'String' && obj.trim() === '') {

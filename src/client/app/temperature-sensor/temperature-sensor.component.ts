@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { MiscUtilsService, JsonCheckService } from '../shared/index';
+import { MiscUtils, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -11,7 +11,7 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
 })
 export class GnssTemperatureSensorComponent {
   public errorMessage: string;
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
   @Input() status: any;
   @Input() temperatureSensors: any;
   @Input() siteLogModel: any;
@@ -65,7 +65,7 @@ export class GnssTemperatureSensorComponent {
    * Add a new empty temperature sensors as current one and push the 'old' current temperature sensors into previous list
    */
   public addNewTemperatureSensor() {
-    let presentDT = MiscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
 
     if (!this.temperatureSensors) {
       this.temperatureSensors = [];
@@ -86,12 +86,12 @@ export class GnssTemperatureSensorComponent {
     // Clone from one of temperature sensor objects so that the "new" temperature sensor object can be saved
     let sensorObj: any = {};
     if ( this.siteLogModel.temperatureSensors && this.siteLogModel.temperatureSensors.length > 0 ) {
-      sensorObj = MiscUtilsService.cloneJsonObj(this.siteLogModel.temperatureSensors[0]);
+      sensorObj = MiscUtils.cloneJsonObj(this.siteLogModel.temperatureSensors[0]);
     }
 
     // Keep a copy of the temperature sensor object as the original one for comparison
-    let sensorObjCopy: any = MiscUtilsService.cloneJsonObj(sensorObj);
-    sensorObjCopy.temperatureSensor = MiscUtilsService.cloneJsonObj(newSensor);
+    let sensorObjCopy: any = MiscUtils.cloneJsonObj(sensorObj);
+    sensorObjCopy.temperatureSensor = MiscUtils.cloneJsonObj(newSensor);
     if (!this.siteLogOrigin.temperatureSensors) {
       this.siteLogOrigin.temperatureSensors = [];
     }

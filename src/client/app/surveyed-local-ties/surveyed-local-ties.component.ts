@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { MiscUtilsService, JsonCheckService } from '../shared/index';
+import { MiscUtils, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents a Surveyed Local Ties object
@@ -11,7 +11,7 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
 })
 export class SurveyedLocalTiesComponent {
   public errorMessage: string;
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
   @Input() status: any;
   @Input() surveyedLocalTies: any;
   @Input() siteLogModel: any;
@@ -65,7 +65,7 @@ export class SurveyedLocalTiesComponent {
    * Add a new empty Surveyed Local Tie as current one and push the 'old' current Surveyed Local Tie into previous list
    */
   public addNewSurveyedLocalTie() {
-    let presentDT = MiscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
 
     if (!this.surveyedLocalTies) {
       this.surveyedLocalTies = [];
@@ -76,12 +76,12 @@ export class SurveyedLocalTiesComponent {
     // Clone from one of surveyed local tie objects so that the "new" surveyed local tie object can be saved
     let clonedObject: any = {};
     if ( this.siteLogModel.surveyedLocalTies && this.siteLogModel.surveyedLocalTies.length > 0 ) {
-    	clonedObject = MiscUtilsService.cloneJsonObj(this.siteLogModel.surveyedLocalTies[0]);
+    	clonedObject = MiscUtils.cloneJsonObj(this.siteLogModel.surveyedLocalTies[0]);
     }
 
     // Keep a copy of the surveyed local tie object as the original one for comparison
-    let originalObject: any = MiscUtilsService.cloneJsonObj(clonedObject);
-    originalObject.surveyedLocalTie = MiscUtilsService.cloneJsonObj(newSurveyedLocalTie);
+    let originalObject: any = MiscUtils.cloneJsonObj(clonedObject);
+    originalObject.surveyedLocalTie = MiscUtils.cloneJsonObj(newSurveyedLocalTie);
     if (!this.siteLogOrigin.surveyedLocalTies) {
       this.siteLogOrigin.surveyedLocalTies = [];
     }

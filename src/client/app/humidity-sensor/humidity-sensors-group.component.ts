@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import {MiscUtilsService} from '../shared/index';
+import {MiscUtils} from '../shared/index';
 import {AbstractGroup} from '../shared/abstract-groups-items/AbstractGroup';
 import {
   HumiditySensor,
@@ -21,7 +21,7 @@ import {
   templateUrl: 'humidity-sensors-group.component.html',
 })
 export class HumiditySensorsGroupComponent extends AbstractGroup {
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
   @Input()
   set siteLogModel(siteLogModel: any) {
     this.setItemsCollection(siteLogModel.humiditySensors);
@@ -178,7 +178,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
    */
   public addNewItem(): void {
     this.isGroupOpen = true;
-    let presentDT = MiscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
 
     if (!this.getItemsCollection()) {
       this.setItemsCollection([]);
@@ -197,7 +197,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
 
     let newSensor = this.newSensor();
     let newSensorProperty = this.newSensorProperty(newSensor);
-    let newSensorPropertyCopy = MiscUtilsService.cloneJsonObj(newSensorProperty);
+    let newSensorPropertyCopy = MiscUtils.cloneJsonObj(newSensorProperty);
 
     newSensor.calibrationDate.value[0] = presentDT;
     newSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] = presentDT;

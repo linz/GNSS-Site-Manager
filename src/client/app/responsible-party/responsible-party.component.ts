@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { ConstantsService, MiscUtilsService, JsonCheckService, ServiceWorkerService } from '../shared/index';
+import { ConstantsService, MiscUtils, JsonCheckService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the ResponsiblePartyComponent for viewing and editing Responsible Parties for Site Owner, Site
@@ -21,7 +21,7 @@ export class ResponsiblePartyComponent implements OnInit {
   public errorMessage: string;
   private cacheItems: Array<string> = [];
   private isPartyGroupOpen: boolean = false;
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
   @Input() partyName: string;
   @Input() responsibleParties: any;
   @Input() dataModel: any;
@@ -79,18 +79,18 @@ export class ResponsiblePartyComponent implements OnInit {
     }
     this.isPartyGroupOpen = true;
 
-    let newResponsibleParty = MiscUtilsService.cloneJsonObj(this.jsonCheckService.getNewResponsibleParty());
+    let newResponsibleParty = MiscUtils.cloneJsonObj(this.jsonCheckService.getNewResponsibleParty());
     this.responsibleParties.unshift(newResponsibleParty);
 
     // back up for comparison
     if (this.partyName === ConstantsService.SITE_METADATA_CUSTODIAN ||
         this.partyName === ConstantsService.SITE_DATA_SOURCE) {
       this.dataModel['ciResponsibleParty'] = newResponsibleParty;
-      this.dataModelCopy['ciResponsibleParty'] = MiscUtilsService.cloneJsonObj(newResponsibleParty);
+      this.dataModelCopy['ciResponsibleParty'] = MiscUtils.cloneJsonObj(newResponsibleParty);
     } else {
       let newObj: any = {'ciResponsibleParty': newResponsibleParty};
       this.dataModel.unshift(newObj);
-      this.dataModelCopy.unshift(MiscUtilsService.cloneJsonObj(newObj));
+      this.dataModelCopy.unshift(MiscUtils.cloneJsonObj(newObj));
     }
   }
 

@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { ConstantsService, DialogService, MiscUtilsService,
+import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
 
 /**
@@ -35,7 +35,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
 
   public siteContactName: string = ConstantsService.SITE_CONTACT;
   public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
@@ -248,7 +248,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Add a new empty antenna as current one and push the 'old' current antenna into previous list
    */
   public addNewAntenna() {
-    let presentDT = MiscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
     if (!this.antennas) {
       this.antennas = [];
     }
@@ -268,12 +268,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
     let antennaObj: any = {};
     if ( this.siteLogModel.gnssAntennas && this.siteLogModel.gnssAntennas.length > 0 ) {
-      antennaObj = MiscUtilsService.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
+      antennaObj = MiscUtils.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
     }
 
     // Keep a copy of the antenna object as the original one for comparison
-    let antennaObjCopy: any = MiscUtilsService.cloneJsonObj(antennaObj);
-    antennaObjCopy.gnssAntenna = MiscUtilsService.cloneJsonObj(newAntenna);
+    let antennaObjCopy: any = MiscUtils.cloneJsonObj(antennaObj);
+    antennaObjCopy.gnssAntenna = MiscUtils.cloneJsonObj(newAntenna);
     this.siteLogOrigin.gnssAntennas.unshift(antennaObjCopy);
 
     newAntenna.dateInstalled.value[0] = presentDT;
@@ -364,7 +364,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   public backupSiteLogJson() {
-    this.siteLogOrigin = MiscUtilsService.cloneJsonObj(this.siteLogModel);
+    this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
   }
 
   /**

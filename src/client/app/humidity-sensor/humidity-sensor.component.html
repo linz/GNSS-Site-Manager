@@ -26,11 +26,11 @@
                        <i class="glyphicon"
                           [ngClass]="{'glyphicon-minus-sign': status.isHumiditySensorsOpen[i], 'glyphicon-plus-sign': !status.isHumiditySensorsOpen[i]}"></i>
                        <span *ngIf="i == 0">
-                          Current Humidity Sensor (Since {{ miscUtilsService.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                          Current Humidity Sensor (Since {{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
                        </span>
                        <span *ngIf="i != 0">
-                          Previous Humidity Sensor ({{ miscUtilsService.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }}
-                          &ndash; {{ miscUtilsService.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                          Previous Humidity Sensor ({{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }}
+                          &ndash; {{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
                       </span>
                     </span>
                     <span class="pull-right" *ngIf="i == 0 && status.hasNewHumiditySensor">

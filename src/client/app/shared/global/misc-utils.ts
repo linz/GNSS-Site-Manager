@@ -1,9 +1,6 @@
-import { Injectable } from '@angular/core';
+export class MiscUtils {
 
-@Injectable()
-export class MiscUtilsService {
-
-  private static _scrollIntoView: any = require('scroll-into-view');
+  private static scrollToView: any = require('scroll-into-view');
 
   /**
    * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
@@ -87,8 +84,8 @@ export class MiscUtilsService {
         elem.scrollIntoView( {behavior: 'smooth'} );
       }, 500);
     } else {
-      let _settings: any = {time: 1000, align: {top: 0, left: 0}};
-      this._scrollIntoView(elem, _settings);
+      let settings: any = {time: 1000, align: {top: 0, left: 0}};
+      this.scrollToView(elem, settings);
     }
   }
 }

@@ -11,7 +11,7 @@ import { CorsSiteService } from './cors-site/index';
 import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
 import { WFSService } from './wfs/index';
-import { MiscUtilsService } from './global/index';
+import { MiscUtils } from './global/index';
 import { ConstantsService, HttpUtilsService } from './global/index';
 
 /**
@@ -28,7 +28,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [MiscUtilsService, NameListService, JsonixService, SiteLogService,
+      providers: [MiscUtils, NameListService, JsonixService, SiteLogService,
                   CorsSiteService, WFSService, ConstantsService, HttpUtilsService]
     };
   }

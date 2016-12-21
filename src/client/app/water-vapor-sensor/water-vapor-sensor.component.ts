@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { MiscUtilsService, JsonCheckService } from '../shared/index';
+import { MiscUtils, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -11,7 +11,7 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
 })
 export class GnssWaterVaporSensorComponent {
   public errorMessage: string;
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
   @Input() status: any;
   @Input() waterVaporSensors: any;
   @Input() siteLogModel: any;
@@ -65,7 +65,7 @@ export class GnssWaterVaporSensorComponent {
    * Add a new empty waterVapor sensors as current one and push the 'old' current waterVapor sensors into previous list
    */
   public addNewWaterVaporSensor() {
-    let presentDT = MiscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
 
     if (!this.waterVaporSensors) {
       this.waterVaporSensors = [];
@@ -86,12 +86,12 @@ export class GnssWaterVaporSensorComponent {
     // Clone from one of waterVapor sensor objects so that the "new" waterVapor sensor object can be saved
     let sensorObj: any = {};
     if ( this.siteLogModel.waterVaporSensors && this.siteLogModel.waterVaporSensors.length > 0 ) {
-      sensorObj = MiscUtilsService.cloneJsonObj(this.siteLogModel.waterVaporSensors[0]);
+      sensorObj = MiscUtils.cloneJsonObj(this.siteLogModel.waterVaporSensors[0]);
     }
 
     // Keep a copy of the waterVapor sensor object as the original one for comparison
-    let sensorObjCopy: any = MiscUtilsService.cloneJsonObj(sensorObj);
-    sensorObjCopy.waterVaporSensor = MiscUtilsService.cloneJsonObj(newSensor);
+    let sensorObjCopy: any = MiscUtils.cloneJsonObj(sensorObj);
+    sensorObjCopy.waterVaporSensor = MiscUtils.cloneJsonObj(newSensor);
     if (!this.siteLogOrigin.waterVaporSensors) {
       this.siteLogOrigin.waterVaporSensors = [];
     }

@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { MiscUtilsService, JsonCheckService } from '../shared/index';
+import { MiscUtils, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -11,7 +11,7 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
 })
 export class GnssHumiditySensorComponent {
   public errorMessage: string;
-  public miscUtilsService: any = MiscUtilsService;
+  public miscUtils: any = MiscUtils;
   @Input() status: any;
   @Input() humiditySensors: any;
   @Input() siteLogModel: any;
@@ -65,7 +65,7 @@ export class GnssHumiditySensorComponent {
    * Add a new empty humidity sensors as current one and push the 'old' current humidity sensors into previous list
    */
   public addNewHumiditySensor() {
-    let presentDT = MiscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
 
     if (!this.humiditySensors) {
       this.humiditySensors = [];
@@ -86,12 +86,12 @@ export class GnssHumiditySensorComponent {
     // Clone from one of humidity sensor objects so that the "new" humidity sensor object can be saved
     let sensorObj: any = {};
     if ( this.siteLogModel.humiditySensors && this.siteLogModel.humiditySensors.length > 0 ) {
-      sensorObj = MiscUtilsService.cloneJsonObj(this.siteLogModel.humiditySensors[0]);
+      sensorObj = MiscUtils.cloneJsonObj(this.siteLogModel.humiditySensors[0]);
     }
 
     // Keep a copy of the humidity sensor object as the original one for comparison
-    let sensorObjCopy: any = MiscUtilsService.cloneJsonObj(sensorObj);
-    sensorObjCopy.humiditySensor = MiscUtilsService.cloneJsonObj(newSensor);
+    let sensorObjCopy: any = MiscUtils.cloneJsonObj(sensorObj);
+    sensorObjCopy.humiditySensor = MiscUtils.cloneJsonObj(newSensor);
     if (!this.siteLogOrigin.humiditySensors) {
       this.siteLogOrigin.humiditySensors = [];
     }
