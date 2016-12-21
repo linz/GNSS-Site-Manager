@@ -24,6 +24,7 @@ export class HumiditySensorItemComponent extends AbstractItem {
    * The HumiditySensor in question.
    */
   protected humiditySensor: HumiditySensor;
+  private miscUtilsService: any = MiscUtilsService;
 
   @Input()
   set humiditySensorProperty(humiditySensorProperty: any) {
@@ -45,7 +46,7 @@ export class HumiditySensorItemComponent extends AbstractItem {
    */
   @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
-  constructor(private miscUtilsService: MiscUtilsService) {
+  constructor() {
     super();
   }
 
