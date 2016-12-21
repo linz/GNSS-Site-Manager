@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NameListService, ServiceWorkerService, MiscUtilsService } from '../index';
+import { NameListService, ServiceWorkerService } from '../index';
 import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 
 /**
@@ -20,8 +20,9 @@ export class ToolbarComponent implements OnInit {
   private cacheItems: Array<string> = [];
   private siteId: string;
 
-  constructor(private serviceWorkerService: ServiceWorkerService, public miscUtilsService: MiscUtilsService,
-              public nameListService: NameListService, private route: ActivatedRoute,
+  constructor(private serviceWorkerService: ServiceWorkerService,
+              public nameListService: NameListService,
+              private route: ActivatedRoute,
               private router: Router) {
   }
 

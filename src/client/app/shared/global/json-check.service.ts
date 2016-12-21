@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MiscUtilsService } from './misc-utils.service';
+import { MiscUtils } from './misc-utils';
 
 /**
  * This service class maintains the definitions of all GeodesyML elements for web UI, and provides methods to ensure
@@ -248,8 +248,6 @@ export class JsonCheckService {
     }
   };
 
-  constructor(private utilsService: MiscUtilsService) {}
-
   public getValidSiteLog(json: any): any {
     this.merge(json, this.siteLog);
     return json;
@@ -367,14 +365,14 @@ export class JsonCheckService {
     if (!json1) {
       return;
     }
-    let objType1: any = this.utilsService.getObjectType(json1);
-    let objType2: any = this.utilsService.getObjectType(json2);
+    let objType1: any = MiscUtils.getObjectType(json1);
+    let objType2: any = MiscUtils.getObjectType(json2);
     if (objType2 === 'Object') {
       for (let attrName in json2) {
         if (json1.hasOwnProperty(attrName)) {
           this.merge(json1[attrName], json2[attrName]);
         } else {
-          json1[attrName] = this.utilsService.cloneJsonObj(json2[attrName]);
+          json1[attrName] = MiscUtils.cloneJsonObj(json2[attrName]);
         }
       }
     } else if (objType2 === 'Array' && json2.length > 0) {
@@ -383,11 +381,11 @@ export class JsonCheckService {
       }
 
       if (json1.length === 0) {
-        json1.push(this.utilsService.cloneJsonObj(json2[0]));
+        json1.push(MiscUtils.cloneJsonObj(json2[0]));
       } else {
         for (let i in json2) {
           if (json1.length <= i) {
-            json1.push(this.utilsService.cloneJsonObj(json2[i]));
+            json1.push(MiscUtils.cloneJsonObj(json2[i]));
           } else {
             this.merge(json1[i], json2[i]);
           }

@@ -4,7 +4,7 @@ import { MockBackend } from '@angular/http/testing';
 
 import { JsonDiffService } from './json-diff.service';
 import { HttpUtilsService } from './http-utils.service';
-import { MiscUtilsService } from './misc-utils.service';
+import { MiscUtils } from './misc-utils';
 
 // TODO - fix the tests in here (not quite right - most are commented out)
 export function main() {
@@ -407,7 +407,7 @@ export function main() {
       let injector = ReflectiveInjector.resolveAndCreate([
         JsonDiffService,
         HttpUtilsService,
-        MiscUtilsService,
+        MiscUtils,
         BaseRequestOptions,
         MockBackend,
         {

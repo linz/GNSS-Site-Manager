@@ -10,7 +10,6 @@ import { NameListService } from '../shared/index';
 import { SelectSiteModule } from './select-site.module';
 import { SelectSiteComponent } from './select-site.component';
 import { CorsSiteService } from '../shared/cors-site/cors-site.service';
-import { MiscUtilsService } from '../shared/global/misc-utils.service';
 import { ServiceWorkerService } from '../shared/index';
 import { WFSService } from '../shared/wfs/wfs.service';
 import { DialogService } from  '../shared/global/dialog.service';
@@ -33,7 +32,6 @@ export function main() {
                 });
             }
         };
-        let fakeGlobalService = {};
         let fakeWFSService = {
         };
 
@@ -46,7 +44,6 @@ export function main() {
                 declarations: [TestComponent],
                 providers: [
                     {provide: CorsSiteService, useValue: fakeCorsSiteService},
-                    {provide: MiscUtilsService, useValue: fakeGlobalService},
                     {provide: WFSService, useValue: fakeWFSService},
                     NameListService,
                     ServiceWorkerService,

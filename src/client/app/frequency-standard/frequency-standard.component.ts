@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
-import { MiscUtilsService, JsonCheckService, ServiceWorkerService } from '../shared/index';
+import { MiscUtils, JsonCheckService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the FrequencyStandardComponent for viewing and editing frequency standard details.
@@ -15,13 +15,13 @@ export class FrequencyStandardComponent implements OnInit {
   public errorMessage: string;
   private cacheItems: Array<string> = [];
   public hasNewFrequencyStd: boolean = false;
+  public miscUtils: any = MiscUtils;
   @Input() status: any;
   @Input() frequencyStandards: any;
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService,
-              private jsonCheckService: JsonCheckService,
+  constructor(private jsonCheckService: JsonCheckService,
               private serviceWorkerService: ServiceWorkerService) { }
 
   /**
@@ -88,7 +88,7 @@ export class FrequencyStandardComponent implements OnInit {
    * Add a new empty frequency standard as current one and push the 'old' current frequency standard into previous list
    */
   public addNewFrequencyStandard() {
-    let presentDT = this.miscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
     if (!this.frequencyStandards) {
       this.frequencyStandards = [];
     }
@@ -107,12 +107,12 @@ export class FrequencyStandardComponent implements OnInit {
     // Clone from one of Frequency Standard objects so that the "new" frequency standard object can be saved
     let frequencyStdObj: any = {};
     if ( this.siteLogModel.frequencyStandards && this.siteLogModel.frequencyStandards.length > 0 ) {
-      frequencyStdObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.frequencyStandards[0]);
+      frequencyStdObj = MiscUtils.cloneJsonObj(this.siteLogModel.frequencyStandards[0]);
     }
 
     // Keep a copy of the frequency standard object as the original one for comparison
-    let frequencyStdObjCopy: any = this.miscUtilsService.cloneJsonObj(frequencyStdObj);
-    frequencyStdObjCopy.frequencyStandard = this.miscUtilsService.cloneJsonObj(newFrequencyStd);
+    let frequencyStdObjCopy: any = MiscUtils.cloneJsonObj(frequencyStdObj);
+    frequencyStdObjCopy.frequencyStandard = MiscUtils.cloneJsonObj(newFrequencyStd);
     if (!this.siteLogOrigin.frequencyStandards) {
       this.siteLogOrigin.frequencyStandards = [];
     }

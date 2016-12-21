@@ -1,5 +1,5 @@
 import {Component, Input} from '@angular/core';
-import { MiscUtilsService, JsonCheckService } from '../shared/index';
+import { MiscUtils, JsonCheckService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -11,13 +11,13 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
 })
 export class GnssTemperatureSensorComponent {
   public errorMessage: string;
+  public miscUtils: any = MiscUtils;
   @Input() status: any;
   @Input() temperatureSensors: any;
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService,
-              private jsonCheckService: JsonCheckService) { }
+  constructor(private jsonCheckService: JsonCheckService) { }
 
   /**
    * Returns true if all previous GNSS temperature sensors are open, otherwise returns false
@@ -65,7 +65,7 @@ export class GnssTemperatureSensorComponent {
    * Add a new empty temperature sensors as current one and push the 'old' current temperature sensors into previous list
    */
   public addNewTemperatureSensor() {
-    let presentDT = this.miscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtils.getPresentDateTime();
 
     if (!this.temperatureSensors) {
       this.temperatureSensors = [];
@@ -86,12 +86,12 @@ export class GnssTemperatureSensorComponent {
     // Clone from one of temperature sensor objects so that the "new" temperature sensor object can be saved
     let sensorObj: any = {};
     if ( this.siteLogModel.temperatureSensors && this.siteLogModel.temperatureSensors.length > 0 ) {
-      sensorObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.temperatureSensors[0]);
+      sensorObj = MiscUtils.cloneJsonObj(this.siteLogModel.temperatureSensors[0]);
     }
 
     // Keep a copy of the temperature sensor object as the original one for comparison
-    let sensorObjCopy: any = this.miscUtilsService.cloneJsonObj(sensorObj);
-    sensorObjCopy.temperatureSensor = this.miscUtilsService.cloneJsonObj(newSensor);
+    let sensorObjCopy: any = MiscUtils.cloneJsonObj(sensorObj);
+    sensorObjCopy.temperatureSensor = MiscUtils.cloneJsonObj(newSensor);
     if (!this.siteLogOrigin.temperatureSensors) {
       this.siteLogOrigin.temperatureSensors = [];
     }

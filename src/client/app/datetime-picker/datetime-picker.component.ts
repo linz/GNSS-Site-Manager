@@ -1,5 +1,4 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, DoCheck} from '@angular/core';
-import { MiscUtilsService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -32,7 +31,7 @@ export class DatetimePickerComponent implements OnInit, DoCheck {
   @Input() public required: boolean = true;
   @Output() public datetimeChange: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private elemRef: ElementRef, private utilsService: MiscUtilsService) { }
+  constructor(private elemRef: ElementRef) { }
 
   /**
    * Initialize relevant variables when the directive is instantiated

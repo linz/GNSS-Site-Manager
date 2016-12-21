@@ -2,16 +2,16 @@
 <div class="panel panel-level-2">
     <div class="panel-heading">
         <span class="panel-title cursor-ptr"
-              (click)="isOpen = miscUtilsService.scrollIntoView($event, isOpen)">
+              (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                Current Humidity Sensor (Since {{ miscUtilsService.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                Current Humidity Sensor (Since {{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
             </span>
             <span *ngIf="index != 0">
-                Previous Humidity Sensor ({{ miscUtilsService.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash;
-                {{ miscUtilsService.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                Previous Humidity Sensor ({{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash;
+                {{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
             </span>
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->

@@ -3,7 +3,7 @@ import { BaseRequestOptions, ConnectionBackend, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 
 import { JsonCheckService } from './json-check.service';
-import { MiscUtilsService } from './misc-utils.service';
+import { MiscUtils } from './misc-utils';
 
 export function main() {
   describe('Test Json-Check Service ...', () => {
@@ -43,7 +43,7 @@ export function main() {
     beforeEach(() => {
       let injector = ReflectiveInjector.resolveAndCreate([
         JsonCheckService,
-        MiscUtilsService,
+        MiscUtils,
         BaseRequestOptions,
         MockBackend,
         {

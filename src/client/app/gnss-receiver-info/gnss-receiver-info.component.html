@@ -1,7 +1,7 @@
 <div class="panel panel-level-1">
   <div class="panel-heading">
     <span class="panel-title cursor-ptr"
-          (click)="status.isReceiverGroupOpen = miscUtilsService.scrollIntoView($event, status.isReceiverGroupOpen)">
+          (click)="status.isReceiverGroupOpen = miscUtils.scrollIntoView($event, status.isReceiverGroupOpen)">
       <i class="glyphicon"
          [ngClass]="{'glyphicon-minus-sign': status.isReceiverGroupOpen, 'glyphicon-plus-sign': !status.isReceiverGroupOpen}">
       </i>
@@ -10,7 +10,7 @@
     <span class="pull-right">
       <button class="btn btn-similar btn-xs" title="Add a new receiver as current one"
               [disabled]="status.hasNewReceiver"
-              (click)="addNewReceiver(); miscUtilsService.showFullView($event);">
+              (click)="addNewReceiver(); miscUtils.showFullView($event);">
         <i class="glyphicon glyphicon-plus-sign"></i>
         New <span class="hide-xxs">Receiver</span>
       </button>
@@ -24,16 +24,16 @@
       <div class="panel panel-level-2" id="receiver_{{i}}">
         <div class="panel-heading">
           <span class="panel-title cursor-ptr"
-                (click)="status.isReceiversOpen[i] = miscUtilsService.scrollIntoView($event, status.isReceiversOpen[i])">
+                (click)="status.isReceiversOpen[i] = miscUtils.scrollIntoView($event, status.isReceiversOpen[i])">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isReceiversOpen[i], 'glyphicon-plus-sign': !status.isReceiversOpen[i]}">
             </i>
             <span *ngIf="i == 0">
-              Current Receiver (Since {{ miscUtilsService.getDate(receiver.dateInstalled.value[0]) }})
+              Current Receiver (Since {{ miscUtils.getDate(receiver.dateInstalled.value[0]) }})
             </span>
             <span *ngIf="i != 0">
-              Previous Receiver ({{ miscUtilsService.getDate(receiver.dateInstalled.value[0]) }}
-              &ndash; {{ miscUtilsService.getDate(receiver.dateRemoved.value[0]) }})
+              Previous Receiver ({{ miscUtils.getDate(receiver.dateInstalled.value[0]) }}
+              &ndash; {{ miscUtils.getDate(receiver.dateRemoved.value[0]) }})
             </span>
           </span>
           <span *ngIf="i == 0 && status.hasNewReceiver" class="pull-right">
@@ -46,7 +46,7 @@
           </span>
           <span *ngIf="i == 1 && gnssReceivers.length >= 3" class="pull-right">
             <button *ngIf="!arePrevReceiversOpen()" class="btn-toggle"
-                    (click)="togglePrevReceivers(true); miscUtilsService.showElemById('receiver_1');"
+                    (click)="togglePrevReceivers(true); miscUtils.showElemById('receiver_1');"
                     title="Show all previous receivers">
               <i class="glyphicon glyphicon-collapse-down"></i>
             </button>

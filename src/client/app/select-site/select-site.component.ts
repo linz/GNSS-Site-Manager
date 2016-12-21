@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/debounceTime';
-import { DialogService, MiscUtilsService, CorsSiteService, ServiceWorkerService } from '../shared/index';
+import { DialogService, CorsSiteService, ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
@@ -37,12 +37,10 @@ export class SelectSiteComponent implements OnInit {
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {DialogService} dialogService - The injected DialogService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Service Worker
-   * @param {MiscUtilsService} miscUtilsService - common constants and methods
    */
   constructor(public router: Router,
               public corsSiteService: CorsSiteService,
               private dialogService: DialogService,
-              private miscUtilsService: MiscUtilsService,
               private serviceWorkerService: ServiceWorkerService) { }
 
   /**

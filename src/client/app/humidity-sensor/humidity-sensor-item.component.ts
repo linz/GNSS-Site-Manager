@@ -2,7 +2,7 @@ import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {AbstractItem} from '../shared/abstract-groups-items/AbstractItem';
 import {GeodesyEvent} from '../shared/events-messages/Event';
 import {HumiditySensor} from './HumiditySensor';
-import {MiscUtilsService} from '../shared/global/misc-utils.service';
+import {MiscUtils} from '../shared/global/misc-utils';
 /**
  * This class represents the SelectSiteComponent for searching and selecting CORS sites.
  */
@@ -24,6 +24,7 @@ export class HumiditySensorItemComponent extends AbstractItem {
    * The HumiditySensor in question.
    */
   protected humiditySensor: HumiditySensor;
+  public miscUtils: any = MiscUtils;
 
   @Input()
   set humiditySensorProperty(humiditySensorProperty: any) {
@@ -45,7 +46,7 @@ export class HumiditySensorItemComponent extends AbstractItem {
    */
   @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
-  constructor(private miscUtilsService: MiscUtilsService) {
+  constructor() {
     super();
   }
 
