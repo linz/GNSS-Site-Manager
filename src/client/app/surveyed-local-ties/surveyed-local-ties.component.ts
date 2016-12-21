@@ -11,13 +11,13 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
 })
 export class SurveyedLocalTiesComponent {
   public errorMessage: string;
+  public miscUtilsService: any = MiscUtilsService;
   @Input() status: any;
   @Input() surveyedLocalTies: any;
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService,
-              private jsonCheckService: JsonCheckService) { }
+  constructor(private jsonCheckService: JsonCheckService) { }
 
   /**
    * Returns true if all previous Surveyed Local Ties are open, otherwise returns false
@@ -65,7 +65,7 @@ export class SurveyedLocalTiesComponent {
    * Add a new empty Surveyed Local Tie as current one and push the 'old' current Surveyed Local Tie into previous list
    */
   public addNewSurveyedLocalTie() {
-    let presentDT = this.miscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtilsService.getPresentDateTime();
 
     if (!this.surveyedLocalTies) {
       this.surveyedLocalTies = [];
@@ -76,12 +76,12 @@ export class SurveyedLocalTiesComponent {
     // Clone from one of surveyed local tie objects so that the "new" surveyed local tie object can be saved
     let clonedObject: any = {};
     if ( this.siteLogModel.surveyedLocalTies && this.siteLogModel.surveyedLocalTies.length > 0 ) {
-    	clonedObject = this.miscUtilsService.cloneJsonObj(this.siteLogModel.surveyedLocalTies[0]);
+    	clonedObject = MiscUtilsService.cloneJsonObj(this.siteLogModel.surveyedLocalTies[0]);
     }
 
     // Keep a copy of the surveyed local tie object as the original one for comparison
-    let originalObject: any = this.miscUtilsService.cloneJsonObj(clonedObject);
-    originalObject.surveyedLocalTie = this.miscUtilsService.cloneJsonObj(newSurveyedLocalTie);
+    let originalObject: any = MiscUtilsService.cloneJsonObj(clonedObject);
+    originalObject.surveyedLocalTie = MiscUtilsService.cloneJsonObj(newSurveyedLocalTie);
     if (!this.siteLogOrigin.surveyedLocalTies) {
       this.siteLogOrigin.surveyedLocalTies = [];
     }

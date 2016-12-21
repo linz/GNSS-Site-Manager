@@ -3,19 +3,19 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class MiscUtilsService {
 
-  private _scrollIntoView: any = require('scroll-into-view');
+  private static _scrollIntoView: any = require('scroll-into-view');
 
   /**
    * Get present date and time string in format of "yyyy-mm-ddThh:mm:ss.sssZ"
    */
-  public getPresentDateTime() {
+  public static getPresentDateTime() {
     return new Date().toISOString();
   }
 
   /**
    * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
    */
-  public getDate(datetime: string): string {
+  public static getDate(datetime: string): string {
     if (datetime === null || typeof datetime === 'undefined') {
       return '';
     } else if (datetime.length < 10) {
@@ -27,14 +27,14 @@ export class MiscUtilsService {
   /**
    * Clone a JSON object from existing one so that both have no reference
    */
-  public cloneJsonObj(obj: any): any {
+  public static cloneJsonObj(obj: any): any {
     return JSON.parse(JSON.stringify(obj));
   }
 
   /**
    * Return the type of the object obj
    */
-  public getObjectType(obj: any): string {
+  public static getObjectType(obj: any): string {
     if (typeof obj === 'undefined') {
       return 'undefined';
     } else if (obj === null) {
@@ -46,7 +46,7 @@ export class MiscUtilsService {
   /**
    * Scroll the element clicked into full-view on the page and return a flag for switching block open/hide option.
    */
-  public scrollIntoView(event: any, isBlockOpen: boolean): boolean {
+  public static scrollIntoView(event: any, isBlockOpen: boolean): boolean {
     isBlockOpen = !isBlockOpen;
     if(isBlockOpen && event && event.target) {
       this.smoothScrollTo(event.target);
@@ -58,7 +58,7 @@ export class MiscUtilsService {
   /**
    * Scroll the element clicked into full-view on the page.
    */
-  public showFullView(event: any) {
+  public static showFullView(event: any) {
     event.preventDefault();
     if(event && event.target) {
       this.smoothScrollTo(event.target);
@@ -68,7 +68,7 @@ export class MiscUtilsService {
   /**
    * Scroll the element defined by Id into full-view on the page.
    */
-  public showElemById(id: string) {
+  public static showElemById(id: string) {
     let elem: any = document.getElementById(id);
     if (elem !== null) {
       this.smoothScrollTo(elem);
@@ -79,7 +79,7 @@ export class MiscUtilsService {
    * Smoothly scroll the element elem into full-view on the page for FF, Chrome, Opera and Safari. Note that it dose not
    * work in IE at all, so we have to use scrollIntoView() function instead (not smooth).
    */
-  public smoothScrollTo(elem: any): void {
+  public static smoothScrollTo(elem: any): void {
     if (elem === null) {
       return;
     } else if(navigator.userAgent.indexOf('MSIE') !== -1 || !!navigator.userAgent.match(/Trident\/7\./)) {

@@ -11,13 +11,13 @@ import { MiscUtilsService, JsonCheckService } from '../shared/index';
 })
 export class GnssPressureSensorComponent {
   public errorMessage: string;
+  public miscUtilsService: any = MiscUtilsService;
   @Input() status: any;
   @Input() pressureSensors: any;
   @Input() siteLogModel: any;
   @Input() siteLogOrigin: any;
 
-  constructor(private miscUtilsService: MiscUtilsService,
-              private jsonCheckService: JsonCheckService) { }
+  constructor(private jsonCheckService: JsonCheckService) { }
 
   /**
    * Returns true if all previous GNSS pressure sensors are open, otherwise returns false
@@ -65,7 +65,7 @@ export class GnssPressureSensorComponent {
    * Add a new empty pressure sensors as current one and push the 'old' current pressure sensors into previous list
    */
   public addNewPressureSensor() {
-    let presentDT = this.miscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtilsService.getPresentDateTime();
 
     if (!this.pressureSensors) {
       this.pressureSensors = [];
@@ -86,12 +86,12 @@ export class GnssPressureSensorComponent {
     // Clone from one of pressure sensor objects so that the "new" pressure sensor object can be saved
     let sensorObj: any = {};
     if ( this.siteLogModel.pressureSensors && this.siteLogModel.pressureSensors.length > 0 ) {
-      sensorObj = this.miscUtilsService.cloneJsonObj(this.siteLogModel.pressureSensors[0]);
+      sensorObj = MiscUtilsService.cloneJsonObj(this.siteLogModel.pressureSensors[0]);
     }
 
     // Keep a copy of the pressure sensor object as the original one for comparison
-    let sensorObjCopy: any = this.miscUtilsService.cloneJsonObj(sensorObj);
-    sensorObjCopy.pressureSensor = this.miscUtilsService.cloneJsonObj(newSensor);
+    let sensorObjCopy: any = MiscUtilsService.cloneJsonObj(sensorObj);
+    sensorObjCopy.pressureSensor = MiscUtilsService.cloneJsonObj(newSensor);
     if (!this.siteLogOrigin.pressureSensors) {
       this.siteLogOrigin.pressureSensors = [];
     }

@@ -21,6 +21,7 @@ import {
   templateUrl: 'humidity-sensors-group.component.html',
 })
 export class HumiditySensorsGroupComponent extends AbstractGroup {
+  public miscUtilsService: any = MiscUtilsService;
   @Input()
   set siteLogModel(siteLogModel: any) {
     this.setItemsCollection(siteLogModel.humiditySensors);
@@ -33,7 +34,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
     console.log('HumiditySensors (Original): ', this.getItemsOriginalCollection());
   }
 
-  constructor(private miscUtilsService: MiscUtilsService) {
+  constructor() {
     super();
   }
 
@@ -171,12 +172,13 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
     return newSensorContainer;
   }
 
+
   /**
    * Add a new empty humidity sensors as current one and push the 'old' current humidity sensors into previous list
    */
   public addNewItem(): void {
     this.isGroupOpen = true;
-    let presentDT = this.miscUtilsService.getPresentDateTime();
+    let presentDT = MiscUtilsService.getPresentDateTime();
 
     if (!this.getItemsCollection()) {
       this.setItemsCollection([]);
@@ -195,7 +197,7 @@ export class HumiditySensorsGroupComponent extends AbstractGroup {
 
     let newSensor = this.newSensor();
     let newSensorProperty = this.newSensorProperty(newSensor);
-    let newSensorPropertyCopy = this.miscUtilsService.cloneJsonObj(newSensorProperty);
+    let newSensorPropertyCopy = MiscUtilsService.cloneJsonObj(newSensorProperty);
 
     newSensor.calibrationDate.value[0] = presentDT;
     newSensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0] = presentDT;

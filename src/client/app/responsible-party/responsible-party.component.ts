@@ -21,14 +21,14 @@ export class ResponsiblePartyComponent implements OnInit {
   public errorMessage: string;
   private cacheItems: Array<string> = [];
   private isPartyGroupOpen: boolean = false;
+  public miscUtilsService: any = MiscUtilsService;
   @Input() partyName: string;
   @Input() responsibleParties: any;
   @Input() dataModel: any;
   @Input() dataModelCopy: any;
   @Input() status: any;
 
-  constructor(private miscUtilsService: MiscUtilsService,
-              private jsonCheckService: JsonCheckService,
+  constructor(private jsonCheckService: JsonCheckService,
               private serviceWorkerService: ServiceWorkerService) { }
 
   /**
@@ -79,18 +79,18 @@ export class ResponsiblePartyComponent implements OnInit {
     }
     this.isPartyGroupOpen = true;
 
-    let newResponsibleParty = this.miscUtilsService.cloneJsonObj(this.jsonCheckService.getNewResponsibleParty());
+    let newResponsibleParty = MiscUtilsService.cloneJsonObj(this.jsonCheckService.getNewResponsibleParty());
     this.responsibleParties.unshift(newResponsibleParty);
 
     // back up for comparison
     if (this.partyName === ConstantsService.SITE_METADATA_CUSTODIAN ||
         this.partyName === ConstantsService.SITE_DATA_SOURCE) {
       this.dataModel['ciResponsibleParty'] = newResponsibleParty;
-      this.dataModelCopy['ciResponsibleParty'] = this.miscUtilsService.cloneJsonObj(newResponsibleParty);
+      this.dataModelCopy['ciResponsibleParty'] = MiscUtilsService.cloneJsonObj(newResponsibleParty);
     } else {
       let newObj: any = {'ciResponsibleParty': newResponsibleParty};
       this.dataModel.unshift(newObj);
-      this.dataModelCopy.unshift(this.miscUtilsService.cloneJsonObj(newObj));
+      this.dataModelCopy.unshift(MiscUtilsService.cloneJsonObj(newObj));
     }
   }
 
