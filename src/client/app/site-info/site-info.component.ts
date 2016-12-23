@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
+import {SiteLogViewModel} from '../shared/json-data-view-model/view-model/site-log-view-model';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -166,7 +167,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
-          this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson['geo:siteLog']);
+          this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson.siteLog);//['geo:siteLog']);
           this.siteIdentification = this.siteLogModel.siteIdentification;
           this.siteLocation = this.jsonCheckService.getValidSiteLocation(this.siteLogModel.siteLocation);
           this.siteContacts = [];
@@ -331,8 +332,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewTemperatureSensor = false;
         that.status.hasNewWaterVaporSensor = false;
         that.status.hasNewEpisodicEffect = false;
-        let siteLogJson: any = { 'geo:siteLog': that.siteLogModel };
-        that.siteLogService.saveSiteLog(siteLogJson).subscribe(
+        let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
+        siteLogViewModel.siteLog=that.siteLogModel;
+        that.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
           (responseJson: any) => {
             //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
             that.isLoading = false;

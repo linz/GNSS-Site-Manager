@@ -3,7 +3,7 @@ import { MiscUtils } from './misc-utils';
 
 /**
  * This service class maintains the definitions of all GeodesyML elements for web UI, and provides methods to ensure
- * the existence of all required parameters/paths in the input SiteLog JSON objects.
+ * the existence of all required parameters/paths in the input ViewSiteLog JSON objects.
  */
 @Injectable()
 export class JsonCheckService {
@@ -19,7 +19,7 @@ export class JsonCheckService {
     gnssReceivers: [],
     surveyedLocalTies: [],
     frequencyStandards: [],
-    humiditySensors: [],
+    // humiditySensors: [],
     pressureSensors: [],
     temperatureSensors: [],
     waterVaporSensors: [],
@@ -369,7 +369,7 @@ export class JsonCheckService {
     let objType2: any = MiscUtils.getObjectType(json2);
     if (objType2 === 'Object') {
       for (let attrName in json2) {
-        if (json1.hasOwnProperty(attrName)) {
+        if (json1[attrName] !== undefined && json1.hasOwnProperty(attrName)) {
           this.merge(json1[attrName], json2[attrName]);
         } else {
           json1[attrName] = MiscUtils.cloneJsonObj(json2[attrName]);

@@ -19,11 +19,11 @@
     <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
       No information available for Humidity Sensors
     </div>
-    <div *ngFor="let humiditySensorProperty of getItemsCollection(); let i = index">
+    <div *ngFor="let humiditySensor of getItemsCollection(); let i = index">
       <!-- [geodesyEvent] - send event to child components -->
       <!-- (open/close Above/Below Event) - receive events from child components -->
       <!-- (returnEvents) - single point to call events on parent -->
-      <gnss-humidity-sensor-item [humiditySensorProperty]="humiditySensorProperty"
+      <gnss-humidity-sensor-item [humiditySensor]="humiditySensor"
                                  [total]="itemProperties.length"
                                  [index]="i"
                                  [geodesyEvent]="geodesyEvent"

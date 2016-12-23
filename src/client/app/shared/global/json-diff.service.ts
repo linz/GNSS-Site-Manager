@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpUtilsService } from './http-utils.service';
-import { MiscUtils } from './misc-utils';
+import {Injectable} from '@angular/core';
+import {HttpUtilsService} from './http-utils.service';
+import {MiscUtils} from './misc-utils';
 
 @Injectable()
 export class JsonDiffService {
@@ -19,15 +19,11 @@ export class JsonDiffService {
     );
   }
 
-  public getJsonDiffHtml(oldJson: any , newJson: any): string {
-    // This is an alternative diff engine - setup with:
-    // npm install --save deep-diff
-    // typings install dt~deep-diff --global --save
-    // import * as diff from 'deep-diff';
-    // let jsonDiff: any =  diff.diff(newJson, oldJson);
+  public getJsonDiffHtml(oldJson: any, newJson: any): string {
     let jsonDiff: any = this.compare(oldJson, newJson, []);
     let diffArray: any = this.detectChanges(jsonDiff);
     let result: string = this.formatToHtml(diffArray);
+
     return result;
   }
 
@@ -41,7 +37,7 @@ export class JsonDiffService {
 
   private getMappedName(attrName: string): string {
     attrName = attrName.trim();
-    if (! attrName === null) {
+    if (!attrName === null) {
       return '';
     }
     // We want first word token in key as eg. might receive 'gnssReceiver (2016-11-15)'
@@ -65,13 +61,13 @@ export class JsonDiffService {
     }
 
     tableHtml += '<table class="table table-striped table-hover">';
-    tableHtml += '<caption>'+tableName+'<caption>';
+    tableHtml += '<caption>' + tableName + '<caption>';
     tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
-              + '<th>Old value</th><th>New value</th></tr></thead>';
+      + '<th>Old value</th><th>New value</th></tr></thead>';
     tableHtml += '<tbody>';
     for (let row of rows) {
       tableHtml += '<tr><td>' + this.getMappedName(row.attrName) + '</td><td>'
-                + row.oldValue + '</td><td>' + row.newValue + '</td></tr>';
+        + row.oldValue + '</td><td>' + row.newValue + '</td></tr>';
     }
     tableHtml += '</tbody></table>';
     return tableHtml;
@@ -83,14 +79,14 @@ export class JsonDiffService {
     for (let obj of jsonObj) {
       console.log('detectChanges - key: ', obj.key);
       if (obj.key === 'gnssReceivers' ||
-          obj.key === 'gnssAntennas' ||
-          obj.key === 'surveyedLocalTies' ||
-          obj.key === 'humiditySensors' ||
-          obj.key === 'pressureSensors' ||
-          obj.key === 'temperatureSensors' ||
-          obj.key === 'waterVaporSensors' ||
-          obj.key === 'localEpisodicEventsSet' ||
-          obj.key === 'frequencyStandards') {
+        obj.key === 'gnssAntennas' ||
+        obj.key === 'surveyedLocalTies' ||
+        obj.key === 'humiditySensors' ||
+        obj.key === 'pressureSensors' ||
+        obj.key === 'temperatureSensors' ||
+        obj.key === 'waterVaporSensors' ||
+        obj.key === 'localEpisodicEventsSet' ||
+        obj.key === 'frequencyStandards') {
         for (let o1 of obj.changes) {
           for (let o2 of o1.changes) {
             newJsonObj.push(o2);
@@ -127,18 +123,18 @@ export class JsonDiffService {
         this.traverse(differenceArray, obj, key);
       }
     } else {
-      console.log('Unknown JSON type: '+objType);
+      console.log('Unknown JSON type: ' + objType);
     }
 
     return differenceArray;
   }
 
-  private traverseObj(differenceArray:any, obj: any, key: string): any {
+  private traverseObj(differenceArray: any, obj: any, key: string): any {
     if (obj.changes) {
       for (let change of obj.changes) {
         this.traverse(differenceArray, change, key);
       }
-    } else if ( !this.isEmpty(obj.value) ) {
+    } else if (!this.isEmpty(obj.value)) {
       let changeObj: any = {attrName: obj.key, action: obj.type, oldValue: '', newValue: ''};
       if (obj.type === this.UPDATE) {
         changeObj.oldValue = obj.oldValue;
@@ -285,14 +281,14 @@ export class JsonDiffService {
 
   private comparePrimitives(oldObj: any, newObj: any, path: string): string {
     let changes: any = [];
-    if ( !this.isEqual(oldObj, newObj) ) {
-      if ( this.isEmpty(newObj) ) {
+    if (!this.isEqual(oldObj, newObj)) {
+      if (this.isEmpty(newObj)) {
         changes.push({
           type: this.REMOVE,
           key: this.getKey(path),
           value: oldObj
         });
-      } else if ( this.isEmpty(oldObj) ) {
+      } else if (this.isEmpty(oldObj)) {
         changes.push({
           type: this.ADD,
           key: this.getKey(path),
@@ -352,11 +348,11 @@ export class JsonDiffService {
    * @returns object at path in obj or '' - eg. resolves to 'whilma'
    */
   private resolveObjectPath(obj: any, path: string) {
-    let a:any =  path.split('.').reduce(function(prev, curr) {
+    let a: any = path.split('.').reduce(function (prev, curr) {
       return prev ? prev[curr] : undefined;
     }, obj || self);
 
-    return a?a:'';
+    return a ? a : '';
   }
 
   getDate(obj: any, dateType: string, position: string): string {
@@ -375,11 +371,19 @@ export class JsonDiffService {
         return this.resolveObjectPath(obj, 'validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value.0');
       }
     }
+    if (dateType === 'startEndDate') {
+      if (position === 'start') {
+        // return this.dateFromPath(obj, "validTime.abstractTimePrimitive.['gml:TimePeriod'].beginPosition.value.[0]");
+        return this.resolveObjectPath(obj, 'startDate');
+      } else {
+        return this.resolveObjectPath(obj, 'endDate');
+      }
+    }
 
-    return 'getDate() - unkonwn dateType: '+ dateType;
+    return 'getDate() - unkonwn dateType: ' + dateType;
   }
 
-   // TODO - once we have types (eg. HumiditySensorClass) then delegate this function to that
+  // TODO - once we have types (eg. HumiditySensorClass) then delegate this function to that
   addDateString(obj: any, key: string): string {
     let obj1: any;
     let startDate: any;
@@ -395,12 +399,12 @@ export class JsonDiffService {
       startDate = this.getDate(obj1, 'dateInstalledRemoved', 'start');
       endDate = this.getDate(obj1, 'dateInstalledRemoved', 'end');
     } else if (obj.surveyedLocalTie) {
-        obj1 = obj.surveyedLocalTie;
-        startDate = this.getDate(obj1, 'dateMeasured', 'start');
+      obj1 = obj.surveyedLocalTie;
+      startDate = this.getDate(obj1, 'dateMeasured', 'start');
     } else if (obj.humiditySensor) {
       obj1 = obj.humiditySensor;
-      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
-      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
+      startDate = this.getDate(obj1, 'startEndDate', 'start');
+      endDate = this.getDate(obj1, 'startEndDate', 'end');
     } else if (obj.pressureSensor) {
       obj1 = obj.pressureSensor;
       startDate = this.getDate(obj1, 'dateBeginEnd', 'start');

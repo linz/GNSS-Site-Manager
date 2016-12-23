@@ -7,11 +7,11 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                Current Humidity Sensor (Since {{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }})
+                Current Humidity Sensor (Since {{ miscUtils.getDate(humiditySensor.startDate) }})
             </span>
             <span *ngIf="index != 0">
-                Previous Humidity Sensor ({{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]) }} &ndash;
-                {{ miscUtils.getDate(humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) }})
+                Previous Humidity Sensor ({{ miscUtils.getDate(humiditySensor.startDate) }} &ndash;
+                {{ miscUtils.getDate(humiditySensor.endDate) }})
             </span>
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
@@ -79,7 +79,7 @@
             <div class="form-group">
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Calibration Date</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-                    <datetime-picker [(datetime)]="humiditySensor.calibrationDate.value[0]" [name]=" 'calibrationDate' "
+                    <datetime-picker [(datetime)]="humiditySensor.calibrationDate" [name]=" 'calibrationDate' "
                                      [required]="false"></datetime-picker>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <datetime-picker
-                            [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]"
+                            [(datetime)]="humiditySensor.startDate"
                             [name]=" 'effectiveDateStart' "
                             [required]="false"></datetime-picker>
                 </div>
@@ -96,7 +96,7 @@
                 <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <datetime-picker
-                            [(datetime)]="humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]"
+                            [(datetime)]="humiditySensor.endDate"
                             [name]=" 'effectiveDateEnd' "
                             [required]="false"></datetime-picker>
                 </div>

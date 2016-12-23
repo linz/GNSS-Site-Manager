@@ -33,7 +33,7 @@ export class WFSService {
     /**
      * Send a WFS Query to the geoserver.  For selecting a site.
      * @param params type with mandatory and optional fields.
-     * @return Observable containing a response with a JSON body containing the SiteLog from the WFS Server query.
+     * @return Observable containing a response with a JSON body containing the ViewSiteLog from the WFS Server query.
      */
     wfsQuery(params: SelectSiteSearchType): Observable<any> {
         console.debug('wfsQuery - params: ', params);
