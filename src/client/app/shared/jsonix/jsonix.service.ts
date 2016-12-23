@@ -68,7 +68,7 @@ export class JsonixService {
    * @param json that is 'valid' to translate
    * @returns {string} the valid GeodesyMl
    */
-  jsonToGeodesyML(json: string): string {
+  jsonToGeodesyML(json: any): string {
       let jsonSObj: string = '';
 
       // Ensure JSON is an object

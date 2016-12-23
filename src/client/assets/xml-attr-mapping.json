@@ -77,7 +77,9 @@
   "antennaCableType": "Antenna Cable Type",
   "antennaCableLength": "Antenna Cable Length (m)",
   "dateInstalled": "Date Installed",
+  "startDate": "Date Installed",
   "dateRemoved": "Date Removed",
+  "endDate": "Date Removed",
   "dateInserted": "Date Inserted",
   "dateDeleted": "Date Deleted",
   "deletedReason": "Deleted Reason",
@@ -126,5 +128,5 @@
   "localSiteTiesAccuracy":"Local Site Ties Accuracy",
   "surveyMethod":"Survey Method",
   "dateMeasured":"Date Measured"
-  
+
 }

@@ -1,5 +1,4 @@
 export class MiscUtils {
-
   private static scrollToView: any = require('scroll-into-view');
 
   /**
