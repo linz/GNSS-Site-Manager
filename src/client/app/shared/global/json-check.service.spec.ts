@@ -6,7 +6,7 @@ import { JsonCheckService } from './json-check.service';
 import { MiscUtils } from './misc-utils';
 
 export function main() {
-  fdescribe('Test Json-Check Service ...', () => {
+  describe('Test Json-Check Service ...', () => {
     let jsonCheckService: JsonCheckService;
 
     let receiverMissing: any = {
@@ -83,7 +83,7 @@ export function main() {
       expect(receiver.satelliteSystem[0].value).toEqual('');
     });
 
-    fit('should have a new Receiver object with receiver undefined', () => {
+    it('should have a new Receiver object with receiver undefined', () => {
       let receiver: any = jsonCheckService.getValidReceiver(receiverSatelliteUndefined);
       expect(receiver).toBeDefined();
       expect(receiver.receiverType.value).toEqual('');
