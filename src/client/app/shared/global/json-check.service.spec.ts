@@ -6,13 +6,26 @@ import { JsonCheckService } from './json-check.service';
 import { MiscUtils } from './misc-utils';
 
 export function main() {
-  describe('Test Json-Check Service ...', () => {
+  fdescribe('Test Json-Check Service ...', () => {
     let jsonCheckService: JsonCheckService;
 
     let receiverMissing: any = {
       manufacturerSerialNumber: 'be234',
       firmwareVersion: 'v1.2.3',
       satelliteSystem: [],
+      elevationCutoffSetting: 5,
+      temperatureStabilization: 'abc',
+      dateInstalled: {},
+      dateRemoved: {
+        value: ['2016-01-01T12:34:65.000Z']
+      },
+      notes: 'Testing'
+    };
+
+    let receiverSatelliteUndefined: any = {
+      manufacturerSerialNumber: 'be234',
+      firmwareVersion: 'v1.2.3',
+      satelliteSystem: undefined,
       elevationCutoffSetting: 5,
       temperatureStabilization: 'abc',
       dateInstalled: {},
@@ -63,6 +76,15 @@ export function main() {
 
     it('should have a new Receiver object with all missing paths added', () => {
       let receiver: any = jsonCheckService.getValidReceiver(receiverMissing);
+      expect(receiver).toBeDefined();
+      expect(receiver.receiverType.value).toEqual('');
+      expect(receiver.serialNumber).toEqual('');
+      expect(receiver.dateInstalled.value.length).toEqual(1);
+      expect(receiver.satelliteSystem[0].value).toEqual('');
+    });
+
+    fit('should have a new Receiver object with receiver undefined', () => {
+      let receiver: any = jsonCheckService.getValidReceiver(receiverSatelliteUndefined);
       expect(receiver).toBeDefined();
       expect(receiver.receiverType.value).toEqual('');
       expect(receiver.serialNumber).toEqual('');
