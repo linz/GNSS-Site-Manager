@@ -127,10 +127,8 @@
                         [gnssReceivers]="receivers"
                         [siteLogModel]="siteLogModel"
                         [siteLogOrigin]="siteLogOrigin"></gnss-receiever>
-        <gnss-antenna [status]="status"
-                      [gnssAntennas]="antennas"
-                      [siteLogModel]="siteLogModel"
-                      [siteLogOrigin]="siteLogOrigin"></gnss-antenna>
+        <gnss-antenna-group [siteLogModel]="siteLogModel"
+                            [originalSiteLogModel]="siteLogOrigin"></gnss-antenna-group>
         <gnss-surveyed-local-tie [status]="status"
                                  [surveyedLocalTies]="surveyedLocalTies"
                                  [siteLogModel]="siteLogModel"
