@@ -147,10 +147,10 @@
                               <!--[siteLogOrigin]="siteLogOrigin"></gnss-humidity-sensor>-->
         <gnss-humidity-sensors-group [siteLogModel]="siteLogModel"
                                      [originalSiteLogModel]="siteLogOrigin"></gnss-humidity-sensors-group>
-        <gnss-pressure-sensor [status]="status"
-                              [pressureSensors]="pressureSensors"
-                              [siteLogModel]="siteLogModel"
-                              [siteLogOrigin]="siteLogOrigin"></gnss-pressure-sensor>
+
+        <pressure-sensors-group [siteLogModel]="siteLogModel"
+                                     [originalSiteLogModel]="siteLogOrigin"></pressure-sensors-group>
+
         <gnss-temperature-sensor [status]="status"
                               [temperatureSensors]="temperatureSensors"
                               [siteLogModel]="siteLogModel"

@@ -1,5 +1,7 @@
 import {GnssAntennaViewModel} from '../../../gnss-antenna/gnss-antenna-view-model';
 import {HumiditySensorViewModel} from '../../../humidity-sensor/humidity-sensor-view-model';
+import {PressureSensorViewModel} from '../../../pressure-sensor/pressure-sensor-view-model';
+
 
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
@@ -16,7 +18,7 @@ export class ViewSiteLog {
   surveyedLocalTies: any[];
   frequencyStandards: any[];
   humiditySensors: HumiditySensorViewModel[];
-  pressureSensors: any[];
+  pressureSensors: PressureSensorViewModel[];
   temperatureSensors: any[];
   waterVaporSensors: any[];
   siteOwner: any[];
