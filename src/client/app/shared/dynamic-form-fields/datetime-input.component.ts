@@ -1,7 +1,8 @@
 import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, DoCheck} from '@angular/core';
+import { MiscUtils } from '../index';
 
 /**
- * This class represents the SelectSiteComponent for searching and selecting CORS sites.
+ * This class represents the DatetimeInputComponent for choosing dates.
  */
 @Component({
   moduleId: module.id,
@@ -10,6 +11,7 @@ import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output
   styleUrls: ['datetime-input.component.css']
 })
 export class DatetimeInputComponent implements OnInit, DoCheck {
+  public miscUtils: any = MiscUtils;
   public datetimeModel: Date;
   private datetimeDisplay: string = '';
   private datetimeSuffix: string = '.000Z';
@@ -26,9 +28,11 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
   private showDatetimePicker: boolean = false;
   private datetimeLast: string = '';
 
+  @Input() public index: any = 0;
   @Input() public datetime: string = '';
   @Input() public name: string = 'Date';
-  @Input() public required: boolean = true;
+  @Input() public required: boolean = false;
+  @Input() public requiredIfNotCurrent: boolean = false;
   @Input() public label: string = '';
   @Output() public datetimeChange: EventEmitter<string> = new EventEmitter<string>();
 
@@ -236,7 +240,7 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
 
   public validateDatetime(): void {
     if (this.datetimeDisplay === null || this.datetimeDisplay.trim().length === 0) {
-      this.invalidDatetime = this.required ? true : false;
+      this.invalidDatetime = this.isRequired() ? true : false;
     } else if (this.datetimeDisplay.length < 19) {
       this.invalidDatetime = true;
     } else {
@@ -263,7 +267,7 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
    */
   private convertStringToDate(dtStr: string): Date {
     if (dtStr === null || dtStr.trim().length === 0) {
-      this.invalidDatetime = this.required ? true : false;
+      this.invalidDatetime = this.isRequired() ? true : false;
       return null;
     } else if (dtStr.trim().length < 19) {
       this.invalidDatetime = true;
@@ -344,5 +348,9 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
       return '0' + index.toString();
     }
     return index.toString();
+  }
+
+  public isRequired() : boolean {
+    return this.required || (this.requiredIfNotCurrent && this.index[0] !== 0);
   }
 }

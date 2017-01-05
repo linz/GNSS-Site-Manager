@@ -11,7 +11,7 @@ export class TextInputComponent {
   @Input() index: string = '0';
   @Input() name: string = '';
   @Input() public label: string = '';
-  @Input() public required: string = 'false';
+  @Input() public required: boolean = false;
   @Input() public minlength: string = '';
   @Input() public maxlength: string = '';
 
