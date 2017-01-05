@@ -11,7 +11,7 @@ export class TextAreaInputComponent {
   @Input() index: string = '0';
   @Input() name: string = '';
   @Input() public label: string = '';
-  @Input() public required: string = 'false';
+  @Input() public required: boolean = false;
   @Input() public rows: string = '';
   @Input() public maxlength: string = '';
 

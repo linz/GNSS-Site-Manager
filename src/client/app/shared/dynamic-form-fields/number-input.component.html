@@ -1,6 +1,7 @@
 <div class="form-group">
 
-    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label {{required}}">{{label}}</label>
+    <label *ngIf="required" class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required">{{label}}</label>
+    <label *ngIf="!required" class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">{{label}}</label>
 
     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
 
@@ -17,7 +18,7 @@
              #name="ngModel"/>
 
          <small
-             *ngIf="required == 'required'"
+             *ngIf="required"
              [hidden]="name.valid || name.pristine"
              class="alert alert-danger">
              "{{label}}" is required <span *ngIf="min && min  != ''"> (minimum {{min}})</span>
