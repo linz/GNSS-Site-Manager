@@ -25,7 +25,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteDataCenters: Array<any> = [];
   private siteDataSource: any = {};
   private receivers: Array<any> = [];
-  //private antennas: Array<any> = [];
   private surveyedLocalTies: Array<any> = [];
   private frequencyStandards: Array<any> = [];
   private episodicEffects: Array<any> = [];
@@ -50,8 +49,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
-    //isAntennaGroupOpen: false,
-    //isAntennasOpen: [],
     isFrequencyStdGroupOpen: false,
     isEpisodicEffectGroupOpen: false,
     isFrequencyStdsOpen: [],
@@ -60,7 +57,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewSiteMetadataCustodian: false,
     hasNewSiteDataCenter: false,
     hasNewSiteDataSource: false,
-    //hasNewAntenna: false,
     hasNewReceiver: false,
     hasNewFrequencyStd: false,
     hasNewEpisodicEffect: false,
@@ -110,7 +106,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteLogModelXXX = {
       gnssReceivers: [],
-      //gnssAntennas: [],
       surveyedLocalTies: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
@@ -122,7 +117,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteLogOrigin = {
       gnssReceivers: [],
-      //gnssAntennas: [],
       surveyedLocalTies: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
@@ -146,16 +140,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.isLoading =  true;
     this.submitted = false;
-    //this.status.hasNewAntenna = false;
     this.status.hasNewReceiver = false;
     this.status.hasNewFrequencyStd = false;
     this.status.hasNewEpisodicEffect = false;
     this.status.isReceiversOpen.length = 0;
-    //this.status.isAntennasOpen.length = 0;
     this.status.isFrequencyStdsOpen.length = 0;
     this.status.isEpisodicEffectOpen.length = 0;
     this.receivers.length = 0;
-    //this.antennas.length = 0;
     this.surveyedLocalTies.length = 0;
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
@@ -184,7 +175,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                   .getValidResponsibleParty(this.siteLogModel.siteDataSource.ciResponsibleParty);
 
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
-          //this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
@@ -200,7 +190,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.siteLogModel = {
             gnssReceivers: [],
-            //gnssAntennas: [],
             surveyedLocalTies: [],
             frequencyStandards: [],
             localEpisodicEventsSet: [],
@@ -229,7 +218,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteDataSource = null;
     this.status = null;
     this.receivers.length = 0;
-    //this.antennas.length = 0;
     this.surveyedLocalTies.length = 0;
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
@@ -265,7 +253,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewSiteMetadataCustodian = false;
         that.status.hasNewSiteDataCenter = false;
         that.status.hasNewSiteDataSource = false;
-        //that.status.hasNewAntenna = false;
         that.status.hasNewReceiver = false;
         that.status.hasNewSurveyedLocalTie = false;
         that.status.hasNewFrequencyStd = false;
@@ -333,29 +320,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.receivers.unshift(currentReceiver);
     this.status.isReceiversOpen.unshift(true);
   }
-
-  /**
-   * Set current and previous antennas, and their show/hide flags
-
-  private setGnssAntennas(gnssAntennas: any) {
-    this.status.isAntennasOpen = [];
-    let currentAntenna: any = null;
-    for (let antennaObj of gnssAntennas) {
-      let antenna = this.jsonCheckService.getValidAntenna(antennaObj.gnssAntenna);
-      if (!antenna.dateRemoved.value[0]) {
-        currentAntenna = antenna;
-      } else {
-        this.antennas.push(antenna);
-        this.status.isAntennasOpen.push(false);
-      }
-    }
-    // Sort by dateInstalled for all previous antennas
-    this.antennas.sort(this.compareDateInstalled);
-
-    // Current antenna (even null) are the first item in the arrays and open by default
-    this.antennas.unshift(currentAntenna);
-    this.status.isAntennasOpen.unshift(true);
-  }*/
 
   /**
    * Set current and previous Surveyed Local Ties, and their show/hide flags
