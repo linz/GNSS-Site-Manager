@@ -1,0 +1,113 @@
+<!-- Input: pressureSensor (single) -->
+<div class="panel panel-level-2">
+    <div class="panel-heading">
+        <span class="panel-title cursor-ptr"
+              (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+            </i>
+            <span *ngIf="index == 0">
+                Current Pressure Sensor (Since {{ miscUtils.getDate(pressureSensor.startDate) }})
+            </span>
+            <span *ngIf="index != 0">
+                Previous Pressure Sensor ({{ miscUtils.getDate(pressureSensor.startDate) }} &ndash;
+                {{ miscUtils.getDate(pressureSensor.endDate) }})
+            </span>
+        </span>
+        <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
+          <button class="btn btn-danger btn-xs" title="Remove the pressureSensor"
+                  (click)="removeItem(index)">
+            <i class="glyphicon glyphicon-remove"></i>
+            <span class="hidden-xs">Remove</span>
+          </button>
+        </span>
+    </div>
+    <div class="panel-body" *ngIf="isOpen">
+        <div *ngIf=" pressureSensor == null ">
+            No information available for current GNSS pressure sensor
+        </div>
+        <div *ngIf=" pressureSensor != null ">
+
+            <text-input
+              [name]="'pressureSensorManufacturer'"
+              [(model)]="pressureSensor.manufacturer"
+              [index]="[index]"
+              [label]="'Manufacturer'"
+              [maxlength]="100"
+              [required]="true">
+            </text-input>
+
+            <text-input
+              [name]="'pressureSensorSerialNumber'"
+              [(model)]="pressureSensor.serialNumber"
+              [index]="[index]"
+              [label]="'Serial Number'"
+              [maxlength]="100"
+              [required]="true">
+            </text-input>
+
+            <number-input
+              [name]="'pressureSensorDataSamplingInterval'"
+              [(model)]="pressureSensor.dataSamplingInterval"
+              [index]="[index]"
+              [label]="'Data Sampling Interval (seconds)'"
+              [step]="0.01"
+              [maxlength]="100">
+            </number-input>
+
+            <number-input
+              [name]="'pressureSensorAccuracyHpa'"
+              [(model)]="pressureSensor.accuracyHpa"
+              [index]="[index]"
+              [label]="'Accuracy (hPa)'"
+              [step]="0.01"
+              [min]="0"
+              [maxlength]="100">
+            </number-input>
+
+            <number-input
+              [name]="'pressureSensorHeightDiffToAntenna'"
+              [(model)]="pressureSensor.heightDiffToAntenna"
+              [index]="[index]"
+              [label]="'Height Diff to Antenna (m)'"
+              [step]="0.001"
+              [min]="0"
+              [maxlength]="100">
+            </number-input>
+
+            <datetime-input
+              [(datetime)]="pressureSensor.calibrationDate"
+              [name]=" 'calibrationDate' "
+              [index]="[index]"
+              [required]="false"
+              [label]="'Calibration Date'">
+            </datetime-input>
+
+            <datetime-input
+              [(datetime)]="pressureSensor.startDate"
+              [name]=" 'effectiveDateStart' "
+              [index]="[index]"
+              [required]="true"
+              [label]="'Date Installed (UTC)'">
+            </datetime-input>
+
+            <datetime-input
+              [(datetime)]="pressureSensor.endDate"
+              [name]=" 'effectiveDateEnd' "
+              [index]="[index]"
+              [requiredIfNotCurrent]="true"
+              [label]="'Date Removed (UTC)'">
+            </datetime-input>
+
+            <textarea-input
+              [name]="'pressureSensorNotes'"
+              [(model)]="pressureSensor.notes"
+              [index]="[index]"
+              [label]="'Notes'"
+              [rows]="2"
+              [maxlength]="2000">
+            </textarea-input>
+
+       </div>
+    </div>
+</div>

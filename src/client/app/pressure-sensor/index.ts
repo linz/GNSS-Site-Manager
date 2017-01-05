@@ -1,5 +1,2 @@
-/**
- * This barrel file provides the export for the lazy loaded SelectSiteComponent.
- */
-export * from './pressure-sensor.component';
-
+export * from './pressure-sensor-item.component';
+export * from './pressure-sensors-group.component';
