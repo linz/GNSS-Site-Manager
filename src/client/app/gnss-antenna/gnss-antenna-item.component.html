@@ -21,18 +21,6 @@
         <span class="hidden-xs">Remove</span>
       </button>
     </span>
-    <!--<span *ngIf="index == 1 && total >= 3" class="pull-right">
-      <button class="btn-toggle" *ngIf="!arePrevAntennasOpen()"
-              (click)="togglePrevAntennas(true); miscUtils.showElemById('antenna_1');"
-              title="Show all previous antennas">
-        <i class="glyphicon glyphicon-collapse-down"></i>
-      </button>
-      <button class="btn-toggle" *ngIf="!arePrevAntennasClosed()"
-              (click)="togglePrevAntennas(false)"
-              title="Hide all previous antennas">
-        <i class="glyphicon glyphicon-collapse-up"></i>
-      </button>
-    </span>-->
   </div>
   <div class="panel-body" *ngIf="isOpen">
     <div class="margin-bottom15" *ngIf=" antenna == null ">
