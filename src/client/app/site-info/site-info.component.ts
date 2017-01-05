@@ -25,7 +25,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteDataCenters: Array<any> = [];
   private siteDataSource: any = {};
   private receivers: Array<any> = [];
-  private antennas: Array<any> = [];
   private surveyedLocalTies: Array<any> = [];
   private frequencyStandards: Array<any> = [];
   private episodicEffects: Array<any> = [];
@@ -50,8 +49,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
-    isAntennaGroupOpen: false,
-    isAntennasOpen: [],
     isFrequencyStdGroupOpen: false,
     isEpisodicEffectGroupOpen: false,
     isFrequencyStdsOpen: [],
@@ -60,7 +57,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewSiteMetadataCustodian: false,
     hasNewSiteDataCenter: false,
     hasNewSiteDataSource: false,
-    hasNewAntenna: false,
     hasNewReceiver: false,
     hasNewFrequencyStd: false,
     hasNewEpisodicEffect: false,
@@ -110,7 +106,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteLogModelXXX = {
       gnssReceivers: [],
-      gnssAntennas: [],
       surveyedLocalTies: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
@@ -122,7 +117,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteLogOrigin = {
       gnssReceivers: [],
-      gnssAntennas: [],
       surveyedLocalTies: [],
       frequencyStandards: [],
       localEpisodicEventsSet: [],
@@ -146,16 +140,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.isLoading =  true;
     this.submitted = false;
-    this.status.hasNewAntenna = false;
     this.status.hasNewReceiver = false;
     this.status.hasNewFrequencyStd = false;
     this.status.hasNewEpisodicEffect = false;
     this.status.isReceiversOpen.length = 0;
-    this.status.isAntennasOpen.length = 0;
     this.status.isFrequencyStdsOpen.length = 0;
     this.status.isEpisodicEffectOpen.length = 0;
     this.receivers.length = 0;
-    this.antennas.length = 0;
     this.surveyedLocalTies.length = 0;
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
@@ -184,7 +175,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                   .getValidResponsibleParty(this.siteLogModel.siteDataSource.ciResponsibleParty);
 
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
-          this.setGnssAntennas(this.siteLogModel.gnssAntennas);
           this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
@@ -200,7 +190,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.siteLogModel = {
             gnssReceivers: [],
-            gnssAntennas: [],
             surveyedLocalTies: [],
             frequencyStandards: [],
             localEpisodicEventsSet: [],
@@ -229,7 +218,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteDataSource = null;
     this.status = null;
     this.receivers.length = 0;
-    this.antennas.length = 0;
     this.surveyedLocalTies.length = 0;
     this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
@@ -242,64 +230,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // object is created.  Hence this field might not have been created.
     if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
       this.siteInfoTab.unsubscribe();
-    }
-  }
-
-  /**
-   * Add a new empty antenna as current one and push the 'old' current antenna into previous list
-   */
-  public addNewAntenna() {
-    let presentDT = MiscUtils.getPresentDateTime();
-    if (!this.antennas) {
-      this.antennas = [];
-    }
-
-    // Assign present date/time as default value to dateRemoved if it is empty
-    if (this.antennas !== null && this.antennas.length > 0) {
-      this.status.isAntennasOpen[0] = false;
-      let currentAntenna: any = this.antennas[0];
-      if (!currentAntenna.dateRemoved.value[0] ) {
-        currentAntenna.dateRemoved.value[0] = presentDT;
-      }
-    }
-
-    // Create a new empty antenna with present date/time as default value to dateInstalled
-    let newAntenna = this.jsonCheckService.getNewAntenna();
-
-    // Clone from one of GNSS Antenna objects so that the "new" antenna object can be saved
-    let antennaObj: any = {};
-    if ( this.siteLogModel.gnssAntennas && this.siteLogModel.gnssAntennas.length > 0 ) {
-      antennaObj = MiscUtils.cloneJsonObj(this.siteLogModel.gnssAntennas[0]);
-    }
-
-    // Keep a copy of the antenna object as the original one for comparison
-    let antennaObjCopy: any = MiscUtils.cloneJsonObj(antennaObj);
-    antennaObjCopy.gnssAntenna = MiscUtils.cloneJsonObj(newAntenna);
-    this.siteLogOrigin.gnssAntennas.unshift(antennaObjCopy);
-
-    newAntenna.dateInstalled.value[0] = presentDT;
-    antennaObj.gnssAntenna = newAntenna;
-    this.siteLogModel.gnssAntennas.unshift(antennaObj);
-
-    // Add the new antenna as current one and open it by default
-    this.antennas.unshift(newAntenna);
-    this.status.isAntennasOpen.unshift(true);
-    this.status.isAntennaGroupOpen = true;
-    this.status.hasNewAntenna = true;
-  }
-
-  /**
-   * Remove the new current antenna from the antenna list and restore the old current antenna
-   */
-  public removeNewAntenna() {
-    this.siteLogModel.gnssAntennas.shift();
-    this.siteLogOrigin.gnssAntennas.shift();
-    this.antennas.shift();
-    this.status.isAntennasOpen.shift();
-    this.status.hasNewAntenna = false;
-    if (this.antennas !== null && this.antennas.length > 0) {
-      this.status.isAntennasOpen[0] = true;
-      this.antennas[0].dateRemoved.value[0] = '';
     }
   }
 
@@ -323,7 +253,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewSiteMetadataCustodian = false;
         that.status.hasNewSiteDataCenter = false;
         that.status.hasNewSiteDataSource = false;
-        that.status.hasNewAntenna = false;
         that.status.hasNewReceiver = false;
         that.status.hasNewSurveyedLocalTie = false;
         that.status.hasNewFrequencyStd = false;
@@ -370,39 +299,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Update the isOpen flags for all previous GNSS antennas
-   */
-  public togglePrevAntennas(flag: boolean) {
-    for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
-      this.status.isAntennasOpen[i] = flag;
-    }
-  }
-
-  /**
-   * Returns true if all previous GNSS antennas are open, otherwise returns false
-   */
-  public arePrevAntennasOpen() {
-    for (let i = 1; i < this.status.isAntennasOpen.length; i ++) {
-      if (!this.status.isAntennasOpen[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * Returns true if all previous GNSS antennas are closed, otherwise returns false
-   */
-  public arePrevAntennasClosed() {
-    for (let index = 1; index < this.status.isAntennasOpen.length; index ++) {
-      if (this.status.isAntennasOpen[index]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
    * Set current and previous receivers, and their show/hide flags
    */
   private setGnssReceivers(gnssReceivers: any) {
@@ -423,29 +319,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Current receiver (even null) are the first item in the arrays and open by default
     this.receivers.unshift(currentReceiver);
     this.status.isReceiversOpen.unshift(true);
-  }
-
-  /**
-   * Set current and previous antennas, and their show/hide flags
-   */
-  private setGnssAntennas(gnssAntennas: any) {
-    this.status.isAntennasOpen = [];
-    let currentAntenna: any = null;
-    for (let antennaObj of gnssAntennas) {
-      let antenna = this.jsonCheckService.getValidAntenna(antennaObj.gnssAntenna);
-      if (!antenna.dateRemoved.value[0]) {
-        currentAntenna = antenna;
-      } else {
-        this.antennas.push(antenna);
-        this.status.isAntennasOpen.push(false);
-      }
-    }
-    // Sort by dateInstalled for all previous antennas
-    this.antennas.sort(this.compareDateInstalled);
-
-    // Current antenna (even null) are the first item in the arrays and open by default
-    this.antennas.unshift(currentAntenna);
-    this.status.isAntennasOpen.unshift(true);
   }
 
   /**

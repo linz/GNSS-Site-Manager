@@ -39,6 +39,9 @@ export class DatetimePickerComponent implements OnInit, DoCheck {
    * Initialize relevant variables when the directive is instantiated
    */
   ngOnInit() {
+    if (this.datetime === undefined) {
+      this.datetime = '';
+    }
     this.datetimeLast = this.datetime;
     this.formatInputDatetime(this.datetime);
     this.updateCalendar();

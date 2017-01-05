@@ -1,3 +1,4 @@
+import {GnssAntennaViewModel} from '../../../gnss-antenna/gnss-antenna-view-model';
 import {HumiditySensorViewModel} from '../../../humidity-sensor/humidity-sensor-view-model';
 
 /**
@@ -11,7 +12,7 @@ export class ViewSiteLog {
   siteIdentification: any;
   siteLocation: any;
   gnssReceivers: any[];
-  gnssAntennas: any[];
+  gnssAntennas: GnssAntennaViewModel[];
   surveyedLocalTies: any[];
   frequencyStandards: any[];
   humiditySensors: HumiditySensorViewModel[];
