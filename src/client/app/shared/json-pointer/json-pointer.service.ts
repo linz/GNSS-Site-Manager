@@ -30,16 +30,14 @@ export class JsonPointerService {
   }
 
   /**
-   * Set the item (obj) at the path in jsonObj.  But only if it exists.
+   * Set the item (obj) at the path in jsonObj.
    *
    * @param jsonObj
    * @param path
    * @param value
    */
   public static set(jsonObj: any, path: string, value: any): void {
-    if (value || value === 0 || value === '') {
       JsonPointer.set(jsonObj, path, value);
-    }
   }
 
   /**

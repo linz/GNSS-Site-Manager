@@ -40,7 +40,7 @@ export function main() {
       expect(firstHSV.calibrationDate).toEqual(firstHSD.humiditySensor.calibrationDate.value[0]);
       expect(firstHSV.startDate).toEqual(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]);
       expect(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeUndefined();
-      expect(firstHSV.endDate).toEqual('');
+      expect(firstHSV.endDate).toBeNull();
     });
 
     it('should translate v2d for humiditySensors', () => {
@@ -67,8 +67,8 @@ export function main() {
 
       expect(newHSD.humiditySensor.calibrationDate.value[0]).toEqual(firstHSV.calibrationDate);
       expect(firstHSV.startDate).toEqual(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]);
-      expect(firstHSV.endDate).toEqual('');
-      expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toEqual('');
+      expect(firstHSV.endDate).toBeNull();
+      expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeNull();
     });
   });
 }
