@@ -4,7 +4,7 @@ import {AbstractGroup} from '../shared/abstract-groups-items/abstract-group';
 import {PressureSensorViewModel} from './pressure-sensor-view-model';
 
 /**
- * This component represents a group of Pressure Sensors.
+ * This class represents a group of Pressure Sensors.
  */
 @Component({
   moduleId: module.id,
