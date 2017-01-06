@@ -19,10 +19,9 @@ export class PressureSensorViewModel extends AbstractViewModel {
 
   constructor() {
     super();
-    let presentDT: string = MiscUtils.getPresentDateTime();
 
-    this.startDate = presentDT;
-    this.calibrationDate = presentDT;
+    this.startDate = '';
+    this.calibrationDate = '';
     this.endDate = '';
     this.dataSamplingInterval =  0;
     this.accuracyHpa = 0;
