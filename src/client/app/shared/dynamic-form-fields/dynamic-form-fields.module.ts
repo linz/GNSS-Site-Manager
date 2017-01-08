@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TextInputComponent } from './text-input.component';
 import { TextAreaInputComponent } from './textarea-input.component';
 import { NumberInputComponent } from './number-input.component';
-import { DatepickerModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { DatepickerModule } from 'ng2-bootstrap';
 import { DatetimeInputComponent } from './datetime-input.component';
 
 @NgModule({
