@@ -11,7 +11,7 @@ export class PressureSensorViewModel extends AbstractViewModel {
   public calibrationDate: string;
 
   public dataSamplingInterval: number;
-  public accuracyHpa: number;
+  public accuracyHPa: number;
   public notes: string;
   public manufacturer: string;
   public serialNumber: string;
@@ -25,7 +25,7 @@ export class PressureSensorViewModel extends AbstractViewModel {
     this.calibrationDate = presentDT;
     this.endDate = '';
     this.dataSamplingInterval =  0;
-    this.accuracyHpa = 0;
+    this.accuracyHPa = 0;
     this.notes = '';
     this.manufacturer = '';
     this.serialNumber = '';
@@ -48,8 +48,8 @@ export class PressureSensorViewModel extends AbstractViewModel {
       this.addFieldMapping('/pressureSensor/dataSamplingInterval', 'string',
         '/dataSamplingInterval', 'number');
 
-      this.addFieldMapping('/pressureSensor/accuracyHpa', 'string',
-        '/accuracyHpa', 'number');
+      this.addFieldMapping('/pressureSensor/accuracyHPa', 'string',
+        '/accuracyHPa', 'number');
 
       this.addFieldMapping('/pressureSensor/notes', 'string',
         '/notes', 'string');
