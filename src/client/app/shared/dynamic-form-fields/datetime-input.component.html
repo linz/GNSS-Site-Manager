@@ -21,8 +21,7 @@
         </span>
       </div>
       <small [hidden]="!invalidDatetime" class="alert alert-danger">
-        "{{label}}" is {{ (isRequired() && datetime.length == 0) ? "required" : "not valid" }}.
-        (Valid Date Format: YYYY-MM-DD hh:mm:ss)
+        {{getValidationMessage()}}
       </small>
 
       <div class="calendar-popup" *ngIf="showDatetimePicker">
