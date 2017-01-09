@@ -9,7 +9,7 @@ import {MiscUtils} from '../shared/global/misc-utils';
  */
 @Component({
   moduleId: module.id,
-  selector: 'gnss-humidity-sensor-item',
+  selector: 'humidity-sensor-item',
   templateUrl: 'humidity-sensor-item.component.html',
 })
 export class HumiditySensorItemComponent extends AbstractItem {
