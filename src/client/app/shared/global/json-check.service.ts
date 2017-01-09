@@ -19,10 +19,13 @@ export class JsonCheckService {
     gnssReceivers: [],
     surveyedLocalTies: [],
     frequencyStandards: [],
+    // TODO: view model refactor - leaving these commented out for now as a reminder of which components
+    // have been converted to view model and to remind devs to remove when doing their own refactoring
+    // eventually we can revisit this and delete these comments
     // humiditySensors: [],
-    pressureSensors: [],
-    temperatureSensors: [],
-    waterVaporSensors: [],
+    // pressureSensors: [],
+    // temperatureSensors: [],
+    // waterVaporSensors: [],
     localEpisodicEventsSet: []
   };
 

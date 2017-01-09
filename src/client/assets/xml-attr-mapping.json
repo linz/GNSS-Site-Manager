@@ -105,7 +105,7 @@
   "endPosition": "Date removed (UTC)",
   "dataSamplingInterval": "Data sampling interval (sec)",
   "accuracyPercentRelativeHumidity": "Accuracy (% rel h)",
-  "accuracyPercentDegrees": "Accuracy (°C)",
+  "accuracyDegreesCelcius": "Accuracy (°C)",
   "manufacturer": "Manufacturer",
   "aspiration": "Aspiration",
   "siteLocation": "Site Information",

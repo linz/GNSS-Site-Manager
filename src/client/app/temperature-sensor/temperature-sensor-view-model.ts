@@ -11,7 +11,7 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
   public calibrationDate: string;
 
   public dataSamplingInterval: number;
-  public accuracyHpa: number;
+  public accuracyDegreesCelcius: number;
   public notes: string;
   public manufacturer: string;
   public serialNumber: string;
@@ -25,7 +25,7 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
     this.calibrationDate = presentDT;
     this.endDate = '';
     this.dataSamplingInterval =  0;
-    this.accuracyHpa = 0;
+    this.accuracyDegreesCelcius = 0;
     this.notes = '';
     this.manufacturer = '';
     this.serialNumber = '';
@@ -48,8 +48,8 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
       this.addFieldMapping('/temperatureSensor/dataSamplingInterval', 'string',
         '/dataSamplingInterval', 'number');
 
-      this.addFieldMapping('/temperatureSensor/accuracyHpa', 'string',
-        '/accuracyHpa', 'number');
+      this.addFieldMapping('/temperatureSensor/accuracyDegreesCelcius', 'string',
+        '/accuracyDegreesCelcius', 'number');
 
       this.addFieldMapping('/temperatureSensor/notes', 'string',
         '/notes', 'string');

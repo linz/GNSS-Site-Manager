@@ -12,7 +12,7 @@ export function main() {
     it('test default constructor and all fields are created', () => {
       expect(temperatureSensorsViewModel).toBeDefined();
 
-      expect(temperatureSensorsViewModel.accuracyHpa).toEqual(0);
+      expect(temperatureSensorsViewModel.accuracyDegreesCelcius).toEqual(0);
       expect(temperatureSensorsViewModel.dataSamplingInterval).toEqual(0);
       expect(temperatureSensorsViewModel.heightDiffToAntenna).toEqual(0);
       expect(temperatureSensorsViewModel.manufacturer).toEqual('');

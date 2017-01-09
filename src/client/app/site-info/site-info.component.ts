@@ -179,7 +179,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.setPressureSensors(this.siteLogModel.pressureSensors);
-          this.setTemperatureSensors(this.siteLogModel.temperatureSensors);
           this.backupSiteLogJson();
           this.isLoading = false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
@@ -377,24 +376,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // the first item in the array is open by default
     this.status.isPressureSensorsOpen.pop();
     this.status.isPressureSensorsOpen.unshift(true);
-  }
-
-  /**
-   * Set current and previous temperature sensors, and their show/hide flags
-   */
-  private setTemperatureSensors(temperatureSensors: any) {
-    this.status.isTemperatureSensorsOpen = [];
-    let currentTemperatureSensor: any = null;
-    for (let temperatureSensorObj of temperatureSensors) {
-      currentTemperatureSensor = this.jsonCheckService.getValidTemperatureSensor(temperatureSensorObj.temperatureSensor);
-      this.temperatureSensors.push(currentTemperatureSensor);
-      this.status.isTemperatureSensorsOpen.push(false);
-    }
-    this.temperatureSensors.sort(this.compareEffectiveStartDates);
-
-    // the first item in the array is open by default
-    this.status.isTemperatureSensorsOpen.pop();
-    this.status.isTemperatureSensorsOpen.unshift(true);
   }
 
   /**
