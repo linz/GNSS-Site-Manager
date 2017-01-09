@@ -353,4 +353,20 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
   public isRequired() : boolean {
     return this.required || (this.requiredIfNotCurrent && this.index[0] !== 0);
   }
+
+  /**
+   * Get a validation message to apply if the input string is:
+   *   1. required but not supplied, or
+   *   2. supplied but not a valid date
+   */
+  public getValidationMessage() {
+    let message = this.label + ' is ';
+    if (this.isRequired() && !this.datetimeDisplay) {
+      message += ' required ';
+    } else if (this.invalidDatetime) {
+      message += ' not valid ';
+    }
+    message += '(Valid Date Format: YYYY-MM-DD hh:mm:ss)';
+    return message;
+  }
 }
