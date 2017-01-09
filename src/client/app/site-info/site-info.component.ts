@@ -180,7 +180,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.setPressureSensors(this.siteLogModel.pressureSensors);
           this.setTemperatureSensors(this.siteLogModel.temperatureSensors);
-          this.setWaterVaporSensors(this.siteLogModel.waterVaporSensors);
           this.backupSiteLogJson();
           this.isLoading = false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
@@ -396,24 +395,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // the first item in the array is open by default
     this.status.isTemperatureSensorsOpen.pop();
     this.status.isTemperatureSensorsOpen.unshift(true);
-  }
-
-  /**
-   * Set current and previous water vapor sensors, and their show/hide flags
-   */
-  private setWaterVaporSensors(waterVaporSensors: any) {
-    this.status.isWaterVaporSensorsOpen = [];
-    let currentWaterVaporSensor: any = null;
-    for (let waterVaporSensorObj of waterVaporSensors) {
-      currentWaterVaporSensor = this.jsonCheckService.getValidWaterVaporSensor(waterVaporSensorObj.waterVaporSensor);
-      this.waterVaporSensors.push(currentWaterVaporSensor);
-      this.status.isWaterVaporSensorsOpen.push(false);
-    }
-    this.waterVaporSensors.sort(this.compareEffectiveStartDates);
-
-    // the first item in the array is open by default
-    this.status.isWaterVaporSensorsOpen.pop();
-    this.status.isWaterVaporSensorsOpen.unshift(true);
   }
 
   /**

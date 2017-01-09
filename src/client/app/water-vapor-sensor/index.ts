@@ -1,5 +1,2 @@
-/**
- * This barrel file provides the export for the lazy loaded SelectSiteComponent.
- */
-export * from './water-vapor-sensor.component';
-
+export * from './water-vapor-sensor-item.component';
+export * from './water-vapor-sensors-group.component';
