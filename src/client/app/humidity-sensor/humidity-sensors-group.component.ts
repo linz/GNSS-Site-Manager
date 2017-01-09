@@ -8,7 +8,7 @@ import {HumiditySensorViewModel} from './humidity-sensor-view-model';
  */
 @Component({
   moduleId: module.id,
-  selector: 'gnss-humidity-sensors-group',
+  selector: 'humidity-sensors-group',
   templateUrl: 'humidity-sensors-group.component.html',
 })
 export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorViewModel> {

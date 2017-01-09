@@ -141,12 +141,9 @@
                               [episodicEffects]="episodicEffects"
                               [siteLogModel]="siteLogModel"
                               [siteLogOrigin]="siteLogOrigin"></gnss-episodic-effect>
-        <!--<gnss-humidity-sensor [status]="status"-->
-                              <!--[humiditySensors]="humiditySensors"-->
-                              <!--[siteLogModel]="siteLogModel"-->
-                              <!--[siteLogOrigin]="siteLogOrigin"></gnss-humidity-sensor>-->
-        <gnss-humidity-sensors-group [siteLogModel]="siteLogModel"
-                                     [originalSiteLogModel]="siteLogOrigin"></gnss-humidity-sensors-group>
+
+        <humidity-sensors-group [siteLogModel]="siteLogModel"
+                                     [originalSiteLogModel]="siteLogOrigin"></humidity-sensors-group>
 
         <pressure-sensors-group [siteLogModel]="siteLogModel"
                                      [originalSiteLogModel]="siteLogOrigin"></pressure-sensors-group>
