@@ -3,6 +3,7 @@ import {SiteLogDataModel, DataSiteLog} from './data-model/site-log-data-model';
 import {GnssAntennaViewModel} from '../../gnss-antenna/gnss-antenna-view-model';
 import {HumiditySensorViewModel} from '../../humidity-sensor/humidity-sensor-view-model';
 import {PressureSensorViewModel} from '../../pressure-sensor/pressure-sensor-view-model';
+import {TemperatureSensorViewModel} from '../../temperature-sensor/temperature-sensor-view-model';
 import {SiteLogViewModel, ViewSiteLog} from './view-model/site-log-view-model';
 import {AbstractViewModel} from './view-model/abstract-view-model';
 import {DataViewTranslatorService} from './data-view-translator';
@@ -46,9 +47,8 @@ export class JsonViewModelService {
       HumiditySensorViewModel);
     siteLogViewModel.siteLog.pressureSensors = this.dataToViewModel(siteLogDataModel['geo:siteLog'].pressureSensors,
       PressureSensorViewModel);
-          //   console.debug('translateToView subscribe fn - siteIdentification: ', siteLogViewModel.siteIdentification);
-    // siteLogViewModel.pressureSensors = PressureSensors.translateDataToView(siteLogDataModel);
-    // siteLogViewModel.temperatureSensors = TemperatureSensors.translateDataToView(siteLogDataModel);
+    siteLogViewModel.siteLog.temperatureSensors = this.dataToViewModel(siteLogDataModel['geo:siteLog'].temperatureSensors,
+      TemperatureSensorViewModel);
     // siteLogViewModel.waterVaporSensors = WaterVaporSensors.translateDataToView(siteLogDataModel);
     // siteLogViewModel.siteOwner = SiteOwner.translateDataToView(siteLogDataModel);
     // siteLogViewModel.siteContact = SiteContact.translateDataToView(siteLogDataModel);
@@ -66,7 +66,7 @@ export class JsonViewModelService {
     siteLogViewModel.siteLog.frequencyStandards = siteLogDataModel['geo:siteLog'].frequencyStandards;
     // siteLogViewModel.siteLog.humiditySensors = siteLogDataModel['geo:siteLog'].humiditySensors;
     // siteLogViewModel.siteLog.pressureSensors = siteLogDataModel['geo:siteLog'].pressureSensors;
-    siteLogViewModel.siteLog.temperatureSensors = siteLogDataModel['geo:siteLog'].temperatureSensors;
+    // siteLogViewModel.siteLog.temperatureSensors = siteLogDataModel['geo:siteLog'].temperatureSensors;
     siteLogViewModel.siteLog.waterVaporSensors = siteLogDataModel['geo:siteLog'].waterVaporSensors;
     siteLogViewModel.siteLog.siteOwner = siteLogDataModel['geo:siteLog'].siteOwner;
     siteLogViewModel.siteLog.siteContact = siteLogDataModel['geo:siteLog'].siteContact;
@@ -101,7 +101,8 @@ export class JsonViewModelService {
     // humiditySensorViewModel.createFromDataModel(siteLogDataModel['geo:siteLog'].humiditySensors);
     siteLogDataModel['geo:siteLog'].humiditySensors = this.viewToDataModel(viewModelJson.siteLog.humiditySensors);
     siteLogDataModel['geo:siteLog'].pressureSensors = this.viewToDataModel(viewModelJson.siteLog.pressureSensors);
-        //   console.debug('translateToView subscribe fn - siteIdentification: ', siteLogViewModel.siteIdentification);
+    siteLogDataModel['geo:siteLog'].temperatureSensors = this.viewToDataModel(viewModelJson.siteLog.temperatureSensors);
+            //   console.debug('translateToView subscribe fn - siteIdentification: ', siteLogViewModel.siteIdentification);
     // siteLogViewModel.pressureSensors = PressureSensors.translateDataToView(siteLogDataModel);
     // siteLogViewModel.temperatureSensors = TemperatureSensors.translateDataToView(siteLogDataModel);
     // siteLogViewModel.waterVaporSensors = WaterVaporSensors.translateDataToView(siteLogDataModel);
@@ -121,7 +122,7 @@ export class JsonViewModelService {
     siteLogDataModel['geo:siteLog'].frequencyStandards = viewModelJson.siteLog.frequencyStandards;
     // siteLogDataModel['geo:siteLog'].humiditySensors = viewModelJson.siteLog.humiditySensors;
     // siteLogDataModel['geo:siteLog'].pressureSensors = viewModelJson.siteLog.pressureSensors;
-    siteLogDataModel['geo:siteLog'].temperatureSensors = viewModelJson.siteLog.temperatureSensors;
+    //siteLogDataModel['geo:siteLog'].temperatureSensors = viewModelJson.siteLog.temperatureSensors;
     siteLogDataModel['geo:siteLog'].waterVaporSensors = viewModelJson.siteLog.waterVaporSensors;
     siteLogDataModel['geo:siteLog'].siteOwner = viewModelJson.siteLog.siteOwner;
     siteLogDataModel['geo:siteLog'].siteContact = viewModelJson.siteLog.siteContact;

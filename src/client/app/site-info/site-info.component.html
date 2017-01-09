@@ -151,10 +151,9 @@
         <pressure-sensors-group [siteLogModel]="siteLogModel"
                                      [originalSiteLogModel]="siteLogOrigin"></pressure-sensors-group>
 
-        <gnss-temperature-sensor [status]="status"
-                              [temperatureSensors]="temperatureSensors"
-                              [siteLogModel]="siteLogModel"
-                              [siteLogOrigin]="siteLogOrigin"></gnss-temperature-sensor>
+        <temperature-sensors-group [siteLogModel]="siteLogModel"
+                                [originalSiteLogModel]="siteLogOrigin"></temperature-sensors-group>
+
         <gnss-water-vapor-sensor [status]="status"
                               [waterVaporSensors]="waterVaporSensors"
                               [siteLogModel]="siteLogModel"
