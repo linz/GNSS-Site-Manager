@@ -1,5 +1,2 @@
-/**
- * This barrel file provides the export for the lazy loaded SelectSiteComponent.
- */
-export * from './temperature-sensor.component';
-
+export * from './temperature-sensor-item.component';
+export * from './temperature-sensors-group.component';
