@@ -106,6 +106,7 @@
   "dataSamplingInterval": "Data sampling interval (sec)",
   "accuracyPercentRelativeHumidity": "Accuracy (% rel h)",
   "accuracyDegreesCelcius": "Accuracy (°C)",
+  "accuracyHpa": "Accuracy (hPa)",
   "manufacturer": "Manufacturer",
   "aspiration": "Aspiration",
   "siteLocation": "Site Information",

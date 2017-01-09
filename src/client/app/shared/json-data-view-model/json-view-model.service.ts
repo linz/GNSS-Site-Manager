@@ -14,7 +14,7 @@ import {FieldMaps} from './field-maps';
  * This class provides the service to convert from 'Geodesy data model JSON' (from the XML via Jsonix) to
  * 'Geodesy view model JSON' as consumed by the UI component classes.
  */
-
+//TODO: view model refactor: delete commented out code once we do not need to refer to it anymore
 @Injectable()
 export class JsonViewModelService {
 

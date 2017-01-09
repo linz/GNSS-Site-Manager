@@ -178,7 +178,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
           this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
-          this.setPressureSensors(this.siteLogModel.pressureSensors);
           this.backupSiteLogJson();
           this.isLoading = false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
@@ -358,24 +357,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // Current frequency standard (even null) are the first item in the arrays and open by default
     this.frequencyStandards.unshift(currentFrequencyStd);
     this.status.isFrequencyStdsOpen.unshift(true);
-  }
-
-  /**
-   * Set current and previous pressure sensors, and their show/hide flags
-   */
-  private setPressureSensors(pressureSensors: any) {
-    this.status.isPressureSensorsOpen = [];
-    let currentPressureSensor: any = null;
-    for (let pressureSensorObj of pressureSensors) {
-      currentPressureSensor = this.jsonCheckService.getValidPressureSensor(pressureSensorObj.pressureSensor);
-      this.pressureSensors.push(currentPressureSensor);
-      this.status.isPressureSensorsOpen.push(false);
-    }
-    this.pressureSensors.sort(this.compareEffectiveStartDates);
-
-    // the first item in the array is open by default
-    this.status.isPressureSensorsOpen.pop();
-    this.status.isPressureSensorsOpen.unshift(true);
   }
 
   /**
