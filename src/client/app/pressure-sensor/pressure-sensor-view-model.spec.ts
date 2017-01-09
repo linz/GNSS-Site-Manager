@@ -12,7 +12,7 @@ export function main() {
     it('test default constructor and all fields are created', () => {
       expect(pressureSensorsViewModel).toBeDefined();
 
-      expect(pressureSensorsViewModel.accuracyHpa).toEqual(0);
+      expect(pressureSensorsViewModel.accuracyHPa).toEqual(0);
       expect(pressureSensorsViewModel.dataSamplingInterval).toEqual(0);
       expect(pressureSensorsViewModel.heightDiffToAntenna).toEqual(0);
       expect(pressureSensorsViewModel.manufacturer).toEqual('');
