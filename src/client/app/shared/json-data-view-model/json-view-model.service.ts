@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {SiteLogDataModel, DataSiteLog} from './data-model/site-log-data-model';
 import {GnssAntennaViewModel} from '../../gnss-antenna/gnss-antenna-view-model';
+import {FrequencyStandardViewModel} from '../../frequency-standard/frequency-standard-view-model';
 import {HumiditySensorViewModel} from '../../humidity-sensor/humidity-sensor-view-model';
 import {PressureSensorViewModel} from '../../pressure-sensor/pressure-sensor-view-model';
 import {TemperatureSensorViewModel} from '../../temperature-sensor/temperature-sensor-view-model';
@@ -38,7 +39,8 @@ export class JsonViewModelService {
     // siteLogViewModel.gnssReceivers = GnssReceivers.translateDataToView(siteLogDataModel);
     siteLogViewModel.siteLog.gnssAntennas = this.dataToViewModel(siteLogDataModel['geo:siteLog'].gnssAntennas, GnssAntennaViewModel);
     // siteLogViewModel.surveyedLocalTies = SurveyedLocalTies.translateDataToView(siteLogDataModel);
-    // siteLogViewModel.frequencyStandards = FrequencyStandards.translateDataToView(siteLogDataModel);
+    siteLogViewModel.siteLog.frequencyStandards = this.dataToViewModel(siteLogDataModel['geo:siteLog'].frequencyStandards,
+      FrequencyStandardViewModel);
     // let humiditySensors: HumiditySensors = new HumiditySensors();
 
     // let dataViewTranslatorService: DataViewTranslatorService = new DataViewTranslatorService(humiditySensorViewModel.fieldMapping());
@@ -65,7 +67,7 @@ export class JsonViewModelService {
     siteLogViewModel.siteLog.gnssReceivers = siteLogDataModel['geo:siteLog'].gnssReceivers;
     //siteLogViewModel.siteLog.gnssAntennas = siteLogDataModel['geo:siteLog'].gnssAntennas;
     siteLogViewModel.siteLog.surveyedLocalTies = siteLogDataModel['geo:siteLog'].surveyedLocalTies;
-    siteLogViewModel.siteLog.frequencyStandards = siteLogDataModel['geo:siteLog'].frequencyStandards;
+    //siteLogViewModel.siteLog.frequencyStandards = siteLogDataModel['geo:siteLog'].frequencyStandards;
     // siteLogViewModel.siteLog.humiditySensors = siteLogDataModel['geo:siteLog'].humiditySensors;
     // siteLogViewModel.siteLog.pressureSensors = siteLogDataModel['geo:siteLog'].pressureSensors;
     // siteLogViewModel.siteLog.temperatureSensors = siteLogDataModel['geo:siteLog'].temperatureSensors;
@@ -95,7 +97,7 @@ export class JsonViewModelService {
     // siteLogViewModel.gnssReceivers = GnssReceivers.translateDataToView(siteLogDataModel);
     siteLogDataModel['geo:siteLog'].gnssAntennas = this.viewToDataModel(viewModelJson.siteLog.gnssAntennas);
     // siteLogViewModel.surveyedLocalTies = SurveyedLocalTies.translateDataToView(siteLogDataModel);
-    // siteLogViewModel.frequencyStandards = FrequencyStandards.translateDataToView(siteLogDataModel);
+    siteLogDataModel['geo:siteLog'].frequencyStandards = this.viewToDataModel(viewModelJson.siteLog.frequencyStandards);
     // let humiditySensors: HumiditySensors = new HumiditySensors();
 
     // let dataViewTranslatorService: DataViewTranslatorService = new DataViewTranslatorService(humiditySensorViewModel.fieldMapping());
@@ -122,7 +124,7 @@ export class JsonViewModelService {
     siteLogDataModel['geo:siteLog'].gnssReceivers = viewModelJson.siteLog.gnssReceivers;
     //siteLogDataModel['geo:siteLog'].gnssAntennas = viewModelJson.siteLog.gnssAntennas;
     siteLogDataModel['geo:siteLog'].surveyedLocalTies = viewModelJson.siteLog.surveyedLocalTies;
-    siteLogDataModel['geo:siteLog'].frequencyStandards = viewModelJson.siteLog.frequencyStandards;
+    //siteLogDataModel['geo:siteLog'].frequencyStandards = viewModelJson.siteLog.frequencyStandards;
     // siteLogDataModel['geo:siteLog'].humiditySensors = viewModelJson.siteLog.humiditySensors;
     // siteLogDataModel['geo:siteLog'].pressureSensors = viewModelJson.siteLog.pressureSensors;
     //siteLogDataModel['geo:siteLog'].temperatureSensors = viewModelJson.siteLog.temperatureSensors;

@@ -26,7 +26,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteDataSource: any = {};
   private receivers: Array<any> = [];
   private surveyedLocalTies: Array<any> = [];
-  private frequencyStandards: Array<any> = [];
   private episodicEffects: Array<any> = [];
   private humiditySensors: Array<any> = [];
   private pressureSensors: Array<any> = [];
@@ -49,16 +48,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
-    isFrequencyStdGroupOpen: false,
     isEpisodicEffectGroupOpen: false,
-    isFrequencyStdsOpen: [],
     isEpisodicEffectOpen: [],
     hasNewSiteContact: false,
     hasNewSiteMetadataCustodian: false,
     hasNewSiteDataCenter: false,
     hasNewSiteDataSource: false,
     hasNewReceiver: false,
-    hasNewFrequencyStd: false,
     hasNewEpisodicEffect: false,
     isHumiditySensorsGroupOpen: false,
     isHumiditySensorsOpen: [],
@@ -107,7 +103,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogModelXXX = {
       gnssReceivers: [],
       surveyedLocalTies: [],
-      frequencyStandards: [],
       localEpisodicEventsSet: [],
       humiditySensors: [],
       pressureSensors: [],
@@ -118,7 +113,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin = {
       gnssReceivers: [],
       surveyedLocalTies: [],
-      frequencyStandards: [],
       localEpisodicEventsSet: [],
       humiditySensors: [],
       pressureSensors: [],
@@ -141,14 +135,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.isLoading =  true;
     this.submitted = false;
     this.status.hasNewReceiver = false;
-    this.status.hasNewFrequencyStd = false;
     this.status.hasNewEpisodicEffect = false;
     this.status.isReceiversOpen.length = 0;
-    this.status.isFrequencyStdsOpen.length = 0;
     this.status.isEpisodicEffectOpen.length = 0;
     this.receivers.length = 0;
     this.surveyedLocalTies.length = 0;
-    this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
     this.pressureSensors.length = 0;
@@ -176,7 +167,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
-          this.setFrequencyStandards(this.siteLogModel.frequencyStandards);
           this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
           this.backupSiteLogJson();
           this.isLoading = false;
@@ -188,7 +178,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.siteLogModel = {
             gnssReceivers: [],
             surveyedLocalTies: [],
-            frequencyStandards: [],
             localEpisodicEventsSet: [],
             humiditySensors: [],
             pressureSensors: [],
@@ -216,7 +205,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status = null;
     this.receivers.length = 0;
     this.surveyedLocalTies.length = 0;
-    this.frequencyStandards.length = 0;
     this.episodicEffects.length = 0;
     this.humiditySensors.length = 0;
     this.pressureSensors.length = 0;
@@ -252,7 +240,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewSiteDataSource = false;
         that.status.hasNewReceiver = false;
         that.status.hasNewSurveyedLocalTie = false;
-        that.status.hasNewFrequencyStd = false;
         that.status.hasNewHumiditySensor = false;
         that.status.hasNewPressureSensor = false;
         that.status.hasNewTemperatureSensor = false;
@@ -334,29 +321,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // the first item in the array is open by default
     this.status.isSurveyedLocalTiesOpen.pop();
     this.status.isSurveyedLocalTiesOpen.unshift(true);
-  }
-
-  /**
-   * Set current and previous frequency standards, and their show/hide flags
-   */
-  private setFrequencyStandards(frequencyStds: any) {
-    this.status.isFrequencyStdsOpen = [];
-    let currentFrequencyStd: any = null;
-    for (let frequencyStdObj of frequencyStds) {
-      let frequencyStd = this.jsonCheckService.getValidFrequencyStandard(frequencyStdObj.frequencyStandard);
-      if (!frequencyStd.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]) {
-        currentFrequencyStd = frequencyStd;
-      } else {
-        this.frequencyStandards.push(frequencyStd);
-        this.status.isFrequencyStdsOpen.push(false);
-      }
-    }
-    // Sort by effective start dates for all previous frequency standards
-    this.frequencyStandards.sort(this.compareEffectiveStartDates);
-
-    // Current frequency standard (even null) are the first item in the arrays and open by default
-    this.frequencyStandards.unshift(currentFrequencyStd);
-    this.status.isFrequencyStdsOpen.unshift(true);
   }
 
   /**

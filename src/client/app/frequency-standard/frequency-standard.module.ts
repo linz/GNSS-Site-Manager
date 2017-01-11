@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FrequencyStandardComponent } from './frequency-standard.component';
+import { FrequencyStandardItemComponent } from './frequency-standard-item.component';
+import { FrequencyStandardGroupComponent } from './frequency-standard-group.component';
 import { DatetimePickerModule } from '../datetime-picker/datetime-picker.module';
 
 @NgModule({
   imports: [CommonModule, FormsModule, DatetimePickerModule],
-  declarations: [FrequencyStandardComponent],
-  exports: [FrequencyStandardComponent],
+  declarations: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent],
+  exports: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent],
 })
 export class FrequencyStandardModule { }
