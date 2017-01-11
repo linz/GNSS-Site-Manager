@@ -133,10 +133,8 @@
                                  [surveyedLocalTies]="surveyedLocalTies"
                                  [siteLogModel]="siteLogModel"
                                  [siteLogOrigin]="siteLogOrigin"></gnss-surveyed-local-tie>
-        <gnss-frequency-standard [status]="status"
-                                 [frequencyStandards]="frequencyStandards"
-                                 [siteLogModel]="siteLogModel"
-                                 [siteLogOrigin]="siteLogOrigin"></gnss-frequency-standard>
+        <frequency-standard-group [siteLogModel]="siteLogModel"
+                                  [originalSiteLogModel]="siteLogOrigin"></frequency-standard-group>
         <gnss-episodic-effect [status]="status"
                               [episodicEffects]="episodicEffects"
                               [siteLogModel]="siteLogModel"
