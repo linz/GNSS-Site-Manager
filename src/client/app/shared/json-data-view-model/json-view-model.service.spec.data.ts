@@ -686,7 +686,7 @@ export class JsonViewModelServiceSpecData {
                 }
               },
               dataSamplingInterval: 120,
-              accuracyPercentRelativeHumidity: 22,
+              accuracyPercentRelativeHumidity: 22.22,
               aspiration: '',
               notes: ''
             },
