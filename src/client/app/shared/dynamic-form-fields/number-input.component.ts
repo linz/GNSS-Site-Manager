@@ -21,7 +21,6 @@ export class NumberInputComponent {
   /* Output an event when the value in the field changes */
   @Output() modelChange = new EventEmitter();
   change(newValue:string) {
-    console.log('newvalue', newValue);
     this.model = newValue;
     this.modelChange.emit(newValue);
   }
