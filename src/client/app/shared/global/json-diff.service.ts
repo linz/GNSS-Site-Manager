@@ -8,7 +8,7 @@ import {JsonPointerService} from '../json-pointer/json-pointer.service';
 /**
  * JSON Differencing service using https://github.com/flitbit/diff.
  */
-export enum DiffType {Edited, New, Deleted, NewArrayItem, DeletedArrayItem} ;
+export enum DiffType {Edited, New, Deleted, NewArrayItem, DeletedArrayItem};
 
 export class DiffItem {
   diffType: DiffType;
@@ -60,8 +60,8 @@ export class JsonDiffService {
 
   public getJsonDiffHtml(oldJson: any, newJson: any): string {
     let jsonDiffs: IDiff[] = this.getJsonDiff(oldJson, newJson);
-    if (! jsonDiffs) {
-        return '';
+    if (!jsonDiffs) {
+      return '';
     }
     console.log('deep-diff: ', jsonDiffs);
     let siteManagerDiffs: DiffItem[] = this.getJsonDiffsList(jsonDiffs, oldJson, newJson);
@@ -158,12 +158,12 @@ export class JsonDiffService {
     return diffItems;
   }
 
-    isDeleted(item: any) {
-      if ('dateDeleted' in item && item.dateDeleted && item.dateDeleted.length > 0) {
-          return true;
-      }
-      return false;
+  isDeleted(item: any) {
+    if ('dateDeleted' in item && item.dateDeleted && item.dateDeleted.length > 0) {
+      return true;
     }
+    return false;
+  }
 
   /**
    *

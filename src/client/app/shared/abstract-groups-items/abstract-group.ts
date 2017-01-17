@@ -51,7 +51,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
       this.setItemsCollection([]);
     }
 
-    let newItem: T =  <T> this.newViewModelItem();
+    let newItem: T = <T> this.newViewModelItem();
 
     console.log('New View Model: ', newItem);
 
@@ -61,7 +61,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
     if (this.itemProperties.length > 1) {
       // Let the ViewModels do anything they like with the previous item - such as set end/removal date
-      this.itemProperties[this.itemProperties.length-2].setFinalValuesBeforeCreatingNewItem();
+      this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
     }
   }
 

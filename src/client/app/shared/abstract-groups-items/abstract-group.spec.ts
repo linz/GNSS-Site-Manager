@@ -41,52 +41,52 @@ export function main() {
 
   describe('AbstractGroup test - test showDeleted', () => {
 
-      beforeEach(() => {
-          abstractGroupImpl = new AbstractGroupImpl();
-          avmi1 = new AbstractViewModelImpl('4');
-          avmi1.setDateDeleted();
-          avmi2 = new AbstractViewModelImpl('3');
-          avmi4 = new AbstractViewModelImpl('2');
-          avmi3 = new AbstractViewModelImpl('1');
-          let list: AbstractViewModelImpl[] = [];
-          list.push(avmi1, avmi2, avmi3, avmi4);
-          abstractGroupImpl.setItemsCollection(list); // This will perform an ascending sort
-      });
+    beforeEach(() => {
+      abstractGroupImpl = new AbstractGroupImpl();
+      avmi1 = new AbstractViewModelImpl('4');
+      avmi1.setDateDeleted();
+      avmi2 = new AbstractViewModelImpl('3');
+      avmi4 = new AbstractViewModelImpl('2');
+      avmi3 = new AbstractViewModelImpl('1');
+      let list: AbstractViewModelImpl[] = [];
+      list.push(avmi1, avmi2, avmi3, avmi4);
+      abstractGroupImpl.setItemsCollection(list); // This will perform an ascending sort
+    });
 
-      it('test getItemsCollection()', () => {
-          expect(abstractGroupImpl).toBeDefined();
-          // NOTE - general default (not configurable) - return items in reverse (sorted) order
-          // Default - don't show deleted
-          // 3,2,1 -> avmi2,4,3
-          let theDefault: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
-          expect(theDefault).toBeDefined();
-          expect(theDefault.length).toEqual(3);
-          expect(theDefault[0]).toEqual(avmi2);
-          expect(theDefault[1]).toEqual(avmi4);
-          expect(theDefault[2]).toEqual(avmi3);
-          expect(theDefault).not.toContain(avmi1);
+    it('test getItemsCollection()', () => {
+      expect(abstractGroupImpl).toBeDefined();
+      // NOTE - general default (not configurable) - return items in reverse (sorted) order
+      // Default - don't show deleted
+      // 3,2,1 -> avmi2,4,3
+      let theDefault: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+      expect(theDefault).toBeDefined();
+      expect(theDefault.length).toEqual(3);
+      expect(theDefault[0]).toEqual(avmi2);
+      expect(theDefault[1]).toEqual(avmi4);
+      expect(theDefault[2]).toEqual(avmi3);
+      expect(theDefault).not.toContain(avmi1);
 
-          // Show deleted
-          // 4,3,2,1 -> avmi1,2,4,3
-          let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection(true);
-          expect(showDeleted).toBeDefined();
-          expect(showDeleted.length).toEqual(4);
-          expect(showDeleted).toContain(avmi1);
-          expect(showDeleted[0]).toEqual(avmi1);
-          expect(showDeleted[1]).toEqual(avmi2);
-          expect(showDeleted[2]).toEqual(avmi4);
-          expect(showDeleted[3]).toEqual(avmi3);
+      // Show deleted
+      // 4,3,2,1 -> avmi1,2,4,3
+      let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection(true);
+      expect(showDeleted).toBeDefined();
+      expect(showDeleted.length).toEqual(4);
+      expect(showDeleted).toContain(avmi1);
+      expect(showDeleted[0]).toEqual(avmi1);
+      expect(showDeleted[1]).toEqual(avmi2);
+      expect(showDeleted[2]).toEqual(avmi4);
+      expect(showDeleted[3]).toEqual(avmi3);
 
-          // Explicit don't show deleted
-          // 3,2,1 -> avmi2,4,3
-          let doNotShowDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection(false);
-          expect(doNotShowDeleted).toBeDefined();
-          expect(doNotShowDeleted.length).toEqual(3);
-          expect(doNotShowDeleted).not.toContain(avmi1);
-          expect(doNotShowDeleted[0]).toEqual(avmi2);
-          expect(doNotShowDeleted[1]).toEqual(avmi4);
-          expect(doNotShowDeleted[2]).toEqual(avmi3);
-      });
+      // Explicit don't show deleted
+      // 3,2,1 -> avmi2,4,3
+      let doNotShowDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection(false);
+      expect(doNotShowDeleted).toBeDefined();
+      expect(doNotShowDeleted.length).toEqual(3);
+      expect(doNotShowDeleted).not.toContain(avmi1);
+      expect(doNotShowDeleted[0]).toEqual(avmi2);
+      expect(doNotShowDeleted[1]).toEqual(avmi4);
+      expect(doNotShowDeleted[2]).toEqual(avmi3);
+    });
   });
 
   describe('AbstractGroup test - test value changed it is reflected in original data', () => {
