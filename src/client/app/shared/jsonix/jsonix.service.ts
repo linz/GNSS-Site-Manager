@@ -99,7 +99,6 @@ export class JsonixService {
       var type = typeof object;
 
       if (Array.isArray(object)) {
-          console.log('array');
           if (object.length === 1 && object[0] === null) {
               object.pop();
           } else {

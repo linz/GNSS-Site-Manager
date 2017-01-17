@@ -31,9 +31,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
    */
   public static compareDates(date1: string, date2: string): number {
     if (date1 < date2) {
-      return 1;
-    } else if (date1 > date2) {
       return -1;
+    } else if (date1 > date2) {
+      return 1;
     } else {
       return 0;
     }
@@ -51,22 +51,18 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
       this.setItemsCollection([]);
     }
 
-    if (this.getItemsCollection().length > 0) {
-      // Let the ViewModels do anything they like with the previous item
-      this.getItemsCollection()[0].setFinalValuesBeforeCreatingNewItem();
-    }
-
     let newItem: T =  <T> this.newViewModelItem();
-    let newItemCopy = lodash.cloneDeep(newItem);
 
     console.log('New View Model: ', newItem);
 
     // Add the new humidity sensor as current one
-    this.getItemsCollection().unshift(newItem);//newSensorProperty);
-    // Add the new humidity sensor (copy) into the original list so a diff of the fields can be performed
-    this.getItemsOriginalCollection().unshift(newItemCopy);
+    this.addToItemsCollection(newItem);
+    this.setInserted(newItem);
 
-    this.newItemEvent();
+    if (this.itemProperties.length > 1) {
+      // Let the ViewModels do anything they like with the previous item - such as set end/removal date
+      this.itemProperties[this.itemProperties.length-2].setFinalValuesBeforeCreatingNewItem();
+    }
   }
 
   /**
@@ -109,26 +105,53 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     return this.hasGroupANewItem;
   }
 
-  getItemsCollection(): T[] {
-    return this.itemProperties;
+  /**
+   * Return collection - optionally with deleted items filter out.  Always in reverse order.  IT WILL NOT
+   * change the original collection's order or composition.
+   * @param showDeleted - false by default
+   * @return {T[]}
+   */
+  getItemsCollection(showDeleted?: boolean): T[] {
+    let doShowDeleted: boolean = false;
+    if (showDeleted !== undefined) {
+      doShowDeleted = showDeleted;
+    }
+
+    if (this.itemProperties) {
+      let filteredOrNot: T[] = doShowDeleted ? lodash.clone(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
+      let reversed: T[] = filteredOrNot.reverse();
+      return reversed;
+    } else {
+      return [];
+    }
+  }
+
+  private isntDeleted(item: T): boolean {
+    return (!item.dateDeleted || item.dateDeleted.length === 0);
   }
 
   getItemsOriginalCollection(): T[] {
     return this.itemOriginalProperties;
   }
 
-  setItemsCollection(itemProperties: any[]) {
+  setItemsCollection(itemProperties: T[]) {
     this.itemProperties = itemProperties;
     if (itemProperties && itemProperties.length > 0) {
       this.sortUsingComparator(this.itemProperties);
     }
+    console.debug(this.getItemName() + ' Collection sorted:', this.itemProperties);
   }
 
-  setItemsOriginalCollection(itemProperties: any[]) {
+  setItemsOriginalCollection(itemProperties: T[]) {
     this.itemOriginalProperties = itemProperties;
     if (itemProperties && itemProperties.length > 0) {
       this.sortUsingComparator(this.itemOriginalProperties);
     }
+  }
+
+  addToItemsCollection(item: T) {
+    // New items need to go at end of collection so the diff sees them as new
+    this.itemProperties.push(item);
   }
 
 
@@ -164,11 +187,22 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
   }
 
   /**
-   * Remove an item from the list
+   * Remove an item.  Originally it was removed from the list.  However we now want to track deletes so
+   * keep it and mark as deleted using change tracking.
    */
   public removeItem(itemIndex: number) {
     console.log('parent - remove sensor item: ', itemIndex);
-    this.getItemsCollection().splice(itemIndex, 1);
-    this.getItemsOriginalCollection().splice(itemIndex, 1);
+    // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
+    // (high to low start date).  This call is coming from the UI (the display order) and the default for
+    // getItemsCollection() is the reverse order so this works out ok
+    this.setDeleted(this.getItemsCollection()[itemIndex]);
+  }
+
+  private setDeleted(item: T) {
+    item.setDateDeleted();
+  }
+
+  private setInserted(item: T) {
+    item.setDateInserted();
   }
 }

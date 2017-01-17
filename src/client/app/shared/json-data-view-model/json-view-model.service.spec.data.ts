@@ -30,7 +30,7 @@ export class JsonViewModelServiceSpecData {
               '2008-05-30T00:00:00.000Z'
             ]
           },
-          reportType: 'NEW'
+          reportType: 'New'
         },
         siteIdentification: {
           TYPE_NAME: 'GEODESYML_0_3.SiteIdentificationType',

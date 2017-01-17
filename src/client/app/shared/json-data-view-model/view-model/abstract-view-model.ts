@@ -1,7 +1,13 @@
 import {FieldMaps, FieldMap} from '../field-maps';
 import {TypedPointer} from '../typed-pointer';
+import {MiscUtils} from '../../global/misc-utils';
 
 export abstract class AbstractViewModel {
+  // Base Fields
+  // Change tracking
+  public dateDeleted: string;
+  public dateInserted: string;
+
   /**
    * Mapping to/from Data and View model fields.  See createFieldMappings().
    */
@@ -45,6 +51,32 @@ export abstract class AbstractViewModel {
   }
 
   /**
+   * Setup common field mappings
+   */
+  addSuperFieldMappings(): void {
+    // Change tracking
+    this.addFieldMapping('/dateDeleted/value/0', 'string', '/dateDeleted', 'string');
+    this.addFieldMapping('/dateInserted/value/0', 'string', '/dateInserted', 'string');
+  }
+
+  /**
+   * Set change tracking value to now().
+   */
+  setDateInserted(): void {
+    let date: string = MiscUtils.getPresentDateTime();
+    this.dateInserted = date;
+  }
+
+  /**
+   * Set change tracking value to now().
+   */
+  setDateDeleted(): void {
+    let date: string = MiscUtils.getPresentDateTime();
+    this.dateDeleted = date;
+    this.appendToNotes('time deleted: ' + date);
+  }
+
+  /**
    * Simple way to specify the data / view model mappings.
    * @returns string[][]
    */
@@ -54,4 +86,12 @@ export abstract class AbstractViewModel {
    * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
    */
   abstract setFinalValuesBeforeCreatingNewItem(): void;
+
+  /**
+   * If the child object has a notes field or something similar they can make use of this to add system messages.
+   * @param note
+   */
+  appendToNotes(note: string): void {
+    // noop in super class
+  }
 }

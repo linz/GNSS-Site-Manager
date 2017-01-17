@@ -10,7 +10,8 @@ System.config({
       'scroll-into-view': 'scroll-into-view/scrollIntoView.js',
       'foreach': 'foreach/index',
       'raf': 'raf/index',
-      'performance-now': 'performance-now/lib/performance-now'
+      'performance-now': 'performance-now/lib/performance-now',
+      'deep-diff': 'deep-diff/index',
   }
 });
 
