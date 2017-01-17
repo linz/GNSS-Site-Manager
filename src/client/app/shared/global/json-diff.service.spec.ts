@@ -890,7 +890,7 @@ export function main() {
 
       let diffs: any[] = jsonDiffService.getJsonDiff(humiditySensor_3Sensors, humiditySensor_3Sensors_Remove2nd3rd);
       let intDiffs: Array<DiffItem> = jsonDiffService.getJsonDiffsList(diffs, humiditySensor_3Sensors,
-          humiditySensor_3Sensors_Remove2nd3rd);
+        humiditySensor_3Sensors_Remove2nd3rd);
       let diffItem: DiffItem;
 
       expect(intDiffs).toBeDefined();
@@ -1174,7 +1174,7 @@ export function main() {
 
       let diffs: any[] = jsonDiffService.getJsonDiff(humiditySensor_3Sensors, humiditySensor_3Sensors_Remove2nd3rd);
       let intDiffs: Array<DiffItem> = jsonDiffService.getJsonDiffsList(diffs, humiditySensor_3Sensors,
-          humiditySensor_3Sensors_Remove2nd3rd);
+        humiditySensor_3Sensors_Remove2nd3rd);
 
       let normalDiffs: NormalisedDiffs = jsonDiffService.getNormalisedDiffsList(intDiffs);
       let diffEntries: IterableIterator<[string, Array<DiffItem>]>;
@@ -1311,7 +1311,7 @@ export function main() {
 
         let diffs: any[] = jsonDiffService.getJsonDiff(humiditySensor_3Sensors, humiditySensor_3Sensors_Remove2nd3rd);
         let intDiffs: Array<DiffItem> = jsonDiffService.getJsonDiffsList(diffs, humiditySensor_3Sensors,
-            humiditySensor_3Sensors_Remove2nd3rd);
+          humiditySensor_3Sensors_Remove2nd3rd);
 
         let normalDiffs: NormalisedDiffs = jsonDiffService.getNormalisedDiffsList(intDiffs);
         let table: string = jsonDiffService.getJsonDiffsTable(normalDiffs);
