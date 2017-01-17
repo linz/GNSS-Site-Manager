@@ -126,7 +126,9 @@ export class JsonViewModelServiceSpecData {
                             },
                             receiverType: {
                                 TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
-                                codeList: 'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                                codeList:
+                                    'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
+                                    '#GeodesyML_GNSSReceiverTypeCode',
                                 codeListValue: 'ASHTECH Z-XII3',
                                 codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
                                 value: 'ASHTECH Z-XII3'
@@ -202,7 +204,9 @@ export class JsonViewModelServiceSpecData {
                             },
                             receiverType: {
                                 TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
-                                codeList: 'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                                codeList:
+                                    'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
+                                    '#GeodesyML_GNSSReceiverTypeCode',
                                 codeListValue: 'ASHTECH Z-XII3',
                                 codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
                                 value: 'ASHTECH Z-XII3'
@@ -280,7 +284,9 @@ export class JsonViewModelServiceSpecData {
                             },
                             receiverType: {
                                 TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
-                                codeList: 'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                                codeList:
+                                    'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
+                                    '#GeodesyML_GNSSReceiverTypeCode',
                                 codeListValue: 'ASHTECH Z-XII3',
                                 codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
                                 value: 'ASHTECH Z-XII3'
@@ -358,7 +364,9 @@ export class JsonViewModelServiceSpecData {
                             },
                             receiverType: {
                                 TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
-                                codeList: 'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                                codeList:
+                                    'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
+                                    '#GeodesyML_GNSSReceiverTypeCode',
                                 codeListValue: 'ASHTECH Z-XII3',
                                 codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
                                 value: 'ASHTECH Z-XII3'
@@ -438,7 +446,9 @@ export class JsonViewModelServiceSpecData {
                             },
                             antennaType: {
                                 TYPE_NAME: 'GEODESYML_0_3.IgsAntennaModelCodeType',
-                                codeList: 'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSAntennaTypeCode',
+                                codeList:
+                                    'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
+                                    '#GeodesyML_GNSSAntennaTypeCode',
                                 codeListValue: 'ASH700936B_M    SNOW',
                                 codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
                                 value: 'ASH700936B_M    SNOW'
