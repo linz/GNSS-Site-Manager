@@ -36,37 +36,38 @@ export class HumiditySensorViewModel extends AbstractViewModel {
 
   // TODO - remove type field and use generics instead
   createFieldMappings(): void {
-      this.addFieldMapping('/humiditySensor/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
-        'string',
-        '/startDate', 'string');
+    super.addSuperFieldMappings();
+    this.addFieldMapping('/humiditySensor/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
+      'string',
+      '/startDate', 'string');
 
-      this.addFieldMapping('/humiditySensor/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
-        'string',
-        '/endDate', 'string');
+    this.addFieldMapping('/humiditySensor/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
+      'string',
+      '/endDate', 'string');
 
-      this.addFieldMapping('/humiditySensor/calibrationDate/value/0', 'string',
-        '/calibrationDate', 'string');
+    this.addFieldMapping('/humiditySensor/calibrationDate/value/0', 'string',
+      '/calibrationDate', 'string');
 
-      this.addFieldMapping('/humiditySensor/dataSamplingInterval', 'string',
-        '/dataSamplingInterval', 'number');
+    this.addFieldMapping('/humiditySensor/dataSamplingInterval', 'string',
+      '/dataSamplingInterval', 'number');
 
-      this.addFieldMapping('/humiditySensor/accuracyPercentRelativeHumidity', 'string',
-        '/accuracyPercentRelativeHumidity', 'number');
+    this.addFieldMapping('/humiditySensor/accuracyPercentRelativeHumidity', 'string',
+      '/accuracyPercentRelativeHumidity', 'number');
 
-      this.addFieldMapping('/humiditySensor/aspiration', 'string',
-        '/aspiration', 'string');
+    this.addFieldMapping('/humiditySensor/aspiration', 'string',
+      '/aspiration', 'string');
 
-      this.addFieldMapping('/humiditySensor/notes', 'string',
-        '/notes', 'string');
+    this.addFieldMapping('/humiditySensor/notes', 'string',
+      '/notes', 'string');
 
-      this.addFieldMapping('/humiditySensor/manufacturer', 'string',
-        '/manufacturer', 'string');
+    this.addFieldMapping('/humiditySensor/manufacturer', 'string',
+      '/manufacturer', 'string');
 
-      this.addFieldMapping('/humiditySensor/serialNumber', 'string',
-        '/serialNumber', 'string');
+    this.addFieldMapping('/humiditySensor/serialNumber', 'string',
+      '/serialNumber', 'string');
 
-      this.addFieldMapping('/humiditySensor/heightDiffToAntenna', 'string',
-        '/heightDiffToAntenna', 'number');
+    this.addFieldMapping('/humiditySensor/heightDiffToAntenna', 'string',
+      '/heightDiffToAntenna', 'number');
   };
 
   /**
@@ -76,5 +77,12 @@ export class HumiditySensorViewModel extends AbstractViewModel {
     let presentDT: string = MiscUtils.getPresentDateTime();
 
     this.endDate=presentDT;
+  }
+
+  appendToNotes(note: string): void {
+    if (this.notes.length > 0) {
+      this.notes += '\n';
+    }
+    this.notes += note;
   }
 }

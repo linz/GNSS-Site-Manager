@@ -8,6 +8,16 @@ export class MiscUtils {
     return new Date().toISOString();
   }
 
+  public static prettyFormatDateTime(date: string) {
+    let regex = new RegExp('([^T]*)T([^\.]*)\.(.*)');  // date'T'time.ms
+    let groups: RegExpExecArray;
+    if ((groups = regex.exec(date)) && groups.length >= 3) {
+      return groups[1] + ' ' + groups[2];
+    } else {
+      throw new Error('prettyFormatDateTime - cant parse date \''+date+'\'');
+    }
+  }
+
   /**
    * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
    */

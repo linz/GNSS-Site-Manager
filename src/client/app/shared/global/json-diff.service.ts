@@ -1,15 +1,54 @@
 import {Injectable} from '@angular/core';
 import {HttpUtilsService} from './http-utils.service';
 import {MiscUtils} from './misc-utils';
+import * as diff from 'deep-diff';
+import IDiff = deepDiff.IDiff;
+import {JsonPointerService} from '../json-pointer/json-pointer.service';
+
+/**
+ * JSON Differencing service using https://github.com/flitbit/diff.
+ */
+export enum DiffType {Edited, New, Deleted, NewArrayItem, DeletedArrayItem} ;
+
+export class DiffItem {
+  diffType: DiffType;
+  container: string;  // eg. gnssReceiver
+  identifier: string; // eg. "2008-01-01 to 2014-10-11"
+  item: any;       // eg. Manufacturer
+  oldValue: any;   // eg. Leica
+  newValue: any;   // eg. Leica Inc OR a new HumiditySensor
+
+  constructor(diffType: DiffType, container: string, item: string, oldValue: string, newValue: string, identifier: string) {
+    this.diffType = diffType;
+    this.container = container;
+    this.item = item;
+    this.oldValue = oldValue;
+    this.newValue = newValue;
+    this.identifier = identifier;
+  }
+}
+
+export class NormalisedDiffs {
+  values: Map<string, DiffItem[]> = new Map<string, DiffItem[]>();
+}
 
 @Injectable()
 export class JsonDiffService {
-  private lodash: any = require('lodash');
+  static mapKeySeparator = '=>';
   private xmlAttrMappingFile: string = '/assets/xml-attr-mapping.json';
-  private ADD: string = 'Add';
-  private REMOVE: string = 'Remove';
-  private UPDATE: string = 'Update';
   private attrMappingJson: any = {};
+
+  /**
+   * Return the actual object from this.  It will always be the first item in the object map.
+   * @param rawObject
+   *
+   * private
+   */
+  static getTheObject(rawObject: any): any {
+    let keys: string[] = Object.keys(rawObject);
+    let object: any = rawObject[keys[0]];
+    return object;
+  }
 
   constructor(private httpService: HttpUtilsService) {
     // Load the XML attribute name mapping JSON object from assets
@@ -20,420 +59,317 @@ export class JsonDiffService {
   }
 
   public getJsonDiffHtml(oldJson: any, newJson: any): string {
-    let jsonDiff: any = this.compare(oldJson, newJson, []);
-    let diffArray: any = this.detectChanges(jsonDiff);
-    let result: string = this.formatToHtml(diffArray);
+    let jsonDiffs: IDiff[] = this.getJsonDiff(oldJson, newJson);
+    if (! jsonDiffs) {
+        return '';
+    }
+    console.log('deep-diff: ', jsonDiffs);
+    let siteManagerDiffs: DiffItem[] = this.getJsonDiffsList(jsonDiffs, oldJson, newJson);
+    let normalisedDiffsList: NormalisedDiffs = this.getNormalisedDiffsList(siteManagerDiffs);//, oldJson, newJson);
+    let jsonDiffsTable: string = this.getJsonDiffsTable(normalisedDiffsList);
+    console.log('jsonDiffsTable: ', jsonDiffsTable);
 
-    return result;
+    return jsonDiffsTable;
   }
 
-  private formatToHtml(_array: any): string {
-    let fmtHtml: string = '';
-    for (let key in _array) {
-      fmtHtml += this.formatToTable(key, _array[key]);
-    }
-    return fmtHtml;
-  }
-
-  private getMappedName(attrName: string): string {
-    attrName = attrName.trim();
-    if (!attrName === null) {
-      return '';
-    }
-    // We want first word token in key as eg. might receive 'gnssReceiver (2016-11-15)'
-    let normalAttrName: string = attrName.replace(/^(\w+).*/, '$1');
-    let attrRemainder: string = attrName.replace(/^\w+(.*)/, '$1');
-    attrRemainder = attrRemainder ? ' ' + attrRemainder : '';
-    //console.log('map key: '+ attrName + ', first token: "'+ normalAttrName + '"');
-    if (this.attrMappingJson[normalAttrName] === undefined) {
-      console.log(attrName + ' not in mapping');
-      return attrName;
-    }
-    let map: string = this.attrMappingJson[normalAttrName] + attrRemainder;
-    //console.log(' mapped to: :', map);
-    return map;
-  }
-
-  private formatToTable(tableName: string, rows: any): string {
-    let tableHtml: string = '';
-    if (!tableName || !rows || rows.length === 0) {
-      return tableHtml;
-    }
-
-    tableHtml += '<table class="table table-striped table-hover">';
-    tableHtml += '<caption>' + tableName + '<caption>';
-    tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
-      + '<th>Old value</th><th>New value</th></tr></thead>';
-    tableHtml += '<tbody>';
-    for (let row of rows) {
-      tableHtml += '<tr><td>' + this.getMappedName(row.attrName) + '</td><td>'
-        + row.oldValue + '</td><td>' + row.newValue + '</td></tr>';
-    }
-    tableHtml += '</tbody></table>';
-    return tableHtml;
-  }
-
-  detectChanges(jsonObj: any): any {
-    let newJsonObj: any = [];
-    let differenceArray: any = [];
-    for (let obj of jsonObj) {
-      console.log('detectChanges - key: ', obj.key);
-      if (obj.key === 'gnssReceivers' ||
-        obj.key === 'gnssAntennas' ||
-        obj.key === 'surveyedLocalTies' ||
-        obj.key === 'humiditySensors' ||
-        obj.key === 'pressureSensors' ||
-        obj.key === 'temperatureSensors' ||
-        obj.key === 'waterVaporSensors' ||
-        obj.key === 'localEpisodicEventsSet' ||
-        obj.key === 'frequencyStandards') {
-        for (let o1 of obj.changes) {
-          for (let o2 of o1.changes) {
-            newJsonObj.push(o2);
-          }
-        }
-      } else if (obj.key === 'siteContact') {
-        let order: number = 1;
-        for (let o1 of obj.changes) {
-          o1.key += ' ' + (order++);
-          newJsonObj.push(o1);
-        }
-      } else {
-        newJsonObj.push(obj);
-      }
-    }
-
-    for (let obj of newJsonObj) {
-      let title: any = this.formatTitle(obj.key);
-      if (differenceArray[title] === undefined) {
-        differenceArray[title] = [];
-      }
-      this.traverse(differenceArray, obj, title);
-    }
-
-    return differenceArray;
-  }
-
-  private traverse(differenceArray: any, jsonObj: any, key: string) {
-    let objType: string = MiscUtils.getObjectType(jsonObj);
-    if (objType === 'Object') {
-      this.traverseObj(differenceArray, jsonObj, key);
-    } else if (objType === 'Array') {
-      for (let obj of jsonObj) {
-        this.traverse(differenceArray, obj, key);
-      }
-    } else {
-      console.log('Unknown JSON type: ' + objType);
-    }
-
-    return differenceArray;
-  }
-
-  private traverseObj(differenceArray: any, obj: any, key: string): any {
-    if (obj.changes) {
-      for (let change of obj.changes) {
-        this.traverse(differenceArray, change, key);
-      }
-    } else if (!this.isEmpty(obj.value)) {
-      let changeObj: any = {attrName: obj.key, action: obj.type, oldValue: '', newValue: ''};
-      if (obj.type === this.UPDATE) {
-        changeObj.oldValue = obj.oldValue;
-        changeObj.newValue = obj.value;
-      } else if (obj.type === this.REMOVE) {
-        changeObj.oldValue = obj.value;
-      } else if (obj.type === this.ADD) {
-        changeObj.newValue = obj.value;
-      } else {
-        console.log('Unknown action type: ' + obj.type + ' for ' + obj.key);
-      }
-      differenceArray[<any>key].push(changeObj);
-    }
-
-    return differenceArray;
-  }
-
-  /*
-   * Format the key from xml to how it should be displayed in the diff
-   */
-  private formatTitle(key: string): string {
-    let returnVal: string = '';
-    if (key === null || key.trim().length === 0) {
-      returnVal = '';
-    }
-
-    returnVal = this.getMappedName(key);
-    //console.log('formatTitle - key: '+key+', return title: ', returnVal);
-    return returnVal;
-  }
-
-  private getKey(path: any): string {
-    let index: number = 1;
-    let key: string = path[path.length - index];
-    let excludedKeys: any = ['value', 'id', 'gco:CharacterString', 'characterString', 'codeListValue'];
-    while (this.contains(excludedKeys, key) && index < path.length) {
-      index += 1;
-      key = path[path.length - index];
-    }
-    return key;
-  }
-
-  private contains(array: any, item: string): boolean {
-    for (let k of array) {
-      if (k === item) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  compare(oldObj: any, newObj: any, path: any): any {
-    let changes: any = [];
-    let typeOfOldObj: any = MiscUtils.getObjectType(oldObj);
-    switch (typeOfOldObj) {
-      case 'Date':
-        changes = changes.concat(this.comparePrimitives(oldObj.getTime(), newObj.getTime(), path));
-        break;
-      case 'Object':
-        let diffs: any = this.compareObject(oldObj, newObj, path, false);
-        if (diffs.length > 0) {
-          if (path.length > 0) {
-            changes.push({
-              type: this.UPDATE,
-              key: this.getKey(path),
-              changes: diffs
-            });
-          } else {
-            changes = changes.concat(diffs);
-          }
-        }
-        break;
-      case 'Array':
-        changes = changes.concat(this.compareArray(oldObj, newObj, path));
-        break;
-      case 'Function':
-        break;
-      default:
-        changes = changes.concat(this.comparePrimitives(oldObj, newObj, path));
-    }
-    return changes;
-  }
-
-  private compareObject(oldObj: any, newObj: any, path: any, skipPath: boolean): any {
-    let changes: any = [];
-    let oldObjKeys: any = Object.keys(oldObj);
-    let newObjKeys: any = Object.keys(newObj);
-    let intersectionKeys: any = this.lodash.intersection(oldObjKeys, newObjKeys);
-    for (let k of intersectionKeys) {
-      let newPath: any = skipPath ? path : path.concat([this.addDateString(newObj, k)]);
-      let diffs: any = this.compare(oldObj[k], newObj[k], newPath);
-      if (diffs.length > 0) {
-        changes = changes.concat(diffs);
-      }
-    }
-
-    let addedKeys: any = this.lodash.difference(newObjKeys, oldObjKeys);
-    for (let k of addedKeys) {
-      let newPath: any = skipPath ? path : path.concat([this.addDateString(newObj, k)]);
-      changes.push({
-        type: this.ADD,
-        key: this.getKey(newPath),
-        value: newObj[k]
-      });
-    }
-
-    // It won't happen as we don't remove any paths from JSON object
-    let deletedKeys: any = this.lodash.difference(oldObjKeys, newObjKeys);
-    for (let k of deletedKeys) {
-      let newPath: any = skipPath ? path : path.concat([k]);
-      changes.push({
-        type: this.REMOVE,
-        key: this.getKey(newPath),
-        value: oldObj[k]
-      });
-    }
-    return changes;
-  }
-
-  private compareArray(oldObj: any, newObj: any, path: any): any {
-    let indexedOldObj: any = this.convertArrayToObj(oldObj);
-    let indexedNewObj: any = this.convertArrayToObj(newObj);
-    let diffs: any = this.compareObject(indexedOldObj, indexedNewObj, path, true);
-    if (diffs.length > 0) {
-      return [
-        {
-          type: this.UPDATE,
-          key: this.getKey(path),
-          embededKey: path[0],
-          changes: diffs
-        }
-      ];
-    }
-    return [];
-  }
-
-  private convertArrayToObj(array: any): any {
-    let obj: any = {};
-    for (let key in array) {
-      obj[key] = array[key];
-    }
-    return obj;
-  }
-
-  private comparePrimitives(oldObj: any, newObj: any, path: string): string {
-    let changes: any = [];
-    if (!this.isEqual(oldObj, newObj)) {
-      if (this.isEmpty(newObj)) {
-        changes.push({
-          type: this.REMOVE,
-          key: this.getKey(path),
-          value: oldObj
-        });
-      } else if (this.isEmpty(oldObj)) {
-        changes.push({
-          type: this.ADD,
-          key: this.getKey(path),
-          value: newObj
-        });
-      } else {
-        changes.push({
-          type: this.UPDATE,
-          key: this.getKey(path),
-          value: newObj,
-          oldValue: oldObj
-        });
-      }
-    }
-    return changes;
-  }
-
-  // Typescript does not support '==' and '!='. E.g., 0 != '0'
-  private isEqual(oldObj: any, newObj: any): boolean {
-    if (oldObj === null || newObj === null) {
-      return (oldObj === newObj);
-    }
-    let oldType: string = MiscUtils.getObjectType(oldObj);
-    let newType: string = MiscUtils.getObjectType(newObj);
-    if (oldType === newType) {
-      return (oldObj === newObj);
-    } else if (oldType === 'String' && newType === 'Number') {
-      let newObj1: string = newObj.toString();
-      return (oldObj === newObj1);
-    } else if (oldType === 'Number' && newType === 'String') {
-      let oldObj1: string = oldObj.toString();
-      return (oldObj1 === newObj);
-    } else {
-      return (oldObj === newObj);
-    }
-  }
-
-  private isEmpty(obj: any): boolean {
-    let objType: string = MiscUtils.getObjectType(obj);
-    if (objType === null || objType === 'undefined') {
-      return true;
-    } else if (objType === 'String' && obj.trim() === '') {
-      return true;
-    } else if (typeof obj === 'Array' && obj.length === 0) {
-      return true;
-    } else {
-      return false;
-    }
+  getJsonDiff(oldJson: any, newJson: any): IDiff[] {
+    let jsonDiff2: any = diff.diff(oldJson, newJson);
+    console.log('deep-diff: ', jsonDiff2);
+    return jsonDiff2;
   }
 
   /**
-   * Given an object with maps and arrays, and a path of those maps and arrays find the value at path.  Or '' if
-   * any part of path doesn't exist.
    *
-   * @param path in object structure - eg 'a.b.1' (array indices are .X)
-   * @param obj with path eg. alpha = {a: {b: [fred, whilma, barney]}}
-   * @returns object at path in obj or '' - eg. resolves to 'whilma'
+   * @param jsonDiffs - from deep-diff.diff(lhs, rhs)
+   * @returns {string} -
    */
-  private resolveObjectPath(obj: any, path: string) {
-    let a: any = path.split('.').reduce(function (prev, curr) {
-      return prev ? prev[curr] : undefined;
-    }, obj || self);
+  getJsonDiffsList(jsonDiffs: IDiff[], oldJson: any, newJson: any): DiffItem[] {
+    let diffStruct: DiffItem[] = [];
 
-    return a ? a : '';
+    for (let diff of jsonDiffs) {
+      let diffItems: DiffItem[] = this.parseDiffs(diff, newJson);
+      Array.prototype.push.apply(diffStruct, diffItems);
+    }
+    console.log('getJsonDiffsList: ', diffStruct);
+    return diffStruct;
   }
 
-  getDate(obj: any, dateType: string, position: string): string {
-    if (dateType === 'dateInstalledRemoved') {
-      if (position === 'start') {
-        return this.resolveObjectPath(obj, 'dateInstalled.value.0');
-      } else {
-        return this.resolveObjectPath(obj, 'dateRemoved.value.0');
-      }
+  /**
+   * Parse the data from deep-diff and return a list of diffs.  Can be called recursively (such as for Array diffs).
+   *
+   * @param diff - the diff to parse
+   * @param newJson - the new / rhs JSON that caused the diff
+   * @returns {DiffItem[]} - list of diffs
+   */
+  private parseDiffs(diff: IDiff, newJson: any): DiffItem[] {
+    let diffItems: DiffItem[] = [];
+
+    let container, identifier, item, parent, lhs, rhs: string;  // path,
+    let diffType: DiffType = null;
+
+    container = this.getContainer(diff);                        // eg. HumiditySensors
+    parent = this.getObject(newJson, this.getPathToItem(diff)); // eg. HumiditySensors/1 (a HumiditySensor)
+    item = this.getItem(diff);                                  // eg. notes (the notes field contains a difference)
+    identifier = this.getIdentifier(parent);                    // eg. <startDate> - <endDate>
+    switch (diff['kind']) {
+      case 'E':
+        lhs = diff['lhs'];
+        rhs = diff['rhs'];
+        if (this.isDeleted(parent)) {
+          identifier = 'Deleted - ' + identifier;
+          diffType = DiffType.DeletedArrayItem;
+        } else {
+          diffType = DiffType.Edited;
+        }
+        break;
+      case 'N':
+        lhs = '';
+        rhs = diff['rhs'];
+        diffType = DiffType.New;
+        break;
+      case 'D':
+        lhs = diff['lhs'];
+        rhs = '';
+        diffType = DiffType.Deleted;
+        break;
+      case 'A':   // Array
+        let arrayDiffItems: DiffItem[] = this.parseDiffs(diff.item, newJson);
+        identifier = this.getIdentifier(diff.item.rhs);
+        for (let arrayDiffItem of arrayDiffItems) {
+          arrayDiffItem.container = container;
+          arrayDiffItem.item = diff.index;
+          arrayDiffItem.identifier = 'New - ' + identifier;  //'new item ' + (diff.index + 1);
+          if (arrayDiffItem.diffType === DiffType.New) {
+            arrayDiffItem.diffType = DiffType.NewArrayItem;
+          } else if (arrayDiffItem.diffType === DiffType.Deleted) {
+            arrayDiffItem.diffType = DiffType.DeletedArrayItem;
+          }
+          diffItems.push(arrayDiffItem);
+        }
+        break;
+      default:
+        console.error('getJsonDiffsList - unhandled kind: ' + diff.kind);
     }
-    if (dateType === 'dateBeginEnd') {
-      if (position === 'start') {
-        // return this.dateFromPath(obj, "validTime.abstractTimePrimitive.['gml:TimePeriod'].beginPosition.value.[0]");
-        return this.resolveObjectPath(obj, 'validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value.0');
-      } else {
-        return this.resolveObjectPath(obj, 'validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value.0');
-      }
-    }
-    if (dateType === 'startEndDate') {
-      if (position === 'start') {
-        // return this.dateFromPath(obj, "validTime.abstractTimePrimitive.['gml:TimePeriod'].beginPosition.value.[0]");
-        return this.resolveObjectPath(obj, 'startDate');
-      } else {
-        return this.resolveObjectPath(obj, 'endDate');
-      }
+    if (diffType !== null) {
+      let diffItem: DiffItem = new DiffItem(diffType, container, item, lhs, rhs, identifier);
+      diffItems.push(diffItem);
     }
 
-    return 'getDate() - unkonwn dateType: ' + dateType;
+    return diffItems;
   }
 
-  // TODO - once we have types (eg. HumiditySensorClass) then delegate this function to that
-  addDateString(obj: any, key: string): string {
-    let obj1: any;
-    let startDate: any;
-    let endDate: any;
-    let dateStr: string = '';
+    isDeleted(item: any) {
+      if ('dateDeleted' in item && item.dateDeleted && item.dateDeleted.length > 0) {
+          return true;
+      }
+      return false;
+    }
 
-    if (obj.gnssReceiver) {
-      obj1 = obj.gnssReceiver;
-      startDate = this.getDate(obj1, 'dateInstalledRemoved', 'start');
-      endDate = this.getDate(obj1, 'dateInstalledRemoved', 'end');
-    } else if (obj.gnssAntenna) {
-      obj1 = obj.gnssAntenna;
-      startDate = this.getDate(obj1, 'dateInstalledRemoved', 'start');
-      endDate = this.getDate(obj1, 'dateInstalledRemoved', 'end');
-    } else if (obj.surveyedLocalTie) {
-      obj1 = obj.surveyedLocalTie;
-      startDate = this.getDate(obj1, 'dateMeasured', 'start');
-    } else if (obj.humiditySensor) {
-      obj1 = obj.humiditySensor;
-      startDate = this.getDate(obj1, 'startEndDate', 'start');
-      endDate = this.getDate(obj1, 'startEndDate', 'end');
-    } else if (obj.pressureSensor) {
-      obj1 = obj.pressureSensor;
-      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
-      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
-    } else if (obj.temperatureSensor) {
-      obj1 = obj.temperatureSensor;
-      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
-      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
-    } else if (obj.waterVaporSensor) {
-      obj1 = obj.waterVaporSensor;
-      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
-      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
-    } else if (obj.localEpisodicEvents) {
-      obj1 = obj.localEpisodicEvents;
-      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
-      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
-    } else if (obj.frequencyStandard) {
-      obj1 = obj.frequencyStandard;
-      startDate = this.getDate(obj1, 'dateBeginEnd', 'start');
-      endDate = this.getDate(obj1, 'dateBeginEnd', 'end');
+  /**
+   *
+   * @param diff - one of the diffs from deep-diff
+   * @returns {string} - the path with '/' separating components so acts as a JSONPath and can be used with our
+   * JsonPointerService
+   */
+  getPath(diff: IDiff): string {
+    return '/' + diff.path.join('/');
+  }
+
+  /**
+   *
+   * @param diff
+   * @returns {string} - the path prior to the item (see getItem()) with '/' separating components so acts as a
+   * JSONPath and can be used with our JsonPointerService.  Or '' if none, which
+   * is the case with Array diffs.
+   */
+  getPathToItem(diff: IDiff): string {
+    let extract: string = '';
+    // Array diffs don't have a path
+    if (!diff.path) {
+      return '';
+    }
+    if (diff.path.length <= 1) {
+      extract = diff.path[0];
     } else {
-      return key;
+      extract = diff.path.slice(0, diff.path.length - 1).join('/');
     }
-    dateStr = '(' + startDate.substring(0, 10);
-    if (endDate) {
-      dateStr += ' &ndash; ' + endDate.substring(0, 10);
-    }
-    dateStr += ')';
 
-    return (dateStr === '') ? key : (key + ' ' + dateStr);
+    return '/' + extract;
+  }
+
+  /**
+   *
+   * @param diff - one of the diffs from deep-diff
+   * @returns {string} - the new top-level item such as HumiditySensor.  Or '' if none, which
+   * is the case with Array diffs.
+   */
+  private getContainer(diff: IDiff): string {
+    // Array diffs don't have a path
+    if (!diff.path) {
+      return '';
+    }
+    return diff.path[0];  // maybe use that mapping
+  }
+
+  /**
+   *
+   * @param diff - one of the diffs from deep-diff
+   * @returns {string} - the path up to the item that is a difference such as Manufacturer.  Or '' if none, which
+   * is the case with Array diffs.
+   **/
+  getItem(diff: IDiff): string {
+    let thePath: string[] = diff.path;
+    // Array diffs don't have a path
+    if (!thePath) {
+      return '';
+    }
+    return thePath[thePath.length - 1];  // maybe use that mapping
+  }
+
+
+  /**
+   * Return the object pointed to by the pathToItem in the jsonNew
+   * @param jsonNew - viewModel JSON for the new object being displayed.  Belon
+   * @param pathToItem - JSON Path in jsonNew to the item that has the identifier information
+   * @returns {any} - the object
+   */
+  getObject(jsonNew: any, pathToItem: string): any {
+    let object: any = JsonPointerService.get(jsonNew, pathToItem);
+    if (!object) {
+      throw new Error('Unexpected error - path not in object - path: ' + pathToItem + ', object: ' + JSON.stringify(jsonNew));
+    }
+    return object;
+  }
+
+  /**
+   * The identifier of an object, such as "beginDate - endData" or just "beginDate" if hasnt ended.
+   * @param jsonNew - viewModel JSON for the new object being displayed.  Belon
+   * @param pathToItem - JSON Path in jsonNew to the item that has the identifier information
+   * @returns {string} such as "beginDate - endData" or just "beginDate" if hasnt ended.
+   */
+  getIdentifier(object: any): string {
+    // The identifiers, if they exist, will be on the object or the first child
+    return this.getIdentifierAttempt(object) || this.getIdentifierAttempt(JsonDiffService.getTheObject(object));
+  }
+
+  private getIdentifierAttempt(object: any): string {
+    let ident: string = '';
+    if (object.startDate) {
+      ident += MiscUtils.prettyFormatDateTime(object.startDate);
+    }
+    if (object.endDate) {
+      ident += ' - ' + MiscUtils.prettyFormatDateTime(object.endDate);
+    }
+    if (object.dateInstalled) {
+      ident += MiscUtils.prettyFormatDateTime(object.dateInstalled);
+    }
+    if (object.dateRemoved) {
+      ident += ' - ' + MiscUtils.prettyFormatDateTime(object.dateRemoved);
+    }
+    return ident;
+  }
+
+  /* ****** Now methods for the normalised data structure (between intermediate and final output) ****** */
+
+  /**
+   * The given siteManagerDiffs is a list of each diff, one by one.  This sorts by the container & identifier so it is
+   * trivial to create a display form.
+   *
+   * @param siteManagerDiffs - the diffs, one by one
+   * @param oldJson - old ViewModel json
+   * @param newJson - new ViewModel json (the diff is how to get from old to new).
+   * @return NormalisedDiffs
+   */
+  getNormalisedDiffsList(siteManagerDiffs: DiffItem[]): NormalisedDiffs { // , oldJson: any, newJson: any
+    // The key is 'container:identifier' and the value is [array of each DiffItem]
+    let normalised: NormalisedDiffs = new NormalisedDiffs();
+    for (let diff of siteManagerDiffs) {
+      let key: string = this.getNormalKey(diff);
+      if (!normalised.values.has(key)) {
+        normalised.values.set(key, new Array<DiffItem>());//new DiffStruct());
+      }
+      normalised.values.get(key).push(diff);
+    }
+
+    return normalised;
+  }
+
+  private getNormalKey(diff: DiffItem) {
+    return diff.container + JsonDiffService.mapKeySeparator + diff.identifier;
+  }
+
+  /* ****** Now methods to create the final output - the HTML table showing differences ****** */
+
+  /**
+   *
+   * @param normalDiffs from getNormalisedDiffsList()
+   * @returns {string} HTML Table representation of the diffs
+   */
+  getJsonDiffsTable(normalDiffs: NormalisedDiffs): string {
+    let tableHtml: string = '';
+
+    let diffEntries: IterableIterator<[string, Array<DiffItem>]>;
+    let nextContainerDiff: IteratorResult<[string, Array<DiffItem>]>;
+    let mapKey: string;
+    let diffItems: DiffItem[];
+    let tableName: string;
+
+    diffEntries = normalDiffs.values.entries();
+
+    nextContainerDiff = diffEntries.next();
+    while (!nextContainerDiff.done) {
+      mapKey = nextContainerDiff.value[0];
+      diffItems = nextContainerDiff.value[1];
+      tableName = this.extractTableName(mapKey);
+
+      tableHtml += '<table class="table table-striped table-hover">';
+      tableHtml += '<caption>' + tableName + '<caption>';
+      tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
+        + '<th>Old value</th><th>New value</th></tr></thead>';
+      tableHtml += '<tbody>';
+      for (let diffItem of diffItems) {
+        if (diffItem.diffType === DiffType.NewArrayItem) {
+          for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
+            tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td></td><td>' +
+              this.getNameMapping(diffItem.newValue[key]) + '</td></tr>';
+          }
+        } else {
+          tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
+            + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>';
+        }
+      }
+      tableHtml += '</tbody></table>';
+      nextContainerDiff = diffEntries.next();
+    }
+    return tableHtml;
+  }
+
+  private onlyWantedFields(field: string) {
+    switch (field) {
+      case 'fieldMaps':
+        return false;
+      default:
+        return true;
+    }
+  }
+
+  private extractTableName(key: string): string {
+    let regex = new RegExp('(.*?)' + JsonDiffService.mapKeySeparator + '(.*)');
+    let groups: RegExpExecArray;
+    if ((groups = regex.exec(key)) && groups.length >= 3) {
+      let part2: string = groups[2] ? ' (' + groups[2] + ')' : '';
+      return this.getNameMapping(groups[1]) + part2;
+    } else {
+      return 'no table name in key - groups length is: ' + groups.length;
+    }
+  }
+
+  private getNameMapping(key: string) {
+    if (this.attrMappingJson[key] === undefined) {
+      console.log(key + ' not in mapping');
+      return key;
+    } else {
+      return this.attrMappingJson[key];
+    }
   }
 }
