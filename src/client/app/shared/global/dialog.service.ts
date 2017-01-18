@@ -31,19 +31,41 @@ export class DialogService {
   }
 
   /*
-   * Opens a dialog prompting user to input a value for it
+   * Opens a dialog to confirm deleting a record.
+   * The record type (from getItemName()) must be supplied,
+   * along with callbacks to handle the "Delete" and "Cancel" buttons.
+   * calls the showDeletePromptDialog with a default message.
    */
-  public showPromptDialog(message: string, okCallback: () => any) {
-    let that: any = this;
-    this._alertify.defaultValue('Default Value').prompt(message,
-      function (value: any, event: any) {
-        event.preventDefault();
-        that.showSuccessMessage('You clicked OK and typed: ' + value);
-      }, function(event: any) {
-        event.preventDefault();
-        that.showLogMessage('You clicked Cancel');
+  public confirmDeleteDialog(recordType: string, okCallback: (reason: string) => any, cancelCallback: () => any) : string {
+    let header: string = '<div class="title">Delete ' + recordType + '</div>';
+    let body: string = '<div class="body"> Are you sure you want to delete the existing ' + recordType + '?</div>';
+    let reasonPrompt: string = '<div class="body reasonPrompt"> Enter a reason: </div>';
+    let msgHtml: string = '<div>' + header + body + reasonPrompt + '</div>';
+
+    return this.showDeletePromptDialog(msgHtml, okCallback, cancelCallback);
+  }
+
+  /*
+   * Opens a dialog prompting user to input a value for the reason for deleting a record.
+   * Handles very basic validation of the input message: if no message supplied
+   * adds an error message and redisplays the dialog.
+   */
+  public showDeletePromptDialog(msgHtml: string, okCallback: (reason : string) => any, cancelCallback: () => any) : string {
+    return this._alertify.okBtn('Delete').cancelBtn('Cancel')
+    .prompt(msgHtml, (deleteReason : string, event: any) => {
+      event.preventDefault();
+      if (deleteReason) {
+          return okCallback(deleteReason);
+      } else {
+          msgHtml = msgHtml.replace(
+            '<div class="body reasonPrompt"> Enter a reason: ',
+            '<div class="body reasonPrompt error"> Reason is required. Please enter a reason:');
+          return this.showDeletePromptDialog(msgHtml, okCallback, cancelCallback);
       }
-    );
+    }, (event: any) => {
+      event.preventDefault();
+      return cancelCallback();
+    });
   }
 
   /*

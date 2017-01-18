@@ -744,3 +744,12 @@ form .ng-invalid {
     display: inline-block !important;
   }
 }
+
+.reasonPrompt::after {
+      color: red;
+      content: " *";
+}
+
+.body.reasonPrompt.error {
+    color: red;
+}

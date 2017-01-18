@@ -16,9 +16,9 @@
     <span class="pull-right">
       <button class="btn btn-danger btn-rm"
               title="Remove the frequency standard"
-              (click)="removeItem()">
+              (click)="removeItem(index)">
         <i class="glyphicon glyphicon-remove"></i>
-        <span class="hidden-xs">Remove</span>
+        <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
       </button>
     </span>
   </div>

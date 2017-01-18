@@ -3,6 +3,7 @@ import {AbstractItem} from '../shared/abstract-groups-items/abstract-item';
 import {GeodesyEvent} from '../shared/events-messages/Event';
 import {HumiditySensorViewModel} from './humidity-sensor-view-model';
 import {MiscUtils} from '../shared/global/misc-utils';
+import { DialogService } from '../shared/index';
 
 /**
  * This component represents a single Humidity Sensor.
@@ -40,8 +41,8 @@ export class HumiditySensorItemComponent extends AbstractItem {
      */
     @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
-    constructor() {
-        super();
+    constructor(protected dialogService: DialogService) {
+        super(dialogService);
     }
 
     getGeodesyEvent(): GeodesyEvent {
@@ -56,4 +57,7 @@ export class HumiditySensorItemComponent extends AbstractItem {
         return this.returnEvents;
     }
 
+    getItemName(): string {
+        return 'Humidity Sensor';
+    }
 }

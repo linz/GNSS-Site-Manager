@@ -3,6 +3,7 @@ import {AbstractItem} from '../shared/abstract-groups-items/abstract-item';
 import {GeodesyEvent} from '../shared/events-messages/Event';
 import {TemperatureSensorViewModel} from './temperature-sensor-view-model';
 import {MiscUtils} from '../shared/global/misc-utils';
+import { DialogService } from '../shared/index';
 
 /**
  * This component represents a single Temperature Sensor.
@@ -40,6 +41,10 @@ export class TemperatureSensorItemComponent extends AbstractItem {
    */
   @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
+  constructor(protected dialogService: DialogService) {
+    super(dialogService);
+  }
+
   getGeodesyEvent(): GeodesyEvent {
     return this.geodesyEvent;
   }
@@ -52,4 +57,7 @@ export class TemperatureSensorItemComponent extends AbstractItem {
     return this.returnEvents;
   }
 
+  getItemName(): string {
+    return 'Temperature Sensor';
+  }
 }

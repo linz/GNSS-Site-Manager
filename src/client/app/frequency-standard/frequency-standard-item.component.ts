@@ -3,6 +3,7 @@ import {AbstractItem} from '../shared/abstract-groups-items/abstract-item';
 import {GeodesyEvent} from '../shared/events-messages/Event';
 import {FrequencyStandardViewModel} from './frequency-standard-view-model';
 import {MiscUtils} from '../shared/global/misc-utils';
+import { DialogService } from '../shared/index';
 
 /**
  * This class represents a single item of GNSS Antennas.
@@ -42,6 +43,10 @@ export class FrequencyStandardItemComponent extends AbstractItem {
    */
   @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
+  constructor(protected dialogService: DialogService) {
+    super(dialogService);
+  }
+
   getGeodesyEvent(): GeodesyEvent {
     return this.geodesyEvent;
   }
@@ -54,4 +59,7 @@ export class FrequencyStandardItemComponent extends AbstractItem {
     return this.returnEvents;
   }
 
+  getItemName(): string {
+    return 'Frequency Standard';
+  }
 }
