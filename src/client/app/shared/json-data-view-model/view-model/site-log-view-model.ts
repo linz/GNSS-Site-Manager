@@ -14,6 +14,9 @@ export class SiteLogViewModel {
 }
 
 export class ViewSiteLog {
+    // activate this to remove deleted items from the SiteLog
+    readonly deleteEnabled: boolean = false;
+
     siteIdentification: any;
     siteLocation: any;
     gnssReceivers: any[];
@@ -36,7 +39,10 @@ export class ViewSiteLog {
      * - removing items with a 'dateDeleted', which was set when the item was removed
      */
     public beforeSave(): void {
-        this.removeDeletedItems(this.humiditySensors);
+        if (this.deleteEnabled) {
+            this.removeDeletedItems(this.humiditySensors);
+            // ... add others
+        }
     }
 
     private removeDeletedItems(items: AbstractViewModel[]) {

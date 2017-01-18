@@ -81,16 +81,17 @@ export abstract class AbstractItem implements DoCheck, OnInit {
 
     removeItem(index: number) {
         let remove: boolean = true;
+        let reason: string = 'New item not needed';
         if (! this.isNew) {
-            let answer: boolean = confirm('Really delete existing record?');
-            if (!answer) {
+            reason = prompt('Reason for deleting existing record?');
+            if (!reason) {
                 remove = false;
             }
         }
 
         if (remove) {
             console.log('child call removeItem(' + index + ')');
-            let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index};
+            let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: reason};
             this.getReturnEvents().emit(geodesyEvent);
         }
     }

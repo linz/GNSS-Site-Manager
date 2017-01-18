@@ -34,9 +34,7 @@ export class HumiditySensorViewModel extends AbstractViewModel {
         this.heightDiffToAntenna = 0;
     }
 
-    // TODO - remove type field and use generics instead
     createFieldMappings(): void {
-        super.addSuperFieldMappings();
         this.addFieldMapping('/humiditySensor/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
             'string',
             '/startDate', 'string');
@@ -77,12 +75,5 @@ export class HumiditySensorViewModel extends AbstractViewModel {
         let presentDT: string = MiscUtils.getPresentDateTime();
 
         this.endDate = presentDT;
-    }
-
-    appendToNotes(note: string): void {
-        if (this.notes.length > 0) {
-            this.notes += '\n';
-        }
-        this.notes += note;
     }
 }
