@@ -5,7 +5,6 @@ import * as lodash from 'lodash';
 export abstract class AbstractGroup<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
     hasGroupANewItem: boolean = false;
-    showDeleted: boolean = false;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
