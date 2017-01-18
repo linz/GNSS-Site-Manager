@@ -5,6 +5,7 @@ import * as lodash from 'lodash';
 export abstract class AbstractGroup<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
     hasGroupANewItem: boolean = false;
+    showDeleted: boolean = false;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -164,7 +165,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
         switch (geodesyEvent.name) {
             case EventNames.removeItem:
-                this.removeItem(geodesyEvent.valueNumber);
+                this.removeItem(geodesyEvent.valueNumber, geodesyEvent.valueString);
                 break;
             default:
                 console.log('returnEvents - unknown event: ', EventNames[geodesyEvent.name]);
@@ -190,11 +191,12 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * Remove an item.  Originally it was removed from the list.  However we now want to track deletes so
      * keep it and mark as deleted using change tracking.
      */
-    public removeItem(itemIndex: number) {
+    public removeItem(itemIndex: number, reason: string) {
         console.log('parent - remove sensor item: ', itemIndex);
         // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
         // (high to low start date).  This call is coming from the UI (the display order) and the default for
         // getItemsCollection() is the reverse order so this works out ok
+        this.setDeletedReason(this.getItemsCollection()[itemIndex], reason);
         this.setDeleted(this.getItemsCollection()[itemIndex]);
     }
 
@@ -204,5 +206,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
     private setInserted(item: T) {
         item.setDateInserted();
+    }
+
+    private setDeletedReason(item: T, reason: string) {
+        item.setDeletedReason(reason);
     }
 }

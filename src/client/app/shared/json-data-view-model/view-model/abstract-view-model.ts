@@ -7,6 +7,7 @@ export abstract class AbstractViewModel {
     // Change tracking
     public dateDeleted: string;
     public dateInserted: string;
+    public deletedReason: string;
 
     /**
      * Mapping to/from Data and View model fields.  See createFieldMappings().
@@ -18,6 +19,7 @@ export abstract class AbstractViewModel {
     }
 
     constructor() {
+        this.addSuperFieldMappings();
         this.createFieldMappings();
     }
 
@@ -58,6 +60,7 @@ export abstract class AbstractViewModel {
         // Change tracking
         this.addFieldMapping('/dateDeleted/value/0', 'string', '/dateDeleted', 'string');
         this.addFieldMapping('/dateInserted/value/0', 'string', '/dateInserted', 'string');
+        this.addFieldMapping('/deletedReason', 'string', '/deletedReason', 'string');
     }
 
     /**
@@ -74,7 +77,10 @@ export abstract class AbstractViewModel {
     setDateDeleted(): void {
         let date: string = MiscUtils.getPresentDateTime();
         this.dateDeleted = date;
-        this.appendToNotes('time deleted: ' + date);
+    }
+
+    setDeletedReason(reason: string): void {
+        this.deletedReason = reason;
     }
 
     /**
@@ -87,12 +93,4 @@ export abstract class AbstractViewModel {
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
      */
     abstract setFinalValuesBeforeCreatingNewItem(): void;
-
-    /**
-     * If the child object has a notes field or something similar they can make use of this to add system messages.
-     * @param note
-     */
-    appendToNotes(note: string): void {
-        // noop in super class
-    }
 }

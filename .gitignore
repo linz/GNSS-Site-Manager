@@ -45,6 +45,7 @@ tmp
 
 gulpfile.js
 gulpfile.js.map
+*.js.map
 
 # Ignore typescript to js generated artifacts
 src/client/app/**/*.js
