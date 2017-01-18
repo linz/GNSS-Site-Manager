@@ -18,7 +18,7 @@ export class DataViewTranslatorService {
       let viewTypedPointer: TypedPointer = fieldMap.viewTypedPointer;
       let dataValue: string = JsonPointerService.get(dataModel, dataTypedPointer.pointer);
       if (viewTypedPointer.type === 'number') {
-        JsonPointerService.set(viewModel, viewTypedPointer.pointer, parseFloat(dataValue));
+        JsonPointerService.set(viewModel, viewTypedPointer.pointer, dataValue !== null ? parseFloat(dataValue) : null);
       } else {
         JsonPointerService.set(viewModel, viewTypedPointer.pointer, dataValue);
       }
@@ -38,7 +38,7 @@ export class DataViewTranslatorService {
       let viewTypedPointer: TypedPointer = fieldMap.viewTypedPointer;
       let viewValue: string = JsonPointerService.get(viewModel, viewTypedPointer.pointer);
       if (dataTypedPointer.type === 'number') {
-        JsonPointerService.set(dataModel, dataTypedPointer.pointer, parseFloat(viewValue));
+        JsonPointerService.set(dataModel, dataTypedPointer.pointer, viewValue !== null ? parseFloat(viewValue) : null);
       } else {
         JsonPointerService.set(dataModel, dataTypedPointer.pointer, viewValue);
       }
