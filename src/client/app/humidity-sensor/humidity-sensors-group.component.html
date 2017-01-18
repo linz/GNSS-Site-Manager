@@ -1,5 +1,5 @@
 <div class="panel panel-level-1">
-  <div class="panel-heading">
+    <div class="panel-heading">
       <span class="panel-title cursor-ptr"
             (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
             <i class="glyphicon"
@@ -14,20 +14,20 @@
             New <span class="hide-xxs">{{getItemName()}}</span>
             </button>
         </span>
-  </div>
-  <div class="panel-body" *ngIf="isGroupOpen">
-    <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
-      No information available for Humidity Sensors
     </div>
-    <div *ngFor="let humiditySensor of getItemsCollection(); let i = index">
-      <!-- [geodesyEvent] - send event to child components -->
-      <!-- (open/close Above/Below Event) - receive events from child components -->
-      <!-- (returnEvents) - single point to call events on parent -->
-      <humidity-sensor-item [humiditySensor]="humiditySensor"
-                                 [total]="itemProperties.length"
-                                 [index]="i"
-                                 [geodesyEvent]="geodesyEvent"
-                                 (returnEvents)="returnEvents($event)"></humidity-sensor-item>
+    <div class="panel-body" *ngIf="isGroupOpen">
+        <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
+            No information available for Humidity Sensors
+        </div>
+        <div *ngFor="let humiditySensor of getItemsCollection(); let i = index">
+            <!-- [geodesyEvent] - send event to child components -->
+            <!-- (open/close Above/Below Event) - receive events from child components -->
+            <!-- (returnEvents) - single point to call events on parent -->
+            <humidity-sensor-item [humiditySensor]="humiditySensor"
+                                  [total]="itemProperties.length"
+                                  [index]="i"
+                                  [geodesyEvent]="geodesyEvent"
+                                  (returnEvents)="returnEvents($event)"></humidity-sensor-item>
+        </div>
     </div>
-  </div>
 </div>

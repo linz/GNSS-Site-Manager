@@ -18,7 +18,7 @@
           <button class="btn btn-danger btn-xs" title="Remove the humiditySensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">Remove</span>
+            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
           </button>
         </span>
     </div>
@@ -29,91 +29,91 @@
         <div *ngIf=" humiditySensor != null ">
 
             <text-input
-              [name]="'humiditySensorManufacturer'"
-              [(model)]="humiditySensor.manufacturer"
-              [index]="[index]"
-              [label]="'Manufacturer'"
-              [maxlength]="100"
-              [required]="true">
+                [name]="'humiditySensorManufacturer'"
+                [(model)]="humiditySensor.manufacturer"
+                [index]="[index]"
+                [label]="'Manufacturer'"
+                [maxlength]="100"
+                [required]="true">
             </text-input>
 
             <text-input
-              [name]="'humiditySensorSerialNumber'"
-              [(model)]="humiditySensor.serialNumber"
-              [index]="[index]"
-              [label]="'Serial Number'"
-              [maxlength]="100"
-              [required]="true">
+                [name]="'humiditySensorSerialNumber'"
+                [(model)]="humiditySensor.serialNumber"
+                [index]="[index]"
+                [label]="'Serial Number'"
+                [maxlength]="100"
+                [required]="true">
             </text-input>
 
             <number-input
-              [name]="'humiditySensorDataSamplingInterval'"
-              [(model)]="humiditySensor.dataSamplingInterval"
-              [index]="[index]"
-              [label]="'Data Sampling Interval (seconds)'"
-              [step]="0.01"
-              [maxlength]="100">
+                [name]="'humiditySensorDataSamplingInterval'"
+                [(model)]="humiditySensor.dataSamplingInterval"
+                [index]="[index]"
+                [label]="'Data Sampling Interval (seconds)'"
+                [step]="0.01"
+                [maxlength]="100">
             </number-input>
 
             <number-input
-              [name]="'humiditySensorAccuracyPercentRelativeHumidity'"
-              [(model)]="humiditySensor.accuracyPercentRelativeHumidity"
-              [index]="[index]"
-              [label]="'Accuracy (% rel h)'"
-              [step]="0.01"
-              [maxlength]="100">
+                [name]="'humiditySensorAccuracyPercentRelativeHumidity'"
+                [(model)]="humiditySensor.accuracyPercentRelativeHumidity"
+                [index]="[index]"
+                [label]="'Accuracy (% rel h)'"
+                [step]="0.01"
+                [maxlength]="100">
             </number-input>
 
             <text-input
-              [name]="'humiditySensorAspiration'"
-              [(model)]="humiditySensor.aspiration"
-              [index]="[i]"
-              [label]="'Aspiration (unaspirated/natural/fan/etc)'"
-              [maxlength]="100">
+                [name]="'humiditySensorAspiration'"
+                [(model)]="humiditySensor.aspiration"
+                [index]="[i]"
+                [label]="'Aspiration (unaspirated/natural/fan/etc)'"
+                [maxlength]="100">
             </text-input>
 
             <number-input
-              [name]="'humiditySensorHeightDiffToAntenna'"
-              [(model)]="humiditySensor.heightDiffToAntenna"
-              [index]="[index]"
-              [label]="'Height Diff to Antenna (m)'"
-              [step]="0.01"
-              [maxlength]="100">
+                [name]="'humiditySensorHeightDiffToAntenna'"
+                [(model)]="humiditySensor.heightDiffToAntenna"
+                [index]="[index]"
+                [label]="'Height Diff to Antenna (m)'"
+                [step]="0.01"
+                [maxlength]="100">
             </number-input>
 
             <datetime-input
-              [(datetime)]="humiditySensor.calibrationDate"
-              [name]=" 'calibrationDate' "
-              [index]="[index]"
-              [required]="false"
-              [label]="'Calibration Date'">
+                [(datetime)]="humiditySensor.calibrationDate"
+                [name]=" 'calibrationDate' "
+                [index]="[index]"
+                [required]="false"
+                [label]="'Calibration Date'">
             </datetime-input>
 
             <datetime-input
-              [(datetime)]="humiditySensor.startDate"
-              [name]=" 'effectiveDateStart' "
-              [index]="[index]"
-              [required]="true"
-              [label]="'Date Installed (UTC)'">
+                [(datetime)]="humiditySensor.startDate"
+                [name]=" 'effectiveDateStart' "
+                [index]="[index]"
+                [required]="true"
+                [label]="'Date Installed (UTC)'">
             </datetime-input>
 
             <datetime-input
-              [(datetime)]="humiditySensor.endDate"
-              [name]=" 'effectiveDateEnd' "
-              [index]="[index]"
-              [requiredIfNotCurrent]="true"
-              [label]="'Date Removed (UTC)'">
+                [(datetime)]="humiditySensor.endDate"
+                [name]=" 'effectiveDateEnd' "
+                [index]="[index]"
+                [requiredIfNotCurrent]="true"
+                [label]="'Date Removed (UTC)'">
             </datetime-input>
 
             <textarea-input
-              [name]="'humiditySensorNotes'"
-              [(model)]="humiditySensor.notes"
-              [index]="[index]"
-              [label]="'Notes'"
-              [rows]="2"
-              [maxlength]="2000">
+                [name]="'humiditySensorNotes'"
+                [(model)]="humiditySensor.notes"
+                [index]="[index]"
+                [label]="'Notes'"
+                [rows]="2"
+                [maxlength]="2000">
             </textarea-input>
 
-       </div>
+        </div>
     </div>
 </div>
