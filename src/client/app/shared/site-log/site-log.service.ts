@@ -161,7 +161,6 @@ export class SiteLogService {
      * @param siteLogJson in Json (that will be translated to GeodesyML before posting to the backend service)
      */
     saveSiteLog(siteLogViewModel: SiteLogViewModel): Observable<Response> {
-        siteLogViewModel.siteLog.beforeSave();
         console.log('saveSiteLog - siteLogViewModel: ', siteLogViewModel);
         let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModelJson(siteLogViewModel);
         console.log('saveSiteLog - siteLogDataModel: ', siteLogDataModel);

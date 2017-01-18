@@ -3,7 +3,6 @@ import {FrequencyStandardViewModel} from '../../../frequency-standard/frequency-
 import {HumiditySensorViewModel} from '../../../humidity-sensor/humidity-sensor-view-model';
 import {PressureSensorViewModel} from '../../../pressure-sensor/pressure-sensor-view-model';
 import {TemperatureSensorViewModel} from '../../../temperature-sensor/temperature-sensor-view-model';
-import {AbstractViewModel} from './abstract-view-model';
 
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
@@ -14,9 +13,6 @@ export class SiteLogViewModel {
 }
 
 export class ViewSiteLog {
-    // activate this to remove deleted items from the SiteLog
-    readonly deleteEnabled: boolean = false;
-
     siteIdentification: any;
     siteLocation: any;
     gnssReceivers: any[];
@@ -33,28 +29,4 @@ export class ViewSiteLog {
     siteDataSource: any;
     moreInformation: any;
     dataStreamsSet: any;
-
-    /**
-     * Actions to take before saving.  They include:
-     * - removing items with a 'dateDeleted', which was set when the item was removed
-     */
-    public beforeSave(): void {
-        if (this.deleteEnabled) {
-            this.removeDeletedItems(this.humiditySensors);
-            // ... add others
-        }
-    }
-
-    private removeDeletedItems(items: AbstractViewModel[]) {
-        // start at the end of the array so can delete item
-        let index: number = items.length - 1;
-        while (index >= 0) {
-            console.log('removeDeletedItems - try index: ' + index + ' of items (length): ', items.length);
-            if ('dateDeleted' in items[index] && items[index].dateDeleted && items[index].dateDeleted.length > 0) {
-                items.splice(index, 1);
-                console.log('deleted!');
-            }
-            index--;
-        }
-    }
 }
