@@ -34,11 +34,6 @@ export class HumiditySensorItemComponent extends AbstractItem {
     @Input() geodesyEvent: GeodesyEvent;
 
     /**
-     * If to show deleted items
-     */
-    @Input() showDeleted: boolean;
-
-    /**
      * Events children components can send to their parent components.  Usually these are then passed to all
      * child components.
      * @type {EventEmitter<boolean>}

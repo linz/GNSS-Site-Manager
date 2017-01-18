@@ -113,24 +113,6 @@
                 [rows]="2"
                 [maxlength]="2000">
             </textarea-input>
-
-            <div *ngIf=" showDeleted ">
-                <datetime-input
-                    [(datetime)]="humiditySensor.dateDeleted"
-                    [name]=" 'dateDeleted' "
-                    [index]="[index]"
-                    [required]="false"
-                    [label]="'Date Item Deleted (UTC)'">
-                </datetime-input>
-
-                <text-input
-                    [name]="'deletedReason'"
-                    [(model)]="humiditySensor.deletedReason"
-                    [index]="[i]"
-                    [label]="'Reason item was deleted'"
-                    [maxlength]="100">
-                </text-input>
-            </div>
         </div>
     </div>
 </div>
