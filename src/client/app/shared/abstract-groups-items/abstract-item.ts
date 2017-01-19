@@ -102,7 +102,7 @@ export abstract class AbstractItem implements DoCheck, OnInit {
       let deleteReason: string = 'New item not needed';
 
       if (this.isNew) {
-        this.deleteItem(index, deleteReason);
+        this.cancelNew(index, deleteReason);
       } else {
           this.dialogService.confirmDeleteDialog(
             this.getItemName(),
@@ -124,6 +124,15 @@ export abstract class AbstractItem implements DoCheck, OnInit {
     private deleteItem(index: number, deleteReason : string) {
         console.log('child call removeItem(' + index + ')');
         let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
+        this.getReturnEvents().emit(geodesyEvent);
+    }
+
+    /**
+     *  Mark an item for deletion using the specified reason.
+     */
+    private cancelNew(index: number, deleteReason : string) {
+        console.log('child call cancelNew(' + index + ')');
+        let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
     }
 

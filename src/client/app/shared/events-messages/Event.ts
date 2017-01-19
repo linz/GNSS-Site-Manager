@@ -2,6 +2,7 @@ export enum EventNames {
   none,
   newItem,
   removeItem,
+  cancelNew,
 }
 export interface GeodesyEvent {
   name: EventNames;

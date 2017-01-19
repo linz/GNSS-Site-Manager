@@ -166,6 +166,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             case EventNames.removeItem:
                 this.removeItem(geodesyEvent.valueNumber, geodesyEvent.valueString);
                 break;
+            case EventNames.cancelNew:
+                this.cancelNew(geodesyEvent.valueNumber, geodesyEvent.valueString);
+                break;
             default:
                 console.log('returnEvents - unknown event: ', EventNames[geodesyEvent.name]);
         }
@@ -191,12 +194,23 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * keep it and mark as deleted using change tracking.
      */
     public removeItem(itemIndex: number, reason: string) {
-        console.log('parent - remove sensor item: ', itemIndex);
+        console.log('parent - remove item: ', itemIndex);
         // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
         // (high to low start date).  This call is coming from the UI (the display order) and the default for
         // getItemsCollection() is the reverse order so this works out ok
         this.setDeletedReason(this.getItemsCollection()[itemIndex], reason);
         this.setDeleted(this.getItemsCollection()[itemIndex]);
+    }
+
+    /**
+     * Permanently Remove an item.  Typically done when deleting an item just added and not yet persisted.
+     */
+    public cancelNew(itemIndex: number, reason: string) {
+        console.log('parent - remove item Permanently: ', itemIndex);
+        // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
+        // (high to low start date).  Thus to access the original dataItems we need to reverse the index.
+        let newIndex: number = this.itemProperties.length - itemIndex - 1;
+        this.itemProperties.splice(newIndex, 1);
     }
 
     private setDeleted(item: T) {

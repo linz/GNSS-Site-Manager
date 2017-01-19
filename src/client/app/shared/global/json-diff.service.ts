@@ -413,7 +413,6 @@ export class JsonDiffService {
 
     private getNameMapping(key: string) {
         if (this.attrMappingJson[key] === undefined) {
-            console.log(key + ' not in mapping');
             return key;
         } else {
             return this.attrMappingJson[key];
