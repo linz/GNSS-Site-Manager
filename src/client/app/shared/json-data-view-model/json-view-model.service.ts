@@ -157,6 +157,7 @@ export class JsonViewModelService {
                 viewModels.push(newViewModel);
             }
         }
+        return viewModels;
     }
 
     /**
@@ -175,6 +176,7 @@ export class JsonViewModelService {
                 dataModels.push(dataModel);
             }
         }
+        return dataModels;
     }
 
 }
