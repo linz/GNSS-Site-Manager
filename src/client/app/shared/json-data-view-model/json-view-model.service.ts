@@ -140,37 +140,41 @@ export class JsonViewModelService {
     }
 
     /* ***************************** Helper functions ***************************** */
+
     /**
-     * Translate data model to view model
-     * @param dataModels - array of data model items to convert
-     * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
-     * @returns {AbstractViewModel[]} that is the super type of all view model types
-     */
+    * Translate data model to view model
+    * @param dataModels - array of data model items to convert
+    * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
+    * @returns {AbstractViewModel[]} that is the super type of all view model types
+    */
     private dataToViewModel<T extends AbstractViewModel>(dataModels: any[], type: {new(): T ;}): T[] {
         let viewModels: T[] = [];
-        for (let dataModel of dataModels) {
-            let newViewModel: T = new type();
-            let fieldMappings: FieldMaps = newViewModel.getFieldMaps();
-            DataViewTranslatorService.translateD2V(dataModel, newViewModel, fieldMappings);  // humiditySensor
-            viewModels.push(newViewModel);
+        if (dataModels) {
+            for (let dataModel of dataModels) {
+                let newViewModel: T = new type();
+                let fieldMappings: FieldMaps = newViewModel.getFieldMaps();
+                DataViewTranslatorService.translateD2V(dataModel, newViewModel, fieldMappings);  // humiditySensor
+                viewModels.push(newViewModel);
+            }
         }
-        return viewModels;
     }
 
     /**
-     * Translate view model to data model
-     * @param viewModels - array of view model items to convert
-     * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
-     * @returns {any[]} - translated data model
-     */
+    * Translate view model to data model
+    * @param viewModels - array of view model items to convert
+    * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
+    * @returns {any[]} - translated data model
+    */
     private viewToDataModel<T extends AbstractViewModel>(viewModels: T[]): any[] {
         let dataModels: any[] = [];
-        for (let viewModel of viewModels) {
-            let fieldMappings: FieldMaps = viewModel.getFieldMaps();
-            let dataModel: any = {};
-            DataViewTranslatorService.translateV2D(viewModel, dataModel, fieldMappings);
-            dataModels.push(dataModel);
+        if (viewModels) {
+            for (let viewModel of viewModels) {
+                let fieldMappings: FieldMaps = viewModel.getFieldMaps();
+                let dataModel: any = {};
+                DataViewTranslatorService.translateV2D(viewModel, dataModel, fieldMappings);
+                dataModels.push(dataModel);
+            }
         }
-        return dataModels;
     }
+
 }
