@@ -135,10 +135,9 @@
                                  [siteLogOrigin]="siteLogOrigin"></gnss-surveyed-local-tie>
         <frequency-standard-group [siteLogModel]="siteLogModel"
                                   [originalSiteLogModel]="siteLogOrigin"></frequency-standard-group>
-        <gnss-episodic-effect [status]="status"
-                              [episodicEffects]="episodicEffects"
-                              [siteLogModel]="siteLogModel"
-                              [siteLogOrigin]="siteLogOrigin"></gnss-episodic-effect>
+
+        <local-episodic-events-group [siteLogModel]="siteLogModel"
+                                  [originalSiteLogModel]="siteLogOrigin"></local-episodic-events-group>
 
         <humidity-sensors-group [siteLogModel]="siteLogModel"
                                      [originalSiteLogModel]="siteLogOrigin"></humidity-sensors-group>

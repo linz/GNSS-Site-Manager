@@ -1,0 +1,58 @@
+<!-- Input: localEpisodicEvent (single) -->
+<div class="panel panel-level-2">
+    <div class="panel-heading">
+        <span class="panel-title cursor-ptr"
+              (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+            </i>
+            <span *ngIf="index == 0">
+                Current Local Episodic Effect (Since {{ miscUtils.getDate(localEpisodicEvent.startDate) }})
+            </span>
+            <span *ngIf="index != 0">
+                Previous Local Episodic Effect ({{ miscUtils.getDate(localEpisodicEvent.startDate) }} &ndash;
+                {{ miscUtils.getDate(localEpisodicEvent.endDate) }})
+            </span>
+        </span>
+        <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
+          <button class="btn btn-danger btn-xs" title="Remove the Local Episodic Effect"
+                  (click)="removeItem(index)">
+            <i class="glyphicon glyphicon-remove"></i>
+            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+          </button>
+        </span>
+    </div>
+    <div class="panel-body" *ngIf="isOpen">
+        <div *ngIf=" localEpisodicEvent == null ">
+            No information available for current Local Episodic Effect
+        </div>
+        <div *ngIf=" localEpisodicEvent != null ">
+
+            <text-input
+                [name]="'localEpisodicEventEvent'"
+                [(model)]="localEpisodicEvent.event"
+                [index]="[index]"
+                [label]="'Event'"
+                [maxlength]="100"
+                [required]="true">
+            </text-input>
+
+            <datetime-input
+                [(datetime)]="localEpisodicEvent.startDate"
+                [name]=" 'effectiveDateStart' "
+                [index]="[index]"
+                [required]="true"
+                [label]="'Date Installed (UTC)'">
+            </datetime-input>
+
+            <datetime-input
+                [(datetime)]="localEpisodicEvent.endDate"
+                [name]=" 'effectiveDateEnd' "
+                [index]="[index]"
+                [requiredIfNotCurrent]="true"
+                [label]="'Date Removed (UTC)'">
+            </datetime-input>
+
+        </div>
+    </div>
+</div>

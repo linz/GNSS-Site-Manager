@@ -26,7 +26,7 @@ export class JsonCheckService {
     // pressureSensors: [],
     // temperatureSensors: [],
     // waterVaporSensors: [],
-    localEpisodicEventsSet: []
+    // localEpisodicEventsSet: []
   };
 
   private siteLocation: any = {
@@ -239,7 +239,7 @@ export class JsonCheckService {
     }
   };
 
-  private episodicEffect: any = {
+  private localEpisodicEvent: any = {
     event: '',
     validTime: {
       abstractTimePrimitive: {
@@ -349,13 +349,13 @@ export class JsonCheckService {
     return this.surveyedLocalTie;
   }
 
-  public getValidEpisodicEffect(json: any): any {
-    this.merge(json, this.episodicEffect);
+  public getValidLocalEpisodicEvent(json: any): any {
+    this.merge(json, this.localEpisodicEvent);
     return json;
   }
 
-  public getNewEpisodicEffect(): any {
-    return this.episodicEffect;
+  public getNewLocalEpisodicEvent(): any {
+    return this.localEpisodicEvent;
   }
 
   /**
