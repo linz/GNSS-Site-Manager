@@ -8,368 +8,369 @@ import {JsonPointerService} from '../json-pointer/json-pointer.service';
 /**
  * JSON Differencing service using https://github.com/flitbit/diff.
  */
-export enum DiffType {Edited, New, Deleted, NewArrayItem, DeletedArrayItem};
+export enum DiffType {Edited, New, Deleted, NewArrayItem, DeletedArrayItem}
+;
 
 export class DiffItem {
-  diffType: DiffType;
-  container: string;  // eg. gnssReceiver
-  identifier: string; // eg. "2008-01-01 to 2014-10-11"
-  item: any;       // eg. Manufacturer
-  oldValue: any;   // eg. Leica
-  newValue: any;   // eg. Leica Inc OR a new HumiditySensor
+    diffType: DiffType;
+    container: string;  // eg. gnssReceiver
+    identifier: string; // eg. "2008-01-01 to 2014-10-11"
+    item: any;       // eg. Manufacturer
+    oldValue: any;   // eg. Leica
+    newValue: any;   // eg. Leica Inc OR a new HumiditySensor
 
-  constructor(diffType: DiffType, container: string, item: string, oldValue: string, newValue: string, identifier: string) {
-    this.diffType = diffType;
-    this.container = container;
-    this.item = item;
-    this.oldValue = oldValue;
-    this.newValue = newValue;
-    this.identifier = identifier;
-  }
+    constructor(diffType: DiffType, container: string, item: string, oldValue: string, newValue: string, identifier: string) {
+        this.diffType = diffType;
+        this.container = container;
+        this.item = item;
+        this.oldValue = oldValue;
+        this.newValue = newValue;
+        this.identifier = identifier;
+    }
 }
 
 export class NormalisedDiffs {
-  values: Map<string, DiffItem[]> = new Map<string, DiffItem[]>();
+    values: Map<string, DiffItem[]> = new Map<string, DiffItem[]>();
 }
 
 @Injectable()
 export class JsonDiffService {
-  static mapKeySeparator = '=>';
-  private xmlAttrMappingFile: string = '/assets/xml-attr-mapping.json';
-  private attrMappingJson: any = {};
+    static mapKeySeparator = '=>';
+    private xmlAttrMappingFile: string = '/assets/xml-attr-mapping.json';
+    private attrMappingJson: any = {};
 
-  /**
-   * Return the actual object from this.  It will always be the first item in the object map.
-   * @param rawObject
-   *
-   * private
-   */
-  static getTheObject(rawObject: any): any {
-    let keys: string[] = Object.keys(rawObject);
-    let object: any = rawObject[keys[0]];
-    return object;
-  }
-
-  constructor(private httpService: HttpUtilsService) {
-    // Load the XML attribute name mapping JSON object from assets
-    this.httpService.loadJsonObject(this.xmlAttrMappingFile).subscribe(
-      json => this.attrMappingJson = json,
-      error => console.log('Error in loading Json file: ' + error)
-    );
-  }
-
-  public getJsonDiffHtml(oldJson: any, newJson: any): string {
-    let jsonDiffs: IDiff[] = this.getJsonDiff(oldJson, newJson);
-    if (!jsonDiffs) {
-      return '';
+    /**
+     * Return the actual object from this.  It will always be the first item in the object map.
+     * @param rawObject
+     *
+     * private
+     */
+    static getTheObject(rawObject: any): any {
+        let keys: string[] = Object.keys(rawObject);
+        let object: any = rawObject[keys[0]];
+        return object;
     }
-    console.log('deep-diff: ', jsonDiffs);
-    let siteManagerDiffs: DiffItem[] = this.getJsonDiffsList(jsonDiffs, oldJson, newJson);
-    let normalisedDiffsList: NormalisedDiffs = this.getNormalisedDiffsList(siteManagerDiffs);//, oldJson, newJson);
-    let jsonDiffsTable: string = this.getJsonDiffsTable(normalisedDiffsList);
-    console.log('jsonDiffsTable: ', jsonDiffsTable);
 
-    return jsonDiffsTable;
-  }
-
-  getJsonDiff(oldJson: any, newJson: any): IDiff[] {
-    let jsonDiff2: any = diff.diff(oldJson, newJson);
-    console.log('deep-diff: ', jsonDiff2);
-    return jsonDiff2;
-  }
-
-  /**
-   *
-   * @param jsonDiffs - from deep-diff.diff(lhs, rhs)
-   * @returns {string} -
-   */
-  getJsonDiffsList(jsonDiffs: IDiff[], oldJson: any, newJson: any): DiffItem[] {
-    let diffStruct: DiffItem[] = [];
-
-    for (let diff of jsonDiffs) {
-      let diffItems: DiffItem[] = this.parseDiffs(diff, newJson);
-      Array.prototype.push.apply(diffStruct, diffItems);
+    constructor(private httpService: HttpUtilsService) {
+        // Load the XML attribute name mapping JSON object from assets
+        this.httpService.loadJsonObject(this.xmlAttrMappingFile).subscribe(
+            json => this.attrMappingJson = json,
+            error => console.log('Error in loading Json file: ' + error)
+        );
     }
-    console.log('getJsonDiffsList: ', diffStruct);
-    return diffStruct;
-  }
 
-  /**
-   * Parse the data from deep-diff and return a list of diffs.  Can be called recursively (such as for Array diffs).
-   *
-   * @param diff - the diff to parse
-   * @param newJson - the new / rhs JSON that caused the diff
-   * @returns {DiffItem[]} - list of diffs
-   */
-  private parseDiffs(diff: IDiff, newJson: any): DiffItem[] {
-    let diffItems: DiffItem[] = [];
-
-    let container, identifier, item, parent, lhs, rhs: string;  // path,
-    let diffType: DiffType = null;
-
-    container = this.getContainer(diff);                        // eg. HumiditySensors
-    parent = this.getObject(newJson, this.getPathToItem(diff)); // eg. HumiditySensors/1 (a HumiditySensor)
-    item = this.getItem(diff);                                  // eg. notes (the notes field contains a difference)
-    identifier = this.getIdentifier(parent);                    // eg. <startDate> - <endDate>
-    switch (diff['kind']) {
-      case 'E':
-        lhs = diff['lhs'];
-        rhs = diff['rhs'];
-        if (this.isDeleted(parent)) {
-          identifier = 'Deleted - ' + identifier;
-          diffType = DiffType.DeletedArrayItem;
-        } else {
-          diffType = DiffType.Edited;
+    public getJsonDiffHtml(oldJson: any, newJson: any): string {
+        let jsonDiffs: IDiff[] = this.getJsonDiff(oldJson, newJson);
+        if (!jsonDiffs) {
+            return '';
         }
-        break;
-      case 'N':
-        lhs = '';
-        rhs = diff['rhs'];
-        diffType = DiffType.New;
-        break;
-      case 'D':
-        lhs = diff['lhs'];
-        rhs = '';
-        diffType = DiffType.Deleted;
-        break;
-      case 'A':   // Array
-        let arrayDiffItems: DiffItem[] = this.parseDiffs(diff.item, newJson);
-        identifier = this.getIdentifier(diff.item.rhs);
-        for (let arrayDiffItem of arrayDiffItems) {
-          arrayDiffItem.container = container;
-          arrayDiffItem.item = diff.index;
-          arrayDiffItem.identifier = 'New - ' + identifier;  //'new item ' + (diff.index + 1);
-          if (arrayDiffItem.diffType === DiffType.New) {
-            arrayDiffItem.diffType = DiffType.NewArrayItem;
-          } else if (arrayDiffItem.diffType === DiffType.Deleted) {
-            arrayDiffItem.diffType = DiffType.DeletedArrayItem;
-          }
-          diffItems.push(arrayDiffItem);
+        console.log('deep-diff: ', jsonDiffs);
+        let siteManagerDiffs: DiffItem[] = this.getJsonDiffsList(jsonDiffs, oldJson, newJson);
+        let normalisedDiffsList: NormalisedDiffs = this.getNormalisedDiffsList(siteManagerDiffs);//, oldJson, newJson);
+        let jsonDiffsTable: string = this.getJsonDiffsTable(normalisedDiffsList);
+        console.log('jsonDiffsTable: ', jsonDiffsTable);
+
+        return jsonDiffsTable;
+    }
+
+    getJsonDiff(oldJson: any, newJson: any): IDiff[] {
+        let jsonDiff2: any = diff.diff(oldJson, newJson);
+        console.log('deep-diff: ', jsonDiff2);
+        return jsonDiff2;
+    }
+
+    /**
+     *
+     * @param jsonDiffs - from deep-diff.diff(lhs, rhs)
+     * @returns {string} -
+     */
+    getJsonDiffsList(jsonDiffs: IDiff[], oldJson: any, newJson: any): DiffItem[] {
+        let diffStruct: DiffItem[] = [];
+
+        for (let diff of jsonDiffs) {
+            let diffItems: DiffItem[] = this.parseDiffs(diff, newJson);
+            Array.prototype.push.apply(diffStruct, diffItems);
         }
-        break;
-      default:
-        console.error('getJsonDiffsList - unhandled kind: ' + diff.kind);
-    }
-    if (diffType !== null) {
-      let diffItem: DiffItem = new DiffItem(diffType, container, item, lhs, rhs, identifier);
-      diffItems.push(diffItem);
+        console.log('getJsonDiffsList: ', diffStruct);
+        return diffStruct;
     }
 
-    return diffItems;
-  }
+    /**
+     * Parse the data from deep-diff and return a list of diffs.  Can be called recursively (such as for Array diffs).
+     *
+     * @param diff - the diff to parse
+     * @param newJson - the new / rhs JSON that caused the diff
+     * @returns {DiffItem[]} - list of diffs
+     */
+    private parseDiffs(diff: IDiff, newJson: any): DiffItem[] {
+        let diffItems: DiffItem[] = [];
 
-  isDeleted(item: any) {
-    if ('dateDeleted' in item && item.dateDeleted && item.dateDeleted.length > 0) {
-      return true;
-    }
-    return false;
-  }
+        let container, identifier, item, parent, lhs, rhs: string;  // path,
+        let diffType: DiffType = null;
 
-  /**
-   *
-   * @param diff - one of the diffs from deep-diff
-   * @returns {string} - the path with '/' separating components so acts as a JSONPath and can be used with our
-   * JsonPointerService
-   */
-  getPath(diff: IDiff): string {
-    return '/' + diff.path.join('/');
-  }
-
-  /**
-   *
-   * @param diff
-   * @returns {string} - the path prior to the item (see getItem()) with '/' separating components so acts as a
-   * JSONPath and can be used with our JsonPointerService.  Or '' if none, which
-   * is the case with Array diffs.
-   */
-  getPathToItem(diff: IDiff): string {
-    let extract: string = '';
-    // Array diffs don't have a path
-    if (!diff.path) {
-      return '';
-    }
-    if (diff.path.length <= 1) {
-      extract = diff.path[0];
-    } else {
-      extract = diff.path.slice(0, diff.path.length - 1).join('/');
-    }
-
-    return '/' + extract;
-  }
-
-  /**
-   *
-   * @param diff - one of the diffs from deep-diff
-   * @returns {string} - the new top-level item such as HumiditySensor.  Or '' if none, which
-   * is the case with Array diffs.
-   */
-  private getContainer(diff: IDiff): string {
-    // Array diffs don't have a path
-    if (!diff.path) {
-      return '';
-    }
-    return diff.path[0];  // maybe use that mapping
-  }
-
-  /**
-   *
-   * @param diff - one of the diffs from deep-diff
-   * @returns {string} - the path up to the item that is a difference such as Manufacturer.  Or '' if none, which
-   * is the case with Array diffs.
-   **/
-  getItem(diff: IDiff): string {
-    let thePath: string[] = diff.path;
-    // Array diffs don't have a path
-    if (!thePath) {
-      return '';
-    }
-    return thePath[thePath.length - 1];  // maybe use that mapping
-  }
-
-
-  /**
-   * Return the object pointed to by the pathToItem in the jsonNew
-   * @param jsonNew - viewModel JSON for the new object being displayed.  Belon
-   * @param pathToItem - JSON Path in jsonNew to the item that has the identifier information
-   * @returns {any} - the object
-   */
-  getObject(jsonNew: any, pathToItem: string): any {
-    let object: any = JsonPointerService.get(jsonNew, pathToItem);
-    if (!object) {
-      throw new Error('Unexpected error - path not in object - path: ' + pathToItem + ', object: ' + JSON.stringify(jsonNew));
-    }
-    return object;
-  }
-
-  /**
-   * The identifier of an object, such as "beginDate - endData" or just "beginDate" if hasnt ended.
-   * @param jsonNew - viewModel JSON for the new object being displayed.  Belon
-   * @param pathToItem - JSON Path in jsonNew to the item that has the identifier information
-   * @returns {string} such as "beginDate - endData" or just "beginDate" if hasnt ended.
-   */
-  getIdentifier(object: any): string {
-    // The identifiers, if they exist, will be on the object or the first child
-    return this.getIdentifierAttempt(object) || this.getIdentifierAttempt(JsonDiffService.getTheObject(object));
-  }
-
-  private getIdentifierAttempt(object: any): string {
-    let ident: string = '';
-    if (object.startDate) {
-      ident += MiscUtils.prettyFormatDateTime(object.startDate);
-    }
-    if (object.endDate) {
-      ident += ' - ' + MiscUtils.prettyFormatDateTime(object.endDate);
-    }
-    if (object.dateInstalled) {
-      ident += MiscUtils.prettyFormatDateTime(object.dateInstalled);
-    }
-    if (object.dateRemoved) {
-      ident += ' - ' + MiscUtils.prettyFormatDateTime(object.dateRemoved);
-    }
-    return ident;
-  }
-
-  /* ****** Now methods for the normalised data structure (between intermediate and final output) ****** */
-
-  /**
-   * The given siteManagerDiffs is a list of each diff, one by one.  This sorts by the container & identifier so it is
-   * trivial to create a display form.
-   *
-   * @param siteManagerDiffs - the diffs, one by one
-   * @param oldJson - old ViewModel json
-   * @param newJson - new ViewModel json (the diff is how to get from old to new).
-   * @return NormalisedDiffs
-   */
-  getNormalisedDiffsList(siteManagerDiffs: DiffItem[]): NormalisedDiffs { // , oldJson: any, newJson: any
-    // The key is 'container:identifier' and the value is [array of each DiffItem]
-    let normalised: NormalisedDiffs = new NormalisedDiffs();
-    for (let diff of siteManagerDiffs) {
-      let key: string = this.getNormalKey(diff);
-      if (!normalised.values.has(key)) {
-        normalised.values.set(key, new Array<DiffItem>());//new DiffStruct());
-      }
-      normalised.values.get(key).push(diff);
-    }
-
-    return normalised;
-  }
-
-  private getNormalKey(diff: DiffItem) {
-    return diff.container + JsonDiffService.mapKeySeparator + diff.identifier;
-  }
-
-  /* ****** Now methods to create the final output - the HTML table showing differences ****** */
-
-  /**
-   *
-   * @param normalDiffs from getNormalisedDiffsList()
-   * @returns {string} HTML Table representation of the diffs
-   */
-  getJsonDiffsTable(normalDiffs: NormalisedDiffs): string {
-    let tableHtml: string = '';
-
-    let diffEntries: IterableIterator<[string, Array<DiffItem>]>;
-    let nextContainerDiff: IteratorResult<[string, Array<DiffItem>]>;
-    let mapKey: string;
-    let diffItems: DiffItem[];
-    let tableName: string;
-
-    diffEntries = normalDiffs.values.entries();
-
-    nextContainerDiff = diffEntries.next();
-    while (!nextContainerDiff.done) {
-      mapKey = nextContainerDiff.value[0];
-      diffItems = nextContainerDiff.value[1];
-      tableName = this.extractTableName(mapKey);
-
-      tableHtml += '<table class="table table-striped table-hover">';
-      tableHtml += '<caption>' + tableName + '<caption>';
-      tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
-        + '<th>Old value</th><th>New value</th></tr></thead>';
-      tableHtml += '<tbody>';
-      for (let diffItem of diffItems) {
-        if (diffItem.diffType === DiffType.NewArrayItem) {
-          for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
-            tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td></td><td>' +
-              this.getNameMapping(diffItem.newValue[key]) + '</td></tr>';
-          }
-        } else {
-          tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
-            + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>';
+        container = this.getContainer(diff);                        // eg. HumiditySensors
+        parent = this.getObject(newJson, this.getPathToItem(diff)); // eg. HumiditySensors/1 (a HumiditySensor)
+        item = this.getItem(diff);                                  // eg. notes (the notes field contains a difference)
+        identifier = this.getIdentifier(parent);                    // eg. <startDate> - <endDate>
+        switch (diff['kind']) {
+            case 'E':
+                lhs = diff['lhs'];
+                rhs = diff['rhs'];
+                if (this.isDeleted(parent)) {
+                    identifier = 'Deleted - ' + identifier;
+                    diffType = DiffType.DeletedArrayItem;
+                } else {
+                    diffType = DiffType.Edited;
+                }
+                break;
+            case 'N':
+                lhs = '';
+                rhs = diff['rhs'];
+                diffType = DiffType.New;
+                break;
+            case 'D':
+                lhs = diff['lhs'];
+                rhs = '';
+                diffType = DiffType.Deleted;
+                break;
+            case 'A':   // Array
+                let arrayDiffItems: DiffItem[] = this.parseDiffs(diff.item, newJson);
+                identifier = this.getIdentifier(diff.item.rhs);
+                for (let arrayDiffItem of arrayDiffItems) {
+                    arrayDiffItem.container = container;
+                    arrayDiffItem.item = diff.index;
+                    arrayDiffItem.identifier = 'New - ' + identifier;  //'new item ' + (diff.index + 1);
+                    if (arrayDiffItem.diffType === DiffType.New) {
+                        arrayDiffItem.diffType = DiffType.NewArrayItem;
+                    } else if (arrayDiffItem.diffType === DiffType.Deleted) {
+                        arrayDiffItem.diffType = DiffType.DeletedArrayItem;
+                    }
+                    diffItems.push(arrayDiffItem);
+                }
+                break;
+            default:
+                console.error('getJsonDiffsList - unhandled kind: ' + diff.kind);
         }
-      }
-      tableHtml += '</tbody></table>';
-      nextContainerDiff = diffEntries.next();
-    }
-    return tableHtml;
-  }
+        if (diffType !== null) {
+            let diffItem: DiffItem = new DiffItem(diffType, container, item, lhs, rhs, identifier);
+            diffItems.push(diffItem);
+        }
 
-  private onlyWantedFields(field: string) {
-    switch (field) {
-      case 'fieldMaps':
+        return diffItems;
+    }
+
+    isDeleted(item: any) {
+        if ('dateDeleted' in item && item.dateDeleted && item.dateDeleted.length > 0) {
+            return true;
+        }
         return false;
-      default:
-        return true;
     }
-  }
 
-  private extractTableName(key: string): string {
-    let regex = new RegExp('(.*?)' + JsonDiffService.mapKeySeparator + '(.*)');
-    let groups: RegExpExecArray;
-    if ((groups = regex.exec(key)) && groups.length >= 3) {
-      let part2: string = groups[2] ? ' (' + groups[2] + ')' : '';
-      return this.getNameMapping(groups[1]) + part2;
-    } else {
-      return 'no table name in key - groups length is: ' + groups.length;
+    /**
+     *
+     * @param diff - one of the diffs from deep-diff
+     * @returns {string} - the path with '/' separating components so acts as a JSONPath and can be used with our
+     * JsonPointerService
+     */
+    getPath(diff: IDiff): string {
+        return '/' + diff.path.join('/');
     }
-  }
 
-  private getNameMapping(key: string) {
-    if (this.attrMappingJson[key] === undefined) {
-      console.log(key + ' not in mapping');
-      return key;
-    } else {
-      return this.attrMappingJson[key];
+    /**
+     *
+     * @param diff
+     * @returns {string} - the path prior to the item (see getItem()) with '/' separating components so acts as a
+     * JSONPath and can be used with our JsonPointerService.  Or '' if none, which
+     * is the case with Array diffs.
+     */
+    getPathToItem(diff: IDiff): string {
+        let extract: string = '';
+        // Array diffs don't have a path
+        if (!diff.path) {
+            return '';
+        }
+        if (diff.path.length <= 1) {
+            extract = diff.path[0];
+        } else {
+            extract = diff.path.slice(0, diff.path.length - 1).join('/');
+        }
+
+        return '/' + extract;
     }
-  }
+
+    /**
+     *
+     * @param diff - one of the diffs from deep-diff
+     * @returns {string} - the new top-level item such as HumiditySensor.  Or '' if none, which
+     * is the case with Array diffs.
+     */
+    private getContainer(diff: IDiff): string {
+        // Array diffs don't have a path
+        if (!diff.path) {
+            return '';
+        }
+        return diff.path[0];  // maybe use that mapping
+    }
+
+    /**
+     *
+     * @param diff - one of the diffs from deep-diff
+     * @returns {string} - the path up to the item that is a difference such as Manufacturer.  Or '' if none, which
+     * is the case with Array diffs.
+     **/
+    getItem(diff: IDiff): string {
+        let thePath: string[] = diff.path;
+        // Array diffs don't have a path
+        if (!thePath) {
+            return '';
+        }
+        return thePath[thePath.length - 1];  // maybe use that mapping
+    }
+
+
+    /**
+     * Return the object pointed to by the pathToItem in the jsonNew
+     * @param jsonNew - viewModel JSON for the new object being displayed.  Belon
+     * @param pathToItem - JSON Path in jsonNew to the item that has the identifier information
+     * @returns {any} - the object
+     */
+    getObject(jsonNew: any, pathToItem: string): any {
+        let object: any = JsonPointerService.get(jsonNew, pathToItem);
+        if (!object) {
+            throw new Error('Unexpected error - path not in object - path: ' + pathToItem + ', object: ' + JSON.stringify(jsonNew));
+        }
+        return object;
+    }
+
+    /**
+     * The identifier of an object, such as "beginDate - endData" or just "beginDate" if hasnt ended.
+     * @param jsonNew - viewModel JSON for the new object being displayed.  Belon
+     * @param pathToItem - JSON Path in jsonNew to the item that has the identifier information
+     * @returns {string} such as "beginDate - endData" or just "beginDate" if hasnt ended.
+     */
+    getIdentifier(object: any): string {
+        // The identifiers, if they exist, will be on the object or the first child
+        return this.getIdentifierAttempt(object) || this.getIdentifierAttempt(JsonDiffService.getTheObject(object));
+    }
+
+    private getIdentifierAttempt(object: any): string {
+        let ident: string = '';
+        if (object.startDate) {
+            ident += MiscUtils.prettyFormatDateTime(object.startDate);
+        }
+        if (object.endDate) {
+            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.endDate);
+        }
+        if (object.dateInstalled) {
+            ident += MiscUtils.prettyFormatDateTime(object.dateInstalled);
+        }
+        if (object.dateRemoved) {
+            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.dateRemoved);
+        }
+        return ident;
+    }
+
+    /* ****** Now methods for the normalised data structure (between intermediate and final output) ****** */
+
+    /**
+     * The given siteManagerDiffs is a list of each diff, one by one.  This sorts by the container & identifier so it is
+     * trivial to create a display form.
+     *
+     * @param siteManagerDiffs - the diffs, one by one
+     * @param oldJson - old ViewModel json
+     * @param newJson - new ViewModel json (the diff is how to get from old to new).
+     * @return NormalisedDiffs
+     */
+    getNormalisedDiffsList(siteManagerDiffs: DiffItem[]): NormalisedDiffs { // , oldJson: any, newJson: any
+        // The key is 'container:identifier' and the value is [array of each DiffItem]
+        let normalised: NormalisedDiffs = new NormalisedDiffs();
+        for (let diff of siteManagerDiffs) {
+            let key: string = this.getNormalKey(diff);
+            if (!normalised.values.has(key)) {
+                normalised.values.set(key, new Array<DiffItem>());//new DiffStruct());
+            }
+            normalised.values.get(key).push(diff);
+        }
+
+        return normalised;
+    }
+
+    private getNormalKey(diff: DiffItem) {
+        return diff.container + JsonDiffService.mapKeySeparator + diff.identifier;
+    }
+
+    /* ****** Now methods to create the final output - the HTML table showing differences ****** */
+
+    /**
+     *
+     * @param normalDiffs from getNormalisedDiffsList()
+     * @returns {string} HTML Table representation of the diffs
+     */
+    getJsonDiffsTable(normalDiffs: NormalisedDiffs): string {
+        let tableHtml: string = '';
+
+        let diffEntries: IterableIterator<[string, Array<DiffItem>]>;
+        let nextContainerDiff: IteratorResult<[string, Array<DiffItem>]>;
+        let mapKey: string;
+        let diffItems: DiffItem[];
+        let tableName: string;
+
+        diffEntries = normalDiffs.values.entries();
+
+        nextContainerDiff = diffEntries.next();
+        while (!nextContainerDiff.done) {
+            mapKey = nextContainerDiff.value[0];
+            diffItems = nextContainerDiff.value[1];
+            tableName = this.extractTableName(mapKey);
+
+            tableHtml += '<table class="table table-striped table-hover">';
+            tableHtml += '<caption>' + tableName + '<caption>';
+            tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
+                + '<th>Old value</th><th>New value</th></tr></thead>';
+            tableHtml += '<tbody>';
+            for (let diffItem of diffItems) {
+                if (diffItem.diffType === DiffType.NewArrayItem) {
+                    for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
+                        tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td></td><td>' +
+                            this.getNameMapping(diffItem.newValue[key]) + '</td></tr>';
+                    }
+                } else {
+                    tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
+                        + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>';
+                }
+            }
+            tableHtml += '</tbody></table>';
+            nextContainerDiff = diffEntries.next();
+        }
+        return tableHtml;
+    }
+
+    private onlyWantedFields(field: string) {
+        switch (field) {
+            case 'fieldMaps':
+                return false;
+            default:
+                return true;
+        }
+    }
+
+    private extractTableName(key: string): string {
+        let regex = new RegExp('(.*?)' + JsonDiffService.mapKeySeparator + '(.*)');
+        let groups: RegExpExecArray;
+        if ((groups = regex.exec(key)) && groups.length >= 3) {
+            let part2: string = groups[2] ? ' (' + groups[2] + ')' : '';
+            return this.getNameMapping(groups[1]) + part2;
+        } else {
+            return 'no table name in key - groups length is: ' + groups.length;
+        }
+    }
+
+    private getNameMapping(key: string) {
+        if (this.attrMappingJson[key] === undefined) {
+            console.log(key + ' not in mapping');
+            return key;
+        } else {
+            return this.attrMappingJson[key];
+        }
+    }
 }
