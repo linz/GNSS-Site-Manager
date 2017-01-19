@@ -18,7 +18,7 @@
               title="Remove the antenna"
               (click)="removeItem(index)">
         <i class="glyphicon glyphicon-remove"></i>
-        <span class="hidden-xs">Remove</span>
+        <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
       </button>
     </span>
   </div>

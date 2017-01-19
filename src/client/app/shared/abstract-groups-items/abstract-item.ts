@@ -1,5 +1,6 @@
-import {GeodesyEvent, EventNames} from '../events-messages/Event';
-import {EventEmitter, DoCheck, OnInit} from '@angular/core';
+import { GeodesyEvent, EventNames } from '../events-messages/Event';
+import { EventEmitter, DoCheck, OnInit } from '@angular/core';
+import { DialogService } from '../index';
 
 export abstract class AbstractItem implements DoCheck, OnInit {
     protected isNew: boolean = false;
@@ -28,6 +29,20 @@ export abstract class AbstractItem implements DoCheck, OnInit {
      * Get the @Output returnEvents endpoint for the child to send events to the parent
      */
     abstract getReturnEvents(): EventEmitter<GeodesyEvent>;
+
+    /**
+     * Get the item name to be used in the subclasses and displayed in the HTML.
+     */
+    abstract getItemName(): string;
+
+  /**
+   * Creates an instance of the AbstractItem with the injected Services.
+   *
+   * @param {DialogService} dialogService - The injected DialogService.
+   */
+  constructor(
+    protected dialogService: DialogService
+  ) {}
 
     ngOnInit() {
         this.isOpen = this.getIndex() === 0 ? true : false;
@@ -79,21 +94,37 @@ export abstract class AbstractItem implements DoCheck, OnInit {
         this.lastGeodesyEvent.valueString = this.getGeodesyEvent().valueString;
     }
 
+    /**
+     * Remove an item from the UI and delete if it is an existing record.
+     */
     removeItem(index: number) {
-        let remove: boolean = true;
-        let reason: string = 'New item not needed';
-        if (! this.isNew) {
-            reason = prompt('Reason for deleting existing record?');
-            if (!reason) {
-                remove = false;
-            }
-        }
 
-        if (remove) {
-            console.log('child call removeItem(' + index + ')');
-            let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: reason};
-            this.getReturnEvents().emit(geodesyEvent);
-        }
+      let deleteReason: string = 'New item not needed';
+
+      if (this.isNew) {
+        this.deleteItem(index, deleteReason);
+      } else {
+          this.dialogService.confirmDeleteDialog(
+            this.getItemName(),
+            (deleteReason : string) => {
+               // ok callback
+               this.deleteItem(index, deleteReason);
+            },
+            () => {
+              // cancel callback
+              console.log('delete cancelled by user');
+            }
+          );
+      }
+    }
+
+    /**
+     *  Mark an item for deletion using the specified reason.
+     */
+    private deleteItem(index: number, deleteReason : string) {
+        console.log('child call removeItem(' + index + ')');
+        let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
+        this.getReturnEvents().emit(geodesyEvent);
     }
 
     getRemoveOrDeletedText(): string {
