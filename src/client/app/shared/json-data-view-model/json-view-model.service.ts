@@ -25,10 +25,8 @@ export class JsonViewModelService {
      * @return  translated ViewModelJson
      */
     public dataModelToViewModelJson(dataModelJson: any): SiteLogViewModel {
-        console.debug('dataModelToViewModelJson - dataModelJson: ', dataModelJson);
-
         let siteLogDataModel: SiteLogDataModel = <SiteLogDataModel> dataModelJson;
-        console.debug('siteLogDataModel: ', siteLogDataModel);
+        console.debug('dataModelToViewModelJson - siteLogDataModel: ', siteLogDataModel);
         let siteLogViewModel: SiteLogViewModel = <SiteLogViewModel>{};
         siteLogViewModel.siteLog = new ViewSiteLog();
 
@@ -78,6 +76,8 @@ export class JsonViewModelService {
         siteLogViewModel.siteLog.siteDataSource = siteLogDataModel['geo:siteLog'].siteDataSource;
         siteLogViewModel.siteLog.moreInformation = siteLogDataModel['geo:siteLog'].moreInformation;
         siteLogViewModel.siteLog.dataStreamsSet = siteLogDataModel['geo:siteLog'].dataStreamsSet;
+
+        console.debug('dataModelToViewModelJson - siteLogViewModel: ', siteLogViewModel);
 
         return siteLogViewModel;
     }

@@ -255,19 +255,33 @@ export class JsonDiffService {
 
     private getIdentifierAttempt(object: any): string {
         let ident: string = '';
-        if (object.startDate) {
+        if (object.startDate && this.isString(object.startDate)) {
             ident += MiscUtils.prettyFormatDateTime(object.startDate);
         }
-        if (object.endDate) {
+        if (object.endDate && this.isString(object.endDate)) {
             ident += ' - ' + MiscUtils.prettyFormatDateTime(object.endDate);
         }
-        if (object.dateInstalled) {
+        if (object.dateInstalled && this.isString(object.dateInstalled)) {
             ident += MiscUtils.prettyFormatDateTime(object.dateInstalled);
         }
-        if (object.dateRemoved) {
+        if (object.dateRemoved && this.isString(object.dateRemoved)) {
             ident += ' - ' + MiscUtils.prettyFormatDateTime(object.dateRemoved);
         }
         return ident;
+    }
+
+    /**
+     * Currently not all viewModels have been created and so their dates may be objects instead of a string
+     *
+     * @param date to check if a string or object
+     * @return {boolean} true if given date value is a string
+     */
+    private isString(date: any): boolean {
+        if (date !== date.toString()) {
+            console.warn('expecting a string for date - currently an object - probably because from a dataModel instead of a view:', date);
+            return false;
+        }
+        return true;
     }
 
     /* ****** Now methods for the normalised data structure (between intermediate and final output) ****** */
@@ -307,13 +321,15 @@ export class JsonDiffService {
      * @returns {string} HTML Table representation of the diffs
      */
     getJsonDiffsTable(normalDiffs: NormalisedDiffs): string {
-        let tableHtml: string = '';
-
         let diffEntries: IterableIterator<[string, Array<DiffItem>]>;
         let nextContainerDiff: IteratorResult<[string, Array<DiffItem>]>;
         let mapKey: string;
         let diffItems: DiffItem[];
-        let tableName: string;
+        let itemHeader: string;
+        let itemsPrinted: number = 0;
+        let itemsBeforePrintHeader: number = 10;
+
+        let tableHtml: string = '<table class="table table-striped table-hover">\n';
 
         diffEntries = normalDiffs.values.entries();
 
@@ -321,40 +337,70 @@ export class JsonDiffService {
         while (!nextContainerDiff.done) {
             mapKey = nextContainerDiff.value[0];
             diffItems = nextContainerDiff.value[1];
-            tableName = this.extractTableName(mapKey);
+            itemHeader = this.extractItemHeader(mapKey);
 
-            tableHtml += '<table class="table table-striped table-hover">';
-            tableHtml += '<caption>' + tableName + '<caption>';
-            tableHtml += '<thead><tr><th title="Attribute name">Attribute</th>'
-                + '<th>Old value</th><th>New value</th></tr></thead>';
-            tableHtml += '<tbody>';
-            for (let diffItem of diffItems) {
-                if (diffItem.diffType === DiffType.NewArrayItem) {
-                    for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
-                        tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td></td><td>' +
-                            this.getNameMapping(diffItem.newValue[key]) + '</td></tr>';
-                    }
+            tableHtml += '<thead><tr><th colspan="3">&nbsp</th></tr>\n';
+            tableHtml += '<tr><th colspan="3">' + itemHeader + '</th></tr>\n';
+            if (this.isDeletedDiff(diffItems)) {
+                tableHtml += '</thead>\n<tbody>\n';
+                tableHtml += '<tr><td colspan="3">Deleted</td></tr></tbody>\n';
+            } else {
+                // If the first item is a DiffType.NewArrayItem then don't want 'OldValue' column
+                if (diffItems.length > 0 && diffItems[0].diffType === DiffType.NewArrayItem) {
+                    itemsPrinted += itemsBeforePrintHeader;  // to force full header to print next time
+                    tableHtml += '<tr><th title="Attribute name">Attribute</th>';
+                    tableHtml += '<th colspan="2">Value</th></tr>\n';
                 } else {
-                    tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
-                        + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>';
+                    if (itemsPrinted === 0 || (itemsPrinted / itemsBeforePrintHeader >= 1)) {
+                        itemsPrinted = 0;
+                        tableHtml += '<tr><th title="Attribute name">Attribute</th>';
+                        tableHtml += '<th>Old value</th><th>New value</th></tr>\n';
+                    }
+                }
+                tableHtml += '</thead>\n<tbody>\n';
+                for (let diffItem of diffItems) {
+                    if (diffItem.diffType === DiffType.NewArrayItem) {
+                        for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
+                            itemsPrinted++;
+                            tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td colspan="2">' +
+                                this.getNameMapping(diffItem.newValue[key]) + '</td></tr>\n';
+                        }
+                    } else {
+                        itemsPrinted++;
+                        tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
+                            + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>\n';
+                    }
                 }
             }
-            tableHtml += '</tbody></table>';
+            tableHtml += '</tbody>\n';
             nextContainerDiff = diffEntries.next();
         }
+        tableHtml += '</table>\n';
         return tableHtml;
+    }
+
+    /**
+     * @param diffs
+     * @return boolean - if the diffs have DiffType === DeletedArrayItem
+     */
+    private isDeletedDiff(diffs: DiffItem[]): boolean {
+        // only need to check one
+        return (diffs.length > 0 && diffs[0].diffType === DiffType.DeletedArrayItem);
     }
 
     private onlyWantedFields(field: string) {
         switch (field) {
             case 'fieldMaps':
+            case 'dateDeleted':
+            case 'dateInserted':
+            case 'deletedReason':
                 return false;
             default:
                 return true;
         }
     }
 
-    private extractTableName(key: string): string {
+    private extractItemHeader(key: string): string {
         let regex = new RegExp('(.*?)' + JsonDiffService.mapKeySeparator + '(.*)');
         let groups: RegExpExecArray;
         if ((groups = regex.exec(key)) && groups.length >= 3) {
