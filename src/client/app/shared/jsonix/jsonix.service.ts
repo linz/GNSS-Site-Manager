@@ -63,27 +63,19 @@ export class JsonixService {
     };
 
     /**
-     * Given 'valid' JSON insance, translate to valid GeodesyMl.  The json input can either be a string or an object.
+     * Given 'valid' JSON insance, translate to valid GeodesyMl.
      * @param json that is 'valid' to translate
      * @returns {string} the valid GeodesyMl
      */
-    jsonToGeodesyML(json: any): string {
-        let jsonObj: string = '';
+    jsonToGeodesyML(jsonObj: Object): string {
 
-        // Ensure JSON is an object
-        if (json !== null && typeof json === 'object') {
-            jsonObj = json;
-        } else {
-            jsonObj = JSON.parse(json);
-        }
-        // console.debug('JsonixService - jsonToGeodesyML - json (length): ', jsonObj.length);
         console.debug('JsonixService - jsonToGeodesyML - json: ', jsonObj);
 
         // before marshalling, traverse the object fix up any elements that jsonix can't handle
         this.traverseJsonObject(jsonObj);
 
         let geodesyMl: string = marshaller.marshalString(jsonObj);
-        // console.log('JsonixService - jsonToGeodesyML - translated geodesyMl: ', geodesyMl);
+
         console.log('JsonixService - jsonToGeodesyML - translated geodesyMl (length): ', geodesyMl.length);
         return geodesyMl;
     }

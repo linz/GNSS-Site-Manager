@@ -1,7 +1,6 @@
-import {SiteLogDataModel} from './data-model/site-log-data-model';
 export class JsonViewModelServiceSpecData {
-    public static data(): SiteLogDataModel {
-        return <SiteLogDataModel>{
+    public static data(): any {
+        return {
             'geo:siteLog': {
                 TYPE_NAME: 'GEODESYML_0_3.SiteLogType',
                 description: {

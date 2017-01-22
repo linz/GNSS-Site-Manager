@@ -1,11 +1,11 @@
+import {SiteLogDataModel} from './data-model/site-log-data-model';
 import {DataViewTranslatorService} from './data-view-translator';
 import {JsonViewModelServiceSpecData} from './json-view-model.service.spec.data';
 import {FieldMaps} from './field-maps';
-import {SiteLogDataModel} from './data-model/site-log-data-model';
 import {HumiditySensorViewModel} from '../../humidity-sensor/humidity-sensor-view-model';
 
 export function main() {
-  let completeValidSitelog: SiteLogDataModel = JsonViewModelServiceSpecData.data();
+  let completeValidSitelog: any = JsonViewModelServiceSpecData.data();
   let fieldMappings: FieldMaps = new HumiditySensorViewModel().getFieldMaps();
 
   describe('Json view translator service', () => {
@@ -19,7 +19,7 @@ export function main() {
     });
 
     it('should translate d2v for humiditySensors', () => {
-      let humiditySensorsData: any = completeValidSitelog['geo:siteLog'].humiditySensors;
+      let humiditySensorsData: any[] = new SiteLogDataModel(completeValidSitelog).humiditySensors;
       expect(humiditySensorsData).toBeDefined();
       let firstHSD: any = humiditySensorsData[0];
 
@@ -44,7 +44,7 @@ export function main() {
     });
 
     it('should translate v2d for humiditySensors', () => {
-      let humiditySensorsData: any = completeValidSitelog['geo:siteLog'].humiditySensors;
+      let humiditySensorsData: any = new SiteLogDataModel(completeValidSitelog).humiditySensors;
       expect(humiditySensorsData).toBeDefined();
       let firstHSD: any = humiditySensorsData[0].humiditySensor;
 

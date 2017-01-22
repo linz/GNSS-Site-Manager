@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {SiteLogDataModel, DataSiteLog} from './data-model/site-log-data-model';
+import {SiteLogDataModel} from './data-model/site-log-data-model';
 import {GnssAntennaViewModel} from '../../gnss-antenna/gnss-antenna-view-model';
 import {FrequencyStandardViewModel} from '../../frequency-standard/frequency-standard-view-model';
 import {HumiditySensorViewModel} from '../../humidity-sensor/humidity-sensor-view-model';
@@ -15,7 +15,6 @@ import {FieldMaps} from './field-maps';
  * This class provides the service to convert from 'Geodesy data model JSON' (from the XML via Jsonix) to
  * 'Geodesy view model JSON' as consumed by the UI component classes.
  */
-//TODO: view model refactor: delete commented out code once we do not need to refer to it anymore
 @Injectable()
 export class JsonViewModelService {
 
@@ -25,57 +24,36 @@ export class JsonViewModelService {
      * @return  translated ViewModelJson
      */
     public dataModelToViewModelJson(dataModelJson: any): SiteLogViewModel {
-        let siteLogDataModel: SiteLogDataModel = <SiteLogDataModel> dataModelJson;
+        let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel(dataModelJson);
         console.debug('dataModelToViewModelJson - siteLogDataModel: ', siteLogDataModel);
+
         let siteLogViewModel: SiteLogViewModel = <SiteLogViewModel>{};
         siteLogViewModel.siteLog = new ViewSiteLog();
 
-        // siteLogViewModel.siteIdentification = SiteIdentification.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteLocation = SiteLocation.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteIdentification = SiteIdentification.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteLocation = SiteLocation.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.gnssReceivers = GnssReceivers.translateDataToView(siteLogDataModel);
-        siteLogViewModel.siteLog.gnssAntennas = this.dataToViewModel(siteLogDataModel['geo:siteLog'].gnssAntennas, GnssAntennaViewModel);
-        // siteLogViewModel.surveyedLocalTies = SurveyedLocalTies.translateDataToView(siteLogDataModel);
-        siteLogViewModel.siteLog.frequencyStandards = this.dataToViewModel(siteLogDataModel['geo:siteLog'].frequencyStandards,
+        siteLogViewModel.siteLog.gnssAntennas = this.dataToViewModel(siteLogDataModel.gnssAntennas, GnssAntennaViewModel);
+        siteLogViewModel.siteLog.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards,
             FrequencyStandardViewModel);
-        // let humiditySensors: HumiditySensors = new HumiditySensors();
-
-        // let dataViewTranslatorService: DataViewTranslatorService = new DataViewTranslatorService(humiditySensorViewModel.fieldMapping());
-        // dataViewTranslatorService.translateD2V(siteLogDataModel)
-        // humiditySensorViewModel.createFromDataModel(siteLogDataModel['geo:siteLog'].humiditySensors);
-        siteLogViewModel.siteLog.humiditySensors = this.dataToViewModel(siteLogDataModel['geo:siteLog'].humiditySensors,
+        siteLogViewModel.siteLog.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors,
             HumiditySensorViewModel);
-        siteLogViewModel.siteLog.pressureSensors = this.dataToViewModel(siteLogDataModel['geo:siteLog'].pressureSensors,
+        siteLogViewModel.siteLog.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors,
             PressureSensorViewModel);
-        siteLogViewModel.siteLog.temperatureSensors = this.dataToViewModel(siteLogDataModel['geo:siteLog'].temperatureSensors,
+        siteLogViewModel.siteLog.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors,
             TemperatureSensorViewModel);
-        siteLogViewModel.siteLog.waterVaporSensors = this.dataToViewModel(siteLogDataModel['geo:siteLog'].waterVaporSensors,
+        siteLogViewModel.siteLog.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors,
             WaterVaporSensorViewModel);
-        // siteLogViewModel.siteOwner = SiteOwner.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteContact = SiteContact.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteMetadataCustodian = SiteMetadataCustodian.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteDataSource = SiteDataSource.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.moreInformation = MoreInformation.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.dataStreamsSet = DataStreamsSet.translateDataToView(siteLogDataModel);
 
         // For now just copy the DataModel parts over that haven't had translate to view written yet
-        siteLogViewModel.siteLog.siteIdentification = siteLogDataModel['geo:siteLog'].siteIdentification;
-        siteLogViewModel.siteLog.siteLocation = siteLogDataModel['geo:siteLog'].siteLocation;
-        siteLogViewModel.siteLog.gnssReceivers = siteLogDataModel['geo:siteLog'].gnssReceivers;
-        //siteLogViewModel.siteLog.gnssAntennas = siteLogDataModel['geo:siteLog'].gnssAntennas;
-        siteLogViewModel.siteLog.surveyedLocalTies = siteLogDataModel['geo:siteLog'].surveyedLocalTies;
-        //siteLogViewModel.siteLog.frequencyStandards = siteLogDataModel['geo:siteLog'].frequencyStandards;
-        // siteLogViewModel.siteLog.humiditySensors = siteLogDataModel['geo:siteLog'].humiditySensors;
-        // siteLogViewModel.siteLog.pressureSensors = siteLogDataModel['geo:siteLog'].pressureSensors;
-        // siteLogViewModel.siteLog.temperatureSensors = siteLogDataModel['geo:siteLog'].temperatureSensors;
-        // siteLogViewModel.siteLog.waterVaporSensors = siteLogDataModel['geo:siteLog'].waterVaporSensors;
-        siteLogViewModel.siteLog.siteOwner = siteLogDataModel['geo:siteLog'].siteOwner;
-        siteLogViewModel.siteLog.siteContact = siteLogDataModel['geo:siteLog'].siteContact;
-        siteLogViewModel.siteLog.siteMetadataCustodian = siteLogDataModel['geo:siteLog'].siteMetadataCustodian;
-        siteLogViewModel.siteLog.siteDataSource = siteLogDataModel['geo:siteLog'].siteDataSource;
-        siteLogViewModel.siteLog.moreInformation = siteLogDataModel['geo:siteLog'].moreInformation;
-        siteLogViewModel.siteLog.dataStreamsSet = siteLogDataModel['geo:siteLog'].dataStreamsSet;
+        siteLogViewModel.siteLog.siteIdentification = siteLogDataModel.siteIdentification;
+        siteLogViewModel.siteLog.siteLocation = siteLogDataModel.siteLocation;
+        siteLogViewModel.siteLog.gnssReceivers = siteLogDataModel.gnssReceivers;
+
+        siteLogViewModel.siteLog.surveyedLocalTies = siteLogDataModel.surveyedLocalTies;
+        siteLogViewModel.siteLog.siteOwner = siteLogDataModel.siteOwner;
+        siteLogViewModel.siteLog.siteContact = siteLogDataModel.siteContact;
+        siteLogViewModel.siteLog.siteMetadataCustodian = siteLogDataModel.siteMetadataCustodian;
+        siteLogViewModel.siteLog.siteDataSource = siteLogDataModel.siteDataSource;
+        siteLogViewModel.siteLog.moreInformation = siteLogDataModel.moreInformation;
+        siteLogViewModel.siteLog.dataStreamsSet = siteLogDataModel.dataStreamsSet;
 
         console.debug('dataModelToViewModelJson - siteLogViewModel: ', siteLogViewModel);
 
@@ -85,56 +63,24 @@ export class JsonViewModelService {
     public viewModelToDataModelJson(viewModelJson: SiteLogViewModel): SiteLogDataModel {
         console.debug('viewModelToDataModelJson - viewModelJson: ', viewModelJson);
 
-        // let siteLogDataModel: SiteLogDataModel = <SiteLogDataModel> dataModelJson;
-        // console.debug('siteLogDataModel: ', siteLogDataModel);
-        let siteLogDataModel: SiteLogDataModel = <SiteLogDataModel>{};
-        siteLogDataModel['geo:siteLog'] = <DataSiteLog>{};
+        let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({});
 
-        // siteLogViewModel.siteIdentification = SiteIdentification.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteLocation = SiteLocation.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteIdentification = SiteIdentification.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteLocation = SiteLocation.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.gnssReceivers = GnssReceivers.translateDataToView(siteLogDataModel);
-        siteLogDataModel['geo:siteLog'].gnssAntennas = this.viewToDataModel(viewModelJson.siteLog.gnssAntennas);
-        // siteLogViewModel.surveyedLocalTies = SurveyedLocalTies.translateDataToView(siteLogDataModel);
-        siteLogDataModel['geo:siteLog'].frequencyStandards = this.viewToDataModel(viewModelJson.siteLog.frequencyStandards);
-        // let humiditySensors: HumiditySensors = new HumiditySensors();
-
-        // let dataViewTranslatorService: DataViewTranslatorService = new DataViewTranslatorService(humiditySensorViewModel.fieldMapping());
-        // dataViewTranslatorService.translateD2V(siteLogDataModel)
-        // humiditySensorViewModel.createFromDataModel(siteLogDataModel['geo:siteLog'].humiditySensors);
-        siteLogDataModel['geo:siteLog'].humiditySensors = this.viewToDataModel(viewModelJson.siteLog.humiditySensors);
-        siteLogDataModel['geo:siteLog'].pressureSensors = this.viewToDataModel(viewModelJson.siteLog.pressureSensors);
-        siteLogDataModel['geo:siteLog'].temperatureSensors = this.viewToDataModel(viewModelJson.siteLog.temperatureSensors);
-        siteLogDataModel['geo:siteLog'].waterVaporSensors = this.viewToDataModel(viewModelJson.siteLog.waterVaporSensors);
-        //   console.debug('translateToView subscribe fn - siteIdentification: ', siteLogViewModel.siteIdentification);
-        // siteLogViewModel.pressureSensors = PressureSensors.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.temperatureSensors = TemperatureSensors.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.waterVaporSensors = WaterVaporSensors.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteOwner = SiteOwner.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteContact = SiteContact.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteMetadataCustodian = SiteMetadataCustodian.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.siteDataSource = SiteDataSource.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.moreInformation = MoreInformation.translateDataToView(siteLogDataModel);
-        // siteLogViewModel.dataStreamsSet = DataStreamsSet.translateDataToView(siteLogDataModel);
-
-        // For now just copy the DataModel parts over that haven't had translate to view written yet
-        siteLogDataModel['geo:siteLog'].siteIdentification = viewModelJson.siteLog.siteIdentification;
-        siteLogDataModel['geo:siteLog'].siteLocation = viewModelJson.siteLog.siteLocation;
-        siteLogDataModel['geo:siteLog'].gnssReceivers = viewModelJson.siteLog.gnssReceivers;
-        //siteLogDataModel['geo:siteLog'].gnssAntennas = viewModelJson.siteLog.gnssAntennas;
-        siteLogDataModel['geo:siteLog'].surveyedLocalTies = viewModelJson.siteLog.surveyedLocalTies;
-        //siteLogDataModel['geo:siteLog'].frequencyStandards = viewModelJson.siteLog.frequencyStandards;
-        // siteLogDataModel['geo:siteLog'].humiditySensors = viewModelJson.siteLog.humiditySensors;
-        // siteLogDataModel['geo:siteLog'].pressureSensors = viewModelJson.siteLog.pressureSensors;
-        //siteLogDataModel['geo:siteLog'].temperatureSensors = viewModelJson.siteLog.temperatureSensors;
-        //siteLogDataModel['geo:siteLog'].waterVaporSensors = viewModelJson.siteLog.waterVaporSensors;
-        siteLogDataModel['geo:siteLog'].siteOwner = viewModelJson.siteLog.siteOwner;
-        siteLogDataModel['geo:siteLog'].siteContact = viewModelJson.siteLog.siteContact;
-        siteLogDataModel['geo:siteLog'].siteMetadataCustodian = viewModelJson.siteLog.siteMetadataCustodian;
-        siteLogDataModel['geo:siteLog'].siteDataSource = viewModelJson.siteLog.siteDataSource;
-        siteLogDataModel['geo:siteLog'].moreInformation = viewModelJson.siteLog.moreInformation;
-        siteLogDataModel['geo:siteLog'].dataStreamsSet = viewModelJson.siteLog.dataStreamsSet;
+        siteLogDataModel.gnssAntennas = this.viewToDataModel(viewModelJson.siteLog.gnssAntennas);
+        siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModelJson.siteLog.frequencyStandards);
+        siteLogDataModel.humiditySensors = this.viewToDataModel(viewModelJson.siteLog.humiditySensors);
+        siteLogDataModel.pressureSensors = this.viewToDataModel(viewModelJson.siteLog.pressureSensors);
+        siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModelJson.siteLog.temperatureSensors);
+        siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModelJson.siteLog.waterVaporSensors);
+        siteLogDataModel.siteIdentification = viewModelJson.siteLog.siteIdentification;
+        siteLogDataModel.siteLocation = viewModelJson.siteLog.siteLocation;
+        siteLogDataModel.gnssReceivers = viewModelJson.siteLog.gnssReceivers;
+        siteLogDataModel.surveyedLocalTies = viewModelJson.siteLog.surveyedLocalTies;
+        siteLogDataModel.siteOwner = viewModelJson.siteLog.siteOwner;
+        siteLogDataModel.siteContact = viewModelJson.siteLog.siteContact;
+        siteLogDataModel.siteMetadataCustodian = viewModelJson.siteLog.siteMetadataCustodian;
+        siteLogDataModel.siteDataSource = viewModelJson.siteLog.siteDataSource;
+        siteLogDataModel.moreInformation = viewModelJson.siteLog.moreInformation;
+        siteLogDataModel.dataStreamsSet = viewModelJson.siteLog.dataStreamsSet;
 
         return siteLogDataModel;
     }

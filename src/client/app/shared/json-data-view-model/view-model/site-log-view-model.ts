@@ -23,7 +23,7 @@ export class ViewSiteLog {
     pressureSensors: PressureSensorViewModel[];
     temperatureSensors: TemperatureSensorViewModel[];
     waterVaporSensors: any[];
-    siteOwner: any[];
+    siteOwner: any;
     siteContact: any[];
     siteMetadataCustodian: any;
     siteDataSource: any;

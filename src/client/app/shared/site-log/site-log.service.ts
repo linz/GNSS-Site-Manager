@@ -164,7 +164,13 @@ export class SiteLogService {
         console.log('saveSiteLog - siteLogViewModel: ', siteLogViewModel);
         let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModelJson(siteLogViewModel);
         console.log('saveSiteLog - siteLogDataModel: ', siteLogDataModel);
-        let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogDataModel);
+
+        // wrap the JSON object in a "geo:siteLog" element before converting to GeodesyML
+        let siteLogJsonObj : any = {
+            'geo:siteLog' : siteLogDataModel
+        };
+
+        let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJsonObj);
         // Add wrapper element
         let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.3"' +
             ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.3" xmlns:gml="http://www.opengis.net/gml/3.2"' +

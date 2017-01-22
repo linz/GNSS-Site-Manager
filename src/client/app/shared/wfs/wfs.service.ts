@@ -237,6 +237,6 @@ export class WFSService {
     }
 
     private convertWFSQueryToML(jsonQuery: string): string {
-        return this.jsonixService.jsonToGeodesyML(jsonQuery);
+        return this.jsonixService.jsonToGeodesyML(JSON.parse(jsonQuery));
     }
 }

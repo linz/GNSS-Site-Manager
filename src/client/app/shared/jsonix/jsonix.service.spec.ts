@@ -111,7 +111,7 @@ export function main() {
                   }
                 }`;
       console.log('resultant JSON (length): ', wfsJson.length);
-      let wfsBackAgain: string = jsonixService.jsonToGeodesyML(wfsJson);
+      let wfsBackAgain: string = jsonixService.jsonToGeodesyML(JSON.parse(wfsJson));
       console.log('wfs xml marshalled from unmarshalled json (length): ', wfsBackAgain.length);
       expect(wfsBackAgain).not.toBeNull();
     });
