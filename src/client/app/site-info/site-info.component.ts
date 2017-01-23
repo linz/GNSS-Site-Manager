@@ -26,7 +26,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteDataSource: any = {};
   private receivers: Array<any> = [];
   private surveyedLocalTies: Array<any> = [];
-  private episodicEffects: Array<any> = [];
+  private localEpisodicEvents: Array<any> = [];
   private humiditySensors: Array<any> = [];
   private pressureSensors: Array<any> = [];
   private temperatureSensors: Array<any> = [];
@@ -48,14 +48,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isMetaCustodianOpen: false,
     isReceiverGroupOpen: false,
     isReceiversOpen: [],
-    isEpisodicEffectGroupOpen: false,
-    isEpisodicEffectOpen: [],
+    isLocalEpisodicEventGroupOpen: false,
+    isLocalEpisodicEventOpen: [],
+    hasNewLocalEpisodicEvent: false,
     hasNewSiteContact: false,
     hasNewSiteMetadataCustodian: false,
     hasNewSiteDataCenter: false,
     hasNewSiteDataSource: false,
     hasNewReceiver: false,
-    hasNewEpisodicEffect: false,
     isHumiditySensorsGroupOpen: false,
     isHumiditySensorsOpen: [],
     hasNewHumiditySensor: false,
@@ -103,7 +103,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogModelXXX = {
       gnssReceivers: [],
       surveyedLocalTies: [],
-      localEpisodicEventsSet: [],
+      localEpisodicEvents: [],
       humiditySensors: [],
       pressureSensors: [],
       temperatureSensors: [],
@@ -113,7 +113,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin = {
       gnssReceivers: [],
       surveyedLocalTies: [],
-      localEpisodicEventsSet: [],
+      localEpisodicEvents: [],
       humiditySensors: [],
       pressureSensors: [],
       temperatureSensors: [],
@@ -135,12 +135,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.isLoading =  true;
     this.submitted = false;
     this.status.hasNewReceiver = false;
-    this.status.hasNewEpisodicEffect = false;
+    this.status.hasNewLocalEpisodicEvent = false;
     this.status.isReceiversOpen.length = 0;
-    this.status.isEpisodicEffectOpen.length = 0;
+    this.status.isLocalEpisodicEventOpen.length = 0;
     this.receivers.length = 0;
     this.surveyedLocalTies.length = 0;
-    this.episodicEffects.length = 0;
+    this.localEpisodicEvents.length = 0;
     this.humiditySensors.length = 0;
     this.pressureSensors.length = 0;
     this.temperatureSensors.length = 0;
@@ -167,7 +167,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
           this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
-          this.setEpisodicEffects(this.siteLogModel.localEpisodicEventsSet);
+          this.setLocalEpisodicEvents(this.siteLogModel.localEpisodicEvents);
+          this.setWaterVaporSensors(this.siteLogModel.waterVaporSensors);
+
           this.backupSiteLogJson();
           this.isLoading = false;
           this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
@@ -178,7 +180,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           this.siteLogModel = {
             gnssReceivers: [],
             surveyedLocalTies: [],
-            localEpisodicEventsSet: [],
+            localEpisodicEvents: [],
             humiditySensors: [],
             pressureSensors: [],
             temperatureSensors: [],
@@ -205,7 +207,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status = null;
     this.receivers.length = 0;
     this.surveyedLocalTies.length = 0;
-    this.episodicEffects.length = 0;
+    this.localEpisodicEvents.length = 0;
     this.humiditySensors.length = 0;
     this.pressureSensors.length = 0;
     this.temperatureSensors.length = 0;
@@ -240,11 +242,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewSiteDataSource = false;
         that.status.hasNewReceiver = false;
         that.status.hasNewSurveyedLocalTie = false;
+        that.status.hasNewLocalEpisodicEvent = false;
         that.status.hasNewHumiditySensor = false;
         that.status.hasNewPressureSensor = false;
         that.status.hasNewTemperatureSensor = false;
         that.status.hasNewWaterVaporSensor = false;
-        that.status.hasNewEpisodicEffect = false;
         let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
         siteLogViewModel.siteLog=that.siteLogModel;
         that.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
@@ -280,6 +282,44 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   public backupSiteLogJson() {
     this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
+  }
+
+  /**
+   * Set current and previous water vapor sensors, and their show/hide flags
+   */
+  private setWaterVaporSensors(waterVaporSensors: any) {
+    this.status.isWaterVaporSensorsOpen = [];
+    let currentWaterVaporSensor: any = null;
+    for (let waterVaporSensorObj of waterVaporSensors) {
+      currentWaterVaporSensor = this.jsonCheckService.getValidWaterVaporSensor(waterVaporSensorObj.waterVaporSensor);
+      this.waterVaporSensors.push(currentWaterVaporSensor);
+      this.status.isWaterVaporSensorsOpen.push(false);
+    }
+    this.waterVaporSensors.sort(this.compareEffectiveStartDates);
+
+    // the first item in the array is open by default
+    this.status.isWaterVaporSensorsOpen.pop();
+    this.status.isWaterVaporSensorsOpen.unshift(true);
+  }
+
+  /**
+   * Set current and previous episodic effects, and their show/hide flags
+   */
+  private setLocalEpisodicEvents(EpisodicEventset: any) {
+    this.status.isLocalEpisodicEventOpen = [];
+    for (let episodicEffectWrapper of EpisodicEventset) {
+      let episodicEffect = this.jsonCheckService.getValidLocalEpisodicEvent(episodicEffectWrapper.localEpisodicEvents);
+      this.localEpisodicEvents.push(episodicEffect);
+      this.status.isLocalEpisodicEventOpen.push(false);
+    }
+
+    // Sort by effective start dates for all previous episodic effects
+    this.localEpisodicEvents.sort(this.compareEffectiveStartDates);
+
+    // The first episodic effect after sorting is the current one and should be open by default
+    if (this.status.isLocalEpisodicEventOpen.length > 0) {
+      this.status.isLocalEpisodicEventOpen[0] = true;
+    }
   }
 
   /**
@@ -321,26 +361,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // the first item in the array is open by default
     this.status.isSurveyedLocalTiesOpen.pop();
     this.status.isSurveyedLocalTiesOpen.unshift(true);
-  }
-
-  /**
-   * Set current and previous episodic effects, and their show/hide flags
-   */
-  private setEpisodicEffects(episodicEffectSet: any) {
-    this.status.isEpisodicEffectOpen = [];
-    for (let episodicEffectWrapper of episodicEffectSet) {
-      let episodicEffect = this.jsonCheckService.getValidEpisodicEffect(episodicEffectWrapper.localEpisodicEvents);
-      this.episodicEffects.push(episodicEffect);
-      this.status.isEpisodicEffectOpen.push(false);
-    }
-
-    // Sort by effective start dates for all previous episodic effects
-    this.episodicEffects.sort(this.compareEffectiveStartDates);
-
-    // The first episodic effect after sorting is the current one and should be open by default
-    if (this.status.isEpisodicEffectOpen.length > 0) {
-      this.status.isEpisodicEffectOpen[0] = true;
-    }
   }
 
   /**
