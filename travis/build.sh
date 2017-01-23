@@ -6,7 +6,7 @@ set -e
 npm install
 typings install
 xvfb-run npm run test
-npm run build.prod -- --config-env test
+npm run build.prod -- --config-env dev
 
 if [ "${TRAVIS_PULL_REQUEST}" = "false" ]; then
     aws configure set aws_access_key_id "${TRAVIS_AWS_ACCESS_KEY_ID}" --profile geodesy
