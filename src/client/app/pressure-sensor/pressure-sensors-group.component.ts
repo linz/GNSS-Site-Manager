@@ -35,13 +35,9 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
   }
 
   compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
-    if (obj1 === null || obj2 === null) {
-      return 0;
-    } else {
-      let date1: string = obj1.startDate;
-      let date2: string = obj2.startDate;
-      return AbstractGroup.compareDates(date1, date2);
-    }
+    let date1: string = obj1.startDate;
+    let date2: string = obj2.startDate;
+    return AbstractGroup.compareDates(date1, date2);
   }
 
   newViewModelItem(): PressureSensorViewModel {

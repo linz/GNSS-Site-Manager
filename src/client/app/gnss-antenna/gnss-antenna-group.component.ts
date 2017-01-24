@@ -33,13 +33,9 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
   }
 
   compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
-    if (obj1 === null || obj2 === null) {
-      return 0;
-    } else {
-      let date1: string = obj1.dateInstalled;
-      let date2: string = obj2.dateRemoved;
-      return AbstractGroup.compareDates(date1, date2);
-    }
+    let date1: string = obj1.dateInstalled;
+    let date2: string = obj2.dateRemoved;
+    return AbstractGroup.compareDates(date1, date2);
   }
 
   newViewModelItem(): GnssAntennaViewModel {
