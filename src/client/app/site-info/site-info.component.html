@@ -129,10 +129,10 @@
                              [siteLogOrigin]="siteLogOrigin"></gnss-receiver>
         <gnss-antenna-group [siteLogModel]="siteLogModel"
                             [originalSiteLogModel]="siteLogOrigin"></gnss-antenna-group>
-        <gnss-surveyed-local-tie [status]="status"
-                                 [surveyedLocalTies]="surveyedLocalTies"
-                                 [siteLogModel]="siteLogModel"
-                                 [siteLogOrigin]="siteLogOrigin"></gnss-surveyed-local-tie>
+          
+        <surveyed-local-ties-group [siteLogModel]="siteLogModel"
+                                  [originalSiteLogModel]="siteLogOrigin"></surveyed-local-ties-group>
+
         <frequency-standard-group [siteLogModel]="siteLogModel"
                                   [originalSiteLogModel]="siteLogOrigin"></frequency-standard-group>
 
