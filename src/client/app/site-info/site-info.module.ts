@@ -5,7 +5,7 @@ import { SiteInfoComponent } from './site-info.component';
 import { ResponsiblePartyModule } from '../responsible-party/responsible-party.module';
 import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
 import { GnssAntennaModule } from '../gnss-antenna/gnss-antenna.module';
-import { SurveyedLocalTiesModule } from '../surveyed-local-ties/surveyed-local-ties.module';
+import { SurveyedLocalTieModule } from '../surveyed-local-tie/surveyed-local-tie.module';
 import { FrequencyStandardModule } from '../frequency-standard/frequency-standard.module';
 import { LocalEpisodicEventModule } from '../local-episodic-event/local-episodic-event.module';
 import { DatetimePickerModule } from '../datetime-picker/datetime-picker.module';
@@ -21,7 +21,7 @@ import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor
     ResponsiblePartyModule,
     GnssReceiverModule,
     GnssAntennaModule,
-    SurveyedLocalTiesModule,
+    SurveyedLocalTieModule,
     FrequencyStandardModule,
     LocalEpisodicEventModule,
     DatetimePickerModule,

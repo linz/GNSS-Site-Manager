@@ -1,4 +1,5 @@
 import {GnssAntennaViewModel} from '../../../gnss-antenna/gnss-antenna-view-model';
+import {SurveyedLocalTieViewModel} from '../../../surveyed-local-tie/surveyed-local-tie-view-model';
 import {FrequencyStandardViewModel} from '../../../frequency-standard/frequency-standard-view-model';
 import {LocalEpisodicEventViewModel} from '../../../local-episodic-event/local-episodic-event-view-model';
 import {HumiditySensorViewModel} from '../../../humidity-sensor/humidity-sensor-view-model';
@@ -18,7 +19,7 @@ export class ViewSiteLog {
     siteLocation: any;
     gnssReceivers: any[];
     gnssAntennas: GnssAntennaViewModel[];
-    surveyedLocalTies: any[];
+    surveyedLocalTies: SurveyedLocalTieViewModel[];
     frequencyStandards: FrequencyStandardViewModel[];
     localEpisodicEvents : LocalEpisodicEventViewModel[];
     humiditySensors: HumiditySensorViewModel[];

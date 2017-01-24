@@ -25,7 +25,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteDataCenters: Array<any> = [];
   private siteDataSource: any = {};
   private receivers: Array<any> = [];
-  private surveyedLocalTies: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
@@ -48,9 +47,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewSiteMetadataCustodian: false,
     hasNewSiteDataCenter: false,
     hasNewSiteDataSource: false,
-    isSurveyedLocalTiesGroupOpen: false,
-    isSurveyedLocalTiesOpen: [],
-    hasNewSurveyedLocalTie: false
   };
 
   /**
@@ -82,7 +78,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.siteLogModelXXX = {
       gnssReceivers: [],
-      surveyedLocalTies: [],
     };
 
     this.loadSiteInfoData();
@@ -102,7 +97,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.status.hasNewReceiver = false;
     this.status.isReceiversOpen.length = 0;
     this.receivers.length = 0;
-    this.surveyedLocalTies.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
@@ -124,7 +118,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                   .getValidResponsibleParty(this.siteLogModel.siteDataSource.ciResponsibleParty);
 
           this.setGnssReceivers(this.siteLogModel.gnssReceivers);
-          this.setSurveyedLocalTies(this.siteLogModel.surveyedLocalTies);
 
           this.backupSiteLogJson();
           this.isLoading = false;
@@ -153,7 +146,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteDataSource = null;
     this.status = null;
     this.receivers.length = 0;
-    this.surveyedLocalTies.length = 0;
     this.errorMessage = '';
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
@@ -183,7 +175,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewSiteDataCenter = false;
         that.status.hasNewSiteDataSource = false;
         that.status.hasNewReceiver = false;
-        that.status.hasNewSurveyedLocalTie = false;
         let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
         siteLogViewModel.siteLog=that.siteLogModel;
         that.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
@@ -245,24 +236,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Set current and previous Surveyed Local Ties, and their show/hide flags
-   */
-  private setSurveyedLocalTies(surveyedLocalTies: any) {
-    this.status.isSurveyedLocalTiesOpen = [];
-    let currentSurveyedLocalTie: any = null;
-    for (let surveyedLocalTieObj of surveyedLocalTies) {
-      currentSurveyedLocalTie = this.jsonCheckService.getValidSurveyedLocalTie(surveyedLocalTieObj.surveyedLocalTies);
-      this.surveyedLocalTies.push(currentSurveyedLocalTie);
-      this.status.isSurveyedLocalTiesOpen.push(false);
-    }
-    this.surveyedLocalTies.sort(this.compareDateMeasured);
-
-    // the first item in the array is open by default
-    this.status.isSurveyedLocalTiesOpen.pop();
-    this.status.isSurveyedLocalTiesOpen.unshift(true);
-  }
-
-  /**
    * Sort receivers/antennas based on their Date_Installed values in ascending order
    */
   private compareDateInstalled(obj1: any, obj2: any) {
@@ -271,20 +244,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     } else if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
       return 1;
     } else if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
-      return -1;
-    }
-    return 0;
-  }
-
-  /**
-   * Sort objects based on their Date_Measured values in ascending order
-   */
-  private compareDateMeasured(obj1: any, obj2: any) {
-    if (obj1 === null || obj2 === null) {
-      return 0;
-    } else if (obj1.dateMeasured.value[0] < obj2.dateMeasured.value[0]) {
-      return 1;
-    } else if (obj1.dateMeasured.value[0] > obj2.dateMeasured.value[0]) {
       return -1;
     }
     return 0;
