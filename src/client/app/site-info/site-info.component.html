@@ -123,13 +123,13 @@
                                     [dataModelCopy]="siteLogOrigin.siteDataSource"></gnss-responsible-party>
           </div>
         </div>
-        <gnss-receiver [status]="status"
-                             [gnssReceivers]="receivers"
-                             [siteLogModel]="siteLogModel"
-                             [siteLogOrigin]="siteLogOrigin"></gnss-receiver>
+
+        <gnss-receivers-group [siteLogModel]="siteLogModel"
+                              [originalSiteLogModel]="siteLogOrigin"></gnss-receivers-group>
+
         <gnss-antenna-group [siteLogModel]="siteLogModel"
                             [originalSiteLogModel]="siteLogOrigin"></gnss-antenna-group>
-          
+
         <surveyed-local-ties-group [siteLogModel]="siteLogModel"
                                   [originalSiteLogModel]="siteLogOrigin"></surveyed-local-ties-group>
 

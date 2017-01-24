@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {SiteLogDataModel} from './data-model/site-log-data-model';
 import {GnssAntennaViewModel} from '../../gnss-antenna/gnss-antenna-view-model';
+import {GnssReceiverViewModel} from '../../gnss-receiver/gnss-receiver-view-model';
 import {SurveyedLocalTieViewModel} from '../../surveyed-local-tie/surveyed-local-tie-view-model';
 import {FrequencyStandardViewModel} from '../../frequency-standard/frequency-standard-view-model';
 import {LocalEpisodicEventViewModel} from '../../local-episodic-event/local-episodic-event-view-model';
@@ -32,7 +33,10 @@ export class JsonViewModelService {
         let siteLogViewModel: SiteLogViewModel = <SiteLogViewModel>{};
         siteLogViewModel.siteLog = new ViewSiteLog();
 
-        siteLogViewModel.siteLog.gnssAntennas = this.dataToViewModel(siteLogDataModel.gnssAntennas, GnssAntennaViewModel);
+        siteLogViewModel.siteLog.gnssAntennas = this.dataToViewModel(siteLogDataModel.gnssAntennas,
+            GnssAntennaViewModel);
+        siteLogViewModel.siteLog.gnssReceivers = this.dataToViewModel(siteLogDataModel.gnssReceivers,
+            GnssReceiverViewModel);
         siteLogViewModel.siteLog.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies,
             SurveyedLocalTieViewModel);
         siteLogViewModel.siteLog.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards,
@@ -51,7 +55,6 @@ export class JsonViewModelService {
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.siteLog.siteIdentification = siteLogDataModel.siteIdentification;
         siteLogViewModel.siteLog.siteLocation = siteLogDataModel.siteLocation;
-        siteLogViewModel.siteLog.gnssReceivers = siteLogDataModel.gnssReceivers;
         siteLogViewModel.siteLog.siteOwner = siteLogDataModel.siteOwner;
         siteLogViewModel.siteLog.siteContact = siteLogDataModel.siteContact;
         siteLogViewModel.siteLog.siteMetadataCustodian = siteLogDataModel.siteMetadataCustodian;
@@ -70,6 +73,7 @@ export class JsonViewModelService {
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({});
 
         siteLogDataModel.gnssAntennas = this.viewToDataModel(viewModelJson.siteLog.gnssAntennas);
+        siteLogDataModel.gnssReceivers = this.viewToDataModel(viewModelJson.siteLog.gnssReceivers);
         siteLogDataModel.surveyedLocalTies = this.viewToDataModel(viewModelJson.siteLog.surveyedLocalTies);
         siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModelJson.siteLog.frequencyStandards);
         siteLogDataModel.localEpisodicEventsSet = this.viewToDataModel(viewModelJson.siteLog.localEpisodicEvents);
@@ -77,9 +81,9 @@ export class JsonViewModelService {
         siteLogDataModel.pressureSensors = this.viewToDataModel(viewModelJson.siteLog.pressureSensors);
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModelJson.siteLog.temperatureSensors);
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModelJson.siteLog.waterVaporSensors);
+
         siteLogDataModel.siteIdentification = viewModelJson.siteLog.siteIdentification;
         siteLogDataModel.siteLocation = viewModelJson.siteLog.siteLocation;
-        siteLogDataModel.gnssReceivers = viewModelJson.siteLog.gnssReceivers;
         siteLogDataModel.siteOwner = viewModelJson.siteLog.siteOwner;
         siteLogDataModel.siteContact = viewModelJson.siteLog.siteContact;
         siteLogDataModel.siteMetadataCustodian = viewModelJson.siteLog.siteMetadataCustodian;
