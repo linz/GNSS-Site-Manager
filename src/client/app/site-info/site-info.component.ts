@@ -17,14 +17,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private isLoading: boolean = false;
   private siteLogOrigin: any = {};
   private siteLogModel: any = {};
-  private siteLogModelXXX: any = {};
   private siteIdentification: any = null;
   private siteLocation: any = {};
   private siteContacts: Array<any> = [];
   private siteMetadataCustodian: any = {};
   private siteDataCenters: Array<any> = [];
   private siteDataSource: any = {};
-  private receivers: Array<any> = [];
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
@@ -40,9 +38,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
     isMetaCustodianOpen: false,
-    isReceiverGroupOpen: false,
-    isReceiversOpen: [],
-    hasNewReceiver: false,
     hasNewSiteContact: false,
     hasNewSiteMetadataCustodian: false,
     hasNewSiteDataCenter: false,
@@ -76,10 +71,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteId = id;
     });
 
-    this.siteLogModelXXX = {
-      gnssReceivers: [],
-    };
-
     this.loadSiteInfoData();
   }
 
@@ -94,9 +85,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.isLoading =  true;
     this.submitted = false;
-    this.status.hasNewReceiver = false;
-    this.status.isReceiversOpen.length = 0;
-    this.receivers.length = 0;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
@@ -116,8 +104,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           }
           this.siteDataSource = !this.siteLogModel.siteDataSource.ciResponsibleParty ? null : this.jsonCheckService
                   .getValidResponsibleParty(this.siteLogModel.siteDataSource.ciResponsibleParty);
-
-          this.setGnssReceivers(this.siteLogModel.gnssReceivers);
 
           this.backupSiteLogJson();
           this.isLoading = false;
@@ -145,7 +131,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteDataCenters.length = 0;
     this.siteDataSource = null;
     this.status = null;
-    this.receivers.length = 0;
     this.errorMessage = '';
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
@@ -174,7 +159,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         that.status.hasNewSiteMetadataCustodian = false;
         that.status.hasNewSiteDataCenter = false;
         that.status.hasNewSiteDataSource = false;
-        that.status.hasNewReceiver = false;
         let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
         siteLogViewModel.siteLog=that.siteLogModel;
         that.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
@@ -210,43 +194,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   public backupSiteLogJson() {
     this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
-  }
-
-  /**
-   * Set current and previous receivers, and their show/hide flags
-   */
-  private setGnssReceivers(gnssReceivers: any) {
-    this.status.isReceiversOpen = [];
-    let currentReceiver: any = null;
-    for (let receiverObj of gnssReceivers) {
-      let receiver = this.jsonCheckService.getValidReceiver(receiverObj.gnssReceiver);
-      if ( !receiver.dateRemoved.value[0] ) {
-        currentReceiver = receiver;
-      } else {
-        this.receivers.push(receiver);
-        this.status.isReceiversOpen.push(false);
-      }
-    }
-    // Sort by dateInstalled for all previous receivers
-    this.receivers.sort(this.compareDateInstalled);
-
-    // Current receiver (even null) are the first item in the arrays and open by default
-    this.receivers.unshift(currentReceiver);
-    this.status.isReceiversOpen.unshift(true);
-  }
-
-  /**
-   * Sort receivers/antennas based on their Date_Installed values in ascending order
-   */
-  private compareDateInstalled(obj1: any, obj2: any) {
-    if (obj1 === null || obj2 === null) {
-      return 0;
-    } else if (obj1.dateInstalled.value[0] < obj2.dateInstalled.value[0]) {
-      return 1;
-    } else if (obj1.dateInstalled.value[0] > obj2.dateInstalled.value[0]) {
-      return -1;
-    }
-    return 0;
   }
 
 }

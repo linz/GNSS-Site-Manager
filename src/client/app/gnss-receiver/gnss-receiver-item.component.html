@@ -1,0 +1,109 @@
+<!-- Input: gnssReceiver (single) -->
+<div class="panel panel-level-2">
+    <div class="panel-heading">
+        <span class="panel-title cursor-ptr"
+              (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+            </i>
+            <span *ngIf="index == 0">
+                Current Receiver (Since {{ miscUtils.getDate(gnssReceiver.dateInstalled) }})
+            </span>
+            <span *ngIf="index != 0">
+                Previous Receiver ({{ miscUtils.getDate(gnssReceiver.dateInstalled) }} &ndash;
+                {{ miscUtils.getDate(gnssReceiver.dateRemoved) }})
+            </span>
+        </span>
+        <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
+          <button class="btn btn-danger btn-xs" title="Remove the gnssReceiver"
+                  (click)="removeItem(index)">
+            <i class="glyphicon glyphicon-remove"></i>
+            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+          </button>
+        </span>
+    </div>
+    <div class="panel-body" *ngIf="isOpen">
+        <div *ngIf=" gnssReceiver == null ">
+            No information available for GNSS Receivers
+        </div>
+        <div *ngIf=" gnssReceiver != null ">
+
+            <text-input
+                [name]="'gnssReceiverReceiverType'"
+                [(model)]="gnssReceiver.receiverType"
+                [index]="[index]"
+                [label]="'Receiver Type'"
+                [maxlength]="100">
+            </text-input>
+
+            <text-input
+                [name]="'gnssReceiverManufacturerSerialNumber'"
+                [(model)]="gnssReceiver.manufacturerSerialNumber"
+                [index]="[index]"
+                [label]="'Serial Number'"
+                [maxlength]="100">
+            </text-input>
+
+            <text-input
+                [name]="'gnssReceiverFirmwareVersion'"
+                [(model)]="gnssReceiver.firmwareVersion"
+                [index]="[index]"
+                [label]="'Firmware Version'"
+                [maxlength]="100">
+            </text-input>
+
+            <text-input
+                [name]="'gnssReceiverSatelliteSystem'"
+                [(model)]="gnssReceiver.satelliteSystem"
+                [index]="[index]"
+                [label]="'Satellite System'"
+                [maxlength]="100">
+            </text-input>
+
+
+
+            <number-input
+                [name]="'gnssReceiverElevationCutoffSetting'"
+                [(model)]="gnssReceiver.elevationCutoffSetting"
+                [index]="[index]"
+                [label]="'Elevation Cutoff Setting (degrees)'"
+                [step]="1"
+                [maxlength]="100">
+            </number-input>
+
+            <number-input
+                [name]="'gnssReceiverTemperatureStabilization'"
+                [(model)]="gnssReceiver.temperatureStabilization"
+                [index]="[index]"
+                [label]="'Temperature Stabilization (&deg;C)'"
+                [step]="1"
+                [maxlength]="100">
+            </number-input>
+
+            <datetime-input
+                [(datetime)]="gnssReceiver.dateInstalled"
+                [name]=" 'dateInstalled' "
+                [index]="[index]"
+                [required]="true"
+                [label]="'Date Installed (UTC)'">
+            </datetime-input>
+
+            <datetime-input
+                [(datetime)]="gnssReceiver.dateRemoved"
+                [name]=" 'dateRemoved' "
+                [index]="[index]"
+                [requiredIfNotCurrent]="true"
+                [label]="'Date Removed (UTC)'">
+            </datetime-input>
+
+            <textarea-input
+                [name]="'gnssReceiverNotes'"
+                [(model)]="gnssReceiver.notes"
+                [index]="[index]"
+                [label]="'Notes'"
+                [rows]="2"
+                [maxlength]="2000">
+            </textarea-input>
+        </div>
+    </div>
+</div>
