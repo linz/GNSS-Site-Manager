@@ -2,7 +2,7 @@ export class JsonViewModelServiceSpecData {
     public static data(): any {
         return {
             'geo:siteLog': {
-                TYPE_NAME: 'GEODESYML_0_3.SiteLogType',
+                TYPE_NAME: 'GEODESYML_0_4.SiteLogType',
                 description: {
                     TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                     value: ''
@@ -18,10 +18,10 @@ export class JsonViewModelServiceSpecData {
                     TYPE_NAME: 'GML_3_2_1.BoundingShapeType'
                 },
                 atSite: {
-                    TYPE_NAME: 'GEODESYML_0_3.SitePropertyType'
+                    TYPE_NAME: 'GEODESYML_0_4.SitePropertyType'
                 },
                 formInformation: {
-                    TYPE_NAME: 'GEODESYML_0_3.FormInformationType',
+                    TYPE_NAME: 'GEODESYML_0_4.FormInformationType',
                     preparedBy: 'James C Berra',
                     datePrepared: {
                         TYPE_NAME: 'GML_3_2_1.TimePositionType',
@@ -32,7 +32,7 @@ export class JsonViewModelServiceSpecData {
                     reportType: 'New'
                 },
                 siteIdentification: {
-                    TYPE_NAME: 'GEODESYML_0_3.SiteIdentificationType',
+                    TYPE_NAME: 'GEODESYML_0_4.SiteIdentificationType',
                     siteName: 'Australia NGA collocated',
                     fourCharacterID: 'ADE1',
                     monumentInscription: '',
@@ -68,7 +68,7 @@ export class JsonViewModelServiceSpecData {
                     notes: ''
                 },
                 siteLocation: {
-                    TYPE_NAME: 'GEODESYML_0_3.SiteLocationType',
+                    TYPE_NAME: 'GEODESYML_0_4.SiteLocationType',
                     city: 'Salisbury',
                     state: 'South Australia',
                     countryCodeISO: 'Australia',
@@ -78,7 +78,7 @@ export class JsonViewModelServiceSpecData {
                         value: 'Australian'
                     },
                     approximatePositionITRF: {
-                        TYPE_NAME: 'GEODESYML_0_3.SiteLocationType.ApproximatePositionITRF',
+                        TYPE_NAME: 'GEODESYML_0_4.SiteLocationType.ApproximatePositionITRF',
                         xCoordinateInMeters: '-3939182.131',
                         yCoordinateInMeters: '3467075.376',
                         zCoordinateInMeters: '-3613220.824',
@@ -88,9 +88,9 @@ export class JsonViewModelServiceSpecData {
                 },
                 gnssReceivers: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.GnssReceiverPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                         gnssReceiver: {
-                            TYPE_NAME: 'GEODESYML_0_3.GnssReceiverType',
+                            TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -120,11 +120,11 @@ export class JsonViewModelServiceSpecData {
                             manufacturerDescription: '',
                             manufacturerSerialNumber: '3213',
                             igsModelCode: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 value: ''
                             },
                             receiverType: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 codeList:
                                     'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
                                     '#GeodesyML_GNSSReceiverTypeCode',
@@ -166,9 +166,9 @@ export class JsonViewModelServiceSpecData {
                         deletedReason: ''
                     },
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.GnssReceiverPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                         gnssReceiver: {
-                            TYPE_NAME: 'GEODESYML_0_3.GnssReceiverType',
+                            TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -198,11 +198,11 @@ export class JsonViewModelServiceSpecData {
                             manufacturerDescription: '',
                             manufacturerSerialNumber: '3213',
                             igsModelCode: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 value: ''
                             },
                             receiverType: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 codeList:
                                     'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
                                     '#GeodesyML_GNSSReceiverTypeCode',
@@ -246,9 +246,9 @@ export class JsonViewModelServiceSpecData {
                         deletedReason: ''
                     },
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.GnssReceiverPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                         gnssReceiver: {
-                            TYPE_NAME: 'GEODESYML_0_3.GnssReceiverType',
+                            TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -278,11 +278,11 @@ export class JsonViewModelServiceSpecData {
                             manufacturerDescription: '',
                             manufacturerSerialNumber: '3213',
                             igsModelCode: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 value: ''
                             },
                             receiverType: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 codeList:
                                     'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
                                     '#GeodesyML_GNSSReceiverTypeCode',
@@ -326,9 +326,9 @@ export class JsonViewModelServiceSpecData {
                         deletedReason: ''
                     },
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.GnssReceiverPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                         gnssReceiver: {
-                            TYPE_NAME: 'GEODESYML_0_3.GnssReceiverType',
+                            TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -358,11 +358,11 @@ export class JsonViewModelServiceSpecData {
                             manufacturerDescription: '',
                             manufacturerSerialNumber: '3213',
                             igsModelCode: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 value: ''
                             },
                             receiverType: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsReceiverModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 codeList:
                                     'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
                                     '#GeodesyML_GNSSReceiverTypeCode',
@@ -408,9 +408,9 @@ export class JsonViewModelServiceSpecData {
                 ],
                 gnssAntennas: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.GnssAntennaPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.GnssAntennaPropertyType',
                         gnssAntenna: {
-                            TYPE_NAME: 'GEODESYML_0_3.GnssAntennaType',
+                            TYPE_NAME: 'GEODESYML_0_4.GnssAntennaType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -440,11 +440,11 @@ export class JsonViewModelServiceSpecData {
                             manufacturerDescription: '',
                             manufacturerSerialNumber: '',
                             igsModelCode: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsAntennaModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsAntennaModelCodeType',
                                 value: ''
                             },
                             antennaType: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsAntennaModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsAntennaModelCodeType',
                                 codeList:
                                     'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +
                                     '#GeodesyML_GNSSAntennaTypeCode',
@@ -463,7 +463,7 @@ export class JsonViewModelServiceSpecData {
                             markerArpEastEcc: 0,
                             alignmentFromTrueNorth: 0,
                             antennaRadomeType: {
-                                TYPE_NAME: 'GEODESYML_0_3.IgsRadomeModelCodeType',
+                                TYPE_NAME: 'GEODESYML_0_4.IgsRadomeModelCodeType',
                                 codeSpace: 'eGeodesy/antennaRadomeType',
                                 value: 'SNOW'
                             },
@@ -495,9 +495,9 @@ export class JsonViewModelServiceSpecData {
                 ],
                 surveyedLocalTies: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.SurveyedLocalTiesPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.SurveyedLocalTiesPropertyType',
                         surveyedLocalTies: {
-                            TYPE_NAME: 'GEODESYML_0_3.SurveyedLocalTiesType',
+                            TYPE_NAME: 'GEODESYML_0_4.SurveyedLocalTiesType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -517,7 +517,7 @@ export class JsonViewModelServiceSpecData {
                             tiedMarkerCDPNumber: '',
                             tiedMarkerDOMESNumber: '',
                             differentialComponentsGNSSMarkerToTiedMonumentITRS: {
-                                TYPE_NAME: 'GEODESYML_0_3.SurveyedLocalTiesType.DifferentialComponentsGNSSMarkerToTiedMonumentITRS',
+                                TYPE_NAME: 'GEODESYML_0_4.SurveyedLocalTiesType.DifferentialComponentsGNSSMarkerToTiedMonumentITRS',
                                 dx: 3,
                                 dy: 0,
                                 dz: 0
@@ -531,7 +531,7 @@ export class JsonViewModelServiceSpecData {
                             notes: ''
                         },
                         tieMeasurement: {
-                            TYPE_NAME: 'GEODESYML_0_3.TieMeasurementType'
+                            TYPE_NAME: 'GEODESYML_0_4.TieMeasurementType'
                         },
                         dateInserted: {
                             TYPE_NAME: 'GML_3_2_1.TimePositionType',
@@ -546,9 +546,9 @@ export class JsonViewModelServiceSpecData {
                 ],
                 frequencyStandards: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.FrequencyStandardPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.FrequencyStandardPropertyType',
                         frequencyStandard: {
-                            TYPE_NAME: 'GEODESYML_0_3.FrequencyStandardType',
+                            TYPE_NAME: 'GEODESYML_0_4.FrequencyStandardType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -620,9 +620,9 @@ export class JsonViewModelServiceSpecData {
                 ],
                 humiditySensors: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.HumiditySensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.HumiditySensorPropertyType',
                         humiditySensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.HumiditySensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.HumiditySensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -710,9 +710,9 @@ export class JsonViewModelServiceSpecData {
                         deletedReason: ''
                     },
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.HumiditySensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.HumiditySensorPropertyType',
                         humiditySensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.HumiditySensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.HumiditySensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -801,9 +801,9 @@ export class JsonViewModelServiceSpecData {
                         deletedReason: ''
                     },
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.HumiditySensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.HumiditySensorPropertyType',
                         humiditySensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.HumiditySensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.HumiditySensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -890,9 +890,9 @@ export class JsonViewModelServiceSpecData {
                         deletedReason: ''
                     },
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.HumiditySensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.HumiditySensorPropertyType',
                         humiditySensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.HumiditySensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.HumiditySensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -981,9 +981,9 @@ export class JsonViewModelServiceSpecData {
                         deletedReason: ''
                     },
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.HumiditySensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.HumiditySensorPropertyType',
                         humiditySensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.HumiditySensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.HumiditySensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -1074,9 +1074,9 @@ export class JsonViewModelServiceSpecData {
                 ],
                 pressureSensors: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.PressureSensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.PressureSensorPropertyType',
                         pressureSensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.PressureSensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.PressureSensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -1128,9 +1128,9 @@ export class JsonViewModelServiceSpecData {
                 ],
                 temperatureSensors: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.TemperatureSensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.TemperatureSensorPropertyType',
                         temperatureSensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.TemperatureSensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.TemperatureSensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -1182,9 +1182,9 @@ export class JsonViewModelServiceSpecData {
                 ],
                 waterVaporSensors: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.WaterVaporSensorPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.WaterVaporSensorPropertyType',
                         waterVaporSensor: {
-                            TYPE_NAME: 'GEODESYML_0_3.WaterVaporSensorType',
+                            TYPE_NAME: 'GEODESYML_0_4.WaterVaporSensorType',
                             description: {
                                 TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                                 value: ''
@@ -1234,11 +1234,11 @@ export class JsonViewModelServiceSpecData {
                     }
                 ],
                 siteOwner: {
-                    TYPE_NAME: 'GEODESYML_0_3.AgencyPropertyType'
+                    TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType'
                 },
                 siteContact: [
                     {
-                        TYPE_NAME: 'GEODESYML_0_3.AgencyPropertyType',
+                        TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType',
                         description: {
                             TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                             value: ''
@@ -1375,7 +1375,7 @@ export class JsonViewModelServiceSpecData {
                     }
                 ],
                 siteMetadataCustodian: {
-                    TYPE_NAME: 'GEODESYML_0_3.AgencyPropertyType',
+                    TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType',
                     description: {
                         TYPE_NAME: 'GML_3_2_1.StringOrRefType',
                         value: ''
@@ -1511,13 +1511,13 @@ export class JsonViewModelServiceSpecData {
                     }
                 },
                 siteDataSource: {
-                    TYPE_NAME: 'GEODESYML_0_3.AgencyPropertyType'
+                    TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType'
                 },
                 moreInformation: {
-                    TYPE_NAME: 'GEODESYML_0_3.MoreInformationType'
+                    TYPE_NAME: 'GEODESYML_0_4.MoreInformationType'
                 },
                 dataStreamsSet: {
-                    TYPE_NAME: 'GEODESYML_0_3.DataStreamsPropertyType'
+                    TYPE_NAME: 'GEODESYML_0_4.DataStreamsPropertyType'
                 }
             }
         };
