@@ -28,6 +28,7 @@
     "serve.coverage": "remap-istanbul -b src/ -i coverage/coverage-final.json -o coverage -t html && npm run gulp -- serve.coverage --color",
     "serve.dev": "gulp serve.dev --color --config-env dev",
     "serve.local": "gulp serve.dev --color --config-env local",
+    "serve.docker": "gulp serve.dev --color --config-env docker",
     "serve.e2e": "gulp serve.e2e --color",
     "serve.prod": "gulp serve.prod --color --config-env prod",
     "serve.test": "gulp serve.prod --color --config-env test",
