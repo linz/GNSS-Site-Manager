@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
 import { GeodesyEvent } from '../shared/events-messages/Event';
-import { LocalEpisodicEventViewModel } from './local-episodic-event-view-model';
+import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
 
@@ -10,14 +10,14 @@ import { DialogService } from '../shared/index';
  */
 @Component({
     moduleId: module.id,
-    selector: 'local-episodic-event-item',
-    templateUrl: 'local-episodic-event-item.component.html',
+    selector: 'local-episodic-effect-item',
+    templateUrl: 'local-episodic-effect-item.component.html',
 })
-export class LocalEpisodicEventItemComponent extends AbstractItem {
+export class LocalEpisodicEffectItemComponent extends AbstractItem {
     public miscUtils: any = MiscUtils;
 
     /**
-     * Total number of localEpisodicEvents
+     * Total number of localEpisodicEffects
      */
     @Input() total: number;
     /**
@@ -25,9 +25,9 @@ export class LocalEpisodicEventItemComponent extends AbstractItem {
      */
     @Input() index: number;
     /**
-     * The LocalEpisodicEvent in question.
+     * The LocalEpisodicEffect in question.
      */
-    @Input() localEpisodicEvent: LocalEpisodicEventViewModel;
+    @Input() localEpisodicEffect: LocalEpisodicEffectViewModel;
 
     /**
      * This is to receive geodesyEvent from parent.

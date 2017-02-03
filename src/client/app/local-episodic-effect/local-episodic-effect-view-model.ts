@@ -1,7 +1,7 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../shared/global/misc-utils';
 
-export class LocalEpisodicEventViewModel extends AbstractViewModel {
+export class LocalEpisodicEffectViewModel extends AbstractViewModel {
     /**
      * Not the best form making private fields public, however saves clutter of creating accessors / getters for all
      */
@@ -20,15 +20,15 @@ export class LocalEpisodicEventViewModel extends AbstractViewModel {
     }
 
     createFieldMappings(): void {
-        this.addFieldMapping('/localEpisodicEvents/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
+        this.addFieldMapping('/localEpisodicEffect/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
             'string',
             '/startDate', 'string');
 
-        this.addFieldMapping('/localEpisodicEvents/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
+        this.addFieldMapping('/localEpisodicEffect/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
             'string',
             '/endDate', 'string');
 
-        this.addFieldMapping('/localEpisodicEvents/event', 'string',
+        this.addFieldMapping('/localEpisodicEffect/event', 'string',
             '/event', 'string');
     };
 

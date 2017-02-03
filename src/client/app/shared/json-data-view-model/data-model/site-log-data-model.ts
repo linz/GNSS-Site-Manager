@@ -16,7 +16,7 @@ export class SiteLogDataModel {
     gnssAntennas: any[];
     surveyedLocalTies: any[];
     frequencyStandards: any[];
-    localEpisodicEventsSet: any[];
+    localEpisodicEffects: any[];
     humiditySensors: any[] = [];
     pressureSensors: any[];
     temperatureSensors: any[];
@@ -40,7 +40,7 @@ export class SiteLogDataModel {
             this.gnssAntennas = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].gnssAntennas, true);
             this.surveyedLocalTies = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].surveyedLocalTies, true);
             this.frequencyStandards = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].frequencyStandards, true);
-            this.localEpisodicEventsSet = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].localEpisodicEventsSet, true);
+            this.localEpisodicEffects = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].localEpisodicEffects, true);
             this.humiditySensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].humiditySensors, true);
             this.pressureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].pressureSensors, true);
             this.temperatureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].temperatureSensors, true);

@@ -1081,12 +1081,12 @@
               }
             }
           ],
-          "localEpisodicEventsSet": [
+          "localEpisodicEffects": [
             {
-              "TYPE_NAME": "GEODESYML_0_4.LocalEpisodicEventsPropertyType",
-              "localEpisodicEvents": {
-                "TYPE_NAME": "GEODESYML_0_4.LocalEpisodicEventsType",
-                "id": "LocalEpisodicEventsType_1",
+              "TYPE_NAME": "GEODESYML_0_4.LocalEpisodicEffectsPropertyType",
+              "localEpisodicEffects": {
+                "TYPE_NAME": "GEODESYML_0_4.LocalEpisodicEffectType",
+                "id": "LocalEpisodicEffectType_1",
                 "validTime": {
                   "TYPE_NAME": "GML_3_2_1.TimePrimitivePropertyType",
                   "nilReason": [],

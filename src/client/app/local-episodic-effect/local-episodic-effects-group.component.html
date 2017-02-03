@@ -19,15 +19,15 @@
         <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
             No information available for Local Episodic Effects
         </div>
-        <div *ngFor="let localEpisodicEvent of getItemsCollection(); let i = index">
+        <div *ngFor="let localEpisodicEffect of getItemsCollection(); let i = index">
             <!-- [geodesyEvent] - send event to child components -->
             <!-- (open/close Above/Below Event) - receive events from child components -->
             <!-- (returnEvents) - single point to call events on parent -->
-            <local-episodic-event-item [localEpisodicEvent]="localEpisodicEvent"
+            <local-episodic-effect-item [localEpisodicEffect]="localEpisodicEffect"
                                   [total]="itemProperties.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
-                                  (returnEvents)="returnEvents($event)"></local-episodic-event-item>
+                                  (returnEvents)="returnEvents($event)"></local-episodic-effect-item>
         </div>
     </div>
 </div>

@@ -162,44 +162,10 @@ export function main() {
       console.log(geodesyMl);
     });
 
-    let validJsonWithLocalEpisodicEvents = `
+    let validJsonWithLocalEpisodicEffects = `
     {
         "geo:siteLog": {
-            "gnssAntennas": [
-              {
-                "gnssAntenna": {
-                  "dateInstalled": {
-                    "value": [
-                      "1995-01-01T00:00:00.000Z"
-                    ]
-                  },
-                  "dateRemoved": {
-                    "value": [
-                         null
-                    ]
-                  },
-                  "antennaType": {
-                    "codeListValue": ""
-                  },
-                  "serialNumber": "1121",
-                  "antennaReferencePoint": {
-                    "value": "BPA"
-                  },
-                  "markerArpEastEcc": 8,
-                  "markerArpUpEcc": 0,
-                  "markerArpNorthEcc": 8,
-                  "alignmentFromTrueNorth": 0,
-                  "antennaRadomeType": {
-                    "value": "SNOW"
-                  },
-                  "radomeSerialNumber": "",
-                  "antennaCableType": "(vendor & type number)",
-                  "antennaCableLength": 0,
-                  "notes": ""
-                }
-              }
-            ],
-            "localEpisodicEventsSet":[{
+            "localEpisodicEffects":[{
                 "dateDeleted":{
                     "value":[]
                 },
@@ -207,7 +173,7 @@ export function main() {
                     "value":["2017-01-23T04:55:23.758Z"]
                 },
                 "deletedReason":null,
-                "localEpisodicEvents":{
+                "localEpisodicEffect":{
                     "validTime":{
                         "abstractTimePrimitive":{
                             "gml:TimePeriod":{
@@ -226,11 +192,10 @@ export function main() {
         }
     }`;
 
-    it('should parse valid Json with a local episodic events element', () => {
-      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithLocalEpisodicEvents));
+    fit('should parse valid Json with a local episodic events element', () => {
+      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithLocalEpisodicEffects));
       expect(geodesyMl).not.toBeNull();
       console.log(geodesyMl);
-      expect(geodesyMl).toContain('gnssAntennas');
       expect(geodesyMl).toContain('something important happened');
     });
   });
