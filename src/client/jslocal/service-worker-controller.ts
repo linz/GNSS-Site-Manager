@@ -4,6 +4,8 @@
 
 import { MessageObject } from '../app/shared/service-worker/messages.interface';
 
+declare var self: any;
+
 function debugEvent(event: Event): void {
   console.debug('Event: ', event.type, event);
 };

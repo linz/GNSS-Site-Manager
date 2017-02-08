@@ -105,13 +105,14 @@ export class JsonDiffService {
     private parseDiffs(diff: IDiff, newJson: any): DiffItem[] {
         let diffItems: DiffItem[] = [];
 
-        let container, identifier, item, parent, lhs, rhs: string;  // path,
+        let lhs: string;
+        let rhs: string;
         let diffType: DiffType = null;
 
-        container = this.getContainer(diff);                        // eg. HumiditySensors
-        parent = this.getObject(newJson, this.getPathToItem(diff)); // eg. HumiditySensors/1 (a HumiditySensor)
-        item = this.getItem(diff);                                  // eg. notes (the notes field contains a difference)
-        identifier = this.getIdentifier(parent);                    // eg. <startDate> - <endDate>
+        let container: string = this.getContainer(diff);                        // eg. HumiditySensors
+        let parent: any = this.getObject(newJson, this.getPathToItem(diff)); // eg. HumiditySensors/1 (a HumiditySensor)
+        let item: any = this.getItem(diff);                                  // eg. notes (the notes field contains a difference)
+        let identifier: string = this.getIdentifier(parent);                    // eg. <startDate> - <endDate>
         switch (diff['kind']) {
             case 'E':
                 lhs = diff['lhs'];

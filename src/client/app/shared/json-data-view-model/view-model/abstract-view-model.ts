@@ -47,10 +47,11 @@ export abstract class AbstractViewModel {
     }
 
     private assertCorrect(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string) {
-        assert(dataPath.match(/\/.*/));
-        assert(dataPathType.match(/number|string/));
-        assert(viewPath.match(/\/.*/));
-        assert(viewPathType.match(/number|string/));
+      // TODO: where is assert? They should be in a unit test anyway.
+        // assert(dataPath.match(/\/.*/));
+        // assert(dataPathType.match(/number|string/));
+        // assert(viewPath.match(/\/.*/));
+        // assert(viewPathType.match(/number|string/));
     }
 
     /**

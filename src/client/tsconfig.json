@@ -25,7 +25,8 @@
       "node",
       "jasmine",
       "protractor",
-      "systemjs"
+      "systemjs",
+      "service_worker_api"
     ]
   },
   "exclude": [

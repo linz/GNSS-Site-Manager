@@ -26,7 +26,7 @@ export class HttpUtilsService {
     /**
      * Handle HTTP error
      */
-    public static handleError(error: any): ErrorObservable {
+    public static handleError(error: any): ErrorObservable<any> {
         let errMsg = (error.message) ? error.message :
             error.status ? `${error.status} - ${error.statusText}` : 'Server error';
         errMsg += error.stack;
