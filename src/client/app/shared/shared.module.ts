@@ -4,9 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { DropdownModule, TooltipModule,  } from 'ng2-bootstrap';
 
-import { ToolbarComponent } from './toolbar/index';
-import { NavbarComponent } from './navbar/index';
-import { NameListService } from './name-list/index';
+import { ToolbarComponent } from './toolbar/toolbar.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { CorsSiteService } from './cors-site/index';
 import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
