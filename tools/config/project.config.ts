@@ -1,6 +1,7 @@
 import { join } from 'path';
 
 import { SeedConfig } from './seed.config';
+import { ExtendPackages } from './seed.config.interfaces';
 
 /**
  * This class extends the basic seed configuration, allowing for project specific overrides. A few examples can be found
@@ -27,8 +28,6 @@ export class ProjectConfig extends SeedConfig {
     this.NPM_DEPENDENCIES = [
       ...this.NPM_DEPENDENCIES,
       {src: 'systemjs/dist/system.src.js', inject: 'shims'},
-      {src: 'moment/moment.js', inject: 'libs'},
-      {src: 'ng2-bootstrap/bundles/ng2-bootstrap.min.js', inject: 'libs'},
       {src: 'bootstrap/dist/css/bootstrap.min.css', inject: true}, // inject into css section
       {src: 'jsonix/jsonix.js', inject: 'libs'},
       {src: 'w3c-schemas/lib/XLink_1_0.js', inject: 'libs'},
@@ -45,20 +44,70 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/WFS_2_0.js', inject: 'libs'},
     ];
 
-    this.SYSTEM_CONFIG_DEV.paths['ng2-bootstrap'] =
-      `${this.APP_BASE}node_modules/ng2-bootstrap/ng2-bootstrap`;
-
-    this.SYSTEM_BUILDER_CONFIG.packages['ng2-bootstrap'] = {
-      main: 'ng2-bootstrap',
-      defaultExtension : 'js'
-    };
-
     // Add `local` third-party libraries to be injected/bundled.
     this.APP_ASSETS = [
       ...this.APP_ASSETS,
       // {src: `${this.APP_SRC}/your-path-to-lib/libs/jquery-ui.js`, inject: true, vendor: false}
       // {src: `${this.CSS_SRC}/path-to-lib/test-lib.css`, inject: true, vendor: false},
     ];
+
+    // Add packages (e.g. ng2-translate)
+    let additionalPackages: ExtendPackages[] = [
+      {
+        name:'ng2-bootstrap',
+        path:'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js'
+      },
+      {
+        name:'ng2-bootstrap/*',
+        path:'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js'
+      },
+      {
+        name: 'lodash',
+        path: 'node_modules/lodash/lodash.js'
+      },
+      {
+        name: 'alertify.js',
+        path: 'node_modules/alertify.js/dist/js/alertify.js'
+      },
+      {
+        name: 'json-pointer',
+        path: 'node_modules/json-pointer/index.js'
+      },
+      {
+        name: 'deep-diff',
+        path: 'node_modules/deep-diff/index.js'
+      },
+      {
+        name: 'scroll-into-view',
+        path: 'node_modules/scroll-into-view/scrollIntoView.js'
+      },
+      {
+        name: 'foreach',
+        path: 'node_modules/foreach/index.js'
+      },
+      {
+        name: 'raf',
+        path: 'node_modules/raf/index.js'
+      },
+      {
+        name: 'performance-now',
+        path: 'node_modules/performance-now/lib/performance-now.js'
+      },
+      {
+        name: 'traceur',
+        path: 'node_modules/traceur/bin/traceur.js'
+      },
+      {
+        name: 'moment',
+        path: 'node_modules/moment',
+        packageMeta: {
+          main: 'moment.js',
+          defaultExtension: 'js'
+        }
+      }
+    ];
+    
+    this.addPackagesBundles(additionalPackages);
 
     /* Add to or override NPM module configurations: */
     // this.mergeObject(this.PLUGIN_CONFIGS['browser-sync'], { ghostMode: false });

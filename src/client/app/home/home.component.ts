@@ -12,7 +12,6 @@ import {ServiceWorkerService} from '../shared/index';
   templateUrl: 'home.component.html',
   styleUrls: ['home.component.css'],
 })
-
 export class HomeComponent implements OnInit {
   serviceWorkerSubscription: Subscription;
   newName: string = '';

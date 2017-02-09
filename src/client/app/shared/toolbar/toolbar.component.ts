@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NameListService, ServiceWorkerService } from '../index';
+import { ServiceWorkerService } from '../index';
 import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 
 /**
@@ -18,12 +18,12 @@ export class ToolbarComponent implements OnInit {
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
-  private siteId: string;
+  private siteId: string
 
-  constructor(private serviceWorkerService: ServiceWorkerService,
-              public nameListService: NameListService,
-              private route: ActivatedRoute,
-              private router: Router) {
+  constructor(
+    private serviceWorkerService: ServiceWorkerService,
+    private route: ActivatedRoute,
+    private router: Router) {
   }
 
   ngOnInit() {

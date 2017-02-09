@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { ModalModule } from 'ng2-bootstrap';
 
 import { AppComponent } from './app.component';
-import { routes } from './app.routes';
+import { AppRoutingModule } from './app-routing.module';
+
 import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
@@ -17,10 +17,11 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
 @NgModule({
   imports: [
+    AppRoutingModule,
     BrowserModule,
     HttpModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes),
+    // RouterModule.forRoot(routes),
     ModalModule,
     AboutModule,
     SiteInfoModule,
@@ -38,5 +39,4 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
   }],
   bootstrap: [ AppComponent ]
 })
-
 export class AppModule { }

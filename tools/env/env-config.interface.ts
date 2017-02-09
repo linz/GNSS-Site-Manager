@@ -1,2 +1,8 @@
-export { EnvConfig } from '../../src/client/app/shared/config/env.config';
-
+// Feel free to extend this interface
+// depending on your app specific config.
+export interface EnvConfig {
+  API?: string;
+  ENV?: string;
+  WEB_SERVICE_URL?: string;
+  WFS_GEOSERVER_URL?: string;
+}

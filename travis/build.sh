@@ -4,7 +4,8 @@
 set -e
 
 npm install
-typings install
+export CHROME_BIN=chromium
+./node_modules/.bin/gulp build.bundle.rxjs
 xvfb-run npm run test
 npm run build.prod -- --config-env dev
 

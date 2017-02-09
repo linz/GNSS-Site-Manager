@@ -29,7 +29,6 @@ import {JsonViewModelService} from './shared/json-data-view-model/json-view-mode
   ],
   templateUrl: 'app.component.html',
 })
-
 export class AppComponent {
   constructor(private siteInfo: SiteInfoComponent, private viewContainerRef: ViewContainerRef) {
     console.log('Environment config', Config);
