@@ -99,14 +99,10 @@ export class ProjectConfig extends SeedConfig {
       },
       {
         name: 'moment',
-        path: 'node_modules/moment',
-        packageMeta: {
-          main: 'moment.js',
-          defaultExtension: 'js'
-        }
+        path: 'node_modules/moment/moment.js'
       }
     ];
-    
+
     this.addPackagesBundles(additionalPackages);
 
     /* Add to or override NPM module configurations: */
