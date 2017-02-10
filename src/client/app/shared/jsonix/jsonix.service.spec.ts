@@ -198,5 +198,100 @@ export function main() {
       console.log(geodesyMl);
       expect(geodesyMl).toContain('something important happened');
     });
+
+    let validJsonWithReceiverWithNotes = `
+    {
+        "geo:siteLog": {
+	        "gnssReceivers": [
+	          {
+	            "TYPE_NAME": "GEODESYML_0_4.GnssReceiverPropertyType",
+	            "gnssReceiver": {
+	              "TYPE_NAME": "GEODESYML_0_4.GnssReceiverType",
+	              "description": {
+	                "TYPE_NAME": "GML_3_2_1.StringOrRefType",
+	                "value": ""
+	              },
+	              "descriptionReference": {
+	                "TYPE_NAME": "GML_3_2_1.ReferenceType"
+	              },
+	              "identifier": {
+	                "TYPE_NAME": "GML_3_2_1.CodeWithAuthorityType",
+	                "value": ""
+	              },
+	              "type": {
+	                "TYPE_NAME": "GML_3_2_1.CodeType",
+	                "value": ""
+	              },
+	              "notes": "!!!SOME INTERESTING REMARKS!!!",
+	              "extension": {
+	                "TYPE_NAME": "AnyType",
+	                "attributes": {
+	                  "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
+	                  "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+	                }
+	              },
+	              "manufacturerName": "",
+	              "manufacturerModel": "",
+	              "manufacturerPartNumber": "",
+	              "manufacturerDescription": "",
+	              "manufacturerSerialNumber": "3209",
+	              "igsModelCode": {
+	                "TYPE_NAME": "GEODESYML_0_4.IgsReceiverModelCodeType",
+	                "value": ""
+	              },
+	              "receiverType": {
+	                "TYPE_NAME": "GEODESYML_0_4.IgsReceiverModelCodeType",
+	                "codeList":
+	                "http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode",
+	                "codeListValue": "ASHTECH Z-XII3",
+	                "codeSpace": "https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab",
+	                "value": "blah blah"
+	              },
+	              "satelliteSystem": [
+	                {
+	                  "TYPE_NAME": "GML_3_2_1.CodeType",
+	                  "codeSpace": "eGeodesy/satelliteSystem",
+	                  "value": "GPS",
+	                  "codeListValue": ""
+	                }
+	              ],
+	              "serialNumber": "",
+	              "firmwareVersion": "1Y07-1DY4",
+	              "elevationCutoffSetting": 0,
+	              "dateInstalled": {
+	                "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	                "value": [
+	                  "2009-08-26T19:51:00.000Z"
+	                ]
+	              },
+	              "dateRemoved": {
+	                "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	                "value": [
+	                  ""
+	                ]
+	              },
+	              "temperatureStabilization": 0
+	            },
+	            "dateInserted": {
+	              "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	              "value": [ ]
+	            },
+	            "dateDeleted": {
+	              "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	              "value": [ ]
+	            },
+	            "deletedReason": ""
+            }]
+        }
+    }`;
+
+    fit('should parse valid Json with receiver with notes', () => {
+      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
+      expect(geodesyMl).not.toBeNull();
+      console.log(geodesyMl);
+      expect(geodesyMl).toContain('gnssReceivers');
+      expect(geodesyMl).toContain('!!!SOME INTERESTING REMARKS!!!');
+    });
+
   });
 }

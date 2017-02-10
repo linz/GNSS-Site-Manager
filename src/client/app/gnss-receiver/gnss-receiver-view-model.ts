@@ -35,7 +35,7 @@ export class GnssReceiverViewModel extends AbstractViewModel {
 
     createFieldMappings(): void {
 
-        this.addFieldMapping('/gnssReceiver/receiverType/value', 'string', '/receiverType', 'string');
+        this.addFieldMapping('/gnssReceiver/igsModelCode/value', 'string', '/receiverType', 'string');
 
         this.addFieldMapping('/gnssReceiver/manufacturerSerialNumber', 'string', '/manufacturerSerialNumber', 'string');
 

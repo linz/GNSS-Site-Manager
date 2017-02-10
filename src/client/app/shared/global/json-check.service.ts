@@ -101,7 +101,9 @@ export class JsonCheckService {
   };
 
   private receiver: any = {
-    receiverType: { value: '' },
+	notes: '',
+	extension: '',
+    igsModelCode: { value: '' },
     manufacturerSerialNumber: '',
     serialNumber: '',
     firmwareVersion: '',
@@ -112,11 +114,12 @@ export class JsonCheckService {
     elevationCutoffSetting: '',
     temperatureStabilization: '',
     dateInstalled: { value: [''] },
-    dateRemoved: { value: [''] },
-    notes: ''
+    dateRemoved: { value: [''] }
   };
 
   private antenna: any = {
+    notes: '',
+    extension: '',
     antennaType: {
       codeListValue: '',
       value: ''
@@ -132,12 +135,13 @@ export class JsonCheckService {
     antennaCableType: '',
     antennaCableLength: '',
     dateInstalled: { value: [''] },
-    dateRemoved: { value: [''] },
-    notes: ''
+    dateRemoved: { value: [''] }
   };
 
   private surveyedLocalTie: any = {
-    tiedMarkerName: '',
+	notes: '',
+	extension: '',
+	tiedMarkerName: '',
     tiedMarkerUsage: '',
     tiedMarkerCDPNumber: '',
     tiedMarkerDOMESNumber: '',
@@ -148,12 +152,13 @@ export class JsonCheckService {
     }],
     localSiteTiesAccuracy: '',
     surveyMethod: '',
-    dateMeasured: { value: [''] },
-    notes: ''
+    dateMeasured: { value: [''] }
   };
 
   private frequencyStandard: any = {
-    standardType: { value: '' },
+	notes: '',
+	extension: '',
+	standardType: { value: '' },
     inputFrequency: '',
     validTime: {
       abstractTimePrimitive: {
@@ -162,15 +167,15 @@ export class JsonCheckService {
           endPosition: { value: [''] }
         }
       }
-    },
-    notes: ''
+    }
   };
 
   private humiditySensor: any = {
-    dataSamplingInterval: 0,
+	notes: '',
+	extension: '',
+	dataSamplingInterval: 0,
     accuracyPercentRelativeHumidity: 0,
     aspiration: '',
-    notes: '',
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
@@ -186,9 +191,10 @@ export class JsonCheckService {
   };
 
   private pressureSensor: any = {
-    dataSamplingInterval: 0,
+	notes: '',
+	extension: '',
+	dataSamplingInterval: 0,
     accuracyHPa: 0,
-    notes: '',
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
@@ -204,10 +210,11 @@ export class JsonCheckService {
   };
 
   private temperatureSensor: any = {
-    dataSamplingInterval: 0,
+	notes: '',
+	extension: '',
+	dataSamplingInterval: 0,
     accuracyDegreesCelcius: 0,
     aspiration: '',
-    notes: '',
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
@@ -223,8 +230,9 @@ export class JsonCheckService {
   };
 
   private waterVaporSensor: any = {
-    dataSamplingInterval: 0,
-    notes: '',
+	notes: '',
+	extension: '',
+	dataSamplingInterval: 0,
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
