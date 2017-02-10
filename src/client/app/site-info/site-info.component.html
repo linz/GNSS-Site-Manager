@@ -82,8 +82,7 @@
                   <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Country</label>
                   <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
-                           [(ngModel)]="siteLocation.countryCodeISO" name="siteCountry" #siteCountry="ngModel"
-                           disabled="{{!hasEditRole}}"/>
+                       [(ngModel)]="siteLocation.countryCodeISO.value" name="siteCountry" #siteCountry="ngModel"/>
                   </div>
                 </div>
               </div>
