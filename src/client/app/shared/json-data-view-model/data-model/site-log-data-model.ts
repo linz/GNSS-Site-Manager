@@ -26,7 +26,7 @@ export class SiteLogDataModel {
     siteMetadataCustodian: any;
     siteDataSource: any;
     moreInformation: any;
-    dataStreamsSet: any;
+    dataStreams: any;
 
     /**
      * Extract the data in the supplied JSON object or create an empty array / object for each item that doesn't exist.
@@ -61,7 +61,7 @@ export class SiteLogDataModel {
             this.siteMetadataCustodian = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteMetadataCustodian, false);
             this.siteDataSource = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteDataSource, false);
             this.moreInformation = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].moreInformation, false);
-            this.dataStreamsSet = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].dataStreamsSet, false);
+            this.dataStreams = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].dataStreams, false);
         }
     }
 

@@ -31,5 +31,5 @@ export class ViewSiteLog {
     siteMetadataCustodian: any;
     siteDataSource: any;
     moreInformation: any;
-    dataStreamsSet: any;
+    dataStreams: any;
 }

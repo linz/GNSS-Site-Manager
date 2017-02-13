@@ -1516,8 +1516,8 @@ export class JsonViewModelServiceSpecData {
                 moreInformation: {
                     TYPE_NAME: 'GEODESYML_0_4.MoreInformationType'
                 },
-                dataStreamsSet: {
-                    TYPE_NAME: 'GEODESYML_0_4.DataStreamsPropertyType'
+                dataStreams: {
+                    TYPE_NAME: 'GEODESYML_0_4.DataStreamPropertyType'
                 }
             }
         };

@@ -60,7 +60,7 @@ export class JsonViewModelService {
         siteLogViewModel.siteLog.siteMetadataCustodian = siteLogDataModel.siteMetadataCustodian;
         siteLogViewModel.siteLog.siteDataSource = siteLogDataModel.siteDataSource;
         siteLogViewModel.siteLog.moreInformation = siteLogDataModel.moreInformation;
-        siteLogViewModel.siteLog.dataStreamsSet = siteLogDataModel.dataStreamsSet;
+        siteLogViewModel.siteLog.dataStreams = siteLogDataModel.dataStreams;
 
         console.debug('dataModelToViewModelJson - siteLogViewModel: ', siteLogViewModel);
 
@@ -89,7 +89,7 @@ export class JsonViewModelService {
         siteLogDataModel.siteMetadataCustodian = viewModelJson.siteLog.siteMetadataCustodian;
         siteLogDataModel.siteDataSource = viewModelJson.siteLog.siteDataSource;
         siteLogDataModel.moreInformation = viewModelJson.siteLog.moreInformation;
-        siteLogDataModel.dataStreamsSet = viewModelJson.siteLog.dataStreamsSet;
+        siteLogDataModel.dataStreams = viewModelJson.siteLog.dataStreams;
 
         return siteLogDataModel;
     }
