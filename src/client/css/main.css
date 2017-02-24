@@ -754,3 +754,91 @@ form .ng-invalid {
 .body.reasonPrompt.error {
     color: red;
 }
+
+/* Use image method as Bootstrap Glyphicons do not display on IE browsers
+   Note: this is a downgrade approach and is for IE only!
+*/
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .glyphicon-menu-hamburger {
+        background: url('./img/menu-hamburger.png') no-repeat;
+        height: 15px !important;
+        width: 16px !important;
+        top: -1px;
+    }
+    .glyphicon-option-vertical {
+        background: url('./img/option-vertical.png') no-repeat;
+        height: 12px !important;
+        width: 14px !important;
+    }
+    .glyphicon-remove {
+        background: url('./img/remove.png') no-repeat;
+        height: 12px !important;
+        width: 13px !important;
+        top: -1px;
+    }
+    .btn-xs > .glyphicon-plus-sign {
+        background: url('./img/add.png') no-repeat;
+        height: 13px !important;
+        width: 13px !important;
+        top: -1px;
+    }
+    .glyphicon-minus-sign {
+        background: url('./img/minus-lg.png') no-repeat;
+        height: 16px !important;
+        width: 16px !important;
+        top: -1px;
+    }
+    .glyphicon-plus-sign {
+        background: url('./img/plus-lg.png') no-repeat;
+        height: 16px !important;
+        width: 17px !important;
+        top: -1px;
+    }
+    .panel-level-2 .panel-title > .glyphicon-minus-sign{
+        background: url('./img/minus-sm.png') no-repeat;
+        height: 15px !important;
+        width: 15px !important;
+        top: -1px;
+    }
+    .panel-level-2 .panel-title > .glyphicon-plus-sign {
+        background: url('./img/plus-sm.png') no-repeat;
+        height: 15px !important;
+        width: 15px !important;
+        top: -1px;
+    }
+    .glyphicon-calendar {
+        background: url('./img/calendar.png') no-repeat;
+        width: 15px !important;
+        height: 14px !important;
+    }
+    .glyphicon-chevron-left {
+        background: url('./img/arrow-left.png') no-repeat;
+        width: 9px !important;
+        height: 11px !important;
+    }
+    .glyphicon-chevron-right {
+        background: url('./img/arrow-right.png') no-repeat;
+        width: 8px !important;
+        height: 11px !important;
+    }
+    .glyphicon-chevron-up {
+        background: url('./img/chevron-up.png') no-repeat;
+        width: 11px !important;
+        height: 7px !important;
+    }
+    .glyphicon-chevron-down {
+        background: url('./img/chevron-down.png') no-repeat;
+        width: 11px !important;
+        height: 7px !important;
+    }
+    .glyphicon-ok {
+        background: url('./img/ok.png') no-repeat;
+        width: 13px !important;
+        height: 11px !important;
+    }
+    .btn-cancel > .glyphicon-remove {
+        background: url('./img/cancel.png') no-repeat;
+        width: 10px !important;
+        height: 10px !important;
+    }
+}
