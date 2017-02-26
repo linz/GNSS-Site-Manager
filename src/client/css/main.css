@@ -339,6 +339,7 @@ form .ng-invalid {
   padding: 0 8px !important;
   width: 100%;
   font-size: 14px;
+  height: 60px;
   line-height: 1.42857143;
   color: #555;
   background-color: #fff;
