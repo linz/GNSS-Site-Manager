@@ -35,7 +35,7 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
 
   compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
     let date1: string = obj1.startDate;
-    let date2: string = obj2.startDate;
+    let date2: string = obj2.endDate;
     return AbstractGroup.compareDates(date1, date2);
   }
 

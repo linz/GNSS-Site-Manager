@@ -34,7 +34,7 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
 
   compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
     let date1: string = obj1.dateInstalled;
-    let date2: string = obj2.dateInstalled;
+    let date2: string = obj2.dateRemoved;
     return AbstractGroup.compareDates(date1, date2);
   }
 
