@@ -31,7 +31,7 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
   }
 
   getItemName(): string {
-    return 'WaterVapor Sensor';
+    return 'Water Vapor Sensor';
   }
 
   compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
