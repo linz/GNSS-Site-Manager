@@ -2,6 +2,8 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ServiceWorkerService } from '../index';
 import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
+import { UserAuthService } from '../global/user-auth.service';
+import { User } from 'oidc-client';
 
 /**
  * This class represents the toolbar component which is the header of all UI pages.
@@ -14,16 +16,19 @@ import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 })
 export class ToolbarComponent implements OnInit {
   public siteId: string;
+  public user: User | null = null;
   @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onRevert: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
 
-  constructor(
-    private serviceWorkerService: ServiceWorkerService,
-    private route: ActivatedRoute,
-    private router: Router) {
+  private loadedUserSub: any;
+
+  constructor(private serviceWorkerService: ServiceWorkerService,
+              private route: ActivatedRoute,
+              private router: Router,
+              private userAuthService: UserAuthService) {
   }
 
   ngOnInit() {
@@ -69,9 +74,18 @@ export class ToolbarComponent implements OnInit {
     });
   }
 
+  login() {
+    this.userAuthService.login();
+  }
+
+  logout() {
+    this.userAuthService.logout();
+  }
+
   private setupSubscriptions() {
     this.setupServiceWorkerSubscription();
     this.setupRouterSubscription();
+    this.setupAuthSubscription();
   }
 
   private setupServiceWorkerSubscription() {
@@ -94,6 +108,12 @@ export class ToolbarComponent implements OnInit {
             let obj: {id: string} = <any> param.valueOf();
             this.siteId = obj.id;
           });
-        });
+    });
+  }
+
+  private setupAuthSubscription() {
+    this.loadedUserSub = this.userAuthService.userLoadededEvent.subscribe((u: User) => {
+        this.user = u;
+    });
   }
 }

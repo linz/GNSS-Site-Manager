@@ -9,7 +9,8 @@
     "build.assets.dev",
     "build.html_css",
     "build.js.dev",
-    "build.index.dev"
+    "build.index.dev",
+    "build.auth.dev"
   ],
 
   "build.dev.watch": [
@@ -36,7 +37,9 @@
     "build.bundles",
     "build.bundles.app",
     "minify.bundles",
-    "build.index.prod"
+    "build.index.prod",
+    "copy.oidc-client.prod",
+    "build.auth.prod"
   ],
 
   "build.prod.aot": [
