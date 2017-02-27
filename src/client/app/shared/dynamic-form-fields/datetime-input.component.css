@@ -14,7 +14,7 @@
 .calendar-popup .btn-time {
   color: #337ab7;
   background-color: transparent;
-  font-size: 12px;
+  font-size: 13px;
   line-height: 1.3;
   border-radius: 3px;
   padding: 2px 5px;
@@ -35,7 +35,7 @@
 }
 .calendar-popup .center-btns {
   margin: 0 auto;
-  width: 120px;
+  width: 135px;
 }
 .btn-ok {
   color: #337ab7;
@@ -60,26 +60,6 @@
 
 .z-lowest {
   z-index: 0 !important;
-}
-
-/* Special CSS classes for mobile phones - portrait and landscape */
-@media (max-width: 767px) {
-  .calendar-popup {
-    height: 325px;
-  }
-  .calendar-popup .input-time {
-    padding: 2px 5px;
-    width: 35px;
-  }
-  .calendar-popup .btn-time {
-    font-size: 11px;
-    line-height: 1.2;
-    border-radius: 2px;
-    padding: 1px 3px;
-  }
-  .calendar-popup .center {
-    width: 115px;
-  }
 }
 
 @media (min-width: 451px) AND (max-width: 550px) {
