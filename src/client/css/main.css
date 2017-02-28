@@ -87,7 +87,7 @@ ul {
   line-height: 1.5;
   margin-top: -1px;
   padding: 1px 5px;
-  top: -1px;
+  top: -2px;
 }
 .btn-toggle {
   background-color: transparent;
@@ -108,11 +108,15 @@ ul {
   color: #d9edf7;
 }
 .btn-group-xs > .btn, .btn-xs {
-    font-size: 13px;
+    font-size: 14px;
     padding: 0 5px;
-    top: -1px;
 }
-
+.btn-group-xs > .btn, .btn-xxs {
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 0 5px;
+    border-radius: 3px;
+}
 .panel-group .panel-level-1 {
   margin-top: 15px;
 }
@@ -304,7 +308,7 @@ ul {
   background-color: #fff !important;
   border: 0 !important;
   margin-bottom: 0 !important;
-  padding: 10px;
+  padding: 5px;
 }
 .alert {
   margin-bottom: 0;
@@ -440,7 +444,7 @@ form .ng-invalid {
 /* For Mobile devices - portrait and landscape */
 @media (max-width: 767px) {
   .well {
-    padding: 7px;
+    padding-bottom: 2px;
   }
   .form-control {
     padding: 0 5px;

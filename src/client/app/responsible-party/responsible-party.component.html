@@ -8,7 +8,7 @@
       {{partyName}}
     </span>
     <span *ngIf="isToShowAddNewButton()" class="pull-right">
-      <button class="btn btn-primary btn-xs"
+      <button class="btn btn-primary btn-xxs"
               title="Add a new {{partyName}}"
               [disabled]="isToEnableAddNewButton()"
               (click)="addNewResponsibleParty(); miscUtils.showFullView($event);">
@@ -25,7 +25,7 @@
       <div class="form-group" [ngClass]="{'panel-subtitle': responsibleParties.length > 1}">
         <label class="col-md-8 col-sm-8 col-xs-8 col-xxs-9">{{ getSimplePartyNameInOrder(i) }}</label>
         <div class="col-md-4 col-sm-4 col-xs-4 col-xxs-3" *ngIf="isToShowRemoveButton(i)">
-          <button class="btn btn-danger btn-xs pull-right"
+          <button class="btn btn-danger btn-xxs pull-right"
                   title="Remove the new {{partyName}}"
                   (click)="removeNewResponsibleParty()">
             <i class="glyphicon glyphicon-remove"></i>
