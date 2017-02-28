@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
 
@@ -11,23 +11,28 @@ import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model
     selector: 'local-episodic-effects-group',
     templateUrl: 'local-episodic-effects-group.component.html',
 })
-export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> {
-    public miscUtils: any = MiscUtils;
-
+export class LocalEpisodicEventsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> implements OnInit {
     @Input()
     set siteLogModel(siteLogModel: any) {
-        this.setItemsCollection(siteLogModel.localEpisodicEffects);
-        console.log('LocalEpisodicEffects: ', this.getItemsCollection());
+        siteLogModel && this.setItemsCollection(siteLogModel.localEpisodicEvents);
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEffects);
-        console.log('LocalEpisodicEffects (Original): ', this.getItemsOriginalCollection());
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEvents);
     }
 
     constructor() {
         super();
+    }
+
+    ngOnInit() {
+        this.setupForm();
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('localEpisodicEvents', this.groupArrayForm);
     }
 
     getItemName(): string {

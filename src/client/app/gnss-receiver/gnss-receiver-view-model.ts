@@ -1,4 +1,4 @@
-import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
+import { dontSetDetfaults, AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../shared/global/misc-utils';
 
 export class GnssReceiverViewModel extends AbstractViewModel {
@@ -17,7 +17,7 @@ export class GnssReceiverViewModel extends AbstractViewModel {
     public notes: string;
 
     constructor() {
-        super();
+        super(dontSetDetfaults);
 
         this.receiverType = '';
         this.manufacturerSerialNumber = '';

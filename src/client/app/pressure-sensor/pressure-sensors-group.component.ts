@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormArray } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
 
@@ -11,24 +11,31 @@ import { PressureSensorViewModel } from './pressure-sensor-view-model';
   selector: 'pressure-sensors-group',
   templateUrl: 'pressure-sensors-group.component.html',
 })
-export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> {
-  public miscUtils: any = MiscUtils;
-
+export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> implements OnInit {
   @Input()
   set siteLogModel(siteLogModel: any) {
-    this.setItemsCollection(siteLogModel.pressureSensors);
+    siteLogModel && this.setItemsCollection(siteLogModel.pressureSensors);
     console.log('PressureSensors: ', this.getItemsCollection());
   }
 
   @Input()
   set originalSiteLogModel(originalSiteLogModel: any) {
-    this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
+    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
     console.log('PressureSensors (Original): ', this.getItemsOriginalCollection());
   }
 
   constructor() {
     super();
   }
+
+    ngOnInit() {
+        this.setupForm();
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('pressureSensors', this.groupArrayForm);
+    }
 
   getItemName(): string {
     return 'Pressure Sensor';

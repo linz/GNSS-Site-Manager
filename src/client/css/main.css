@@ -439,7 +439,24 @@ ul {
   background-color: #d9f7e3 !important;
 }
 .panel-level-1.panel-invalid {
-  border-color: #a33f1f !important;
+    border-color: #a33f1f !important;
+}
+form .ng-invalid {
+    border: 1px solid #a94442;
+}
+
+input.ng-invalid, textarea.ng-invalid, datetime-input.ng-invalid input, text-input.ng-invalid input, number-input.ng-invalid input {
+  border: 1px solid #a94442 !important;;
+  background-color: #ffd2bc !important;
+}
+
+datetime-input.ng-dirty input, input.ng-dirty, textarea.ng-dirty, text-input.ng-dirty input, number-input.ng-dirty input {
+  border: 1px solid #502242;
+  background-color: #ffe5b6;
+}
+
+.form-control {
+  padding: 3px 5px;
 }
 .panel-level-1.panel-invalid > .panel-heading {
   background-color: #a33f1f !important;

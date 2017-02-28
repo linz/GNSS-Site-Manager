@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
+import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
@@ -18,6 +19,20 @@ import { User } from 'oidc-client';
  */
 @Injectable()
 export class SiteLogService {
+
+    private isFormModifiedSubject: Subject<boolean> = new Subject();
+
+    private handleXMLData(response: Response): string {
+        if (response.status === 200) {
+            var geodesyMl: any = response.text();
+            let json: string = this.jsonixService.geodesyMLToJson(geodesyMl);
+            console.log('handleXMLData - json: ', json);
+            return json;
+        } else {
+            let msg: string = 'Error with GET: ' + response.url;
+            throw new Error(msg);
+        }
+    }
 
     /**
      * Creates a new SiteLogService with the injected Http.
@@ -161,18 +176,6 @@ export class SiteLogService {
             .catch(HttpUtilsService.handleError);
     }
 
-    private handleXMLData(response: Response): string {
-        if (response.status === 200) {
-            var geodesyMl: any = response.text();
-            let json: string = this.jsonixService.geodesyMLToJson(geodesyMl);
-            console.log('handleXMLData - json: ', json);
-            return json;
-        } else {
-            let msg: string = 'Error with GET: ' + response.url;
-            throw new Error(msg);
-        }
-    }
-
     /**
      * Returns one site log defined by the fourCharacterId.  Alternative method that retrieves GeodeesyML format
      * from the backend service and returns an alternative JSON equivalent that is almost, but not quite the same
@@ -198,5 +201,21 @@ export class SiteLogService {
         let statustext: string = response.statusText;
         console.debug('SiteLogService call wfsQuery - status: ' + status + ' status text: ' + statustext + ' data: ', data);
         return response; //data;
+    }
+
+    /**
+     * Method to allow clients to subscribe to know when the form modified state has changed
+     * @return {Observable<null>}
+     */
+    getIsFormModifiedSubscription(): Observable<boolean> {
+        return this.isFormModifiedSubject.asObservable();
+    }
+
+    /**
+     * Inform subscribers when the form modified state has changed
+     * @param isModified - state of form
+     */
+    sendFormModifiedStateMessage(isModified: boolean) {
+        this.isFormModifiedSubject.next(isModified);
     }
 }

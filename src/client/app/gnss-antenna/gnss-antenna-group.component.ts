@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 
@@ -11,22 +11,29 @@ import { GnssAntennaViewModel } from './gnss-antenna-view-model';
   selector: 'gnss-antenna-group',
   templateUrl: 'gnss-antenna-group.component.html',
 })
-export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewModel> {
-  public miscUtils: any = MiscUtils;
-
+export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewModel> implements OnInit {
   @Input()
   set siteLogModel(siteLogModel: any) {
-    this.setItemsCollection(siteLogModel.gnssAntennas);
+    siteLogModel && this.setItemsCollection(siteLogModel.gnssAntennas);
   }
 
   @Input()
   set originalSiteLogModel(originalSiteLogModel: any) {
-    this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
+    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
   }
 
   constructor() {
     super();
   }
+
+    ngOnInit() {
+        this.setupForm();
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('gnssAntennas', this.groupArrayForm);
+    }
 
   getItemName(): string {
     return 'GNSS Antenna';

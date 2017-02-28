@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormArray } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 
@@ -11,23 +11,28 @@ import { GnssReceiverViewModel } from './gnss-receiver-view-model';
     selector: 'gnss-receivers-group',
     templateUrl: 'gnss-receivers-group.component.html',
 })
-export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewModel> {
-    public miscUtils: any = MiscUtils;
-
-    @Input()
+export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewModel> implements OnInit {
+   @Input()
     set siteLogModel(siteLogModel: any) {
-        this.setItemsCollection(siteLogModel.gnssReceivers);
-        console.log('GnssReceivers: ', this.getItemsCollection());
+        siteLogModel && this.setItemsCollection(siteLogModel.gnssReceivers);
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        this.setItemsOriginalCollection(originalSiteLogModel.gnssReceivers);
-        console.log('GnssReceivers (Original): ', this.getItemsOriginalCollection());
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssReceivers);
     }
 
     constructor() {
         super();
+    }
+
+    ngOnInit() {
+        this.setupForm();
+    }
+
+    private setupForm() {
+        this.groupArrayForm = new FormArray([]);
+        this.siteInfoForm.addControl('gnssReceivers', this.groupArrayForm);
     }
 
     getItemName(): string {

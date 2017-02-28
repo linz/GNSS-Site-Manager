@@ -31,7 +31,7 @@ export class GnssAntennaViewModel extends AbstractViewModel {
     this.alignmentFromTrueNorth = 0;
     this.antennaRadomeType = '';
     this.radomeSerialNumber = '';
-    this.antennaCableType = '';;
+    this.antennaCableType = '';
     this.antennaCableLength = 0;
     this.notes = '';
   }

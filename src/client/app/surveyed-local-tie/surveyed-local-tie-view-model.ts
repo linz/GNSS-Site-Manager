@@ -15,7 +15,7 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
     public dz: number;
 
     public localSiteTiesAccuracy: string;
-    public tiedMarkerSurveyMethod: string;
+    public surveyMethod: string;
     public dateMeasured: string;
 
     public notes: string;
@@ -30,6 +30,7 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
         this.tiedMarkerCDPNumber = '';
         this.tiedMarkerDOMESNumber = '';
         this.localSiteTiesAccuracy = '';
+        this.surveyMethod = '';
         this.notes = '';
         this.dx = 0;
         this.dy = 0;

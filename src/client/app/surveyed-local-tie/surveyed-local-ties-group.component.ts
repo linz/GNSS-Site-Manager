@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormArray } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 
@@ -11,23 +11,30 @@ import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
     selector: 'surveyed-local-ties-group',
     templateUrl: 'surveyed-local-ties-group.component.html',
 })
-export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> {
-    public miscUtils: any = MiscUtils;
-
+export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> implements OnInit {
     @Input()
     set siteLogModel(siteLogModel: any) {
-        this.setItemsCollection(siteLogModel.surveyedLocalTies);
+        siteLogModel && this.setItemsCollection(siteLogModel.surveyedLocalTies);
         console.log('SurveyedLocalTies: ', this.getItemsCollection());
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
         console.log('SurveyedLocalTies (Original): ', this.getItemsOriginalCollection());
     }
 
     constructor() {
         super();
+    }
+
+    ngOnInit() {
+        this.setupForm();
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('surveyedLocalTies', this.groupArrayForm);
     }
 
     getItemName(): string {

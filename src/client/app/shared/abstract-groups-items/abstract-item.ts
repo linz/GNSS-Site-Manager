@@ -1,8 +1,37 @@
+import { EventEmitter, OnInit, Input, Output, OnChanges, SimpleChange } from '@angular/core';
+import { FormGroup, FormArray } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
-import { EventEmitter, DoCheck, OnInit } from '@angular/core';
 import { DialogService } from '../index';
+import { MiscUtils } from '../global/misc-utils';
 
-export abstract class AbstractItem implements DoCheck, OnInit {
+export abstract class AbstractItem implements OnInit, OnChanges {
+    protected miscUtils: any = MiscUtils;
+    protected itemGroup: FormGroup;
+
+    @Input('groupArray') groupArray: FormArray;
+
+    /**
+     * The index of this sensor (zero-based)
+     */
+    @Input() index: number;
+
+    /**
+     * Total number of Frequency Standards
+     */
+    @Input() total: number;
+
+    /**
+     * This is to receive geodesyEvent from parent.
+     */
+    @Input() geodesyEvent: GeodesyEvent;
+
+    /**
+     * Events children components can send to their parent components. Usually these are then passed to all
+     * child components.
+     * @type {EventEmitter<boolean>}
+     */
+    @Output() returnEvents = new EventEmitter<GeodesyEvent>();
+
     protected isNew: boolean = false;
     protected isOpen: boolean = false;
 
@@ -13,21 +42,27 @@ export abstract class AbstractItem implements DoCheck, OnInit {
      */
     private lastGeodesyEvent: GeodesyEvent = {name: EventNames.none};
 
-
-    /**
-     * Get the (@Output) GeodesyEvent used to communicate from parent to child.
-     */
-    abstract getGeodesyEvent(): GeodesyEvent;
-
     /**
      * Get the index of the item.
      */
-    abstract getIndex(): number;
+    getIndex(): number {
+        return this.index;
+    }
 
     /**
-     * Get the @Output returnEvents endpoint for the child to send events to the parent
+     * Get the 1-based index number.
      */
-    abstract getReturnEvents(): EventEmitter<GeodesyEvent>;
+    getItemNumber(): number {
+        return this.index+1;
+    }
+
+    getGeodesyEvent(): GeodesyEvent {
+        return this.geodesyEvent;
+    }
+
+    getReturnEvents(): EventEmitter<GeodesyEvent> {
+        return this.returnEvents;
+    }
 
     /**
      * Get the item name to be used in the subclasses and displayed in the HTML.
@@ -35,40 +70,61 @@ export abstract class AbstractItem implements DoCheck, OnInit {
     abstract getItemName(): string;
 
     /**
-    * Creates an instance of the AbstractItem with the injected Services.
-    *
-    * @param {DialogService} dialogService - The injected DialogService.
-    */
-    constructor(
-      protected dialogService: DialogService
-    ) {}
+     * Patching (or setting) is used to apply the values in the model to the form.
+     */
+    abstract protected patchForm(): void;
+
+  /**
+   * Creates an instance of the AbstractItem with the injected Services.
+   *
+   * @param {DialogService} dialogService - The injected DialogService.
+   */
+  constructor(
+    protected dialogService: DialogService
+  ) {}
 
     ngOnInit() {
         this.isOpen = this.getIndex() === 0;
     }
 
     /**
-     * Angular doesn't detect changes in objects and need to perform the check with this lifecycle hook ourselves.
-     *
-     * We use it to receive events / messages from the parent component
+     * Deteect changes in @Inputs and delegate to handlers
+     * @param changes sent by the NG Framework
      */
-    ngDoCheck(): void {
-        this.detectHandleGeodesyEvents();
+    ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+        console.log(`ngOnChanges for item: ${this.index}`);
+        let log: string[] = [];
+        for (let propName in changes) {
+            let changedProp = changes[propName];
+            if (changedProp.isFirstChange()) {
+                console.log(`Item index ${this.index} - initial value of ${propName} set to: `, changedProp);
+                if (propName === 'geodesyEvent') {
+                    this.handleGeodesyEvents();
+                }
+            } else {
+                console.log(`Item index ${this.index} - subsequent value of ${propName} set to: `, changedProp);
+                if (propName === 'index') {
+                    let previousIndex: number = changedProp.previousValue.valueOf();
+                    let newIndex: number = changedProp.currentValue.valueOf();
+                    if (previousIndex !== newIndex) {
+                        this.patchItemForm(newIndex);
+                    }
+                }
+            }
+        }
     }
 
-    detectHandleGeodesyEvents() {
-        if (this.getGeodesyEvent().name !== this.lastGeodesyEvent.name) {
-            this.copyEventToLast();
-            console.log('child event: ', EventNames[this.getGeodesyEvent().name]);
+    handleGeodesyEvents() {
+            // console.log('child event for item index: '+this.index+': ', EventNames[this.getGeodesyEvent().name]);
             switch (this.getGeodesyEvent().name) {
                 case EventNames.newItem:
                     this.newItem(this.getGeodesyEvent().valueNumber);
                     break;
-
+                case EventNames.none:
+                    break;
                 default:
                     console.log('Child component - unhandled event: ', EventNames[this.getGeodesyEvent().name]);
             }
-        }
     }
 
     /**
@@ -108,17 +164,11 @@ export abstract class AbstractItem implements DoCheck, OnInit {
         if (this.getIndex() === indexOfNew) {
             this.isNew = true;
             this.isOpen = true;
+        } else {
+            // close all others
+            this.isNew = false;
+            this.isOpen = false;
         }
-    }
-
-    /**
-     * Keep a lastGeodesyEvent so can see in ngDoCheck() if the event has changed
-     */
-    private copyEventToLast() {
-        this.lastGeodesyEvent.name = this.getGeodesyEvent().name;
-        this.lastGeodesyEvent.valueNumber = this.getGeodesyEvent().valueNumber;
-        this.lastGeodesyEvent.valueObject = this.getGeodesyEvent().valueObject;
-        this.lastGeodesyEvent.valueString = this.getGeodesyEvent().valueString;
     }
 
     /**
@@ -138,5 +188,15 @@ export abstract class AbstractItem implements DoCheck, OnInit {
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;
+    }
+
+    /**
+     * Force a manual patch of the Item with given index.
+     * @param index
+     */
+    private patchItemForm(index: number) {
+        if (index == this.index) {
+            this.patchForm();
+        }
     }
 }

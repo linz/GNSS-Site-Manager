@@ -1,7 +1,7 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
+import { FormArray, FormBuilder } from '@angular/forms';
 
 /**
  * This class represents a collection of FrequencyStandard Component.
@@ -11,25 +11,30 @@ import { FrequencyStandardViewModel } from './frequency-standard-view-model';
   selector: 'frequency-standard-group',
   templateUrl: 'frequency-standard-group.component.html',
 })
-export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> {
-  public miscUtils: any = MiscUtils;
-  @Input() frequencyStandards: any;
+export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> implements OnInit {
+    @Input() frequencyStandards: any;
+
 
  @Input()
   set siteLogModel(siteLogModel: any) {
-    this.setItemsCollection(siteLogModel.frequencyStandards);
+    siteLogModel && this.setItemsCollection(siteLogModel.frequencyStandards);
   }
 
   @Input()
   set originalSiteLogModel(originalSiteLogModel: any) {
-    this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
+    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
   }
 
-  constructor() {
-    super();
-  }
+    ngOnInit() {
+        this.setupForm();
+    }
 
-  getItemName(): string {
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('frequencyStandards', this.groupArrayForm);
+    }
+
+    getItemName(): string {
     return 'Frequency Standard';
   }
 

@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 
@@ -11,24 +11,31 @@ import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
   selector: 'temperature-sensors-group',
   templateUrl: 'temperature-sensors-group.component.html',
 })
-export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> {
-  public miscUtils: any = MiscUtils;
-
+export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> implements OnInit {
   @Input()
   set siteLogModel(siteLogModel: any) {
-    this.setItemsCollection(siteLogModel.temperatureSensors);
+    siteLogModel && this.setItemsCollection(siteLogModel.temperatureSensors);
     console.log('TemperatureSensors: ', this.getItemsCollection());
   }
 
   @Input()
   set originalSiteLogModel(originalSiteLogModel: any) {
-    this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
+    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
     console.log('TemperatureSensors (Original): ', this.getItemsOriginalCollection());
   }
 
   constructor() {
     super();
   }
+
+    ngOnInit() {
+        this.setupForm();
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('temperatureSensors', this.groupArrayForm);
+    }
 
   getItemName(): string {
     return 'Temperature Sensor';

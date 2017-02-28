@@ -1,11 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from 'oidc-client';
 import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
-import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel, ViewSiteLog } from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
+import { ResponsiblePartyType } from '../responsible-party/responsible-party2-group.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import * as _ from 'lodash';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -16,23 +19,33 @@ import { UserAuthService } from '../shared/global/user-auth.service';
   templateUrl: 'site-info.component.html'
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
+    public siteInfoForm: FormGroup;                 // model driven forms
+    // public formIsDirty: boolean = false;    // Necessary as need to compose dirty of template and model forms
+
+    // private SITE_CONTACT: ResponsiblePartyType = ResponsiblePartyType.siteContact;
+    private responsiblePartyType: any = ResponsiblePartyType;
+
+    private siteId: string;
+  private isLoading: boolean = false;
+  private siteLogOrigin: ViewSiteLog;
+  private siteLogModel: ViewSiteLog;
+  private siteIdentification: any = null;
+  private siteLocation: any = {};
+  private siteContacts: Array<any> = [];
+  private siteMetadataCustodian: any = {};
+  private siteDataCenters: Array<any> = [];
+  private siteDataSource: any = {};
+  private errorMessage: string;
+  private siteInfoTab: any = null;
+  private submitted: boolean = false;
   public miscUtils: any = MiscUtils;
   public siteContactName: string = ConstantsService.SITE_CONTACT;
   public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
   public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
   public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
-  public siteId: string;
-  public isLoading: boolean = false;
   public hasEditRole: boolean = false;
-  public siteLogOrigin: any = {};
-  public siteLogModel: any = {};
-  public siteIdentification: any = null;
-  public siteLocation: any = {};
-  public siteContacts: Array<any> = [];
-  public siteMetadataCustodian: any = {};
-  public siteDataCenters: Array<any> = [];
-  public siteDataSource: any = {};
-  public status: any = {
+
+  private status: any = {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
@@ -63,7 +76,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               private siteLogService: SiteLogService,
               private jsonDiffService: JsonDiffService,
               private jsonCheckService: JsonCheckService,
-              private userAuthService: UserAuthService) {
+              private userAuthService: UserAuthService,
+              private formBuilder: FormBuilder,
+              private _changeDetectionRef : ChangeDetectorRef) {
   }
 
   /**
@@ -77,7 +92,29 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     this.authSubscription = this.setupAuthSubscription();
     this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
+    this.setupForm();
     this.loadSiteInfoData();
+    this.setupSubscriptions();
+  }
+
+    private setupForm() {
+        this.siteInfoForm = this.formBuilder.group({
+        });
+    }
+
+    /**
+     * Template and Model driven forms are handled differently and separately
+     */
+    private setupSubscriptions() {
+        this.siteInfoForm.valueChanges.debounceTime(500).subscribe((value: any) => {
+            if (this.siteInfoForm.dirty) {
+                this.siteLogService.sendFormModifiedStateMessage(true);
+                console.log('form dirty - yes: ', value);
+            } else {
+                this.siteLogService.sendFormModifiedStateMessage(false);
+                console.log('form dirty - no');
+            }
+        });
   }
 
   /**
@@ -96,23 +133,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
           this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson.siteLog);//['geo:siteLog']);
-          this.siteIdentification = this.siteLogModel.siteIdentification;
-          this.siteLocation = this.jsonCheckService.getValidSiteLocation(this.siteLogModel.siteLocation);
-          this.siteContacts = [];
-          for (let contact of this.siteLogModel.siteContact) {
-            this.siteContacts.push(this.jsonCheckService.getValidResponsibleParty(contact.ciResponsibleParty));
-          }
-          this.siteMetadataCustodian = this.jsonCheckService
-                  .getValidResponsibleParty(this.siteLogModel.siteMetadataCustodian.ciResponsibleParty);
-          this.siteDataCenters = [];
-          for (let siteDataCenter of this.siteLogModel.siteDataCenter) {
-            this.siteDataCenters.push(this.jsonCheckService.getValidResponsibleParty(siteDataCenter.ciResponsibleParty));
-          }
-          this.siteDataSource = !this.siteLogModel.siteDataSource.ciResponsibleParty ? null : this.jsonCheckService
-                  .getValidResponsibleParty(this.siteLogModel.siteDataSource.ciResponsibleParty);
 
           this.backupSiteLogJson();
           this.isLoading = false;
+            this.siteLogService.sendFormModifiedStateMessage(false);
           this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
         },
         (error: Error) =>  {
@@ -154,45 +178,74 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   /**
    * Save changes made back to siteLog XML
    */
-  public save(form: any) {
+  public save(formValue: any) {
+      // update a copy of the original data with changes from the form and diff that
+      // let siteLogOriginClone: ViewSiteLog = _.cloneDeep(this.siteLogOrigin);
+      console.log(' siteLog before form merge: ', this.siteLogModel);
+      console.log(' formValue before merge and reverse: ', formValue);
+      let formValueClone: any =_.cloneDeep(formValue);
+      this.reverseArrays(formValueClone);
+      console.log(' formValue before merge and after reverse: ', formValueClone);
+      _.merge(this.siteLogModel, formValueClone);
+      console.log(' siteLog after form merge: ', this.siteLogModel);
+      console.log(' siteLogOrigin: ', this.siteLogOrigin);
+
     let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
+
     if ( diffMsg === null || diffMsg.trim() === '') {
       this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
-      return;
+        this.siteLogService.sendFormModifiedStateMessage(false);
+        return;
     }
 
-    let that: any = this;
+    // let that: any = this;
 
-    this.dialogService.confirmSaveDialog(diffMsg,
-      function() {
-        that.isLoading = true;
-        that.submitted = true;
-        that.status.hasNewSiteContact = false;
-        that.status.hasNewSiteMetadataCustodian = false;
-        that.status.hasNewSiteDataCenter = false;
-        that.status.hasNewSiteDataSource = false;
+    this.dialogService.confirmSaveDialog(diffMsg, () => {
+      // function() {
+        this.isLoading = true;
+        this.submitted = true;
+        this.status.hasNewSiteContact = false;
+        this.status.hasNewSiteMetadataCustodian = false;
+        this.status.hasNewSiteDataCenter = false;
+        this.status.hasNewSiteDataSource = false;
         let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
-        siteLogViewModel.siteLog=that.siteLogModel;
-        that.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
+        siteLogViewModel.siteLog=this.siteLogModel;
+        this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
           (responseJson: any) => {
             //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
-            that.isLoading = false;
-            that.backupSiteLogJson();
-            that.dialogService.showSuccessMessage('Done in saving SiteLog data for '+that.siteId);
+            this.isLoading = false;
+              this.siteLogService.sendFormModifiedStateMessage(false);
+              this.backupSiteLogJson();
+            this.dialogService.showSuccessMessage('Done in saving SiteLog data for '+this.siteId);
           },
           (error: Error) =>  {
-            that.isLoading = false;
-            that.errorMessage = <any>error;
-            that.dialogService.showErrorMessage('Error in saving SiteLog data for '+that.siteId);
+            this.isLoading = false;
+            this.errorMessage = <any>error;
+            console.error(error);
+            this.dialogService.showErrorMessage('Error in saving SiteLog data for '+this.siteId);
           }
         );
       },
-      function() {
-        that.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+that.siteId);
-        that.isLoading = false;
+      () => {
+        this.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+this.siteId);
+        this.isLoading = false;
       }
     );
   }
+
+    /**
+     * The array items in the form data (eg. gnssAntennas) is ordered newest to oldest (newest at the top in the view)
+     * but we need them the other way around so can be merged with SiteLogModel.
+     * @param formValue
+     */
+    private reverseArrays(formValue: any) {
+        let items: string[] = Object.keys(formValue);
+        for (let item of items) {
+            if (Array.isArray(formValue[item])) {
+                formValue[item].reverse();
+            }
+        }
+    }
 
   /**
    * Navigate to the default home page (Select-Site tab)
@@ -234,11 +287,24 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   public backupSiteLogJson() {
     this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
+    console.log('siteLogOrigin: ', this.siteLogOrigin);
   }
 
   private setupAuthSubscription(): Subscription {
     return this.userAuthService.userLoadededEvent.subscribe((user: User) => {
         this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
     });
+  }
+
+  public isFormModified(): boolean {
+      // console.debug('isFormModified - controls: ', this.siteInfoForm.controls);
+      // console.debug('  dirty?: ', this.siteInfoForm.dirty)
+      // // console.debug('  and humiditySensorItemComponent?: ', this.humiditySensorGroupComponent.maybeDirty);
+      return false; //this.siteInfoForm.dirty;
+  }
+
+  public newSave(form: FormGroup) {
+      console.log('newSave: ', form);
+      this.save(form.value);
   }
 }

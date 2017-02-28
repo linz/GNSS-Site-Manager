@@ -1,16 +1,24 @@
+import { Input } from '@angular/core';
+import { FormGroup, FormArray } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
+import { MiscUtils } from '../global/misc-utils';
 import * as lodash from 'lodash';
 
 export abstract class AbstractGroup<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
     hasGroupANewItem: boolean = false;
 
+    miscUtils: any = MiscUtils;
+    protected groupArrayForm: FormArray;
+    @Input('siteInfoForm') siteInfoForm: FormGroup;
+
+
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      * @type {{name: EventNames}}
      */
-    private geodesyEvent: GeodesyEvent = {name: EventNames.none};
+    private geodesyEvent: GeodesyEvent = new GeodesyEvent(EventNames.none);
 
     /**
      * All the items (eg. HumiditySensors)
@@ -21,6 +29,24 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * A backup of the original list of items.  Used to diff against upon Save.
      */
     private itemOriginalProperties: T[];
+
+    /**
+     * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
+     * It is true by default.
+     */
+    protected _unlimitedItemsAllowed: boolean = true;
+
+    set unlimitedItems(unlimitedItemsAllowed: boolean) {
+        this._unlimitedItemsAllowed = unlimitedItemsAllowed;
+    }
+
+    get unlimitedItems(): boolean {
+        return this._unlimitedItemsAllowed;
+    }
+
+    isUnlimitedItemsAllowed(): boolean {
+        return this.unlimitedItems;
+    }
 
     /**
      * This is used in comparators but isn't a comparator - just a helper function.  In the comparator, extract the dates
@@ -44,7 +70,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     abstract getItemName(): string;
 
-    public addNewItem(): void {
+    private addNewItem(): void {
         this.isGroupOpen = true;
 
         if (!this.getItemsCollection()) {
@@ -63,6 +89,10 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             // Let the ViewModels do anything they like with the previous item - such as set end/removal date
             this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
         }
+
+        // Let the parent form know that it now has a new child
+        this.groupArrayForm.markAsDirty();
+        this.siteInfoForm.markAsDirty();
     }
 
     /**
@@ -165,9 +195,11 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
     }
 
-    addNew() {
+    addNew(event: UIEvent) {
+        event.preventDefault();
         this.addNewItem();
         this.newItemEvent();
+        console.log('itemProperties at end of addNew: ', this.itemProperties);
     }
 
     /**

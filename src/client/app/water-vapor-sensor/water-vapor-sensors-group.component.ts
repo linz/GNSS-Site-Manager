@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
 
@@ -11,24 +11,32 @@ import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
   selector: 'water-vapor-sensors-group',
   templateUrl: 'water-vapor-sensors-group.component.html',
 })
-export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSensorViewModel> {
-  public miscUtils: any = MiscUtils;
-
+export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSensorViewModel> implements OnInit {
   @Input()
   set siteLogModel(siteLogModel: any) {
-    this.setItemsCollection(siteLogModel.waterVaporSensors);
+    siteLogModel && this.setItemsCollection(siteLogModel.waterVaporSensors);
     console.log('WaterVaporSensors: ', this.getItemsCollection());
   }
 
   @Input()
   set originalSiteLogModel(originalSiteLogModel: any) {
-    this.setItemsOriginalCollection(originalSiteLogModel.waterVaporSensors);
+    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.waterVaporSensors);
     console.log('WaterVaporSensors (Original): ', this.getItemsOriginalCollection());
   }
 
   constructor() {
     super();
   }
+
+    ngOnInit() {
+        this.setupForm();
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('waterVaporSensors', this.groupArrayForm);
+    }
+
 
   getItemName(): string {
     return 'Water Vapor Sensor';
