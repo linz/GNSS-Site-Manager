@@ -6,10 +6,10 @@
          [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
       </i>
       <span *ngIf="index == 0">
-        Current Frequency Standard (Since {{ miscUtils.getDate(frequencyStandard.startDate) }})
+        <span class="hidden-xxs">Current </span>Frequency Standard (Since {{ miscUtils.getDate(frequencyStandard.startDate) }})
       </span>
       <span *ngIf="index != 0">
-        Previous Frequency Standard ({{ miscUtils.getDate(frequencyStandard.startDate) }}
+        <span class="hidden-xxs">Previous </span>Frequency Standard ({{ miscUtils.getDate(frequencyStandard.startDate) }}
         &ndash; {{ miscUtils.getDate(frequencyStandard.endDate) }})
       </span>
     </span>

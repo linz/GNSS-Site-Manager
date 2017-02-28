@@ -7,10 +7,10 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                Current Pressure Sensor (Since {{ miscUtils.getDate(pressureSensor.startDate) }})
+                <span class="hidden-xxs">Current </span>Pressure Sensor (Since {{ miscUtils.getDate(pressureSensor.startDate) }})
             </span>
             <span *ngIf="index != 0">
-                Previous Pressure Sensor ({{ miscUtils.getDate(pressureSensor.startDate) }} &ndash;
+                <span class="hidden-xxs">Previous </span>Pressure Sensor ({{ miscUtils.getDate(pressureSensor.startDate) }} &ndash;
                 {{ miscUtils.getDate(pressureSensor.endDate) }})
             </span>
         </span>
