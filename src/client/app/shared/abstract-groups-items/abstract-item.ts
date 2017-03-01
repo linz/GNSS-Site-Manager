@@ -137,6 +137,6 @@ export abstract class AbstractItem implements DoCheck, OnInit {
     }
 
     getRemoveOrDeletedText(): string {
-        return this.isNew ? 'cancel' : 'delete';
+        return this.isNew ? 'Cancel' : 'Delete';
     }
 }
