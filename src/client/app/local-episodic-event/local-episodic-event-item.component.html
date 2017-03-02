@@ -7,10 +7,10 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                Current Local Episodic Effect (Since {{ miscUtils.getDate(localEpisodicEvent.startDate) }})
+                <span class="hidden-xxs">Current </span>Local Episodic Effect (Since {{ miscUtils.getDate(localEpisodicEvent.startDate) }})
             </span>
             <span *ngIf="index != 0">
-                Previous Local Episodic Effect ({{ miscUtils.getDate(localEpisodicEvent.startDate) }} &ndash;
+                <span class="hidden-xxs">Previous </span>Local Episodic Effect ({{ miscUtils.getDate(localEpisodicEvent.startDate) }} &ndash;
                 {{ miscUtils.getDate(localEpisodicEvent.endDate) }})
             </span>
         </span>

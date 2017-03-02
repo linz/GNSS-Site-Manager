@@ -7,10 +7,10 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                Current Temperature Sensor (Since {{ miscUtils.getDate(temperatureSensor.startDate) }})
+                <span class="hidden-xxs">Current </span>Temperature Sensor (Since {{ miscUtils.getDate(temperatureSensor.startDate) }})
             </span>
             <span *ngIf="index != 0">
-                Previous Temperature Sensor ({{ miscUtils.getDate(temperatureSensor.startDate) }} &ndash;
+                <span class="hidden-xxs">Previous </span>Temperature Sensor ({{ miscUtils.getDate(temperatureSensor.startDate) }} &ndash;
                 {{ miscUtils.getDate(temperatureSensor.endDate) }})
             </span>
         </span>

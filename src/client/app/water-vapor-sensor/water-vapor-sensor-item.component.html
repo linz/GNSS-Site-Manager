@@ -7,10 +7,10 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                Current Water Vapor Sensor (Since {{ miscUtils.getDate(waterVaporSensor.startDate) }})
+                <span class="hidden-xxs">Current </span>Water Vapor Sensor (Since {{ miscUtils.getDate(waterVaporSensor.startDate) }})
             </span>
             <span *ngIf="index != 0">
-                Previous Water Vapor Sensor ({{ miscUtils.getDate(waterVaporSensor.startDate) }} &ndash;
+                <span class="hidden-xxs">Previous </span>Water Vapor Sensor ({{ miscUtils.getDate(waterVaporSensor.startDate) }} &ndash;
                 {{ miscUtils.getDate(waterVaporSensor.endDate) }})
             </span>
         </span>

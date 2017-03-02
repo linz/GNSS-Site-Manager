@@ -7,10 +7,10 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                Current Humidity Sensor (Since {{ miscUtils.getDate(humiditySensor.startDate) }})
+                <span class="hidden-xxs">Current </span>Humidity Sensor (Since {{ miscUtils.getDate(humiditySensor.startDate) }})
             </span>
             <span *ngIf="index != 0">
-                Previous Humidity Sensor ({{ miscUtils.getDate(humiditySensor.startDate) }} &ndash;
+                <span class="hidden-xxs">Previous </span>Humidity Sensor ({{ miscUtils.getDate(humiditySensor.startDate) }} &ndash;
                 {{ miscUtils.getDate(humiditySensor.endDate) }})
             </span>
         </span>
