@@ -1,10 +1,10 @@
-import {ReflectiveInjector} from '@angular/core';
-import {BaseRequestOptions, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
-import {JsonViewModelService} from './json-view-model.service';
-import {JsonViewModelServiceSpecData} from './json-view-model.service.spec.data';
-import {SiteLogViewModel} from './view-model/site-log-view-model';
-import {SiteLogDataModel} from './data-model/site-log-data-model';
+import { ReflectiveInjector } from '@angular/core';
+import { BaseRequestOptions, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { JsonViewModelService } from './json-view-model.service';
+import { JsonViewModelServiceSpecData } from './json-view-model.service.spec.data';
+import { SiteLogViewModel } from './view-model/site-log-view-model';
+import { SiteLogDataModel } from './data-model/site-log-data-model';
 
 export function main() {
   let backend: MockBackend = null;

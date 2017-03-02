@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ConstantsService, MiscUtils, JsonCheckService, ServiceWorkerService } from '../shared/index';
 

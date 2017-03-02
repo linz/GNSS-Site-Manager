@@ -1,5 +1,5 @@
-import {HumiditySensorViewModel} from './humidity-sensor-view-model';
-import {MiscUtils} from '../shared/global/misc-utils';
+import { HumiditySensorViewModel } from './humidity-sensor-view-model';
+import { MiscUtils } from '../shared/global/misc-utils';
 export function main() {
   let humiditySensorsViewModel: HumiditySensorViewModel;
 

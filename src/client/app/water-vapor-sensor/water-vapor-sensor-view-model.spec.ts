@@ -1,5 +1,5 @@
-import {WaterVaporSensorViewModel} from './water-vapor-sensor-view-model';
-import {MiscUtils} from '../shared/global/misc-utils';
+import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
+import { MiscUtils } from '../shared/global/misc-utils';
 export function main() {
   let waterVaporSensorsViewModel: WaterVaporSensorViewModel;
 

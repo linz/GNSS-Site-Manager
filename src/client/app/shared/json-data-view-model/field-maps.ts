@@ -1,4 +1,4 @@
-import {TypedPointer} from './typed-pointer';
+import { TypedPointer } from './typed-pointer';
 
 /**
  * Mapping to assist in mapping data model to view model by linking both sides.

@@ -1,9 +1,9 @@
-import {Injectable} from '@angular/core';
-import {HttpUtilsService} from './http-utils.service';
-import {MiscUtils} from './misc-utils';
+import { Injectable } from '@angular/core';
+import { HttpUtilsService } from './http-utils.service';
+import { MiscUtils } from './misc-utils';
 import * as diff from 'deep-diff';
 import IDiff = deepDiff.IDiff;
-import {JsonPointerService} from '../json-pointer/json-pointer.service';
+import { JsonPointerService } from '../json-pointer/json-pointer.service';
 
 /**
  * JSON Differencing service using https://github.com/flitbit/diff.

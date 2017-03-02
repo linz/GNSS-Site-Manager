@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
-import {SiteLogViewModel} from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site-log-view-model';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.

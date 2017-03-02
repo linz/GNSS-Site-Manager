@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
-import {MiscUtils} from '../shared/index';
-import {AbstractGroup} from '../shared/abstract-groups-items/abstract-group';
-import {LocalEpisodicEventViewModel} from './local-episodic-event-view-model';
+import { Component, Input } from '@angular/core';
+import { MiscUtils } from '../shared/index';
+import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { LocalEpisodicEventViewModel } from './local-episodic-event-view-model';
 
 /**.
  * This class represents a group of Local Episodic Effects.

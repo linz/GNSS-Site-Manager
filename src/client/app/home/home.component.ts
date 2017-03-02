@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {NameListService} from '../shared/index';
-import {ServiceWorkerService} from '../shared/index';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { NameListService } from '../shared/index';
+import { ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the lazy loaded HomeComponent.

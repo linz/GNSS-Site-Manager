@@ -1,5 +1,5 @@
-import {LocalEpisodicEventViewModel} from './local-episodic-event-view-model';
-import {MiscUtils} from '../shared/global/misc-utils';
+import { LocalEpisodicEventViewModel } from './local-episodic-event-view-model';
+import { MiscUtils } from '../shared/global/misc-utils';
 export function main() {
   let localEpisodicEventViewModel: LocalEpisodicEventViewModel;
 

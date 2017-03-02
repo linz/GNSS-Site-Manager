@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, DoCheck} from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, DoCheck } from '@angular/core';
 import { MiscUtils } from '../index';
 
 /**

@@ -1,6 +1,6 @@
-import {FieldMaps, FieldMap} from '../field-maps';
-import {TypedPointer} from '../typed-pointer';
-import {MiscUtils} from '../../global/misc-utils';
+import { FieldMaps, FieldMap } from '../field-maps';
+import { TypedPointer } from '../typed-pointer';
+import { MiscUtils } from '../../global/misc-utils';
 
 export abstract class AbstractViewModel {
     // Base Fields
