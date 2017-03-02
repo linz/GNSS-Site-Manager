@@ -127,22 +127,23 @@
                  name="antennaCableLength_{{index}}"/>
         </div>
       </div>
-      <div class="form-group">
-        <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Installed (UTC)</label>
-        <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-          <datetime-picker [(datetime)]="antenna.dateInstalled"
-                           [name]=" 'Date Installed' "
-                           [required]="true"></datetime-picker>
-        </div>
-      </div>
-      <div class="form-group">
-        <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Date Removed (UTC)</label>
-        <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-          <datetime-picker [(datetime)]="antenna.dateRemoved"
-                           [name]=" 'Date Removed' "
-                           [required]="index != 0"></datetime-picker>
-        </div>
-      </div>
+
+        <datetime-input
+            [(datetime)]="antenna.dateInstalled"
+            [name]=" 'dateInstalled' "
+            [index]="[index]"
+            [required]="true"
+            [label]="'Date Installed (UTC)'">
+        </datetime-input>
+
+        <datetime-input
+            [(datetime)]="antenna.dateRemoved"
+            [name]=" 'dateRemoved' "
+            [index]="[index]"
+            [requiredIfNotCurrent]="true"
+            [label]="'Date Removed (UTC)'">
+        </datetime-input>
+
       <div class="form-group">
         <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Notes</label>
         <div class="col-md-8 col-sm-8 col-xs-7 col-xxs-12">
