@@ -15,7 +15,8 @@
             </span>
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
-          <button class="btn btn-danger btn-xs" title="Remove the temperatureSensor"
+          <button class="btn btn-danger btn-xs"
+                  title="{{getRemoveOrDeletedText()}} the temperature sensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
             <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>

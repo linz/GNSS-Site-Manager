@@ -15,7 +15,8 @@
             </span>
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
-          <button class="btn btn-danger btn-xs" title="Remove the waterVaporSensor"
+          <button class="btn btn-danger btn-xs"
+                  title="{{getRemoveOrDeletedText()}} the water vapor sensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
             <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
