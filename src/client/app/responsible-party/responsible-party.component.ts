@@ -56,7 +56,7 @@ export class ResponsiblePartyComponent implements OnInit {
     }).catch((error: any) => {
       console.error('Caught error in updateCacheList:', error);
     });
-  };
+  }
 
   /**
    * Add a new empty responsible party

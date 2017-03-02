@@ -18,7 +18,7 @@ export class ToolbarComponent implements OnInit {
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
-  private siteId: string
+  private siteId: string;
 
   constructor(
     private serviceWorkerService: ServiceWorkerService,
@@ -86,7 +86,7 @@ export class ToolbarComponent implements OnInit {
     }, (error: Error) => {
       throw new Error('Error in clearCacheObservable: ' + error.message);
     });
-  };
+  }
 
   updateCacheList = (): void => {
     this.serviceWorkerService.getCacheList().then((data: string[]) => {
@@ -95,5 +95,5 @@ export class ToolbarComponent implements OnInit {
     }).catch((error: any) => {
       console.error('Caught error in updateCacheList:', error);
     });
-  };
+  }
 }
