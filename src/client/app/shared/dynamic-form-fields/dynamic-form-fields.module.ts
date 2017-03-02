@@ -8,7 +8,7 @@ import { DatepickerModule } from 'ng2-bootstrap';
 import { DatetimeInputComponent } from './datetime-input.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, DatepickerModule],
+  imports: [CommonModule, FormsModule, DatepickerModule.forRoot()],
   declarations: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent],
   exports: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent]
 })
