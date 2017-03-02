@@ -330,7 +330,7 @@ form .ng-invalid {
   border: 1px solid #a94442;
 }
 .form-control {
-  height: 26px;
+  height: 28px;
   padding: 0 8px;
 }
 .form-group {
@@ -740,6 +740,34 @@ form .ng-invalid {
   }
   .visible-xxs-inline-block {
     display: inline-block !important;
+  }
+
+  .panel-group .panel-level-1 .panel-title {
+    font-size: 15px;
+  }
+  .panel-group .panel-level-2 .panel-title {
+    font-size: 14px;
+  }
+  .panel-group .panel-level-1 .glyphicon-plus-sign {
+    font-size: 18px !important;
+  }
+  .panel-group .panel-level-1 .glyphicon-minus-sign {
+    font-size: 18px !important;
+  }
+  .panel-group .panel-level-2 .glyphicon-plus-sign {
+    font-size: 17px !important;
+  }
+  .panel-group .panel-level-2 .glyphicon-minus-sign {
+    font-size: 17px !important;
+  }
+  .panel-group .panel-level-1 .panel-body {
+    padding: 10px 10px 0;
+  }
+  .panel-group .panel-level-2 .panel-body {
+    padding: 10px 10px 5px;
+  }
+  .panel-group .panel-heading {
+      padding: 5px 10px;
   }
 }
 
