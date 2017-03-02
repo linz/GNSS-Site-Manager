@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FrequencyStandardItemComponent } from './frequency-standard-item.component';
 import { FrequencyStandardGroupComponent } from './frequency-standard-group.component';
-import { DatetimePickerModule } from '../datetime-picker/datetime-picker.module';
+import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, DatetimePickerModule],
+  imports: [CommonModule, FormsModule, DynamicFormFieldsModule],
   declarations: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent],
   exports: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent],
 })
