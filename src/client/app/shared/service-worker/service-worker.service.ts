@@ -7,10 +7,10 @@ import { MessageObject } from './messages.interface';
  */
 @Injectable()
 export class ServiceWorkerService {
+  // Setup Observables (BehaviorSubject's to be specific) to communicate between components
+  protected clearCacheFlag = new BehaviorSubject<boolean>(false);
   // Observable
   public clearCacheObservable = this.clearCacheFlag.asObservable();
-  // Setup Observables (BehaviorSubject's to be specific) to communicate between components
-  private clearCacheFlag = new BehaviorSubject<boolean>(false);
 
   /**
    *
