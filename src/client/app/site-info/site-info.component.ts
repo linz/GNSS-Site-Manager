@@ -13,6 +13,12 @@ import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site
   templateUrl: 'site-info.component.html'
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
+  public miscUtils: any = MiscUtils;
+  public siteContactName: string = ConstantsService.SITE_CONTACT;
+  public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
+  public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
+  public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
+
   private siteId: string;
   private isLoading: boolean = false;
   private siteLogOrigin: any = {};
@@ -26,13 +32,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
-  public miscUtils: any = MiscUtils;
-
-  public siteContactName: string = ConstantsService.SITE_CONTACT;
-  public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
-  public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
-  public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
-
   private status: any = {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,

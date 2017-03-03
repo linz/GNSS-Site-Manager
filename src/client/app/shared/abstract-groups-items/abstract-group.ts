@@ -80,15 +80,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
 
     /**
-     * Use the Geodesy object defined comparator in compare() to sort the given collection inline.
-     *
-     * @param collection
-     */
-    private sortUsingComparator(collection: any[]) {
-        collection.sort(this.compare);
-    }
-
-    /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      *
      * @returns {GeodesyEvent}
@@ -124,10 +115,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         } else {
             return [];
         }
-    }
-
-    private isntDeleted(item: T): boolean {
-        return (!item.dateDeleted || item.dateDeleted.length === 0);
     }
 
     getItemsOriginalCollection(): T[] {
@@ -180,16 +167,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     /**
-     * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
-     */
-    private newItemEvent() {
-        console.log('parent newItemEvent');
-        let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
-        geodesyEvent.name = EventNames.newItem;
-        geodesyEvent.valueNumber = 0;
-    }
-
-    /**
      * Remove an item.  Originally it was removed from the list.  However we now want to track deletes so
      * keep it and mark as deleted using change tracking.
      */
@@ -211,6 +188,29 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         // (high to low start date).  Thus to access the original dataItems we need to reverse the index.
         let newIndex: number = this.itemProperties.length - itemIndex - 1;
         this.itemProperties.splice(newIndex, 1);
+    }
+
+    /**
+     * Use the Geodesy object defined comparator in compare() to sort the given collection inline.
+     *
+     * @param collection
+     */
+    private sortUsingComparator(collection: any[]) {
+        collection.sort(this.compare);
+    }
+
+    private isntDeleted(item: T): boolean {
+        return (!item.dateDeleted || item.dateDeleted.length === 0);
+    }
+
+    /**
+     * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
+     */
+    private newItemEvent() {
+        console.log('parent newItemEvent');
+        let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
+        geodesyEvent.name = EventNames.newItem;
+        geodesyEvent.valueNumber = 0;
     }
 
     private setDeleted(item: T) {

@@ -16,17 +16,6 @@ import { SiteLogDataModel } from '../json-data-view-model/data-model/site-log-da
  */
 @Injectable()
 export class SiteLogService {
-    private handleXMLData(response: Response): string {
-        if (response.status === 200) {
-            var geodesyMl: any = response.text();
-            let json: string = this.jsonixService.geodesyMLToJson(geodesyMl);
-            console.log('handleXMLData - json: ', json);
-            return json;
-        } else {
-            let msg: string = 'Error with GET: ' + response.url;
-            throw new Error(msg);
-        }
-    }
 
     /**
      * Creates a new SiteLogService with the injected Http.
@@ -76,24 +65,6 @@ export class SiteLogService {
         });
     }
 
-    /**
-     * Returns one site log defined by the fourCharacterId.  Alternative method that retrieves GeodeesyML format
-     * from the backend service and returns an alternative JSON equivalent that is almost, but not quite the same
-     * as the JSON returned froom getSiteLogByFourCharacterId();
-     * @param {string} fourCharacterId - The Four Character Id of the site.
-     * @return {object[]} The Observable for the HTTP request in JSON format slightly different from that from
-     * getSiteLogByFourCharacterId().
-     */
-    private doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
-        console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-        return this.http.get(this.constantsService.getWebServiceURL()
-            + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
-            .map((response: Response) => {
-                return this.handleXMLData(response);
-            })
-            .catch(HttpUtilsService.handleError);
-    }
-
     getSiteLogByFourCharacterIdUsingGeodesyMLWFS(fourCharacterId: string): Observable<any> {
         // console.log('getSiteLogByFourCharacterIdGeodesyMLWFS(fourCharacterId: ', fourCharacterId);
         let params: SelectSiteSearchType = {
@@ -108,15 +79,6 @@ export class SiteLogService {
                     obs.error('ERROR in getSiteLogByFourCharacterIdUsingGeodesyMLWFS: ', e);
                 });
             });
-    }
-
-    private handleData(response: Response) {
-        console.debug('site log service - from wfsService - handle data - response: ', response);
-        let data: any = response.text();//.json();
-        let status: number = response.status;
-        let statustext: string = response.statusText;
-        console.debug('SiteLogService call wfsQuery - status: ' + status + ' status text: ' + statustext + ' data: ', data);
-        return response; //data;
     }
 
     /**
@@ -184,5 +146,44 @@ export class SiteLogService {
         return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/upload', geodesyMl)
             .map(HttpUtilsService.handleJsonData)
             .catch(HttpUtilsService.handleError);
+    }
+
+    private handleXMLData(response: Response): string {
+        if (response.status === 200) {
+            var geodesyMl: any = response.text();
+            let json: string = this.jsonixService.geodesyMLToJson(geodesyMl);
+            console.log('handleXMLData - json: ', json);
+            return json;
+        } else {
+            let msg: string = 'Error with GET: ' + response.url;
+            throw new Error(msg);
+        }
+    }
+
+    /**
+     * Returns one site log defined by the fourCharacterId.  Alternative method that retrieves GeodeesyML format
+     * from the backend service and returns an alternative JSON equivalent that is almost, but not quite the same
+     * as the JSON returned froom getSiteLogByFourCharacterId();
+     * @param {string} fourCharacterId - The Four Character Id of the site.
+     * @return {object[]} The Observable for the HTTP request in JSON format slightly different from that from
+     * getSiteLogByFourCharacterId().
+     */
+    private doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
+        console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
+        return this.http.get(this.constantsService.getWebServiceURL()
+            + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
+            .map((response: Response) => {
+                return this.handleXMLData(response);
+            })
+            .catch(HttpUtilsService.handleError);
+    }
+
+    private handleData(response: Response) {
+        console.debug('site log service - from wfsService - handle data - response: ', response);
+        let data: any = response.text();//.json();
+        let status: number = response.status;
+        let statustext: string = response.statusText;
+        console.debug('SiteLogService call wfsQuery - status: ' + status + ' status text: ' + statustext + ' data: ', data);
+        return response; //data;
     }
 }

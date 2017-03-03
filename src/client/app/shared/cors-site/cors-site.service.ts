@@ -43,18 +43,6 @@ export class CorsSiteService {
         });
   }
 
-  private fixWFSeData(wfsData: any): any {
-    // TODO - make this data an Interface
-    console.debug('cors-site service - from wfsService - fixWFSeData - data: ', wfsData);
-    let fieldsDefined: any[] = [];
-    wfsData.map((wfsFormat:any) => {
-      let name: string = wfsFormat['geo:Site'].hasOwnProperty('name') ? wfsFormat['geo:Site'].name[0].value : 'no name';
-      fieldsDefined.push({'fourCharacterId':wfsFormat['geo:Site'].identifier.value, 'name': name});
-    });
-    console.debug('cors-site service - from wfsService - fixWFSeData - return: ', fieldsDefined);
-    return fieldsDefined; //data;
-  }
-
   /**
    * Returns an Observable for the HTTP GET request for all records available from the Site table.
    * @return {object[]} The Observable for the HTTP request.
@@ -69,5 +57,17 @@ export class CorsSiteService {
     return this.http.get(this.constantsService.getWebServiceURL() + '/corsSites?id=' + id)
       .map(HttpUtilsService.handleJsonData)
       .catch(HttpUtilsService.handleError);
+  }
+
+  private fixWFSeData(wfsData: any): any {
+    // TODO - make this data an Interface
+    console.debug('cors-site service - from wfsService - fixWFSeData - data: ', wfsData);
+    let fieldsDefined: any[] = [];
+    wfsData.map((wfsFormat:any) => {
+      let name: string = wfsFormat['geo:Site'].hasOwnProperty('name') ? wfsFormat['geo:Site'].name[0].value : 'no name';
+      fieldsDefined.push({'fourCharacterId':wfsFormat['geo:Site'].identifier.value, 'name': name});
+    });
+    console.debug('cors-site service - from wfsService - fixWFSeData - return: ', fieldsDefined);
+    return fieldsDefined; //data;
   }
 }

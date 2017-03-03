@@ -8,8 +8,7 @@ import { JsonPointerService } from '../json-pointer/json-pointer.service';
 /**
  * JSON Differencing service using https://github.com/flitbit/diff.
  */
-export enum DiffType {Edited, New, Deleted, NewArrayItem, DeletedArrayItem}
-;
+export enum DiffType {Edited, New, Deleted, NewArrayItem, DeletedArrayItem};
 
 export class DiffItem {
     diffType: DiffType;
@@ -95,71 +94,6 @@ export class JsonDiffService {
         return diffStruct;
     }
 
-    /**
-     * Parse the data from deep-diff and return a list of diffs.  Can be called recursively (such as for Array diffs).
-     *
-     * @param diff - the diff to parse
-     * @param newJson - the new / rhs JSON that caused the diff
-     * @returns {DiffItem[]} - list of diffs
-     */
-    private parseDiffs(diff: IDiff, newJson: any): DiffItem[] {
-        let diffItems: DiffItem[] = [];
-
-        let lhs: string;
-        let rhs: string;
-        let diffType: DiffType = null;
-
-        let container: string = this.getContainer(diff);                        // eg. HumiditySensors
-        let parent: any = this.getObject(newJson, this.getPathToItem(diff)); // eg. HumiditySensors/1 (a HumiditySensor)
-        let item: any = this.getItem(diff);                                  // eg. notes (the notes field contains a difference)
-        let identifier: string = this.getIdentifier(parent);                    // eg. <startDate> - <endDate>
-        switch (diff['kind']) {
-            case 'E':
-                lhs = diff['lhs'];
-                rhs = diff['rhs'];
-                if (this.isDeleted(parent)) {
-                    identifier = 'Deleted - ' + identifier;
-                    diffType = DiffType.DeletedArrayItem;
-                } else {
-                    diffType = DiffType.Edited;
-                }
-                break;
-            case 'N':
-                lhs = '';
-                rhs = diff['rhs'];
-                diffType = DiffType.New;
-                break;
-            case 'D':
-                lhs = diff['lhs'];
-                rhs = '';
-                diffType = DiffType.Deleted;
-                break;
-            case 'A':   // Array
-                let arrayDiffItems: DiffItem[] = this.parseDiffs(diff.item, newJson);
-                identifier = this.getIdentifier(diff.item.rhs);
-                for (let arrayDiffItem of arrayDiffItems) {
-                    arrayDiffItem.container = container;
-                    arrayDiffItem.item = diff.index;
-                    arrayDiffItem.identifier = 'New - ' + identifier;  //'new item ' + (diff.index + 1);
-                    if (arrayDiffItem.diffType === DiffType.New) {
-                        arrayDiffItem.diffType = DiffType.NewArrayItem;
-                    } else if (arrayDiffItem.diffType === DiffType.Deleted) {
-                        arrayDiffItem.diffType = DiffType.DeletedArrayItem;
-                    }
-                    diffItems.push(arrayDiffItem);
-                }
-                break;
-            default:
-                console.error('getJsonDiffsList - unhandled kind: ' + diff.kind);
-        }
-        if (diffType !== null) {
-            let diffItem: DiffItem = new DiffItem(diffType, container, item, lhs, rhs, identifier);
-            diffItems.push(diffItem);
-        }
-
-        return diffItems;
-    }
-
     isDeleted(item: any) {
         if ('dateDeleted' in item && item.dateDeleted && item.dateDeleted.length > 0) {
             return true;
@@ -197,20 +131,6 @@ export class JsonDiffService {
         }
 
         return '/' + extract;
-    }
-
-    /**
-     *
-     * @param diff - one of the diffs from deep-diff
-     * @returns {string} - the new top-level item such as HumiditySensor.  Or '' if none, which
-     * is the case with Array diffs.
-     */
-    private getContainer(diff: IDiff): string {
-        // Array diffs don't have a path
-        if (!diff.path) {
-            return '';
-        }
-        return diff.path[0];  // maybe use that mapping
     }
 
     /**
@@ -254,37 +174,6 @@ export class JsonDiffService {
         return this.getIdentifierAttempt(object) || this.getIdentifierAttempt(JsonDiffService.getTheObject(object));
     }
 
-    private getIdentifierAttempt(object: any): string {
-        let ident: string = '';
-        if (object.startDate && this.isString(object.startDate)) {
-            ident += MiscUtils.prettyFormatDateTime(object.startDate);
-        }
-        if (object.endDate && this.isString(object.endDate)) {
-            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.endDate);
-        }
-        if (object.dateInstalled && this.isString(object.dateInstalled)) {
-            ident += MiscUtils.prettyFormatDateTime(object.dateInstalled);
-        }
-        if (object.dateRemoved && this.isString(object.dateRemoved)) {
-            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.dateRemoved);
-        }
-        return ident;
-    }
-
-    /**
-     * Currently not all viewModels have been created and so their dates may be objects instead of a string
-     *
-     * @param date to check if a string or object
-     * @return {boolean} true if given date value is a string
-     */
-    private isString(date: any): boolean {
-        if (date !== date.toString()) {
-            console.warn('expecting a string for date - currently an object - probably because from a dataModel instead of a view:', date);
-            return false;
-        }
-        return true;
-    }
-
     /* ****** Now methods for the normalised data structure (between intermediate and final output) ****** */
 
     /**
@@ -308,10 +197,6 @@ export class JsonDiffService {
         }
 
         return normalised;
-    }
-
-    private getNormalKey(diff: DiffItem) {
-        return diff.container + JsonDiffService.mapKeySeparator + diff.identifier;
     }
 
     /* ****** Now methods to create the final output - the HTML table showing differences ****** */
@@ -378,6 +263,120 @@ export class JsonDiffService {
         }
         tableHtml += '</table>\n';
         return tableHtml;
+    }
+
+    private getNormalKey(diff: DiffItem) {
+        return diff.container + JsonDiffService.mapKeySeparator + diff.identifier;
+    }
+
+    /**
+     * Parse the data from deep-diff and return a list of diffs.  Can be called recursively (such as for Array diffs).
+     *
+     * @param diff - the diff to parse
+     * @param newJson - the new / rhs JSON that caused the diff
+     * @returns {DiffItem[]} - list of diffs
+     */
+    private parseDiffs(diff: IDiff, newJson: any): DiffItem[] {
+        let diffItems: DiffItem[] = [];
+
+        let lhs: string;
+        let rhs: string;
+        let diffType: DiffType = null;
+
+        let container: string = this.getContainer(diff);                        // eg. HumiditySensors
+        let parent: any = this.getObject(newJson, this.getPathToItem(diff)); // eg. HumiditySensors/1 (a HumiditySensor)
+        let item: any = this.getItem(diff);                                  // eg. notes (the notes field contains a difference)
+        let identifier: string = this.getIdentifier(parent);                    // eg. <startDate> - <endDate>
+        switch (diff['kind']) {
+            case 'E':
+                lhs = diff['lhs'];
+                rhs = diff['rhs'];
+                if (this.isDeleted(parent)) {
+                    identifier = 'Deleted - ' + identifier;
+                    diffType = DiffType.DeletedArrayItem;
+                } else {
+                    diffType = DiffType.Edited;
+                }
+                break;
+            case 'N':
+                lhs = '';
+                rhs = diff['rhs'];
+                diffType = DiffType.New;
+                break;
+            case 'D':
+                lhs = diff['lhs'];
+                rhs = '';
+                diffType = DiffType.Deleted;
+                break;
+            case 'A':   // Array
+                let arrayDiffItems: DiffItem[] = this.parseDiffs(diff.item, newJson);
+                identifier = this.getIdentifier(diff.item.rhs);
+                for (let arrayDiffItem of arrayDiffItems) {
+                    arrayDiffItem.container = container;
+                    arrayDiffItem.item = diff.index;
+                    arrayDiffItem.identifier = 'New - ' + identifier;  //'new item ' + (diff.index + 1);
+                    if (arrayDiffItem.diffType === DiffType.New) {
+                        arrayDiffItem.diffType = DiffType.NewArrayItem;
+                    } else if (arrayDiffItem.diffType === DiffType.Deleted) {
+                        arrayDiffItem.diffType = DiffType.DeletedArrayItem;
+                    }
+                    diffItems.push(arrayDiffItem);
+                }
+                break;
+            default:
+                console.error('getJsonDiffsList - unhandled kind: ' + diff.kind);
+        }
+        if (diffType !== null) {
+            let diffItem: DiffItem = new DiffItem(diffType, container, item, lhs, rhs, identifier);
+            diffItems.push(diffItem);
+        }
+
+        return diffItems;
+    }
+
+    /**
+     *
+     * @param diff - one of the diffs from deep-diff
+     * @returns {string} - the new top-level item such as HumiditySensor.  Or '' if none, which
+     * is the case with Array diffs.
+     */
+    private getContainer(diff: IDiff): string {
+        // Array diffs don't have a path
+        if (!diff.path) {
+            return '';
+        }
+        return diff.path[0];  // maybe use that mapping
+    }
+
+    private getIdentifierAttempt(object: any): string {
+        let ident: string = '';
+        if (object.startDate && this.isString(object.startDate)) {
+            ident += MiscUtils.prettyFormatDateTime(object.startDate);
+        }
+        if (object.endDate && this.isString(object.endDate)) {
+            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.endDate);
+        }
+        if (object.dateInstalled && this.isString(object.dateInstalled)) {
+            ident += MiscUtils.prettyFormatDateTime(object.dateInstalled);
+        }
+        if (object.dateRemoved && this.isString(object.dateRemoved)) {
+            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.dateRemoved);
+        }
+        return ident;
+    }
+
+    /**
+     * Currently not all viewModels have been created and so their dates may be objects instead of a string
+     *
+     * @param date to check if a string or object
+     * @return {boolean} true if given date value is a string
+     */
+    private isString(date: any): boolean {
+        if (date !== date.toString()) {
+            console.warn('expecting a string for date - currently an object - probably because from a dataModel instead of a view:', date);
+            return false;
+        }
+        return true;
     }
 
     /**

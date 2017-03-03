@@ -73,28 +73,6 @@ export abstract class AbstractItem implements DoCheck, OnInit {
     }
 
     /**
-     * Event Handler - if this item has the given indexOfNew, then this is a new item.
-     *
-     * @param indexOfNew
-     */
-    private newItem(indexOfNew: number) {
-        if (this.getIndex() === indexOfNew) {
-            this.isNew = true;
-            this.isOpen = true;
-        }
-    }
-
-    /**
-     * Keep a lastGeodesyEvent so can see in ngDoCheck() if the event has changed
-     */
-    private copyEventToLast() {
-        this.lastGeodesyEvent.name = this.getGeodesyEvent().name;
-        this.lastGeodesyEvent.valueNumber = this.getGeodesyEvent().valueNumber;
-        this.lastGeodesyEvent.valueObject = this.getGeodesyEvent().valueObject;
-        this.lastGeodesyEvent.valueString = this.getGeodesyEvent().valueString;
-    }
-
-    /**
      * Remove an item from the UI and delete if it is an existing record.
      */
     removeItem(index: number) {
@@ -118,6 +96,32 @@ export abstract class AbstractItem implements DoCheck, OnInit {
       }
     }
 
+    getRemoveOrDeletedText(): string {
+        return this.isNew ? 'Cancel' : 'Delete';
+    }
+
+    /**
+     * Event Handler - if this item has the given indexOfNew, then this is a new item.
+     *
+     * @param indexOfNew
+     */
+    private newItem(indexOfNew: number) {
+        if (this.getIndex() === indexOfNew) {
+            this.isNew = true;
+            this.isOpen = true;
+        }
+    }
+
+    /**
+     * Keep a lastGeodesyEvent so can see in ngDoCheck() if the event has changed
+     */
+    private copyEventToLast() {
+        this.lastGeodesyEvent.name = this.getGeodesyEvent().name;
+        this.lastGeodesyEvent.valueNumber = this.getGeodesyEvent().valueNumber;
+        this.lastGeodesyEvent.valueObject = this.getGeodesyEvent().valueObject;
+        this.lastGeodesyEvent.valueString = this.getGeodesyEvent().valueString;
+    }
+
     /**
      *  Mark an item for deletion using the specified reason.
      */
@@ -134,9 +138,5 @@ export abstract class AbstractItem implements DoCheck, OnInit {
         console.log('child call cancelNew(' + index + ')');
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
-    }
-
-    getRemoveOrDeletedText(): string {
-        return this.isNew ? 'Cancel' : 'Delete';
     }
 }

@@ -17,16 +17,17 @@ import { ConstantsService, MiscUtils, JsonCheckService, ServiceWorkerService } f
   templateUrl: 'responsible-party.component.html',
 })
 export class ResponsiblePartyComponent implements OnInit {
-  private serviceWorkerSubscription: Subscription;
   public errorMessage: string;
-  private cacheItems: Array<string> = [];
-  private isPartyGroupOpen: boolean = false;
   public miscUtils: any = MiscUtils;
   @Input() partyName: string;
   @Input() responsibleParties: any;
   @Input() dataModel: any;
   @Input() dataModelCopy: any;
   @Input() status: any;
+
+  private serviceWorkerSubscription: Subscription;
+  private cacheItems: Array<string> = [];
+  private isPartyGroupOpen: boolean = false;
 
   constructor(private jsonCheckService: JsonCheckService,
               private serviceWorkerService: ServiceWorkerService) { }
