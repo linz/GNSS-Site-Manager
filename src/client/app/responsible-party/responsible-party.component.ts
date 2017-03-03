@@ -19,6 +19,7 @@ import { ConstantsService, MiscUtils, JsonCheckService, ServiceWorkerService } f
 export class ResponsiblePartyComponent implements OnInit {
   public errorMessage: string;
   public miscUtils: any = MiscUtils;
+  public isPartyGroupOpen: boolean = false;
   @Input() partyName: string;
   @Input() responsibleParties: any;
   @Input() dataModel: any;
@@ -27,7 +28,6 @@ export class ResponsiblePartyComponent implements OnInit {
 
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
-  private isPartyGroupOpen: boolean = false;
 
   constructor(private jsonCheckService: JsonCheckService,
               private serviceWorkerService: ServiceWorkerService) { }

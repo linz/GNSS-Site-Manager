@@ -13,6 +13,7 @@ export class TextAreaInputComponent {
   @Input() public label: string = '';
   @Input() public required: boolean = false;
   @Input() public rows: string = '';
+  @Input() public minlength: string = '';
   @Input() public maxlength: string = '';
 
   configurationObject: any = null;

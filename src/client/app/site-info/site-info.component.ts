@@ -18,21 +18,17 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
   public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
   public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
-
-  private siteId: string;
-  private isLoading: boolean = false;
-  private siteLogOrigin: any = {};
-  private siteLogModel: any = {};
-  private siteIdentification: any = null;
-  private siteLocation: any = {};
-  private siteContacts: Array<any> = [];
-  private siteMetadataCustodian: any = {};
-  private siteDataCenters: Array<any> = [];
-  private siteDataSource: any = {};
-  private errorMessage: string;
-  private siteInfoTab: any = null;
-  private submitted: boolean = false;
-  private status: any = {
+  public siteId: string;
+  public isLoading: boolean = false;
+  public siteLogOrigin: any = {};
+  public siteLogModel: any = {};
+  public siteIdentification: any = null;
+  public siteLocation: any = {};
+  public siteContacts: Array<any> = [];
+  public siteMetadataCustodian: any = {};
+  public siteDataCenters: Array<any> = [];
+  public siteDataSource: any = {};
+  public status: any = {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
@@ -42,6 +38,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewSiteDataCenter: false,
     hasNewSiteDataSource: false,
   };
+
+  private errorMessage: string;
+  private siteInfoTab: any = null;
+  private submitted: boolean = false;
 
   /**
    * Creates an instance of the SiteInfoComponent with the injected Router/ActivatedRoute/CorsSite Services.

@@ -13,6 +13,15 @@ import { MiscUtils } from '../index';
 export class DatetimeInputComponent implements OnInit, DoCheck {
   public miscUtils: any = MiscUtils;
   public datetimeModel: Date;
+  public datetimeDisplay: string = '';
+  public hoursString: string = '00';
+  public minutesString: string = '00';
+  public secondsString: string = '00';
+  public invalidHours: boolean = false;
+  public invalidMinutes: boolean = false;
+  public invalidSeconds: boolean = false;
+  public invalidDatetime: boolean = false;
+  public showDatetimePicker: boolean = false;
   @Input() public index: any = 0;
   @Input() public datetime: string = '';
   @Input() public name: string = 'Date';
@@ -21,19 +30,10 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
   @Input() public label: string = '';
   @Output() public datetimeChange: EventEmitter<string> = new EventEmitter<string>();
 
-  private datetimeDisplay: string = '';
-  private datetimeSuffix: string = '.000Z';
   private hours: number = 0;
   private minutes: number = 0;
   private seconds: number = 0;
-  private hoursString: string = '00';
-  private minutesString: string = '00';
-  private secondsString: string = '00';
-  private invalidHours: boolean = false;
-  private invalidMinutes: boolean = false;
-  private invalidSeconds: boolean = false;
-  private invalidDatetime: boolean = false;
-  private showDatetimePicker: boolean = false;
+  private datetimeSuffix: string = '.000Z';
   private datetimeLast: string = '';
 
   constructor(private elemRef: ElementRef) { }

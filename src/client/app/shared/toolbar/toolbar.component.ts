@@ -13,12 +13,12 @@ import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
   styleUrls: ['toolbar.component.css']
 })
 export class ToolbarComponent implements OnInit {
+  public siteId: string;
   @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onRevert: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
   private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
-  private siteId: string;
 
   constructor(
     private serviceWorkerService: ServiceWorkerService,
