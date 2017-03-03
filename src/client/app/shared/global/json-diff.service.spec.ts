@@ -1,12 +1,12 @@
-import {ReflectiveInjector} from '@angular/core';
-import {BaseRequestOptions, ConnectionBackend, Http} from '@angular/http';
-import {MockBackend} from '@angular/http/testing';
+import { ReflectiveInjector } from '@angular/core';
+import { BaseRequestOptions, ConnectionBackend, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
 import * as lodash from 'lodash';
 
-import {JsonDiffService, DiffItem, DiffType, NormalisedDiffs} from './json-diff.service';
-import {HttpUtilsService} from './http-utils.service';
-import {MiscUtils} from './misc-utils';
-import {HumiditySensorViewModel} from '../../humidity-sensor/humidity-sensor-view-model';
+import { JsonDiffService, DiffItem, DiffType, NormalisedDiffs } from './json-diff.service';
+import { HttpUtilsService } from './http-utils.service';
+import { MiscUtils } from './misc-utils';
+import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
 
 export function main() {
   describe('Json Diff Service', () => {

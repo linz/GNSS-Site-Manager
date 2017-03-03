@@ -1,4 +1,4 @@
-import {JsonPointerService} from './json-pointer.service';
+import { JsonPointerService } from './json-pointer.service';
 
 
 export function main() {

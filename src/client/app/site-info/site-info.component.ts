@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
-import {SiteLogViewModel} from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site-log-view-model';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -13,27 +13,22 @@ import {SiteLogViewModel} from '../shared/json-data-view-model/view-model/site-l
   templateUrl: 'site-info.component.html'
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
-  private siteId: string;
-  private isLoading: boolean = false;
-  private siteLogOrigin: any = {};
-  private siteLogModel: any = {};
-  private siteIdentification: any = null;
-  private siteLocation: any = {};
-  private siteContacts: Array<any> = [];
-  private siteMetadataCustodian: any = {};
-  private siteDataCenters: Array<any> = [];
-  private siteDataSource: any = {};
-  private errorMessage: string;
-  private siteInfoTab: any = null;
-  private submitted: boolean = false;
   public miscUtils: any = MiscUtils;
-
   public siteContactName: string = ConstantsService.SITE_CONTACT;
   public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
   public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
   public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
-
-  private status: any = {
+  public siteId: string;
+  public isLoading: boolean = false;
+  public siteLogOrigin: any = {};
+  public siteLogModel: any = {};
+  public siteIdentification: any = null;
+  public siteLocation: any = {};
+  public siteContacts: Array<any> = [];
+  public siteMetadataCustodian: any = {};
+  public siteDataCenters: Array<any> = [];
+  public siteDataSource: any = {};
+  public status: any = {
     oneAtATime: false,
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
@@ -43,6 +38,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     hasNewSiteDataCenter: false,
     hasNewSiteDataSource: false,
   };
+
+  private errorMessage: string;
+  private siteInfoTab: any = null;
+  private submitted: boolean = false;
 
   /**
    * Creates an instance of the SiteInfoComponent with the injected Router/ActivatedRoute/CorsSite Services.

@@ -1,5 +1,5 @@
-import {AbstractGroup} from './abstract-group';
-import {AbstractViewModel} from '../json-data-view-model/view-model/abstract-view-model';
+import { AbstractGroup } from './abstract-group';
+import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 
 class AbstractViewModelImpl extends AbstractViewModel {
     public startDate: string;

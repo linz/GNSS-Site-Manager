@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
-import {MiscUtils} from '../shared/index';
-import {AbstractGroup} from '../shared/abstract-groups-items/abstract-group';
-import {HumiditySensorViewModel} from './humidity-sensor-view-model';
+import { Component, Input } from '@angular/core';
+import { MiscUtils } from '../shared/index';
+import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { HumiditySensorViewModel } from './humidity-sensor-view-model';
 
 /**.
  * This class represents a group of Humidity Sensors.

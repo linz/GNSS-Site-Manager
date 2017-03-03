@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, DoCheck} from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, DoCheck } from '@angular/core';
 import { MiscUtils } from '../index';
 
 /**
@@ -13,21 +13,15 @@ import { MiscUtils } from '../index';
 export class DatetimeInputComponent implements OnInit, DoCheck {
   public miscUtils: any = MiscUtils;
   public datetimeModel: Date;
-  private datetimeDisplay: string = '';
-  private datetimeSuffix: string = '.000Z';
-  private hours: number = 0;
-  private minutes: number = 0;
-  private seconds: number = 0;
-  private hoursString: string = '00';
-  private minutesString: string = '00';
-  private secondsString: string = '00';
-  private invalidHours: boolean = false;
-  private invalidMinutes: boolean = false;
-  private invalidSeconds: boolean = false;
-  private invalidDatetime: boolean = false;
-  private showDatetimePicker: boolean = false;
-  private datetimeLast: string = '';
-
+  public datetimeDisplay: string = '';
+  public hoursString: string = '00';
+  public minutesString: string = '00';
+  public secondsString: string = '00';
+  public invalidHours: boolean = false;
+  public invalidMinutes: boolean = false;
+  public invalidSeconds: boolean = false;
+  public invalidDatetime: boolean = false;
+  public showDatetimePicker: boolean = false;
   @Input() public index: any = 0;
   @Input() public datetime: string = '';
   @Input() public name: string = 'Date';
@@ -35,6 +29,12 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
   @Input() public requiredIfNotCurrent: boolean = false;
   @Input() public label: string = '';
   @Output() public datetimeChange: EventEmitter<string> = new EventEmitter<string>();
+
+  private hours: number = 0;
+  private minutes: number = 0;
+  private seconds: number = 0;
+  private datetimeSuffix: string = '.000Z';
+  private datetimeLast: string = '';
 
   constructor(private elemRef: ElementRef) { }
 
@@ -253,6 +253,26 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
     }
   }
 
+  public isRequired() : boolean {
+    return this.required || (this.requiredIfNotCurrent && this.index[0] !== 0);
+  }
+
+  /**
+   * Get a validation message to apply if the input string is:
+   *   1. required but not supplied, or
+   *   2. supplied but not a valid date
+   */
+  public getValidationMessage() {
+    let message = this.label + ' is ';
+    if (this.isRequired() && !this.datetimeDisplay) {
+      message += ' required ';
+    } else if (this.invalidDatetime) {
+      message += ' not valid ';
+    }
+    message += '(Valid Date Format: YYYY-MM-DD hh:mm:ss)';
+    return message;
+  }
+
   /**
    * Update hour/minute/second time strings in response to any changes in hours, minutes, and seconds.
    */
@@ -348,25 +368,5 @@ export class DatetimeInputComponent implements OnInit, DoCheck {
       return '0' + index.toString();
     }
     return index.toString();
-  }
-
-  public isRequired() : boolean {
-    return this.required || (this.requiredIfNotCurrent && this.index[0] !== 0);
-  }
-
-  /**
-   * Get a validation message to apply if the input string is:
-   *   1. required but not supplied, or
-   *   2. supplied but not a valid date
-   */
-  public getValidationMessage() {
-    let message = this.label + ' is ';
-    if (this.isRequired() && !this.datetimeDisplay) {
-      message += ' required ';
-    } else if (this.invalidDatetime) {
-      message += ' not valid ';
-    }
-    message += '(Valid Date Format: YYYY-MM-DD hh:mm:ss)';
-    return message;
   }
 }

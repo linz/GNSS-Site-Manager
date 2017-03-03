@@ -1,7 +1,7 @@
-import {JsonPointerService} from '../json-pointer/json-pointer.service';
-import {FieldMaps} from './field-maps';
-import {TypedPointer} from './typed-pointer';
-import {AbstractViewModel} from './view-model/abstract-view-model';
+import { JsonPointerService } from '../json-pointer/json-pointer.service';
+import { FieldMaps } from './field-maps';
+import { TypedPointer } from './typed-pointer';
+import { AbstractViewModel } from './view-model/abstract-view-model';
 
 export class DataViewTranslatorService {
 

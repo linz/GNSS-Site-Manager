@@ -1,5 +1,5 @@
-import {PressureSensorViewModel} from './pressure-sensor-view-model';
-import {MiscUtils} from '../shared/global/misc-utils';
+import { PressureSensorViewModel } from './pressure-sensor-view-model';
+import { MiscUtils } from '../shared/global/misc-utils';
 export function main() {
   let pressureSensorsViewModel: PressureSensorViewModel;
 

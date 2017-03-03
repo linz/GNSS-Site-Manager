@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { ConstantsService, MiscUtils, JsonCheckService, ServiceWorkerService } from '../shared/index';
 
@@ -17,16 +17,17 @@ import { ConstantsService, MiscUtils, JsonCheckService, ServiceWorkerService } f
   templateUrl: 'responsible-party.component.html',
 })
 export class ResponsiblePartyComponent implements OnInit {
-  private serviceWorkerSubscription: Subscription;
   public errorMessage: string;
-  private cacheItems: Array<string> = [];
-  private isPartyGroupOpen: boolean = false;
   public miscUtils: any = MiscUtils;
+  public isPartyGroupOpen: boolean = false;
   @Input() partyName: string;
   @Input() responsibleParties: any;
   @Input() dataModel: any;
   @Input() dataModelCopy: any;
   @Input() status: any;
+
+  private serviceWorkerSubscription: Subscription;
+  private cacheItems: Array<string> = [];
 
   constructor(private jsonCheckService: JsonCheckService,
               private serviceWorkerService: ServiceWorkerService) { }
@@ -56,7 +57,7 @@ export class ResponsiblePartyComponent implements OnInit {
     }).catch((error: any) => {
       console.error('Caught error in updateCacheList:', error);
     });
-  };
+  }
 
   /**
    * Add a new empty responsible party

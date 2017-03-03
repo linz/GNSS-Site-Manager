@@ -14,6 +14,11 @@ import { DialogService, CorsSiteService, ServiceWorkerService } from '../shared/
   templateUrl: 'select-site.component.html',
 })
 export class SelectSiteComponent implements OnInit {
+  public columns: Array<any> = [
+    {name: 'fourCharacterId', sort: ''},
+    {name: 'name', sort: ''}
+  ];
+
   private serviceWorkerSubscription: Subscription;
   private searchTextSubject = new Subject<string>();
   private searchText: string = '';
@@ -23,12 +28,6 @@ export class SelectSiteComponent implements OnInit {
   private errorMessage: string;
   private isSearching: boolean = false;
   private cacheItems: Array<string> = [];
-
-  public columns: Array<any> = [
-    {name: 'fourCharacterId', sort: ''},
-    {name: 'name', sort: ''}
-  ];
-
 
   /**
    * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.

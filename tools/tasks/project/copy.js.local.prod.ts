@@ -6,13 +6,13 @@ import { argv } from 'yargs';
 import Config from '../../config';
 
 /**
- * This sample task should come late in the build chain after the .ts are transpiled into .js under dist/tmp.  
- * It copies from there all JavaScript files under jslocal to the appropiate `dist/dev|prod|test/js` directory, 
+ * This sample task should come late in the build chain after the .ts are transpiled into .js under dist/tmp.
+ * It copies from there all JavaScript files under jslocal to the appropiate `dist/dev|prod|test/js` directory,
  * where other .js artifacts are built.
- * 
+ *
  * 1. .js files are copied to the angular-2 built js/ directory.
  * 2. Service Worker .js files (ones that start with 'service-worker') are copied to the root since that
- * becomes the scope of the service-worker (putting the file(s) into 'js/' would limit its scope to only 
+ * becomes the scope of the service-worker (putting the file(s) into 'js/' would limit its scope to only
  * that directory).
  */
 export = () => {

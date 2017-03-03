@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {NameListService} from '../shared/index';
-import {ServiceWorkerService} from '../shared/index';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { NameListService } from '../shared/index';
+import { ServiceWorkerService } from '../shared/index';
 
 /**
  * This class represents the lazy loaded HomeComponent.
@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
     }, (error: Error) => {
       throw new Error('Error in clearCache: '+ error.message);
     });
-  };
+  }
 
   updateCacheList=() => {
     this.serviceWorkerService.getCacheList().then((data: string[]) => {
@@ -89,5 +89,5 @@ export class HomeComponent implements OnInit {
     }).catch((error: any) => {
       console.error('Caught error in updateCacheList:', error);
     });
-  };
+  }
 }

@@ -1,6 +1,6 @@
-import {FieldMaps, FieldMap} from '../field-maps';
-import {TypedPointer} from '../typed-pointer';
-import {MiscUtils} from '../../global/misc-utils';
+import { FieldMaps, FieldMap } from '../field-maps';
+import { TypedPointer } from '../typed-pointer';
+import { MiscUtils } from '../../global/misc-utils';
 
 export abstract class AbstractViewModel {
     // Base Fields
@@ -46,14 +46,6 @@ export abstract class AbstractViewModel {
         this.fieldMaps.add(new FieldMap(dataTypePointer, viewTypePointer));
     }
 
-    private assertCorrect(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string) {
-      // TODO: where is assert? They should be in a unit test anyway.
-        // assert(dataPath.match(/\/.*/));
-        // assert(dataPathType.match(/number|string/));
-        // assert(viewPath.match(/\/.*/));
-        // assert(viewPathType.match(/number|string/));
-    }
-
     /**
      * Setup common field mappings
      */
@@ -94,4 +86,12 @@ export abstract class AbstractViewModel {
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
      */
     abstract setFinalValuesBeforeCreatingNewItem(): void;
+
+    private assertCorrect(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string) {
+      // TODO: where is assert? They should be in a unit test anyway.
+        // assert(dataPath.match(/\/.*/));
+        // assert(dataPathType.match(/number|string/));
+        // assert(viewPath.match(/\/.*/));
+        // assert(viewPathType.match(/number|string/));
+    }
 }

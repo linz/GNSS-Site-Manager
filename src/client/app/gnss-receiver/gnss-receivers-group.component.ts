@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
-import {MiscUtils} from '../shared/index';
-import {AbstractGroup} from '../shared/abstract-groups-items/abstract-group';
-import {GnssReceiverViewModel} from './gnss-receiver-view-model';
+import { Component, Input } from '@angular/core';
+import { MiscUtils } from '../shared/index';
+import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 
 /**.
  * This class represents a group of GNSS Receivers.
