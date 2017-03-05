@@ -60,6 +60,10 @@ export class UserAuthService {
         });
     };
 
+    getUser(): User | null {
+      return this.currentUser;
+    }
+
     private addEventHandlers() {
         this.userManager.events.addUserUnloaded((e) => {
             console.log('User logged out: ', e);
