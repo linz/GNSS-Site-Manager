@@ -154,7 +154,7 @@ export class SiteLogService {
           headers.append('Authorization', 'Bearer ' + this.authService.getUser().id_token);
         }
 
-        return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/secureUpload',
+        return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/upload',
                               geodesyMl,
                               { headers: headers })
             .map(HttpUtilsService.handleJsonData)
