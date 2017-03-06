@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -10,6 +10,8 @@ import { ConstantsService } from '../global/constants.service';
 import { JsonViewModelService } from '../json-data-view-model/json-view-model.service';
 import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
 import { SiteLogDataModel } from '../json-data-view-model/data-model/site-log-data-model';
+import { UserAuthService } from '../global/user-auth.service';
+import { User } from 'oidc-client';
 
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
@@ -27,7 +29,8 @@ export class SiteLogService {
      */
     constructor(private http: Http, private jsonixService: JsonixService,
                 private wfsService: WFSService, private constantsService: ConstantsService,
-                private jsonViewModelService: JsonViewModelService) {
+                private jsonViewModelService: JsonViewModelService,
+                private authService: UserAuthService) {
     }
 
     /**
@@ -143,7 +146,17 @@ export class SiteLogService {
         geodesyMl += siteLogML + '</geo:GeodesyML>';
         // console.log('saveSiteLog - geodesyMl: ', geodesyMl);
         console.log('saveSiteLog - geodesyMl (length): ', geodesyMl.length);
-        return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/upload', geodesyMl)
+
+        const headers = new Headers();
+
+        const user: User = this.authService.getUser();
+        if (user != null) {
+          headers.append('Authorization', 'Bearer ' + this.authService.getUser().id_token);
+        }
+
+        return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/secureUpload',
+                              geodesyMl,
+                              { headers: headers })
             .map(HttpUtilsService.handleJsonData)
             .catch(HttpUtilsService.handleError);
     }
