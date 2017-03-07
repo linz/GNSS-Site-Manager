@@ -308,13 +308,6 @@ ul {
 }
 .control-label {
   font-weight: normal;
-  margin-top: 0;
-}
-@media (max-width: 768px) {
-  .control-label {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
 }
 
 .ajax-loader-img {
@@ -330,8 +323,7 @@ form .ng-invalid {
   border: 1px solid #a94442;
 }
 .form-control {
-  height: 28px;
-  padding: 0 8px;
+  padding: 3px 5px;
 }
 .form-group {
   margin-bottom: 8px;
@@ -424,8 +416,22 @@ form .ng-invalid {
   }
 }
 
+.hidden-xsm,
 .hidden-xxs {
   display: inherit;
+}
+@media (max-width: 600px) {
+  .hidden-xsm {
+    display: none !important;
+  }
+}
+@media (max-width: 500px) {
+  .hidden-xxs {
+    display: none !important;
+  }
+  .visible-xxs {
+    display: block !important;
+  }
 }
 
 /* For Mobile devices - portrait and landscape */
@@ -434,7 +440,7 @@ form .ng-invalid {
     padding-bottom: 2px;
   }
   .form-control {
-    padding: 0 5px;
+    padding: 3px 6px;
   }
   .form-group {
     margin-bottom: 6px;
@@ -444,6 +450,15 @@ form .ng-invalid {
   }
   .panel-group .panel-level-2 {
     margin-bottom: 10px;
+  }
+  .panel-group .panel-level-1 .panel-body {
+    padding: 10px 10px 0;
+  }
+  .panel-group .panel-level-2 .panel-body {
+    padding: 10px 10px 5px;
+  }
+  .panel-group .panel-heading {
+      padding: 8px 10px 9px 10px;
   }
 
   /* Increase sizes of font and button icons on mobile devices */
@@ -707,8 +722,14 @@ form .ng-invalid {
     margin-top: 10px;
   }
 
+  body, .form-control {
+    font-size: 15px;
+  }
   .form-horizontal .form-group {
     margin: 0 -5px 5px -5px;
+  }
+  .form-horizontal .control-label {
+    margin: 2px 0 0;
   }
 
   .navbar-btn.btn {
@@ -716,12 +737,6 @@ form .ng-invalid {
     margin-top: 5px;
   }
 
-  .hidden-xxs {
-    display: none !important;
-  }
-  .visible-xxs {
-    display: block !important;
-  }
   table.visible-xxs {
     display: table !important;
   }
@@ -742,12 +757,6 @@ form .ng-invalid {
     display: inline-block !important;
   }
 
-  .panel-group .panel-level-1 .panel-title {
-    font-size: 15px;
-  }
-  .panel-group .panel-level-2 .panel-title {
-    font-size: 14px;
-  }
   .panel-group .panel-level-1 .glyphicon-plus-sign {
     font-size: 18px !important;
   }
@@ -761,13 +770,13 @@ form .ng-invalid {
     font-size: 17px !important;
   }
   .panel-group .panel-level-1 .panel-body {
-    padding: 10px 10px 0;
+    padding: 10px 5px 0;
   }
   .panel-group .panel-level-2 .panel-body {
-    padding: 10px 10px 5px;
+    padding: 10px 5px 5px;
   }
   .panel-group .panel-heading {
-      padding: 5px 10px;
+      padding: 8px 5px 9px;
   }
 }
 

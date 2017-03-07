@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
   selector: '[autoHeight]'
 })
 export class AutoHeightDirective implements OnInit {
-  private headerHeight: number = 48;
+  private headerHeight: number = 65;
 
   constructor(private elem: ElementRef) {}
 

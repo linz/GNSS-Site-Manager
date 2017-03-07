@@ -197,6 +197,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   isUserLoggedIn(): boolean {
-    return this.userAuthService.getUser() != null;
+    return this.userAuthService.getUser() !== null;
   }
 }
