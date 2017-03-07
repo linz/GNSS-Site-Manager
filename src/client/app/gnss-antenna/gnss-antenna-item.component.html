@@ -6,11 +6,17 @@
          [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
       </i>
       <span *ngIf="index == 0">
-        <span class="hidden-xxs">Current</span> Antenna (Since {{ miscUtils.getDate(antenna.dateInstalled) }})
+        <span class="hidden-xsm">Current </span>
+        <span class="hidden-xxs">Antenna (</span>
+        Since {{ miscUtils.getDate(antenna.dateInstalled) }}
+        <span class="hidden-xxs">)</span>
       </span>
       <span *ngIf="index != 0">
-        <span class="hidden-xxs">Previous</span> Antenna ({{ miscUtils.getDate(antenna.dateInstalled) }}
-        &ndash; {{ miscUtils.getDate(antenna.dateRemoved) }})
+        <span class="hidden-xsm">Previous </span>
+        <span class="hidden-xxs">Antenna (</span>
+        {{ miscUtils.getDate(antenna.dateInstalled) }}
+        &ndash; {{ miscUtils.getDate(antenna.dateRemoved) }}
+        <span class="hidden-xxs">)</span>
       </span>
     </span>
     <span class="pull-right">

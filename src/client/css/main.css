@@ -308,13 +308,6 @@ ul {
 }
 .control-label {
   font-weight: normal;
-  margin-top: 0;
-}
-@media (max-width: 768px) {
-  .control-label {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
 }
 
 .ajax-loader-img {
@@ -330,8 +323,7 @@ form .ng-invalid {
   border: 1px solid #a94442;
 }
 .form-control {
-  height: 26px;
-  padding: 0 8px;
+  padding: 3px 5px;
 }
 .form-group {
   margin-bottom: 8px;
@@ -424,8 +416,22 @@ form .ng-invalid {
   }
 }
 
+.hidden-xsm,
 .hidden-xxs {
   display: inherit;
+}
+@media (max-width: 600px) {
+  .hidden-xsm {
+    display: none !important;
+  }
+}
+@media (max-width: 500px) {
+  .hidden-xxs {
+    display: none !important;
+  }
+  .visible-xxs {
+    display: block !important;
+  }
 }
 
 /* For Mobile devices - portrait and landscape */
@@ -434,7 +440,7 @@ form .ng-invalid {
     padding-bottom: 2px;
   }
   .form-control {
-    padding: 0 5px;
+    padding: 3px 6px;
   }
   .form-group {
     margin-bottom: 6px;
@@ -444,6 +450,15 @@ form .ng-invalid {
   }
   .panel-group .panel-level-2 {
     margin-bottom: 10px;
+  }
+  .panel-group .panel-level-1 .panel-body {
+    padding: 10px 10px 0;
+  }
+  .panel-group .panel-level-2 .panel-body {
+    padding: 10px 10px 5px;
+  }
+  .panel-group .panel-heading {
+      padding: 8px 10px 9px 10px;
   }
 
   /* Increase sizes of font and button icons on mobile devices */
@@ -707,8 +722,14 @@ form .ng-invalid {
     margin-top: 10px;
   }
 
+  body, .form-control {
+    font-size: 15px;
+  }
   .form-horizontal .form-group {
     margin: 0 -5px 5px -5px;
+  }
+  .form-horizontal .control-label {
+    margin: 2px 0 0;
   }
 
   .navbar-btn.btn {
@@ -716,12 +737,6 @@ form .ng-invalid {
     margin-top: 5px;
   }
 
-  .hidden-xxs {
-    display: none !important;
-  }
-  .visible-xxs {
-    display: block !important;
-  }
   table.visible-xxs {
     display: table !important;
   }
@@ -740,6 +755,28 @@ form .ng-invalid {
   }
   .visible-xxs-inline-block {
     display: inline-block !important;
+  }
+
+  .panel-group .panel-level-1 .glyphicon-plus-sign {
+    font-size: 18px !important;
+  }
+  .panel-group .panel-level-1 .glyphicon-minus-sign {
+    font-size: 18px !important;
+  }
+  .panel-group .panel-level-2 .glyphicon-plus-sign {
+    font-size: 17px !important;
+  }
+  .panel-group .panel-level-2 .glyphicon-minus-sign {
+    font-size: 17px !important;
+  }
+  .panel-group .panel-level-1 .panel-body {
+    padding: 10px 5px 0;
+  }
+  .panel-group .panel-level-2 .panel-body {
+    padding: 10px 5px 5px;
+  }
+  .panel-group .panel-heading {
+      padding: 8px 5px 9px;
   }
 }
 
@@ -760,7 +797,7 @@ form .ng-invalid {
         background: url('./img/menu-hamburger.png') no-repeat;
         height: 15px !important;
         width: 16px !important;
-        top: -1px;
+        top: 3px;
     }
     .glyphicon-option-vertical {
         background: url('./img/option-vertical.png') no-repeat;
@@ -837,5 +874,11 @@ form .ng-invalid {
         background: url('./img/cancel.png') no-repeat;
         width: 10px !important;
         height: 10px !important;
+    }
+    .btn-cancel > .glyphicon-remove:hover,
+    .btn-cancel > .glyphicon-remove:focus {
+        background: url('./img/remove.png') no-repeat;
+        width: 13px !important;
+        height: 12px !important;
     }
 }

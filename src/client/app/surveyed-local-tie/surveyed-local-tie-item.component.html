@@ -7,10 +7,16 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                <span class="hidden-xxs">Current </span>Surveyed Local Tie (Since {{ miscUtils.getDate(surveyedLocalTie.dateMeasured) }})
+                <span class="hidden-xsm">Current </span>
+                <span class="hidden-xxs">Surveyed Local Tie (</span>
+                {{ miscUtils.getDate(surveyedLocalTie.dateMeasured) }}
+                <span class="hidden-xxs">)</span>
             </span>
             <span *ngIf="index != 0">
-                <span class="hidden-xxs">Previous </span>Surveyed Local Tie ({{ miscUtils.getDate(surveyedLocalTie.dateMeasured) }}
+                <span class="hidden-xsm">Previous </span>
+                <span class="hidden-xxs">Surveyed Local Tie (</span>
+                {{ miscUtils.getDate(surveyedLocalTie.dateMeasured) }}
+                <span class="hidden-xxs">)</span>
             </span>
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->

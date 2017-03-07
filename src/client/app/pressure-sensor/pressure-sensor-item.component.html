@@ -7,11 +7,17 @@
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span *ngIf="index == 0">
-                <span class="hidden-xxs">Current </span>Pressure Sensor (Since {{ miscUtils.getDate(pressureSensor.startDate) }})
+                <span class="hidden-xsm">Current </span>
+                <span class="hidden-xxs">Pressure Sensor (</span>
+                Since {{ miscUtils.getDate(pressureSensor.startDate) }}
+                <span class="hidden-xxs">)</span>
             </span>
             <span *ngIf="index != 0">
-                <span class="hidden-xxs">Previous </span>Pressure Sensor ({{ miscUtils.getDate(pressureSensor.startDate) }} &ndash;
-                {{ miscUtils.getDate(pressureSensor.endDate) }})
+                <span class="hidden-xsm">Previous </span>
+                <span class="hidden-xxs">Pressure Sensor (</span>
+                {{ miscUtils.getDate(pressureSensor.startDate) }} &ndash;
+                {{ miscUtils.getDate(pressureSensor.endDate) }}
+                <span class="hidden-xxs">)</span>
             </span>
         </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->

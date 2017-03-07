@@ -3,13 +3,13 @@
   background-color: #fff;
   border-radius: 4px;
   border: 1px solid #ddd;
-  height: 365px;
+  height: 380px;
   right: 15px;
   z-index: 1;
 }
 @media (max-width: 767px) {
   .calendar-popup {
-    height: 370px;
+    height: 390px;
   }
 }
 .calendar-popup .input-time {
@@ -30,29 +30,34 @@
   background-color: #f0f0f0;
   border-color: #ddd;
 }
-.calendar-popup .center {
+.calendar-popup .center-time {
   margin: 0 auto;
   padding-top: 0;
   top: -2px;
-  width: 130px;
+  width: 140px;
 }
 .btn-calendar {
   border-radius: 0;
-  padding: 2px 6px;
+  font-size: 16px;
+  height: 34px;
+  padding: 5px 10px 4px;
 }
 .calendar-popup .center-btns {
   margin: 0 auto;
-  width: 130px;
+  width: 150px;
 }
 @media (max-width: 767px) {
   .calendar-popup .center-btns {
     width: 160px;
   }
 }
+
 .btn-ok {
   color: #337ab7;
   background-color: #fff;
   border-color: #ccc;
+  font-size: 13px;
+  margin-top: 2px;
 }
 .btn-ok:hover {
   color: #fff;
@@ -63,6 +68,8 @@
   color: #d9534f;
   background-color: #fff;
   border-color: #ccc;
+  font-size: 13px;
+  margin-top: 2px;
 }
 .btn-cancel:hover {
   color: #fff;
@@ -82,6 +89,6 @@
 
 @media (max-width: 450px) {
   .calendar-popup {
-    right: 5px;
+    right: -5px;
   }
 }
