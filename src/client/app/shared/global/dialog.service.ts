@@ -16,6 +16,17 @@ export class DialogService {
   }
 
   /*
+   * Opens a customised dialog asking user whether to close/exit a page without saving changes made
+   */
+  public confirmCloseDialog(msg: string, okCallback: () => any, cancelCallback: () => any) {
+    let header: string = '<div class="title">Confirm Closing Page</div>';
+    let body: string = '<div class="body"><p/><p>' + msg + '</p><p/></div>';
+    let footer: string = '<p class="footer">Do you really want to close the page?</p>';
+    let msgHtml: string = '<div>' + header + body + footer + '</div>';
+    this.showConfirmDialog(msgHtml, okCallback, cancelCallback);
+  }
+
+  /*
    * Opens a confirmation dialog and acts accordingly in response to users' choice
    */
   public showConfirmDialog(message: string, okCallback: () => any, cancelCallback: () => any) {
