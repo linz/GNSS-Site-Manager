@@ -186,10 +186,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Navigate to the default home page (Select-Site tab)
    */
   public goToHomePage() {
-    this.isLoading = false;
-    this.siteId = null;
     let link = ['/'];
     this.router.navigate(link);
+    this.isLoading = false;
   }
 
   /**
