@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class DialogService {
@@ -17,6 +18,9 @@ export class DialogService {
 
   /*
    * Opens a customised dialog asking user whether to close/exit a page without saving changes made
+   *
+   * TODO: Update it to return a Promise<boolean> once alertify.org resolves this issue on its GitHub.
+   *       https://github.com/alertifyjs/alertify.js
    */
   public confirmCloseDialog(msg: string, okCallback: () => any, cancelCallback: () => any) {
     let header: string = '<div class="title">Confirm Closing Page</div>';

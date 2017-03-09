@@ -183,26 +183,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Close the site-info page and go back to the default home page (select-site tab)
+   * Navigate to the default home page (Select-Site tab)
    */
-  public close() {
-    if (!this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel)) {
-      this.goToHomePage();
-    } else {
-      let msg: string = 'You have made changes to the "' + this.siteId + '" Site Log. '
-                      + 'Close the page will lose any unsaved changes.';
-      let that: any = this;
-      this.dialogService.confirmCloseDialog(msg,
-        function() {
-          that.goToHomePage();
-          that.dialogService.showLogMessage('Site Info page closed and changes discarded');
-        },
-        function() {}
-      );
-    }
-  }
-
-  private goToHomePage() {
+  public goToHomePage() {
     this.isLoading = false;
     this.siteId = null;
     let link = ['/'];
@@ -211,6 +194,26 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   public hasChanges(): boolean {
     return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
+  }
+
+  /**
+   * Close the site-info page and go back to the default home page (select-site tab)
+   */
+  public confirmCloseSiteInfoPage(): Promise<boolean> {
+    let msg: string = 'You have made changes to the "' + this.siteId + '" Site Log. '
+                    + 'Close the page will lose any unsaved changes.';
+    let that: any = this;
+    return new Promise<boolean>((resolve, reject) => {
+        this.dialogService.confirmCloseDialog(msg,
+          function() {
+            that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
+            resolve(true);
+          },
+          function() {
+            resolve(false);
+          }
+        );
+    });
   }
 
   public backupSiteLogJson() {
