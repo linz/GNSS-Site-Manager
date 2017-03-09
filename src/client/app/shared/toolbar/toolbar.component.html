@@ -16,7 +16,7 @@
     <span class="hidden-xs">
       <span *ngIf="siteId">
         <span class="id-label">Selected Site: {{siteId}}</span>
-        <button class="btn small-btn" (click)="save()" [disabled]="!hasFormChanged()" title="Save changes">Save</button>
+        <button class="btn small-btn" (click)="save()" [disabled]="!hasFormChanged()" title="Review and save changes">Save</button>
         <button class="btn small-btn" (click)="revert()" title="Discard changes">Revert</button>
         <button class="btn small-btn" (click)="close()" title="Close current page and go back to Home page">Close</button>
       </span>
@@ -28,7 +28,7 @@
           <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
         </nav>
         <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-          <li role="menuitem"><a (click)="save()">Save</a></li>
+          <li role="menuitem"><a (click)="save()" title="Review and save changes">Save</a></li>
           <li role="menuitem"><a (click)="revert()" title="Discard changes">Revert</a></li>
           <li class="divider dropdown-divider"></li>
           <li role="menuitem"><a (click)="close()">Close</a></li>
