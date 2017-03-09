@@ -80,7 +80,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public loadSiteInfoData() {
     // Do not allow direct access to site-info page
     if (!this.siteId) {
-      this.goBack();
+      this.goToHomePage();
     }
 
     this.isLoading = true;
@@ -183,13 +183,42 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Close the site-info page and go back to the default home page (select-site tab)
+   * Navigate to the default home page (Select-Site tab)
    */
-  public goBack() {
+  public goToHomePage() {
     this.isLoading = false;
     this.siteId = null;
     let link = ['/'];
     this.router.navigate(link);
+  }
+
+  /**
+   * Return true if any of the SiteLog data have been changed.
+   *
+   * TODO: we may use other methods to detect changes, e.g., the form.$dirty variable
+   */
+  public hasChanges(): boolean {
+    return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
+  }
+
+  /**
+   * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
+   */
+  public confirmCloseSiteInfoPage(): Promise<boolean> {
+    let msg: string = 'You have made changes to the "' + this.siteId + '" Site Log. '
+                    + 'Close the page will lose any unsaved changes.';
+    let that: any = this;
+    return new Promise<boolean>((resolve, reject) => {
+        this.dialogService.confirmCloseDialog(msg,
+          function() {
+            that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
+            resolve(true);
+          },
+          function() {
+            resolve(false);
+          }
+        );
+    });
   }
 
   public backupSiteLogJson() {

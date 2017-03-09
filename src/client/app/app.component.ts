@@ -57,13 +57,13 @@ export class AppComponent {
   }
 
   /**
-   * Invoke the goBack() method of SiteInfo component triggered by the "Close" button on Toolbar component
+   * Invoke the goToHomePage() method of SiteInfo component triggered by the "Close" button on Toolbar component
    *
    * @event: boolean - true if the selected siteId is not null
    */
   onClose(event: any) {
     if (event) {
-      this.siteInfo.goBack();
+      this.siteInfo.goToHomePage();
     }
   }
 
