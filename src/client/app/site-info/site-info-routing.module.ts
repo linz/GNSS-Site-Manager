@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { SiteInfoComponent } from './site-info.component';
-import { ConfirmDeactivateSiteInfoGuard } from './site-info-deactivate.guard';
+import { ConfirmDeactivateSiteInfoGuard } from './site-info-deactivate.module';
 
 @NgModule({
   imports: [

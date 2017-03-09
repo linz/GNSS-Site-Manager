@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { SiteInfoComponent } from './site-info.component';
 import { SiteInfoRoutingModule } from './site-info-routing.module';
-import { ConfirmDeactivateSiteInfoGuard } from './site-info-deactivate.guard';
+import { ConfirmDeactivateSiteInfoGuard } from './site-info-deactivate.module';
 import { ResponsiblePartyModule } from '../responsible-party/responsible-party.module';
 import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
 import { GnssAntennaModule } from '../gnss-antenna/gnss-antenna.module';

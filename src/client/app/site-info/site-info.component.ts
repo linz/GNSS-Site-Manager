@@ -192,12 +192,17 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.router.navigate(link);
   }
 
+  /**
+   * Return true if any of the SiteLog data have been changed.
+   *
+   * TODO: we may use other methods to detect changes, e.g., the form.$dirty variable
+   */
   public hasChanges(): boolean {
     return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
   }
 
   /**
-   * Close the site-info page and go back to the default home page (select-site tab)
+   * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
    */
   public confirmCloseSiteInfoPage(): Promise<boolean> {
     let msg: string = 'You have made changes to the "' + this.siteId + '" Site Log. '
