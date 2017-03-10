@@ -163,6 +163,9 @@ ul {
   margin: 10px 0;
   padding: 15px;
 }
+.panel-group .panel + .panel {
+  margin-top: 15px !important;
+}
 
 .accordion-group-icon {
   color: #fff !important;
@@ -208,6 +211,10 @@ ul {
 }
 .margin10-first {
   margin-right: 10px !important;
+}
+.extra-v-margin {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 /* Override alertify.js for global dialogs */
@@ -459,6 +466,14 @@ form .ng-invalid {
   }
   .panel-group .panel-heading {
       padding: 8px 10px 9px 10px;
+  }
+  .panel-group .panel + .panel {
+    margin-top: 10px !important;
+  }
+
+  .extra-v-margin {
+    margin-top: 10px;
+    margin-bottom: 5px;
   }
 
   /* Increase sizes of font and button icons on mobile devices */
