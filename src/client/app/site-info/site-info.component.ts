@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { User } from 'oidc-client';
 import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
 import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site-log-view-model';
@@ -21,6 +22,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
   public siteId: string;
   public isLoading: boolean = false;
+  public hasEditRole: boolean = false;
   public siteLogOrigin: any = {};
   public siteLogModel: any = {};
   public siteIdentification: any = null;
@@ -60,6 +62,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               private jsonDiffService: JsonDiffService,
               private jsonCheckService: JsonCheckService,
               private userAuthService: UserAuthService) {
+    this.setupAuthSubscription();
   }
 
   /**
@@ -71,6 +74,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteId = id;
     });
 
+    this.checkUserAuthorities();
     this.loadSiteInfoData();
   }
 
@@ -123,6 +127,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public ngOnDestroy() {
     this.isLoading =  false;
+    this.hasEditRole = false;
+    this.siteId = null;
     this.siteLogModel = null;
     this.siteIdentification = null;
     this.siteLocation = null;
@@ -224,7 +230,34 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
   }
 
-  isUserLoggedIn(): boolean {
-    return this.userAuthService.getUser() !== null;
+  private setupAuthSubscription() {
+    let that: any = this;
+    this.userAuthService.userLoadededEvent.subscribe((user: User) => {
+        that.checkUserAuthorities();
+    });
+  }
+
+  private checkUserAuthorities() {
+    if (!this.siteId) {
+        this.hasEditRole = false;
+        return;
+    }
+
+    let user: User = this.userAuthService.getUser();
+    if ( !user || !user.profile || !user.profile.authorities ) {
+        this.hasEditRole = false;
+    } else if (user.profile.sub.toLowerCase() === 'amadmin'
+            || user.profile.authorities[0].toLowerCase() === 'superuser') {
+        this.hasEditRole = true;
+    } else {
+        let myAuthority: string = 'edit-' + this.siteId.toLowerCase();
+        for (let authority of user.profile.authorities) {
+            if (myAuthority === authority.toLowerCase()) {
+                this.hasEditRole = true;
+            }
+        }
+    }
+    console.log('@@@@@@@@@@@@ hasEditRole='+this.hasEditRole);
+    if(user)console.log('------------ user.profile='+JSON.stringify(user.profile));
   }
 }

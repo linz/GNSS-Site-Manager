@@ -28,7 +28,7 @@
                          [(ngModel)]="siteIdentification.fourCharacterID"
                          name="fourCharacterID"
                          #fourCharacterID="ngModel"
-                         disabled="{{! isUserLoggedIn()}}"/>
+                         disabled="{{!hasEditRole}}"/>
                   <small [hidden]="fourCharacterID.valid || fourCharacterID.pristine"
                          class="alert alert-danger">
                     "Four Character Id" is required (minimum 4 characters)
@@ -40,7 +40,7 @@
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                   <input type="text" maxlength="100" class="form-control" required
                          [(ngModel)]="siteIdentification.siteName" name="siteName" #siteName="ngModel"
-                         disabled="{{! isUserLoggedIn()}}"/>
+                         disabled="{{!hasEditRole}}"/>
                   <small [hidden]="siteName.valid || siteName.pristine" class="alert alert-danger">
                     "Site Name" is required
                   </small>
@@ -51,7 +51,7 @@
                 <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                   <input type="text" maxlength="100" class="form-control" required
                          [(ngModel)]="siteIdentification.iersDOMESNumber" name="iersDomesNumber" #iersDomesNumber="ngModel"
-                         disabled="{{! isUserLoggedIn()}}"/>
+                         disabled="{{!hasEditRole}}"/>
                   <small [hidden]="iersDomesNumber.valid || iersDomesNumber.pristine" class="alert alert-danger">
                     "IERS DOMES Number" is required
                   </small>
@@ -63,7 +63,7 @@
                   <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            [(ngModel)]="siteLocation.city" name="siteCity" #siteCity="ngModel"
-                           disabled="{{! isUserLoggedIn()}}"/>
+                           disabled="{{!hasEditRole}}"/>
                   </div>
                 </div>
               </div>
@@ -73,7 +73,7 @@
                   <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            [(ngModel)]="siteLocation.state" name="siteState" #siteState="ngModel"
-                           disabled="{{! isUserLoggedIn()}}"/>
+                           disabled="{{!hasEditRole}}"/>
                   </div>
                 </div>
               </div>
@@ -83,7 +83,7 @@
                   <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
                     <input type="text" maxlength="100" class="form-control"
                            [(ngModel)]="siteLocation.countryCodeISO" name="siteCountry" #siteCountry="ngModel"
-                           disabled="{{! isUserLoggedIn()}}"/>
+                           disabled="{{!hasEditRole}}"/>
                   </div>
                 </div>
               </div>
