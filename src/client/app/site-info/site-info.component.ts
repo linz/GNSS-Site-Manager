@@ -231,9 +231,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
   private setupAuthSubscription() {
-    let that: any = this;
     this.userAuthService.userLoadededEvent.subscribe((user: User) => {
-        that.checkUserAuthorities();
+        this.checkUserAuthorities();
     });
   }
 
@@ -244,10 +243,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     let user: User = this.userAuthService.getUser();
-    if ( !user || !user.profile || !user.profile.authorities ) {
+    if (!user || !user.profile || !user.profile.authorities || user.profile.authorities.length === 0) {
         this.hasEditRole = false;
-    } else if (user.profile.sub.toLowerCase() === 'amadmin'
-            || user.profile.authorities[0].toLowerCase() === 'superuser') {
+    } else if (user.profile.authorities[0].toLowerCase() === 'superuser') {
         this.hasEditRole = true;
     } else {
         let myAuthority: string = 'edit-' + this.siteId.toLowerCase();
@@ -257,7 +255,5 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             }
         }
     }
-    console.log('@@@@@@@@@@@@ hasEditRole='+this.hasEditRole);
-    if(user)console.log('------------ user.profile='+JSON.stringify(user.profile));
   }
 }
