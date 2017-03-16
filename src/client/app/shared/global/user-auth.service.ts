@@ -64,14 +64,18 @@ export class UserAuthService {
       return this.currentUser;
     }
 
-    public canUserEdit(siteAuthority: string): boolean {
-        if (!this.currentUser || !siteAuthority) {
+    public hasAuthorityToEditSite(siteId: string): boolean {
+        return this.hasAuthortiy('edit-' + siteId.toLowerCase());
+    }
+
+    public hasAuthortiy(authority: string): boolean {
+        if (!this.currentUser || !authority) {
             return false;
         } else if (!this.currentUser.profile || !this.currentUser.profile.authorities) {
             return false;
         } else {
-            return lodash.some(this.currentUser.profile.authorities, function(authority) {
-                return authority === 'superuser' || authority === siteAuthority;
+            return lodash.some(this.currentUser.profile.authorities, function(myAuthority) {
+                return myAuthority === 'superuser' || myAuthority === authority;
             });
         }
     }

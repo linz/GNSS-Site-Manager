@@ -62,7 +62,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
               private jsonDiffService: JsonDiffService,
               private jsonCheckService: JsonCheckService,
               private userAuthService: UserAuthService) {
-    this.setupAuthSubscription();
   }
 
   /**
@@ -74,7 +73,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteId = id;
     });
 
-    this.hasEditRole = this.userAuthService.canUserEdit(this.getUserAuthority());
+    this.setupAuthSubscription();
+    this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
     this.loadSiteInfoData();
   }
 
@@ -128,7 +128,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.isLoading =  false;
     this.hasEditRole = false;
-    //this.siteId = null;
+    this.siteId = null;
     this.siteLogModel = null;
     this.siteIdentification = null;
     this.siteLocation = null;
@@ -138,6 +138,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteDataSource = null;
     this.status = null;
     this.errorMessage = '';
+    this.userAuthService.userLoadededEvent.unsubscribe();
+
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
     if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
@@ -232,11 +234,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   private setupAuthSubscription() {
     this.userAuthService.userLoadededEvent.subscribe((user: User) => {
-        this.hasEditRole = this.userAuthService.canUserEdit(this.getUserAuthority());
+        this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
     });
-  }
-
-  private getUserAuthority(): string {
-    return !this.siteId ? '' : 'edit-' + this.siteId.toLowerCase();
   }
 }
