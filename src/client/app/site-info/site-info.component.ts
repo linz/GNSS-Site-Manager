@@ -74,7 +74,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteId = id;
     });
 
-    this.checkUserAuthorities();
+    this.hasEditRole = this.userAuthService.canUserEdit(this.getUserAuthority());
     this.loadSiteInfoData();
   }
 
@@ -128,7 +128,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public ngOnDestroy() {
     this.isLoading =  false;
     this.hasEditRole = false;
-    this.siteId = null;
+    //this.siteId = null;
     this.siteLogModel = null;
     this.siteIdentification = null;
     this.siteLocation = null;
@@ -232,28 +232,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
   private setupAuthSubscription() {
     this.userAuthService.userLoadededEvent.subscribe((user: User) => {
-        this.checkUserAuthorities();
+        this.hasEditRole = this.userAuthService.canUserEdit(this.getUserAuthority());
     });
   }
 
-  private checkUserAuthorities() {
-    if (!this.siteId) {
-        this.hasEditRole = false;
-        return;
-    }
-
-    let user: User = this.userAuthService.getUser();
-    if (!user || !user.profile || !user.profile.authorities || user.profile.authorities.length === 0) {
-        this.hasEditRole = false;
-    } else if (user.profile.authorities[0].toLowerCase() === 'superuser') {
-        this.hasEditRole = true;
-    } else {
-        let myAuthority: string = 'edit-' + this.siteId.toLowerCase();
-        for (let authority of user.profile.authorities) {
-            if (myAuthority === authority.toLowerCase()) {
-                this.hasEditRole = true;
-            }
-        }
-    }
+  private getUserAuthority(): string {
+    return !this.siteId ? '' : 'edit-' + this.siteId.toLowerCase();
   }
 }
