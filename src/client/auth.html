@@ -21,8 +21,7 @@
 
     <script>
         new UserManager().signinRedirectCallback().then(function (user) {
-            console.log('auth.html - user: ', user);
-            window.location = "/";
+            window.location = localStorage.getItem('routerUrl');
         })
         .catch(function (err) {
             console.error('auth.html: ' + err.message);
