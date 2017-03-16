@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { UserManager, MetadataService, User } from 'oidc-client';
-
+import * as lodash from 'lodash';
 import { ConstantsService } from './constants.service';
 
 /**
@@ -62,6 +62,22 @@ export class UserAuthService {
 
     getUser(): User | null {
       return this.currentUser;
+    }
+
+    public hasAuthorityToEditSite(siteId: string): boolean {
+        return this.hasAuthortiy('edit-' + siteId.toLowerCase());
+    }
+
+    public hasAuthortiy(authority: string): boolean {
+        if (!this.currentUser || !authority) {
+            return false;
+        } else if (!this.currentUser.profile || !this.currentUser.profile.authorities) {
+            return false;
+        } else {
+            return lodash.some(this.currentUser.profile.authorities, function(myAuthority) {
+                return myAuthority === 'superuser' || myAuthority === authority;
+            });
+        }
     }
 
     private addEventHandlers() {

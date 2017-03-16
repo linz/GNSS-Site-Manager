@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { User } from 'oidc-client';
 import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
 import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site-log-view-model';
@@ -21,6 +22,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
   public siteId: string;
   public isLoading: boolean = false;
+  public hasEditRole: boolean = false;
   public siteLogOrigin: any = {};
   public siteLogModel: any = {};
   public siteIdentification: any = null;
@@ -71,6 +73,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.siteId = id;
     });
 
+    this.setupAuthSubscription();
+    this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
     this.loadSiteInfoData();
   }
 
@@ -123,6 +127,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    */
   public ngOnDestroy() {
     this.isLoading =  false;
+    this.hasEditRole = false;
+    this.siteId = null;
     this.siteLogModel = null;
     this.siteIdentification = null;
     this.siteLocation = null;
@@ -132,6 +138,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteDataSource = null;
     this.status = null;
     this.errorMessage = '';
+    this.userAuthService.userLoadededEvent.unsubscribe();
+
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
     if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
@@ -224,7 +232,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
   }
 
-  isUserLoggedIn(): boolean {
-    return this.userAuthService.getUser() !== null;
+  private setupAuthSubscription() {
+    this.userAuthService.userLoadededEvent.subscribe((user: User) => {
+        this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
+    });
   }
 }
