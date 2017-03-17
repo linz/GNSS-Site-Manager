@@ -82,6 +82,10 @@ export class ToolbarComponent implements OnInit {
     this.userAuthService.logout();
   }
 
+  changePassword() {
+
+  }
+
   private setupSubscriptions() {
     this.setupServiceWorkerSubscription();
     this.setupRouterSubscription();
