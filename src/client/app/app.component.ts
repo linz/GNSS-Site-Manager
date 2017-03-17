@@ -1,4 +1,5 @@
 import { Component, ViewContainerRef } from '@angular/core';
+import { Router } from '@angular/router';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, MiscUtils,
          JsonDiffService, JsonCheckService, JsonPointerService, NameListService, ServiceWorkerService,
          JsonixService } from './shared/index';
@@ -30,7 +31,7 @@ import { JsonViewModelService } from './shared/json-data-view-model/json-view-mo
   templateUrl: 'app.component.html',
 })
 export class AppComponent {
-  constructor(private siteInfo: SiteInfoComponent, private viewContainerRef: ViewContainerRef) {
+  constructor(private siteInfo: SiteInfoComponent, private viewContainerRef: ViewContainerRef, private router: Router) {
     console.log('Environment config', Config);
   }
 
@@ -69,5 +70,6 @@ export class AppComponent {
 
   onActivate(event: any) {
     this.siteInfo = event;
+    localStorage.setItem('routerUrl', this.router.url);
   }
 }
