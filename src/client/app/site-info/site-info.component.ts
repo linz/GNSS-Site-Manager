@@ -140,7 +140,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteDataSource = null;
     this.status = null;
     this.errorMessage = '';
-    this.authSubscription.unsubscribe();
+    if (this.authSubscription) {
+        this.authSubscription.unsubscribe();
+    }
 
     // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
     // object is created.  Hence this field might not have been created.
