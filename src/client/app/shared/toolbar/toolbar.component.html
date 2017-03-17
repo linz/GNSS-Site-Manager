@@ -45,8 +45,7 @@
               <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
             </nav>
             <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-              <li role="menuitem"><a>Show Profile</a></li>
-              <li role="menuitem"><a>{{user.profile.authorities[0]}}</a></li>
+              <li role="menuitem"><a (click)="showUserProfile()">View Profile</a></li>
               <li class="divider dropdown&#45;divider"></li>
               <li role="menuitem"><a (click)="changePassword()">Change Password</a></li>
               <li class="divider dropdown&#45;divider"></li>

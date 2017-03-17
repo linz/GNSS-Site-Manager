@@ -64,6 +64,13 @@ export class UserAuthService {
       return this.currentUser;
     }
 
+    changePassword() {
+        if(this.currentUser) {
+            let url: string = this.constantsService.getOpenAMServerURL() + '/XUI/#profile/password';
+            window.open(url);
+        }
+    }
+
     public hasAuthorityToEditSite(siteId: string): boolean {
         return this.hasAuthortiy('edit-' + siteId.toLowerCase());
     }
