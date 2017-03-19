@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ServiceWorkerService } from '../index';
 import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
 
@@ -28,6 +28,7 @@ export class ToolbarComponent implements OnInit {
   constructor(private serviceWorkerService: ServiceWorkerService,
               private route: ActivatedRoute,
               private router: Router,
+              private dialogService: DialogService,
               private userAuthService: UserAuthService) {
   }
 
@@ -82,6 +83,21 @@ export class ToolbarComponent implements OnInit {
     this.userAuthService.logout();
   }
 
+  showUserProfile() {
+    let userProfile: string = '<div class="title">User Profile</div>'
+            + '<div class="profile-table"><table>'
+            + '<tr><td class="name">User Name</td><td class="value">' + this.user.profile.sub + '</td></tr>'
+            + '<tr><td class="name">Full Name</td><td class="value">' + this.user.profile.name + '</td></tr>'
+            + '<tr><td class="name">Group</td><td class="value">' + this.user.profile.family_name + '</td></tr>'
+            + '<tr><td class="name">Authorized Sites</td><td class="value">' + this.getUserAuthorityString() + '</td></tr>'
+            +'</table></div>';
+    this.dialogService.showAlertDialog(userProfile);
+  }
+
+  changePassword() {
+    this.userAuthService.changePassword();
+  }
+
   private setupSubscriptions() {
     this.setupServiceWorkerSubscription();
     this.setupRouterSubscription();
@@ -115,5 +131,18 @@ export class ToolbarComponent implements OnInit {
     this.loadedUserSub = this.userAuthService.userLoadededEvent.subscribe((u: User) => {
         this.user = u;
     });
+  }
+
+  private getUserAuthorityString(): string {
+    let authorities: any = [];
+    for (let auth of this.user.profile.authorities) {
+      auth = auth.toLowerCase();
+      if (auth === 'superuser') {
+        return 'All sites';
+      } else if (auth.startsWith('edit-')) {
+        authorities.push(auth.slice(5).toUpperCase());
+      }
+    }
+    return authorities.join();
   }
 }

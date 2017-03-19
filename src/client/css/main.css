@@ -302,6 +302,29 @@ ul {
   text-align: center;
 }
 
+/* user profile table */
+.profile-table {
+  font-size: 15px;
+  margin: 15px 0;
+}
+.profile-table table {
+  border-collapse: separate;
+  border-spacing: 5px;
+  width: 100%;
+}
+.profile-table .name {
+  padding: 5px 10px;
+  text-align: right;
+  width: 40%;
+}
+.profile-table .value {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  text-align: left;
+  width: 60%;
+}
+
 /* Override bootstrap stylings */
 .well {
   background-color: #fff !important;
