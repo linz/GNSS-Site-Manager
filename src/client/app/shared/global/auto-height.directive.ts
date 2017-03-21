@@ -5,6 +5,7 @@ import { Directive, ElementRef, HostListener, OnInit } from '@angular/core';
 })
 export class AutoHeightDirective implements OnInit {
   private headerHeight: number = 65;
+  private footerHeight: number = 36;
 
   constructor(private elem: ElementRef) {}
 
@@ -26,7 +27,7 @@ export class AutoHeightDirective implements OnInit {
   }
 
   private resize(bodyHeight: number): void {
-    let scrollHeight = bodyHeight - this.headerHeight;
+    let scrollHeight = bodyHeight - this.headerHeight - this.footerHeight;
     this.elem.nativeElement.style.overflowY = 'auto';
     this.elem.nativeElement.style.overflowX = 'hidden';
     this.elem.nativeElement.style.height = scrollHeight + 'px';
