@@ -1,0 +1,89 @@
+:host {
+    background-color: #2f2f2f;
+    border: none;
+    color:#fff;
+    display: block;
+    font-size: 14px;
+    min-height: 36px;
+    width: 100%;
+    @grid-float-breakpoint-max: 1000px;
+}
+.container {
+    padding-right: 0;
+    padding-left: 0;
+}
+.navbar {
+    background-color: transparent;
+    border: none;
+    max-height: 36px;
+    min-height: 36px;
+    vertical-align: middle;
+}
+.navbar-collapse {
+    border-color: #494949;
+}
+.navbar-toggle {
+    padding: 5px 6px;
+    margin: 5px 10px;
+}
+.navbar-toggle:focus,
+.navbar-toggle:hover {
+    background-color:#2f2f2f;
+    border-color:#fff;
+}
+.navbar-nav > li > a {
+    color:#fff;
+    padding: 6px 10px !important;
+}
+.navbar-nav > li > a:hover,
+.navbar-nav > li > a:focus {
+    text-decoration: underline;
+}
+.container-fluid {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+.fixed-bottom {
+    bottom: 0;
+    margin-bottom: 0;
+    position: fixed;
+    z-index: 0;
+}
+.hide-sm {
+    display: inline;
+}
+.show-sm {
+    display: none;
+}
+
+@media (min-width: 768px ) AND (max-width: 1000px) {
+    .navbar-nav > li > a {
+        line-height: 1.85;
+        padding: 5px 6px !important;
+    }
+    .hide-sm {
+        display: none;
+    }
+    .show-sm {
+        display: inline;
+    }
+}
+
+@media (max-width: 767px) {
+    .navbar {
+        background-color: #2f2f2f;
+        max-height: 300px;
+    }
+    .navbar-nav {
+        margin: 0 -15px;
+    }
+    .navbar-nav > li {
+        border-bottom: 1px solid #4f4f4f;
+    }
+    .navbar-nav > li > a {
+        padding: 6px 10px !important;
+    }
+    .navbar-toggle {
+        float: left;
+    }
+}

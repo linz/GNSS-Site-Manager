@@ -12,10 +12,12 @@ import {
 import {
   RouterTestingModule
 } from '@angular/router/testing';
+import { CollapseModule } from 'ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
+import { FooterComponent } from './shared/footer/footer.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { Http, BaseRequestOptions, ConnectionBackend, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
@@ -35,8 +37,8 @@ export function main() {
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, HttpModule, RouterTestingModule.withRoutes(config)],
-        declarations: [TestComponent, ToolbarComponent,
+        imports: [FormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
+        declarations: [TestComponent, ToolbarComponent, FooterComponent,
           NavbarComponent, AppComponent,
           HomeComponent, AboutComponent],
         providers: [
