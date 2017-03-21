@@ -12,6 +12,7 @@ import {
 import {
   RouterTestingModule
 } from '@angular/router/testing';
+import { CollapseModule } from 'ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
@@ -36,7 +37,7 @@ export function main() {
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, HttpModule, RouterTestingModule.withRoutes(config)],
+        imports: [FormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
         declarations: [TestComponent, ToolbarComponent, FooterComponent,
           NavbarComponent, AppComponent,
           HomeComponent, AboutComponent],
