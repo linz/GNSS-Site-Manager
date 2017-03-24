@@ -1,27 +1,55 @@
 :host {
-  background-color: #205081;
-  color: #fff;
+  background-color: #fff;
   display: block;
-  height: 65px;
-  line-height: 1.55;
-  padding: 15px 0;
-  vertical-align: middle;
+  float: none;
+  height: 75px;
+  max-height: 75px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
-
+.header-container {
+  background-color: #fff;
+  color: #2f2f2f;
+  height: 70px;
+  margin-left: auto;
+  margin-right: auto;
+  max-height: 70px;
+  padding: 0;
+}
+.right-panel {
+  float: right;
+  padding: 17px 0;
+}
 .title {
   font-size: 24px;
   font-weight: normal;
   letter-spacing: 0.1px;
   margin-left: 15px;
+  vertical-align: middle;
 }
-
+#ga-logo {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+img.logo {
+  height: 69px;
+  width: 180px;
+}
+img.logo-stacked {
+  height: 69px;
+  width: 106px;
+}
 .menu-btn {
   background-color: transparent;
+  border-color: #2f2f2f;
   font-size: 24px;
   font-weight: 400;
   line-height: 1.0;
-  margin-top: -2px;
-  padding: 7px 6px 3px;
+  margin-left: 10px !important;
+  margin-right: 4px;
+  padding: 4px 10px 1px;
 }
 .menu-btn:hover,
 .menu-btn:focus,
@@ -29,12 +57,12 @@
 .small-btn:focus,
 .wrap-btn:hover,
 .wrap-btn:focus {
-  color: #d9edf7;
-  border-color: #d9edf7;
+  color: #006983;
+  border-color: #006983;
 }
 .small-btn {
   background-color: transparent;
-  border-color: #fff;
+  border-color: #2f2f2f;
   font-size: 16px !important;
   font-weight: 400 !important;
   margin-left: 10px;
@@ -43,7 +71,7 @@
 }
 .wrap-btn {
   background-color: transparent;
-  border-color: #fff;
+  border-color: #2f2f2f;
   font-size: 15px !important;
   font-weight: 400 !important;
   padding: 3px 6px;
@@ -84,28 +112,64 @@
   padding: 5px 20px;
   margin-bottom: 5px;
 }
-#clear {
-  background-color: transparent;
+
+/* A horizontal strap just right below the header */
+.strap-container {
+  display: table;
+  height: 5px;
+  margin: 0;
+  min-height: 5px;
+  padding: 0;
+  width: 100%;
 }
-.more {
-  background: url("./assets/svg/more.svg");
-  float: right;
-  margin-top: 35px;
-  border: 1px solid rgb(255, 255, 255);
+.strap-blue, .strap-white, .strap-red {
+  height: 5px;
+  margin: 0;
+}
+.strap-blue {
+  background-color: #72c7e7;
+  float: left;
+  width: 88%;
+}
+.strap-white {
+  background-color: #fff;
+  float: left;
+  width: 3px;
+}
+.strap-red {
+  background-color: #a33f1f;
+}
+
+@media (max-width: 991px) {
+  .title {
+    font-size: 22px;
+    letter-spacing: 0;
+    margin-left: 10px;
+  }
+  .menu-btn {
+    border-color: transparent;
+    margin-left: 10px !important;
+    margin-right: 0;
+  }
 }
 
 /* Special CSS classes defined for small devices such as smart phone (landscape) */
 @media (max-width: 767px) {
-  :host {
-    line-height: 1.8;
-    padding: 15px 10px;
+  .header-container {
+    padding: 18px 10px;
+  }
+  .right-panel {
+    padding: 0;
   }
   .title {
     font-size: 20px;
+    line-height: 2.0;
     margin-left: 10px;
   }
   .menu-btn {
+    border-color: transparent;
     margin-left: -5px !important;
+    padding: 7px 6px 3px;
   }
   .menu-label {
     margin-left: 10px;
@@ -114,32 +178,36 @@
   .small-btn {
     font-weight: 300;
   }
+  .visible-xs {
+    display: inline-block !important;
+  }
 }
 
 /* Special CSS classes defined for small devices such as smart phone (portrait) */
 @media (max-width: 450px) {
-  :host {
-    line-height: 2.2;
-    padding: 15px 5px;
+  .header-container {
+    padding: 18px 5px;
+  }
+  #app-title {
+    display: inline;
   }
   .title {
     font-size: 17px;
-    letter-spacing: 0;
-    margin-left: 10px;
+    margin-left: 5px;
   }
   .menu-btn {
     border: 0;
     font-size: 22px;
     line-height: 1.2;
-    padding: 0;
     margin-left: 0 !important;
     margin-top: 6px;
+    padding: 0;
   }
   .menu-label {
     margin-right: 5px;
   }
   .small-btn {
+    font-size: 15px !important;
     font-weight: 200;
-    margin-top: -3px;
   }
 }

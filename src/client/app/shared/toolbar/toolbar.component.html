@@ -1,57 +1,92 @@
-<div class="container centered clear-pad">
-  <span dropdown class="btn-group pull-left">
-    <button dropdownToggle id="left-menu" type="button" class="btn menu-btn">
-      <i class="glyphicon glyphicon-menu-hamburger"></i>
-    </button>
-    <ul dropdownMenu role="menu" aria-labelledby="menu-button">
-      <li role="menuitem"><a [routerLink]="['/']">Select Site</a></li>
-      <li role="menuitem"><a [routerLink]="['/about']">About</a></li>
-      <!-- TODO: Disable service worker for now -->
-      <!-- <li class="divider dropdown&#45;divider"></li> -->
-      <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
-    </ul>
-  </span>
-  <span class="title">GNSS Site Manager</span>
-  <span class="pull-right">
-    <span class="hidden-xs">
-      <span *ngIf="siteId">
-        <span class="id-label">Selected Site: {{siteId}}</span>
-        <button class="btn small-btn" (click)="save()" [disabled]="!hasFormChanged()" title="Review and save changes">Save</button>
-        <button class="btn small-btn" (click)="revert()" title="Discard changes">Revert</button>
-        <button class="btn small-btn" (click)="close()" title="Close current page and go back to Home page">Close</button>
-      </span>
-    </span>
-    <span class="hidden-sm hidden-md hidden-lg" *ngIf="siteId">
-      <div dropdown class="pull-left">
-        <nav dropdownToggle id="site-id-menu" class="menu-label">
-          <span class="btn-label">{{siteId}}</span>
-          <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
-        </nav>
-        <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-          <li role="menuitem"><a (click)="save()" title="Review and save changes">Save</a></li>
-          <li role="menuitem"><a (click)="revert()" title="Discard changes">Revert</a></li>
-          <li class="divider dropdown-divider"></li>
-          <li role="menuitem"><a (click)="close()">Close</a></li>
-        </ul>
-      </div>
-    </span>
-    <span *ngIf="!user">
-        <button class="btn small-btn" (click)="login()">Login</button>
-    </span>
-    <span *ngIf="user">
-        <div dropdown class="pull-right">
-            <nav dropdownToggle id="user-menu" class="menu-label">
-              <span class="btn-label">{{user.profile.sub}}</span>
-              <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
-            </nav>
-            <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-              <li role="menuitem"><a (click)="showUserProfile()">View Profile</a></li>
-              <li class="divider dropdown&#45;divider"></li>
-              <li role="menuitem"><a (click)="changePassword()">Change Password</a></li>
-              <li class="divider dropdown&#45;divider"></li>
-              <li role="menuitem"><a (click)="logout()">Logout</a></li>
+<div class="container clear-pad">
+    <div class="header-container">
+        <span class="right-panel">
+            <span *ngIf="siteId">
+                <span class="hidden-sm hidden-xs">
+                        <span class="id-label">Selected Site: {{siteId}}</span>
+                        <button class="btn small-btn" (click)="save()" [disabled]="!hasFormChanged()"
+                                title="Review and save changes">Save</button>
+                        <button class="btn small-btn" (click)="revert()" title="Discard changes">Revert</button>
+                        <button class="btn small-btn" (click)="close()"
+                                title="Close current page and go back to Home page">Close</button>
+                </span>
+                <span class="hidden-md hidden-lg">
+                  <div dropdown class="pull-left">
+                    <nav dropdownToggle id="site-id-menu" class="menu-label">
+                        <span class="btn-label">{{siteId}}</span>
+                        <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
+                    </nav>
+                    <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                        <li role="menuitem"><a (click)="save()" title="Review and save changes">Save</a></li>
+                        <li role="menuitem"><a (click)="revert()" title="Discard changes">Revert</a></li>
+                        <li class="divider dropdown-divider"></li>
+                        <li role="menuitem"><a (click)="close()">Close</a></li>
+                    </ul>
+                  </div>
+                </span>
+            </span>
+            <span dropdown class="btn-group hidden-xs" id="links-right">
+                <button dropdownToggle type="button" class="btn menu-btn">
+                    <i class="glyphicon glyphicon-menu-hamburger"></i>
+                </button>
+                <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                    <li role="menuitem"><a [routerLink]="['/']">Select Site</a></li>
+                    <li role="menuitem"><a [routerLink]="['/about']">About</a></li>
+                    <!-- TODO: Disable service worker for now -->
+                    <!-- <li class="divider dropdown-divider"></li> -->
+                    <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
+                </ul>
+            </span>
+            <span class="pull-right" id="login">
+                <span *ngIf="!user">
+                    <button class="btn small-btn" (click)="login()">Login</button>
+                </span>
+                <span *ngIf="user">
+                    <div dropdown>
+                        <nav dropdownToggle id="user-menu" class="menu-label">
+                            <span class="btn-label">{{user.profile.sub}}</span>
+                            <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
+                        </nav>
+                        <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                            <li role="menuitem"><a (click)="showUserProfile()">View Profile</a></li>
+                            <li class="divider dropdown-divider"></li>
+                            <li role="menuitem"><a (click)="changePassword()">Change Password</a></li>
+                            <li class="divider dropdown-divider"></li>
+                            <li role="menuitem"><a (click)="logout()">Logout</a></li>
+                        </ul>
+                    </div>
+                </span>
+            </span>
+        </span>
+        <span class="hidden-xs" id="ga-logo">
+            <a href="http://www.ga.gov.au" title="Go to Geoscience Australia home page">
+                <span class="hidden-sm">
+                    <img class="logo" src="assets/geoscience_inline_padded_small.png"
+                         alt="Australian Government - Geoscience Australia">
+                </span>
+                <span class="visible-sm">
+                    <img class="logo-stacked" src="assets/geoscience_stacked_padded_small.png"
+                         alt="Australian Government - Geoscience Australia">
+                </span>
+            </a>
+        </span>
+        <span dropdown class="visible-xs" id="links-left">
+            <button dropdownToggle type="button" class="btn menu-btn">
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
+            </button>
+            <ul dropdownMenu role="menu" aria-labelledby="menu-button">
+                <li role="menuitem"><a [routerLink]="['/']">Select Site</a></li>
+                <li role="menuitem"><a [routerLink]="['/about']">About</a></li>
+                <!-- TODO: Disable service worker for now -->
+                <!-- <li class="divider dropdown-divider"></li> -->
+                <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
             </ul>
-        </div>
-    </span>
-  </span>
+        </span>
+        <span class="title" id="app-title">GNSS Site Manager</span>
+    </div>
+</div>
+<div class="strap-container" id="horizontal-bar">
+    <div class="strap-blue"></div>
+    <div class="strap-white"></div>
+    <div class="strap-red"></div>
 </div>
