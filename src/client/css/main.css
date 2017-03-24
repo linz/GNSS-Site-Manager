@@ -766,6 +766,7 @@ form .ng-invalid {
     margin-left: auto;
     margin-right: auto;
     margin-top: 10px;
+    width: 75%;
   }
 
   body, .form-control {
