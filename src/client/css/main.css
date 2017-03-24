@@ -527,12 +527,19 @@ form .ng-invalid {
     margin-top: -4px;
     padding: 2px 10px;
   }
-
   .btn-group-sm > .btn, .calendar-popup .btn-sm {
     border-radius: 4px;
     font-size: 14px !important;
     line-height: 1.6;
     padding: 4px 12px;
+  }
+  .btn-long-xxs {
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 50%;
   }
   .ajax-loader-img {
     height: 21px;
@@ -760,14 +767,6 @@ form .ng-invalid {
   .col-xxs-offset-0 {
     margin-left: 0;
   }
-  .col-xxs-center {
-    display: block;
-    float: none;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-    width: 75%;
-  }
 
   body, .form-control {
     font-size: 15px;
@@ -782,6 +781,9 @@ form .ng-invalid {
   .navbar-btn.btn {
     margin-bottom: 5px;
     margin-top: 5px;
+  }
+  .btn-long-xxs {
+    width: 75%;
   }
 
   table.visible-xxs {
