@@ -22,6 +22,7 @@
   padding: 17px 0;
 }
 .title {
+  display: inline;
   font-size: 24px;
   font-weight: normal;
   letter-spacing: 0.1px;
@@ -188,12 +189,12 @@ img.logo-stacked {
   .header-container {
     padding: 18px 5px;
   }
-  #app-title {
-    display: inline;
-  }
   .title {
-    font-size: 17px;
-    margin-left: 5px;
+    display: inline-block;
+    font-size: 19px;
+    line-height: 1.2;
+    margin: -18px 0 -18px 10px;
+    width: 100px;
   }
   .menu-btn {
     border: 0;
@@ -209,5 +210,14 @@ img.logo-stacked {
   .small-btn {
     font-size: 15px !important;
     font-weight: 200;
+  }
+}
+@media (max-width: 350px) {
+  .title {
+    display: inline-block;
+    font-size: 18px;
+    line-height: 1.1;
+    margin: -18px 0 -18px 15px;
+    width: 80px;
   }
 }
