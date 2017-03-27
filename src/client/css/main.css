@@ -88,6 +88,16 @@ ul {
   margin-top: -1px;
   padding: 1px 5px;
 }
+.btn-primary {
+    background-color: #006983;
+    border-color: #007592;
+}
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #004162;
+  border-color: #002730;
+  color: #fff;
+}
 .btn-similar {
   background-color: transparent;
   border-color: #fff;
@@ -95,19 +105,13 @@ ul {
 }
 .btn-similar:hover,
 .btn-similar:focus {
-  background-color: #286090;
-  border-color: #d9edf7;
-  color: #d9edf7;
+  background-color: #004162;
+  border-color: #fff;
+  color: #fff;
 }
 .btn-group-xs > .btn, .btn-xs {
     font-size: 14px;
     padding: 0 5px;
-}
-.btn-group-xs > .btn, .btn-xxs {
-    font-size: 13px;
-    line-height: 1.4;
-    padding: 0 5px;
-    border-radius: 3px;
 }
 .panel-group .panel-level-1 {
   margin-top: 15px;
@@ -125,22 +129,24 @@ ul {
   padding: 15px 15px 7px;
 }
 .panel-group .panel-level-1 > .panel-heading {
-  background-color: #337ab7;
+  background-color: #006983;
   color: #fff;
+  height: 34px;
 }
 .panel-group .panel-level-1,
 .panel-group .panel-level-1 > .panel-heading,
 .panel-group .panel-level-1 > .panel-body {
-  border-color: #31708f;
+  border-color: #007592;
 }
 .panel-group .panel-level-2 > .panel-heading {
   background-color: #d9edf7;
-  color: #2e3d54;
+  color: #2f2f2f;
+  height: 34px;
 }
 .panel-group .panel-level-2,
 .panel-group .panel-level-2 > .panel-heading,
 .panel-group .panel-level-2 > .panel-body {
-  border-color: #bce8f1;
+  border-color: #bfe1f1;
 }
 .panel-group .panel-level-1 .panel-title {
   font-size: 16px;
@@ -232,7 +238,7 @@ ul {
   min-width: 285px;
 }
 .alertify .dialog .title {
-  background: #337ab7;
+  background: #006983;
   color: #fff;
   font-family: "Roboto", sans-serif;
   font-size: 18px;
@@ -265,9 +271,16 @@ ul {
 .alertify .dialog nav button:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
   background: transparent;
   border-radius: 2px;
-  border: 1px solid #bce8f1;
+  border: 1px solid #337ab7;
   color: rgba(0, 0, 0, 0.87);
   font-size: 14px;
+}
+.alertify .alert nav button:active:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button),
+.alertify .alert nav button:hover:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button),
+.alertify .dialog nav button:active:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button),
+.alertify .dialog nav button:hover:not(.btn):not(.pure-button):not(.md-button):not(.mdl-button) {
+    background-color: #006983;
+    color: #fff;
 }
 .alertify .dialog .msg {
   padding: 0 !important;
@@ -275,27 +288,27 @@ ul {
 .alertify .dialog .table {
   border-collapse: collapse;
   border-spacing: 0;
-  border: 1px solid #bce8f1;
+  border: 1px solid #337ab7;
   width: 100%;
   max-width: 100%;
   margin-bottom: 5px;
 }
 .alertify .dialog .table caption {
-  color: #286090;
+  color: #006983;
   font-size: 13px;
   font-weight: bold;
   padding-bottom: 5px;
 }
 .alertify .dialog .table td {
   border-collapse: separate;
-  border: 1px solid #bce8f1;
+  border: 1px solid #337ab7;
   font-size: 12px;
   padding: 1px 2px;
   text-align: left;
 }
 .alertify .dialog .table th {
   border-collapse: separate;
-  border: 1px solid #bce8f1;
+  border: 1px solid #337ab7;
   font-size: 12px;
   font-weight: bold;
   padding: 1px 2px;
@@ -487,8 +500,10 @@ form .ng-invalid {
   .panel-group .panel-level-2 .panel-body {
     padding: 10px 10px 5px;
   }
-  .panel-group .panel-heading {
+  .panel-group .panel-level-1 .panel-heading,
+  .panel-group .panel-level-2 .panel-heading {
       padding: 8px 10px 9px 10px;
+      height: 38px;
   }
   .panel-group .panel + .panel {
     margin-top: 10px !important;
@@ -506,25 +521,25 @@ form .ng-invalid {
     margin-top: -4px;
     padding: 2px 10px;
   }
-  .btn-group-xs > .btn, .btn-xxs {
-    border-radius: 4px;
-    font-size: 15px;
-    line-height: 1.5;
-    margin-top: -4px;
-    padding: 2px 8px;
-  }
   .btn-rm {
     border-radius: 4px;
     font-size: 15px;
     margin-top: -4px;
     padding: 2px 10px;
   }
-
   .btn-group-sm > .btn, .calendar-popup .btn-sm {
     border-radius: 4px;
     font-size: 14px !important;
     line-height: 1.6;
     padding: 4px 12px;
+  }
+  .btn-long-xxs {
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 50%;
   }
   .ajax-loader-img {
     height: 21px;
@@ -752,13 +767,6 @@ form .ng-invalid {
   .col-xxs-offset-0 {
     margin-left: 0;
   }
-  .col-xxs-center {
-    display: block;
-    float: none;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10px;
-  }
 
   body, .form-control {
     font-size: 15px;
@@ -773,6 +781,9 @@ form .ng-invalid {
   .navbar-btn.btn {
     margin-bottom: 5px;
     margin-top: 5px;
+  }
+  .btn-long-xxs {
+    width: 75%;
   }
 
   table.visible-xxs {
@@ -795,15 +806,11 @@ form .ng-invalid {
     display: inline-block !important;
   }
 
-  .panel-group .panel-level-1 .glyphicon-plus-sign {
-    font-size: 18px !important;
-  }
+  .panel-group .panel-level-1 .glyphicon-plus-sign,
   .panel-group .panel-level-1 .glyphicon-minus-sign {
     font-size: 18px !important;
   }
-  .panel-group .panel-level-2 .glyphicon-plus-sign {
-    font-size: 17px !important;
-  }
+  .panel-group .panel-level-2 .glyphicon-plus-sign,
   .panel-group .panel-level-2 .glyphicon-minus-sign {
     font-size: 17px !important;
   }
@@ -813,8 +820,10 @@ form .ng-invalid {
   .panel-group .panel-level-2 .panel-body {
     padding: 10px 5px 5px;
   }
-  .panel-group .panel-heading {
+  .panel-group .panel-level-1 .panel-heading,
+  .panel-group .panel-level-1 .panel-heading {
       padding: 8px 5px 9px;
+      height: 39px;
   }
 }
 
