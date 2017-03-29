@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../shared/index';
@@ -13,18 +13,19 @@ import { UserAuthService } from '../shared/global/user-auth.service';
 })
 export class UserRegistrationComponent {
 
-    userRegistrationForm = new FormGroup({
-        firstName: new FormControl(),
-        lastName: new FormControl(),
-        organisation: new FormControl(),
-        position: new FormControl(),
-        email: new FormControl(),
-        phone: new FormControl(),
-        remarks: new FormControl(),
+    userRegistrationForm = this.formBuilder.group({
+        firstName: [''],
+        lastName: [''],
+        organisation: [''],
+        position: [''],
+        email: [''],
+        phone: [''],
+        remarks: [''],
     });
 
     constructor(
         private location: Location,
+        private formBuilder: FormBuilder,
         private userService: UserAuthService,
         private dialogs: DialogService,
     ) {}
