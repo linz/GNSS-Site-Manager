@@ -1,7 +1,21 @@
 import { Injectable, EventEmitter } from '@angular/core';
+import { Http } from '@angular/http';
 import { UserManager, MetadataService, User } from 'oidc-client';
 import * as lodash from 'lodash';
 import { ConstantsService } from './constants.service';
+import { Observable } from 'rxjs';
+
+export class UserRegistration {
+    constructor(
+        readonly firstName: string,
+        readonly lastName: string,
+        readonly organisation: string,
+        readonly position: string,
+        readonly email : string,
+        readonly phone : string,
+        readonly remarks: string,
+      ) {}
+}
 
 /**
  * Service for authentication and authorisation of subjects.
@@ -12,7 +26,7 @@ export class UserAuthService {
     private userManager: UserManager;
     private currentUser: User;
 
-    constructor(private constantsService: ConstantsService) {
+    constructor(private http: Http, private constantsService: ConstantsService) {
         this.userManager = new UserManager({
             authority: this.constantsService.getOpenAMServerURL() + '/oauth2',
             client_id: 'GnssSiteManager',
@@ -40,6 +54,11 @@ export class UserAuthService {
             });
 
         this.addEventHandlers();
+    }
+
+  requestNewUser(registration: UserRegistration): Observable<void> {
+        return this.http.post(this.constantsService.getWebServiceURL() + '/userRegistrations', registration)
+            .mapTo(undefined);
     }
 
     login() {
