@@ -68,7 +68,7 @@ export function main() {
                             'ADE1',
                         );
 
-                        const setValue = function(value: string, formControlName: string): void {
+                        const setValue = (value: string, formControlName: string): void => {
                             const input: HTMLInputElement = dom.querySelector('[formcontrolname=' + formControlName + ']') as HTMLInputElement;
                             input.value = value;
                             input.dispatchEvent(new Event('input'));
