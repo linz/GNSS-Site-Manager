@@ -1,0 +1,40 @@
+<div class="container centered clear-pad">
+    <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
+        <div class="panel-group">
+            <div class="panel panel-level-1">
+
+                <div class="panel-heading">
+                    <div class="panel-title">User Registration</div>
+                </div> <!-- panel-heading -->
+
+                <div class="panel-body margin-bottom15">
+                    <form [formGroup]="userRegistrationForm">
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-8 col-xs-offset-1 col-xxs-12 col-xxs-offset-0 extra-v-margin">
+                                <label class="center-block">First Name<input class="form-control" formControlName="firstName"> </label>
+                                <label class="center-block">Last Name<input class="form-control" formControlName="lastName"> </label>
+                                <label class="center-block">Organisation<input class="form-control" formControlName="organisation"> </label>
+                                <label class="center-block">Position<input class="form-control" formControlName="position"> </label>
+                                <label class="center-block">Phone<input class="form-control" formControlName="phone"> </label>
+                                <label class="center-block">Email<input class="form-control" formControlName="email"> </label>
+                                <label class="center-block">Remarks<textarea class="form-control" formControlName="remarks"></textarea> </label>
+                            </div>
+                        </div> <!-- form-group -->
+
+                        <div class="col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1 col-xs-8 col-xs-offset-1 col-xxs-12 col-xxs-offset-0 extra-v-margin">
+                            <div class="centered" style="width: 150px;">
+                                <button class="btn btn-primary pull-left" (click)="cancel()" title="Cancel user registration">
+                                    Cancel
+                                </button>
+                                <button class="btn btn-primary pull-right" (click)="submit()" title="Submit user registration">
+                                    OK
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div> <!-- panel-body -->
+            </div> <!-- panel-level-1 -->
+        </div> <!-- panel-group -->
+</div> <!-- container -->

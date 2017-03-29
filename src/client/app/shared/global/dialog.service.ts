@@ -45,6 +45,15 @@ export class DialogService {
   }
 
   /*
+   * Opens a notification dialog.
+   */
+  public showNotificationDialog(message: string, okCallback: () => void) {
+    this._alertify.alert(message, (event: any) => {
+      okCallback();
+    });
+  }
+
+  /*
    * Opens a dialog to confirm deleting a record.
    * The record type (from getItemName()) must be supplied,
    * along with callbacks to handle the "Delete" and "Cancel" buttons.

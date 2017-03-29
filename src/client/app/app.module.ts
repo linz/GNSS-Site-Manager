@@ -13,6 +13,7 @@ import { SharedModule } from './shared/shared.module';
 import { HomeModule } from './home/home.module';
 import { SiteInfoModule } from './site-info/site-info.module';
 import { SelectSiteModule } from './select-site/select-site.module';
+import { UserRegistrationModule } from './user-registration/user-registration.module';
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
 @NgModule({
@@ -21,11 +22,11 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
     BrowserModule,
     HttpModule,
     ReactiveFormsModule,
-    // RouterModule.forRoot(routes),
     ModalModule,
     AboutModule,
     SiteInfoModule,
     SelectSiteModule,
+    UserRegistrationModule,
     HomeModule,
     SharedModule.forRoot()
   ],
