@@ -56,7 +56,7 @@ export function main() {
                         fixture.detectChanges();
 
                         const component: UserRegistrationComponent = <UserRegistrationComponent> fixture.debugElement.children[0].componentInstance;
-                        const dom = fixture.debugElement.children[0].nativeElement;
+                        const dom: HTMLElement = fixture.debugElement.children[0].nativeElement as HTMLElement;
 
                         const formData: UserRegistration = new UserRegistration(
                             'Lazar',
@@ -69,7 +69,7 @@ export function main() {
                         );
 
                         const setValue = function(value: string, formControlName: string): void {
-                            const input: HTMLInputElement = dom.querySelector('[formcontrolname=' + formControlName + ']');
+                            const input: HTMLInputElement = dom.querySelector('[formcontrolname=' + formControlName + ']') as HTMLInputElement;
                             input.value = value;
                             input.dispatchEvent(new Event('input'));
                         };
