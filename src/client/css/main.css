@@ -259,6 +259,16 @@ ul {
   line-height: 1.42857143;
   margin-top: 10px;
 }
+.alertify .dialog .note {
+   color: #106cc8;
+   font-family: "Roboto", sans-serif;
+   font-size: 13px;
+   font-weight: italic;
+   line-height: 1.42857143;
+ }
+.alertify .dialog .error {
+  color: red;
+}
 .alertify .dialog ul {
   padding: 0 0 0 10px;
 }
@@ -825,15 +835,6 @@ form .ng-invalid {
       padding: 8px 5px 9px;
       height: 39px;
   }
-}
-
-.reasonPrompt::after {
-      color: red;
-      content: " *";
-}
-
-.body.reasonPrompt.error {
-    color: red;
 }
 
 /* Use image method as Bootstrap Glyphicons do not display on IE browsers
