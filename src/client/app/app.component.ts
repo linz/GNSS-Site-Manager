@@ -29,6 +29,7 @@ import { JsonViewModelService } from './shared/json-data-view-model/json-view-mo
     JsonViewModelService,
   ],
   templateUrl: 'app.component.html',
+  styleUrls: ['app.component.css'],
 })
 export class AppComponent {
   constructor(private siteInfo: SiteInfoComponent, private viewContainerRef: ViewContainerRef, private router: Router) {

@@ -1,3 +1,4 @@
+/* GA
 html {
   height: 100%;
   overflow: auto;
@@ -7,6 +8,29 @@ body {
   min-width: 300px;
   width: 100%;
   word-wrap: break-word;
+}
+*/
+
+/* Reset */
+html, body, div {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Box-sizing border-box */
+*, *:before, *:after {
+  box-sizing: border-box;
 }
 
 .centered {

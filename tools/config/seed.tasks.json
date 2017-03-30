@@ -10,7 +10,8 @@
     "build.html_css",
     "build.js.dev",
     "build.index.dev",
-    "build.auth.dev"
+    "build.auth.dev",
+    "sw.manifest.static"
   ],
 
   "build.dev.watch": [
@@ -39,7 +40,8 @@
     "minify.bundles",
     "build.index.prod",
     "copy.oidc-client.prod",
-    "build.auth.prod"
+    "build.auth.prod",
+    "sw.manifest.static"
   ],
 
   "build.prod.aot": [
@@ -55,7 +57,8 @@
     "build.bundles",
     "build.bundles.app.aot",
     "minify.bundles",
-    "build.index.prod"
+    "build.index.prod",
+    "sw.manifest.static"
   ],
 
   "build.prod.rollup.aot": [
@@ -72,17 +75,19 @@
     "build.bundles.app.rollup.aot",
     "transpile.bundles.rollup.aot",
     "minify.bundles",
-    "build.index.prod"
+    "build.index.prod",
+    "sw.manifest.static"
   ],
 
   "build.test": [
     "initialize",
-    "clean.dev",
+    "clean.once",
     "build.assets.dev",
     "build.html_css",
     "build.js.dev",
     "build.js.test",
-    "build.index.dev"
+    "build.index.dev",
+    "sw.manifest.static"
   ],
 
   "test.watch": [
@@ -126,4 +131,3 @@
     "karma.run"
   ]
 }
-
