@@ -1,6 +1,6 @@
 <!-- Input: localEpisodicEffect (single) -->
 <div class="panel panel-level-2">
-    <div class="panel-heading">
+    <div class="panel-heading" [ngClass]="{'panel-level-2-dirty': localEpisodicEffect.dateDeleted}">
         <span class="panel-title cursor-ptr"
               (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon"
@@ -20,8 +20,13 @@
                 <span class="hidden-xxs">)</span>
             </span>
         </span>
+        <span *ngIf="localEpisodicEffect.dateDeleted" class="delete-marker"
+            title="It will be deleted when saving all changes for the site">
+            (Marked to delete)
+        </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
-          <button class="btn btn-danger btn-xs"
+          <button [disabled]="localEpisodicEffect.dateDeleted"
+                  class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the local episodic effect"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
@@ -33,7 +38,7 @@
         <div *ngIf=" localEpisodicEffect == null ">
             No information available for current Local Episodic Effect
         </div>
-        <div *ngIf=" localEpisodicEffect != null ">
+        <div *ngIf=" localEpisodicEffect != null" [ngClass]="{'container-dirty': localEpisodicEffect.dateDeleted}">
 
             <text-input
                 [name]="'localEpisodicEffectEvent'"

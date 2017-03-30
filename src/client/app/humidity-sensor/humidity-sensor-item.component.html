@@ -1,6 +1,6 @@
 <!-- Input: humiditySensor (single) -->
 <div class="panel panel-level-2">
-    <div class="panel-heading">
+    <div class="panel-heading" [ngClass]="{'panel-level-2-dirty': humiditySensor.dateDeleted}">
         <span class="panel-title cursor-ptr"
               (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon"
@@ -20,8 +20,13 @@
                 <span class="hidden-xxs">)</span>
             </span>
         </span>
+        <span *ngIf="humiditySensor.dateDeleted" class="delete-marker"
+            title="It will be deleted when saving all changes for the site">
+            (Marked to delete)
+        </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
-          <button class="btn btn-danger btn-xs"
+          <button [disabled]="humiditySensor.dateDeleted"
+                  class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the humidity sensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
@@ -33,7 +38,7 @@
         <div *ngIf=" humiditySensor == null ">
             No information available for current GNSS humidity sensor
         </div>
-        <div *ngIf=" humiditySensor != null ">
+        <div *ngIf="humiditySensor != null" [ngClass]="{'container-dirty': humiditySensor.dateDeleted}">
 
             <text-input
                 [name]="'humiditySensorManufacturer'"

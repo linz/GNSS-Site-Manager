@@ -1,6 +1,6 @@
 <!-- Input: surveyedLocalTie (single) -->
 <div class="panel panel-level-2">
-    <div class="panel-heading">
+    <div class="panel-heading" [ngClass]="{'panel-level-2-dirty': surveyedLocalTie.dateDeleted}">
         <span class="panel-title cursor-ptr"
               (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon"
@@ -19,8 +19,13 @@
                 <span class="hidden-xxs">)</span>
             </span>
         </span>
+        <span *ngIf="surveyedLocalTie.dateDeleted" class="delete-marker"
+            title="It will be deleted when saving all changes for the site">
+            (Marked to delete)
+        </span>
         <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
-          <button class="btn btn-danger btn-xs"
+          <button [disabled]="surveyedLocalTie.dateDeleted"
+                  class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the surveyed local tie"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
@@ -32,7 +37,7 @@
         <div *ngIf=" surveyedLocalTie == null ">
             No information available for Surveyed Local Ties
         </div>
-        <div *ngIf=" surveyedLocalTie != null ">
+        <div *ngIf="surveyedLocalTie != null" [ngClass]="{'container-dirty': surveyedLocalTie.dateDeleted}">
 
             <text-input
                 [name]="'surveyedLocalTieTiedMarkerName'"

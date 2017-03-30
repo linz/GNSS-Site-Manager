@@ -372,6 +372,26 @@ ul {
   color: #e31a1c;
 }
 
+/*  highlight dirty/invalid fields and containers */
+form .delete-marker {
+  color: #fff;
+  background-color: #a33f1f;
+  padding: 3px 10px 5px;
+}
+form .panel-level-1-dirty {
+  background-color: #a33f1f !important;
+}
+form .panel-level-2-dirty {
+  background-color: #ffe9ca !important;
+}
+form .field-dirty,
+form .container-dirty {
+  color: #a33f1f;
+  background-color: #ffffd9;
+}
+form .ng-dirty {
+    border: 1px solid #ca7700;
+}
 form .ng-invalid {
   border: 1px solid #a94442;
 }

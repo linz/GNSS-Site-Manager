@@ -18,7 +18,7 @@
             </span>
   </div>
   <div class="panel-body" *ngIf="isGroupOpen">
-    <div class="margin-bottom15" *ngIf="getItemsCollection() == null || getItemsCollection().length == 0">
+    <div class="margin-bottom15" *ngIf="isEmptyCollection()">
       No information available for {{getItemName()}}
     </div>
     <div *ngFor="let antenna of getItemsCollection(); let i = index">
