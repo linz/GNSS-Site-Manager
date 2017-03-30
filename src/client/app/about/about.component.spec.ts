@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   async,
   TestBed
@@ -14,7 +15,10 @@ export function main() {
     beforeEach(() => {
       TestBed.configureTestingModule({
         declarations: [TestComponent],
-        imports: [AboutModule]
+        imports: [
+            AboutModule,
+            RouterTestingModule,
+        ],
       });
     });
 
