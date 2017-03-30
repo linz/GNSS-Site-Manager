@@ -156,8 +156,7 @@
     "@angular/service-worker": "^1.0.0-beta.6",
     "@types/deep-diff": "0.0.30",
     "@types/json-pointer": "^1.0.30",
-    "@types/lodash": "4.14.52",
-    "@types/service_worker_api": "0.0.8",
+    "@types/lodash": "4.14.61",
     "alertify.js": "^1.0.10",
     "babel-polyfill": "^6.22.0",
     "bootstrap": "3.3.7",
@@ -171,6 +170,7 @@
     "oidc-client": "^1.3.0-beta.2",
     "scroll-into-view": "1.7.1",
     "systemjs": "0.19.41",
-    "zone.js": "^0.8.4"
+    "zone.js": "^0.8.4",
+    "rxjs": "^5.2.0"
   }
 }

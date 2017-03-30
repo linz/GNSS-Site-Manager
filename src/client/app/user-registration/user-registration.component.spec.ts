@@ -55,7 +55,9 @@ export function main() {
                         const fixture = TestBed.createComponent(TestComponent);
                         fixture.detectChanges();
 
-                        const component: UserRegistrationComponent = <UserRegistrationComponent> fixture.debugElement.children[0].componentInstance;
+                        const component: UserRegistrationComponent =
+                            fixture.debugElement.children[0].componentInstance as UserRegistrationComponent;
+
                         const dom: HTMLElement = fixture.debugElement.children[0].nativeElement as HTMLElement;
 
                         const formData: UserRegistration = new UserRegistration(
@@ -69,7 +71,9 @@ export function main() {
                         );
 
                         const setValue = (value: string, formControlName: string): void => {
-                            const input: HTMLInputElement = dom.querySelector('[formcontrolname=' + formControlName + ']') as HTMLInputElement;
+                            const input: HTMLInputElement =
+                                dom.querySelector('[formcontrolname=' + formControlName + ']') as HTMLInputElement;
+
                             input.value = value;
                             input.dispatchEvent(new Event('input'));
                         };
