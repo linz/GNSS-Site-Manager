@@ -77,7 +77,7 @@ export function main() {
     it('should have a new Receiver object with all missing paths added', () => {
       let receiver: any = jsonCheckService.getValidReceiver(receiverMissing);
       expect(receiver).toBeDefined();
-      expect(receiver.receiverType.value).toEqual('');
+      expect(receiver.igsModelCode.value).toEqual('');
       expect(receiver.serialNumber).toEqual('');
       expect(receiver.dateInstalled.value.length).toEqual(1);
       expect(receiver.satelliteSystem[0].value).toEqual('');
@@ -86,7 +86,7 @@ export function main() {
     it('should have a new Receiver object with receiver undefined', () => {
       let receiver: any = jsonCheckService.getValidReceiver(receiverSatelliteUndefined);
       expect(receiver).toBeDefined();
-      expect(receiver.receiverType.value).toEqual('');
+      expect(receiver.igsModelCode.value).toEqual('');
       expect(receiver.serialNumber).toEqual('');
       expect(receiver.dateInstalled.value.length).toEqual(1);
       expect(receiver.satelliteSystem[0].value).toEqual('');
