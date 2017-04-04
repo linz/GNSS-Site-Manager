@@ -289,7 +289,7 @@ export function main() {
       let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
       expect(geodesyMl).not.toBeNull();
       console.log(geodesyMl);
-      expect(geodesyMl).toContain('gnssReceivers');
+      expect(geodesyMl).toContain('gnssReceiver');
       expect(geodesyMl).toContain('!!!SOME INTERESTING REMARKS!!!');
     });
 
