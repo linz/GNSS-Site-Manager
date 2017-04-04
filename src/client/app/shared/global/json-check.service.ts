@@ -102,7 +102,6 @@ export class JsonCheckService {
 
   private receiver: any = {
     notes: '',
-    extension: '',
     igsModelCode: { value: '' },
     manufacturerSerialNumber: '',
     serialNumber: '',
@@ -119,7 +118,6 @@ export class JsonCheckService {
 
   private antenna: any = {
     notes: '',
-    extension: '',
     antennaType: {
       codeListValue: '',
       value: ''
@@ -140,7 +138,6 @@ export class JsonCheckService {
 
   private surveyedLocalTie: any = {
     notes: '',
-    extension: '',
     tiedMarkerName: '',
     tiedMarkerUsage: '',
     tiedMarkerCDPNumber: '',
@@ -157,7 +154,6 @@ export class JsonCheckService {
 
   private frequencyStandard: any = {
     notes: '',
-    extension: '',
     standardType: { value: '' },
     inputFrequency: '',
     validTime: {
@@ -172,7 +168,6 @@ export class JsonCheckService {
 
   private humiditySensor: any = {
     notes: '',
-    extension: '',
     dataSamplingInterval: 0,
     accuracyPercentRelativeHumidity: 0,
     aspiration: '',
@@ -192,7 +187,6 @@ export class JsonCheckService {
 
   private pressureSensor: any = {
     notes: '',
-    extension: '',
     dataSamplingInterval: 0,
     accuracyHPa: 0,
     manufacturer: '',
@@ -211,7 +205,6 @@ export class JsonCheckService {
 
   private temperatureSensor: any = {
     notes: '',
-    extension: '',
     dataSamplingInterval: 0,
     accuracyDegreesCelcius: 0,
     aspiration: '',
@@ -231,7 +224,6 @@ export class JsonCheckService {
 
   private waterVaporSensor: any = {
     notes: '',
-    extension: '',
     dataSamplingInterval: 0,
     manufacturer: '',
     serialNumber: '',
