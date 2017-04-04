@@ -16,7 +16,7 @@ export class SiteLogDataModel {
     gnssAntennas: any[];
     surveyedLocalTies: any[];
     frequencyStandards: any[];
-    localEpisodicEventsSet: any[];
+    localEpisodicEffects: any[];
     humiditySensors: any[] = [];
     pressureSensors: any[];
     temperatureSensors: any[];
@@ -26,7 +26,7 @@ export class SiteLogDataModel {
     siteMetadataCustodian: any;
     siteDataSource: any;
     moreInformation: any;
-    dataStreamsSet: any;
+    dataStreams: any;
 
     /**
      * Extract the data in the supplied JSON object or create an empty array / object for each item that doesn't exist.
@@ -40,7 +40,7 @@ export class SiteLogDataModel {
             this.gnssAntennas = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].gnssAntennas, true);
             this.surveyedLocalTies = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].surveyedLocalTies, true);
             this.frequencyStandards = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].frequencyStandards, true);
-            this.localEpisodicEventsSet = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].localEpisodicEventsSet, true);
+            this.localEpisodicEffects = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].localEpisodicEffects, true);
             this.humiditySensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].humiditySensors, true);
             this.pressureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].pressureSensors, true);
             this.temperatureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].temperatureSensors, true);
@@ -61,7 +61,7 @@ export class SiteLogDataModel {
             this.siteMetadataCustodian = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteMetadataCustodian, false);
             this.siteDataSource = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteDataSource, false);
             this.moreInformation = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].moreInformation, false);
-            this.dataStreamsSet = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].dataStreamsSet, false);
+            this.dataStreams = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].dataStreams, false);
         }
     }
 

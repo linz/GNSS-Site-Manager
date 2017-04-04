@@ -9,7 +9,7 @@ import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
 import { GnssAntennaModule } from '../gnss-antenna/gnss-antenna.module';
 import { SurveyedLocalTieModule } from '../surveyed-local-tie/surveyed-local-tie.module';
 import { FrequencyStandardModule } from '../frequency-standard/frequency-standard.module';
-import { LocalEpisodicEventModule } from '../local-episodic-event/local-episodic-event.module';
+import { LocalEpisodicEffectModule } from '../local-episodic-effect/local-episodic-effect.module';
 import { HumiditySensorModule } from '../humidity-sensor/humidity-sensor.module';
 import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module';
 import { TemperatureSensorModule } from '../temperature-sensor/temperature-sensor.module';
@@ -25,7 +25,7 @@ import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor
     GnssAntennaModule,
     SurveyedLocalTieModule,
     FrequencyStandardModule,
-    LocalEpisodicEventModule,
+    LocalEpisodicEffectModule,
     HumiditySensorModule,
     PressureSensorModule,
     TemperatureSensorModule,

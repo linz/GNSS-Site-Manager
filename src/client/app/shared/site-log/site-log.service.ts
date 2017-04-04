@@ -137,8 +137,8 @@ export class SiteLogService {
 
         let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJsonObj);
         // Add wrapper element
-        let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.3"' +
-            ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.3" xmlns:gml="http://www.opengis.net/gml/3.2"' +
+        let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"' +
+            ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4" xmlns:gml="http://www.opengis.net/gml/3.2"' +
             ' xmlns:ns9="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd"' +
             ' xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:om="http://www.opengis.net/om/2.0"' +
             ' xmlns:gco="http://www.isotc211.org/2005/gco"' +

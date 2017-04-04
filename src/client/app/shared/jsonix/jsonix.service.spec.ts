@@ -19,8 +19,8 @@ export function main() {
     });
 
     it('should parse valid GeodesyML', () => {
-      let geodesyml: string = `<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.3"
- xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.3"
+      let geodesyml: string = `<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"
+ xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4"
  xmlns:gml="http://www.opengis.net/gml/3.2"
  xmlns:ns9="http://www.w3.org/1999/xlink"
  xmlns:gmd="http://www.isotc211.org/2005/gmd"
@@ -34,14 +34,14 @@ export function main() {
     });
 
     it('should parse valid Json', () => {
-      let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_3.SiteLogType"}}`;
+      let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_4.SiteLogType"}}`;
       let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(json));
       expect(geodesyMl).not.toBeNull();
     });
 
     it('should error on invalid GeodesyML', () => {
-      let geodesyml: string = `<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.3"
- xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.3"
+      let geodesyml: string = `<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"
+ xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4"
  xmlns:gml="http://www.opengis.net/gml/3.2"
  xmlns:ns9="http://www.w3.org/1999/xlink"
  xmlns:gmd="http://www.isotc211.org/2005/gmd"
@@ -54,7 +54,7 @@ export function main() {
     });
 
     it('should error on invalid Json', () => {
-      let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_3.SiteLogType"`;
+      let json: string = `{"geo:siteLog":{"TYPE_NAME":"GEODESYML_0_4.SiteLogType"`;
       expect(function() {
         jsonixService.jsonToGeodesyML(JSON.parse(json));
       }).toThrowError(/Unexpected end of JSON input|JSON.parse: end of data/);
@@ -162,44 +162,10 @@ export function main() {
       console.log(geodesyMl);
     });
 
-    let validJsonWithLocalEpisodicEvents = `
+    let validJsonWithLocalEpisodicEffects = `
     {
         "geo:siteLog": {
-            "gnssAntennas": [
-              {
-                "gnssAntenna": {
-                  "dateInstalled": {
-                    "value": [
-                      "1995-01-01T00:00:00.000Z"
-                    ]
-                  },
-                  "dateRemoved": {
-                    "value": [
-                         null
-                    ]
-                  },
-                  "antennaType": {
-                    "codeListValue": ""
-                  },
-                  "serialNumber": "1121",
-                  "antennaReferencePoint": {
-                    "value": "BPA"
-                  },
-                  "markerArpEastEcc": 8,
-                  "markerArpUpEcc": 0,
-                  "markerArpNorthEcc": 8,
-                  "alignmentFromTrueNorth": 0,
-                  "antennaRadomeType": {
-                    "value": "SNOW"
-                  },
-                  "radomeSerialNumber": "",
-                  "antennaCableType": "(vendor & type number)",
-                  "antennaCableLength": 0,
-                  "notes": ""
-                }
-              }
-            ],
-            "localEpisodicEventsSet":[{
+            "localEpisodicEffects":[{
                 "dateDeleted":{
                     "value":[]
                 },
@@ -207,7 +173,7 @@ export function main() {
                     "value":["2017-01-23T04:55:23.758Z"]
                 },
                 "deletedReason":null,
-                "localEpisodicEvents":{
+                "localEpisodicEffect":{
                     "validTime":{
                         "abstractTimePrimitive":{
                             "gml:TimePeriod":{
@@ -227,11 +193,105 @@ export function main() {
     }`;
 
     it('should parse valid Json with a local episodic events element', () => {
-      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithLocalEpisodicEvents));
+      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithLocalEpisodicEffects));
       expect(geodesyMl).not.toBeNull();
       console.log(geodesyMl);
-      expect(geodesyMl).toContain('gnssAntennas');
       expect(geodesyMl).toContain('something important happened');
     });
+
+    let validJsonWithReceiverWithNotes = `
+    {
+        "geo:siteLog": {
+	        "gnssReceivers": [
+	          {
+	            "TYPE_NAME": "GEODESYML_0_4.GnssReceiverPropertyType",
+	            "gnssReceiver": {
+	              "TYPE_NAME": "GEODESYML_0_4.GnssReceiverType",
+	              "description": {
+	                "TYPE_NAME": "GML_3_2_1.StringOrRefType",
+	                "value": ""
+	              },
+	              "descriptionReference": {
+	                "TYPE_NAME": "GML_3_2_1.ReferenceType"
+	              },
+	              "identifier": {
+	                "TYPE_NAME": "GML_3_2_1.CodeWithAuthorityType",
+	                "value": ""
+	              },
+	              "type": {
+	                "TYPE_NAME": "GML_3_2_1.CodeType",
+	                "value": ""
+	              },
+	              "notes": "!!!SOME INTERESTING REMARKS!!!",
+	              "extension": {
+	                "TYPE_NAME": "AnyType",
+	                "attributes": {
+	                  "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
+	                  "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+	                }
+	              },
+	              "manufacturerName": "",
+	              "manufacturerModel": "",
+	              "manufacturerPartNumber": "",
+	              "manufacturerDescription": "",
+	              "manufacturerSerialNumber": "3209",
+	              "igsModelCode": {
+	                "TYPE_NAME": "GEODESYML_0_4.IgsReceiverModelCodeType",
+	                "value": ""
+	              },
+	              "receiverType": {
+	                "TYPE_NAME": "GEODESYML_0_4.IgsReceiverModelCodeType",
+	                "codeList":
+	                "http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode",
+	                "codeListValue": "ASHTECH Z-XII3",
+	                "codeSpace": "https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab",
+	                "value": "blah blah"
+	              },
+	              "satelliteSystem": [
+	                {
+	                  "TYPE_NAME": "GML_3_2_1.CodeType",
+	                  "codeSpace": "eGeodesy/satelliteSystem",
+	                  "value": "GPS",
+	                  "codeListValue": ""
+	                }
+	              ],
+	              "serialNumber": "",
+	              "firmwareVersion": "1Y07-1DY4",
+	              "elevationCutoffSetting": 0,
+	              "dateInstalled": {
+	                "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	                "value": [
+	                  "2009-08-26T19:51:00.000Z"
+	                ]
+	              },
+	              "dateRemoved": {
+	                "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	                "value": [
+	                  ""
+	                ]
+	              },
+	              "temperatureStabilization": 0
+	            },
+	            "dateInserted": {
+	              "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	              "value": [ ]
+	            },
+	            "dateDeleted": {
+	              "TYPE_NAME": "GML_3_2_1.TimePositionType",
+	              "value": [ ]
+	            },
+	            "deletedReason": ""
+            }]
+        }
+    }`;
+
+    it('should parse valid Json with receiver with notes', () => {
+      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
+      expect(geodesyMl).not.toBeNull();
+      console.log(geodesyMl);
+      expect(geodesyMl).toContain('gnssReceiver');
+      expect(geodesyMl).toContain('!!!SOME INTERESTING REMARKS!!!');
+    });
+
   });
 }

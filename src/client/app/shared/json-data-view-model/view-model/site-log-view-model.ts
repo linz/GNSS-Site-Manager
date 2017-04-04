@@ -1,7 +1,7 @@
 import { GnssAntennaViewModel } from '../../../gnss-antenna/gnss-antenna-view-model';
 import { SurveyedLocalTieViewModel } from '../../../surveyed-local-tie/surveyed-local-tie-view-model';
 import { FrequencyStandardViewModel } from '../../../frequency-standard/frequency-standard-view-model';
-import { LocalEpisodicEventViewModel } from '../../../local-episodic-event/local-episodic-event-view-model';
+import { LocalEpisodicEffectViewModel } from '../../../local-episodic-effect/local-episodic-effect-view-model';
 import { HumiditySensorViewModel } from '../../../humidity-sensor/humidity-sensor-view-model';
 import { PressureSensorViewModel } from '../../../pressure-sensor/pressure-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../../temperature-sensor/temperature-sensor-view-model';
@@ -21,7 +21,7 @@ export class ViewSiteLog {
     gnssAntennas: GnssAntennaViewModel[];
     surveyedLocalTies: SurveyedLocalTieViewModel[];
     frequencyStandards: FrequencyStandardViewModel[];
-    localEpisodicEvents : LocalEpisodicEventViewModel[];
+    localEpisodicEffects : LocalEpisodicEffectViewModel[];
     humiditySensors: HumiditySensorViewModel[];
     pressureSensors: PressureSensorViewModel[];
     temperatureSensors: TemperatureSensorViewModel[];
@@ -31,5 +31,5 @@ export class ViewSiteLog {
     siteMetadataCustodian: any;
     siteDataSource: any;
     moreInformation: any;
-    dataStreamsSet: any;
+    dataStreams: any;
 }

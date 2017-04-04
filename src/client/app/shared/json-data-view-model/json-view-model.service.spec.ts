@@ -75,7 +75,7 @@ export function main() {
       expect(siteLog.siteMetadataCustodian).toBeDefined();
       expect(siteLog.siteDataSource).toBeDefined();
       expect(siteLog.moreInformation).toBeDefined();
-      expect(siteLog.dataStreamsSet).toBeDefined();
+      expect(siteLog.dataStreams).toBeDefined();
     });
 
     it('should translate parts - view to data', () => {
@@ -102,7 +102,7 @@ export function main() {
       expect(siteLogDataModel.siteMetadataCustodian).toBeDefined();
       expect(siteLogDataModel.siteDataSource).toBeDefined();
       expect(siteLogDataModel.moreInformation).toBeDefined();
-      expect(siteLogDataModel.dataStreamsSet).toBeDefined();
+      expect(siteLogDataModel.dataStreams).toBeDefined();
 
     });
   });

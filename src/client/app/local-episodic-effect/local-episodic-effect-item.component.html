@@ -1,4 +1,4 @@
-<!-- Input: localEpisodicEvent (single) -->
+<!-- Input: localEpisodicEffect (single) -->
 <div class="panel panel-level-2">
     <div class="panel-heading">
         <span class="panel-title cursor-ptr"
@@ -9,14 +9,14 @@
             <span *ngIf="index == 0">
                 <span class="hidden-xsm">Current </span>
                 <span class="hidden-xxs">Local Episodic Effect (</span>
-                Since {{ miscUtils.getDate(localEpisodicEvent.startDate) }}
+                Since {{ miscUtils.getDate(localEpisodicEffect.startDate) }}
                 <span class="hidden-xxs">)</span>
             </span>
             <span *ngIf="index != 0">
                 <span class="hidden-xsm">Previous </span>
                 <span class="hidden-xxs">Local Episodic Effect (</span>
-                {{ miscUtils.getDate(localEpisodicEvent.startDate) }} &ndash;
-                {{ miscUtils.getDate(localEpisodicEvent.endDate) }}
+                {{ miscUtils.getDate(localEpisodicEffect.startDate) }} &ndash;
+                {{ miscUtils.getDate(localEpisodicEffect.endDate) }}
                 <span class="hidden-xxs">)</span>
             </span>
         </span>
@@ -30,14 +30,14 @@
         </span>
     </div>
     <div class="panel-body" *ngIf="isOpen">
-        <div *ngIf=" localEpisodicEvent == null ">
+        <div *ngIf=" localEpisodicEffect == null ">
             No information available for current Local Episodic Effect
         </div>
-        <div *ngIf=" localEpisodicEvent != null ">
+        <div *ngIf=" localEpisodicEffect != null ">
 
             <text-input
-                [name]="'localEpisodicEventEvent'"
-                [(model)]="localEpisodicEvent.event"
+                [name]="'localEpisodicEffectEvent'"
+                [(model)]="localEpisodicEffect.event"
                 [index]="[index]"
                 [label]="'Event'"
                 [maxlength]="100"
@@ -45,7 +45,7 @@
             </text-input>
 
             <datetime-input
-                [(datetime)]="localEpisodicEvent.startDate"
+                [(datetime)]="localEpisodicEffect.startDate"
                 [name]=" 'effectiveDateStart' "
                 [index]="[index]"
                 [required]="true"
@@ -53,7 +53,7 @@
             </datetime-input>
 
             <datetime-input
-                [(datetime)]="localEpisodicEvent.endDate"
+                [(datetime)]="localEpisodicEffect.endDate"
                 [name]=" 'effectiveDateEnd' "
                 [index]="[index]"
                 [requiredIfNotCurrent]="true"

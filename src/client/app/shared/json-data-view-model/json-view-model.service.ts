@@ -4,7 +4,7 @@ import { GnssAntennaViewModel } from '../../gnss-antenna/gnss-antenna-view-model
 import { GnssReceiverViewModel } from '../../gnss-receiver/gnss-receiver-view-model';
 import { SurveyedLocalTieViewModel } from '../../surveyed-local-tie/surveyed-local-tie-view-model';
 import { FrequencyStandardViewModel } from '../../frequency-standard/frequency-standard-view-model';
-import { LocalEpisodicEventViewModel } from '../../local-episodic-event/local-episodic-event-view-model';
+import { LocalEpisodicEffectViewModel } from '../../local-episodic-effect/local-episodic-effect-view-model';
 import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
 import { PressureSensorViewModel } from '../../pressure-sensor/pressure-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
@@ -41,8 +41,8 @@ export class JsonViewModelService {
             SurveyedLocalTieViewModel);
         siteLogViewModel.siteLog.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards,
             FrequencyStandardViewModel);
-        siteLogViewModel.siteLog.localEpisodicEvents = this.dataToViewModel(siteLogDataModel.localEpisodicEventsSet,
-            LocalEpisodicEventViewModel);
+        siteLogViewModel.siteLog.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects,
+            LocalEpisodicEffectViewModel);
         siteLogViewModel.siteLog.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors,
             HumiditySensorViewModel);
         siteLogViewModel.siteLog.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors,
@@ -60,7 +60,7 @@ export class JsonViewModelService {
         siteLogViewModel.siteLog.siteMetadataCustodian = siteLogDataModel.siteMetadataCustodian;
         siteLogViewModel.siteLog.siteDataSource = siteLogDataModel.siteDataSource;
         siteLogViewModel.siteLog.moreInformation = siteLogDataModel.moreInformation;
-        siteLogViewModel.siteLog.dataStreamsSet = siteLogDataModel.dataStreamsSet;
+        siteLogViewModel.siteLog.dataStreams = siteLogDataModel.dataStreams;
 
         console.debug('dataModelToViewModelJson - siteLogViewModel: ', siteLogViewModel);
 
@@ -76,7 +76,7 @@ export class JsonViewModelService {
         siteLogDataModel.gnssReceivers = this.viewToDataModel(viewModelJson.siteLog.gnssReceivers);
         siteLogDataModel.surveyedLocalTies = this.viewToDataModel(viewModelJson.siteLog.surveyedLocalTies);
         siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModelJson.siteLog.frequencyStandards);
-        siteLogDataModel.localEpisodicEventsSet = this.viewToDataModel(viewModelJson.siteLog.localEpisodicEvents);
+        siteLogDataModel.localEpisodicEffects = this.viewToDataModel(viewModelJson.siteLog.localEpisodicEffects);
         siteLogDataModel.humiditySensors = this.viewToDataModel(viewModelJson.siteLog.humiditySensors);
         siteLogDataModel.pressureSensors = this.viewToDataModel(viewModelJson.siteLog.pressureSensors);
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModelJson.siteLog.temperatureSensors);
@@ -89,7 +89,7 @@ export class JsonViewModelService {
         siteLogDataModel.siteMetadataCustodian = viewModelJson.siteLog.siteMetadataCustodian;
         siteLogDataModel.siteDataSource = viewModelJson.siteLog.siteDataSource;
         siteLogDataModel.moreInformation = viewModelJson.siteLog.moreInformation;
-        siteLogDataModel.dataStreamsSet = viewModelJson.siteLog.dataStreamsSet;
+        siteLogDataModel.dataStreams = viewModelJson.siteLog.dataStreams;
 
         return siteLogDataModel;
     }

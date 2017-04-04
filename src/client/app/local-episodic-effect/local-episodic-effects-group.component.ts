@@ -1,29 +1,29 @@
 import { Component, Input } from '@angular/core';
 import { MiscUtils } from '../shared/index';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
-import { LocalEpisodicEventViewModel } from './local-episodic-event-view-model';
+import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
 
 /**.
  * This class represents a group of Local Episodic Effects.
  */
 @Component({
     moduleId: module.id,
-    selector: 'local-episodic-events-group',
-    templateUrl: 'local-episodic-events-group.component.html',
+    selector: 'local-episodic-effects-group',
+    templateUrl: 'local-episodic-effects-group.component.html',
 })
-export class LocalEpisodicEventsGroupComponent extends AbstractGroup<LocalEpisodicEventViewModel> {
+export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> {
     public miscUtils: any = MiscUtils;
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        this.setItemsCollection(siteLogModel.localEpisodicEvents);
-        console.log('LocalEpisodicEvents: ', this.getItemsCollection());
+        this.setItemsCollection(siteLogModel.localEpisodicEffects);
+        console.log('LocalEpisodicEffects: ', this.getItemsCollection());
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEvents);
-        console.log('LocalEpisodicEvents (Original): ', this.getItemsOriginalCollection());
+        this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEffects);
+        console.log('LocalEpisodicEffects (Original): ', this.getItemsOriginalCollection());
     }
 
     constructor() {
@@ -34,7 +34,7 @@ export class LocalEpisodicEventsGroupComponent extends AbstractGroup<LocalEpisod
         return 'Local Episodic Effect';
     }
 
-    compare(obj1: LocalEpisodicEventViewModel, obj2: LocalEpisodicEventViewModel): number {
+    compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
         return AbstractGroup.compareDates(date1, date2);
@@ -43,7 +43,7 @@ export class LocalEpisodicEventsGroupComponent extends AbstractGroup<LocalEpisod
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(): LocalEpisodicEventViewModel {
-        return new LocalEpisodicEventViewModel();
+    newViewModelItem(): LocalEpisodicEffectViewModel {
+        return new LocalEpisodicEffectViewModel();
     }
 }

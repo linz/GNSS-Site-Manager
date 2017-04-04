@@ -26,7 +26,7 @@ export class JsonCheckService {
     // pressureSensors: [],
     // temperatureSensors: [],
     // waterVaporSensors: [],
-    // localEpisodicEventsSet: []
+    // localEpisodicEffects: []
   };
 
   private siteLocation: any = {
@@ -101,7 +101,8 @@ export class JsonCheckService {
   };
 
   private receiver: any = {
-    receiverType: { value: '' },
+    notes: '',
+    igsModelCode: { value: '' },
     manufacturerSerialNumber: '',
     serialNumber: '',
     firmwareVersion: '',
@@ -112,11 +113,11 @@ export class JsonCheckService {
     elevationCutoffSetting: '',
     temperatureStabilization: '',
     dateInstalled: { value: [''] },
-    dateRemoved: { value: [''] },
-    notes: ''
+    dateRemoved: { value: [''] }
   };
 
   private antenna: any = {
+    notes: '',
     antennaType: {
       codeListValue: '',
       value: ''
@@ -132,11 +133,11 @@ export class JsonCheckService {
     antennaCableType: '',
     antennaCableLength: '',
     dateInstalled: { value: [''] },
-    dateRemoved: { value: [''] },
-    notes: ''
+    dateRemoved: { value: [''] }
   };
 
   private surveyedLocalTie: any = {
+    notes: '',
     tiedMarkerName: '',
     tiedMarkerUsage: '',
     tiedMarkerCDPNumber: '',
@@ -148,11 +149,11 @@ export class JsonCheckService {
     }],
     localSiteTiesAccuracy: '',
     surveyMethod: '',
-    dateMeasured: { value: [''] },
-    notes: ''
+    dateMeasured: { value: [''] }
   };
 
   private frequencyStandard: any = {
+    notes: '',
     standardType: { value: '' },
     inputFrequency: '',
     validTime: {
@@ -162,15 +163,14 @@ export class JsonCheckService {
           endPosition: { value: [''] }
         }
       }
-    },
-    notes: ''
+    }
   };
 
   private humiditySensor: any = {
+    notes: '',
     dataSamplingInterval: 0,
     accuracyPercentRelativeHumidity: 0,
     aspiration: '',
-    notes: '',
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
@@ -186,9 +186,9 @@ export class JsonCheckService {
   };
 
   private pressureSensor: any = {
+    notes: '',
     dataSamplingInterval: 0,
     accuracyHPa: 0,
-    notes: '',
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
@@ -204,10 +204,10 @@ export class JsonCheckService {
   };
 
   private temperatureSensor: any = {
+    notes: '',
     dataSamplingInterval: 0,
     accuracyDegreesCelcius: 0,
     aspiration: '',
-    notes: '',
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
@@ -223,8 +223,8 @@ export class JsonCheckService {
   };
 
   private waterVaporSensor: any = {
-    dataSamplingInterval: 0,
     notes: '',
+    dataSamplingInterval: 0,
     manufacturer: '',
     serialNumber: '',
     heightDiffToAntenna: 0,
@@ -239,7 +239,7 @@ export class JsonCheckService {
     }
   };
 
-  private localEpisodicEvent: any = {
+  private localEpisodicEffect: any = {
     event: '',
     validTime: {
       abstractTimePrimitive: {
@@ -349,13 +349,13 @@ export class JsonCheckService {
     return this.surveyedLocalTie;
   }
 
-  public getValidLocalEpisodicEvent(json: any): any {
-    this.merge(json, this.localEpisodicEvent);
+  public getValidLocalEpisodicEffect(json: any): any {
+    this.merge(json, this.localEpisodicEffect);
     return json;
   }
 
-  public getNewLocalEpisodicEvent(): any {
-    return this.localEpisodicEvent;
+  public getNewLocalEpisodicEffect(): any {
+    return this.localEpisodicEffect;
   }
 
   /**

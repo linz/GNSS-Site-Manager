@@ -11,20 +11,20 @@ declare let ISO19139_GTS_20070417: any;
 declare let ISO19139_GSS_20070417: any;
 declare let OM_2_0: any;
 // declare let Filter_1_1_0: any;
-declare let GEODESYML_0_3: any;
+declare let GEODESYML_0_4: any;
 declare let Jsonix: any;
 declare let Filter_2_0: any;
 declare let OWS_1_1_0: any;
 declare let WFS_2_0: any;
 
-let jsonIxMappings: any = [XLink_1_0, GML_3_2_1, GEODESYML_0_3, ISO19139_GMD_20070417, ISO19139_GCO_20070417,
+let jsonIxMappings: any = [XLink_1_0, GML_3_2_1, GEODESYML_0_4, ISO19139_GMD_20070417, ISO19139_GCO_20070417,
     OM_2_0, ISO19139_GSR_20070417, ISO19139_GTS_20070417, ISO19139_GSS_20070417, Filter_2_0, OWS_1_1_0, WFS_2_0,];
 
 let jsonIxOptions: any = {
     mappingStyle: 'simplified',
     namespacePrefixes: {
         'http://www.opengis.net/cat/csw/2.0.2': 'csw',
-        'urn:xml-gov-au:icsm:egeodesy:0.3': 'geo',
+        'urn:xml-gov-au:icsm:egeodesy:0.4': 'geo',
         'http://www.opengis.net/gml/3.2': 'gml',
         'http://www.w3.org/1999/xlink': 'ns9',
         'http://www.isotc211.org/2005/gmd': 'gmd',
@@ -108,5 +108,4 @@ export class JsonixService {
             }
         }
     }
-
 }
