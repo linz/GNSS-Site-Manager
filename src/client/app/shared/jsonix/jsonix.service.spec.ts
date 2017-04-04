@@ -192,7 +192,7 @@ export function main() {
         }
     }`;
 
-    fit('should parse valid Json with a local episodic events element', () => {
+    it('should parse valid Json with a local episodic events element', () => {
       let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithLocalEpisodicEffects));
       expect(geodesyMl).not.toBeNull();
       console.log(geodesyMl);
@@ -285,7 +285,7 @@ export function main() {
         }
     }`;
 
-    fit('should parse valid Json with receiver with notes', () => {
+    it('should parse valid Json with receiver with notes', () => {
       let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
       expect(geodesyMl).not.toBeNull();
       console.log(geodesyMl);
