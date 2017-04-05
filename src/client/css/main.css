@@ -851,6 +851,11 @@ form .ng-invalid {
         height: 12px !important;
         width: 14px !important;
     }
+    .glyphicon-search {
+        background: url('./img/search.png') no-repeat;
+        height: 20px !important;
+        width: 21px !important;
+    }
     .glyphicon-remove {
         background: url('./img/remove.png') no-repeat;
         height: 12px !important;
