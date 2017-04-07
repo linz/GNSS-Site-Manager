@@ -2,7 +2,7 @@
     <div class="header-container">
         <span class="right-panel">
             <span *ngIf="siteId">
-                <span class="hidden-sm hidden-xs">
+                <span class="hidden-md hidden-sm hidden-xs">
                         <span class="id-label">Selected Site: {{siteId}}</span>
                         <button class="btn small-btn" (click)="save()" [disabled]="!hasFormChanged()"
                                 title="Review and save changes">Save</button>
@@ -10,7 +10,7 @@
                         <button class="btn small-btn" (click)="close()"
                                 title="Close current page and go back to Home page">Close</button>
                 </span>
-                <span class="hidden-md hidden-lg">
+                <span class="hidden-lg">
                   <div dropdown class="pull-left">
                     <nav dropdownToggle id="site-id-menu" class="menu-label">
                         <span class="btn-label">{{siteId}}</span>
@@ -62,11 +62,11 @@
         <span class="hidden-xs" id="ga-logo">
             <a href="http://www.ga.gov.au" title="Go to Geoscience Australia home page">
                 <span class="hidden-sm">
-                    <img class="logo" src="assets/geoscience_inline_padded_small.png"
+                    <img class="logo-inline" src="assets/ga-logo-inline.png"
                          alt="Australian Government - Geoscience Australia">
                 </span>
                 <span class="visible-sm">
-                    <img class="logo-stacked" src="assets/geoscience_stacked_padded_small.png"
+                    <img class="logo-stacked" src="assets/ga-logo-stacked.png"
                          alt="Australian Government - Geoscience Australia">
                 </span>
             </a>
