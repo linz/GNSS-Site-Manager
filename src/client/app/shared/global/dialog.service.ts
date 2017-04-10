@@ -60,10 +60,10 @@ export class DialogService {
    * calls the showDeletePromptDialog with a default message.
    */
   public confirmDeleteDialog(recordType: string, okCallback: (reason: string) => any, cancelCallback: () => any) : string {
-    let header: string = '<div class="title">Delete ' + recordType + '</div>';
-    let body: string = '<div class="body"> Are you sure you want to delete the existing ' + recordType + '?</div>';
-    let reasonPrompt: string = '<div class="body reasonPrompt"> Enter a reason: </div>';
-    let msgHtml: string = '<div>' + header + body + reasonPrompt + '</div>';
+    let title: string = '<div class="title">Deletion Reason</div>';
+    let body: string = '<p class="body">Please enter a reason for deleting the ' + recordType + '</p>';
+    let note: string = '<p class="note">NOTE: Changes will not be saved until the "Save" button on the top header is clicked.</p>';
+    let msgHtml: string = '<div>' + title + body + note + '</div>';
 
     return this.showDeletePromptDialog(msgHtml, okCallback, cancelCallback);
   }
@@ -74,15 +74,15 @@ export class DialogService {
    * adds an error message and redisplays the dialog.
    */
   public showDeletePromptDialog(msgHtml: string, okCallback: (reason : string) => any, cancelCallback: () => any) : string {
-    return this._alertify.okBtn('Delete').cancelBtn('Cancel')
+    return this._alertify.okBtn('OK').cancelBtn('Cancel')
     .prompt(msgHtml, (deleteReason : string, event: any) => {
       event.preventDefault();
       if (deleteReason) {
           return okCallback(deleteReason);
       } else {
-          msgHtml = msgHtml.replace(
-            '<div class="body reasonPrompt"> Enter a reason: ',
-            '<div class="body reasonPrompt error"> Reason is required. Please enter a reason:');
+          if (msgHtml.indexOf('error') === -1) {
+            msgHtml = msgHtml + '<div class="error">Reason is required. Please enter a reason.</div>';
+          }
           return this.showDeletePromptDialog(msgHtml, okCallback, cancelCallback);
       }
     }, (event: any) => {

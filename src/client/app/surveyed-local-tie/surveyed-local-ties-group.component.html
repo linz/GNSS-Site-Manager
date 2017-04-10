@@ -16,7 +16,7 @@
         </span>
     </div>
     <div class="panel-body" *ngIf="isGroupOpen">
-        <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
+        <div *ngIf="isEmptyCollection()">
             No information available for Surveyed Local Ties
         </div>
         <div *ngFor="let surveyedLocalTie of getItemsCollection(); let i = index">

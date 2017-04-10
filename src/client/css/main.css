@@ -4,7 +4,7 @@ html {
 }
 body {
   height: 100%;
-  min-width: 300px;
+  min-width: 310px;
   width: 100%;
   word-wrap: break-word;
 }
@@ -259,6 +259,16 @@ ul {
   line-height: 1.42857143;
   margin-top: 10px;
 }
+.alertify .dialog .note {
+   color: #106cc8;
+   font-family: "Roboto", sans-serif;
+   font-size: 13px;
+   font-weight: italic;
+   line-height: 1.42857143;
+ }
+.alertify .dialog .error {
+  color: red;
+}
 .alertify .dialog ul {
   padding: 0 0 0 10px;
 }
@@ -362,6 +372,23 @@ ul {
   color: #e31a1c;
 }
 
+/*  highlight dirty/invalid fields and containers */
+form .delete-marker {
+  color: #fff;
+  background-color: #a33f1f;
+  padding: 3px 10px 5px;
+}
+form .panel-level-1-dirty {
+  background-color: #a33f1f !important;
+}
+form .panel-level-2-dirty {
+  background-color: #ffe9ca !important;
+}
+form .field-dirty,
+form .container-dirty {
+  color: #a33f1f;
+  background-color: #ffffd9;
+}
 form .ng-invalid {
   border: 1px solid #a94442;
 }
@@ -508,7 +535,10 @@ form .ng-invalid {
   .panel-group .panel + .panel {
     margin-top: 10px !important;
   }
-
+  form .delete-marker {
+    font-size: 14px;
+    padding: 3px 5px;
+  }
   .extra-v-margin {
     margin-top: 10px;
     margin-bottom: 5px;
@@ -825,15 +855,6 @@ form .ng-invalid {
       padding: 8px 5px 9px;
       height: 39px;
   }
-}
-
-.reasonPrompt::after {
-      color: red;
-      content: " *";
-}
-
-.body.reasonPrompt.error {
-    color: red;
 }
 
 /* Use image method as Bootstrap Glyphicons do not display on IE browsers

@@ -1,6 +1,6 @@
 <!-- Input: pressureSensor (single) -->
 <div class="panel panel-level-2">
-    <div class="panel-heading">
+    <div class="panel-heading" [ngClass]="{'panel-level-2-dirty': pressureSensor.dateDeleted}">
         <span class="panel-title cursor-ptr"
               (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon"
@@ -20,8 +20,13 @@
                 <span class="hidden-xxs">)</span>
             </span>
         </span>
-        <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
-          <button class="btn btn-danger btn-xs"
+        <span *ngIf="pressureSensor.dateDeleted" class="delete-marker"
+            title="It will be deleted when saving all changes for the site">
+            (Marked to delete)
+        </span>
+        <span class="pull-right" [ngClass]="{'hidden-xs': pressureSensor.dateDeleted}">
+          <button [disabled]="pressureSensor.dateDeleted"
+                  class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the pressure sensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
@@ -33,7 +38,7 @@
         <div *ngIf=" pressureSensor == null ">
             No information available for current GNSS pressure sensor
         </div>
-        <div *ngIf=" pressureSensor != null ">
+        <div *ngIf="pressureSensor != null" [ngClass]="{'container-dirty': pressureSensor.dateDeleted}">
 
             <text-input
               [name]="'pressureSensorManufacturer'"

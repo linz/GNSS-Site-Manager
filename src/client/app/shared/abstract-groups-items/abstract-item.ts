@@ -35,17 +35,17 @@ export abstract class AbstractItem implements DoCheck, OnInit {
      */
     abstract getItemName(): string;
 
-  /**
-   * Creates an instance of the AbstractItem with the injected Services.
-   *
-   * @param {DialogService} dialogService - The injected DialogService.
-   */
-  constructor(
-    protected dialogService: DialogService
-  ) {}
+    /**
+    * Creates an instance of the AbstractItem with the injected Services.
+    *
+    * @param {DialogService} dialogService - The injected DialogService.
+    */
+    constructor(
+      protected dialogService: DialogService
+    ) {}
 
     ngOnInit() {
-        this.isOpen = this.getIndex() === 0 ? true : false;
+        this.isOpen = this.getIndex() === 0;
     }
 
     /**

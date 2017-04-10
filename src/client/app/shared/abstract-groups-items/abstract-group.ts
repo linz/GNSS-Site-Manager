@@ -103,7 +103,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @return {T[]}
      */
     getItemsCollection(showDeleted?: boolean): T[] {
-        let doShowDeleted: boolean = false;
+        let doShowDeleted: boolean = true;
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
         }
@@ -115,6 +115,10 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         } else {
             return [];
         }
+    }
+
+    isEmptyCollection(): boolean {
+        return (this.itemProperties === null || this.itemProperties.length === 0);
     }
 
     getItemsOriginalCollection(): T[] {

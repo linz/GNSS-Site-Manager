@@ -1,5 +1,5 @@
 <div class="panel panel-level-2" id="frequencyStandard_{{index}}">
-  <div class="panel-heading">
+  <div class="panel-heading" [ngClass]="{'panel-level-2-dirty': frequencyStandard.dateDeleted}">
     <span class="panel-title cursor-ptr"
           (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
       <i class="glyphicon"
@@ -19,8 +19,13 @@
         <span class="hidden-xxs">)</span>
       </span>
     </span>
-    <span class="pull-right">
-      <button class="btn btn-danger btn-rm"
+    <span *ngIf="frequencyStandard.dateDeleted" class="delete-marker"
+        title="It will be deleted when saving all changes for the site">
+        (Marked to delete)
+    </span>
+    <span class="pull-right" [ngClass]="{'hidden-xs': frequencyStandard.dateDeleted}">
+      <button [disabled]="frequencyStandard.dateDeleted"
+              class="btn btn-danger btn-rm"
               title="{{getRemoveOrDeletedText()}} the frequency standard"
               (click)="removeItem(index)">
         <i class="glyphicon glyphicon-remove"></i>
@@ -32,7 +37,7 @@
     <div *ngIf=" frequencyStandard == null " class="margin-bottom15">
       No information available for current frequency standard
     </div>
-    <div *ngIf=" frequencyStandard != null ">
+    <div *ngIf="frequencyStandard != null" [ngClass]="{'container-dirty': frequencyStandard.dateDeleted}">
       <div class="form-group">
         <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">Standard Type</label>
         <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
