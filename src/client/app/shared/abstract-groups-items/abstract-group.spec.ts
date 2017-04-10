@@ -58,7 +58,7 @@ export function main() {
             // NOTE - general default (not configurable) - return items in reverse (sorted) order
             // Default - don't show deleted
             // 3,2,1 -> avmi2,4,3
-            let theDefault: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+            let theDefault: AbstractViewModel[] = abstractGroupImpl.getItemsCollection(false);
             expect(theDefault).toBeDefined();
             expect(theDefault.length).toEqual(3);
             expect(theDefault[0]).toEqual(avmi2);
@@ -68,7 +68,7 @@ export function main() {
 
             // Show deleted
             // 4,3,2,1 -> avmi1,2,4,3
-            let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection(true);
+            let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
             expect(showDeleted).toBeDefined();
             expect(showDeleted.length).toEqual(4);
             expect(showDeleted).toContain(avmi1);
