@@ -92,8 +92,8 @@ img.logo-stacked {
   cursor: pointer;
   font-size: 15px;
   font-weight: normal;
-  line-height: 1.9;
-  margin-left: 15px;
+  line-height: 2.5;
+  margin-left: 0;
 }
 .dropdown-icon {
   font-size: 10px;
@@ -141,7 +141,13 @@ img.logo-stacked {
   background-color: #a33f1f;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1180px) AND (min-width: 991px){
+  .menu-label {
+    margin-right: 5px;
+  }
+}
+
+@media (max-width: 990px) {
   .title {
     font-size: 22px;
     letter-spacing: 0;
@@ -170,9 +176,10 @@ img.logo-stacked {
   .menu-btn {
     border-color: transparent;
     margin-left: -5px !important;
-    padding: 7px 6px 3px;
+    padding: 3px 6px 3px;
   }
   .menu-label {
+    line-height: 2.2;
     margin-left: 10px;
     margin-right: 10px;
   }
@@ -205,6 +212,7 @@ img.logo-stacked {
     padding: 0;
   }
   .menu-label {
+    line-height: 2.0;
     margin-right: 5px;
   }
   .small-btn {
@@ -217,7 +225,15 @@ img.logo-stacked {
     display: inline-block;
     font-size: 18px;
     line-height: 1.1;
-    margin: -55px 0 0 30px;
-    width: 80px;
+    margin: -12px 0 0 5px;
+    width: 75px;
+  }
+  .menu-btn {
+    margin-top: -6px;
+    padding: 0;
+  }
+  .small-btn {
+    margin-left: 5px;
+    padding: 4px;
   }
 }
