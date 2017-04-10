@@ -844,12 +844,24 @@ form .ng-invalid {
         background: url('./img/menu-hamburger.png') no-repeat;
         height: 15px !important;
         width: 16px !important;
-        top: 3px;
+        top: 2px;
     }
     .glyphicon-option-vertical {
         background: url('./img/option-vertical.png') no-repeat;
-        height: 12px !important;
+        height: 13px !important;
         width: 14px !important;
+    }
+    .glyphicon-search {
+        background: url('./img/search.png') no-repeat;
+        height: 20px !important;
+        width: 21px !important;
+        top: -3px;
+    }
+    .glyphicon-triangle-bottom {
+        background: url('./img/triangle.png') no-repeat;
+        height: 11px !important;
+        width: 11px !important;
+        top: -2px;
     }
     .glyphicon-remove {
         background: url('./img/remove.png') no-repeat;
@@ -912,8 +924,13 @@ form .ng-invalid {
         width: 11px !important;
         height: 7px !important;
     }
-    .glyphicon-ok {
+    .btn-ok > .glyphicon-ok {
         background: url('./img/ok.png') no-repeat;
+        width: 13px !important;
+        height: 11px !important;
+    }
+    .btn-ok:hover > .glyphicon-ok {
+        background: url('./img/ok-white.png') no-repeat;
         width: 13px !important;
         height: 11px !important;
     }
@@ -921,11 +938,12 @@ form .ng-invalid {
         background: url('./img/cancel.png') no-repeat;
         width: 10px !important;
         height: 10px !important;
+        top: 1px;
     }
-    .btn-cancel > .glyphicon-remove:hover,
-    .btn-cancel > .glyphicon-remove:focus {
-        background: url('./img/remove.png') no-repeat;
-        width: 13px !important;
-        height: 12px !important;
+    .btn-cancel:hover > .glyphicon-remove {
+        background: url('./img/cancel-white.png') no-repeat;
+        width: 10px !important;
+        height: 10px !important;
+        top: 1px;
     }
 }

@@ -34,13 +34,13 @@
   margin: 0;
   padding: 0;
 }
-img.logo {
+img.logo-inline {
   height: 69px;
-  width: 180px;
+  width: 235px;
 }
 img.logo-stacked {
   height: 69px;
-  width: 106px;
+  width: 100px;
 }
 .menu-btn {
   background-color: transparent;
@@ -165,7 +165,7 @@ img.logo-stacked {
   .title {
     font-size: 20px;
     line-height: 2.0;
-    margin-left: 10px;
+    margin-left: 0;
   }
   .menu-btn {
     border-color: transparent;
@@ -185,7 +185,7 @@ img.logo-stacked {
 }
 
 /* Special CSS classes defined for small devices such as smart phone (portrait) */
-@media (max-width: 450px) {
+@media (max-width: 480px) {
   .header-container {
     padding: 18px 5px;
   }
@@ -212,12 +212,12 @@ img.logo-stacked {
     font-weight: 200;
   }
 }
-@media (max-width: 350px) {
+@media (max-width: 365px) {
   .title {
     display: inline-block;
     font-size: 18px;
     line-height: 1.1;
-    margin: -18px 0 -18px 15px;
+    margin: -55px 0 0 30px;
     width: 80px;
   }
 }
