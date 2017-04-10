@@ -389,9 +389,6 @@ form .container-dirty {
   color: #a33f1f;
   background-color: #ffffd9;
 }
-form .ng-dirty {
-    border: 1px solid #ca7700;
-}
 form .ng-invalid {
   border: 1px solid #a94442;
 }
