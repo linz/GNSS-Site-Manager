@@ -23,7 +23,7 @@
         title="It will be deleted when saving all changes for the site">
         (Marked to delete)
     </span>
-    <span class="pull-right">
+    <span class="pull-right" [ngClass]="{'hidden-xs': antenna.dateDeleted}">
       <button [disabled]="antenna.dateDeleted"
               class="btn btn-danger btn-rm"
               title="{{getRemoveOrDeletedText()}} the GNSS antenna"

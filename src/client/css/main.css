@@ -538,7 +538,10 @@ form .ng-invalid {
   .panel-group .panel + .panel {
     margin-top: 10px !important;
   }
-
+  form .delete-marker {
+    font-size: 14px;
+    padding: 3px 5px;
+  }
   .extra-v-margin {
     margin-top: 10px;
     margin-bottom: 5px;

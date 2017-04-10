@@ -24,7 +24,7 @@
             title="It will be deleted when saving all changes for the site">
             (Marked to delete)
         </span>
-        <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
+        <span class="pull-right" [ngClass]="{'hidden-xs': waterVaporSensor.dateDeleted}">
           <button [disabled]="waterVaporSensor.dateDeleted"
                   class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the water vapor sensor"
