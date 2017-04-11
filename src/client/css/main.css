@@ -522,7 +522,8 @@ form .christine.ng-invalid {
 }
 
 .hidden-xsm,
-.hidden-xxs {
+.hidden-xxs,
+.hidden-xxxs {
   display: inherit;
 }
 @media (max-width: 600px) {
@@ -869,6 +870,9 @@ form .christine.ng-invalid {
   }
   .visible-xxs-inline-block {
     display: inline-block !important;
+  }
+  .hidden-xxxs {
+    display: none !important;
   }
 
   .panel-group .panel-level-1 .glyphicon-plus-sign,
