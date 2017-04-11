@@ -379,10 +379,6 @@ ul {
   margin-bottom: 0 !important;
   padding: 5px;
 }
-.alert {
-  margin-bottom: 0;
-  padding: 5px;
-}
 .control-label {
   font-weight: normal;
 }
@@ -397,6 +393,11 @@ ul {
 }
 
 /*  highlight dirty/invalid fields and containers */
+.alert {
+  border: 0;
+  margin-bottom: 0;
+  padding: 5px;
+}
 form .delete-marker {
   color: #fff;
   background-color: #a33f1f;
@@ -411,10 +412,18 @@ form .panel-level-2-dirty {
 form .field-dirty,
 form .container-dirty {
   color: #a33f1f;
-  background-color: #ffffd9;
+  background-color: #ffffef;
 }
-form .ng-invalid {
-  border: 1px solid #a94442;
+form .ng-dirty.ng-valid {
+  border-color: #ff9600;
+  background-color: #ffffef;
+}
+form .ng-dirty.ng-invalid {
+  border-color: #ca1200;
+  background-color: #ffefff;
+}
+form .christine.ng-invalid {
+  border-color: #ff1700;
 }
 .form-control {
   padding: 3px 5px;
@@ -507,6 +516,8 @@ form .ng-invalid {
   .form-horizontal .control-label {
     padding-top: 0 !important;
     text-align: right;
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 
