@@ -70,10 +70,12 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @return -1: date1 < date2; 1: date1 > date2; 0: date1 == date2
      */
     public static compareDates(date1: string, date2: string): number {
+        let sortIncrementally: boolean = false;
+        let sortModifier: number = sortIncrementally ? 1 : -1;
         if (date1 < date2) {
-            return -1;
+            return -1*sortModifier;
         } else if (date1 > date2) {
-            return 1;
+            return 1*sortModifier;
         } else {
             return 0;
         }
@@ -162,9 +164,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
 
         if (this.itemProperties) {
-            let filteredOrNot: T[] = doShowDeleted ? lodash.cloneDeep(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
-            let reversed: T[] = filteredOrNot.reverse();
-            return reversed;
+            //let filteredOrNot: T[] = doShowDeleted ? lodash.cloneDeep(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
+            //let reversed: T[] = filteredOrNot.reverse();
+            return this.itemProperties;
         } else {
             return [];
         }
@@ -195,8 +197,10 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     addToItemsCollection(item: T) {
-        // New items need to go at end of collection so the diff with itemOriginalProperties sees them as new
-        this.itemProperties.push(item);
+        // If the data is stored incrementally (see AbstractGroup / compareDates() then use push() to append the next item.
+        // If the data is stored decrementally (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
+        // this.itemProperties.push(item);
+        this.itemProperties.splice(0,0,item);
         console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
     }
 

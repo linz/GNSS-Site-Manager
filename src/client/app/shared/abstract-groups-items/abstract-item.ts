@@ -150,10 +150,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     addToGroupArray(itemGroup: FormGroup): void {
-        // Always insert new Items into the Group Array at index 0 (pushing down previous Items).  This is
-        // because the data is stored in [oldest to newest] order but must display newest at the top in the form.
-        this.groupArray.insert(0, itemGroup);
-        // this.groupArray.push(itemGroup);
+        this.groupArray.push(itemGroup);
     }
 
     /**
