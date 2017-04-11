@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroup, sortingDirectionAscending } from '../shared/abstract-groups-items/abstract-group';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 
 /**.
@@ -43,13 +43,15 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
     compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
         let date1: string = obj1.dateInstalled;
         let date2: string = obj2.dateInstalled;
-        return AbstractGroup.compareDates(date1, date2);
+        let val: number = AbstractGroup.compareDates(date1, date2);
+        console.debug(`GnssReceiversGroupComponent - sort ${date1}, ${date2} - ${val}`);
+        return val;
     }
 
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(): GnssReceiverViewModel {
-        return new GnssReceiverViewModel();
+    newViewModelItem(blank?: boolean): GnssReceiverViewModel {
+        return new GnssReceiverViewModel(blank);
     }
 }

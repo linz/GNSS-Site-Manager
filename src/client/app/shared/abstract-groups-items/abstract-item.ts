@@ -1,8 +1,9 @@
-import { EventEmitter, OnInit, Input, Output, OnChanges, SimpleChange } from '@angular/core';
+import { EventEmitter, OnInit, Input, Output, OnChanges, SimpleChange, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormArray } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
+import { AbstractGroup } from './abstract-group';
 
 export abstract class AbstractItem implements OnInit, OnChanges {
     protected miscUtils: any = MiscUtils;
@@ -73,9 +74,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
    *
    * @param {DialogService} dialogService - The injected DialogService.
    */
-  constructor(
-    protected dialogService: DialogService
-  ) {}
+  constructor(protected dialogService: DialogService, protected _changeDetectionRef : ChangeDetectorRef) {}
 
     ngOnInit() {
         this.isOpen = this.getIndex() === 0;

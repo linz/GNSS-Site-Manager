@@ -77,7 +77,7 @@ export class JsonDiffService {
         let normalisedDiffsList: NormalisedDiffs = this.getNormalisedDiffsList(siteManagerDiffs);//, oldJson, newJson);
         console.log('Diff - normalisedDiffs: ', normalisedDiffsList);
         let jsonDiffsTable: string = this.getJsonDiffsTable(normalisedDiffsList);
-        console.log('jsonDiffsTable: ', jsonDiffsTable);
+        // console.log('jsonDiffsTable: ', jsonDiffsTable);
 
         return jsonDiffsTable;
     }

@@ -6,6 +6,10 @@ import { MiscUtils } from '../global/misc-utils';
 import * as lodash from 'lodash';
 import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
 
+export const sortingDirectionAscending: boolean = false;
+export const blankNewItem: boolean = true;
+export const notBlankNewItem: boolean = false;
+
 export abstract class AbstractGroup<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
     hasGroupANewItem: boolean = false;
@@ -67,15 +71,15 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * (using getDateInstalled(), getBeginPositionDate(), ...) and return compareDates(date1, date2)
      * @param date1
      * @param date2
-     * @return -1: date1 < date2; 1: date1 > date2; 0: date1 == date2
+     * @param sortAscending - true if to sort ascendingly.  Const sortingDirectionAscending by default.
+     * @return -1: date1 < date2; 1: date1 > date2; 0: date1 == date2 if descending or 1: date1 < date2; -1: date1 > date2 if ascending
      */
-    public static compareDates(date1: string, date2: string): number {
-        let sortIncrementally: boolean = false;
-        let sortModifier: number = sortIncrementally ? 1 : -1;
+    public static compareDates(date1: string, date2: string, sortAscending: boolean = sortingDirectionAscending): number {
+        let sortModifier: number = sortAscending ? 1 : -1;
         if (date1 < date2) {
-            return -1*sortModifier;
+            return -1 * sortModifier;
         } else if (date1 > date2) {
-            return 1*sortModifier;
+            return 1 * sortModifier;
         } else {
             return 0;
         }
@@ -94,7 +98,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
 
         let newItem: T = <T> this.newViewModelItem();
-        let newItemOrig: T = this.getNewItemOrig();
+        let newItemOrig: T = this.newViewModelItem(blankNewItem);
 
         console.log('New View Model: ', newItem);
         console.log('itemProperties before new item: ', this.itemProperties);
@@ -108,7 +112,13 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
         if (this.itemProperties.length > 1) {
             // Let the ViewModels do anything they like with the previous item - such as set end/removal date
-            this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
+            // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
+            // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
+            if (sortingDirectionAscending) {
+                this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
+            } else {
+                this.itemProperties[1].setFinalValuesBeforeCreatingNewItem();
+            }
         }
 
         // Let the parent form know that it now has a new child
@@ -120,20 +130,10 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     /**
-     * Return an 'orig' item with an empty inserted date (there should be a date set in the newItem).
-     * The diff then will succeed no matter where the item is inserted, and the diference will allow
-     * the item to be marked as new.
-     */
-    private getNewItemOrig(): T {
-        let origItem: T = <T> this.newViewModelItem();
-        origItem.dateInserted = '';
-
-        return origItem;
-    }
-    /**
      * The child class needs to define this to make an instance of itself.
+     * @param blank - if to exclude all default values so it is completely blank.  Defaults to false.
      */
-    abstract newViewModelItem(): T;
+    abstract newViewModelItem(blank?: boolean): T;
 
     /**
      * Subclasses can create a comparator relevant for their data structures.  Reduce size in these by
@@ -169,10 +169,10 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     getItemsCollection(showDeleted?: boolean): T[] {
         let doShowDeleted: boolean = true;
-        if (this.getItemName().match(/receiver/i)) {
-            let size: number = this.itemProperties ? this.itemProperties.length : -1;
-            console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${size}): `, this.itemProperties);
-        }
+        // if (this.getItemName().match(/receiver/i)) {
+        //     let size: number = this.itemProperties ? this.itemProperties.length : -1;
+        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${size}): `, this.itemProperties);
+        // }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
         }
@@ -211,11 +211,15 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     addToItemsCollection(item: T, origItem: T) {
-        // If the data is stored incrementally (see AbstractGroup / compareDates() then use push() to append the next item.
-        // If the data is stored decrementally (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
-        // this.itemProperties.push(item);
-        this.itemProperties.splice(0,0,item);
-        this.itemOriginalProperties.splice(0,0,origItem);
+        // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
+        // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
+        if (sortingDirectionAscending) {
+            this.itemProperties.push(item);
+            this.itemOriginalProperties.push(origItem);
+        } else {
+            this.itemProperties.splice(0, 0, item);
+            this.itemOriginalProperties.splice(0,0,origItem);
+        }
         console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
         console.log('addToItemsCollection - itemOriginalProperties: ', this.itemOriginalProperties);
     }

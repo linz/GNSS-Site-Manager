@@ -16,8 +16,12 @@ export class GnssReceiverViewModel extends AbstractViewModel {
     public dateRemoved: string;
     public notes: string;
 
-    constructor() {
-        super(dontSetDetfaults);
+    /**
+     *
+     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
+     */
+    constructor(blank: boolean = false) {
+        super();//dontSetDetfaults);
 
         this.receiverType = '';
         this.manufacturerSerialNumber = '';
@@ -28,7 +32,7 @@ export class GnssReceiverViewModel extends AbstractViewModel {
         this.temperatureStabilization = 0;
 
         let presentDT: string = MiscUtils.getPresentDateTime();
-        this.dateInstalled = presentDT;
+        this.dateInstalled = blank ? '' : presentDT;
         this.dateRemoved = '';
         this.notes = '';
     }

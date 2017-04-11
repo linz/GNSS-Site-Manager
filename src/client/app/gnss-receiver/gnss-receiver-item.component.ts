@@ -18,8 +18,8 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
      */
     @Input() gnssReceiver: GnssReceiverViewModel;
 
-    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder, private _changeDetectionRef : ChangeDetectorRef) {
-        super(dialogService);
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder, protected _changeDetectionRef : ChangeDetectorRef) {
+        super(dialogService, _changeDetectionRef);
     }
 
     ngOnInit() {

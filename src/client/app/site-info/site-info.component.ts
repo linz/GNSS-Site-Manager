@@ -9,6 +9,7 @@ import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType } from '../responsible-party/responsible-party2-group.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
+import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -186,7 +187,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       console.log(' siteLog before form merge: ', this.siteLogModel);
       console.log(' formValue before merge and reverse: ', formValue);
       let formValueClone: any =_.cloneDeep(formValue);
-      this.reverseArrays(formValueClone);
+      // let formArray: any[] = form
+      this.sortArrays(formValueClone);
       console.log(' formValue before merge and after reverse: ', formValueClone);
       _.merge(this.siteLogModel, formValueClone);
       console.log(' siteLog after form merge: ', this.siteLogModel);
@@ -236,17 +238,26 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   }
 
     /**
-     * The array items in the form data (eg. gnssAntennas) is ordered newest to oldest (newest at the top in the view)
-     * but we need them the other way around so can be merged with SiteLogModel.
+     * The array items in the form data (eg. gnssAntennas) need to be sorted according to the app desired order
+     * (see AbstractGroup / sortingDirectionAscending.  It will likely always be descending so that is how it is seen in the form.
      * @param formValue
      */
-    private reverseArrays(formValue: any) {
+    private sortArrays(formValue: any) {
         let items: string[] = Object.keys(formValue);
         for (let item of items) {
             if (Array.isArray(formValue[item])) {
-                formValue[item].reverse();
+                formValue[item].sort(this.compare);
             }
         }
+    }
+
+    // TODO - want this to come from AbstractGroup Impl ???
+    compare(obj1: any, obj2: any): number {
+        let date1: string = obj1.dateInstalled;
+        let date2: string = obj2.dateInstalled;
+        let val: number = AbstractGroup.compareDates(date1, date2);
+        console.debug(`SiteInfoComponent - sort ${date1}, ${date2} - ${val}`);
+        return val;
     }
 
   /**
