@@ -150,7 +150,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     addToGroupArray(itemGroup: FormGroup): void {
-        this.groupArray.push(itemGroup);
+        this.groupArray.insert(0,itemGroup);
     }
 
     /**

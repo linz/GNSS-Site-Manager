@@ -71,11 +71,13 @@ export class JsonDiffService {
         if (!jsonDiffs) {
             return '';
         }
-        // console.log('deep-diff: ', jsonDiffs);
+        console.log('Diff - deep-diff: ', jsonDiffs);
         let siteManagerDiffs: DiffItem[] = this.getJsonDiffsList(jsonDiffs, oldJson, newJson);
+        console.log('Diff - diff list: ', siteManagerDiffs);
         let normalisedDiffsList: NormalisedDiffs = this.getNormalisedDiffsList(siteManagerDiffs);//, oldJson, newJson);
+        console.log('Diff - normalisedDiffs: ', normalisedDiffsList);
         let jsonDiffsTable: string = this.getJsonDiffsTable(normalisedDiffsList);
-        // console.log('jsonDiffsTable: ', jsonDiffsTable);
+        console.log('jsonDiffsTable: ', jsonDiffsTable);
 
         return jsonDiffsTable;
     }

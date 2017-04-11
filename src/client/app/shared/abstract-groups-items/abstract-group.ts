@@ -94,12 +94,14 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
 
         let newItem: T = <T> this.newViewModelItem();
+        let newItemOrig: T = this.getNewItemOrig();
 
         console.log('New View Model: ', newItem);
         console.log('itemProperties before new item: ', this.itemProperties);
+        console.log('itemPropertiesOrig before new item: ', this.itemOriginalProperties);
 
         // Add the new humidity sensor as current one
-        this.addToItemsCollection(newItem);
+        this.addToItemsCollection(newItem, newItemOrig);
         this.setInserted(newItem);
 
         console.log('itemProperties after new item: ', this.itemProperties);
@@ -117,6 +119,17 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         console.log(' siteLogModel after addNew: ', this._siteLogModel);
     }
 
+    /**
+     * Return an 'orig' item with an empty inserted date (there should be a date set in the newItem).
+     * The diff then will succeed no matter where the item is inserted, and the diference will allow
+     * the item to be marked as new.
+     */
+    private getNewItemOrig(): T {
+        let origItem: T = <T> this.newViewModelItem();
+        origItem.dateInserted = '';
+
+        return origItem;
+    }
     /**
      * The child class needs to define this to make an instance of itself.
      */
@@ -157,7 +170,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     getItemsCollection(showDeleted?: boolean): T[] {
         let doShowDeleted: boolean = true;
         if (this.getItemName().match(/receiver/i)) {
-            console.debug('getItemsCollection for ' + this.getItemName() + ': ', this.itemProperties);
+            let size: number = this.itemProperties ? this.itemProperties.length : -1;
+            console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${size}): `, this.itemProperties);
         }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
@@ -196,14 +210,15 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
     }
 
-    addToItemsCollection(item: T) {
+    addToItemsCollection(item: T, origItem: T) {
         // If the data is stored incrementally (see AbstractGroup / compareDates() then use push() to append the next item.
         // If the data is stored decrementally (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
         // this.itemProperties.push(item);
         this.itemProperties.splice(0,0,item);
+        this.itemOriginalProperties.splice(0,0,origItem);
         console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
+        console.log('addToItemsCollection - itemOriginalProperties: ', this.itemOriginalProperties);
     }
-
 
     /**
      * This is the event handler called by children
