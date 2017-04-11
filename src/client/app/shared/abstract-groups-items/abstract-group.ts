@@ -4,6 +4,7 @@ import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as lodash from 'lodash';
+import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
 
 export abstract class AbstractGroup<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
@@ -21,7 +22,13 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     private geodesyEvent: GeodesyEvent = new GeodesyEvent(EventNames.none);
 
     /**
-     * All the items (eg. HumiditySensors)
+     * All the items.  They are stored in ascending order so that the oldest items are 'left-most' in the array, just like
+     * in the itemOriginalProperties so that differences work to show the new items added.  The sorting field is determined
+     * through the abstract method compare(left, right)).
+     *
+     * The display order on the form is in reverse with the oldest items at the bottom.  This is achieved with the method
+     * getItemsCollection().
+     *
      */
     private itemProperties: T[];
 
@@ -29,6 +36,13 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * A backup of the original list of items.  Used to diff against upon Save.
      */
     private itemOriginalProperties: T[];
+
+    protected _siteLogModel: SiteLogViewModel;
+
+    get siteLogModel(): SiteLogViewModel {
+        //siteInfoForm.
+        return this._siteLogModel;
+    }
 
     /**
      * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
@@ -80,10 +94,13 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         let newItem: T = <T> this.newViewModelItem();
 
         console.log('New View Model: ', newItem);
+        console.log('itemProperties before new item: ', this.itemProperties);
 
         // Add the new humidity sensor as current one
         this.addToItemsCollection(newItem);
         this.setInserted(newItem);
+
+        console.log('itemProperties after new item: ', this.itemProperties);
 
         if (this.itemProperties.length > 1) {
             // Let the ViewModels do anything they like with the previous item - such as set end/removal date
@@ -93,6 +110,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         // Let the parent form know that it now has a new child
         this.groupArrayForm.markAsDirty();
         this.siteInfoForm.markAsDirty();
+        console.log('itemProperties after everythign in addNew: ', this.itemProperties);
+        console.log('itemOriginalProperties after everythign in addNew: ', this.itemOriginalProperties);
+        console.log(' siteLogModel after addNew: ', this._siteLogModel);
     }
 
     /**
@@ -134,12 +154,15 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     getItemsCollection(showDeleted?: boolean): T[] {
         let doShowDeleted: boolean = true;
+        if (this.getItemName().match(/receiver/i)) {
+            console.debug('getItemsCollection for ' + this.getItemName() + ': ', this.itemProperties);
+        }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
         }
 
         if (this.itemProperties) {
-            let filteredOrNot: T[] = doShowDeleted ? lodash.clone(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
+            let filteredOrNot: T[] = doShowDeleted ? lodash.cloneDeep(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
             let reversed: T[] = filteredOrNot.reverse();
             return reversed;
         } else {
@@ -161,6 +184,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             this.sortUsingComparator(this.itemProperties);
         }
         console.debug(this.getItemName() + ' Collection sorted:', this.itemProperties);
+        console.debug('  and siteLogModel is: ', this._siteLogModel);
     }
 
     setItemsOriginalCollection(itemProperties: T[]) {
@@ -171,8 +195,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     addToItemsCollection(item: T) {
-        // New items need to go at end of collection so the diff sees them as new
+        // New items need to go at end of collection so the diff with itemOriginalProperties sees them as new
         this.itemProperties.push(item);
+        console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
     }
 
 

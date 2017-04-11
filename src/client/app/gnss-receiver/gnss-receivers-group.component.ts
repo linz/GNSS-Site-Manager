@@ -14,7 +14,8 @@ import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewModel> implements OnInit {
    @Input()
     set siteLogModel(siteLogModel: any) {
-        siteLogModel && this.setItemsCollection(siteLogModel.gnssReceivers);
+       this._siteLogModel = siteLogModel;
+       siteLogModel && this.setItemsCollection(siteLogModel.gnssReceivers);
     }
 
     @Input()

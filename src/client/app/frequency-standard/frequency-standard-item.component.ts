@@ -43,7 +43,7 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
             deletedReason: ''
         });
         console.log('Freq Std - setup Form for item index: ', this.index);
-        this.groupArray.push(this.itemGroup);
+        this.addToGroupArray(this.itemGroup);
     }
 
     protected patchForm() {

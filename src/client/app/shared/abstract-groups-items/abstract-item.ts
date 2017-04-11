@@ -6,6 +6,7 @@ import { MiscUtils } from '../global/misc-utils';
 
 export abstract class AbstractItem implements OnInit, OnChanges {
     protected miscUtils: any = MiscUtils;
+
     protected itemGroup: FormGroup;
 
     @Input('groupArray') groupArray: FormArray;
@@ -34,13 +35,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
 
     protected isNew: boolean = false;
     protected isOpen: boolean = false;
-
-    /**
-     * Keep a copy of the last GeodesyEvent so can detect when it has changed nad have a new event.
-     *
-     * @type {{name: EventNames}}
-     */
-    private lastGeodesyEvent: GeodesyEvent = {name: EventNames.none};
 
     /**
      * Get the index of the item.
@@ -72,7 +66,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     /**
      * Patching (or setting) is used to apply the values in the model to the form.
      */
-    abstract protected patchForm(): void;
+    protected abstract patchForm(): void;
 
   /**
    * Creates an instance of the AbstractItem with the injected Services.
@@ -92,21 +86,21 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      * @param changes sent by the NG Framework
      */
     ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-        console.log(`ngOnChanges for item: ${this.index}`);
+        // console.log(`ngOnChanges for item: ${this.index}`);
         let log: string[] = [];
         for (let propName in changes) {
             let changedProp = changes[propName];
             if (changedProp.isFirstChange()) {
-                console.log(`Item index ${this.index} - initial value of ${propName} set to: `, changedProp);
+                // console.log(`Item index ${this.index} - initial value of ${propName} set to: `, changedProp);
                 if (propName === 'geodesyEvent') {
                     this.handleGeodesyEvents();
                 }
             } else {
-                console.log(`Item index ${this.index} - subsequent value of ${propName} set to: `, changedProp);
                 if (propName === 'index') {
                     let previousIndex: number = changedProp.previousValue.valueOf();
                     let newIndex: number = changedProp.currentValue.valueOf();
                     if (previousIndex !== newIndex) {
+                        console.debug(`Item index ${this.index} - subsequent value of ${propName} set to: `, changedProp);
                         this.patchItemForm(newIndex);
                     }
                 }
@@ -153,6 +147,13 @@ export abstract class AbstractItem implements OnInit, OnChanges {
 
     getRemoveOrDeletedText(): string {
         return this.isNew ? 'Cancel' : 'Delete';
+    }
+
+    addToGroupArray(itemGroup: FormGroup): void {
+        // Always insert new Items into the Group Array at index 0 (pushing down previous Items).  This is
+        // because the data is stored in [oldest to newest] order but must display newest at the top in the form.
+        this.groupArray.insert(0, itemGroup);
+        // this.groupArray.push(itemGroup);
     }
 
     /**

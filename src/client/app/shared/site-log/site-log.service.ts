@@ -159,7 +159,7 @@ export class SiteLogService {
             ' xmlns:gco="http://www.isotc211.org/2005/gco"' +
             ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
         geodesyMl += siteLogML + '</geo:GeodesyML>';
-        // console.log('saveSiteLog - geodesyMl: ', geodesyMl);
+        console.log('saveSiteLog - geodesyMl: ', geodesyMl);
         console.log('saveSiteLog - geodesyMl (length): ', geodesyMl.length);
 
         const headers = new Headers();

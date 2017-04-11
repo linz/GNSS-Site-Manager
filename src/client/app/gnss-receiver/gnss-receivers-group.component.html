@@ -15,20 +15,24 @@
             </button>
         </span>
     </div>
-    <div class="panel-body" [hidden]="! isGroupOpen">
+    <div class="panel-body" *ngIf="isGroupOpen"> <!-- [hidden]="! isGroupOpen"-->
         <div *ngIf="isEmptyCollection()">
             No information available for GNSS Receivers
         </div>
-        <div *ngFor="let gnssReceiver of getItemsCollection(); let i = index">
-            <!-- [geodesyEvent] - send event to child components -->
-            <!-- (open/close Above/Below Event) - receive events from child components -->
-            <!-- (returnEvents) - single point to call events on parent -->
-            <gnss-receiver-item [groupArray]="groupArrayForm"
+        <div [formGroup]="siteInfoForm">
+        <div formArrayName="gnssReceivers">
+            <div *ngFor="let gnssReceiver of getItemsCollection(); let i = index">
+                <!-- [geodesyEvent] - send event to child components -->
+                <!-- (open/close Above/Below Event) - receive events from child components -->
+                <!-- (returnEvents) - single point to call events on parent -->
+            <gnss-receiver-item [formControlName]="i" [groupArray]="groupArrayForm"
                                   [gnssReceiver]="gnssReceiver"
                                   [total]="itemProperties.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
                                   (returnEvents)="returnEvents($event)"></gnss-receiver-item>
+            </div>
+        </div>
         </div>
     </div>
 </div>

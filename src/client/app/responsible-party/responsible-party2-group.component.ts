@@ -39,8 +39,7 @@ export class ResponsiblePartyType {
 export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePartyViewModel> implements OnInit {
     private _partyName: ResponsiblePartyType;
     @Input()
-    set partyName(partyName: ResponsiblePartyType) { //ResponsiblePartyType) {
-        console.log(' INPUT for partyName: ', partyName.toString());
+    set partyName(partyName: ResponsiblePartyType) {
         this._partyName = partyName;
     }
 
@@ -51,19 +50,15 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        console.log('INPUT for sitelogmodel - ', siteLogModel);
         if (siteLogModel) {
             this.setItemsCollection(siteLogModel[this.partyName.toString()]);
-            console.log(this.partyName.toString() + ': ', this.getItemsCollection());
         }
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        console.log('INPUT for sitelogmodelOrig - ', originalSiteLogModel);
         if (originalSiteLogModel) {
             this.setItemsOriginalCollection(originalSiteLogModel[this.partyName.toString()]);
-            console.log(this.partyName.toString() + ' (Original): ', this.getItemsOriginalCollection());
         }
     }
 

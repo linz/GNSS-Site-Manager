@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { FormArray } from '@angular/forms';
 
 /**
  * This class represents a collection of FrequencyStandard Component.
@@ -17,6 +17,7 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
 
  @Input()
   set siteLogModel(siteLogModel: any) {
+     this._siteLogModel = siteLogModel;
     siteLogModel && this.setItemsCollection(siteLogModel.frequencyStandards);
   }
 

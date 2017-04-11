@@ -1,11 +1,8 @@
 <div class="container centered clear-pad">
   <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
-    <!--<form #siteInfoForm="ngForm" novalidate class="form-horizontal">-->
     <form [formGroup]="siteInfoForm" (ngSubmit)="newSave(siteInfoForm)" novalidate class="form-horizontal" >
-        <!--(ngSubmit)="newSave(siteInfoForm)"-->
     <div class="panel-group">
         <button type="submit" [disabled]="!siteInfoForm.dirty">SAVE</button><span>Dirty?: {{siteInfoForm.dirty}}</span>
-        <button type="button" (click)="patchdata()">Patch Data</button>
         <div class="panel panel-level-1">
             <div class="panel-heading">
                 <span class="panel-title cursor-ptr" (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">

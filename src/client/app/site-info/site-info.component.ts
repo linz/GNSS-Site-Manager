@@ -110,6 +110,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             if (this.siteInfoForm.dirty) {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
+                console.log('  and siteLogModel: ', this.siteLogModel);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
                 console.log('form dirty - no');
@@ -132,7 +133,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteInfoTab = this.route.params.subscribe(() => {
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
-          this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson.siteLog);//['geo:siteLog']);
+          // this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson.siteLog);//['geo:siteLog']);
+          this.siteLogModel = responseJson.siteLog;
 
           this.backupSiteLogJson();
           this.isLoading = false;

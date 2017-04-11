@@ -113,10 +113,10 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
   private checkPreConditions() {
       if (!this.controlName || this.controlName.length === 0) {
-          console.error('TextAreaInputComponent - controlName Input is required');
+          console.error('DatetimeInputComponent - controlName Input is required');
       }
       if (!this.form) {
-          console.error('TextAreaInputComponent - form Input is required');
+          console.error('DatetimeInputComponent - form Input is required');
       }
   }
 
@@ -148,7 +148,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             this._datetimeDisplayLast = this._datetimeDisplay;
             this._datetimeDisplay = dt;
             this._datetime = this.formatDisplayToTime(dt);
-            console.log('set datetimeDisplay: '+ dt + ', _datetime: '+this._datetime);
+            // console.log('set datetimeDisplay: '+ dt + ', _datetime: '+this._datetime);
             this.propagateChange(this._datetime);
         }
     }
@@ -159,7 +159,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
   set datetime(dt: string) {
          if (dt !== this._datetimeLast) {
-            console.log('set datetime: ', dt);
+            // console.log('set datetime: ', dt);
             this._datetimeLast = this._datetime;
             this._datetime = dt;
             this._datetimeDisplay = DatetimeInputComponent.formatTimeToDisplay(dt);
@@ -180,7 +180,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     writeValue(value: string) {
         if (value) {
-            console.log('datetime writeValue: ', value);
+            // console.log('datetime writeValue: ', value);
             this.datetime = value;
             // this.init();
         }
