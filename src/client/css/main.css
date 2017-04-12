@@ -294,15 +294,15 @@ ul {
   border: 0 !important;
 }
 .alertify .dialog .footer {
-  color: #106cc8;
+  color: #337ab7;
   font-family: "Roboto", sans-serif;
   font-size: 14px;
-  font-weight: italic;
+  font-weight: bold;
   line-height: 1.42857143;
   margin-top: 10px;
 }
 .alertify .dialog .note {
-   color: #106cc8;
+   color: #337ab7;
    font-family: "Roboto", sans-serif;
    font-size: 13px;
    font-weight: italic;
@@ -311,6 +311,9 @@ ul {
 .alertify .dialog .error {
   color: red;
 }
+.alertify .dialog ol {
+   padding-left: 0;
+ }
 .alertify .dialog ul {
   padding: 0 0 0 10px;
 }
@@ -345,12 +348,13 @@ ul {
   max-width: 100%;
   margin-bottom: 5px;
 }
+.alertify .dialog .table-caption,
 .alertify .dialog .table caption {
-  color: #006983;
+  color: #337ab7;
   font-size: 13px;
   font-weight: bold;
-  padding-bottom: 5px;
-}
+  margin-bottom: 3px;
+ }
 .alertify .dialog .table td {
   border-collapse: separate;
   border: 1px solid #337ab7;

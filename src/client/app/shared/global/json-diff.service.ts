@@ -169,10 +169,10 @@ export class JsonDiffService {
     }
 
     /**
-     * The identifier of an object, such as "beginDate - endData" or just "beginDate" if hasnt ended.
-     * @param jsonNew - viewModel JSON for the new object being displayed.  Belon
+     * The identifier of an object, such as "beginDate - endData" or just "beginDate" if hasn't ended.
+     * @param jsonNew - viewModel JSON for the new object being displayed.
      * @param pathToItem - JSON Path in jsonNew to the item that has the identifier information
-     * @returns {string} such as "beginDate - endData" or just "beginDate" if hasnt ended.
+     * @returns {string} such as "beginDate - endData" or just "beginDate" if hasn't ended.
      */
     getIdentifier(object: any): string {
         // The identifiers, if they exist, will be on the object or the first child
@@ -220,7 +220,7 @@ export class JsonDiffService {
         let itemsPrinted: number = 0;
         let itemsBeforePrintHeader: number = 10;
 
-        let tableHtml: string = '<table class="table table-striped table-hover">\n';
+        let tableHtml: string = '<ol>';
 
         diffEntries = normalDiffs.values.entries();
 
@@ -230,12 +230,13 @@ export class JsonDiffService {
             diffItems = nextContainerDiff.value[1];
             itemHeader = this.extractItemHeader(mapKey);
 
-            tableHtml += '<thead><tr><th colspan="3">&nbsp</th></tr>\n';
-            tableHtml += '<tr><th colspan="3">' + itemHeader + '</th></tr>\n';
+            tableHtml += '<li class="table-caption">' + itemHeader + '</li>\n';
+            tableHtml += '<table class="table table-striped table-hover">\n';
             if (this.isDeletedDiff(diffItems)) {
-                tableHtml += '</thead>\n<tbody>\n';
-                tableHtml += '<tr><td colspan="3">Deleted</td></tr></tbody>\n';
+                tableHtml += '<tbody>\n';
+                tableHtml += '<tr><td colspan="3">Marked to delete</td></tr></tbody>\n';
             } else {
+                tableHtml += '<thead>\n';
                 // If the first item is a DiffType.NewArrayItem then don't want 'OldValue' column
                 if (diffItems.length > 0 && diffItems[0].diffType === DiffType.NewArrayItem) {
                     itemsPrinted += itemsBeforePrintHeader;  // to force full header to print next time
@@ -245,7 +246,7 @@ export class JsonDiffService {
                     if (itemsPrinted === 0 || (itemsPrinted / itemsBeforePrintHeader >= 1)) {
                         itemsPrinted = 0;
                         tableHtml += '<tr><th title="Attribute name">Attribute</th>';
-                        tableHtml += '<th>Old value</th><th>New value</th></tr>\n';
+                        tableHtml += '<th>Old Value</th><th>New Value</th></tr>\n';
                     }
                 }
                 tableHtml += '</thead>\n<tbody>\n';
@@ -264,9 +265,10 @@ export class JsonDiffService {
                 }
             }
             tableHtml += '</tbody>\n';
+            tableHtml += '</table>\n';
             nextContainerDiff = diffEntries.next();
         }
-        tableHtml += '</table>\n';
+        tableHtml += '</ol>\n';
         return tableHtml;
     }
 
@@ -297,7 +299,6 @@ export class JsonDiffService {
                 lhs = diff['lhs'];
                 rhs = diff['rhs'];
                 if (this.isDeleted(parent)) {
-                    identifier = 'Deleted - ' + identifier;
                     diffType = DiffType.DeletedArrayItem;
                 } else {
                     diffType = DiffType.Edited;
@@ -319,7 +320,7 @@ export class JsonDiffService {
                 for (let arrayDiffItem of arrayDiffItems) {
                     arrayDiffItem.container = container;
                     arrayDiffItem.item = diff.index;
-                    arrayDiffItem.identifier = 'New - ' + identifier;  //'new item ' + (diff.index + 1);
+                    arrayDiffItem.identifier = identifier + ' New Item';
                     if (arrayDiffItem.diffType === DiffType.New) {
                         arrayDiffItem.diffType = DiffType.NewArrayItem;
                     } else if (arrayDiffItem.diffType === DiffType.Deleted) {
@@ -356,16 +357,17 @@ export class JsonDiffService {
     private getIdentifierAttempt(object: any): string {
         let ident: string = '';
         if (object.startDate && this.isString(object.startDate)) {
-            ident += MiscUtils.prettyFormatDateTime(object.startDate);
-        }
-        if (object.endDate && this.isString(object.endDate)) {
-            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.endDate);
-        }
-        if (object.dateInstalled && this.isString(object.dateInstalled)) {
-            ident += MiscUtils.prettyFormatDateTime(object.dateInstalled);
-        }
-        if (object.dateRemoved && this.isString(object.dateRemoved)) {
-            ident += ' - ' + MiscUtils.prettyFormatDateTime(object.dateRemoved);
+            ident += MiscUtils.getDate(object.startDate);
+            if (object.endDate && this.isString(object.endDate)) {
+                ident += ' - ' + MiscUtils.getDate(object.endDate);
+            }
+        } else if (object.dateInstalled && this.isString(object.dateInstalled)) {
+            ident += MiscUtils.getDate(object.dateInstalled);
+            if (object.dateRemoved && this.isString(object.dateRemoved)) {
+                ident += ' - ' + MiscUtils.getDate(object.dateRemoved);
+            }
+        } else if (object.dateMeasured && this.isString(object.dateMeasured)) {
+            ident += MiscUtils.getDate(object.dateMeasured);
         }
         return ident;
     }
@@ -409,8 +411,12 @@ export class JsonDiffService {
         let regex = new RegExp('(.*?)' + JsonDiffService.mapKeySeparator + '(.*)');
         let groups: RegExpExecArray;
         if ((groups = regex.exec(key)) && groups.length >= 3) {
+            let part1: string = this.getNameMapping(groups[1]);
+            if (part1.endsWith('s')) {
+                part1 = part1.slice(0, part1.length - 1);
+            }
             let part2: string = groups[2] ? ' (' + groups[2] + ')' : '';
-            return this.getNameMapping(groups[1]) + part2;
+            return part1 + part2;
         } else {
             return 'no table name in key - groups length is: ' + groups.length;
         }
