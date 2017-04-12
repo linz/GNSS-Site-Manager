@@ -74,7 +74,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
    *
    * @param {DialogService} dialogService - The injected DialogService.
    */
-  constructor(protected dialogService: DialogService, protected _changeDetectionRef : ChangeDetectorRef) {}
+  constructor(protected dialogService: DialogService) {}
 
     ngOnInit() {
         this.isOpen = this.getIndex() === 0;

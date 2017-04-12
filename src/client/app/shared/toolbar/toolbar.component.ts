@@ -33,7 +33,8 @@ export class ToolbarComponent implements OnInit {
               private route: ActivatedRoute,
               private router: Router,
               private userAuthService: UserAuthService,
-            private siteLogService: SiteLogService) {
+            private siteLogService: SiteLogService,
+            private dialogService: DialogService) {
   }
 
   ngOnInit() {
@@ -53,7 +54,8 @@ export class ToolbarComponent implements OnInit {
     this.onClose.emit( this.siteId !== null );
   }
 
-  isFormModified() {
+  // TODO - need to get this status from SiteInfoComponent.siteInfoForm.dirty
+  hasFormChanged() {
       // return this.isFormModifiedState;
       return false;
   }

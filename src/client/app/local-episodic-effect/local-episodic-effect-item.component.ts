@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
 import { GeodesyEvent } from '../shared/events-messages/Event';
-import { LocalEpisodicEventViewModel } from './local-episodic-event-view-model';
+import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
 import { DialogService } from '../shared/index';
 
 /**
@@ -13,7 +13,7 @@ import { DialogService } from '../shared/index';
     selector: 'local-episodic-effect-item',
     templateUrl: 'local-episodic-effect-item.component.html',
 })
-export class LocalEpisodicEventItemComponent extends AbstractItem implements OnInit {
+export class LocalEpisodicEffectItemComponent extends AbstractItem implements OnInit {
     /**
      * The LocalEpisodicEffect in question.
      */
@@ -44,7 +44,7 @@ export class LocalEpisodicEventItemComponent extends AbstractItem implements OnI
     }
 
     protected patchForm() {
-        this.itemGroup.setValue(this.localEpisodicEvent);
+        this.itemGroup.setValue(this.localEpisodicEffect);
     }
 
     getItemName(): string {

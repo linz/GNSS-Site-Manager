@@ -182,6 +182,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Save changes made back to siteLog XML
    */
   public save(formValue: any) {
+      if (! formValue) {
+          // Currently the toolbar save will pass null.  Just use siteInfoForm
+          if (this.siteInfoForm.pristine) {
+              return;
+          }
+          formValue = this.siteInfoForm.value;
+      }
+
       // update a copy of the original data with changes from the form and diff that
       // let siteLogOriginClone: ViewSiteLog = _.cloneDeep(this.siteLogOrigin);
       console.log(' siteLog before form merge: ', this.siteLogModel);

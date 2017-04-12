@@ -31,16 +31,16 @@
               <!--</div>-->
             <gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteContact"
                                     [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin" disabled="{{!hasEditRole}}"></gnss-responsible-party-group>
+                                    [originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>
             <gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteMetadataCustodian"
                                     [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin" disabled="{{!hasEditRole}}"></gnss-responsible-party-group>
+                                    [originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>
             <gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteDataCenter"
                                     [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin" disabled="{{!hasEditRole}}"></gnss-responsible-party-group>
+                                    [originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>
             <gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteDataSource"
                                     [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin" disabled="{{!hasEditRole}}"></gnss-responsible-party-group>
+                                    [originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>
         </div>
     <!--</div>-->
           <!--</div>
@@ -58,7 +58,7 @@
         <frequency-standard-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
                                   [originalSiteLogModel]="siteLogOrigin"></frequency-standard-group>
 
-        <local-episodic-effects-group [siteLogModel]="siteLogModel"
+        <local-episodic-effects-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
                                   [originalSiteLogModel]="siteLogOrigin"></local-episodic-effects-group>
 
         <humidity-sensors-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"

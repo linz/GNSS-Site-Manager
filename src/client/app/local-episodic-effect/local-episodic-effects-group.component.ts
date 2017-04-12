@@ -11,7 +11,7 @@ import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model
     selector: 'local-episodic-effects-group',
     templateUrl: 'local-episodic-effects-group.component.html',
 })
-export class LocalEpisodicEventsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> implements OnInit {
+export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> implements OnInit {
     @Input()
     set siteLogModel(siteLogModel: any) {
         siteLogModel && this.setItemsCollection(siteLogModel.localEpisodicEvents);
