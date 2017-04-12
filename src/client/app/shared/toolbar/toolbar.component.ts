@@ -27,7 +27,7 @@ export class ToolbarComponent implements OnInit {
 
   private loadedUserSub: any;
     private isFormModifiedSubscription: Subscription;
-    // private isFormModifiedState: boolean;
+    private isFormModifiedState: boolean;
 
   constructor(private serviceWorkerService: ServiceWorkerService,
               private route: ActivatedRoute,
@@ -56,8 +56,8 @@ export class ToolbarComponent implements OnInit {
 
   // TODO - need to get this status from SiteInfoComponent.siteInfoForm.dirty
   hasFormChanged() {
-      // return this.isFormModifiedState;
-      return false;
+      return this.isFormModifiedState;
+      // return false;
   }
 
   /**
@@ -136,9 +136,9 @@ export class ToolbarComponent implements OnInit {
   }
 
   private setupSiteLogSubscription() {
-      // this.isFormModifiedSubscription = this.siteLogService.getIsFormModifiedSubscription().subscribe((isModified: boolean) => {
-      //     this.isFormModifiedState = isModified;
-      // });
+      this.isFormModifiedSubscription = this.siteLogService.getIsFormModifiedSubscription().subscribe((isModified: boolean) => {
+          this.isFormModifiedState = isModified;
+      });
   }
 
   private setupAuthSubscription() {
