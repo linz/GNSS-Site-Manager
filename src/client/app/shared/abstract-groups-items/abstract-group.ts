@@ -3,6 +3,9 @@ import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-v
 import * as lodash from 'lodash';
 
 export abstract class AbstractGroup<T extends AbstractViewModel> {
+    NONE: number = 0;
+    MODIFIED: number = 1;
+    INVALID: number = 2;
     isGroupOpen: boolean = false;
     hasGroupANewItem: boolean = false;
 
@@ -96,6 +99,21 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         return this.hasGroupANewItem;
     }
 
+    getValidationCode(): number {
+        if (this.isEmptyCollection()) {
+            return 0;
+        }
+        let hasChanges: boolean = false;
+        for (let item of this.itemProperties) {
+            /*if (item.hasErrors) {
+                return this.INVALID;
+            } else */if (item.dateDeleted) {
+                hasChanges = true;
+            }
+        }
+        return (hasChanges ? this.MODIFIED : this.NONE);
+    }
+
     /**
      * Return collection - optionally with deleted items filter out.  Always in reverse order.  IT WILL NOT
      * change the original collection's order or composition.
@@ -118,7 +136,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     isEmptyCollection(): boolean {
-        return (this.itemProperties === null || this.itemProperties.length === 0);
+        return (this.itemProperties === undefined || this.itemProperties === null || this.itemProperties.length === 0);
     }
 
     getItemsOriginalCollection(): T[] {

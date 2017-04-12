@@ -1,6 +1,6 @@
-<!-- Input: humiditySensor (single) -->
-<div class="panel panel-level-2">
-    <div class="panel-heading" [ngClass]="{'panel-level-2-dirty': humiditySensor.dateDeleted || isNew}">
+<div class="panel panel-level-2"
+     [ngClass]="{'panel-dirty': frequencyStandard.dateDeleted || isNew, 'panel-invalid': hasErrors}">
+    <div class="panel-heading">
         <span class="panel-title cursor-ptr"
               (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon"

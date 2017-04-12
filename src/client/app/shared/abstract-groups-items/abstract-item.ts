@@ -4,8 +4,8 @@ import { DialogService } from '../index';
 
 export abstract class AbstractItem implements DoCheck, OnInit {
     protected isNew: boolean = false;
-
     protected isOpen: boolean = false;
+    protected hasErrors: boolean = false;
 
     /**
      * Keep a copy of the last GeodesyEvent so can detect when it has changed nad have a new event.

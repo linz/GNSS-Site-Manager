@@ -77,10 +77,24 @@ ul {
   padding: 0 0 0 20px;
 }
 
-.table-hover tbody tr:hover > td {
-  background-color: #e5f5e0;
-  color: #2a2aff;
-  cursor: pointer;
+.form-control {
+  padding: 3px 5px;
+}
+.form-group {
+  margin-bottom: 8px;
+}
+.form-textarea {
+  display: block;
+  padding: 0 8px !important;
+  width: 100%;
+  font-size: 14px;
+  height: 60px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 .form-group.required .control-label::after,
 .form-group .control-label.required::after {
@@ -100,7 +114,11 @@ ul {
   color: #999;
   line-height: 30px;
 }
-
+.table-hover tbody tr:hover > td {
+  background-color: #e5f5e0;
+  color: #2a2aff;
+  cursor: pointer;
+}
 .cursor-ptr {
   cursor: pointer;
 }
@@ -123,7 +141,7 @@ ul {
   color: #fff;
 }
 .btn-similar {
-  background-color: transparent;
+  background-color: #006983;
   border-color: #fff;
   color: #fff;
 }
@@ -392,31 +410,44 @@ ul {
   color: #e31a1c;
 }
 
-/*  highlight dirty/invalid fields and containers */
+/*  highlight dirty (modified) fields/containers with green color, invalid (error) fields/containers with reddish color */
 .alert {
   border: 0;
   margin-bottom: 0;
   padding: 5px;
 }
-form .delete-marker {
+.delete-marker {
   color: #fff;
-  background-color: #a33f1f;
-  padding: 3px 10px 5px;
+  background-color: #008369;
+  padding: 3px 5px;
 }
-form .panel-level-1-dirty {
+.panel-level-1.panel-dirty {
+  border-color: #006a55 !important;
+}
+.panel-level-1.panel-dirty > .panel-heading {
+  background-color: #008369 !important;
+}
+.panel-level-2.panel-dirty {
+  border-color: #afeec4 !important;
+}
+.panel-level-2.panel-dirty > .panel-heading {
+  background-color: #d9f7e3 !important;
+}
+.panel-level-1.panel-invalid {
+  border-color: #a33f1f !important;
+}
+.panel-level-1.panel-invalid > .panel-heading {
   background-color: #a33f1f !important;
 }
-form .panel-level-2-dirty {
+.panel-level-2.panel-invalid {
+  border-color: #ffd497 !important;
+}
+.panel-level-2.panel-invalid > .panel-heading {
   background-color: #ffe9ca !important;
 }
-form .field-dirty,
-form .container-dirty {
-  color: #a33f1f;
-  background-color: #ffffef;
-}
 form .ng-dirty.ng-valid {
-  border-color: #ff9600;
-  background-color: #ffffef;
+  border-color: #00b300;
+  background-color: #ebffeb;
 }
 form .ng-dirty.ng-invalid {
   border-color: #ca1200;
@@ -424,25 +455,6 @@ form .ng-dirty.ng-invalid {
 }
 form .christine.ng-invalid {
   border-color: #ff1700;
-}
-.form-control {
-  padding: 3px 5px;
-}
-.form-group {
-  margin-bottom: 8px;
-}
-.form-textarea {
-  display: block;
-  padding: 0 8px !important;
-  width: 100%;
-  font-size: 14px;
-  height: 60px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
 }
 
 .col-lg-1,
