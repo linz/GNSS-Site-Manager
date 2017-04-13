@@ -228,44 +228,46 @@ export class JsonDiffService {
         while (!nextContainerDiff.done) {
             mapKey = nextContainerDiff.value[0];
             diffItems = nextContainerDiff.value[1];
-            itemHeader = this.extractItemHeader(mapKey);
+            if (!diffItems || diffItems.length === 0 ) {
+                continue;
+            }
 
+            itemHeader = this.extractItemHeader(mapKey) + this.getExtraHeaderLabel(diffItems[0].diffType);
             tableHtml += '<li class="table-caption">' + itemHeader + '</li>\n';
             tableHtml += '<table class="table table-striped table-hover">\n';
-            if (this.isDeletedDiff(diffItems)) {
-                tableHtml += '<tbody>\n';
-                tableHtml += '<tr><td colspan="3">Marked to delete</td></tr></tbody>\n';
+            tableHtml += '<thead>\n';
+
+            // If the first item is a DiffType.NewArrayItem then don't want 'OldValue' column
+            if (diffItems[0].diffType === DiffType.NewArrayItem || diffItems[0].diffType === DiffType.DeletedArrayItem) {
+                itemsPrinted += itemsBeforePrintHeader;  // to force full header to print next time
+                tableHtml += '<tr><th title="Attribute name">Attribute</th>';
+                tableHtml += '<th colspan="2">Value</th></tr>\n';
             } else {
-                tableHtml += '<thead>\n';
-                // If the first item is a DiffType.NewArrayItem then don't want 'OldValue' column
-                if (diffItems.length > 0 && diffItems[0].diffType === DiffType.NewArrayItem) {
-                    itemsPrinted += itemsBeforePrintHeader;  // to force full header to print next time
+                if (itemsPrinted === 0 || (itemsPrinted / itemsBeforePrintHeader >= 1)) {
+                    itemsPrinted = 0;
                     tableHtml += '<tr><th title="Attribute name">Attribute</th>';
-                    tableHtml += '<th colspan="2">Value</th></tr>\n';
-                } else {
-                    if (itemsPrinted === 0 || (itemsPrinted / itemsBeforePrintHeader >= 1)) {
-                        itemsPrinted = 0;
-                        tableHtml += '<tr><th title="Attribute name">Attribute</th>';
-                        tableHtml += '<th>Old Value</th><th>New Value</th></tr>\n';
-                    }
-                }
-                tableHtml += '</thead>\n<tbody>\n';
-                for (let diffItem of diffItems) {
-                    if (diffItem.diffType === DiffType.NewArrayItem) {
-                        for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
-                            itemsPrinted++;
-                            tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td colspan="2">' +
-                                this.getNameMapping(diffItem.newValue[key]) + '</td></tr>\n';
-                        }
-                    } else {
-                        itemsPrinted++;
-                        tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
-                            + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>\n';
-                    }
+                    tableHtml += '<th>Old Value</th><th>New Value</th></tr>\n';
                 }
             }
-            tableHtml += '</tbody>\n';
-            tableHtml += '</table>\n';
+            tableHtml += '</thead>\n<tbody>\n';
+            for (let diffItem of diffItems) {
+                if (diffItem.diffType === DiffType.NewArrayItem) {
+                    for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
+                        itemsPrinted++;
+                        tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td colspan="2">'
+                                  + this.getNameMapping(diffItem.newValue[key]) + '</td></tr>\n';
+                    }
+                } else if (diffItem.diffType === DiffType.DeletedArrayItem) {
+                    itemsPrinted++;
+                    tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
+                              + diffItem.newValue + '</td></tr>\n';
+                } else {
+                    itemsPrinted++;
+                    tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
+                              + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>\n';
+                }
+            }
+            tableHtml += '</tbody>\n</table>\n';
             nextContainerDiff = diffEntries.next();
         }
         tableHtml += '</ol>\n';
@@ -320,7 +322,7 @@ export class JsonDiffService {
                 for (let arrayDiffItem of arrayDiffItems) {
                     arrayDiffItem.container = container;
                     arrayDiffItem.item = diff.index;
-                    arrayDiffItem.identifier = identifier + ' New Item';
+                    arrayDiffItem.identifier = identifier;
                     if (arrayDiffItem.diffType === DiffType.New) {
                         arrayDiffItem.diffType = DiffType.NewArrayItem;
                     } else if (arrayDiffItem.diffType === DiffType.Deleted) {
@@ -370,6 +372,16 @@ export class JsonDiffService {
             ident += MiscUtils.getDate(object.dateMeasured);
         }
         return ident;
+    }
+
+    private getExtraHeaderLabel(diffType: DiffType): string {
+        let actionLabel: string = 'Modified';
+        if (diffType === DiffType.NewArrayItem) {
+            actionLabel = 'New Item';
+        } else if (diffType === DiffType.DeletedArrayItem) {
+            actionLabel = 'Marked to delete';
+        }
+        return ' <span class="highlight">'+actionLabel+'</span>';
     }
 
     /**
