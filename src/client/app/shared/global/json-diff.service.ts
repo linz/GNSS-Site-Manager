@@ -220,7 +220,7 @@ export class JsonDiffService {
         let itemsPrinted: number = 0;
         let itemsBeforePrintHeader: number = 10;
 
-        let tableHtml: string = '<ol>';
+        let diffHtml : string = '<ol>';
 
         diffEntries = normalDiffs.values.entries();
 
@@ -233,45 +233,45 @@ export class JsonDiffService {
             }
 
             itemHeader = this.extractItemHeader(mapKey) + this.getExtraHeaderLabel(diffItems[0].diffType);
-            tableHtml += '<li class="table-caption">' + itemHeader + '</li>\n';
-            tableHtml += '<table class="table table-striped table-hover">\n';
-            tableHtml += '<thead>\n';
+            diffHtml  += '<li class="table-caption">' + itemHeader + '</li>\n';
+            diffHtml  += '<table class="table table-striped table-hover">\n';
+            diffHtml  += '<thead>\n';
 
             // If the first item is a DiffType.NewArrayItem then don't want 'OldValue' column
             if (diffItems[0].diffType === DiffType.NewArrayItem || diffItems[0].diffType === DiffType.DeletedArrayItem) {
                 itemsPrinted += itemsBeforePrintHeader;  // to force full header to print next time
-                tableHtml += '<tr><th title="Attribute name">Attribute</th>';
-                tableHtml += '<th colspan="2">Value</th></tr>\n';
+                diffHtml  += '<tr><th title="Attribute name">Attribute</th>';
+                diffHtml  += '<th colspan="2">Value</th></tr>\n';
             } else {
                 if (itemsPrinted === 0 || (itemsPrinted / itemsBeforePrintHeader >= 1)) {
                     itemsPrinted = 0;
-                    tableHtml += '<tr><th title="Attribute name">Attribute</th>';
-                    tableHtml += '<th>Old Value</th><th>New Value</th></tr>\n';
+                    diffHtml  += '<tr><th title="Attribute name">Attribute</th>';
+                    diffHtml  += '<th>Old Value</th><th>New Value</th></tr>\n';
                 }
             }
-            tableHtml += '</thead>\n<tbody>\n';
+            diffHtml  += '</thead>\n<tbody>\n';
             for (let diffItem of diffItems) {
                 if (diffItem.diffType === DiffType.NewArrayItem) {
                     for (let key of Object.keys(diffItem.newValue).filter(this.onlyWantedFields)) {
                         itemsPrinted++;
-                        tableHtml += '<tr><td>' + this.getNameMapping(key) + '</td><td colspan="2">'
+                        diffHtml  += '<tr><td>' + this.getNameMapping(key) + '</td><td colspan="2">'
                                   + this.getNameMapping(diffItem.newValue[key]) + '</td></tr>\n';
                     }
                 } else if (diffItem.diffType === DiffType.DeletedArrayItem) {
                     itemsPrinted++;
-                    tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
+                    diffHtml  += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
                               + diffItem.newValue + '</td></tr>\n';
                 } else {
                     itemsPrinted++;
-                    tableHtml += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
+                    diffHtml  += '<tr><td>' + this.getNameMapping(diffItem.item) + '</td><td>'
                               + diffItem.oldValue + '</td><td>' + diffItem.newValue + '</td></tr>\n';
                 }
             }
-            tableHtml += '</tbody>\n</table>\n';
+            diffHtml  += '</tbody>\n</table>\n';
             nextContainerDiff = diffEntries.next();
         }
-        tableHtml += '</ol>\n';
-        return tableHtml;
+        diffHtml  += '</ol>\n';
+        return diffHtml ;
     }
 
     private getNormalKey(diff: DiffItem) {
