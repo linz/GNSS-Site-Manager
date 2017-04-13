@@ -63,46 +63,49 @@ function deleteCache(event: any, cacheToDelete: string): void {
   );
 }
 
-self.addEventListener('install', (event: InstallEvent) => {
-  debugEvent(event);
-  debugMsg('Install: cache: ' + cacheName);
-  event.waitUntil(
-    self.caches.open(cacheName)
-      .then((cache: Cache) => {
-        cache.add('/');
-      })
-  );
-});
+// TODO: broken
+// self.addEventListener('install', (event: InstallEvent) => {
+//   debugEvent(event);
+//   debugMsg('Install: cache: ' + cacheName);
+//   event.waitUntil(
+//     self.caches.open(cacheName)
+//       .then((cache: Cache) => {
+//         cache.add('/');
+//       })
+//   );
+// });
 
-self.addEventListener('activate', (event: ExtendableEvent) => {
-  debugEvent(event);
-  deleteOtherCaches(event);
-});
+// TODO: broken
+// self.addEventListener('activate', (event: ExtendableEvent) => {
+//   debugEvent(event);
+//   deleteOtherCaches(event);
+// });
 
 /**
  * Retrieve from Cache and if not available then retrieve from network and store in cache
  */
-self.addEventListener('fetch', (event: FetchEvent) => {
-  // TODO: Consider implementing https://github.com/GoogleChrome/sw-precache - it updates cache if content changes
-  event.respondWith(
-    self.caches.open(cacheName).then((cache: Cache) => {  // 'cache-v.3'
-      return cache.match(event.request).then((response: Response) => {
-        if (response) {
-          return response;
-        }
-        return self.fetch(event.request).then((response: Response) => {
-          if (event.request.method.toString() === 'GET') {
-            if (event.request.url.toString().startsWith('http')) {
-              cache.put(event.request, response.clone());
-              console.debug('cache: ', event.request.url);
-            }
-          }
-          return response;
-        });
-      });
-    })
-  );
-});
+// TODO: broken
+// self.addEventListener('fetch', (event: FetchEvent) => {
+//   // TODO: Consider implementing https://github.com/GoogleChrome/sw-precache - it updates cache if content changes
+//   event.respondWith(
+//     self.caches.open(cacheName).then((cache: Cache) => {  // 'cache-v.3'
+//       return cache.match(event.request).then((response: Response) => {
+//         if (response) {
+//           return response;
+//         }
+//         return self.fetch(event.request).then((response: Response) => {
+//           if (event.request.method.toString() === 'GET') {
+//             if (event.request.url.toString().startsWith('http')) {
+//               cache.put(event.request, response.clone());
+//               console.debug('cache: ', event.request.url);
+//             }
+//           }
+//           return response;
+//         });
+//       });
+//     })
+//   );
+// });
 
 self.addEventListener('notificationclick', debugEvent);
 

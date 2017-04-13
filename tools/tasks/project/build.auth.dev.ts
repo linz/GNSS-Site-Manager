@@ -11,7 +11,7 @@ const plugins = <any>gulpLoadPlugins();
 export = () => {
   return gulp.src(join(Config.APP_SRC, 'auth.html'))
     .pipe(inject(join(Config.JS_DEST, 'oidc-client.min.js')))
-    .pipe(plugins.template(new TemplateLocalsBuilder().wihtoutStringifiedEnvConfig().build()))
+    .pipe(plugins.template(new TemplateLocalsBuilder().withoutStringifiedEnvConfig().build()))
     .pipe(gulp.dest(Config.APP_DEST));
 };
 
