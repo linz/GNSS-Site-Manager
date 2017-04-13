@@ -39,13 +39,17 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
     return 'Frequency Standard';
   }
 
-  compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
+  static compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
     let date1: string = obj1.startDate;
     let date2: string = obj2.startDate;
     return AbstractGroup.compareDates(date1, date2);
   }
 
-  newViewModelItem(): FrequencyStandardViewModel {
-    return new FrequencyStandardViewModel();
+    compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
+        return FrequencyStandardGroupComponent.compare(obj1, obj2);
+    }
+
+  newViewModelItem(blank?: boolean): FrequencyStandardViewModel {
+    return new FrequencyStandardViewModel(blank);
   }
 }

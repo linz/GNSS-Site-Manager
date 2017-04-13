@@ -41,16 +41,20 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
         return 'Surveyed Local Tie';
     }
 
-    compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
+    static compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
         let date1: string = obj1.dateMeasured;
         let date2: string = obj2.dateMeasured;
         return AbstractGroup.compareDates(date1, date2);
     }
 
+    compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
+        return SurveyedLocalTiesGroupComponent.compare(obj1, obj2);
+    }
+
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(): SurveyedLocalTieViewModel {
+    newViewModelItem(blank?: boolean): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
     }
 }

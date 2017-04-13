@@ -20,7 +20,10 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
     public fax1: string = '';
     public fax2: string = '';
 
-    constructor() {
+    /**
+     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
+     */
+    constructor(blank: boolean = false) {
         super();
     }
 

@@ -42,13 +42,17 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
     return 'Water Vapor Sensor';
   }
 
-  compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
+  static compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
     let date1: string = obj1.startDate;
     let date2: string = obj2.startDate;
     return AbstractGroup.compareDates(date1, date2);
   }
 
-  newViewModelItem(): WaterVaporSensorViewModel {
-    return new WaterVaporSensorViewModel();
+    compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
+        return WaterVaporSensorsGroupComponent.compare(obj1, obj2);
+    }
+
+  newViewModelItem(blank?: boolean): WaterVaporSensorViewModel {
+    return new WaterVaporSensorViewModel(blank);
   }
 }

@@ -62,6 +62,7 @@ export class JsonViewModelService {
         siteLogViewModel.siteLog.siteContact = this.dataToViewModel(siteLogDataModel.siteContact, ResponsiblePartyViewModel);
         siteLogViewModel.siteLog.siteMetadataCustodian = [this.dataToViewModelItem(siteLogDataModel.siteMetadataCustodian, ResponsiblePartyViewModel)];
         siteLogViewModel.siteLog.siteDataSource = this.dataToViewModel(siteLogDataModel.siteDataSource, ResponsiblePartyViewModel);
+        // siteLogViewModel.siteLog.siteDataCenter = this.dataToViewModel(siteLogDataModel.siteDataCentre, ResponsiblePartyViewModel);
 
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.siteLog.moreInformation = siteLogDataModel.moreInformation;

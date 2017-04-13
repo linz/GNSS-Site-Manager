@@ -20,9 +20,12 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
 
     public notes: string;
 
-    constructor() {
+    /**
+     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
+     */
+    constructor(blank: boolean = false) {
         super();
-        let presentDT: string = MiscUtils.getPresentDateTime();
+        let presentDT: string = blank ? '' : MiscUtils.getPresentDateTime();
         this.dateMeasured = presentDT;
 
         this.tiedMarkerName = '';

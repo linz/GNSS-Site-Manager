@@ -39,16 +39,20 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
         return 'Humidity Sensor';
     }
 
-    compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
+    static compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
         return AbstractGroup.compareDates(date1, date2);
     }
 
+    compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
+        return HumiditySensorsGroupComponent.compare(obj1, obj2);
+    }
+
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(): HumiditySensorViewModel {
-        return new HumiditySensorViewModel();
+    newViewModelItem(blank?: boolean): HumiditySensorViewModel {
+        return new HumiditySensorViewModel(blank);
     }
 }

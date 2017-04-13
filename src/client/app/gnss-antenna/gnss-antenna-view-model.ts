@@ -18,9 +18,12 @@ export class GnssAntennaViewModel extends AbstractViewModel {
   public antennaCableLength: number;
   public notes: string;
 
-  constructor() {
+  /**
+   * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
+   */
+  constructor(blank: boolean = false) {
     super();
-    this.dateInstalled = MiscUtils.getPresentDateTime();
+    this.dateInstalled = blank ? '' : MiscUtils.getPresentDateTime();
     this.dateRemoved = '';
     this.antennaType = '';
     this.serialNumber = '';

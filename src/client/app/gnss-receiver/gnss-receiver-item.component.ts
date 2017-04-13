@@ -18,8 +18,8 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
      */
     @Input() gnssReceiver: GnssReceiverViewModel;
 
-    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder, protected _changeDetectionRef : ChangeDetectorRef) {
-        super(dialogService, _changeDetectionRef);
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(dialogService);
     }
 
     ngOnInit() {
@@ -43,7 +43,7 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
             temperatureStabilization: [''],//, [Validators.maxLength(100)]],
             notes: [''],//, [Validators.maxLength(2000)]],
         });
-        console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
+        // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
         this.addToGroupArray(this.itemGroup);
     }
 
@@ -51,12 +51,10 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
         this.itemGroup.patchValue(this.gnssReceiver);
         // This item may now be at a new index from what it was created at.  Patch the array item at that index.
         // (<AbstractControl> this.groupArray.controls[this.getIndex()]).patchValue(this.gnssReceiver);
-        console.debug(`GnssReceiverItemComponent - setup (patch) form - index: ${this.getIndex()} - dateInstalled: `, this.gnssReceiver.dateInstalled);
-        console.debug('  groupArray: ', this.groupArray);
+        // console.debug(`GnssReceiverItemComponent - setup (patch) form - index: ${this.getIndex()} - dateInstalled: `, this.gnssReceiver.dateInstalled);
+        // console.debug('  groupArray: ', this.groupArray);
 
-
-
-        // TODO - Validator Assistant
+        // TODO - Validator Assistant - check validation before applying it so can skip it during patch ????
         // let out: any = dateTimeFormatValidator.apply(this, [this.itemGroup.controls['dateRemoved']]);
         // console.log('validate out: ', out);
 

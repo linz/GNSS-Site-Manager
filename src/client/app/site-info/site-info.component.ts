@@ -6,10 +6,18 @@ import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
 import { SiteLogViewModel, ViewSiteLog } from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
-import { ResponsiblePartyType } from '../responsible-party/responsible-party2-group.component';
+import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party2-group.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
+import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
+import { GnssAntennaGroupComponent } from '../gnss-antenna/gnss-antenna-group.component';
+import { HumiditySensorsGroupComponent } from '../humidity-sensor/humidity-sensors-group.component';
+import { PressureSensorsGroupComponent } from '../pressure-sensor/pressure-sensors-group.component';
+import { LocalEpisodicEffectsGroupComponent } from '../local-episodic-effect/local-episodic-effects-group.component';
+import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-local-ties-group.component';
+import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
+import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -33,17 +41,17 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteIdentification: any = null;
   private siteLocation: any = {};
   private siteContacts: Array<any> = [];
-  private siteMetadataCustodian: any = {};
-  private siteDataCenters: Array<any> = [];
-  private siteDataSource: any = {};
+  // private siteMetadataCustodian: any = {};
+  // private siteDataCenters: Array<any> = [];
+  // private siteDataSource: any = {};
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
   public miscUtils: any = MiscUtils;
-  public siteContactName: string = ConstantsService.SITE_CONTACT;
-  public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
-  public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
-  public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
+  // public siteContactName: string = ConstantsService.SITE_CONTACT;
+  // public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
+  // public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
+  // public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
   public hasEditRole: boolean = false;
 
   private status: any = {
@@ -51,16 +59,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     isSiteInfoGroupOpen: true,
     isSiteMediaOpen: false,
     isMetaCustodianOpen: false,
-    hasNewSiteContact: false,
-    hasNewSiteMetadataCustodian: false,
-    hasNewSiteDataCenter: false,
-    hasNewSiteDataSource: false,
+    // hasNewSiteContact: false,
+    // hasNewSiteMetadataCustodian: false,
+    // hasNewSiteDataCenter: false,
+    // hasNewSiteDataSource: false,
   };
 
-  private errorMessage: string;
-  private siteInfoTab: any = null;
   private authSubscription: Subscription;
-  private submitted: boolean = false;
 
   /**
    * Creates an instance of the SiteInfoComponent with the injected Router/ActivatedRoute/CorsSite Services.
@@ -162,9 +167,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteIdentification = null;
     this.siteLocation = null;
     this.siteContacts.length = 0;
-    this.siteMetadataCustodian = null;
-    this.siteDataCenters.length = 0;
-    this.siteDataSource = null;
+    // this.siteMetadataCustodian = null;
+    // this.siteDataCenters.length = 0;
+    // this.siteDataSource = null;
     this.status = null;
     this.errorMessage = '';
     if (this.authSubscription) {
@@ -190,14 +195,16 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           formValue = this.siteInfoForm.value;
       }
 
-      // update a copy of the original data with changes from the form and diff that
-      // let siteLogOriginClone: ViewSiteLog = _.cloneDeep(this.siteLogOrigin);
       console.log(' siteLog before form merge: ', this.siteLogModel);
       console.log(' formValue before merge and reverse: ', formValue);
       let formValueClone: any =_.cloneDeep(formValue);
-      // let formArray: any[] = form
+
+      /* Get the arrays in the form in the same order as the SiteLogModel */
       this.sortArrays(formValueClone);
       console.log(' formValue before merge and after reverse: ', formValueClone);
+
+      /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
+        an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
       _.merge(this.siteLogModel, formValueClone);
       console.log(' siteLog after form merge: ', this.siteLogModel);
       console.log(' siteLogOrigin: ', this.siteLogOrigin);
@@ -216,10 +223,10 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       // function() {
         this.isLoading = true;
         this.submitted = true;
-        this.status.hasNewSiteContact = false;
-        this.status.hasNewSiteMetadataCustodian = false;
-        this.status.hasNewSiteDataCenter = false;
-        this.status.hasNewSiteDataSource = false;
+        // this.status.hasNewSiteContact = false;
+        // this.status.hasNewSiteMetadataCustodian = false;
+        // this.status.hasNewSiteDataCenter = false;
+        // this.status.hasNewSiteDataSource = false;
         let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
         siteLogViewModel.siteLog=this.siteLogModel;
         this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
@@ -254,18 +261,53 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         let items: string[] = Object.keys(formValue);
         for (let item of items) {
             if (Array.isArray(formValue[item])) {
-                formValue[item].sort(this.compare);
+                let comparator: any = this.returnAssociatedComparator(item);
+                if (comparator) {
+                    formValue[item].sort(comparator);//this.compare);
+                }
             }
         }
     }
 
-    // TODO - want this to come from AbstractGroup Impl ???
-    compare(obj1: any, obj2: any): number {
-        let date1: string = obj1.dateInstalled;
-        let date2: string = obj2.dateInstalled;
-        let val: number = AbstractGroup.compareDates(date1, date2);
-        console.debug(`SiteInfoComponent - sort ${date1}, ${date2} - ${val}`);
-        return val;
+    returnAssociatedComparator(itemName: string): any {
+        switch (itemName) {
+            case "siteLocation":
+                console.warn(`createComparator - ${itemName} does not have a comparator`);
+                // And this should never get called as it isn't an array
+                return null;
+            case "siteIdentification":
+                console.warn(`createComparator - ${itemName} does not have a comparator`);
+                // And this should never get called as it isn't an array
+                return null;
+            case "siteContact":
+                return ResponsiblePartyGroupComponent.compare;
+            case "siteMetadataCustodian":
+                return ResponsiblePartyGroupComponent.compare;
+            // case "siteDataCenter":
+            //     return ResponsiblePartyGroupComponent.compare;
+            case "siteDataSource":
+                return ResponsiblePartyGroupComponent.compare;
+            case "gnssReceivers":
+                return GnssReceiversGroupComponent.compare;
+            case "gnssAntennas":
+                return GnssAntennaGroupComponent.compare;
+            case "frequencyStandards":
+                return FrequencyStandardGroupComponent.compare;
+            case "humiditySensors":
+                return HumiditySensorsGroupComponent.compare;
+            case "pressureSensors":
+                return PressureSensorsGroupComponent.compare;
+            case "localEpisodicEffects":
+                return LocalEpisodicEffectsGroupComponent.compare;
+            case "surveyedLocalTies":
+                return SurveyedLocalTiesGroupComponent.compare;
+            case "temperatureSensors":
+                return TemperatureSensorsGroupComponent.compare;
+            case "waterVaporSensors":
+                return WaterVaporSensorsGroupComponent.compare;
+            default:
+                throw new Error(`Unknown item - unable to return comparator for item ${itemName}`);
+        }
     }
 
   /**

@@ -41,13 +41,17 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
     return 'Pressure Sensor';
   }
 
-  compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
+  static compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
     let date1: string = obj1.startDate;
     let date2: string = obj2.startDate;
     return AbstractGroup.compareDates(date1, date2);
   }
 
-  newViewModelItem(): PressureSensorViewModel {
-    return new PressureSensorViewModel();
+    compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
+        return PressureSensorsGroupComponent.compare(obj1, obj2);
+    }
+
+  newViewModelItem(blank?: boolean): PressureSensorViewModel {
+    return new PressureSensorViewModel(blank);
   }
 }

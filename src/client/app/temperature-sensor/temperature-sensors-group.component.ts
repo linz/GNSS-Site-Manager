@@ -41,13 +41,17 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
     return 'Temperature Sensor';
   }
 
-  compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
+  static compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
     let date1: string = obj1.startDate;
     let date2: string = obj2.startDate;
     return AbstractGroup.compareDates(date1, date2);
   }
 
-  newViewModelItem(): TemperatureSensorViewModel {
-    return new TemperatureSensorViewModel();
+    compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
+        return TemperatureSensorsGroupComponent.compare(obj1, obj2);
+    }
+
+  newViewModelItem(blank?: boolean): TemperatureSensorViewModel {
+    return new TemperatureSensorViewModel(blank);
   }
 }

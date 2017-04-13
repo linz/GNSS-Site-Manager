@@ -85,13 +85,17 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
         return this.partyName.getTitle();
     }
 
-    compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
+    static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
         let name1: string = obj1.individualName;
         let name2: string = obj2.individualName;
         return name1.localeCompare(name2);
     }
 
-    newViewModelItem(): ResponsiblePartyViewModel {
-        return new ResponsiblePartyViewModel();
+    compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
+        return ResponsiblePartyGroupComponent.compare(obj1, obj2);
+    }
+
+    newViewModelItem(blank?: boolean): ResponsiblePartyViewModel {
+        return new ResponsiblePartyViewModel(blank);
     }
 }

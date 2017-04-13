@@ -14,12 +14,12 @@ import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model
 export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> implements OnInit {
     @Input()
     set siteLogModel(siteLogModel: any) {
-        siteLogModel && this.setItemsCollection(siteLogModel.localEpisodicEvents);
+        siteLogModel && this.setItemsCollection(siteLogModel.localEpisodicEffects);
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEvents);
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEffects);
     }
 
     constructor() {
@@ -32,23 +32,27 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
 
     private setupForm() {
         this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('localEpisodicEvents', this.groupArrayForm);
+        this.siteInfoForm.addControl('localEpisodicEffects', this.groupArrayForm);
     }
 
     getItemName(): string {
         return 'Local Episodic Effect';
     }
 
-    compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
+    static compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
         return AbstractGroup.compareDates(date1, date2);
     }
 
-    /* **************************************************
-     * Other methods
-     */
-    newViewModelItem(): LocalEpisodicEffectViewModel {
-        return new LocalEpisodicEffectViewModel();
+    compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
+        return LocalEpisodicEffectsGroupComponent.compare(obj1, obj2);
+    }
+
+        /* **************************************************
+         * Other methods
+         */
+    newViewModelItem(blank?: boolean): LocalEpisodicEffectViewModel {
+        return new LocalEpisodicEffectViewModel(blank);
     }
 }

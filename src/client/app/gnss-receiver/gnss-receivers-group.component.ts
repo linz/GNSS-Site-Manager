@@ -40,12 +40,16 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
         return 'GNSS Receiver';
     }
 
-    compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
+    static compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
         let date1: string = obj1.dateInstalled;
         let date2: string = obj2.dateInstalled;
         let val: number = AbstractGroup.compareDates(date1, date2);
-        console.debug(`GnssReceiversGroupComponent - sort ${date1}, ${date2} - ${val}`);
+        // console.debug(`GnssReceiversGroupComponent - sort ${date1}, ${date2} - ${val}`);
         return val;
+    }
+
+    compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
+        return GnssReceiversGroupComponent.compare(obj1, obj2);
     }
 
     /* **************************************************

@@ -30,8 +30,8 @@ export class ViewSiteLog {
     siteOwner: ResponsiblePartyViewModel[];             // Array of 0..1 item
     siteContact: ResponsiblePartyViewModel[];
     siteMetadataCustodian: ResponsiblePartyViewModel[]; // Array of 0..1 item
-    siteDataCenter: ResponsiblePartyViewModel[];
+    // siteDataCenter: ResponsiblePartyViewModel[];
     siteDataSource: ResponsiblePartyViewModel[];
     moreInformation: any = {};
-    dataStreamsSet: any = {};
+    dataStreams: any = {};
 }

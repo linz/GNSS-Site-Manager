@@ -39,13 +39,17 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
     return 'GNSS Antenna';
   }
 
-  compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
+  static compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
     let date1: string = obj1.dateInstalled;
     let date2: string = obj2.dateInstalled;
     return AbstractGroup.compareDates(date1, date2);
   }
 
-  newViewModelItem(): GnssAntennaViewModel {
-    return new GnssAntennaViewModel();
+    compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
+        return GnssAntennaGroupComponent.compare(obj1, obj2);
+    }
+
+  newViewModelItem(blank?: boolean): GnssAntennaViewModel {
+    return new GnssAntennaViewModel(blank);
   }
 }

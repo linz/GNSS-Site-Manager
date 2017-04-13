@@ -7,7 +7,7 @@ import * as lodash from 'lodash';
 import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
 
 export const sortingDirectionAscending: boolean = false;
-export const blankNewItem: boolean = true;
+export const newItemShouldBeBlank: boolean = true;
 export const notBlankNewItem: boolean = false;
 
 export abstract class AbstractGroup<T extends AbstractViewModel> {
@@ -98,7 +98,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
 
         let newItem: T = <T> this.newViewModelItem();
-        let newItemOrig: T = this.newViewModelItem(blankNewItem);
+        let newItemOrig: T = this.newViewModelItem(newItemShouldBeBlank);
 
         console.log('New View Model: ', newItem);
         console.log('itemProperties before new item: ', this.itemProperties);
