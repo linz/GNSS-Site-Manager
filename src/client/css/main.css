@@ -77,10 +77,24 @@ ul {
   padding: 0 0 0 20px;
 }
 
-.table-hover tbody tr:hover > td {
-  background-color: #e5f5e0;
-  color: #2a2aff;
-  cursor: pointer;
+.form-control {
+  padding: 3px 5px;
+}
+.form-group {
+  margin-bottom: 8px;
+}
+.form-textarea {
+  display: block;
+  padding: 0 8px !important;
+  width: 100%;
+  font-size: 14px;
+  height: 60px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 .form-group.required .control-label::after,
 .form-group .control-label.required::after {
@@ -100,7 +114,11 @@ ul {
   color: #999;
   line-height: 30px;
 }
-
+.table-hover tbody tr:hover > td {
+  background-color: #e5f5e0;
+  color: #2a2aff;
+  cursor: pointer;
+}
 .cursor-ptr {
   cursor: pointer;
 }
@@ -123,7 +141,7 @@ ul {
   color: #fff;
 }
 .btn-similar {
-  background-color: transparent;
+  background-color: #006983;
   border-color: #fff;
   color: #fff;
 }
@@ -276,15 +294,15 @@ ul {
   border: 0 !important;
 }
 .alertify .dialog .footer {
-  color: #106cc8;
+  color: #337ab7;
   font-family: "Roboto", sans-serif;
   font-size: 14px;
-  font-weight: italic;
+  font-weight: bold;
   line-height: 1.42857143;
   margin-top: 10px;
 }
 .alertify .dialog .note {
-   color: #106cc8;
+   color: #337ab7;
    font-family: "Roboto", sans-serif;
    font-size: 13px;
    font-weight: italic;
@@ -293,6 +311,9 @@ ul {
 .alertify .dialog .error {
   color: red;
 }
+.alertify .dialog ol {
+   padding-left: 0;
+ }
 .alertify .dialog ul {
   padding: 0 0 0 10px;
 }
@@ -327,12 +348,13 @@ ul {
   max-width: 100%;
   margin-bottom: 5px;
 }
+.alertify .dialog .table-caption,
 .alertify .dialog .table caption {
-  color: #006983;
+  color: #337ab7;
   font-size: 13px;
   font-weight: bold;
-  padding-bottom: 5px;
-}
+  margin-bottom: 3px;
+ }
 .alertify .dialog .table td {
   border-collapse: separate;
   border: 1px solid #337ab7;
@@ -379,10 +401,6 @@ ul {
   margin-bottom: 0 !important;
   padding: 5px;
 }
-.alert {
-  margin-bottom: 0;
-  padding: 5px;
-}
 .control-label {
   font-weight: normal;
 }
@@ -396,44 +414,52 @@ ul {
   color: #e31a1c;
 }
 
-/*  highlight dirty/invalid fields and containers */
-form .delete-marker {
+/*  highlight dirty (modified) fields/containers with green color, invalid (error) fields/containers with reddish color */
+.alert {
+  border: 0;
+  margin-bottom: 0;
+  padding: 5px;
+}
+.highlight,
+.delete-marker {
   color: #fff;
-  background-color: #a33f1f;
-  padding: 3px 10px 5px;
-}
-form .panel-level-1-dirty {
-  background-color: #a33f1f !important;
-}
-form .panel-level-2-dirty {
-  background-color: #ffe9ca !important;
-}
-form .field-dirty,
-form .container-dirty {
-  color: #a33f1f;
-  background-color: #ffffd9;
-}
-form .ng-invalid {
-  border: 1px solid #a94442;
-}
-.form-control {
+  background-color: #008369;
   padding: 3px 5px;
 }
-.form-group {
-  margin-bottom: 8px;
+.panel-level-1.panel-dirty {
+  border-color: #006a55 !important;
 }
-.form-textarea {
-  display: block;
-  padding: 0 8px !important;
-  width: 100%;
-  font-size: 14px;
-  height: 60px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.panel-level-1.panel-dirty > .panel-heading {
+  background-color: #008369 !important;
+}
+.panel-level-2.panel-dirty {
+  border-color: #afeec4 !important;
+}
+.panel-level-2.panel-dirty > .panel-heading {
+  background-color: #d9f7e3 !important;
+}
+.panel-level-1.panel-invalid {
+  border-color: #a33f1f !important;
+}
+.panel-level-1.panel-invalid > .panel-heading {
+  background-color: #a33f1f !important;
+}
+.panel-level-2.panel-invalid {
+  border-color: #ffd497 !important;
+}
+.panel-level-2.panel-invalid > .panel-heading {
+  background-color: #ffe9ca !important;
+}
+form .ng-dirty.ng-valid {
+  border-color: #00b300;
+  background-color: #ebffeb;
+}
+form .ng-dirty.ng-invalid {
+  border-color: #ca1200;
+  background-color: #ffefff;
+}
+form .christine.ng-invalid {
+  border-color: #ff1700;
 }
 
 .col-lg-1,
@@ -507,11 +533,14 @@ form .ng-invalid {
   .form-horizontal .control-label {
     padding-top: 0 !important;
     text-align: right;
+    display: inline-block;
+    vertical-align: middle;
   }
 }
 
 .hidden-xsm,
-.hidden-xxs {
+.hidden-xxs,
+.hidden-xxxs {
   display: inherit;
 }
 @media (max-width: 600px) {
@@ -858,6 +887,9 @@ form .ng-invalid {
   }
   .visible-xxs-inline-block {
     display: inline-block !important;
+  }
+  .hidden-xxxs {
+    display: none !important;
   }
 
   .panel-group .panel-level-1 .glyphicon-plus-sign,

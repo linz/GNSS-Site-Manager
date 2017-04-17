@@ -118,7 +118,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     isEmptyCollection(): boolean {
-        return (this.itemProperties === null || this.itemProperties.length === 0);
+        return (!this.itemProperties || this.itemProperties.length === 0);
     }
 
     getItemsOriginalCollection(): T[] {

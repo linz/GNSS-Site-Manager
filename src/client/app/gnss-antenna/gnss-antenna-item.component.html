@@ -1,5 +1,5 @@
 <div class="panel panel-level-2" id="antenna_{{index}}">
-  <div class="panel-heading" [ngClass]="{'panel-level-2-dirty': antenna.dateDeleted}">
+  <div class="panel-heading">
     <span class="panel-title cursor-ptr"
           (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
       <i class="glyphicon"
@@ -21,7 +21,7 @@
     </span>
     <span *ngIf="antenna.dateDeleted" class="delete-marker"
         title="It will be deleted when saving all changes for the site">
-        (Marked to delete)
+        (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
     </span>
     <span class="pull-right" [ngClass]="{'hidden-xs': antenna.dateDeleted}">
       <button [disabled]="antenna.dateDeleted"

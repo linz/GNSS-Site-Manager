@@ -4,7 +4,6 @@ import { DialogService } from '../index';
 
 export abstract class AbstractItem implements DoCheck, OnInit {
     protected isNew: boolean = false;
-
     protected isOpen: boolean = false;
 
     /**
@@ -138,5 +137,6 @@ export abstract class AbstractItem implements DoCheck, OnInit {
         console.log('child call cancelNew(' + index + ')');
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
+        this.isNew = false;
     }
 }
