@@ -34,7 +34,7 @@ export class ResponsiblePartyType {
 @Component({
     moduleId: module.id,
     selector: 'gnss-responsible-party-group',
-    templateUrl: 'responsible-party2-group.component.html',
+    templateUrl: 'responsible-party-group.component.html',
 })
 export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePartyViewModel> implements OnInit {
     private _partyName: ResponsiblePartyType;
