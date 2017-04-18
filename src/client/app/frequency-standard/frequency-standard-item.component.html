@@ -1,15 +1,17 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" id="frequencyStandard_{{index}}">
   <div class="panel-heading">
-        <span class="panel-title cursor-ptr" (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
+    <span class="panel-title cursor-ptr" (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
       <i class="glyphicon"
          [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
       </i>
       <span *ngIf="index == 0">
-        Current Frequency Standard (Since {{ miscUtils.getDate(frequencyStandard.startDate) }})
+        <span class="hidden-xsm">Current </span><span class="hidden-xxs">Frequency Standard (</span>
+         Since {{ miscUtils.getDate(frequencyStandard.startDate) }}<span class="hidden-xxs">)</span>
       </span>
-        <span *ngIf="index != 0">
-        Previous Frequency Standard ({{ miscUtils.getDate(frequencyStandard.startDate) }}
-        &ndash; {{ miscUtils.getDate(frequencyStandard.endDate) }})
+      <span *ngIf="index != 0">
+        <span class="hidden-xsm">Previous </span><span class="hidden-xxs">Frequency Standard (</span>
+        {{ miscUtils.getDate(frequencyStandard.startDate) }} &ndash; {{ miscUtils.getDate(frequencyStandard.endDate) }}
+        <span class="hidden-xxs">)</span>
       </span>
     </span>
     <span *ngIf="frequencyStandard.dateDeleted" class="delete-marker"
