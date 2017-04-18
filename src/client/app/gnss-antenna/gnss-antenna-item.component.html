@@ -36,16 +36,16 @@
         </div>
         <div *ngIf="antenna != null" [ngClass]="{'container-dirty': antenna.dateDeleted}">
             <div class="form-group">
-                <text-input2 formControlName="antennaType" controlName="antennaType" [form]="itemGroup">Antenna Type</text-input2>
-                <text-input2 formControlName="serialNumber" controlName="serialNumber" [form]="itemGroup">Serial Number</text-input2>
-                <text-input2 formControlName="antennaReferencePoint" controlName="antennaReferencePoint" [form]="itemGroup">Antenna Reference Point</text-input2>
+                <text-input formControlName="antennaType" controlName="antennaType" [form]="itemGroup">Antenna Type</text-input>
+                <text-input formControlName="serialNumber" controlName="serialNumber" [form]="itemGroup">Serial Number</text-input>
+                <text-input formControlName="antennaReferencePoint" controlName="antennaReferencePoint" [form]="itemGroup">Antenna Reference Point</text-input>
                 <number-input step="0.0001" min="0.0000" formControlName="markerArpUpEcc" controlName="markerArpUpEcc" [form]="itemGroup">Marker ARP Up Eccentricity (m)</number-input>
                 <number-input step="0.0001" min="0.0000" formControlName="markerArpNorthEcc" controlName="markerArpUpEcc" [form]="itemGroup">Marker ARP North Eccentricity (m)</number-input>
                 <number-input step="0.0001" min="0.0000" formControlName="markerArpEastEcc" controlName="markerArpUpEcc" [form]="itemGroup">Marker ARP East Eccentricity (m)</number-input>
                 <number-input step="1" min="-359" max="359" formControlName="alignmentFromTrueNorth" controlName="markerArpUpEcc" [form]="itemGroup">Alignment From True North (degrees)</number-input>
-                <text-input2 formControlName="antennaRadomeType" controlName="antennaRadomeType" [form]="itemGroup">Radome Type</text-input2>
-                <text-input2 formControlName="radomeSerialNumber" controlName="radomeSerialNumber" [form]="itemGroup">Radome Serial Number</text-input2>
-                <text-input2 formControlName="antennaCableType" controlName="antennaCableType" [form]="itemGroup">Antenna Cable Type</text-input2>
+                <text-input formControlName="antennaRadomeType" controlName="antennaRadomeType" [form]="itemGroup">Radome Type</text-input>
+                <text-input formControlName="radomeSerialNumber" controlName="radomeSerialNumber" [form]="itemGroup">Radome Serial Number</text-input>
+                <text-input formControlName="antennaCableType" controlName="antennaCableType" [form]="itemGroup">Antenna Cable Type</text-input>
                 <number-input step="0.01" min="0" formControlName="antennaCableLength" controlName="antennaCableLength" [form]="itemGroup">Antenna Cable Length (m)</number-input>
                 <datetime-input formControlName="dateInstalled" controlName="dateInstalled" [form]="itemGroup">Date Installed (UTC)</datetime-input>
                 <datetime-input formControlName="dateRemoved" controlName="dateRemoved" [index]="index" [form]="itemGroup">Date Removed (UTC)</datetime-input>

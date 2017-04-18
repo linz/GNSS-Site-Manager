@@ -16,18 +16,18 @@
         </div>
         <div class="margin-bottom15" *ngIf=" siteLocation != null ">
             <div [formGroup]="siteLocationForm" class="form-group">
-                <text-input2 formControlName="city" controlName="city" [form]="siteLocationForm">City / Town</text-input2>
-                <text-input2 formControlName="state" controlName="state" [form]="siteLocationForm">State</text-input2>
-                <text-input2 formControlName="countryCodeISO" controlName="countryCodeISO" [form]="siteLocationForm">Country Code ISO</text-input2>
-                <text-input2 formControlName="approximatePositionITRF_x" controlName="approximatePositionITRF_x" [form]="siteLocationForm"
-                   >Approximate position ITRF X</text-input2>
-                <text-input2 formControlName="approximatePositionITRF_y" controlName="approximatePositionITRF_y" [form]="siteLocationForm"
-                   >Approximate position ITRF Y</text-input2>
-                <text-input2 formControlName="approximatePositionITRF_z" controlName="approximatePositionITRF_z" [form]="siteLocationForm"
-                   >Approximate position ITRF Z</text-input2>
-                <text-input2 formControlName="approximatePositionITRF_elevationMEllips" controlName="approximatePositionITRF_elevationMEllips"
-                    [form]="siteLocationForm">Approximate position ITRF elevationMEllips</text-input2>
-                <text-input2 formControlName="tectonicPlate" controlName="tectonicPlate" [form]="siteLocationForm">Tectonic Plate</text-input2>
+                <text-input formControlName="city" controlName="city" [form]="siteLocationForm">City / Town</text-input>
+                <text-input formControlName="state" controlName="state" [form]="siteLocationForm">State</text-input>
+                <text-input formControlName="countryCodeISO" controlName="countryCodeISO" [form]="siteLocationForm">Country Code ISO</text-input>
+                <text-input formControlName="approximatePositionITRF_x" controlName="approximatePositionITRF_x" [form]="siteLocationForm"
+                   >Approximate position ITRF X</text-input>
+                <text-input formControlName="approximatePositionITRF_y" controlName="approximatePositionITRF_y" [form]="siteLocationForm"
+                   >Approximate position ITRF Y</text-input>
+                <text-input formControlName="approximatePositionITRF_z" controlName="approximatePositionITRF_z" [form]="siteLocationForm"
+                   >Approximate position ITRF Z</text-input>
+                <text-input formControlName="approximatePositionITRF_elevationMEllips" controlName="approximatePositionITRF_elevationMEllips"
+                    [form]="siteLocationForm">Approximate position ITRF elevationMEllips</text-input>
+                <text-input formControlName="tectonicPlate" controlName="tectonicPlate" [form]="siteLocationForm">Tectonic Plate</text-input>
                 <textarea-input formControlName="notes" controlName="notes" [form]="siteLocationForm">Notes</textarea-input>
             </div>
         </div>

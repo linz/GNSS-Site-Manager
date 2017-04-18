@@ -32,7 +32,7 @@
         </div>
         <div *ngIf="frequencyStandard != null" [ngClass]="{'container-dirty': frequencyStandard.dateDeleted}">
             <div class="form-group">
-                <text-input2 formControlName="standardType" controlName="standardType" [form]="itemGroup">Standard Type</text-input2>
+                <text-input formControlName="standardType" controlName="standardType" [form]="itemGroup">Standard Type</text-input>
                 <number-input formControlName="inputFrequency" controlName="inputFrequency" [form]="itemGroup">Input Frequency</number-input>
                 <datetime-input formControlName="startDate" controlName="startDate" [form]="itemGroup">Date Installed (UTC)</datetime-input>
                 <datetime-input formControlName="endDate" controlName="endDate" [index]="index" [form]="itemGroup">Date Removed (UTC)</datetime-input>
