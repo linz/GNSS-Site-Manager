@@ -6,7 +6,7 @@ import { ConstantsService, DialogService, MiscUtils,
          SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
 import { SiteLogViewModel, ViewSiteLog } from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
-import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party2-group.component';
+import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';

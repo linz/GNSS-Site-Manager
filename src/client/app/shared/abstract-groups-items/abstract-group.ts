@@ -154,7 +154,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             this.sortUsingComparator(this.itemProperties);
         }
         console.debug(this.getItemName() + ' Collection sorted:', this.itemProperties);
-        console.debug('  and siteLogModel is: ', this._siteLogModel);
     }
 
     setItemsOriginalCollection(itemProperties: T[]) {

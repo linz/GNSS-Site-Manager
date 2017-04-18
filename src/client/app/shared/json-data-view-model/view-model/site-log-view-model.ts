@@ -5,7 +5,7 @@ import { LocalEpisodicEffectViewModel } from '../../../local-episodic-effect/loc
 import { HumiditySensorViewModel } from '../../../humidity-sensor/humidity-sensor-view-model';
 import { PressureSensorViewModel } from '../../../pressure-sensor/pressure-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../../temperature-sensor/temperature-sensor-view-model';
-import { ResponsiblePartyViewModel } from '../../../responsible-party/responsible-party2-view-model';
+import { ResponsiblePartyViewModel } from '../../../responsible-party/responsible-party-view-model';
 import { GnssReceiverViewModel } from '../../../gnss-receiver/gnss-receiver-view-model';
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel

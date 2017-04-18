@@ -9,8 +9,8 @@ import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-v
 import { PressureSensorViewModel } from '../../pressure-sensor/pressure-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
 import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-sensor-view-model';
-import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-party2-view-model';
-import { SiteLogViewModel, ViewSiteLog } from './view-model/site-log-view-model';
+import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-party-view-model';
+import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, doWriteViewToData } from './data-view-translator';
 import { FieldMaps } from './field-maps';
