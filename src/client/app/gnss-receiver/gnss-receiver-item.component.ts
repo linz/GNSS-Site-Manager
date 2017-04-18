@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, AbstractControl } from '@angular/forms';
+import { FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { DialogService } from '../shared/index';
@@ -24,7 +24,9 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
 
     ngOnInit() {
         this.setupForm();
-        this.patchForm();
+        setTimeout(() => {
+            this.patchForm();
+        }, 0);
     }
 
     protected patchForm() {
@@ -59,7 +61,7 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
             satelliteSystem: [''],//, [Validators.maxLength(100)]],
             elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
             temperatureStabilization: [''],//, [Validators.maxLength(100)]],
-            notes: [''],//, [Validators.maxLength(2000)]],
+            notes: ['', [Validators.maxLength(2)]],
         });
         // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
         this.addToGroupArray(this.itemGroup);
