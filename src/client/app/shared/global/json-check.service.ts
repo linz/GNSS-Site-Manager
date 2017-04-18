@@ -64,7 +64,7 @@ export class JsonCheckService {
         faultZonesNearby: '',
         distanceActivity: '',
         notes: ''
-    }
+    };
 
   private responsibleParty: any = {
     individualName: {

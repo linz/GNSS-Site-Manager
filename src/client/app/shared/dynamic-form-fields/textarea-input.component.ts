@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
 import { AbstractGnssControls } from './abstract-gnss-controls';
 
@@ -15,8 +15,7 @@ import { AbstractGnssControls } from './abstract-gnss-controls';
         }
     ]
 })
-export class TextAreaInputComponent extends AbstractGnssControls implements ControlValueAccessor {
-    @Input('model') _model: string = '';
+export class TextAreaInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
     @Input() index: string = '0';
     @Input() name: string = '';
     @Input() public label: string = '';
@@ -26,6 +25,7 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
     // controlName & form needed for validation
     @Input() controlName: string;
     @Input() form: FormGroup;
+    private _model: string = '';
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
@@ -33,15 +33,6 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
     ngOnInit() {
         this.checkPreConditions();
         super.setForm(this.form);
-    }
-
-    private checkPreConditions() {
-        if (!this.controlName || this.controlName.length === 0) {
-            console.error('TextAreaInputComponent - controlName Input is required');
-        }
-        if (!this.form) {
-            console.error('TextAreaInputComponent - form Input is required');
-        }
     }
 
     get model(): string {
@@ -68,5 +59,14 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
 
     registerOnTouched(fn: Function) {
         this.propagateTouch = fn;
+    }
+
+    private checkPreConditions() {
+        if (!this.controlName || this.controlName.length === 0) {
+            console.error('TextAreaInputComponent - controlName Input is required');
+        }
+        if (!this.form) {
+            console.error('TextAreaInputComponent - form Input is required');
+        }
     }
 }

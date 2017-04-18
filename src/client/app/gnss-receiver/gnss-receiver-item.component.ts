@@ -24,34 +24,15 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
 
     ngOnInit() {
         this.setupForm();
-        // this._changeDetectionRef.detectChanges();
         this.patchForm();
-        // this._changeDetectionRef.detectChanges();
-    }
-
-    private setupForm() {
-        this.itemGroup = this.formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-            receiverType: [''],//, [Validators.maxLength(100)]],
-            manufacturerSerialNumber: [''],//, [Validators.maxLength(100)]],
-            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],   // Validators.required,, dateTimeFormatValidator Validators.maxLength(19)
-            dateRemoved: [''],//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
-            firmwareVersion: [''],//, [Validators.maxLength(100)]],
-            satelliteSystem: [''],//, [Validators.maxLength(100)]],
-            elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
-            temperatureStabilization: [''],//, [Validators.maxLength(100)]],
-            notes: [''],//, [Validators.maxLength(2000)]],
-        });
-        // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
-        this.addToGroupArray(this.itemGroup);
     }
 
     protected patchForm() {
         this.itemGroup.patchValue(this.gnssReceiver);
         // This item may now be at a new index from what it was created at.  Patch the array item at that index.
         // (<AbstractControl> this.groupArray.controls[this.getIndex()]).patchValue(this.gnssReceiver);
-        // console.debug(`GnssReceiverItemComponent - setup (patch) form - index: ${this.getIndex()} - dateInstalled: `, this.gnssReceiver.dateInstalled);
+        // console.debug(`GnssReceiverItemComponent - setup (patch) form - index: ${this.getIndex()} -
+        //   dateInstalled: `, this.gnssReceiver.dateInstalled);
         // console.debug('  groupArray: ', this.groupArray);
 
         // TODO - Validator Assistant - check validation before applying it so can skip it during patch ????
@@ -64,5 +45,23 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
 
     getItemName(): string {
         return 'GNSS Receiver';
+    }
+
+    private setupForm() {
+        this.itemGroup = this.formBuilder.group({
+            // turn off all Validators until work out solution to 'was false now true' problem
+            // TODO Fix Validators
+            receiverType: [''],//, [Validators.maxLength(100)]],
+            manufacturerSerialNumber: [''],//, [Validators.maxLength(100)]],
+            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],
+            dateRemoved: [''],//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
+            firmwareVersion: [''],//, [Validators.maxLength(100)]],
+            satelliteSystem: [''],//, [Validators.maxLength(100)]],
+            elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
+            temperatureStabilization: [''],//, [Validators.maxLength(100)]],
+            notes: [''],//, [Validators.maxLength(2000)]],
+        });
+        // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
+        this.addToGroupArray(this.itemGroup);
     }
 }

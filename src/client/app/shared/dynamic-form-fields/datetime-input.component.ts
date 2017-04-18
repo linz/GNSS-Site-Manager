@@ -3,6 +3,9 @@ import { NG_VALUE_ACCESSOR, ControlValueAccessor, NG_VALIDATORS, FormControl, Fo
 import { AbstractGnssControls } from './abstract-gnss-controls';
 import { MiscUtils } from '../index';
 
+const defaultTZms: string = '.000Z';
+const validDisplayFormat: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g;
+
 /**
  * Validator to apply in the model based form in the .ts file.  This validates that the form is correct.
  */
@@ -39,11 +42,8 @@ export function createDateTimeRequiredIfNotCurrentValidator(index: number) {
         } else {
             return null;
         }
-    }
+    };
 }
-
-const defaultTZms: string = '.000Z';
-const validDisplayFormat: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g;
 
 /**
  * This class represents the DatetimeInputComponent for choosing dates.
@@ -73,33 +73,47 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     @Input() form: FormGroup;
     @Input() controlName: string;
 
-  private _datetimeDisplay: string = '';
-  private _datetimeDisplayLast: string = '';
   public _datetime: string = '';
   public _datetimeLast: string = '';
 
-  private datetimeModel: Date;
+  public datetimeModel: Date;
 
-  private hours: number = 0;
-  private hoursString: string = '00';
-  private minutes: number = 0;
-  private minutesString: string = '00';
-  private seconds: number = 0;
-  private secondsString: string = '00';
+  public hoursString: string = '00';
+  public minutesString: string = '00';
+  public secondsString: string = '00';
 
-  private invalidHours: boolean = false;
-  private invalidMinutes: boolean = false;
-  private invalidSeconds: boolean = false;
-  private showDatetimePicker: boolean = false;
+  public invalidHours: boolean = false;
+  public invalidMinutes: boolean = false;
+  public invalidSeconds: boolean = false;
+  public showDatetimePicker: boolean = false;
+
+    private _datetimeDisplay: string = '';
+    private _datetimeDisplayLast: string = '';
+    private hours: number = 0;
+    private minutes: number = 0;
+    private seconds: number = 0;
 
   private datetimeSuffix: string = '.000Z';
   private datetimeLast: string = '';
 
   private miscUtils: any = MiscUtils;
 
-  private propagateChange: Function = (_: any) => { };
-  private propagateTouch: Function = () => { };
-  private validateFn: Function = () => { };
+    static formatTimeToDisplay(dateStr: string, returnAsIsUponFailure: boolean = false): string {
+        let datetimeDisplay: string = '';
+        if (dateStr !== null) {
+            datetimeDisplay = dateStr.replace('T', ' ');    // .substring(0, 19)
+            datetimeDisplay = datetimeDisplay.replace(/\.\d\d\dZ/, ''); // Milliseconds <TimeZone = Z>
+        } else {
+            if (returnAsIsUponFailure) {    // TODO THIS NO LONGER NEEDED
+                return dateStr;
+            }
+        }
+        return datetimeDisplay;
+    }
+
+    public propagateChange: Function = (_: any) => { };
+    public propagateTouch: Function = () => { };
+    public validateFn: Function = () => { };
 
   constructor(private elemRef: ElementRef) {
       super();
@@ -109,25 +123,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
       this.checkPreConditions();
       this.createValidators();
       super.setForm(this.form);
-  }
-
-  private checkPreConditions() {
-      if (!this.controlName || this.controlName.length === 0) {
-          console.error('DatetimeInputComponent - controlName Input is required');
-      }
-      if (!this.form) {
-          console.error('DatetimeInputComponent - form Input is required');
-      }
-  }
-
-/**
- * Validators with closures need to be created based on @Input attributes.  Others can be set in the Model form in the .ts.
- */
-  private createValidators() {
-      if (this.requiredIfNotCurrent === true && this.index > 0 ) {
-          throw new Error("DatetimeInputComponent - requiredIfNotCurrent Input requires an index input");
-      }
-      this.validateFn = createDateTimeRequiredIfNotCurrentValidator(this.index);
   }
 
   validate(c: FormControl): any {
@@ -415,20 +410,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     return null;
   }
 
-    static formatTimeToDisplay(dateStr: string, returnAsIsUponFailure: boolean = false): string {
-        let datetimeDisplay: string = '';
-        if (dateStr !== null) {
-            datetimeDisplay = dateStr.replace('T', ' ');    // .substring(0, 19)
-            datetimeDisplay = datetimeDisplay.replace(/\.\d\d\dZ/, ''); // Milliseconds <TimeZone = Z>
-        } else {
-            if (returnAsIsUponFailure) {    // TODO THIS NO LONGER NEEDED
-                return dateStr;
-            }
-        }
-        return datetimeDisplay;
-    }
-
-    private formatDisplayToTime(displayStr: string): string {
+      private formatDisplayToTime(displayStr: string): string {
         let datetime = '';
         if (displayStr !== null) {//} && displayStr.trim().length >= 19) {
             datetime = displayStr.replace(' ', 'T');
@@ -488,4 +470,23 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
     return index.toString();
   }
+
+    private checkPreConditions() {
+        if (!this.controlName || this.controlName.length === 0) {
+            console.error('DatetimeInputComponent - controlName Input is required');
+        }
+        if (!this.form) {
+            console.error('DatetimeInputComponent - form Input is required');
+        }
+    }
+
+    /**
+     * Validators with closures need to be created based on @Input attributes.  Others can be set in the Model form in the .ts.
+     */
+    private createValidators() {
+        if (this.requiredIfNotCurrent === true && this.index > 0 ) {
+            throw new Error('DatetimeInputComponent - requiredIfNotCurrent Input requires an index input');
+        }
+        this.validateFn = createDateTimeRequiredIfNotCurrentValidator(this.index);
+    }
 }

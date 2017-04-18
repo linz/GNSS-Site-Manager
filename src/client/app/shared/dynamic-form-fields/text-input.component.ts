@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, FormGroup, NG_VALIDATORS } from '@angular/forms';
+import { AbstractGnssControls } from './abstract-gnss-controls';
 
 @Component({
     moduleId: module.id,
@@ -12,36 +13,39 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         multi: true
     }]
 })
-export class TextInputComponent implements ControlValueAccessor {
-    @Input() model: string;
-    private _model: string = '';
+export class TextInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
     @Input() index: string = '0';
     @Input() name: string = '';
-    @Input() public label: string = '';
-    @Input() public required: boolean = false;
-    @Input() public minlength: string = '';
-    @Input() public maxlength: string = '';
+    @Input() label: string = '';
+    // controlName & form needed for validation
+    @Input() controlName: string;
+    @Input() form: FormGroup;
+    @Input() required: boolean = false;
 
-    //   configurationObject: any = null;
+    private _value: string = '';
+
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
 
-    get xmodel(): string {
-        return this._model;
+    ngOnInit() {
+        this.checkPreConditions();
+        super.setForm(this.form);
     }
 
-    set xmodel(value: string) {
-        if (value !== undefined && value !== this._model) {
-            console.log('set: ', value);
-            this._model = value;
+    get value(): string {
+        return this._value;
+    }
+
+    set value(value: string) {
+        if (value !== undefined && value !== this._value) {
+            this._value = value;
             this.propagateChange(value);
         }
     }
 
     writeValue(value: string) {
-        if (value !== undefined && value !== this._model) {
-            console.log('write value: ', value);
-            this.xmodel = value;
+        if (value !== undefined && value !== this.value) {
+            this.value = value;
         }
     }
 
@@ -54,10 +58,12 @@ export class TextInputComponent implements ControlValueAccessor {
         this.propagateTouch = fn;
     }
 
-    /* Output an event when the value in the field changes */
-    //   @Output() modelChange = new EventEmitter();
-    //   change(newValue:string) {
-    //     this.model = newValue;
-    //     this.modelChange.emit(newValue);
-    //   }
+    private checkPreConditions() {
+        if (!this.controlName || this.controlName.length === 0) {
+            console.error('TextAreaInputComponent - controlName Input is required');
+        }
+        if (!this.form) {
+            console.error('TextAreaInputComponent - form Input is required');
+        }
+    }
 }

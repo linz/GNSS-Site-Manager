@@ -5,6 +5,11 @@ import { ResponsiblePartyViewModel } from './responsible-party2-view-model';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
+    static siteContact = new ResponsiblePartyType('siteContact', 'Site Contact');
+    static siteMetadataCustodian = new ResponsiblePartyType('siteMetadataCustodian', 'Site Metadata Custodian');
+    static siteDataCenter = new ResponsiblePartyType('siteDataCenter', 'Site Data Center');
+    static siteDataSource = new ResponsiblePartyType('siteDataSource', 'Site Data Source');
+
     constructor(private value: string, private title: string) {
     }
 
@@ -15,11 +20,6 @@ export class ResponsiblePartyType {
     getTitle(): string {
         return this.title;
     }
-
-    static siteContact = new ResponsiblePartyType("siteContact", "Site Contact");
-    static siteMetadataCustodian = new ResponsiblePartyType("siteMetadataCustodian", "Site Metadata Custodian");
-    static siteDataCenter = new ResponsiblePartyType("siteDataCenter", "Site Data Center");
-    static siteDataSource = new ResponsiblePartyType("siteDataSource", "Site Data Source");
 }
 
 /**
@@ -38,6 +38,13 @@ export class ResponsiblePartyType {
 })
 export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePartyViewModel> implements OnInit {
     private _partyName: ResponsiblePartyType;
+
+    static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
+        let name1: string = obj1.individualName;
+        let name2: string = obj2.individualName;
+        return name1.localeCompare(name2);
+    }
+
     @Input()
     set partyName(partyName: ResponsiblePartyType) {
         this._partyName = partyName;
@@ -68,7 +75,7 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
 
     ngOnInit() {
         if (!this.partyName) {
-            throw new Error("Party attribute is required for ResponsiblePartyGroupComponent");
+            throw new Error('Party attribute is required for ResponsiblePartyGroupComponent');
         } else {
         }
 
@@ -76,19 +83,8 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm = new FormArray([]);
-        this.siteInfoForm.addControl(this.partyName.toString(), this.groupArrayForm);
-    }
-
     getItemName(): string {
         return this.partyName.getTitle();
-    }
-
-    static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
-        let name1: string = obj1.individualName;
-        let name2: string = obj2.individualName;
-        return name1.localeCompare(name2);
     }
 
     compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
@@ -97,5 +93,10 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
 
     newViewModelItem(blank?: boolean): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel(blank);
+    }
+
+    private setupForm() {
+        this.groupArrayForm = new FormArray([]);
+        this.siteInfoForm.addControl(this.partyName.toString(), this.groupArrayForm);
     }
 }

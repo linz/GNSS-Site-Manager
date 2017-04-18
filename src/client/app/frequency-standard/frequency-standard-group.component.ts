@@ -14,10 +14,8 @@ import { FormArray } from '@angular/forms';
 export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> implements OnInit {
     @Input() frequencyStandards: any;
 
-
- @Input()
+  @Input()
   set siteLogModel(siteLogModel: any) {
-     this._siteLogModel = siteLogModel;
     siteLogModel && this.setItemsCollection(siteLogModel.frequencyStandards);
   }
 
@@ -26,23 +24,18 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
     originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
   }
 
+    static compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
+
     ngOnInit() {
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('frequencyStandards', this.groupArrayForm);
-    }
-
     getItemName(): string {
     return 'Frequency Standard';
-  }
-
-  static compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
-    let date1: string = obj1.startDate;
-    let date2: string = obj2.startDate;
-    return AbstractGroup.compareDates(date1, date2);
   }
 
     compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
@@ -52,4 +45,9 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
   newViewModelItem(blank?: boolean): FrequencyStandardViewModel {
     return new FrequencyStandardViewModel(blank);
   }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('frequencyStandards', this.groupArrayForm);
+    }
 }

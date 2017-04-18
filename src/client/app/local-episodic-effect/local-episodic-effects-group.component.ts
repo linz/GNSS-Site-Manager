@@ -12,6 +12,12 @@ import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model
     templateUrl: 'local-episodic-effects-group.component.html',
 })
 export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> implements OnInit {
+    static compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
+
     @Input()
     set siteLogModel(siteLogModel: any) {
         siteLogModel && this.setItemsCollection(siteLogModel.localEpisodicEffects);
@@ -30,19 +36,8 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('localEpisodicEffects', this.groupArrayForm);
-    }
-
     getItemName(): string {
         return 'Local Episodic Effect';
-    }
-
-    static compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
     }
 
     compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
@@ -54,5 +49,10 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
          */
     newViewModelItem(blank?: boolean): LocalEpisodicEffectViewModel {
         return new LocalEpisodicEffectViewModel(blank);
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('localEpisodicEffects', this.groupArrayForm);
     }
 }

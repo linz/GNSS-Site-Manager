@@ -12,6 +12,13 @@ import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
   templateUrl: 'temperature-sensors-group.component.html',
 })
 export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> implements OnInit {
+
+    static compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
+
   @Input()
   set siteLogModel(siteLogModel: any) {
     siteLogModel && this.setItemsCollection(siteLogModel.temperatureSensors);
@@ -32,19 +39,8 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('temperatureSensors', this.groupArrayForm);
-    }
-
   getItemName(): string {
     return 'Temperature Sensor';
-  }
-
-  static compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
-    let date1: string = obj1.startDate;
-    let date2: string = obj2.startDate;
-    return AbstractGroup.compareDates(date1, date2);
   }
 
     compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
@@ -54,4 +50,9 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
   newViewModelItem(blank?: boolean): TemperatureSensorViewModel {
     return new TemperatureSensorViewModel(blank);
   }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('temperatureSensors', this.groupArrayForm);
+    }
 }

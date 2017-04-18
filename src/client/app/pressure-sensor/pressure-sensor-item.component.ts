@@ -28,6 +28,14 @@ export class PressureSensorItemComponent extends AbstractItem implements OnInit 
         this.patchForm();
     }
 
+    protected patchForm() {
+        this.itemGroup.setValue(this.pressureSensor);
+    }
+
+  getItemName(): string {
+    return 'Pressure Sensor';
+  }
+
     private setupForm() {
         this.itemGroup = this.formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
@@ -48,12 +56,4 @@ export class PressureSensorItemComponent extends AbstractItem implements OnInit 
         });
         this.groupArray.push(this.itemGroup);
     }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.pressureSensor);
-    }
-
-  getItemName(): string {
-    return 'Pressure Sensor';
-  }
 }

@@ -28,6 +28,14 @@ export class HumiditySensorItemComponent extends AbstractItem implements OnInit 
         this.patchForm();
     }
 
+    protected patchForm() {
+        this.itemGroup.setValue(this.humiditySensor);
+    }
+
+    getItemName(): string {
+        return 'Humidity Sensor';
+    }
+
     private setupForm() {
         this.itemGroup = this.formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
@@ -48,13 +56,5 @@ export class HumiditySensorItemComponent extends AbstractItem implements OnInit 
             deletedReason: ''
         });
         this.groupArray.push(this.itemGroup);
-    }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.humiditySensor);
-    }
-
-    getItemName(): string {
-        return 'Humidity Sensor';
     }
 }

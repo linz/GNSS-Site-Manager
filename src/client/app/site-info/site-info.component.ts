@@ -28,16 +28,22 @@ import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vap
   templateUrl: 'site-info.component.html'
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
+    public miscUtils: any = MiscUtils;
+    // public siteContactName: string = ConstantsService.SITE_CONTACT;
+    // public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
+    // public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
+    // public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
     public siteInfoForm: FormGroup;                 // model driven forms
+    public hasEditRole: boolean = false;
     // public formIsDirty: boolean = false;    // Necessary as need to compose dirty of template and model forms
 
     // private SITE_CONTACT: ResponsiblePartyType = ResponsiblePartyType.siteContact;
-    private responsiblePartyType: any = ResponsiblePartyType;
+    public responsiblePartyType: any = ResponsiblePartyType;
+    public siteLogOrigin: ViewSiteLog;
+    public siteLogModel: ViewSiteLog;
 
     private siteId: string;
   private isLoading: boolean = false;
-  private siteLogOrigin: ViewSiteLog;
-  private siteLogModel: ViewSiteLog;
   private siteIdentification: any = null;
   private siteLocation: any = {};
   private siteContacts: Array<any> = [];
@@ -47,25 +53,18 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
-  public miscUtils: any = MiscUtils;
-  // public siteContactName: string = ConstantsService.SITE_CONTACT;
-  // public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
-  // public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
-  // public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
-  public hasEditRole: boolean = false;
+    private status: any = {
+        oneAtATime: false,
+        isSiteInfoGroupOpen: true,
+        isSiteMediaOpen: false,
+        isMetaCustodianOpen: false,
+        // hasNewSiteContact: false,
+        // hasNewSiteMetadataCustodian: false,
+        // hasNewSiteDataCenter: false,
+        // hasNewSiteDataSource: false,
+    };
 
-  private status: any = {
-    oneAtATime: false,
-    isSiteInfoGroupOpen: true,
-    isSiteMediaOpen: false,
-    isMetaCustodianOpen: false,
-    // hasNewSiteContact: false,
-    // hasNewSiteMetadataCustodian: false,
-    // hasNewSiteDataCenter: false,
-    // hasNewSiteDataSource: false,
-  };
-
-  private authSubscription: Subscription;
+    private authSubscription: Subscription;
 
   /**
    * Creates an instance of the SiteInfoComponent with the injected Router/ActivatedRoute/CorsSite Services.
@@ -103,28 +102,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.setupSubscriptions();
   }
 
-    private setupForm() {
-        this.siteInfoForm = this.formBuilder.group({
-        });
-    }
-
-    /**
-     * Template and Model driven forms are handled differently and separately
-     */
-    private setupSubscriptions() {
-        this.siteInfoForm.valueChanges.debounceTime(500).subscribe((value: any) => {
-            if (this.siteInfoForm.dirty) {
-                this.siteLogService.sendFormModifiedStateMessage(true);
-                console.log('form dirty - yes: ', value);
-                console.log('  and siteLogModel: ', this.siteLogModel);
-            } else {
-                this.siteLogService.sendFormModifiedStateMessage(false);
-                console.log('form dirty - no');
-            }
-        });
-  }
-
-  /**
+   /**
    * Retrieve relevant site/setup/log information from DB based on given Site Id
    */
   public loadSiteInfoData() {
@@ -252,58 +230,41 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     );
   }
 
-    /**
-     * The array items in the form data (eg. gnssAntennas) need to be sorted according to the app desired order
-     * (see AbstractGroup / sortingDirectionAscending.  It will likely always be descending so that is how it is seen in the form.
-     * @param formValue
-     */
-    private sortArrays(formValue: any) {
-        let items: string[] = Object.keys(formValue);
-        for (let item of items) {
-            if (Array.isArray(formValue[item])) {
-                let comparator: any = this.returnAssociatedComparator(item);
-                if (comparator) {
-                    formValue[item].sort(comparator);//this.compare);
-                }
-            }
-        }
-    }
-
     returnAssociatedComparator(itemName: string): any {
         switch (itemName) {
-            case "siteLocation":
+            case 'siteLocation':
                 console.warn(`createComparator - ${itemName} does not have a comparator`);
                 // And this should never get called as it isn't an array
                 return null;
-            case "siteIdentification":
+            case 'siteIdentification':
                 console.warn(`createComparator - ${itemName} does not have a comparator`);
                 // And this should never get called as it isn't an array
                 return null;
-            case "siteContact":
+            case 'siteContact':
                 return ResponsiblePartyGroupComponent.compare;
-            case "siteMetadataCustodian":
+            case 'siteMetadataCustodian':
                 return ResponsiblePartyGroupComponent.compare;
-            // case "siteDataCenter":
+            // case 'siteDataCenter':
             //     return ResponsiblePartyGroupComponent.compare;
-            case "siteDataSource":
+            case 'siteDataSource':
                 return ResponsiblePartyGroupComponent.compare;
-            case "gnssReceivers":
+            case 'gnssReceivers':
                 return GnssReceiversGroupComponent.compare;
-            case "gnssAntennas":
+            case 'gnssAntennas':
                 return GnssAntennaGroupComponent.compare;
-            case "frequencyStandards":
+            case 'frequencyStandards':
                 return FrequencyStandardGroupComponent.compare;
-            case "humiditySensors":
+            case 'humiditySensors':
                 return HumiditySensorsGroupComponent.compare;
-            case "pressureSensors":
+            case 'pressureSensors':
                 return PressureSensorsGroupComponent.compare;
-            case "localEpisodicEffects":
+            case 'localEpisodicEffects':
                 return LocalEpisodicEffectsGroupComponent.compare;
-            case "surveyedLocalTies":
+            case 'surveyedLocalTies':
                 return SurveyedLocalTiesGroupComponent.compare;
-            case "temperatureSensors":
+            case 'temperatureSensors':
                 return TemperatureSensorsGroupComponent.compare;
-            case "waterVaporSensors":
+            case 'waterVaporSensors':
                 return WaterVaporSensorsGroupComponent.compare;
             default:
                 throw new Error(`Unknown item - unable to return comparator for item ${itemName}`);
@@ -332,8 +293,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
    * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
    */
   public confirmCloseSiteInfoPage(): Promise<boolean> {
-    let msg: string = 'You have made changes to the "' + this.siteId + '" Site Log. '
-                    + 'Close the page will lose any unsaved changes.';
+    let msg: string = `You have made changes to the ${this.siteId} Site Log. Close the page will lose any unsaved changes.`;
     let that: any = this;
     return new Promise<boolean>((resolve, reject) => {
         this.dialogService.confirmCloseDialog(msg,
@@ -353,13 +313,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     console.log('siteLogOrigin: ', this.siteLogOrigin);
   }
 
-  private setupAuthSubscription(): Subscription {
-    return this.userAuthService.userLoadededEvent.subscribe((user: User) => {
-        this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
-    });
-  }
-
-  public isFormModified(): boolean {
+   public isFormModified(): boolean {
       // console.debug('isFormModified - controls: ', this.siteInfoForm.controls);
       // console.debug('  dirty?: ', this.siteInfoForm.dirty)
       // // console.debug('  and humiditySensorItemComponent?: ', this.humiditySensorGroupComponent.maybeDirty);
@@ -370,4 +324,48 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       console.log('newSave: ', form);
       this.save(form.value);
   }
+
+    private setupForm() {
+        this.siteInfoForm = this.formBuilder.group({
+        });
+    }
+
+    private setupAuthSubscription(): Subscription {
+        return this.userAuthService.userLoadededEvent.subscribe((user: User) => {
+            this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
+        });
+    }
+
+    /**
+     * Template and Model driven forms are handled differently and separately
+     */
+    private setupSubscriptions() {
+        this.siteInfoForm.valueChanges.debounceTime(500).subscribe((value: any) => {
+            if (this.siteInfoForm.dirty) {
+                this.siteLogService.sendFormModifiedStateMessage(true);
+                console.log('form dirty - yes: ', value);
+                console.log('  and siteLogModel: ', this.siteLogModel);
+            } else {
+                this.siteLogService.sendFormModifiedStateMessage(false);
+                console.log('form dirty - no');
+            }
+        });
+    }
+
+    /**
+     * The array items in the form data (eg. gnssAntennas) need to be sorted according to the app desired order
+     * (see AbstractGroup / sortingDirectionAscending.  It will likely always be descending so that is how it is seen in the form.
+     * @param formValue
+     */
+    private sortArrays(formValue: any) {
+        let items: string[] = Object.keys(formValue);
+        for (let item of items) {
+            if (Array.isArray(formValue[item])) {
+                let comparator: any = this.returnAssociatedComparator(item);
+                if (comparator) {
+                    formValue[item].sort(comparator);//this.compare);
+                }
+            }
+        }
+    }
 }

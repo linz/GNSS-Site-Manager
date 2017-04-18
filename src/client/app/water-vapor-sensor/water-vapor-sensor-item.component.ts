@@ -1,7 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
 import { DialogService } from '../shared/index';
 
@@ -28,6 +27,14 @@ export class WaterVaporSensorItemComponent extends AbstractItem implements OnIni
         this.patchForm();
     }
 
+    protected patchForm() {
+        this.itemGroup.setValue(this.waterVaporSensor);
+    }
+
+  getItemName(): string {
+    return 'Water Vapor Sensor';
+  }
+
     private setupForm() {
         this.itemGroup = this.formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
@@ -46,12 +53,4 @@ export class WaterVaporSensorItemComponent extends AbstractItem implements OnIni
         });
         this.groupArray.push(this.itemGroup);
     }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.waterVaporSensor);
-    }
-
-  getItemName(): string {
-    return 'Water Vapor Sensor';
-  }
 }

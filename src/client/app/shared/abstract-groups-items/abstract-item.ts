@@ -192,7 +192,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      * @param index
      */
     private patchItemForm(index: number) {
-        if (index == this.index) {
+        if (index === this.index) {
             this.patchForm();
         }
     }

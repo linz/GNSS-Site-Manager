@@ -1,13 +1,13 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
 
 export abstract class AbstractGnssControls {
-    private superForm: FormGroup
+    private superForm: FormGroup;
 
     protected setForm(form: FormGroup) {
         this.superForm = form;
     }
 
-    getErrorReport(controlId: string) {
+    protected getErrorReport(controlId: string) {
         let errString: string = '';
         let control: AbstractControl;
         // Force an error as this field should have been set

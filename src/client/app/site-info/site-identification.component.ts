@@ -11,17 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     templateUrl: 'site-identification.component.html'
 })
 export class SiteIdentificationComponent implements OnInit {
-    private miscUtils: any = MiscUtils;
-
     @Input('siteInfoForm') siteInfoForm: FormGroup;
-
-    private siteIdentificationForm: FormGroup;
-
-    private _siteLogModel: any;
-    private _originalSiteLogModel: any;
-
-    private siteIdentification: any;
-    private siteIdentificationOrig: any;
 
     status: any = {
         isSiteIdentificationGroupOpen: false
@@ -38,6 +28,16 @@ export class SiteIdentificationComponent implements OnInit {
         }
     }
 
+    private miscUtils: any = MiscUtils;
+
+    private siteIdentificationForm: FormGroup;
+
+    private _siteLogModel: any;
+    private _originalSiteLogModel: any;
+
+    private siteIdentification: any;
+    private siteIdentificationOrig: any;
+
     get siteLogModel(): any {
         return this._siteLogModel;
     }
@@ -45,7 +45,8 @@ export class SiteIdentificationComponent implements OnInit {
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
         this._originalSiteLogModel = originalSiteLogModel;
-        this.siteIdentificationOrig = originalSiteLogModel && Object.keys(originalSiteLogModel).length > 0 ? originalSiteLogModel.siteIdentification : {};
+        this.siteIdentificationOrig = originalSiteLogModel &&
+            Object.keys(originalSiteLogModel).length > 0 ? originalSiteLogModel.siteIdentification : {};
     }
 
     get originalSiteLogModel(): any {

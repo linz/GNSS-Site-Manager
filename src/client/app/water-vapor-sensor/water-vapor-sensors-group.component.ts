@@ -12,6 +12,12 @@ import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
   templateUrl: 'water-vapor-sensors-group.component.html',
 })
 export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSensorViewModel> implements OnInit {
+    static compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
+
   @Input()
   set siteLogModel(siteLogModel: any) {
     siteLogModel && this.setItemsCollection(siteLogModel.waterVaporSensors);
@@ -32,20 +38,8 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('waterVaporSensors', this.groupArrayForm);
-    }
-
-
-  getItemName(): string {
+   getItemName(): string {
     return 'Water Vapor Sensor';
-  }
-
-  static compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
-    let date1: string = obj1.startDate;
-    let date2: string = obj2.startDate;
-    return AbstractGroup.compareDates(date1, date2);
   }
 
     compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
@@ -55,4 +49,9 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
   newViewModelItem(blank?: boolean): WaterVaporSensorViewModel {
     return new WaterVaporSensorViewModel(blank);
   }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('waterVaporSensors', this.groupArrayForm);
+    }
 }

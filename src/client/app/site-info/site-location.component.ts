@@ -10,14 +10,7 @@ import { MiscUtils } from '../shared/global/misc-utils';
     templateUrl: 'site-location.component.html'
 })
 export class SiteLocationComponent implements OnInit, OnDestroy {
-    private miscUtils: any = MiscUtils;
-
     @Input('siteInfoForm') siteInfoForm: FormGroup;
-
-    private siteLocationForm: FormGroup;
-
-    private siteLocation: any;
-    private siteLocationOrig: any;
 
     status: any = {
         isSiteLocationGroupOpen: false
@@ -34,8 +27,16 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        this.siteLocationOrig = originalSiteLogModel && Object.keys(originalSiteLogModel).length > 0 ? originalSiteLogModel.siteLocation : {};
+        this.siteLocationOrig = originalSiteLogModel &&
+        Object.keys(originalSiteLogModel).length > 0 ? originalSiteLogModel.siteLocation : {};
     }
+
+    private miscUtils: any = MiscUtils;
+
+    private siteLocationForm: FormGroup;
+
+    private siteLocation: any;
+    private siteLocationOrig: any;
 
     constructor(private formBuilder: FormBuilder, private _changeDetectionRef : ChangeDetectorRef) {}
 

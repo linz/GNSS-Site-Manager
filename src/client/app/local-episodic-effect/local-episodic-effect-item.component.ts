@@ -28,9 +28,17 @@ export class LocalEpisodicEffectItemComponent extends AbstractItem implements On
         this.patchForm();
     }
 
+    protected patchForm() {
+        this.itemGroup.setValue(this.localEpisodicEffect);
+    }
+
+    getItemName(): string {
+        return 'Local Episodic Effect';
+    }
+
     private setupForm() {
         this.itemGroup = this.formBuilder.group({
-             // turn off all Validators until work out solution to 'was false now true' problem
+            // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
             event: [''],//, [Validators.required, Validators.minLength(100)]],
             startDate: [''],//, [Validators.required]],
@@ -41,13 +49,5 @@ export class LocalEpisodicEffectItemComponent extends AbstractItem implements On
             deletedReason: ''
         });
         this.groupArray.push(this.itemGroup);
-    }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.localEpisodicEffect);
-    }
-
-    getItemName(): string {
-        return 'Local Episodic Effect';
     }
 }

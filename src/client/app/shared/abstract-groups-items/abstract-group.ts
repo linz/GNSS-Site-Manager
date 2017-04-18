@@ -20,6 +20,12 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
 
     /**
+     * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
+     * It is true by default.
+     */
+    protected _unlimitedItemsAllowed: boolean = true;
+
+    /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      * @type {{name: EventNames}}
      */
@@ -41,31 +47,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     private itemOriginalProperties: T[];
 
-    protected _siteLogModel: SiteLogViewModel;
-
-    get siteLogModel(): SiteLogViewModel {
-        //siteInfoForm.
-        return this._siteLogModel;
-    }
-
-    /**
-     * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
-     * It is true by default.
-     */
-    protected _unlimitedItemsAllowed: boolean = true;
-
-    set unlimitedItems(unlimitedItemsAllowed: boolean) {
-        this._unlimitedItemsAllowed = unlimitedItemsAllowed;
-    }
-
-    get unlimitedItems(): boolean {
-        return this._unlimitedItemsAllowed;
-    }
-
-    isUnlimitedItemsAllowed(): boolean {
-        return this.unlimitedItems;
-    }
-
     /**
      * This is used in comparators but isn't a comparator - just a helper function.  In the comparator, extract the dates
      * (using getDateInstalled(), getBeginPositionDate(), ...) and return compareDates(date1, date2)
@@ -85,49 +66,22 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
     }
 
-    /**
+    set unlimitedItems(unlimitedItemsAllowed: boolean) {
+        this._unlimitedItemsAllowed = unlimitedItemsAllowed;
+    }
+
+    get unlimitedItems(): boolean {
+        return this._unlimitedItemsAllowed;
+    }
+
+    isUnlimitedItemsAllowed(): boolean {
+        return this.unlimitedItems;
+    }
+
+     /**
      * Get the item name to be used in the subclasses and displayed in the HTML.
      */
     abstract getItemName(): string;
-
-    private addNewItem(): void {
-        this.isGroupOpen = true;
-
-        if (!this.getItemsCollection()) {
-            this.setItemsCollection([]);
-        }
-
-        let newItem: T = <T> this.newViewModelItem();
-        let newItemOrig: T = this.newViewModelItem(newItemShouldBeBlank);
-
-        console.log('New View Model: ', newItem);
-        console.log('itemProperties before new item: ', this.itemProperties);
-        console.log('itemPropertiesOrig before new item: ', this.itemOriginalProperties);
-
-        // Add the new humidity sensor as current one
-        this.addToItemsCollection(newItem, newItemOrig);
-        this.setInserted(newItem);
-
-        console.log('itemProperties after new item: ', this.itemProperties);
-
-        if (this.itemProperties.length > 1) {
-            // Let the ViewModels do anything they like with the previous item - such as set end/removal date
-            // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
-            // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
-            if (sortingDirectionAscending) {
-                this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
-            } else {
-                this.itemProperties[1].setFinalValuesBeforeCreatingNewItem();
-            }
-        }
-
-        // Let the parent form know that it now has a new child
-        this.groupArrayForm.markAsDirty();
-        this.siteInfoForm.markAsDirty();
-        console.log('itemProperties after everythign in addNew: ', this.itemProperties);
-        console.log('itemOriginalProperties after everythign in addNew: ', this.itemOriginalProperties);
-        console.log(' siteLogModel after addNew: ', this._siteLogModel);
-    }
 
     /**
      * The child class needs to define this to make an instance of itself.
@@ -272,6 +226,44 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         // (high to low start date).  Thus to access the original dataItems we need to reverse the index.
         let newIndex: number = this.itemProperties.length - itemIndex - 1;
         this.itemProperties.splice(newIndex, 1);
+    }
+
+    private addNewItem(): void {
+        this.isGroupOpen = true;
+
+        if (!this.getItemsCollection()) {
+            this.setItemsCollection([]);
+        }
+
+        let newItem: T = <T> this.newViewModelItem();
+        let newItemOrig: T = this.newViewModelItem(newItemShouldBeBlank);
+
+        console.log('New View Model: ', newItem);
+        console.log('itemProperties before new item: ', this.itemProperties);
+        console.log('itemPropertiesOrig before new item: ', this.itemOriginalProperties);
+
+        // Add the new humidity sensor as current one
+        this.addToItemsCollection(newItem, newItemOrig);
+        this.setInserted(newItem);
+
+        console.log('itemProperties after new item: ', this.itemProperties);
+
+        if (this.itemProperties.length > 1) {
+            // Let the ViewModels do anything they like with the previous item - such as set end/removal date
+            // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
+            // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
+            if (sortingDirectionAscending) {
+                this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
+            } else {
+                this.itemProperties[1].setFinalValuesBeforeCreatingNewItem();
+            }
+        }
+
+        // Let the parent form know that it now has a new child
+        this.groupArrayForm.markAsDirty();
+        this.siteInfoForm.markAsDirty();
+        console.log('itemProperties after everythign in addNew: ', this.itemProperties);
+        console.log('itemOriginalProperties after everythign in addNew: ', this.itemOriginalProperties);
     }
 
     /**

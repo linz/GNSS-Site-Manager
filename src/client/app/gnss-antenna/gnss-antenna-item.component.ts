@@ -26,11 +26,17 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
 
     ngOnInit() {
         this.setupForm();
-    }
-
-    ngAfterContentInit() {
         this.patchForm();
     }
+
+    protected patchForm() {
+        this.itemGroup.setValue(this.antenna);
+    }
+
+  getItemName(): string {
+    return 'GNSS Antenna';
+  }
+
 
     private setupForm() {
         this.itemGroup = this.formBuilder.group({
@@ -38,7 +44,7 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
             // TODO Fix Validators
             antennaType: [''],//, [Validators.maxLength(100)]],
             serialNumber: [''],//, [Validators.maxLength(100)]],
-            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],   // Validators.required,, dateTimeValidator Validators.maxLength(19)
+            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],
             dateRemoved: '',    // requiredIfNotCurrent="true"
             antennaReferencePoint: [''],//, [Validators.maxLength(100)]],
             markerArpEastEcc: [''],//, [Validators.maxLength(100)]],
@@ -57,12 +63,4 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
         });
         this.groupArray.push(this.itemGroup);
     }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.antenna);
-    }
-
-  getItemName(): string {
-    return 'GNSS Antenna';
-  }
 }

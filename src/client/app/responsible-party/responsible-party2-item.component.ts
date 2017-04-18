@@ -1,9 +1,8 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
 import { DialogService } from '../shared/index';
-import { ResponsiblePartyViewModel } from './responsible-party2-view-model'
+import { ResponsiblePartyViewModel } from './responsible-party2-view-model';
 import { ResponsiblePartyType } from './responsible-party2-group.component';
 
 /**
@@ -29,6 +28,14 @@ export class ResponsiblePartyItemComponent extends AbstractItem implements OnIni
     ngOnInit() {
         this.setupForm();
         this.patchForm();
+    }
+
+     protected patchForm() {
+        this.itemGroup.setValue(this.responsibleParty);
+    }
+
+    getItemName(): string {
+        return this.partyName.getTitle();
     }
 
     private setupForm() {
@@ -57,13 +64,5 @@ export class ResponsiblePartyItemComponent extends AbstractItem implements OnIni
             deletedReason: ''
         });
         this.groupArray.push(this.itemGroup);
-    }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.responsibleParty);
-    }
-
-    getItemName(): string {
-        return this.partyName.getTitle();
     }
 }

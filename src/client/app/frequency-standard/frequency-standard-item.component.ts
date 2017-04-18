@@ -28,6 +28,16 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
         this.patchForm();
     }
 
+     protected patchForm() {
+        this.itemGroup.setValue(this.frequencyStandard);
+        // console.log('Freq Std - patch Form for index: '+this.index+' with endDate value: ', this.frequencyStandard.endDate);
+        // console.log('Freq Std - patch Form - form endDate now: ', this.itemGroup.controls['endDate'].value);
+    }
+
+  getItemName(): string {
+    return 'Frequency Standard';
+  }
+
     private setupForm() {
         this.itemGroup = this.formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
@@ -45,14 +55,4 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
         console.log('Freq Std - setup Form for item index: ', this.index);
         this.addToGroupArray(this.itemGroup);
     }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.frequencyStandard);
-        // console.log('Freq Std - patch Form for index: '+this.index+' with endDate value: ', this.frequencyStandard.endDate);
-        // console.log('Freq Std - patch Form - form endDate now: ', this.itemGroup.controls['endDate'].value);
-    }
-
-  getItemName(): string {
-    return 'Frequency Standard';
-  }
 }

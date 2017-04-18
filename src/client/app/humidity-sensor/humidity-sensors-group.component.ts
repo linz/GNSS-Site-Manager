@@ -12,6 +12,12 @@ import { HumiditySensorViewModel } from './humidity-sensor-view-model';
     templateUrl: 'humidity-sensors-group.component.html',
 })
 export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorViewModel> implements OnInit {
+    static compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
+
     @Input()
     set siteLogModel(siteLogModel: any) {
         siteLogModel && this.setItemsCollection(siteLogModel.humiditySensors);
@@ -30,19 +36,8 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('humiditySensors', this.groupArrayForm);
-    }
-
     getItemName(): string {
         return 'Humidity Sensor';
-    }
-
-    static compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
     }
 
     compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
@@ -54,5 +49,10 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
      */
     newViewModelItem(blank?: boolean): HumiditySensorViewModel {
         return new HumiditySensorViewModel(blank);
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('humiditySensors', this.groupArrayForm);
     }
 }

@@ -28,11 +28,19 @@ export class SurveyedLocalTieItemComponent extends AbstractItem implements OnIni
         this.patchForm();
     }
 
+    protected patchForm() {
+        this.itemGroup.setValue(this.surveyedLocalTie);
+    }
+
+    getItemName(): string {
+        return 'Surveyed Local Tie';
+    }
+
     private setupForm() {
         this.itemGroup = this.formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
-           tiedMarkerName: [''],//, [Validators.required, Validators.maxLength(100)]],
+            tiedMarkerName: [''],//, [Validators.required, Validators.maxLength(100)]],
             tiedMarkerUsage: [''],//, [Validators.maxLength(100)]],
             tiedMarkerCDPNumber: [''],//, [Validators.maxLength(100)]],
             tiedMarkerDOMESNumber: [''],//, [Validators.maxLength(100)]],
@@ -49,13 +57,5 @@ export class SurveyedLocalTieItemComponent extends AbstractItem implements OnIni
             deletedReason: ''
         });
         this.groupArray.push(this.itemGroup);
-    }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.surveyedLocalTie);
-    }
-
-    getItemName(): string {
-        return 'Surveyed Local Tie';
     }
 }

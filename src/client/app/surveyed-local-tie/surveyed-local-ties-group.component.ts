@@ -12,6 +12,12 @@ import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
     templateUrl: 'surveyed-local-ties-group.component.html',
 })
 export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> implements OnInit {
+    static compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
+        let date1: string = obj1.dateMeasured;
+        let date2: string = obj2.dateMeasured;
+        return AbstractGroup.compareDates(date1, date2);
+    }
+
     @Input()
     set siteLogModel(siteLogModel: any) {
         siteLogModel && this.setItemsCollection(siteLogModel.surveyedLocalTies);
@@ -32,19 +38,8 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('surveyedLocalTies', this.groupArrayForm);
-    }
-
     getItemName(): string {
         return 'Surveyed Local Tie';
-    }
-
-    static compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
-        let date1: string = obj1.dateMeasured;
-        let date2: string = obj2.dateMeasured;
-        return AbstractGroup.compareDates(date1, date2);
     }
 
     compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
@@ -56,5 +51,10 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
      */
     newViewModelItem(blank?: boolean): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
+    }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('surveyedLocalTies', this.groupArrayForm);
     }
 }

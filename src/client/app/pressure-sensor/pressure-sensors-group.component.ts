@@ -12,7 +12,13 @@ import { PressureSensorViewModel } from './pressure-sensor-view-model';
   templateUrl: 'pressure-sensors-group.component.html',
 })
 export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> implements OnInit {
-  @Input()
+    static compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
+
+    @Input()
   set siteLogModel(siteLogModel: any) {
     siteLogModel && this.setItemsCollection(siteLogModel.pressureSensors);
     console.log('PressureSensors: ', this.getItemsCollection());
@@ -32,19 +38,8 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
         this.setupForm();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('pressureSensors', this.groupArrayForm);
-    }
-
   getItemName(): string {
     return 'Pressure Sensor';
-  }
-
-  static compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
-    let date1: string = obj1.startDate;
-    let date2: string = obj2.startDate;
-    return AbstractGroup.compareDates(date1, date2);
   }
 
     compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
@@ -54,4 +49,9 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
   newViewModelItem(blank?: boolean): PressureSensorViewModel {
     return new PressureSensorViewModel(blank);
   }
+
+    private setupForm() {
+        this.groupArrayForm =  new FormArray([]);
+        this.siteInfoForm.addControl('pressureSensors', this.groupArrayForm);
+    }
 }

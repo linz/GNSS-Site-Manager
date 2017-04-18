@@ -28,13 +28,7 @@ export abstract class AbstractViewModel {
         this.createFieldMappings();
     }
 
-    private setDefaultValues() {
-        this.dateDeleted = '';
-        this.dateInserted = '';
-        this.deletedReason = '';
-    }
-
-    /**
+     /**
      * Client calls this for each data/view field mappings to build fieldMaps.
      *
      * @param dataPath - path in the data model
@@ -97,6 +91,12 @@ export abstract class AbstractViewModel {
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
      */
     abstract setFinalValuesBeforeCreatingNewItem(): void;
+
+    private setDefaultValues() {
+        this.dateDeleted = '';
+        this.dateInserted = '';
+        this.deletedReason = '';
+    }
 
     private assertCorrect(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string) {
       // TODO: where is assert? They should be in a unit test anyway.

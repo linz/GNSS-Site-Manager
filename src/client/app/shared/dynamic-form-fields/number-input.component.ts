@@ -14,8 +14,6 @@ import { AbstractGnssControls } from './abstract-gnss-controls';
     }]
 })
 export class NumberInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
-    private _value: string = '';
-    // @Input() model: string = '';
     @Input() index: string = '0';
     @Input() name: string = '';
     @Input() public label: string = '';
@@ -26,6 +24,8 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
     // controlName & form needed for validation
     @Input() controlName: string;
     @Input() form: FormGroup;
+
+    private _value: string = '';
 
     ngOnInit() {
         if (!this.controlName || this.controlName.length === 0) {
