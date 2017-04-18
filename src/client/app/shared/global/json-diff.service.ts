@@ -168,7 +168,8 @@ export class JsonDiffService {
     getObject(jsonNew: any, pathToItem: string): any {
         let object: any = JsonPointerService.get(jsonNew, pathToItem);
         if (!object) {
-            console.warn('Unexpected situation - path not in object - path: ' + pathToItem + ', object: ' + JSON.stringify(jsonNew) + '.  Continueing and hope all is ok.');
+            console.warn('Unexpected situation - path not in object - path: ' + pathToItem + ', object: ' +
+                JSON.stringify(jsonNew) + '.  Continueing and hope all is ok.');
         }
         return object;
     }

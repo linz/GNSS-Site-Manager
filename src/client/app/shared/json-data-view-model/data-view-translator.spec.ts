@@ -93,7 +93,8 @@ export function main() {
           expect(firstHSV.serialNumber).toEqual(firstHSD.humiditySensor.serialNumber);
 
           expect(firstHSV.calibrationDate).toEqual(firstHSD.humiditySensor.calibrationDate.value[0]);
-          expect(firstHSV.startDate).toEqual(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]);
+          expect(firstHSV.startDate).toEqual(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']
+              .beginPosition.value[0]);
           expect(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeUndefined();
           expect(firstHSV.endDate).toBeNull();
       });
@@ -122,7 +123,8 @@ export function main() {
           expect(newHSD.humiditySensor.serialNumber).toEqual(firstHSV.serialNumber);
 
           expect(newHSD.humiditySensor.calibrationDate.value[0]).toEqual(firstHSV.calibrationDate);
-          expect(firstHSV.startDate).toEqual(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]);
+          expect(firstHSV.startDate).toEqual(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']
+              .beginPosition.value[0]);
           expect(firstHSV.endDate).toBeNull();
           expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeNull();
       });

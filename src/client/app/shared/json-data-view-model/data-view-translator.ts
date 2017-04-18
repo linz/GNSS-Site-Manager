@@ -63,10 +63,10 @@ export class DataViewTranslatorService {
           let targetTypedPointer: TypedPointer;
           if (! writeViewToData) {
               sourceTypedPointer = fieldMap.dataTypedPointer;
-              targetTypedPointer = fieldMap.viewTypedPointer
+              targetTypedPointer = fieldMap.viewTypedPointer;
           } else {
               sourceTypedPointer = fieldMap.viewTypedPointer;
-              targetTypedPointer = fieldMap.dataTypedPointer
+              targetTypedPointer = fieldMap.dataTypedPointer;
           }
           let sourceValue: string = JsonPointerService.get(source, sourceTypedPointer.pointer);
           if (targetTypedPointer.type === 'number') {

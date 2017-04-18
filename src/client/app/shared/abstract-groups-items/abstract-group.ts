@@ -178,9 +178,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
 
         if (this.itemProperties) {
-            //let filteredOrNot: T[] = doShowDeleted ? lodash.cloneDeep(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
+            let filteredOrNot: T[] = doShowDeleted ? lodash.clone(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
             //let reversed: T[] = filteredOrNot.reverse();
-            return this.itemProperties;
+            return filteredOrNot;
         } else {
             return [];
         }

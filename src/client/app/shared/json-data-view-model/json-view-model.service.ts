@@ -55,12 +55,15 @@ export class JsonViewModelService {
             WaterVaporSensorViewModel);
 
         // Form (View) Model approach
-        DataViewTranslatorService.translate(siteLogDataModel.siteIdentification, siteLogViewModel.siteLog.siteIdentification, new SiteIdentificationMappings().getFieldMaps());
-        DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLog.siteLocation, new SiteLocationMappings().getFieldMaps());
+        DataViewTranslatorService.translate(siteLogDataModel.siteIdentification, siteLogViewModel.siteLog.siteIdentification,
+            new SiteIdentificationMappings().getFieldMaps());
+        DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLog.siteLocation,
+            new SiteLocationMappings().getFieldMaps());
 
         siteLogViewModel.siteLog.siteOwner = [this.dataToViewModelItem(siteLogDataModel.siteOwner, ResponsiblePartyViewModel)];
         siteLogViewModel.siteLog.siteContact = this.dataToViewModel(siteLogDataModel.siteContact, ResponsiblePartyViewModel);
-        siteLogViewModel.siteLog.siteMetadataCustodian = [this.dataToViewModelItem(siteLogDataModel.siteMetadataCustodian, ResponsiblePartyViewModel)];
+        siteLogViewModel.siteLog.siteMetadataCustodian = [this.dataToViewModelItem(siteLogDataModel.siteMetadataCustodian,
+            ResponsiblePartyViewModel)];
         siteLogViewModel.siteLog.siteDataSource = this.dataToViewModel(siteLogDataModel.siteDataSource, ResponsiblePartyViewModel);
         // siteLogViewModel.siteLog.siteDataCenter = this.dataToViewModel(siteLogDataModel.siteDataCentre, ResponsiblePartyViewModel);
 
@@ -88,14 +91,20 @@ export class JsonViewModelService {
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModelJson.siteLog.temperatureSensors);
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModelJson.siteLog.waterVaporSensors);
 
-        DataViewTranslatorService.translate(viewModelJson.siteLog.siteIdentification, siteLogDataModel.siteIdentification, new SiteIdentificationMappings().getFieldMaps(), doWriteViewToData);
-        DataViewTranslatorService.translate(viewModelJson.siteLog.siteLocation, siteLogDataModel.siteLocation, new SiteLocationMappings().getFieldMaps(), doWriteViewToData);
+        DataViewTranslatorService.translate(viewModelJson.siteLog.siteIdentification, siteLogDataModel.siteIdentification,
+            new SiteIdentificationMappings().getFieldMaps(), doWriteViewToData);
+        DataViewTranslatorService.translate(viewModelJson.siteLog.siteLocation, siteLogDataModel.siteLocation,
+            new SiteLocationMappings().getFieldMaps(), doWriteViewToData);
 
-        DataViewTranslatorService.translate(viewModelJson.siteLog.siteContact, siteLogDataModel.siteContact, new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
-        DataViewTranslatorService.translate(viewModelJson.siteLog.siteDataSource, siteLogDataModel.siteDataSource, new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+        DataViewTranslatorService.translate(viewModelJson.siteLog.siteContact, siteLogDataModel.siteContact,
+            new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+        DataViewTranslatorService.translate(viewModelJson.siteLog.siteDataSource, siteLogDataModel.siteDataSource,
+            new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
         // Only one siteOwner, siteMetadataCustodian (at most) in an array
-        DataViewTranslatorService.translate(viewModelJson.siteLog.siteOwner[0], siteLogDataModel.siteOwner, new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
-        DataViewTranslatorService.translate(viewModelJson.siteLog.siteMetadataCustodian[0], siteLogDataModel.siteMetadataCustodian, new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+        DataViewTranslatorService.translate(viewModelJson.siteLog.siteOwner[0], siteLogDataModel.siteOwner,
+            new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+        DataViewTranslatorService.translate(viewModelJson.siteLog.siteMetadataCustodian[0], siteLogDataModel.siteMetadataCustodian,
+            new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
 
         siteLogDataModel.moreInformation = viewModelJson.siteLog.moreInformation;
         siteLogDataModel.dataStreams = viewModelJson.siteLog.dataStreams;
