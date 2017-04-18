@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
 import { DialogService } from '../shared/index';
-import { ResponsiblePartyViewModel } from './responsible-party2-view-model';
-import { ResponsiblePartyType } from './responsible-party2-group.component';
+import { ResponsiblePartyViewModel } from './responsible-party-view-model';
+import { ResponsiblePartyType } from './responsible-party-group.component';
 
 /**
  * This component represents a single Temperature Sensor.
@@ -11,7 +11,7 @@ import { ResponsiblePartyType } from './responsible-party2-group.component';
 @Component({
     moduleId: module.id,
     selector: 'gnss-responsible-party-item',
-    templateUrl: 'responsible-party2-item.component.html',
+    templateUrl: 'responsible-party-item.component.html',
 })
 export class ResponsiblePartyItemComponent extends AbstractItem implements OnInit {
     /**

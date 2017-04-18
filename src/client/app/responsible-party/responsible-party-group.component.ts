@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
-import { ResponsiblePartyViewModel } from './responsible-party2-view-model';
+import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
