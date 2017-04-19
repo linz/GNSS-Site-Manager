@@ -51,6 +51,6 @@ export class WaterVaporSensorItemComponent extends AbstractItem implements OnIni
             dateInserted: '',
             deletedReason: ''
         });
-        this.groupArray.push(this.itemGroup);
+        this.addToGroupArray(this.itemGroup);
     }
 }

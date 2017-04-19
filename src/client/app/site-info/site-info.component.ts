@@ -7,7 +7,7 @@ import { ConstantsService, DialogService, MiscUtils,
 import { SiteLogViewModel, ViewSiteLog } from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import * as _ from 'lodash';
 import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
 import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
@@ -115,10 +115,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.submitted = false;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
+        this.removeAllExistingControlItems();
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
           // this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson.siteLog);//['geo:siteLog']);
           this.siteLogModel = responseJson.siteLog;
+          console.debug('loadSiteInfoData - siteLogModel: ', this.siteLogModel);
 
           this.backupSiteLogJson();
           this.isLoading = false;
@@ -230,7 +232,75 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     );
   }
 
-    returnAssociatedComparator(itemName: string): any {
+  /**
+   * Navigate to the default home page (Select-Site tab)
+   */
+  public goToHomePage() {
+    let link = ['/'];
+    this.router.navigate(link);
+    this.isLoading = false;
+  }
+
+  /**
+   * Return true if any of the SiteLog data have been changed.
+   *
+   * TODO: we may use other methods to detect changes, e.g., the form.$dirty variable
+   */
+  public hasChanges(): boolean {
+    return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
+  }
+
+  /**
+   * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
+   */
+  public confirmCloseSiteInfoPage(): Promise<boolean> {
+    let msg: string = `You have made changes to the ${this.siteId} Site Log. Close the page will lose any unsaved changes.`;
+    let that: any = this;
+    return new Promise<boolean>((resolve, reject) => {
+        this.dialogService.confirmCloseDialog(msg,
+          function() {
+            that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
+            resolve(true);
+          },
+          function() {
+            resolve(false);
+          }
+        );
+    });
+  }
+
+  public backupSiteLogJson() {
+    this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
+  }
+
+    private setupForm() {
+        this.siteInfoForm = this.formBuilder.group({
+        });
+    }
+
+    private setupAuthSubscription(): Subscription {
+        return this.userAuthService.userLoadededEvent.subscribe((user: User) => {
+            this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
+        });
+    }
+
+    /**
+     * Template and Model driven forms are handled differently and separately
+     */
+    private setupSubscriptions() {
+        this.siteInfoForm.valueChanges.debounceTime(500).subscribe((value: any) => {
+            if (this.siteInfoForm.dirty) {
+                this.siteLogService.sendFormModifiedStateMessage(true);
+                console.log('form dirty - yes: ', value);
+                console.log('  and siteLogModel: ', this.siteLogModel);
+            } else {
+                this.siteLogService.sendFormModifiedStateMessage(false);
+                console.log('form dirty - no');
+            }
+        });
+    }
+
+    private  returnAssociatedComparator(itemName: string): any {
         switch (itemName) {
             case 'siteLocation':
                 console.warn(`createComparator - ${itemName} does not have a comparator`);
@@ -271,87 +341,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         }
     }
 
-  /**
-   * Navigate to the default home page (Select-Site tab)
-   */
-  public goToHomePage() {
-    let link = ['/'];
-    this.router.navigate(link);
-    this.isLoading = false;
-  }
-
-  /**
-   * Return true if any of the SiteLog data have been changed.
-   *
-   * TODO: we may use other methods to detect changes, e.g., the form.$dirty variable
-   */
-  public hasChanges(): boolean {
-    return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
-  }
-
-  /**
-   * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
-   */
-  public confirmCloseSiteInfoPage(): Promise<boolean> {
-    let msg: string = `You have made changes to the ${this.siteId} Site Log. Close the page will lose any unsaved changes.`;
-    let that: any = this;
-    return new Promise<boolean>((resolve, reject) => {
-        this.dialogService.confirmCloseDialog(msg,
-          function() {
-            that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
-            resolve(true);
-          },
-          function() {
-            resolve(false);
-          }
-        );
-    });
-  }
-
-  public backupSiteLogJson() {
-    this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
-    console.log('siteLogOrigin: ', this.siteLogOrigin);
-  }
-
-   public isFormModified(): boolean {
-      // console.debug('isFormModified - controls: ', this.siteInfoForm.controls);
-      // console.debug('  dirty?: ', this.siteInfoForm.dirty)
-      // // console.debug('  and humiditySensorItemComponent?: ', this.humiditySensorGroupComponent.maybeDirty);
-      return false; //this.siteInfoForm.dirty;
-  }
-
-  public newSave(form: FormGroup) {
-      console.log('newSave: ', form);
-      this.save(form.value);
-  }
-
-    private setupForm() {
-        this.siteInfoForm = this.formBuilder.group({
-        });
-    }
-
-    private setupAuthSubscription(): Subscription {
-        return this.userAuthService.userLoadededEvent.subscribe((user: User) => {
-            this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
-        });
-    }
-
-    /**
-     * Template and Model driven forms are handled differently and separately
-     */
-    private setupSubscriptions() {
-        this.siteInfoForm.valueChanges.debounceTime(500).subscribe((value: any) => {
-            if (this.siteInfoForm.dirty) {
-                this.siteLogService.sendFormModifiedStateMessage(true);
-                console.log('form dirty - yes: ', value);
-                console.log('  and siteLogModel: ', this.siteLogModel);
-            } else {
-                this.siteLogService.sendFormModifiedStateMessage(false);
-                console.log('form dirty - no');
-            }
-        });
-    }
-
     /**
      * The array items in the form data (eg. gnssAntennas) need to be sorted according to the app desired order
      * (see AbstractGroup / sortingDirectionAscending.  It will likely always be descending so that is how it is seen in the form.
@@ -366,6 +355,28 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                     formValue[item].sort(comparator);//this.compare);
                 }
             }
+        }
+    }
+
+    /**
+     * When we reload / revert the SiteLog, all existing form items need to be removed so they can be recreated (or else get multiples).
+     * At this stage only concerned about arrays of Items that are in Groups
+     */
+    private removeAllExistingControlItems() {
+        let keys: string[] = Object.keys(this.siteInfoForm.controls);
+        for (let key of keys) {
+            if (Array.isArray(this.siteInfoForm.controls[key].value)) {
+                console.debug(`removeAllExistingControlItems - ${key} - size ${(<FormArray> this.siteInfoForm.controls[key]).length}`);
+                this.removeFormArrayItems(<FormArray> this.siteInfoForm.controls[key]);
+                console.debug(`    size now - ${key} - size ${(<FormArray> this.siteInfoForm.controls[key]).length}`);
+            }
+        }
+    }
+
+    private removeFormArrayItems(formArrayControl: FormArray) {
+        let itemNumber: number = formArrayControl.length;
+        for (; itemNumber >= 0; itemNumber--) {
+            formArrayControl.removeAt(itemNumber);
         }
     }
 }

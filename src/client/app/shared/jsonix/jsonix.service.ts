@@ -71,7 +71,7 @@ export class JsonixService {
         // before marshalling, traverse the object fix up any elements that jsonix can't handle
         this.traverseJsonObject(jsonObj);
 
-        console.debug('JsonixService - jsonToGeodesyML - json (string): ', JSON.stringify(jsonObj));
+        // console.debug('JsonixService - jsonToGeodesyML - json (string): ', JSON.stringify(jsonObj));
         console.debug('JsonixService - jsonToGeodesyML - json: ', jsonObj);
 
         let geodesyMl: string = marshaller.marshalString(jsonObj);

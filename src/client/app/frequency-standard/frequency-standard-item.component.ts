@@ -30,8 +30,6 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
 
      protected patchForm() {
         this.itemGroup.setValue(this.frequencyStandard);
-        // console.log('Freq Std - patch Form for index: '+this.index+' with endDate value: ', this.frequencyStandard.endDate);
-        // console.log('Freq Std - patch Form - form endDate now: ', this.itemGroup.controls['endDate'].value);
     }
 
   getItemName(): string {
@@ -52,7 +50,6 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
             dateInserted: '',
             deletedReason: ''
         });
-        console.log('Freq Std - setup Form for item index: ', this.index);
         this.addToGroupArray(this.itemGroup);
     }
 }

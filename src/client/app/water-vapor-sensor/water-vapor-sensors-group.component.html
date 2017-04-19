@@ -15,7 +15,7 @@
             </button>
         </span>
   </div>
-  <div class="panel-body" [hidden]="! isGroupOpen">
+  <div class="panel-body" *ngIf="isGroupOpen">
     <div *ngIf="isEmptyCollection()">
       No information available for Water Vapor Sensors
     </div>
