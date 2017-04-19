@@ -28,7 +28,8 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
     }
 
     protected patchForm() {
-        this.itemGroup.patchValue(this.gnssReceiver);
+        console.log(`receivers #${this.index} - setValue: `, this.gnssReceiver);
+        this.itemGroup.setValue(this.gnssReceiver);
         // This item may now be at a new index from what it was created at.  Patch the array item at that index.
         // (<AbstractControl> this.groupArray.controls[this.getIndex()]).patchValue(this.gnssReceiver);
         // console.debug(`GnssReceiverItemComponent - setup (patch) form - index: ${this.getIndex()} -
@@ -59,7 +60,11 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
             satelliteSystem: [''],//, [Validators.maxLength(100)]],
             elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
             temperatureStabilization: [''],//, [Validators.maxLength(100)]],
-            notes: ['', [Validators.maxLength(2)]],
+            notes: ['', [Validators.maxLength(2000)]],
+            fieldMaps: '',
+            dateDeleted: [''],
+            dateInserted: [''],
+            deletedReason: [''],
         });
         // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
         this.addToGroupArray(this.itemGroup);

@@ -55,6 +55,6 @@ export class HumiditySensorItemComponent extends AbstractItem implements OnInit 
             dateInserted: '',
             deletedReason: ''
         });
-        this.groupArray.push(this.itemGroup);
+        this.addToGroupArray(this.itemGroup);
     }
 }

@@ -61,6 +61,6 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
             dateInserted: '',
             deletedReason: ''
         });
-        this.groupArray.push(this.itemGroup);
+        this.addToGroupArray(this.itemGroup);
     }
 }

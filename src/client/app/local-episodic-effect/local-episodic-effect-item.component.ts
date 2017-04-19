@@ -48,6 +48,6 @@ export class LocalEpisodicEffectItemComponent extends AbstractItem implements On
             dateInserted: '',
             deletedReason: ''
         });
-        this.groupArray.push(this.itemGroup);
+        this.addToGroupArray(this.itemGroup);
     }
 }

@@ -124,7 +124,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      * Remove an item from the UI and delete if it is an existing record.
      */
     removeItem(index: number) {
-
       let deleteReason: string = 'New item not needed';
 
       if (this.isNew) {
@@ -142,14 +141,20 @@ export abstract class AbstractItem implements OnInit, OnChanges {
             }
           );
       }
+      return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
     }
 
     getRemoveOrDeletedText(): string {
         return this.isNew ? 'Cancel' : 'Delete';
     }
 
+    /**
+     * Add the itemGroup (the item) to the array (groupArray).
+     * @param itemGroup to add
+     */
     addToGroupArray(itemGroup: FormGroup): void {
-        this.groupArray.insert(0,itemGroup);
+        this.groupArray.insert(0, itemGroup);
+        console.warn(`AbstractItem (${this.getItemName()}) - addToGroupArray - groupArray size now: ${this.groupArray.length}`);
     }
 
     /**

@@ -125,7 +125,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         let doShowDeleted: boolean = true;
         // if (this.getItemName().match(/receiver/i)) {
         //     let size: number = this.itemProperties ? this.itemProperties.length : -1;
-        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${size}): `, this.itemProperties);
+        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${this.itemProperties ? this.itemProperties.length : 0}): `, this.itemProperties);
         // }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;

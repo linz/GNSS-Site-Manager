@@ -63,6 +63,6 @@ export class ResponsiblePartyItemComponent extends AbstractItem implements OnIni
             dateDeleted: '',
             deletedReason: ''
         });
-        this.groupArray.push(this.itemGroup);
+        this.addToGroupArray(this.itemGroup);
     }
 }

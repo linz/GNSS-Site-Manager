@@ -54,6 +54,6 @@ export class TemperatureSensorItemComponent extends AbstractItem implements OnIn
             dateInserted: '',
             deletedReason: ''
         });
-        this.groupArray.push(this.itemGroup);
+        this.addToGroupArray(this.itemGroup);
     }
 }

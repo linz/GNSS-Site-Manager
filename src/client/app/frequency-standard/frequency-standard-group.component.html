@@ -17,7 +17,7 @@
       </button>
     </span>
   </div>
-  <div [hidden]="! isGroupOpen" class="panel-body">
+  <div class="panel-body" *ngIf="isGroupOpen">
     <div *ngIf="isEmptyCollection()" class="margin-bottom15">
       No information available for {{getItemName()}}s
     </div>
