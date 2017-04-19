@@ -1,79 +1,98 @@
 <div class="container centered clear-pad">
-  <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
-    <form [formGroup]="siteInfoForm" novalidate class="form-horizontal" >
-    <div class="panel-group">
-        <div class="panel panel-level-1">
-            <div class="panel-heading">
-                <span class="panel-title cursor-ptr" (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
-                    <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isGroupOpen, 'glyphicon-plus-sign': !isGroupOpen}"></i>
-                    Site Information
-                </span>
+    <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
+        <form [formGroup]="siteInfoForm" novalidate class="form-horizontal">
+            <div class="panel-group">
+                <div [formGroup]="siteInfoForm" class="panel panel-level-1">
+                    <div class="panel-heading">
+                        <span class="panel-title cursor-ptr"
+                              (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
+                            <i class="glyphicon"
+                               [ngClass]="{'glyphicon-minus-sign': isGroupOpen, 'glyphicon-plus-sign': !isGroupOpen}"></i>
+                            Site Information
+                        </span>
+                    </div>
+                    <div class="panel-body">
+                        <site-identification [siteInfoForm]="siteInfoForm"
+                                             [siteLogModel]="siteLogModel"
+                                             [originalSiteLogModel]="siteLogOrigin">
+                        </site-identification>
+
+                        <site-location [siteInfoForm]="siteInfoForm"
+                                       [siteLogModel]="siteLogModel"
+                                       [originalSiteLogModel]="siteLogOrigin">
+                        </site-location>
+
+                        <gnss-responsible-party-group [siteInfoForm]="siteInfoForm"
+                                                      [partyName]="responsiblePartyType.siteContact"
+                                                      [siteLogModel]="siteLogModel"
+                                                      [originalSiteLogModel]="siteLogOrigin">
+                        </gnss-responsible-party-group>
+
+                        <gnss-responsible-party-group [siteInfoForm]="siteInfoForm"
+                                                      [partyName]="responsiblePartyType.siteMetadataCustodian"
+                                                      [siteLogModel]="siteLogModel"
+                                                      [originalSiteLogModel]="siteLogOrigin">
+                        </gnss-responsible-party-group>
+
+                        <!--TODO - WOrk out if SiteDataCentre is a responsibleParty or under MoreInformation-->
+                        <!--<gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteDataCenter"-->
+                        <!--[siteLogModel]="siteLogModel"-->
+                        <!--[originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>-->
+
+                        <gnss-responsible-party-group [siteInfoForm]="siteInfoForm"
+                                                      [partyName]="responsiblePartyType.siteDataSource"
+                                                      [siteLogModel]="siteLogModel"
+                                                      [originalSiteLogModel]="siteLogOrigin">
+                        </gnss-responsible-party-group>
+                    </div>
+                </div>
+
+                <gnss-receivers-group [siteInfoForm]="siteInfoForm"
+                                      [siteLogModel]="siteLogModel"
+                                      [originalSiteLogModel]="siteLogOrigin">
+                </gnss-receivers-group>
+
+                <gnss-antenna-group [siteInfoForm]="siteInfoForm"
+                                    [siteLogModel]="siteLogModel"
+                                    [originalSiteLogModel]="siteLogOrigin">
+                </gnss-antenna-group>
+
+                <surveyed-local-ties-group [siteInfoForm]="siteInfoForm"
+                                           [siteLogModel]="siteLogModel"
+                                           [originalSiteLogModel]="siteLogOrigin">
+                </surveyed-local-ties-group>
+
+                <frequency-standard-group [siteInfoForm]="siteInfoForm"
+                                          [siteLogModel]="siteLogModel"
+                                          [originalSiteLogModel]="siteLogOrigin">
+                </frequency-standard-group>
+
+                <local-episodic-effects-group [siteInfoForm]="siteInfoForm"
+                                              [siteLogModel]="siteLogModel"
+                                              [originalSiteLogModel]="siteLogOrigin">
+                </local-episodic-effects-group>
+
+                <humidity-sensors-group [siteInfoForm]="siteInfoForm"
+                                        [siteLogModel]="siteLogModel"
+                                        [originalSiteLogModel]="siteLogOrigin">
+                </humidity-sensors-group>
+
+                <pressure-sensors-group [siteInfoForm]="siteInfoForm"
+                                        [siteLogModel]="siteLogModel"
+                                        [originalSiteLogModel]="siteLogOrigin">
+                </pressure-sensors-group>
+
+                <temperature-sensors-group [siteInfoForm]="siteInfoForm"
+                                           [siteLogModel]="siteLogModel"
+                                           [originalSiteLogModel]="siteLogOrigin">
+                </temperature-sensors-group>
+
+                <water-vapor-sensors-group [siteInfoForm]="siteInfoForm"
+                                           [siteLogModel]="siteLogModel"
+                                           [originalSiteLogModel]="siteLogOrigin">
+                </water-vapor-sensors-group>
+
             </div>
-
-            <site-location [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel" [originalSiteLogModel]="siteLogOrigin"></site-location>
-
-            <site-identification [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel" [originalSiteLogModel]="siteLogOrigin"></site-identification>
-            <!--<span class="panel-title cursor-ptr"-->
-                  <!--(click)="status.isSiteMediaOpen = miscUtils.scrollIntoView($event, status.isSiteMediaOpen)">-->
-              <!--<i class="glyphicon"-->
-                 <!--[ngClass]="{'glyphicon-minus-sign': status.isSiteMediaOpen, 'glyphicon-plus-sign': !status.isSiteMediaOpen}">-->
-              <!--</i>-->
-              <!--Site Media (Photos, PDFs, etc)-->
-            <!--</span>-->
-              <!--<div class="panel-body" *ngIf="status.isSiteMediaOpen">-->
-                <!--<div class="form-group">-->
-                  <!--<label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label">View PDFs </label>-->
-                <!--</div>-->
-                <!--<div class="form-group">-->
-                  <!--<label class="col-md-5 col-sm-6 col-xs-6 col-xxs-12 control-label">View Photos</label>-->
-                <!--</div>-->
-              <!--</div>-->
-            <gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteContact"
-                                    [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>
-            <gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteMetadataCustodian"
-                                    [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>
-            <!--TODO - WOrk out if SiteDataCentre is a responsibleParty or under MoreInformation-->
-            <!--<gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteDataCenter"-->
-                                    <!--[siteLogModel]="siteLogModel"-->
-                                    <!--[originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>-->
-            <gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteDataSource"
-                                    [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>
-        </div>
-    <!--</div>-->
-          <!--</div>
-        </div>-->
-
-        <gnss-receivers-group [siteInfoForm]="siteInfoForm"  [siteLogModel]="siteLogModel"
-                              [originalSiteLogModel]="siteLogOrigin"></gnss-receivers-group>
-
-        <gnss-antenna-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                            [originalSiteLogModel]="siteLogOrigin"></gnss-antenna-group>
-
-        <surveyed-local-ties-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                                  [originalSiteLogModel]="siteLogOrigin"></surveyed-local-ties-group>
-
-        <frequency-standard-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                                  [originalSiteLogModel]="siteLogOrigin"></frequency-standard-group>
-
-        <local-episodic-effects-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                                  [originalSiteLogModel]="siteLogOrigin"></local-episodic-effects-group>
-
-        <humidity-sensors-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                                     [originalSiteLogModel]="siteLogOrigin"></humidity-sensors-group>
-
-        <pressure-sensors-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                                     [originalSiteLogModel]="siteLogOrigin"></pressure-sensors-group>
-
-        <temperature-sensors-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                                [originalSiteLogModel]="siteLogOrigin"></temperature-sensors-group>
-
-        <water-vapor-sensors-group [siteInfoForm]="siteInfoForm" [siteLogModel]="siteLogModel"
-                                   [originalSiteLogModel]="siteLogOrigin"></water-vapor-sensors-group>
-
-      </div>
-    </form>
-  </div>
+        </form>
+    </div>
 </div>

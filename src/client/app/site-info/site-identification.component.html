@@ -1,4 +1,4 @@
-<div class="panel panel-level-2">
+<div [formGroup]="siteIdentificationForm" class="panel panel-level-2">
     <div class="panel-heading">
         <span class="panel-title cursor-ptr" (click)="status.isSiteIdentificationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteIdentificationGroupOpen)">
               <i class="glyphicon"
@@ -15,7 +15,7 @@
             No information available for the GNSS site: {{siteId}}
         </div>
         <div class="margin-bottom15" *ngIf=" siteIdentification != null ">
-            <div [formGroup]="siteIdentificationForm" class="form-group">
+            <div class="form-group">
                 <text-input formControlName="fourCharacterID" controlName="fourCharacterID" [form]="siteIdentificationForm">Four Character Id</text-input>
                 <text-input formControlName="siteName" controlName="siteName" [form]="siteIdentificationForm">Site Name</text-input>
                 <!-- These fields exist in the XML but not in the Java bindings.
