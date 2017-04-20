@@ -86,6 +86,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
   public invalidMinutes: boolean = false;
   public invalidSeconds: boolean = false;
   public showDatetimePicker: boolean = false;
+  public hasChanges: boolean = false;
+  public invalidDatetime: boolean = false;
 
     private _datetimeDisplay: string = '';
     private _datetimeDisplayLast: string = '';
@@ -235,6 +237,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     this.datetimeModel.setMinutes(this.minutes);
     this.datetimeModel.setSeconds(this.seconds);
     this.emitOutputDatetime();
+    this.hasChanges = true;
   }
 
   /**

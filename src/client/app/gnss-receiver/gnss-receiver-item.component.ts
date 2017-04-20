@@ -24,9 +24,7 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
 
     ngOnInit() {
         this.setupForm();
-        setTimeout(() => {
-            this.patchForm();
-        }, 0);
+        setTimeout(() => this.patchForm());
     }
 
     protected patchForm() {
