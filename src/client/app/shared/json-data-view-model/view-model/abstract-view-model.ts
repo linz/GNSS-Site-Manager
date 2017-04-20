@@ -89,8 +89,9 @@ export abstract class AbstractViewModel {
 
     /**
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
+     * Return what is changed as an object so the form can be patched.
      */
-    abstract setFinalValuesBeforeCreatingNewItem(): void;
+    abstract setFinalValuesBeforeCreatingNewItem(): Object;
 
     private setDefaultValues() {
         this.dateDeleted = '';

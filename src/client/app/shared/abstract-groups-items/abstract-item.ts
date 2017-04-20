@@ -198,7 +198,8 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      */
     private patchItemForm(index: number) {
         if (index === this.index) {
-            this.patchForm();
+            // this.patchForm();
         }
+        console.log('I lied - not patching form');
     }
 }

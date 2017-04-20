@@ -98,6 +98,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
 
+    protected abstract addChildItemToForm(item: T): void;
+
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      *
@@ -173,8 +175,10 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             this.itemProperties.splice(0, 0, item);
             this.itemOriginalProperties.splice(0,0,origItem);
         }
+        this.addChildItemToForm(item);
         console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
         console.log('addToItemsCollection - itemOriginalProperties: ', this.itemOriginalProperties);
+        console.log('addToItemsCollection - groupArrayForm: ', this.groupArrayForm);
     }
 
     /**
@@ -251,16 +255,24 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             // Let the ViewModels do anything they like with the previous item - such as set end/removal date
             // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
             // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
+            let updatedValue: Object;
             if (sortingDirectionAscending) {
-                this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
+                updatedValue = this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
+                this.groupArrayForm.at(this.itemProperties.length - 2).patchValue(updatedValue);
+                this.groupArrayForm.at(this.itemProperties.length - 2).markAsDirty();
             } else {
-                this.itemProperties[1].setFinalValuesBeforeCreatingNewItem();
+                updatedValue = this.itemProperties[1].setFinalValuesBeforeCreatingNewItem();
+                this.groupArrayForm.at(1).patchValue(updatedValue);
+                this.groupArrayForm.at(1).markAsDirty();
+                for (let key of Object.keys(updatedValue)) {
+                    (<FormGroup>this.groupArrayForm.at(1)).controls[key].markAsDirty();
+                }
             }
         }
 
         // Let the parent form know that it now has a new child
         this.groupArrayForm.markAsDirty();
-        this.siteInfoForm.markAsDirty();
+        // this.siteInfoForm.markAsDirty();
         console.log('itemProperties after everythign in addNew: ', this.itemProperties);
         console.log('itemOriginalProperties after everythign in addNew: ', this.itemOriginalProperties);
     }

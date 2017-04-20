@@ -76,10 +76,26 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
     private setupChildItems() {
         let i: number=0;
         for (let viewModel of this.getItemsCollection()) {
+            // this.addChildItemToForm();
             let itemGroup: FormGroup = GnssReceiverItemFormModel.setupForm(this.formBuilder);
-            this.groupArrayForm.push(itemGroup);
+            if (sortingDirectionAscending) {
+                this.groupArrayForm.push(itemGroup);
+            } else {
+                this.groupArrayForm.insert(0, itemGroup);
+            }
             // let a: AbstractControl = new FormControl('alpha'+i++);
             // this.groupArrayForm.push(a);
         }
+    }
+
+    protected addChildItemToForm(item: GnssReceiverViewModel) {
+        let itemGroup: FormGroup = GnssReceiverItemFormModel.setupForm(this.formBuilder);
+        if (sortingDirectionAscending) {
+            this.groupArrayForm.push(itemGroup);
+        } else {
+            this.groupArrayForm.insert(0, itemGroup);
+        }
+        itemGroup.markAsDirty();
+        // itemGroup.setValue(item);
     }
 }
