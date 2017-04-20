@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup, sortingDirectionAscending } from '../shared/abstract-groups-items/abstract-group';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
-import { GnssReceiverItemFormModel } from './gnss-receiver-item.formmodel';
+import { GnssReceiverItemComponent } from './gnss-receiver-item.component';
 
 /**.
  * This class represents a group of GNSS Receivers.
@@ -58,44 +58,26 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
         return new GnssReceiverViewModel(blank);
     }
 
-    // public itemAt(i: number): FormGroup {
-    //     if (i < this.groupArrayForm.length) {
-    //         return <FormGroup> this.groupArrayForm.at(i);
-    //     }
-    //     console.error(`trying to itemAt(${i}) but that index doesn't exist in the formArray`);
-    //     return null;
-    // }
-
     private setupForm() {
-        this.groupArrayForm = this.formBuilder.array([]);// new FormArray([]);
+        this.groupArrayForm = this.formBuilder.array([]);
         this.siteInfoForm.addControl('gnssReceivers', this.groupArrayForm);
 
         this.setupChildItems();
     }
 
     private setupChildItems() {
-        let i: number=0;
         for (let viewModel of this.getItemsCollection()) {
-            // this.addChildItemToForm();
-            let itemGroup: FormGroup = GnssReceiverItemFormModel.setupForm(this.formBuilder);
-            if (sortingDirectionAscending) {
-                this.groupArrayForm.push(itemGroup);
-            } else {
-                this.groupArrayForm.insert(0, itemGroup);
-            }
-            // let a: AbstractControl = new FormControl('alpha'+i++);
-            // this.groupArrayForm.push(a);
+            this.addChildItemToForm();
         }
     }
 
-    protected addChildItemToForm(item: GnssReceiverViewModel) {
-        let itemGroup: FormGroup = GnssReceiverItemFormModel.setupForm(this.formBuilder);
+    protected addChildItemToForm() {
+        let itemGroup: FormGroup = GnssReceiverItemComponent.setupForm(this.formBuilder);
         if (sortingDirectionAscending) {
             this.groupArrayForm.push(itemGroup);
         } else {
             this.groupArrayForm.insert(0, itemGroup);
         }
         itemGroup.markAsDirty();
-        // itemGroup.setValue(item);
     }
 }

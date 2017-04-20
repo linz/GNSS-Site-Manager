@@ -22,12 +22,36 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
         super(dialogService);
     }
 
+    public static setupForm(formBuilder: FormBuilder): FormGroup {
+        let itemGroup: FormGroup = formBuilder.group({
+            // turn off all Validators until work out solution to 'was false now true' problem
+            // TODO Fix Validators
+            receiverType: [''],//, [Validators.maxLength(100)]],
+            manufacturerSerialNumber: [''],//, [Validators.maxLength(100)]],
+            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],
+            dateRemoved: [''],//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
+            firmwareVersion: [''],//, [Validators.maxLength(100)]],
+            satelliteSystem: [''],//, [Validators.maxLength(100)]],
+            elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
+            temperatureStabilization: ['', [Validators.required]],//, [Validators.maxLength(100)]],
+            notes: ['', [Validators.maxLength(2000)]],
+            fieldMaps: '',
+            dateDeleted: [''],
+            dateInserted: [''],
+            deletedReason: [''],
+        });
+        // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
+        // this.addToGroupArray(this.itemGroup);
+        return itemGroup;
+    }
+
     ngOnInit() {
         // this.setupForm();
             this.patchForm();
         // setTimeout(() => {
         // }, 0);
     }
+
 
     protected patchForm() {
         console.log(`receivers #${this.index} - setValue: `, this.gnssReceiver);
