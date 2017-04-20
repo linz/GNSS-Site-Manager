@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder, FormControl, AbstractControl } from '@angular/forms';
 import { AbstractGroup, sortingDirectionAscending } from '../shared/abstract-groups-items/abstract-group';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
+import { GnssReceiverItemFormModel } from './gnss-receiver-item.formmodel';
 
 /**.
  * This class represents a group of GNSS Receivers.
@@ -22,7 +23,10 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-       siteLogModel && this.setItemsCollection(siteLogModel.gnssReceivers);
+       if (siteLogModel) {
+           this.setItemsCollection(siteLogModel.gnssReceivers);
+           this.setupForm();
+       }
     }
 
     @Input()
@@ -30,12 +34,13 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
         originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssReceivers);
     }
 
-    constructor() {
+    constructor(private formBuilder: FormBuilder) {
         super();
     }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set
+        // this.setupForm();
     }
 
     getItemName(): string {
@@ -53,8 +58,28 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
         return new GnssReceiverViewModel(blank);
     }
 
+    // public itemAt(i: number): FormGroup {
+    //     if (i < this.groupArrayForm.length) {
+    //         return <FormGroup> this.groupArrayForm.at(i);
+    //     }
+    //     console.error(`trying to itemAt(${i}) but that index doesn't exist in the formArray`);
+    //     return null;
+    // }
+
     private setupForm() {
-        this.groupArrayForm = new FormArray([]);
+        this.groupArrayForm = this.formBuilder.array([]);// new FormArray([]);
         this.siteInfoForm.addControl('gnssReceivers', this.groupArrayForm);
+
+        this.setupChildItems();
+    }
+
+    private setupChildItems() {
+        let i: number=0;
+        for (let viewModel of this.getItemsCollection()) {
+            let itemGroup: FormGroup = GnssReceiverItemFormModel.setupForm(this.formBuilder);
+            this.groupArrayForm.push(itemGroup);
+            // let a: AbstractControl = new FormControl('alpha'+i++);
+            // this.groupArrayForm.push(a);
+        }
     }
 }

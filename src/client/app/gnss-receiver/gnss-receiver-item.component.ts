@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { FormBuilder, AbstractControl, Validators, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { DialogService } from '../shared/index';
@@ -23,12 +23,15 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
     }
 
     ngOnInit() {
-        this.setupForm();
-        setTimeout(() => this.patchForm());
+        // this.setupForm();
+            this.patchForm();
+        // setTimeout(() => {
+        // }, 0);
     }
 
     protected patchForm() {
         console.log(`receivers #${this.index} - setValue: `, this.gnssReceiver);
+        this.itemGroup = <FormGroup> this.groupArray.at(this.index);
         this.itemGroup.setValue(this.gnssReceiver);
         // This item may now be at a new index from what it was created at.  Patch the array item at that index.
         // (<AbstractControl> this.groupArray.controls[this.getIndex()]).patchValue(this.gnssReceiver);
@@ -49,24 +52,24 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
     }
 
     private setupForm() {
-        this.itemGroup = this.formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-            receiverType: [''],//, [Validators.maxLength(100)]],
-            manufacturerSerialNumber: [''],//, [Validators.maxLength(100)]],
-            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],
-            dateRemoved: [''],//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
-            firmwareVersion: [''],//, [Validators.maxLength(100)]],
-            satelliteSystem: [''],//, [Validators.maxLength(100)]],
-            elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
-            temperatureStabilization: [''],//, [Validators.maxLength(100)]],
-            notes: ['', [Validators.maxLength(2000)]],
-            fieldMaps: '',
-            dateDeleted: [''],
-            dateInserted: [''],
-            deletedReason: [''],
-        });
-        // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
-        this.addToGroupArray(this.itemGroup);
+        // this.itemGroup = this.formBuilder.group({
+        //     // turn off all Validators until work out solution to 'was false now true' problem
+        //     // TODO Fix Validators
+        //     receiverType: [''],//, [Validators.maxLength(100)]],
+        //     manufacturerSerialNumber: [''],//, [Validators.maxLength(100)]],
+        //     dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],
+        //     dateRemoved: [''],//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
+        //     firmwareVersion: [''],//, [Validators.maxLength(100)]],
+        //     satelliteSystem: [''],//, [Validators.maxLength(100)]],
+        //     elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
+        //     temperatureStabilization: [''],//, [Validators.maxLength(100)]],
+        //     notes: ['', [Validators.maxLength(2000)]],
+        //     fieldMaps: '',
+        //     dateDeleted: [''],
+        //     dateInserted: [''],
+        //     deletedReason: [''],
+        // });
+        // // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
+        // this.addToGroupArray(this.itemGroup);
     }
 }
