@@ -6,7 +6,7 @@
       <div class="input-group">
         <input type="text" maxlength="24"
                class="form-control z-lowest"
-               [(ngModel)]="datetimeDisplay"[ngClass]="{ 'ng-invalid': invalidDatetime }"
+               [(ngModel)]="datetimeDisplay"[ngClass]="{'ng-dirty': hasChanges, 'ng-invalid': invalidDatetime }"
                (change)="updateCalendar()"
                (focus)="miscUtils.scrollIntoView($event, showDatetimePicker); showDatetimePicker = true;"/>
         <span class="input-group-btn z-lowest">
