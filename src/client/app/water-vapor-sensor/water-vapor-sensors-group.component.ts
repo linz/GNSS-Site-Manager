@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
+import { WaterVaporSensorItemComponent } from './water-vapor-sensor-item.component';
 
 /**
  * This class represents a group of WaterVapor Sensors.
@@ -20,8 +21,10 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
 
   @Input()
   set siteLogModel(siteLogModel: any) {
-    siteLogModel && this.setItemsCollection(siteLogModel.waterVaporSensors);
-    console.log('WaterVaporSensors: ', this.getItemsCollection());
+      if (siteLogModel) {
+          this.setItemsCollection(siteLogModel.waterVaporSensors);
+          this.setupForm('waterVaporSensors');
+      }
   }
 
   @Input()
@@ -30,12 +33,13 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
     console.log('WaterVaporSensors (Original): ', this.getItemsOriginalCollection());
   }
 
-  constructor() {
-    super();
-  }
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
+    }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
    getItemName(): string {
@@ -46,12 +50,11 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
         return WaterVaporSensorsGroupComponent.compare(obj1, obj2);
     }
 
-  newViewModelItem(blank?: boolean): WaterVaporSensorViewModel {
+  newItemViewModel(blank?: boolean): WaterVaporSensorViewModel {
     return new WaterVaporSensorViewModel(blank);
   }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('waterVaporSensors', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return WaterVaporSensorItemComponent.newFormInstance(this.formBuilder);
     }
 }

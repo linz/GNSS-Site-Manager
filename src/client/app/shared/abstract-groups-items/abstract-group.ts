@@ -1,5 +1,5 @@
 import { Input } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
@@ -15,8 +15,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
     miscUtils: any = MiscUtils;
     protected groupArrayForm: FormArray;
-    @Input('siteInfoForm') siteInfoForm: FormGroup;
-
+    @Input() siteInfoForm: FormGroup;
 
     /**
      * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
@@ -65,6 +64,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
     }
 
+    constructor(protected formBuilder: FormBuilder) {}
+
     set unlimitedItems(unlimitedItemsAllowed: boolean) {
         this._unlimitedItemsAllowed = unlimitedItemsAllowed;
     }
@@ -86,7 +87,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * The child class needs to define this to make an instance of itself.
      * @param blank - if to exclude all default values so it is completely blank.  Defaults to false.
      */
-    abstract newViewModelItem(blank?: boolean): T;
+    abstract newItemViewModel(blank?: boolean): T;
 
     /**
      * Subclasses can create a comparator relevant for their data structures.  Reduce size in these by
@@ -98,11 +99,9 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
 
     /**
-     * The form data model needs to be updated when new items are added.
-     *
-     * @param isItDirty if to mark it dirty or not.
+     * @return the Item form instance to be inserted in the Group array.
      */
-    abstract addChildItemToForm(isItDirty: boolean): void;
+    abstract newItemFormInstance(): FormGroup;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -131,7 +130,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         let doShowDeleted: boolean = true;
         // if (this.getItemName().match(/receiver/i)) {
         //     let size: number = this.itemProperties ? this.itemProperties.length : -1;
-        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${this.itemProperties ? this.itemProperties.length : 0}): `, this.itemProperties);
+        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${this.itemProperties ?
+        // this.itemProperties.length : 0}): `, this.itemProperties);
         // }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
@@ -179,7 +179,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             this.itemProperties.splice(0, 0, item);
             this.itemOriginalProperties.splice(0,0,origItem);
         }
-        this.addChildItemToForm(item);
+        this.addChildItemToForm();
         console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
         console.log('addToItemsCollection - itemOriginalProperties: ', this.itemOriginalProperties);
         console.log('addToItemsCollection - groupArrayForm: ', this.groupArrayForm);
@@ -212,6 +212,46 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     /**
+     * Setup the form for the group.  It will contain an array of Items.
+     *
+     * @param itemsArrayName that is set on the siteInfoForm
+     */
+    setupForm(itemsArrayName: string) {
+        this.groupArrayForm = this.formBuilder.array([]);
+        if (this.siteInfoForm.controls[itemsArrayName]) {
+            this.siteInfoForm.removeControl(itemsArrayName);
+        }
+        this.siteInfoForm.addControl(itemsArrayName, this.groupArrayForm);
+
+        this.setupChildItems();
+    }
+
+    setupChildItems() {
+        for (let viewModel of this.getItemsCollection()) {
+            this.addChildItemToForm();
+        }
+    }
+
+    /**
+     * The form data model needs to be updated when new items are added.
+     *
+     * @param isItDirty if to mark it dirty or not.
+     */
+    addChildItemToForm(isItDirty: boolean = false) {
+        let itemGroup: FormGroup = this.newItemFormInstance();
+        if (sortingDirectionAscending) {
+            this.groupArrayForm.push(itemGroup);
+        } else {
+            this.groupArrayForm.insert(0, itemGroup);
+        }
+        if (isItDirty) {
+            itemGroup.markAsDirty();
+        }
+    }
+
+    /* ************** Methods called from the template ************** */
+
+    /**
      * Remove an item.  Originally it was removed from the list.  However we now want to track deletes so
      * keep it and mark as deleted using change tracking.
      */
@@ -235,6 +275,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         this.itemProperties.splice(newIndex, 1);
     }
 
+    /* ************** Private Methods ************** */
+
     private addNewItem(): void {
         this.isGroupOpen = true;
 
@@ -242,8 +284,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             this.setItemsCollection([]);
         }
 
-        let newItem: T = <T> this.newViewModelItem();
-        let newItemOrig: T = this.newViewModelItem(newItemShouldBeBlank);
+        let newItem: T = <T> this.newItemViewModel();
+        let newItemOrig: T = this.newItemViewModel(newItemShouldBeBlank);
 
         console.log('New View Model: ', newItem);
         console.log('itemProperties before new item: ', this.itemProperties);
@@ -280,10 +322,12 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             index = 1;
         }
         updatedValue = this.itemProperties[index].setFinalValuesBeforeCreatingNewItem();
-        this.groupArrayForm.at(index).patchValue(updatedValue);
-        this.groupArrayForm.at(index).markAsDirty();
-        for (let key of Object.keys(updatedValue)) {
-            (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+        if (updatedValue && Object.keys(updatedValue).length > 0) {
+            this.groupArrayForm.at(index).patchValue(updatedValue);
+            this.groupArrayForm.at(index).markAsDirty();
+            for (let key of Object.keys(updatedValue)) {
+                (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+            }
         }
     }
 

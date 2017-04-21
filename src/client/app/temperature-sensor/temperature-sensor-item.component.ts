@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This component represents a single Temperature Sensor.
@@ -24,20 +24,19 @@ export class TemperatureSensorItemComponent extends AbstractItem implements OnIn
   }
 
   ngOnInit() {
-        this.setupForm();
         this.patchForm();
-    }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.temperatureSensor);//, {emitEvent: false});
     }
 
   getItemName(): string {
     return 'Temperature Sensor';
   }
 
-    private setupForm() {
-        this.itemGroup = this.formBuilder.group({
+    getItem(): AbstractViewModel {
+        return this.temperatureSensor;
+    }
+
+    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
+        let itemGroup: FormGroup = formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
             manufacturer: [''],//, [Validators.required, Validators.minLength(100)]],
@@ -54,6 +53,6 @@ export class TemperatureSensorItemComponent extends AbstractItem implements OnIn
             dateInserted: '',
             deletedReason: ''
         });
-        this.addToGroupArray(this.itemGroup);
+        return itemGroup;
     }
 }

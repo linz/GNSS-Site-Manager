@@ -1,9 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { DialogService } from '../shared/index';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
+import { DialogService } from '../shared/global/dialog.service';
 
 /**
  * This component represents a single Temperature Sensor.
@@ -21,25 +22,24 @@ export class ResponsiblePartyItemComponent extends AbstractItem implements OnIni
 
     @Input() partyName: ResponsiblePartyType;
 
-    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+    constructor(protected dialogService: DialogService) {
         super(dialogService);
     }
 
     ngOnInit() {
-        this.setupForm();
         this.patchForm();
-    }
-
-     protected patchForm() {
-        this.itemGroup.setValue(this.responsibleParty);
     }
 
     getItemName(): string {
         return this.partyName.getTitle();
     }
 
-    private setupForm() {
-        this.itemGroup = this.formBuilder.group({
+    getItem(): AbstractViewModel {
+        return this.responsibleParty;
+    }
+
+    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
+        let itemGroup: FormGroup = formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
 
@@ -63,6 +63,6 @@ export class ResponsiblePartyItemComponent extends AbstractItem implements OnIni
             dateDeleted: '',
             deletedReason: ''
         });
-        this.addToGroupArray(this.itemGroup);
+        return itemGroup;
     }
 }

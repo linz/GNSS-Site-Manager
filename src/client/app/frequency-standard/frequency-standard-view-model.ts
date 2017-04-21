@@ -38,12 +38,14 @@ export class FrequencyStandardViewModel extends AbstractViewModel {
         '/notes', 'string');
   };
 
-  /**
-   * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-   */
-  setFinalValuesBeforeCreatingNewItem(): void {
-    let presentDT: string = MiscUtils.getPresentDateTime();
+    /**
+     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
+     * Return what is changed as an object so the form can be patched.
+     */
+    setFinalValuesBeforeCreatingNewItem(): Object {
+        let presentDT: string = MiscUtils.getPresentDateTime();
 
-    this.endDate=presentDT;
-  }
+        this.endDate = presentDT;
+        return {endDate: presentDT};
+    }
 }

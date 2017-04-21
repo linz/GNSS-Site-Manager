@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
+import { LocalEpisodicEffectItemComponent } from './local-episodic-effect-item.component';
 
 /**.
  * This class represents a group of Local Episodic Effects.
@@ -20,7 +21,10 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        siteLogModel && this.setItemsCollection(siteLogModel.localEpisodicEffects);
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.localEpisodicEffects);
+            this.setupForm('localEpisodicEffects');
+        }
     }
 
     @Input()
@@ -28,12 +32,13 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
         originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEffects);
     }
 
-    constructor() {
-        super();
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
     }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
     getItemName(): string {
@@ -47,12 +52,11 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
         /* **************************************************
          * Other methods
          */
-    newViewModelItem(blank?: boolean): LocalEpisodicEffectViewModel {
+    newItemViewModel(blank?: boolean): LocalEpisodicEffectViewModel {
         return new LocalEpisodicEffectViewModel(blank);
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('localEpisodicEffects', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return LocalEpisodicEffectItemComponent.newFormInstance(this.formBuilder);
     }
 }

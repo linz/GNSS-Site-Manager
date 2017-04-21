@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, AbstractControl, Validators, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This component represents a single GNSS Receiver.
@@ -22,7 +23,7 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
         super(dialogService);
     }
 
-    public static setupForm(formBuilder: FormBuilder): FormGroup {
+    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
         let itemGroup: FormGroup = formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
@@ -48,11 +49,8 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
         this.patchForm();
     }
 
-
-    protected patchForm() {
-        console.log(`receivers #${this.index} - setValue: `, this.gnssReceiver);
-        this.itemGroup = <FormGroup> this.groupArray.at(this.index);
-        this.itemGroup.setValue(this.gnssReceiver);
+    getItem(): AbstractViewModel {
+        return this.gnssReceiver;
     }
 
     getItemName(): string {

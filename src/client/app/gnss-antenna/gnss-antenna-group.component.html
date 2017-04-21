@@ -21,14 +21,17 @@
     <div class="margin-bottom15" *ngIf="isEmptyCollection()">
       No information available for {{getItemName()}}
     </div>
-    <div *ngFor="let antenna of getItemsCollection(); let i = index">
+      <div formArrayName="gnssAntennas">
+          <div *ngFor="let antenna of getItemsCollection(); let i = index">
       <gnss-antenna-item [groupArray]="groupArrayForm"
                          [antenna]="antenna"
+                         [formGroupName]="i"
                          [total]="itemProperties.length"
                          [index]="i"
                          [geodesyEvent]="geodesyEvent"
                          (returnEvents)="returnEvents($event)">
       </gnss-antenna-item>
     </div>
+      </div>
   </div>
 </div>

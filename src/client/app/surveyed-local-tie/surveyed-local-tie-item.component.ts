@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This component represents a single Surveyed Local Tie.
@@ -24,20 +24,19 @@ export class SurveyedLocalTieItemComponent extends AbstractItem implements OnIni
     }
 
     ngOnInit() {
-        this.setupForm();
         this.patchForm();
-    }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.surveyedLocalTie);
     }
 
     getItemName(): string {
         return 'Surveyed Local Tie';
     }
 
-    private setupForm() {
-        this.itemGroup = this.formBuilder.group({
+    getItem(): AbstractViewModel {
+        return this.surveyedLocalTie;
+    }
+
+    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
+        let itemGroup: FormGroup = formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
             tiedMarkerName: [''],//, [Validators.required, Validators.maxLength(100)]],
@@ -56,6 +55,6 @@ export class SurveyedLocalTieItemComponent extends AbstractItem implements OnIni
             dateInserted: '',
             deletedReason: ''
         });
-        this.addToGroupArray(this.itemGroup);
+        return itemGroup;
     }
 }

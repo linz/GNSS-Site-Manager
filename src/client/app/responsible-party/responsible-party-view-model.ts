@@ -77,8 +77,10 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
 
     /**
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
+     * Return what is changed as an object so the form can be patched.
      */
-    setFinalValuesBeforeCreatingNewItem(): void {
+    setFinalValuesBeforeCreatingNewItem(): Object {
         // NOOP
+        return {};
     }
 }

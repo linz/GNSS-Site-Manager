@@ -19,17 +19,20 @@
     <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
       No information available for {{getItemName()}}
     </div>
-    <div *ngFor="let responsibleParty of getItemsCollection(); let i = index">
+      <div [formArrayName]="partyName.toString()">
+      <div *ngFor="let responsibleParty of getItemsCollection(); let i = index">
       <!-- [geodesyEvent] - send event to child components -->
       <!-- (open/close Above/Below Event) - receive events from child components -->
       <!-- (returnEvents) - single point to call events on parent -->
       <gnss-responsible-party-item [groupArray]="groupArrayForm"
                                    [partyName]="partyName"
                                  [responsibleParty]="responsibleParty"
+                                   [formGroupName]="i"
                                  [total]="itemProperties.length"
                                  [index]="i"
                                  [geodesyEvent]="geodesyEvent"
                                  (returnEvents)="returnEvents($event)"></gnss-responsible-party-item>
     </div>
+      </div>
   </div>
 </div>

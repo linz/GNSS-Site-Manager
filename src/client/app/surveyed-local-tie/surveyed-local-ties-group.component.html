@@ -19,16 +19,19 @@
         <div *ngIf="isEmptyCollection()">
             No information available for Surveyed Local Ties
         </div>
+        <div formArrayName="surveyedLocalTies">
         <div *ngFor="let surveyedLocalTie of getItemsCollection(); let i = index">
             <!-- [geodesyEvent] - send event to child components -->
             <!-- (open/close Above/Below Event) - receive events from child components -->
             <!-- (returnEvents) - single point to call events on parent -->
             <surveyed-local-tie-item [groupArray]="groupArrayForm"
                                   [surveyedLocalTie]="surveyedLocalTie"
+                                     [formGroupName]="i"
                                   [total]="itemProperties.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
                                   (returnEvents)="returnEvents($event)"></surveyed-local-tie-item>
+        </div>
         </div>
     </div>
 </div>

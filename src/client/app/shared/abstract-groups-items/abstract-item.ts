@@ -4,6 +4,7 @@ import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
 import { AbstractGroup } from './abstract-group';
+import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 
 export abstract class AbstractItem implements OnInit, OnChanges {
     protected miscUtils: any = MiscUtils;
@@ -65,9 +66,9 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     abstract getItemName(): string;
 
     /**
-     * Patching (or setting) is used to apply the values in the model to the form.
+     * Get the ViewModel used in the Item components
      */
-    protected abstract patchForm(): void;
+    abstract getItem(): AbstractViewModel;
 
   /**
    * Creates an instance of the AbstractItem with the injected Services.
@@ -146,6 +147,15 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     addToGroupArray(itemGroup: FormGroup): void {
         this.groupArray.insert(0, itemGroup);
         console.warn(`AbstractItem (${this.getItemName()}) - addToGroupArray - groupArray size now: ${this.groupArray.length}`);
+    }
+
+    /**
+     * Patching (or setting) is used to apply the values in the model to the form.
+     */
+    protected patchForm() {
+        console.log(`receivers #${this.index} - setValue: `, this.getItem());
+        this.itemGroup = <FormGroup> this.groupArray.at(this.index);
+        this.itemGroup.setValue(this.getItem())
     }
 
     /**
