@@ -357,26 +357,4 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             }
         }
     }
-
-    /**
-     * When we reload / revert the SiteLog, all existing form items need to be removed so they can be recreated (or else get multiples).
-     * At this stage only concerned about arrays of Items that are in Groups
-     */
-    private removeAllExistingControlItems() {
-        let keys: string[] = Object.keys(this.siteInfoForm.controls);
-        for (let key of keys) {
-            if (Array.isArray(this.siteInfoForm.controls[key].value)) {
-                console.debug(`removeAllExistingControlItems - ${key} - size ${(<FormArray> this.siteInfoForm.controls[key]).length}`);
-                this.removeFormArrayItems(<FormArray> this.siteInfoForm.controls[key]);
-                console.debug(`    size now - ${key} - size ${(<FormArray> this.siteInfoForm.controls[key]).length}`);
-            }
-        }
-    }
-
-    private removeFormArrayItems(formArrayControl: FormArray) {
-        let itemNumber: number = formArrayControl.length;
-        for (; itemNumber >= 0; itemNumber--) {
-            formArrayControl.removeAt(itemNumber);
-        }
-    }
 }

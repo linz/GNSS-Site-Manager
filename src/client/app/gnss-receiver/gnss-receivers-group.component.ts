@@ -4,6 +4,8 @@ import { AbstractGroup, sortingDirectionAscending } from '../shared/abstract-gro
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { GnssReceiverItemComponent } from './gnss-receiver-item.component';
 
+const itIsDirty: boolean = true;
+
 /**.
  * This class represents a group of GNSS Receivers.
  */
@@ -71,13 +73,15 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
         }
     }
 
-    protected addChildItemToForm() {
+    addChildItemToForm(isItDirty: boolean = false) {
         let itemGroup: FormGroup = GnssReceiverItemComponent.setupForm(this.formBuilder);
         if (sortingDirectionAscending) {
             this.groupArrayForm.push(itemGroup);
         } else {
             this.groupArrayForm.insert(0, itemGroup);
         }
-        itemGroup.markAsDirty();
+        if (isItDirty) {
+            itemGroup.markAsDirty();
+        }
     }
 }

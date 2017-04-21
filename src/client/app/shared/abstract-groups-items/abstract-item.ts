@@ -94,15 +94,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
                 if (propName === 'geodesyEvent') {
                     this.handleGeodesyEvents();
                 }
-            } else {
-                if (propName === 'index') {
-                    let previousIndex: number = changedProp.previousValue.valueOf();
-                    let newIndex: number = changedProp.currentValue.valueOf();
-                    if (previousIndex !== newIndex) {
-                        console.debug(`Item index ${this.index} - subsequent value of ${propName} set to: `, changedProp);
-                        this.patchItemForm(newIndex);
-                    }
-                }
             }
         }
     }
@@ -190,16 +181,5 @@ export abstract class AbstractItem implements OnInit, OnChanges {
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;
-    }
-
-    /**
-     * Force a manual patch of the Item with given index.
-     * @param index
-     */
-    private patchItemForm(index: number) {
-        if (index === this.index) {
-            // this.patchForm();
-        }
-        console.log('I lied - not patching form');
     }
 }

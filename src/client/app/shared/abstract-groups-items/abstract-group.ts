@@ -4,11 +4,10 @@ import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as lodash from 'lodash';
-import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
 
 export const sortingDirectionAscending: boolean = false;
 export const newItemShouldBeBlank: boolean = true;
-export const notBlankNewItem: boolean = false;
+export const newItemShouldNotBeBlank: boolean = false;
 
 export abstract class AbstractGroup<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
@@ -98,7 +97,12 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
 
-    protected abstract addChildItemToForm(item: T): void;
+    /**
+     * The form data model needs to be updated when new items are added.
+     *
+     * @param isItDirty if to mark it dirty or not.
+     */
+    abstract addChildItemToForm(isItDirty: boolean): void;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -252,29 +256,35 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         console.log('itemProperties after new item: ', this.itemProperties);
 
         if (this.itemProperties.length > 1) {
-            // Let the ViewModels do anything they like with the previous item - such as set end/removal date
-            // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
-            // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
-            let updatedValue: Object;
-            if (sortingDirectionAscending) {
-                updatedValue = this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
-                this.groupArrayForm.at(this.itemProperties.length - 2).patchValue(updatedValue);
-                this.groupArrayForm.at(this.itemProperties.length - 2).markAsDirty();
-            } else {
-                updatedValue = this.itemProperties[1].setFinalValuesBeforeCreatingNewItem();
-                this.groupArrayForm.at(1).patchValue(updatedValue);
-                this.groupArrayForm.at(1).markAsDirty();
-                for (let key of Object.keys(updatedValue)) {
-                    (<FormGroup>this.groupArrayForm.at(1)).controls[key].markAsDirty();
-                }
-            }
+            this.updateSecondToLastItem();
         }
 
         // Let the parent form know that it now has a new child
         this.groupArrayForm.markAsDirty();
-        // this.siteInfoForm.markAsDirty();
-        console.log('itemProperties after everythign in addNew: ', this.itemProperties);
-        console.log('itemOriginalProperties after everythign in addNew: ', this.itemOriginalProperties);
+        console.log('itemProperties after everything in addNew: ', this.itemProperties);
+        console.log('itemOriginalProperties after everything in addNew: ', this.itemOriginalProperties);
+    }
+
+    /**
+     * Let the ViewModels do anything they like with the 2nd last (previous) item - such as set end/removal date.
+     * Need to modify both the SiteLogModel and the form model.
+     */
+    private updateSecondToLastItem() {
+        // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
+        // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
+        let updatedValue: Object;
+        let index: number;
+        if (sortingDirectionAscending) {
+            index = this.itemProperties.length - 2;
+        } else {
+            index = 1;
+        }
+        updatedValue = this.itemProperties[index].setFinalValuesBeforeCreatingNewItem();
+        this.groupArrayForm.at(index).patchValue(updatedValue);
+        this.groupArrayForm.at(index).markAsDirty();
+        for (let key of Object.keys(updatedValue)) {
+            (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+        }
     }
 
     /**
