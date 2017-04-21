@@ -111,6 +111,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.goToHomePage();
     }
 
+       console.log('---------> SiteInfoComponent - Load / Revert ------------------------');
     this.isLoading = true;
     this.submitted = false;
 
@@ -174,7 +175,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           }
           formValue = this.siteInfoForm.value;
       }
-
+        console.log('---------> SiteInfoComponent - Save ------------------------');
       console.log(' siteLog before form merge: ', this.siteLogModel);
       console.log(' formValue before merge and reverse: ', formValue);
       let formValueClone: any =_.cloneDeep(formValue);
@@ -293,6 +294,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
                 console.log('  and siteLogModel: ', this.siteLogModel);
+                console.log('  and siteLogOrigin: ', this.siteLogOrigin);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
                 console.log('form dirty - no');

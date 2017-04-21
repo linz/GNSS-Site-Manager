@@ -47,7 +47,8 @@ export class ToolbarComponent implements OnInit {
   }
 
   revert() {
-    this.onRevert.emit( this.siteId !== null );
+    // this.onRevert.emit( this.siteId !== null );
+    javascript:history.go(0);
   }
 
   close() {

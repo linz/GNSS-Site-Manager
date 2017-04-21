@@ -62,7 +62,11 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
 
     private setupForm() {
         this.groupArrayForm = this.formBuilder.array([]);
+        if (this.siteInfoForm.controls['gnssReceivers']) {
+            this.siteInfoForm.removeControl('gnssReceivers');
+        }
         this.siteInfoForm.addControl('gnssReceivers', this.groupArrayForm);
+        console.log('RECEIVERS GROUP - setupform - groupArrayForm size: ', this.groupArrayForm.length);
 
         this.setupChildItems();
     }
