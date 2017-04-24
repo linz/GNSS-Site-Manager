@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
+import { ResponsiblePartyItemComponent } from './responsible-party-item.component';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
@@ -54,11 +55,11 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
         return this._partyName;
     }
 
-
     @Input()
     set siteLogModel(siteLogModel: any) {
         if (siteLogModel) {
             this.setItemsCollection(siteLogModel[this.partyName.toString()]);
+            this.init();
         }
     }
 
@@ -69,18 +70,23 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
         }
     }
 
-    constructor() {
-        super();
+    constructor(protected formBuilder: FormBuilder) {
+        super(formBuilder);
     }
 
     ngOnInit() {
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
+    }
+
+    private init() {
         if (!this.partyName) {
             throw new Error('Party attribute is required for ResponsiblePartyGroupComponent');
         } else {
         }
 
         this.unlimitedItems = (this.partyName !== ResponsiblePartyType.siteMetadataCustodian);
-        this.setupForm();
+        this.setupForm(this.partyName.toString());
     }
 
     getItemName(): string {
@@ -91,12 +97,11 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
         return ResponsiblePartyGroupComponent.compare(obj1, obj2);
     }
 
-    newViewModelItem(blank?: boolean): ResponsiblePartyViewModel {
+    newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel(blank);
     }
 
-    private setupForm() {
-        this.groupArrayForm = new FormArray([]);
-        this.siteInfoForm.addControl(this.partyName.toString(), this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return ResponsiblePartyItemComponent.newFormInstance(this.formBuilder);
     }
 }

@@ -6,8 +6,8 @@ import { ResponsiblePartyItemComponent } from './responsible-party-item.componen
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [ ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent ],
-  exports: [ ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent ],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent],
+    exports: [ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent, DynamicFormFieldsModule]
 })
 export class ResponsiblePartyModule { }

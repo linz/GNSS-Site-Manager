@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
+import { PressureSensorItemComponent } from './pressure-sensor-item.component';
 
 /**
  * This class represents a group of Pressure Sensors.
@@ -20,8 +21,10 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
 
     @Input()
   set siteLogModel(siteLogModel: any) {
-    siteLogModel && this.setItemsCollection(siteLogModel.pressureSensors);
-    console.log('PressureSensors: ', this.getItemsCollection());
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.pressureSensors);
+            this.setupForm('pressureSensors');
+        }
   }
 
   @Input()
@@ -30,12 +33,13 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
     console.log('PressureSensors (Original): ', this.getItemsOriginalCollection());
   }
 
-  constructor() {
-    super();
-  }
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
+    }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
   getItemName(): string {
@@ -46,12 +50,11 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
         return PressureSensorsGroupComponent.compare(obj1, obj2);
     }
 
-  newViewModelItem(blank?: boolean): PressureSensorViewModel {
+  newItemViewModel(blank?: boolean): PressureSensorViewModel {
     return new PressureSensorViewModel(blank);
   }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('pressureSensors', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return PressureSensorItemComponent.newFormInstance(this.formBuilder);
     }
 }

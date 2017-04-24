@@ -57,10 +57,14 @@ export class GnssAntennaViewModel extends AbstractViewModel {
       this.addFieldMapping('/gnssAntenna/notes', 'string', '/notes', 'string');
   };
 
-  /**
-   * Called on the 'last' object before creating a new one to populate it with some values such as dateRemoved.
-   */
-  setFinalValuesBeforeCreatingNewItem(): void {
-    this.dateRemoved = MiscUtils.getPresentDateTime();
-  }
+    /**
+     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
+     * Return what is changed as an object so the form can be patched.
+     */
+    setFinalValuesBeforeCreatingNewItem(): Object {
+        let presentDT: string = MiscUtils.getPresentDateTime();
+
+        this.dateRemoved = presentDT;
+        return {dateRemoved: presentDT};
+    }
 }

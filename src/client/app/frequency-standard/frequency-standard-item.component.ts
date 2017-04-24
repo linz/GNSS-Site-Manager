@@ -1,9 +1,9 @@
-import { Component, Input, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This class represents a single item of GNSS Antennas.
@@ -24,20 +24,19 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
   }
 
     ngOnInit() {
-        this.setupForm();
         this.patchForm();
-    }
-
-     protected patchForm() {
-        this.itemGroup.setValue(this.frequencyStandard);
     }
 
   getItemName(): string {
     return 'Frequency Standard';
   }
 
-    private setupForm() {
-        this.itemGroup = this.formBuilder.group({
+    getItem(): AbstractViewModel {
+        return this.frequencyStandard;
+    }
+
+    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
+        let itemGroup: FormGroup = formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
             standardType: [''],//, [Validators.minLength(4)]],
@@ -50,6 +49,6 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
             dateInserted: '',
             deletedReason: ''
         });
-        this.addToGroupArray(this.itemGroup);
+        return itemGroup;
     }
 }

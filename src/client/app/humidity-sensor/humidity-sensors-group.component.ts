@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { HumiditySensorViewModel } from './humidity-sensor-view-model';
+import { HumiditySensorItemComponent } from './humidity-sensor-item.component';
 
 /**.
  * This class represents a group of Humidity Sensors.
@@ -20,7 +21,10 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        siteLogModel && this.setItemsCollection(siteLogModel.humiditySensors);
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.humiditySensors);
+            this.setupForm('humiditySensors');
+        }
     }
 
     @Input()
@@ -28,12 +32,13 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
         originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
     }
 
-    constructor() {
-        super();
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
     }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
     getItemName(): string {
@@ -47,12 +52,11 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(blank?: boolean): HumiditySensorViewModel {
+    newItemViewModel(blank?: boolean): HumiditySensorViewModel {
         return new HumiditySensorViewModel(blank);
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('humiditySensors', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return HumiditySensorItemComponent.newFormInstance(this.formBuilder);
     }
 }

@@ -4,6 +4,7 @@ import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
 import { AbstractGroup } from './abstract-group';
+import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 
 export abstract class AbstractItem implements OnInit, OnChanges {
     protected miscUtils: any = MiscUtils;
@@ -65,9 +66,9 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     abstract getItemName(): string;
 
     /**
-     * Patching (or setting) is used to apply the values in the model to the form.
+     * Get the ViewModel used in the Item components
      */
-    protected abstract patchForm(): void;
+    abstract getItem(): AbstractViewModel;
 
   /**
    * Creates an instance of the AbstractItem with the injected Services.
@@ -93,15 +94,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
                 // console.log(`Item index ${this.index} - initial value of ${propName} set to: `, changedProp);
                 if (propName === 'geodesyEvent') {
                     this.handleGeodesyEvents();
-                }
-            } else {
-                if (propName === 'index') {
-                    let previousIndex: number = changedProp.previousValue.valueOf();
-                    let newIndex: number = changedProp.currentValue.valueOf();
-                    if (previousIndex !== newIndex) {
-                        console.debug(`Item index ${this.index} - subsequent value of ${propName} set to: `, changedProp);
-                        this.patchItemForm(newIndex);
-                    }
                 }
             }
         }
@@ -158,6 +150,15 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     /**
+     * Patching (or setting) is used to apply the values in the model to the form.
+     */
+    protected patchForm() {
+        console.log(`receivers #${this.index} - setValue: `, this.getItem());
+        this.itemGroup = <FormGroup> this.groupArray.at(this.index);
+        this.itemGroup.setValue(this.getItem())
+    }
+
+    /**
      * Event Handler - if this item has the given indexOfNew, then this is a new item.
      *
      * @param indexOfNew
@@ -190,15 +191,5 @@ export abstract class AbstractItem implements OnInit, OnChanges {
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;
-    }
-
-    /**
-     * Force a manual patch of the Item with given index.
-     * @param index
-     */
-    private patchItemForm(index: number) {
-        if (index === this.index) {
-            this.patchForm();
-        }
     }
 }

@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
+import { TemperatureSensorItemComponent } from './temperature-sensor-item.component';
 
 /**
  * This class represents a group of Temperature Sensors.
@@ -21,8 +22,10 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
 
   @Input()
   set siteLogModel(siteLogModel: any) {
-    siteLogModel && this.setItemsCollection(siteLogModel.temperatureSensors);
-    console.log('TemperatureSensors: ', this.getItemsCollection());
+      if (siteLogModel) {
+          this.setItemsCollection(siteLogModel.temperatureSensors);
+          this.setupForm('temperatureSensors');
+      }
   }
 
   @Input()
@@ -31,12 +34,13 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
     console.log('TemperatureSensors (Original): ', this.getItemsOriginalCollection());
   }
 
-  constructor() {
-    super();
-  }
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
+    }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
   getItemName(): string {
@@ -47,12 +51,11 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
         return TemperatureSensorsGroupComponent.compare(obj1, obj2);
     }
 
-  newViewModelItem(blank?: boolean): TemperatureSensorViewModel {
+  newItemViewModel(blank?: boolean): TemperatureSensorViewModel {
     return new TemperatureSensorViewModel(blank);
   }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('temperatureSensors', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return TemperatureSensorItemComponent.newFormInstance(this.formBuilder);
     }
 }

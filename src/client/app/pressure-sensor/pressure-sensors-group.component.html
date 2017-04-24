@@ -19,16 +19,19 @@
     <div *ngIf="isEmptyCollection()">
       No information available for Pressure Sensors
     </div>
-    <div *ngFor="let pressureSensor of getItemsCollection(); let i = index">
+      <div formArrayName="pressureSensors">
+      <div *ngFor="let pressureSensor of getItemsCollection(); let i = index">
       <!-- [geodesyEvent] - send event to child components -->
       <!-- (open/close Above/Below Event) - receive events from child components -->
       <!-- (returnEvents) - single point to call events on parent -->
       <pressure-sensor-item [groupArray]="groupArrayForm"
                                  [pressureSensor]="pressureSensor"
+                            [formGroupName]="i"
                                  [total]="itemProperties.length"
                                  [index]="i"
                                  [geodesyEvent]="geodesyEvent"
                                  (returnEvents)="returnEvents($event)"></pressure-sensor-item>
     </div>
+      </div>
   </div>
 </div>

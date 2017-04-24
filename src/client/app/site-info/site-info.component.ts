@@ -111,11 +111,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
       this.goToHomePage();
     }
 
+       console.log('---------> SiteInfoComponent - Load / Revert ------------------------');
     this.isLoading = true;
     this.submitted = false;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
-        this.removeAllExistingControlItems();
+        // this.removeAllExistingControlItems();
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
           // this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson.siteLog);//['geo:siteLog']);
@@ -174,7 +175,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
           }
           formValue = this.siteInfoForm.value;
       }
-
+        console.log('---------> SiteInfoComponent - Save ------------------------');
       console.log(' siteLog before form merge: ', this.siteLogModel);
       console.log(' formValue before merge and reverse: ', formValue);
       let formValueClone: any =_.cloneDeep(formValue);
@@ -293,6 +294,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
                 console.log('  and siteLogModel: ', this.siteLogModel);
+                console.log('  and siteLogOrigin: ', this.siteLogOrigin);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
                 console.log('form dirty - no');
@@ -355,28 +357,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                     formValue[item].sort(comparator);//this.compare);
                 }
             }
-        }
-    }
-
-    /**
-     * When we reload / revert the SiteLog, all existing form items need to be removed so they can be recreated (or else get multiples).
-     * At this stage only concerned about arrays of Items that are in Groups
-     */
-    private removeAllExistingControlItems() {
-        let keys: string[] = Object.keys(this.siteInfoForm.controls);
-        for (let key of keys) {
-            if (Array.isArray(this.siteInfoForm.controls[key].value)) {
-                console.debug(`removeAllExistingControlItems - ${key} - size ${(<FormArray> this.siteInfoForm.controls[key]).length}`);
-                this.removeFormArrayItems(<FormArray> this.siteInfoForm.controls[key]);
-                console.debug(`    size now - ${key} - size ${(<FormArray> this.siteInfoForm.controls[key]).length}`);
-            }
-        }
-    }
-
-    private removeFormArrayItems(formArrayControl: FormArray) {
-        let itemNumber: number = formArrayControl.length;
-        for (; itemNumber >= 0; itemNumber--) {
-            formArrayControl.removeAt(itemNumber);
         }
     }
 }

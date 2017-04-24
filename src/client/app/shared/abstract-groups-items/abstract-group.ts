@@ -1,14 +1,13 @@
 import { Input } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as lodash from 'lodash';
-import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
 
 export const sortingDirectionAscending: boolean = false;
 export const newItemShouldBeBlank: boolean = true;
-export const notBlankNewItem: boolean = false;
+export const newItemShouldNotBeBlank: boolean = false;
 
 export abstract class AbstractGroup<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
@@ -16,8 +15,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
     miscUtils: any = MiscUtils;
     protected groupArrayForm: FormArray;
-    @Input('siteInfoForm') siteInfoForm: FormGroup;
-
+    @Input() siteInfoForm: FormGroup;
 
     /**
      * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
@@ -66,6 +64,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
     }
 
+    constructor(protected formBuilder: FormBuilder) {}
+
     set unlimitedItems(unlimitedItemsAllowed: boolean) {
         this._unlimitedItemsAllowed = unlimitedItemsAllowed;
     }
@@ -87,7 +87,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * The child class needs to define this to make an instance of itself.
      * @param blank - if to exclude all default values so it is completely blank.  Defaults to false.
      */
-    abstract newViewModelItem(blank?: boolean): T;
+    abstract newItemViewModel(blank?: boolean): T;
 
     /**
      * Subclasses can create a comparator relevant for their data structures.  Reduce size in these by
@@ -97,6 +97,11 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param obj2
      */
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
+
+    /**
+     * @return the Item form instance to be inserted in the Group array.
+     */
+    abstract newItemFormInstance(): FormGroup;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -125,7 +130,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         let doShowDeleted: boolean = true;
         // if (this.getItemName().match(/receiver/i)) {
         //     let size: number = this.itemProperties ? this.itemProperties.length : -1;
-        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${this.itemProperties ? this.itemProperties.length : 0}): `, this.itemProperties);
+        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${this.itemProperties ?
+        // this.itemProperties.length : 0}): `, this.itemProperties);
         // }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
@@ -173,8 +179,10 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             this.itemProperties.splice(0, 0, item);
             this.itemOriginalProperties.splice(0,0,origItem);
         }
+        this.addChildItemToForm();
         console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
         console.log('addToItemsCollection - itemOriginalProperties: ', this.itemOriginalProperties);
+        console.log('addToItemsCollection - groupArrayForm: ', this.groupArrayForm);
     }
 
     /**
@@ -204,6 +212,46 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     /**
+     * Setup the form for the group.  It will contain an array of Items.
+     *
+     * @param itemsArrayName that is set on the siteInfoForm
+     */
+    setupForm(itemsArrayName: string) {
+        this.groupArrayForm = this.formBuilder.array([]);
+        if (this.siteInfoForm.controls[itemsArrayName]) {
+            this.siteInfoForm.removeControl(itemsArrayName);
+        }
+        this.siteInfoForm.addControl(itemsArrayName, this.groupArrayForm);
+
+        this.setupChildItems();
+    }
+
+    setupChildItems() {
+        for (let viewModel of this.getItemsCollection()) {
+            this.addChildItemToForm();
+        }
+    }
+
+    /**
+     * The form data model needs to be updated when new items are added.
+     *
+     * @param isItDirty if to mark it dirty or not.
+     */
+    addChildItemToForm(isItDirty: boolean = false) {
+        let itemGroup: FormGroup = this.newItemFormInstance();
+        if (sortingDirectionAscending) {
+            this.groupArrayForm.push(itemGroup);
+        } else {
+            this.groupArrayForm.insert(0, itemGroup);
+        }
+        if (isItDirty) {
+            itemGroup.markAsDirty();
+        }
+    }
+
+    /* ************** Methods called from the template ************** */
+
+    /**
      * Remove an item.  Originally it was removed from the list.  However we now want to track deletes so
      * keep it and mark as deleted using change tracking.
      */
@@ -227,6 +275,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         this.itemProperties.splice(newIndex, 1);
     }
 
+    /* ************** Private Methods ************** */
+
     private addNewItem(): void {
         this.isGroupOpen = true;
 
@@ -234,8 +284,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             this.setItemsCollection([]);
         }
 
-        let newItem: T = <T> this.newViewModelItem();
-        let newItemOrig: T = this.newViewModelItem(newItemShouldBeBlank);
+        let newItem: T = <T> this.newItemViewModel();
+        let newItemOrig: T = this.newItemViewModel(newItemShouldBeBlank);
 
         console.log('New View Model: ', newItem);
         console.log('itemProperties before new item: ', this.itemProperties);
@@ -248,21 +298,37 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         console.log('itemProperties after new item: ', this.itemProperties);
 
         if (this.itemProperties.length > 1) {
-            // Let the ViewModels do anything they like with the previous item - such as set end/removal date
-            // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
-            // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
-            if (sortingDirectionAscending) {
-                this.itemProperties[this.itemProperties.length - 2].setFinalValuesBeforeCreatingNewItem();
-            } else {
-                this.itemProperties[1].setFinalValuesBeforeCreatingNewItem();
-            }
+            this.updateSecondToLastItem();
         }
 
         // Let the parent form know that it now has a new child
         this.groupArrayForm.markAsDirty();
-        this.siteInfoForm.markAsDirty();
-        console.log('itemProperties after everythign in addNew: ', this.itemProperties);
-        console.log('itemOriginalProperties after everythign in addNew: ', this.itemOriginalProperties);
+        console.log('itemProperties after everything in addNew: ', this.itemProperties);
+        console.log('itemOriginalProperties after everything in addNew: ', this.itemOriginalProperties);
+    }
+
+    /**
+     * Let the ViewModels do anything they like with the 2nd last (previous) item - such as set end/removal date.
+     * Need to modify both the SiteLogModel and the form model.
+     */
+    private updateSecondToLastItem() {
+        // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
+        // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
+        let updatedValue: Object;
+        let index: number;
+        if (sortingDirectionAscending) {
+            index = this.itemProperties.length - 2;
+        } else {
+            index = 1;
+        }
+        updatedValue = this.itemProperties[index].setFinalValuesBeforeCreatingNewItem();
+        if (updatedValue && Object.keys(updatedValue).length > 0) {
+            this.groupArrayForm.at(index).patchValue(updatedValue);
+            this.groupArrayForm.at(index).markAsDirty();
+            for (let key of Object.keys(updatedValue)) {
+                (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+            }
+        }
     }
 
     /**

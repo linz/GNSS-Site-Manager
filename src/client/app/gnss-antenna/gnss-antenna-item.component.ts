@@ -1,10 +1,9 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This class represents a single item of GNSS Antennas.
@@ -25,21 +24,19 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
   }
 
     ngOnInit() {
-        this.setupForm();
         this.patchForm();
-    }
-
-    protected patchForm() {
-        this.itemGroup.setValue(this.antenna);
     }
 
   getItemName(): string {
     return 'GNSS Antenna';
   }
 
+    getItem(): AbstractViewModel {
+        return this.antenna;
+    }
 
-    private setupForm() {
-        this.itemGroup = this.formBuilder.group({
+    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
+        let itemGroup: FormGroup = formBuilder.group({
             // turn off all Validators until work out solution to 'was false now true' problem
             // TODO Fix Validators
             antennaType: [''],//, [Validators.maxLength(100)]],
@@ -61,6 +58,6 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
             dateInserted: '',
             deletedReason: ''
         });
-        this.addToGroupArray(this.itemGroup);
+        return itemGroup;
     }
 }

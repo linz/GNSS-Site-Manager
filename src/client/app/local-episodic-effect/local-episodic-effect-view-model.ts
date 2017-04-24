@@ -37,10 +37,12 @@ export class LocalEpisodicEffectViewModel extends AbstractViewModel {
 
     /**
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
+     * Return what is changed as an object so the form can be patched.
      */
-    setFinalValuesBeforeCreatingNewItem(): void {
+    setFinalValuesBeforeCreatingNewItem(): Object {
         let presentDT: string = MiscUtils.getPresentDateTime();
 
         this.endDate = presentDT;
+        return {endDate: presentDT};
     }
 }

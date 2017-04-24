@@ -19,16 +19,19 @@
         <div *ngIf="isEmptyCollection()">
             No information available for Humidity Sensors
         </div>
+        <div formArrayName="humiditySensors">
         <div *ngFor="let humiditySensor of getItemsCollection(); let i = index">
             <!-- [geodesyEvent] - send event to child components -->
             <!-- (open/close Above/Below Event) - receive events from child components -->
             <!-- (returnEvents) - single point to call events on parent -->
             <humidity-sensor-item [groupArray]="groupArrayForm"
                                   [humiditySensor]="humiditySensor"
+                                  [formGroupName]="i"
                                   [total]="itemProperties.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
                                   (returnEvents)="returnEvents($event)"></humidity-sensor-item>
+        </div>
         </div>
     </div>
 </div>

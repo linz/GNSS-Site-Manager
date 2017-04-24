@@ -21,14 +21,17 @@
     <div *ngIf="isEmptyCollection()" class="margin-bottom15">
       No information available for {{getItemName()}}s
     </div>
-    <div *ngFor="let frequencyStandard of getItemsCollection(); let i = index">
-      <frequency-standard-item [groupArray]="groupArrayForm"
-                               [frequencyStandard]="frequencyStandard"
-                          [total]="itemProperties.length"
-                          [index]="i"
-                          [geodesyEvent]="geodesyEvent"
-                          (returnEvents)="returnEvents($event)">
-      </frequency-standard-item>
-    </div>
+      <div formArrayName="frequencyStandards">
+          <div *ngFor="let frequencyStandard of getItemsCollection(); let i = index">
+              <frequency-standard-item [groupArray]="groupArrayForm"
+                                       [frequencyStandard]="frequencyStandard"
+                                       [formGroupName]="i"
+                                  [total]="itemProperties.length"
+                                  [index]="i"
+                                  [geodesyEvent]="geodesyEvent"
+                                  (returnEvents)="returnEvents($event)">
+              </frequency-standard-item>
+          </div>
+      </div>
   </div>
 </div>

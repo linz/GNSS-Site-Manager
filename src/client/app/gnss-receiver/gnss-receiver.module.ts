@@ -8,6 +8,6 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
 @NgModule({
   imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
   declarations: [GnssReceiversGroupComponent, GnssReceiverItemComponent],
-  exports: [ GnssReceiversGroupComponent, GnssReceiverItemComponent, DynamicFormFieldsModule]
+  exports: [ GnssReceiversGroupComponent, GnssReceiverItemComponent]
 })
 export class GnssReceiverModule { }

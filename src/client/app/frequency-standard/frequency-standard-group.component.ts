@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroup, sortingDirectionAscending } from '../shared/abstract-groups-items/abstract-group';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
-import { FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { GnssReceiverItemComponent } from '../gnss-receiver/gnss-receiver-item.component';
+import { FrequencyStandardItemComponent } from './frequency-standard-item.component';
 
 /**
  * This class represents a collection of FrequencyStandard Component.
@@ -16,7 +18,10 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
 
   @Input()
   set siteLogModel(siteLogModel: any) {
-    siteLogModel && this.setItemsCollection(siteLogModel.frequencyStandards);
+    if (siteLogModel) {
+        this.setItemsCollection(siteLogModel.frequencyStandards);
+        this.setupForm('frequencyStandards');
+    }
   }
 
   @Input()
@@ -30,8 +35,13 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
         return AbstractGroup.compareDates(date1, date2);
     }
 
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
+    }
+
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
     getItemName(): string {
@@ -42,12 +52,11 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
         return FrequencyStandardGroupComponent.compare(obj1, obj2);
     }
 
-  newViewModelItem(blank?: boolean): FrequencyStandardViewModel {
+  newItemViewModel(blank?: boolean): FrequencyStandardViewModel {
     return new FrequencyStandardViewModel(blank);
   }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('frequencyStandards', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return FrequencyStandardItemComponent.newFormInstance(this.formBuilder);
     }
 }

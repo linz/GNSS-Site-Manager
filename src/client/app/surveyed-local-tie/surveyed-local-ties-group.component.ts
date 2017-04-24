@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
+import { GnssReceiverItemComponent } from '../gnss-receiver/gnss-receiver-item.component';
+import { SurveyedLocalTieItemComponent } from './surveyed-local-tie-item.component';
 
 /**.
  * This class represents a group of Surveyed Local Ties.
@@ -20,8 +22,10 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        siteLogModel && this.setItemsCollection(siteLogModel.surveyedLocalTies);
-        console.log('SurveyedLocalTies: ', this.getItemsCollection());
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.surveyedLocalTies);
+            this.setupForm('surveyedLocalTies');
+        }
     }
 
     @Input()
@@ -30,12 +34,13 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
         console.log('SurveyedLocalTies (Original): ', this.getItemsOriginalCollection());
     }
 
-    constructor() {
-        super();
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
     }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
     getItemName(): string {
@@ -49,12 +54,11 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(blank?: boolean): SurveyedLocalTieViewModel {
+    newItemViewModel(blank?: boolean): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
     }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('surveyedLocalTies', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return SurveyedLocalTieItemComponent.newFormInstance(this.formBuilder);
     }
 }

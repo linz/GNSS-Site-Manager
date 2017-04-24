@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup, sortingDirectionAscending } from '../shared/abstract-groups-items/abstract-group';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
+import { GnssReceiverItemComponent } from './gnss-receiver-item.component';
+
+const itIsDirty: boolean = true;
 
 /**.
  * This class represents a group of GNSS Receivers.
@@ -15,14 +18,15 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
     static compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
         let date1: string = obj1.dateInstalled;
         let date2: string = obj2.dateInstalled;
-        let val: number = AbstractGroup.compareDates(date1, date2);
-        // console.debug(`GnssReceiversGroupComponent - sort ${date1}, ${date2} - ${val}`);
-        return val;
+        return AbstractGroup.compareDates(date1, date2);
     }
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-       siteLogModel && this.setItemsCollection(siteLogModel.gnssReceivers);
+       if (siteLogModel) {
+           this.setItemsCollection(siteLogModel.gnssReceivers);
+           this.setupForm('gnssReceivers');
+       }
     }
 
     @Input()
@@ -30,12 +34,13 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
         originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssReceivers);
     }
 
-    constructor() {
-        super();
+    constructor(protected formBuilder: FormBuilder) {
+        super(formBuilder);
     }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
     getItemName(): string {
@@ -49,12 +54,11 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(blank?: boolean): GnssReceiverViewModel {
+    newItemViewModel(blank?: boolean): GnssReceiverViewModel {
         return new GnssReceiverViewModel(blank);
     }
 
-    private setupForm() {
-        this.groupArrayForm = new FormArray([]);
-        this.siteInfoForm.addControl('gnssReceivers', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return GnssReceiverItemComponent.newFormInstance(this.formBuilder);
     }
 }

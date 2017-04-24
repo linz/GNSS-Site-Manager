@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
+import { GnssAntennaItemComponent } from './gnss-antenna-item.component';
 
 /**
  * This class represents a collection of GNSS Antenna items.
@@ -20,7 +21,10 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
 
     @Input()
   set siteLogModel(siteLogModel: any) {
-    siteLogModel && this.setItemsCollection(siteLogModel.gnssAntennas);
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.gnssAntennas);
+            this.setupForm('gnssAntennas');
+        }
   }
 
   @Input()
@@ -28,12 +32,13 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
     originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
   }
 
-  constructor() {
-    super();
-  }
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
+    }
 
     ngOnInit() {
-        this.setupForm();
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
     }
 
   getItemName(): string {
@@ -44,12 +49,11 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
         return GnssAntennaGroupComponent.compare(obj1, obj2);
     }
 
-  newViewModelItem(blank?: boolean): GnssAntennaViewModel {
+  newItemViewModel(blank?: boolean): GnssAntennaViewModel {
     return new GnssAntennaViewModel(blank);
   }
 
-    private setupForm() {
-        this.groupArrayForm =  new FormArray([]);
-        this.siteInfoForm.addControl('gnssAntennas', this.groupArrayForm);
+    newItemFormInstance(): FormGroup {
+        return GnssAntennaItemComponent.newFormInstance(this.formBuilder);
     }
 }
