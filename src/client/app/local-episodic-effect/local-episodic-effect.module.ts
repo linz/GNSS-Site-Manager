@@ -6,8 +6,9 @@ import { LocalEpisodicEffectItemComponent } from './local-episodic-effect-item.c
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [LocalEpisodicEffectsGroupComponent, LocalEpisodicEffectItemComponent],
-  exports: [ LocalEpisodicEffectsGroupComponent, LocalEpisodicEffectItemComponent, DynamicFormFieldsModule]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [LocalEpisodicEffectsGroupComponent, LocalEpisodicEffectItemComponent],
+    exports: [LocalEpisodicEffectsGroupComponent, LocalEpisodicEffectItemComponent, DynamicFormFieldsModule]
 })
-export class LocalEpisodicEffectModule { }
+export class LocalEpisodicEffectModule {
+}

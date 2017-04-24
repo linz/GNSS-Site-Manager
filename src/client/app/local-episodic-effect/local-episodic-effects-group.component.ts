@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
 import { LocalEpisodicEffectItemComponent } from './local-episodic-effect-item.component';
@@ -49,9 +49,9 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
         return LocalEpisodicEffectsGroupComponent.compare(obj1, obj2);
     }
 
-        /* **************************************************
-         * Other methods
-         */
+    /* **************************************************
+     * Other methods
+     */
     newItemViewModel(blank?: boolean): LocalEpisodicEffectViewModel {
         return new LocalEpisodicEffectViewModel(blank);
     }

@@ -9,27 +9,27 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
  * This component represents a single WaterVapor Sensor.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'water-vapor-sensor-item',
-  templateUrl: 'water-vapor-sensor-item.component.html',
+    moduleId: module.id,
+    selector: 'water-vapor-sensor-item',
+    templateUrl: 'water-vapor-sensor-item.component.html',
 })
 export class WaterVaporSensorItemComponent extends AbstractItem implements OnInit {
-  /**
-   * The WaterVaporSensor in question.
-   */
-  @Input() waterVaporSensor: WaterVaporSensorViewModel;
+    /**
+     * The WaterVaporSensor in question.
+     */
+    @Input() waterVaporSensor: WaterVaporSensorViewModel;
 
-  constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
-    super(dialogService);
-  }
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(dialogService);
+    }
 
- ngOnInit() {
+    ngOnInit() {
         this.patchForm();
     }
 
-  getItemName(): string {
-    return 'Water Vapor Sensor';
-  }
+    getItemName(): string {
+        return 'Water Vapor Sensor';
+    }
 
     getItem(): AbstractViewModel {
         return this.waterVaporSensor;

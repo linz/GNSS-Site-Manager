@@ -6,8 +6,9 @@ import { WaterVaporSensorItemComponent } from './water-vapor-sensor-item.compone
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [WaterVaporSensorsGroupComponent, WaterVaporSensorItemComponent],
-  exports: [ WaterVaporSensorsGroupComponent, WaterVaporSensorItemComponent, DynamicFormFieldsModule]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [WaterVaporSensorsGroupComponent, WaterVaporSensorItemComponent],
+    exports: [WaterVaporSensorsGroupComponent, WaterVaporSensorItemComponent, DynamicFormFieldsModule]
 })
-export class WaterVaporSensorModule { }
+export class WaterVaporSensorModule {
+}

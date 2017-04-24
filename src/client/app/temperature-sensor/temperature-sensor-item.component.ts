@@ -9,27 +9,27 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
  * This component represents a single Temperature Sensor.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'temperature-sensor-item',
-  templateUrl: 'temperature-sensor-item.component.html',
+    moduleId: module.id,
+    selector: 'temperature-sensor-item',
+    templateUrl: 'temperature-sensor-item.component.html',
 })
 export class TemperatureSensorItemComponent extends AbstractItem implements OnInit {
-  /**
-   * The TemperatureSensor in question.
-   */
-  @Input() temperatureSensor: TemperatureSensorViewModel;
+    /**
+     * The TemperatureSensor in question.
+     */
+    @Input() temperatureSensor: TemperatureSensorViewModel;
 
-  constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
-    super(dialogService);
-  }
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(dialogService);
+    }
 
-  ngOnInit() {
+    ngOnInit() {
         this.patchForm();
     }
 
-  getItemName(): string {
-    return 'Temperature Sensor';
-  }
+    getItemName(): string {
+        return 'Temperature Sensor';
+    }
 
     getItem(): AbstractViewModel {
         return this.temperatureSensor;

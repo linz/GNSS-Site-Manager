@@ -9,27 +9,27 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
  * This component represents a single Pressure Sensor.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'pressure-sensor-item',
-  templateUrl: 'pressure-sensor-item.component.html',
+    moduleId: module.id,
+    selector: 'pressure-sensor-item',
+    templateUrl: 'pressure-sensor-item.component.html',
 })
 export class PressureSensorItemComponent extends AbstractItem implements OnInit {
-  /**
-   * The PressureSensor in question.
-   */
-  @Input() pressureSensor: PressureSensorViewModel;
+    /**
+     * The PressureSensor in question.
+     */
+    @Input() pressureSensor: PressureSensorViewModel;
 
-  constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
-    super(dialogService);
-  }
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(dialogService);
+    }
 
-  ngOnInit() {
+    ngOnInit() {
         this.patchForm();
     }
 
-  getItemName(): string {
-    return 'Pressure Sensor';
-  }
+    getItemName(): string {
+        return 'Pressure Sensor';
+    }
 
     getItem(): AbstractViewModel {
         return this.pressureSensor;

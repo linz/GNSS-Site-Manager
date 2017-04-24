@@ -6,8 +6,9 @@ import { PressureSensorItemComponent } from './pressure-sensor-item.component';
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [PressureSensorsGroupComponent, PressureSensorItemComponent],
-  exports: [ PressureSensorsGroupComponent, PressureSensorItemComponent, DynamicFormFieldsModule]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [PressureSensorsGroupComponent, PressureSensorItemComponent],
+    exports: [PressureSensorsGroupComponent, PressureSensorItemComponent, DynamicFormFieldsModule]
 })
-export class PressureSensorModule { }
+export class PressureSensorModule {
+}

@@ -6,8 +6,9 @@ import { TemperatureSensorItemComponent } from './temperature-sensor-item.compon
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [TemperatureSensorsGroupComponent, TemperatureSensorItemComponent],
-  exports: [ TemperatureSensorsGroupComponent, TemperatureSensorItemComponent, DynamicFormFieldsModule]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [TemperatureSensorsGroupComponent, TemperatureSensorItemComponent],
+    exports: [TemperatureSensorsGroupComponent, TemperatureSensorItemComponent, DynamicFormFieldsModule]
 })
-export class TemperatureSensorModule { }
+export class TemperatureSensorModule {
+}

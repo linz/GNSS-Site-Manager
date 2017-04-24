@@ -6,8 +6,9 @@ import { FrequencyStandardGroupComponent } from './frequency-standard-group.comp
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent],
-  exports: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent],
+    exports: [FrequencyStandardItemComponent, FrequencyStandardGroupComponent]
 })
-export class FrequencyStandardModule { }
+export class FrequencyStandardModule {
+}
