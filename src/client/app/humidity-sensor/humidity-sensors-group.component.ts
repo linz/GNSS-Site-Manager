@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { MiscUtils } from '../shared/index';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { HumiditySensorViewModel } from './humidity-sensor-view-model';
-import { HumiditySensorItemComponent } from './humidity-sensor-item.component';
 
 /**.
  * This class represents a group of Humidity Sensors.
@@ -12,33 +11,23 @@ import { HumiditySensorItemComponent } from './humidity-sensor-item.component';
     selector: 'humidity-sensors-group',
     templateUrl: 'humidity-sensors-group.component.html',
 })
-export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorViewModel> implements OnInit {
-    static compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
-    }
+export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorViewModel> {
+    public miscUtils: any = MiscUtils;
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.humiditySensors);
-            this.setupForm('humiditySensors');
-        }
+        this.setItemsCollection(siteLogModel.humiditySensors);
+        console.log('HumiditySensors: ', this.getItemsCollection());
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
+        this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
+        console.log('HumiditySensors (Original): ', this.getItemsOriginalCollection());
     }
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
+    constructor() {
+        super();
     }
 
     getItemName(): string {
@@ -46,17 +35,15 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
     }
 
     compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
-        return HumiditySensorsGroupComponent.compare(obj1, obj2);
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
     }
 
     /* **************************************************
      * Other methods
      */
-    newItemViewModel(blank?: boolean): HumiditySensorViewModel {
-        return new HumiditySensorViewModel(blank);
-    }
-
-    newItemFormInstance(): FormGroup {
-        return HumiditySensorItemComponent.newFormInstance(this.formBuilder);
+    newViewModelItem(): HumiditySensorViewModel {
+        return new HumiditySensorViewModel();
     }
 }

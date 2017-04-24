@@ -24,12 +24,11 @@ export class SiteLogDataModel {
     siteOwner: any;
     siteContact: any[];
     siteMetadataCustodian: any;
-    siteDataSource: any[];
-    // siteDataCentre: any[];
+    siteDataSource: any;
     moreInformation: any;
     dataStreams: any;
 
-    /**jsonix
+    /**
      * Extract the data in the supplied JSON object or create an empty array / object for each item that doesn't exist.
      */
     constructor(dataModelJson: any) {

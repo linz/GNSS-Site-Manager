@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { SiteInfoComponent } from './site-info.component';
-import { SiteIdentificationComponent } from './site-identification.component';
-import { SiteLocationComponent } from './site-location.component';
 import { SiteInfoRoutingModule } from './site-info-routing.module';
 import { ConfirmDeactivateSiteInfoGuard } from './site-info-deactivate.module';
 import { ResponsiblePartyModule } from '../responsible-party/responsible-party.module';
@@ -16,7 +14,6 @@ import { HumiditySensorModule } from '../humidity-sensor/humidity-sensor.module'
 import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module';
 import { TemperatureSensorModule } from '../temperature-sensor/temperature-sensor.module';
 import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor.module';
-import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
   imports: [
@@ -33,10 +30,9 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
     PressureSensorModule,
     TemperatureSensorModule,
     WaterVaporSensorModule,
-    DynamicFormFieldsModule
   ],
-  declarations: [SiteInfoComponent, SiteIdentificationComponent, SiteLocationComponent],
-  exports: [SiteInfoComponent, SiteIdentificationComponent, SiteLocationComponent],
+  declarations: [SiteInfoComponent],
+  exports: [SiteInfoComponent],
   providers: [
     ConfirmDeactivateSiteInfoGuard,
   ],

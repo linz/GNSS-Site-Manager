@@ -1,61 +1,45 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { MiscUtils } from '../shared/index';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { FrequencyStandardItemComponent } from './frequency-standard-item.component';
 
 /**
  * This class represents a collection of FrequencyStandard Component.
  */
 @Component({
-    moduleId: module.id,
-    selector: 'frequency-standard-group',
-    templateUrl: 'frequency-standard-group.component.html',
+  moduleId: module.id,
+  selector: 'frequency-standard-group',
+  templateUrl: 'frequency-standard-group.component.html',
 })
-export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> implements OnInit {
-    @Input() frequencyStandards: any;
+export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> {
+  public miscUtils: any = MiscUtils;
+  @Input() frequencyStandards: any;
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.frequencyStandards);
-            this.setupForm('frequencyStandards');
-        }
-    }
+ @Input()
+  set siteLogModel(siteLogModel: any) {
+    this.setItemsCollection(siteLogModel.frequencyStandards);
+  }
 
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
-    }
+  @Input()
+  set originalSiteLogModel(originalSiteLogModel: any) {
+    this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
+  }
 
-    static compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
-    }
+  constructor() {
+    super();
+  }
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
-    }
+  getItemName(): string {
+    return 'Frequency Standard';
+  }
 
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
-    }
+  compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
+    let date1: string = obj1.startDate;
+    let date2: string = obj2.startDate;
+    return AbstractGroup.compareDates(date1, date2);
+  }
 
-    getItemName(): string {
-        return 'Frequency Standard';
-    }
-
-    compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
-        return FrequencyStandardGroupComponent.compare(obj1, obj2);
-    }
-
-    newItemViewModel(blank?: boolean): FrequencyStandardViewModel {
-        return new FrequencyStandardViewModel(blank);
-    }
-
-    newItemFormInstance(): FormGroup {
-        return FrequencyStandardItemComponent.newFormInstance(this.formBuilder);
-    }
+  newViewModelItem(): FrequencyStandardViewModel {
+    return new FrequencyStandardViewModel();
+  }
 }

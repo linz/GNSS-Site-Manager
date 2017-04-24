@@ -1,5 +1,3 @@
-import * as lodash from 'lodash';
-
 export class MiscUtils {
     private static scrollToView: any = require('scroll-into-view');
 
@@ -36,7 +34,7 @@ export class MiscUtils {
      * Clone a JSON object from existing one so that both have no reference
      */
     public static cloneJsonObj(obj: any): any {
-        return lodash.cloneDeep(obj);
+        return JSON.parse(JSON.stringify(obj));
     }
 
     /**
@@ -66,7 +64,7 @@ export class MiscUtils {
     /**
      * Scroll the element clicked into full-view on the page.
      */
-    public static showFullView(event: UIEvent) {
+    public static showFullView(event: any) {
         event.preventDefault();
         if (event && event.target) {
             this.smoothScrollTo(event.target);

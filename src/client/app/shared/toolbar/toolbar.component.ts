@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
-import { SiteLogService } from '../site-log/site-log.service';
 
 /**
  * This class represents the toolbar component which is the header of all UI pages.
@@ -21,20 +20,16 @@ export class ToolbarComponent implements OnInit {
   @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onRevert: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() onClose: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-    private serviceWorkerSubscription: Subscription;
+  private serviceWorkerSubscription: Subscription;
   private cacheItems: Array<string> = [];
 
   private loadedUserSub: any;
-    private isFormModifiedSubscription: Subscription;
-    private isFormModifiedState: boolean;
 
   constructor(private serviceWorkerService: ServiceWorkerService,
               private route: ActivatedRoute,
               private router: Router,
-              private userAuthService: UserAuthService,
-            private siteLogService: SiteLogService,
-            private dialogService: DialogService) {
+              private dialogService: DialogService,
+              private userAuthService: UserAuthService) {
   }
 
   ngOnInit() {
@@ -47,18 +42,15 @@ export class ToolbarComponent implements OnInit {
   }
 
   revert() {
-    // this.onRevert.emit( this.siteId !== null );
-    javascript:history.go(0);
+    this.onRevert.emit( this.siteId !== null );
   }
 
   close() {
     this.onClose.emit( this.siteId !== null );
   }
 
-  // TODO - need to get this status from SiteInfoComponent.siteInfoForm.dirty
   hasFormChanged() {
-      return this.isFormModifiedState;
-      // return false;
+    return true;
   }
 
   /**
@@ -110,7 +102,6 @@ export class ToolbarComponent implements OnInit {
     this.setupServiceWorkerSubscription();
     this.setupRouterSubscription();
     this.setupAuthSubscription();
-    this.setupSiteLogSubscription();
   }
 
   private setupServiceWorkerSubscription() {
@@ -133,13 +124,7 @@ export class ToolbarComponent implements OnInit {
             let obj: {id: string} = <any> param.valueOf();
             this.siteId = obj.id;
           });
-        });
-  }
-
-  private setupSiteLogSubscription() {
-      this.isFormModifiedSubscription = this.siteLogService.getIsFormModifiedSubscription().subscribe((isModified: boolean) => {
-          this.isFormModifiedState = isModified;
-      });
+    });
   }
 
   private setupAuthSubscription() {

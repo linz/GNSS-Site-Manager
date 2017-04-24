@@ -10,14 +10,11 @@ export class LocalEpisodicEffectViewModel extends AbstractViewModel {
 
     public event: string;
 
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
         let presentDT: string = MiscUtils.getPresentDateTime();
 
-        this.startDate = blank ? '' : presentDT;
+        this.startDate = presentDT;
         this.endDate = '';
         this.event = '';
     }
@@ -37,12 +34,10 @@ export class LocalEpisodicEffectViewModel extends AbstractViewModel {
 
     /**
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
      */
-    setFinalValuesBeforeCreatingNewItem(): Object {
+    setFinalValuesBeforeCreatingNewItem(): void {
         let presentDT: string = MiscUtils.getPresentDateTime();
 
         this.endDate = presentDT;
-        return {endDate: presentDT};
     }
 }

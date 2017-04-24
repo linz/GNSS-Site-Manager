@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { MiscUtils } from '../shared/index';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
-import { LocalEpisodicEffectItemComponent } from './local-episodic-effect-item.component';
 
 /**.
  * This class represents a group of Local Episodic Effects.
@@ -12,33 +11,23 @@ import { LocalEpisodicEffectItemComponent } from './local-episodic-effect-item.c
     selector: 'local-episodic-effects-group',
     templateUrl: 'local-episodic-effects-group.component.html',
 })
-export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> implements OnInit {
-    static compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
-    }
+export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> {
+    public miscUtils: any = MiscUtils;
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.localEpisodicEffects);
-            this.setupForm('localEpisodicEffects');
-        }
+        this.setItemsCollection(siteLogModel.localEpisodicEffects);
+        console.log('LocalEpisodicEffects: ', this.getItemsCollection());
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEffects);
+        this.setItemsOriginalCollection(originalSiteLogModel.localEpisodicEffects);
+        console.log('LocalEpisodicEffects (Original): ', this.getItemsOriginalCollection());
     }
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
+    constructor() {
+        super();
     }
 
     getItemName(): string {
@@ -46,17 +35,15 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
     }
 
     compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
-        return LocalEpisodicEffectsGroupComponent.compare(obj1, obj2);
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
     }
 
     /* **************************************************
      * Other methods
      */
-    newItemViewModel(blank?: boolean): LocalEpisodicEffectViewModel {
-        return new LocalEpisodicEffectViewModel(blank);
-    }
-
-    newItemFormInstance(): FormGroup {
-        return LocalEpisodicEffectItemComponent.newFormInstance(this.formBuilder);
+    newViewModelItem(): LocalEpisodicEffectViewModel {
+        return new LocalEpisodicEffectViewModel();
     }
 }

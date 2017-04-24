@@ -19,7 +19,7 @@ class AbstractViewModelImpl extends AbstractViewModel {
 }
 
 class AbstractGroupImpl extends AbstractGroup<AbstractViewModelImpl> {
-    newItemViewModel(): AbstractViewModelImpl {
+    newViewModelItem(): AbstractViewModelImpl {
         return new AbstractViewModelImpl('new item');
     }
 
