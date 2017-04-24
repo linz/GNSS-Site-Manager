@@ -1,10 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { AbstractGroup, sortingDirectionAscending } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { GnssReceiverItemComponent } from './gnss-receiver-item.component';
-
-const itIsDirty: boolean = true;
 
 /**.
  * This class represents a group of GNSS Receivers.

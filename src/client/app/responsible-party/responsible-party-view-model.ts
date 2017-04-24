@@ -1,4 +1,4 @@
-import { AbstractViewModel, dontSetDetfaults } from '../shared/json-data-view-model/view-model/abstract-view-model';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class ResponsiblePartyViewModel extends AbstractViewModel {
     /**
@@ -27,7 +27,6 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
         super();
     }
 
-    // TODO - remove type field and use generics instead
     createFieldMappings(): void {
         this.addFieldMapping('/ciResponsibleParty/individualName/characterString/gco:CharacterString',
             'string', '/individualName', 'string');

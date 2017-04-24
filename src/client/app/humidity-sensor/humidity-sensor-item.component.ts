@@ -23,7 +23,7 @@ export class HumiditySensorItemComponent extends AbstractItem implements OnInit 
         super(dialogService);
     }
 
-   ngOnInit() {
+    ngOnInit() {
         this.patchForm();
     }
 

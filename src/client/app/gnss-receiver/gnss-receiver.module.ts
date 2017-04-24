@@ -6,8 +6,9 @@ import { GnssReceiverItemComponent } from './gnss-receiver-item.component';
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [GnssReceiversGroupComponent, GnssReceiverItemComponent],
-  exports: [ GnssReceiversGroupComponent, GnssReceiverItemComponent]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [GnssReceiversGroupComponent, GnssReceiverItemComponent],
+    exports: [GnssReceiversGroupComponent, GnssReceiverItemComponent]
 })
-export class GnssReceiverModule { }
+export class GnssReceiverModule {
+}

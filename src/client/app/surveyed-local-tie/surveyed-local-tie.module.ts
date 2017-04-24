@@ -6,8 +6,9 @@ import { SurveyedLocalTieItemComponent } from './surveyed-local-tie-item.compone
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [SurveyedLocalTiesGroupComponent, SurveyedLocalTieItemComponent],
-  exports: [ SurveyedLocalTiesGroupComponent, SurveyedLocalTieItemComponent, DynamicFormFieldsModule]
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [SurveyedLocalTiesGroupComponent, SurveyedLocalTieItemComponent],
+    exports: [SurveyedLocalTiesGroupComponent, SurveyedLocalTieItemComponent, DynamicFormFieldsModule]
 })
-export class SurveyedLocalTieModule { }
+export class SurveyedLocalTieModule {
+}

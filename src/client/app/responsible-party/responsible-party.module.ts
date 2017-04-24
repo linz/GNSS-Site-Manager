@@ -10,4 +10,5 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
     declarations: [ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent],
     exports: [ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent, DynamicFormFieldsModule]
 })
-export class ResponsiblePartyModule { }
+export class ResponsiblePartyModule {
+}

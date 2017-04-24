@@ -8,9 +8,9 @@ import { GnssAntennaItemComponent } from './gnss-antenna-item.component';
  * This class represents a collection of GNSS Antenna items.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'gnss-antenna-group',
-  templateUrl: 'gnss-antenna-group.component.html',
+    moduleId: module.id,
+    selector: 'gnss-antenna-group',
+    templateUrl: 'gnss-antenna-group.component.html',
 })
 export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewModel> implements OnInit {
     static compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
@@ -20,17 +20,17 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
     }
 
     @Input()
-  set siteLogModel(siteLogModel: any) {
+    set siteLogModel(siteLogModel: any) {
         if (siteLogModel) {
             this.setItemsCollection(siteLogModel.gnssAntennas);
             this.setupForm('gnssAntennas');
         }
-  }
+    }
 
-  @Input()
-  set originalSiteLogModel(originalSiteLogModel: any) {
-    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
-  }
+    @Input()
+    set originalSiteLogModel(originalSiteLogModel: any) {
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
+    }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
@@ -41,17 +41,17 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
         // this.setupForm();
     }
 
-  getItemName(): string {
-    return 'GNSS Antenna';
-  }
+    getItemName(): string {
+        return 'GNSS Antenna';
+    }
 
     compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
         return GnssAntennaGroupComponent.compare(obj1, obj2);
     }
 
-  newItemViewModel(blank?: boolean): GnssAntennaViewModel {
-    return new GnssAntennaViewModel(blank);
-  }
+    newItemViewModel(blank?: boolean): GnssAntennaViewModel {
+        return new GnssAntennaViewModel(blank);
+    }
 
     newItemFormInstance(): FormGroup {
         return GnssAntennaItemComponent.newFormInstance(this.formBuilder);

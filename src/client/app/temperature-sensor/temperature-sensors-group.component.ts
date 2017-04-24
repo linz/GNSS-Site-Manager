@@ -8,9 +8,9 @@ import { TemperatureSensorItemComponent } from './temperature-sensor-item.compon
  * This class represents a group of Temperature Sensors.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'temperature-sensors-group',
-  templateUrl: 'temperature-sensors-group.component.html',
+    moduleId: module.id,
+    selector: 'temperature-sensors-group',
+    templateUrl: 'temperature-sensors-group.component.html',
 })
 export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> implements OnInit {
 
@@ -20,19 +20,19 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
         return AbstractGroup.compareDates(date1, date2);
     }
 
-  @Input()
-  set siteLogModel(siteLogModel: any) {
-      if (siteLogModel) {
-          this.setItemsCollection(siteLogModel.temperatureSensors);
-          this.setupForm('temperatureSensors');
-      }
-  }
+    @Input()
+    set siteLogModel(siteLogModel: any) {
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.temperatureSensors);
+            this.setupForm('temperatureSensors');
+        }
+    }
 
-  @Input()
-  set originalSiteLogModel(originalSiteLogModel: any) {
-    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
-    console.log('TemperatureSensors (Original): ', this.getItemsOriginalCollection());
-  }
+    @Input()
+    set originalSiteLogModel(originalSiteLogModel: any) {
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
+        console.log('TemperatureSensors (Original): ', this.getItemsOriginalCollection());
+    }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
@@ -43,17 +43,17 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
         // this.setupForm();
     }
 
-  getItemName(): string {
-    return 'Temperature Sensor';
-  }
+    getItemName(): string {
+        return 'Temperature Sensor';
+    }
 
     compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
         return TemperatureSensorsGroupComponent.compare(obj1, obj2);
     }
 
-  newItemViewModel(blank?: boolean): TemperatureSensorViewModel {
-    return new TemperatureSensorViewModel(blank);
-  }
+    newItemViewModel(blank?: boolean): TemperatureSensorViewModel {
+        return new TemperatureSensorViewModel(blank);
+    }
 
     newItemFormInstance(): FormGroup {
         return TemperatureSensorItemComponent.newFormInstance(this.formBuilder);

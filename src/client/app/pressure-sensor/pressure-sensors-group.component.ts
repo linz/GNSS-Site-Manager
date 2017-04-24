@@ -8,9 +8,9 @@ import { PressureSensorItemComponent } from './pressure-sensor-item.component';
  * This class represents a group of Pressure Sensors.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'pressure-sensors-group',
-  templateUrl: 'pressure-sensors-group.component.html',
+    moduleId: module.id,
+    selector: 'pressure-sensors-group',
+    templateUrl: 'pressure-sensors-group.component.html',
 })
 export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> implements OnInit {
     static compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
@@ -20,18 +20,18 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
     }
 
     @Input()
-  set siteLogModel(siteLogModel: any) {
+    set siteLogModel(siteLogModel: any) {
         if (siteLogModel) {
             this.setItemsCollection(siteLogModel.pressureSensors);
             this.setupForm('pressureSensors');
         }
-  }
+    }
 
-  @Input()
-  set originalSiteLogModel(originalSiteLogModel: any) {
-    originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
-    console.log('PressureSensors (Original): ', this.getItemsOriginalCollection());
-  }
+    @Input()
+    set originalSiteLogModel(originalSiteLogModel: any) {
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
+        console.log('PressureSensors (Original): ', this.getItemsOriginalCollection());
+    }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
@@ -42,17 +42,17 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
         // this.setupForm();
     }
 
-  getItemName(): string {
-    return 'Pressure Sensor';
-  }
+    getItemName(): string {
+        return 'Pressure Sensor';
+    }
 
     compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
         return PressureSensorsGroupComponent.compare(obj1, obj2);
     }
 
-  newItemViewModel(blank?: boolean): PressureSensorViewModel {
-    return new PressureSensorViewModel(blank);
-  }
+    newItemViewModel(blank?: boolean): PressureSensorViewModel {
+        return new PressureSensorViewModel(blank);
+    }
 
     newItemFormInstance(): FormGroup {
         return PressureSensorItemComponent.newFormInstance(this.formBuilder);

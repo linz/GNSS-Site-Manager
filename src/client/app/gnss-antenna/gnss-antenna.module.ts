@@ -6,8 +6,9 @@ import { GnssAntennaGroupComponent } from './gnss-antenna-group.component';
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
-  declarations: [GnssAntennaItemComponent, GnssAntennaGroupComponent],
-  exports: [GnssAntennaItemComponent, GnssAntennaGroupComponent],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    declarations: [GnssAntennaItemComponent, GnssAntennaGroupComponent],
+    exports: [GnssAntennaItemComponent, GnssAntennaGroupComponent],
 })
-export class GnssAntennaModule { }
+export class GnssAntennaModule {
+}

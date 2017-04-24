@@ -9,27 +9,27 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
  * This class represents a single item of GNSS Antennas.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'gnss-antenna-item',
-  templateUrl: 'gnss-antenna-item.component.html',
+    moduleId: module.id,
+    selector: 'gnss-antenna-item',
+    templateUrl: 'gnss-antenna-item.component.html',
 })
 export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
-  /**
-   * The GNSS Antenna in question.
-   */
-  @Input() antenna: GnssAntennaViewModel;
+    /**
+     * The GNSS Antenna in question.
+     */
+    @Input() antenna: GnssAntennaViewModel;
 
-  constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
-    super(dialogService);
-  }
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(dialogService);
+    }
 
     ngOnInit() {
         this.patchForm();
     }
 
-  getItemName(): string {
-    return 'GNSS Antenna';
-  }
+    getItemName(): string {
+        return 'GNSS Antenna';
+    }
 
     getItem(): AbstractViewModel {
         return this.antenna;
