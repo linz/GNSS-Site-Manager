@@ -1,46 +1,60 @@
-import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
+import { PressureSensorItemComponent } from './pressure-sensor-item.component';
 
 /**
  * This class represents a group of Pressure Sensors.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'pressure-sensors-group',
-  templateUrl: 'pressure-sensors-group.component.html',
+    moduleId: module.id,
+    selector: 'pressure-sensors-group',
+    templateUrl: 'pressure-sensors-group.component.html',
 })
-export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> {
-  public miscUtils: any = MiscUtils;
+export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> implements OnInit {
+    static compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
 
-  @Input()
-  set siteLogModel(siteLogModel: any) {
-    this.setItemsCollection(siteLogModel.pressureSensors);
-    console.log('PressureSensors: ', this.getItemsCollection());
-  }
+    @Input()
+    set siteLogModel(siteLogModel: any) {
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.pressureSensors);
+            this.setupForm('pressureSensors');
+        }
+    }
 
-  @Input()
-  set originalSiteLogModel(originalSiteLogModel: any) {
-    this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
-    console.log('PressureSensors (Original): ', this.getItemsOriginalCollection());
-  }
+    @Input()
+    set originalSiteLogModel(originalSiteLogModel: any) {
+        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
+        console.log('PressureSensors (Original): ', this.getItemsOriginalCollection());
+    }
 
-  constructor() {
-    super();
-  }
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
+    }
 
-  getItemName(): string {
-    return 'Pressure Sensor';
-  }
+    ngOnInit() {
+        // This is happening too early before itemProperties are set in the @Input
+        // this.setupForm();
+    }
 
-  compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
-    let date1: string = obj1.startDate;
-    let date2: string = obj2.startDate;
-    return AbstractGroup.compareDates(date1, date2);
-  }
+    getItemName(): string {
+        return 'Pressure Sensor';
+    }
 
-  newViewModelItem(): PressureSensorViewModel {
-    return new PressureSensorViewModel();
-  }
+    compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
+        return PressureSensorsGroupComponent.compare(obj1, obj2);
+    }
+
+    newItemViewModel(blank?: boolean): PressureSensorViewModel {
+        return new PressureSensorViewModel(blank);
+    }
+
+    newItemFormInstance(): FormGroup {
+        return PressureSensorItemComponent.newFormInstance(this.formBuilder);
+    }
 }
