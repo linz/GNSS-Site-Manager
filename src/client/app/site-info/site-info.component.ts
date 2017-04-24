@@ -274,6 +274,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
   }
 
+    public isFormDirty(): boolean {
+        return this.siteInfoForm ? this.siteInfoForm.dirty : false;
+    }
+
+    public isFormInvalid(): boolean {
+        return this.siteInfoForm ? ! this.siteInfoForm.valid : false;
+    }
+
     private setupForm() {
         this.siteInfoForm = this.formBuilder.group({
         });

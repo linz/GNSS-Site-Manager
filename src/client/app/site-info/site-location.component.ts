@@ -49,6 +49,14 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
 
     }
 
+    public isFormDirty(): boolean {
+        return this.siteLocationForm ? this.siteLocationForm.dirty : false;
+    }
+
+    public isFormInvalid(): boolean {
+        return this.siteLocationForm ? ! this.siteLocationForm.valid : false;
+    }
+
     private setupForm() {
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],

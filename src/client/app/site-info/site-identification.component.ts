@@ -60,6 +60,14 @@ export class SiteIdentificationComponent implements OnInit {
         // patchForm is called from the setter in this form
     }
 
+    public isFormDirty(): boolean {
+        return this.siteIdentificationForm ? this.siteIdentificationForm.dirty : false;
+    }
+
+    public isFormInvalid(): boolean {
+        return this.siteIdentificationForm ? ! this.siteIdentificationForm.valid : false;
+    }
+
     private setupForm() {
         this.siteIdentificationForm = this.formBuilder.group({
             siteName: [''],//, [Validators.minLength(4), Validators.maxLength(100)]],

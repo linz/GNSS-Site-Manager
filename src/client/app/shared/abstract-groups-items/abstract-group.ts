@@ -275,6 +275,15 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         this.itemProperties.splice(newIndex, 1);
     }
 
+
+    public isFormDirty(): boolean {
+        return this.groupArrayForm ? this.groupArrayForm.dirty : false;
+    }
+
+    public isFormInvalid(): boolean {
+        return this.groupArrayForm ? ! this.groupArrayForm.valid : false;
+    }
+
     /* ************** Private Methods ************** */
 
     private addNewItem(): void {

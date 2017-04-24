@@ -140,6 +140,14 @@ export abstract class AbstractItem implements OnInit, OnChanges {
         return this.isNew ? 'Cancel' : 'Delete';
     }
 
+    public isFormDirty(): boolean {
+        return this.itemGroup ? this.itemGroup.dirty : false;
+    }
+
+    public isFormInvalid(): boolean {
+        return this.itemGroup ? ! this.itemGroup.valid : false;
+    }
+
     /**
      * Add the itemGroup (the item) to the array (groupArray).
      * @param itemGroup to add
