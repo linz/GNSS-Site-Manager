@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
-import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
@@ -20,9 +19,7 @@ import { User } from 'oidc-client';
 @Injectable()
 export class SiteLogService {
 
-    private isFormModifiedSubject: Subject<boolean> = new Subject();
-
-     /**
+    /**
      * Creates a new SiteLogService with the injected Http.
      * @param {Http} http - The injected Http.
      * @param jsonixService - Service for translating GeodesyML to Json
@@ -162,22 +159,6 @@ export class SiteLogService {
                               { headers: headers })
             .map(HttpUtilsService.handleJsonData)
             .catch(HttpUtilsService.handleError);
-    }
-
-    /**
-     * Method to allow clients to subscribe to know when the form modified state has changed
-     * @return {Observable<null>}
-     */
-    getIsFormModifiedSubscription(): Observable<boolean> {
-        return this.isFormModifiedSubject.asObservable();
-    }
-
-    /**
-     * Inform subscribers when the form modified state has changed
-     * @param isModified - state of form
-     */
-    sendFormModifiedStateMessage(isModified: boolean) {
-        this.isFormModifiedSubject.next(isModified);
     }
 
     private handleXMLData(response: Response): string {

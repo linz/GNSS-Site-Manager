@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { MiscUtils } from '../shared/index';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
-import { GnssReceiverItemComponent } from '../gnss-receiver/gnss-receiver-item.component';
-import { SurveyedLocalTieItemComponent } from './surveyed-local-tie-item.component';
 
 /**.
  * This class represents a group of Surveyed Local Ties.
@@ -13,34 +11,23 @@ import { SurveyedLocalTieItemComponent } from './surveyed-local-tie-item.compone
     selector: 'surveyed-local-ties-group',
     templateUrl: 'surveyed-local-ties-group.component.html',
 })
-export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> implements OnInit {
-    static compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
-        let date1: string = obj1.dateMeasured;
-        let date2: string = obj2.dateMeasured;
-        return AbstractGroup.compareDates(date1, date2);
-    }
+export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> {
+    public miscUtils: any = MiscUtils;
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.surveyedLocalTies);
-            this.setupForm('surveyedLocalTies');
-        }
+        this.setItemsCollection(siteLogModel.surveyedLocalTies);
+        console.log('SurveyedLocalTies: ', this.getItemsCollection());
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
+        this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
         console.log('SurveyedLocalTies (Original): ', this.getItemsOriginalCollection());
     }
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
+    constructor() {
+        super();
     }
 
     getItemName(): string {
@@ -48,17 +35,15 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
     }
 
     compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
-        return SurveyedLocalTiesGroupComponent.compare(obj1, obj2);
+        let date1: string = obj1.dateMeasured;
+        let date2: string = obj2.dateMeasured;
+        return AbstractGroup.compareDates(date1, date2);
     }
 
     /* **************************************************
      * Other methods
      */
-    newItemViewModel(blank?: boolean): SurveyedLocalTieViewModel {
+    newViewModelItem(): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
-    }
-
-    newItemFormInstance(): FormGroup {
-        return SurveyedLocalTieItemComponent.newFormInstance(this.formBuilder);
     }
 }
