@@ -34,6 +34,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     // public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
     // public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
     public siteInfoForm: FormGroup;                 // model driven forms
+    public siteInformationForm: FormGroup;                 // model driven forms
     public hasEditRole: boolean = false;
     // public formIsDirty: boolean = false;    // Necessary as need to compose dirty of template and model forms
 
@@ -274,9 +275,26 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
   }
 
+    public isFormDirty(): boolean {
+        return this.siteInfoForm ? this.siteInfoForm.dirty : false;
+    }
+
+    public isFormInvalid(): boolean {
+        return this.siteInfoForm ? ! this.siteInfoForm.valid : false;
+    }
+
+    public isSiteInformationFormDirty(): boolean {
+        return this.siteInformationForm ? this.siteInformationForm.dirty : false;
+    }
+
+    public isSiteInformationFormInvalid(): boolean {
+        return this.siteInformationForm ? ! this.siteInformationForm.valid : false;
+    }
+
     private setupForm() {
-        this.siteInfoForm = this.formBuilder.group({
-        });
+        this.siteInformationForm = this.formBuilder.group({});
+        this.siteInfoForm = this.formBuilder.group({});
+        this.siteInfoForm.addControl('siteInformation', this.siteInformationForm);
     }
 
     private setupAuthSubscription(): Subscription {

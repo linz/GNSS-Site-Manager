@@ -10,7 +10,7 @@ import { MiscUtils } from '../shared/global/misc-utils';
     templateUrl: 'site-location.component.html'
 })
 export class SiteLocationComponent implements OnInit, OnDestroy {
-    @Input('siteInfoForm') siteInfoForm: FormGroup;
+    @Input('siteInformationForm') siteInformationForm: FormGroup;
 
     status: any = {
         isSiteLocationGroupOpen: false
@@ -49,6 +49,14 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
 
     }
 
+    public isFormDirty(): boolean {
+        return this.siteLocationForm ? this.siteLocationForm.dirty : false;
+    }
+
+    public isFormInvalid(): boolean {
+        return this.siteLocationForm ? ! this.siteLocationForm.valid : false;
+    }
+
     private setupForm() {
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],
@@ -61,7 +69,7 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
             tectonicPlate: ['', [Validators.maxLength(100)]],
             notes: ['', [Validators.maxLength(2000)]],
         });
-        this.siteInfoForm.addControl('siteLocation', this.siteLocationForm);
+        this.siteInformationForm.addControl('siteLocation', this.siteLocationForm);
     }
 
     private patchForm() {

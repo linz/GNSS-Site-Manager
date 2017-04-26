@@ -1,4 +1,4 @@
-<div [formGroup]="itemGroup" class="panel panel-level-2">
+<div [formGroup]="itemGroup" class="panel panel-level-2" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
     <div class="panel-heading">
         <span class="panel-title cursor-ptr"
               (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
