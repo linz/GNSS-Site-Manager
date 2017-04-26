@@ -1,10 +1,22 @@
 import { EventEmitter, OnInit, Input, Output, OnChanges, SimpleChange, ChangeDetectorRef } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
 import { AbstractGroup } from './abstract-group';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
+
+export class ItemControls {
+    itemControls: [ItemControl];
+
+    constructor(itemControls: [ItemControl]) {
+        this.itemControls = itemControls;
+    }
+}
+
+export interface ItemControl {
+    [name: string]: AbstractControl;
+}
 
 export abstract class AbstractItem implements OnInit, OnChanges {
     protected miscUtils: any = MiscUtils;
@@ -70,7 +82,14 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      */
     abstract getItem(): AbstractViewModel;
 
-  /**
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    abstract getFormControls(): ItemControls;
+
+    /**
    * Creates an instance of the AbstractItem with the injected Services.
    *
    * @param {DialogService} dialogService - The injected DialogService.
@@ -162,8 +181,9 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      * Patching (or setting) is used to apply the values in the model to the form.
      */
     protected patchForm() {
-        console.log(`receivers #${this.index} - setValue: `, this.getItem());
+        console.log(`${this.getItemName()} #${this.index} - setValue: `, this.getItem());
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
+        this.addFields(this.itemGroup, this.getFormControls())
         this.itemGroup.setValue(this.getItem())
     }
 
@@ -200,5 +220,23 @@ export abstract class AbstractItem implements OnInit, OnChanges {
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;
+    }
+
+    /**
+     * When the group is setup, blank FormGroups for the contained Items are created (no controsl).  This method populates the
+     * Item's FormGroup with the controls (typically before patching in values).
+     *
+     * @param itemGroup is the container for the Item's form controls.  It may or may not already contain Form AbstractControls.
+     * @param formControls is an array of objects containing the forms AbstractControls to add to the itemGroup.
+     */
+    private addFields(itemGroup: FormGroup, formControls: ItemControls) {
+        if (Object.keys(this.itemGroup.controls).length === 0) {
+            for (let control of formControls.itemControls) {
+                let key: any = Object.keys(control)[0];
+                let value: AbstractControl = control[key];
+                console.debug(`add control to ${this.getItemName()} - "${key}":`, value);
+                itemGroup.addControl(key, value);
+            }
+        }
     }
 }

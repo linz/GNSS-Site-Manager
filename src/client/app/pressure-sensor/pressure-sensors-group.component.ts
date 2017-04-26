@@ -53,8 +53,4 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
     newItemViewModel(blank?: boolean): PressureSensorViewModel {
         return new PressureSensorViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return PressureSensorItemComponent.newFormInstance(this.formBuilder);
-    }
 }

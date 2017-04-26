@@ -315,7 +315,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 console.log('  and siteLogOrigin: ', this.siteLogOrigin);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
-                console.log('form dirty - no');
+                console.log('form dirty - no: ', value);
             }
         });
     }

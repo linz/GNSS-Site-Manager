@@ -55,8 +55,4 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
     newItemViewModel(blank?: boolean): HumiditySensorViewModel {
         return new HumiditySensorViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return HumiditySensorItemComponent.newFormInstance(this.formBuilder);
-    }
 }

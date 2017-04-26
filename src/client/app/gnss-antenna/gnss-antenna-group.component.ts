@@ -52,8 +52,4 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
     newItemViewModel(blank?: boolean): GnssAntennaViewModel {
         return new GnssAntennaViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return GnssAntennaItemComponent.newFormInstance(this.formBuilder);
-    }
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -35,20 +35,26 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
         return this.frequencyStandard;
     }
 
-    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
-        let itemGroup: FormGroup = formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-            standardType: [''],//, [Validators.minLength(4)]],
-            inputFrequency: [''],//, [Validators.maxLength(100)]],
-            startDate: [''],//, [Validators.required]],
-            endDate: [''],  //  requiredIfNotCurrent="true"
-            notes: [''],//, [Validators.maxLength(2000)]],
-            fieldMaps: '',
-            dateDeleted: '',
-            dateInserted: '',
-            deletedReason: ''
-        });
-        return itemGroup;
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {standardType: new FormControl([''])},//, [Validators.minLength(4)]],
+            {inputFrequency: new FormControl([''])},//, [Validators.maxLength(100)]],
+            {startDate: new FormControl([''])},//, [Validators.required]],
+            {endDate: new FormControl([''])},  //  requiredIfNotCurrent="true"
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl([''])},
+            {dateInserted: new FormControl([''])},
+            {deletedReason: new FormControl([''])}
+        ]);
     }
+
 }

@@ -55,8 +55,4 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
     newItemViewModel(blank?: boolean): GnssReceiverViewModel {
         return new GnssReceiverViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return GnssReceiverItemComponent.newFormInstance(this.formBuilder);
-    }
 }

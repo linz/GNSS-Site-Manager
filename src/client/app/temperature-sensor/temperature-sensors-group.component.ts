@@ -54,8 +54,4 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
     newItemViewModel(blank?: boolean): TemperatureSensorViewModel {
         return new TemperatureSensorViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return TemperatureSensorItemComponent.newFormInstance(this.formBuilder);
-    }
 }

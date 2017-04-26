@@ -55,8 +55,4 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpiso
     newItemViewModel(blank?: boolean): LocalEpisodicEffectViewModel {
         return new LocalEpisodicEffectViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return LocalEpisodicEffectItemComponent.newFormInstance(this.formBuilder);
-    }
 }

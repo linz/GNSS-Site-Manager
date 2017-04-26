@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -38,31 +38,36 @@ export class ResponsiblePartyItemComponent extends AbstractItem implements OnIni
         return this.responsibleParty;
     }
 
-    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
-        let itemGroup: FormGroup = formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-
-            individualName: [''],//, [Validators.required, Validators.minLength(100)]],
-            organisationName: [''],//, [Validators.required, Validators.maxLength(100)]],
-            positionName: ['', []],
-            deliveryPoint1: ['', []],
-            deliveryPoint2: ['', []],
-            city: ['', []],
-            administrativeArea: [''],//, [Validators.required]],
-            postalCode: ['', []],
-            country: [''], //, [Validators.maxLength(2000)]],
-            email1: '',
-            email2: '',
-            phone1: '',
-            phone2: '',
-            fax1: '',
-            fax2: '',
-            fieldMaps: '',
-            dateInserted: '',
-            dateDeleted: '',
-            deletedReason: ''
-        });
-        return itemGroup;
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {individualName: new FormControl([''])},//, [Validators.required, Validators.minLength(100)]],
+            {organisationName: new FormControl([''])},//, [Validators.required, Validators.maxLength(100)]],
+            {positionName: new FormControl(['', []])},
+            {deliveryPoint1: new FormControl(['', []])},
+            {deliveryPoint2: new FormControl(['', []])},
+            {city: new FormControl(['', []])},
+            {administrativeArea: new FormControl([''])},//, [Validators.required]],
+            {postalCode: new FormControl(['', []])},
+            {country: new FormControl([''])}, //, [Validators.maxLength(2000)]],
+            {email1: new FormControl('')},
+            {email2: new FormControl('')},
+            {phone1: new FormControl('')},
+            {phone2: new FormControl('')},
+            {fax1: new FormControl('')},
+            {fax2: new FormControl('')},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl([''])},
+            {dateInserted: new FormControl([''])},
+            {deletedReason: new FormControl([''])}
+        ]);
     }
+
 }

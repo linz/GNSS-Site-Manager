@@ -99,11 +99,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
 
     /**
-     * @return the Item form instance to be inserted in the Group array.
-     */
-    abstract newItemFormInstance(): FormGroup;
-
-    /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      *
      * @returns {GeodesyEvent}
@@ -217,6 +212,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param itemsArrayName that is set on the siteInfoForm
      */
     setupForm(itemsArrayName: string) {
+        console.debug(`setupForm ${itemsArrayName}`);
         this.groupArrayForm = this.formBuilder.array([]);
         if (this.siteInfoForm.controls[itemsArrayName]) {
             this.siteInfoForm.removeControl(itemsArrayName);
@@ -238,7 +234,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param isItDirty if to mark it dirty or not.
      */
     addChildItemToForm(isItDirty: boolean = false) {
-        let itemGroup: FormGroup = this.newItemFormInstance();
+        // let itemGroup: FormGroup = this.newItemFormInstance();
+        let itemGroup: FormGroup = this.formBuilder.group({});
         if (sortingDirectionAscending) {
             this.groupArrayForm.push(itemGroup);
         } else {

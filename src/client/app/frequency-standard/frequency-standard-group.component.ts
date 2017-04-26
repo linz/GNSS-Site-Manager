@@ -54,8 +54,4 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
     newItemViewModel(blank?: boolean): FrequencyStandardViewModel {
         return new FrequencyStandardViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return FrequencyStandardItemComponent.newFormInstance(this.formBuilder);
-    }
 }

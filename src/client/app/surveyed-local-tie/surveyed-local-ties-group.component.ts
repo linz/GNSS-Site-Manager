@@ -57,8 +57,4 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
     newItemViewModel(blank?: boolean): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
     }
-
-    newItemFormInstance(): FormGroup {
-        return SurveyedLocalTieItemComponent.newFormInstance(this.formBuilder);
-    }
 }
