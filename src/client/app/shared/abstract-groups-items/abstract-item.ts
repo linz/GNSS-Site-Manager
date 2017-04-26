@@ -126,6 +126,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
             (deleteReason : string) => {
                // ok callback
                this.deleteItem(index, deleteReason);
+                this.itemGroup.markAsDirty();
             },
             () => {
               // cancel callback
@@ -141,7 +142,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     public isFormDirty(): boolean {
-        return this.itemGroup ? this.itemGroup.dirty : false;
+        return this.itemGroup ? (this.itemGroup.dirty || this.isNew) : false;
     }
 
     public isFormInvalid(): boolean {

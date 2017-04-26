@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
         <form [formGroup]="siteInfoForm" novalidate class="form-horizontal">
             <div class="panel-group">
-                <div [formGroup]="siteInfoForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+                <div [formGroup]="siteInformationForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isSiteInformationFormDirty(), 'gnss-invalid': isSiteInformationFormInvalid()}">
                     <div class="panel-heading">
                         <span class="panel-title cursor-ptr"
                               (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
@@ -12,23 +12,23 @@
                         </span>
                     </div>
                     <div class="panel-body">
-                        <site-identification [siteInfoForm]="siteInfoForm"
+                        <site-identification [siteInformationForm]="siteInformationForm"
                                              [siteLogModel]="siteLogModel"
                                              [originalSiteLogModel]="siteLogOrigin">
                         </site-identification>
 
-                        <site-location [siteInfoForm]="siteInfoForm"
+                        <site-location [siteInformationForm]="siteInformationForm"
                                        [siteLogModel]="siteLogModel"
                                        [originalSiteLogModel]="siteLogOrigin">
                         </site-location>
 
-                        <gnss-responsible-party-group [siteInfoForm]="siteInfoForm"
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteContact"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
-                        <gnss-responsible-party-group [siteInfoForm]="siteInfoForm"
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteMetadataCustodian"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
@@ -39,7 +39,7 @@
                         <!--[siteLogModel]="siteLogModel"-->
                         <!--[originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>-->
 
-                        <gnss-responsible-party-group [siteInfoForm]="siteInfoForm"
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteDataSource"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">

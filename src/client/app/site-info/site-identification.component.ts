@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
     templateUrl: 'site-identification.component.html'
 })
 export class SiteIdentificationComponent implements OnInit {
-    @Input('siteInfoForm') siteInfoForm: FormGroup;
+    @Input('siteInformationForm') siteInformationForm: FormGroup;
 
     status: any = {
         isSiteIdentificationGroupOpen: false
@@ -91,7 +91,7 @@ export class SiteIdentificationComponent implements OnInit {
             distanceActivity: [''],//, [Validators.maxLength(100)]],
             notes: [''],//, [Validators.maxLength(2000)]],
     });
-        this.siteInfoForm.addControl('siteIdentification', this.siteIdentificationForm);
+        this.siteInformationForm.addControl('siteIdentification', this.siteIdentificationForm);
     }
 
     private patchForm() {
