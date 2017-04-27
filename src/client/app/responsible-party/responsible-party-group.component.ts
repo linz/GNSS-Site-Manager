@@ -100,8 +100,4 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
     newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return ResponsiblePartyItemComponent.newFormInstance(this.formBuilder);
-    }
 }

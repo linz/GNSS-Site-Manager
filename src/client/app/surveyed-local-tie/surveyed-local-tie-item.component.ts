@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -35,26 +35,32 @@ export class SurveyedLocalTieItemComponent extends AbstractItem implements OnIni
         return this.surveyedLocalTie;
     }
 
-    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
-        let itemGroup: FormGroup = formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-            tiedMarkerName: [''],//, [Validators.required, Validators.maxLength(100)]],
-            tiedMarkerUsage: [''],//, [Validators.maxLength(100)]],
-            tiedMarkerCDPNumber: [''],//, [Validators.maxLength(100)]],
-            tiedMarkerDOMESNumber: [''],//, [Validators.maxLength(100)]],
-            dx: [''],//, [Validators.maxLength(100)]],
-            dy: [''],//, [Validators.maxLength(100)]],
-            dz: [''],//, [Validators.maxLength(100)]],
-            surveyMethod: [''],//, [Validators.maxLength(100)]],
-            localSiteTiesAccuracy: [''],//, [Validators.maxLength(100)]],
-            dateMeasured: [''],//, [Validators.maxLength(100)]],
-            notes: [''],//, [Validators.maxLength(2000)]],
-            fieldMaps: '',
-            dateDeleted: '',
-            dateInserted: '',
-            deletedReason: ''
-        });
-        return itemGroup;
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {tiedMarkerName: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
+            {tiedMarkerUsage: new FormControl('')},//, [Validators.maxLength(100)]],
+            {tiedMarkerCDPNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {tiedMarkerDOMESNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dx: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dy: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dz: new FormControl('')},//, [Validators.maxLength(100)]],
+            {surveyMethod: new FormControl('')},//, [Validators.maxLength(100)]],
+            {localSiteTiesAccuracy: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateMeasured: new FormControl('')},//, [Validators.maxLength(100)]],
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
+        ]);
     }
+
 }

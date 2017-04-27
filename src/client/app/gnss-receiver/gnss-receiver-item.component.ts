@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -23,26 +23,30 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
         super(dialogService);
     }
 
-    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
-        let itemGroup: FormGroup = formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-            receiverType: [''],//, [Validators.maxLength(100)]],
-            manufacturerSerialNumber: [''],//, [Validators.maxLength(100)]],
-            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],
-            dateRemoved: [''],//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
-            firmwareVersion: [''],//, [Validators.maxLength(100)]],
-            satelliteSystem: [''],//, [Validators.maxLength(100)]],
-            elevationCutoffSetting: [''],//, [Validators.maxLength(100)]],
-            temperatureStabilization: [''],//, [Validators.required]],//, [Validators.maxLength(100)]],
-            notes: ['', [Validators.maxLength(2000)]],
-            fieldMaps: '',
-            dateDeleted: [''],
-            dateInserted: [''],
-            deletedReason: [''],
-        });
-        // console.debug('GnssReceiverItemComponent - setup (push) new form - index: ', this.getIndex());
-        return itemGroup;
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {receiverType: new FormControl('')}, //, [Validators.maxLength(100)]],
+            {manufacturerSerialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
+            {dateRemoved: new FormControl('')},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
+            {firmwareVersion: new FormControl('')},//, [Validators.maxLength(100)]],
+            {satelliteSystem: new FormControl('')},//, [Validators.maxLength(100)]],
+            {elevationCutoffSetting: new FormControl('')},//, [Validators.maxLength(100)]],
+            {temperatureStabilization: new FormControl('')}, //, [Validators.required]],//, [Validators.maxLength(100)]],
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
+        ]);
     }
 
     ngOnInit() {

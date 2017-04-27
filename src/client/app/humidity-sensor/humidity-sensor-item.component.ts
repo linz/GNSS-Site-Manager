@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { HumiditySensorViewModel } from './humidity-sensor-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -35,25 +35,31 @@ export class HumiditySensorItemComponent extends AbstractItem implements OnInit 
         return this.humiditySensor;
     }
 
-    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
-        let itemGroup: FormGroup = formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-            manufacturer: [''],//, [Validators.required, Validators.minLength(100)]],
-            serialNumber: [''],//, [Validators.required, Validators.maxLength(100)]],
-            dataSamplingInterval: ['', []],
-            accuracyPercentRelativeHumidity: ['', []],
-            aspiration: ['', []],
-            heightDiffToAntenna: ['', []],
-            calibrationDate: ['', []],
-            startDate: [''],//, [Validators.required]],
-            endDate: ['', []],  // requiredIfNotCurrent="true"
-            notes: [''],//, [Validators.maxLength(2000)]],
-            fieldMaps: '',
-            dateDeleted: '',
-            dateInserted: '',
-            deletedReason: ''
-        });
-        return itemGroup;
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {manufacturer: new FormControl('')},//, [Validators.required, Validators.minLength(100)]],
+            {serialNumber: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
+            {dataSamplingInterval: new FormControl('')},
+            {accuracyPercentRelativeHumidity: new FormControl('')},
+            {aspiration: new FormControl('')},
+            {heightDiffToAntenna: new FormControl('')},
+            {calibrationDate: new FormControl('')},
+            {startDate: new FormControl('')},//, [Validators.required]],
+            {endDate: new FormControl('')},  // requiredIfNotCurrent="true"
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
+        ]);
     }
+
 }

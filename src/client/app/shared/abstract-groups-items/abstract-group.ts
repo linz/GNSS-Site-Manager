@@ -99,11 +99,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
 
     /**
-     * @return the Item form instance to be inserted in the Group array.
-     */
-    abstract newItemFormInstance(): FormGroup;
-
-    /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      *
      * @returns {GeodesyEvent}
@@ -217,6 +212,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param itemsArrayName that is set on the siteInfoForm
      */
     setupForm(itemsArrayName: string) {
+        console.debug(`setupForm ${itemsArrayName}`);
         this.groupArrayForm = this.formBuilder.array([]);
         if (this.siteInfoForm.controls[itemsArrayName]) {
             this.siteInfoForm.removeControl(itemsArrayName);
@@ -238,7 +234,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param isItDirty if to mark it dirty or not.
      */
     addChildItemToForm(isItDirty: boolean = false) {
-        let itemGroup: FormGroup = this.newItemFormInstance();
+        // let itemGroup: FormGroup = this.newItemFormInstance();
+        let itemGroup: FormGroup = this.formBuilder.group({});
         if (sortingDirectionAscending) {
             this.groupArrayForm.push(itemGroup);
         } else {
@@ -332,10 +329,16 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
         updatedValue = this.itemProperties[index].setFinalValuesBeforeCreatingNewItem();
         if (updatedValue && Object.keys(updatedValue).length > 0) {
-            this.groupArrayForm.at(index).patchValue(updatedValue);
-            this.groupArrayForm.at(index).markAsDirty();
-            for (let key of Object.keys(updatedValue)) {
-                (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+            formGroup.patchValue(updatedValue);
+            formGroup.markAsDirty();
+            // If the Group hasn't been opened, no form controls will exist.  It is unusual for users to create a new Item without
+            // looking at whatever normally exists.  If not opened then the modified fields won't get marked as dirty.
+            // It this is a problem then we could create the form controls (see AbstractItem.patchForm())
+            if (Object.keys(formGroup.controls).length > 0) {
+                for (let key of Object.keys(updatedValue)) {
+                    (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+                }
             }
         }
     }

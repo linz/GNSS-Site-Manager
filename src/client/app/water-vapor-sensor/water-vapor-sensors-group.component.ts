@@ -53,8 +53,4 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSen
     newItemViewModel(blank?: boolean): WaterVaporSensorViewModel {
         return new WaterVaporSensorViewModel(blank);
     }
-
-    newItemFormInstance(): FormGroup {
-        return WaterVaporSensorItemComponent.newFormInstance(this.formBuilder);
-    }
 }
