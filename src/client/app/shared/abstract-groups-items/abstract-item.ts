@@ -1,9 +1,8 @@
-import { EventEmitter, OnInit, Input, Output, OnChanges, SimpleChange, ChangeDetectorRef } from '@angular/core';
+import { EventEmitter, OnInit, Input, Output, OnChanges, SimpleChange, ChangeDetectorRef, Injector } from '@angular/core';
 import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
-import { AbstractGroup } from './abstract-group';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 
 export class ItemControls {
@@ -94,7 +93,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
    *
    * @param {DialogService} dialogService - The injected DialogService.
    */
-  constructor(protected dialogService: DialogService) {}
+    constructor(protected dialogService: DialogService) { }
 
     ngOnInit() {
         this.isOpen = this.getIndex() === 0;
@@ -161,6 +160,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     public isFormDirty(): boolean {
+        // console.debug(`abstractitem - isFormDirty - dirty: ${this.itemGroup.dirty}, status: ${this.itemGroup.status}`);
         return this.itemGroup ? (this.itemGroup.dirty || this.isNew) : false;
     }
 
@@ -183,8 +183,17 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     protected patchForm() {
         console.log(`${this.getItemName()} #${this.index} - setValue: `, this.getItem());
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
-        this.addFields(this.itemGroup, this.getFormControls())
-        this.itemGroup.setValue(this.getItem())
+        this.addFields(this.itemGroup, this.getFormControls());
+        // For some reason, when - Open Group, Open Item, Close Group, Reopen Group, it is being marked as dirty
+        // NOTE that without the setTimeout() on the setValue(), a "was false now true" error occurs.  It seems that
+        // it is talking about the dirty status.  So something is happening deep in the angular lifecycle.  Hopefully
+        // they fix this.
+        // Check its dirty status before doing the setValue() and restore to that state afterwards
+        let wasDirty: boolean = this.itemGroup ? this.itemGroup.dirty : true;   // True because it is new
+        setTimeout(()=>{this.itemGroup.setValue(this.getItem())});
+        if (! wasDirty) {
+            setTimeout(()=>{this.itemGroup.markAsPristine()});
+        }
     }
 
     /**
