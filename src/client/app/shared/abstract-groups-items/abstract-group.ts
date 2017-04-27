@@ -64,7 +64,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
     }
 
-    constructor(protected formBuilder: FormBuilder) {}
+    constructor(protected formBuilder: FormBuilder) {
+    }
 
     set unlimitedItems(unlimitedItemsAllowed: boolean) {
         this._unlimitedItemsAllowed = unlimitedItemsAllowed;
@@ -78,7 +79,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         return this.unlimitedItems;
     }
 
-     /**
+    /**
      * Get the item name to be used in the subclasses and displayed in the HTML.
      */
     abstract getItemName(): string;
@@ -142,7 +143,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     isEmptyCollection(): boolean {
-        return (! this.itemProperties || this.itemProperties.length === 0);
+        return (!this.itemProperties || this.itemProperties.length === 0);
     }
 
     getItemsOriginalCollection(): T[] {
@@ -164,20 +165,30 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         }
     }
 
-    addToItemsCollection(item: T, origItem: T) {
+    /**
+     * @param item
+     * @param origItem
+     *
+     * @return index in itemProperties (and FormArray) where item is inserted
+     */
+    addToItemsCollection(item: T, origItem: T): number {
+        let indexAddedAt: number;
         // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
         // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
         if (sortingDirectionAscending) {
             this.itemProperties.push(item);
             this.itemOriginalProperties.push(origItem);
+            indexAddedAt = this.itemProperties.length - 1;
         } else {
             this.itemProperties.splice(0, 0, item);
-            this.itemOriginalProperties.splice(0,0,origItem);
+            this.itemOriginalProperties.splice(0, 0, origItem);
+            indexAddedAt = 0;
         }
         this.addChildItemToForm();
         console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
         console.log('addToItemsCollection - itemOriginalProperties: ', this.itemOriginalProperties);
         console.log('addToItemsCollection - groupArrayForm: ', this.groupArrayForm);
+        return indexAddedAt;
     }
 
     /**
@@ -257,8 +268,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
         // (high to low start date).  This call is coming from the UI (the display order) and the default for
         // getItemsCollection() is the reverse order so this works out ok
-        this.setDeletedReason(this.getItemsCollection()[itemIndex], reason);
-        this.setDeleted(this.getItemsCollection()[itemIndex]);
+        this.setDeletedReason(itemIndex, reason);
+        this.setDeleted(itemIndex);
     }
 
     /**
@@ -278,7 +289,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
     }
 
     public isFormInvalid(): boolean {
-        return this.groupArrayForm ? ! this.groupArrayForm.valid : false;
+        return this.groupArrayForm ? !this.groupArrayForm.valid : false;
     }
 
     /* ************** Private Methods ************** */
@@ -298,8 +309,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         console.log('itemPropertiesOrig before new item: ', this.itemOriginalProperties);
 
         // Add the new humidity sensor as current one
-        this.addToItemsCollection(newItem, newItemOrig);
-        this.setInserted(newItem);
+        let indexAddedAt: number = this.addToItemsCollection(newItem, newItemOrig);
+        this.setInserted(indexAddedAt, newItem);
 
         console.log('itemProperties after new item: ', this.itemProperties);
 
@@ -366,15 +377,30 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         geodesyEvent.valueNumber = 0;
     }
 
-    private setDeleted(item: T) {
-        item.setDateDeleted();
+    private setDeleted(index: number) {
+        let item: T = this.getItemsCollection()[index];
+
+        let date: string = item.setDateDeleted();
+        this.updateFormControl(index, 'dateDeleted', date);
     }
 
-    private setInserted(item: T) {
-        item.setDateInserted();
+    private setInserted(index: number, item: T) {
+        let date: string = item.setDateInserted();
+        this.updateFormControl(index, 'dateInserted', date);
     }
 
-    private setDeletedReason(item: T, reason: string) {
+    private setDeletedReason(index: number, reason: string) {
+        let item: T = this.getItemsCollection()[index];
         item.setDeletedReason(reason);
+        this.updateFormControl(index, 'deletedReason', reason);
+    }
+
+    private updateFormControl(index: number, field: string, value: string) {
+        if (this.groupArrayForm.length > index) {
+            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+            if (formGroup.controls[field]) {
+                formGroup.controls[field].setValue(value)
+            }
+        }
     }
 }

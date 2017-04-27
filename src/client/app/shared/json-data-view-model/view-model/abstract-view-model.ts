@@ -63,18 +63,22 @@ export abstract class AbstractViewModel {
 
     /**
      * Set change tracking value to now().
+     * @return the date so can use in FormModel
      */
-    setDateInserted(): void {
+    setDateInserted(): string {
         let date: string = MiscUtils.getPresentDateTime();
         this.dateInserted = date;
+        return date;
     }
 
     /**
      * Set change tracking value to now().
+     * @return the date so can use in FormModel
      */
-    setDateDeleted(): void {
+    setDateDeleted(): string {
         let date: string = MiscUtils.getPresentDateTime();
         this.dateDeleted = date;
+        return date;
     }
 
     setDeletedReason(reason: string): void {
