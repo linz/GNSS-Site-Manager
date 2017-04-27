@@ -45,21 +45,21 @@ export class SurveyedLocalTieItemComponent extends AbstractItem implements OnIni
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {tiedMarkerName: new FormControl([''])},//, [Validators.required, Validators.maxLength(100)]],
-            {tiedMarkerUsage: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {tiedMarkerCDPNumber: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {tiedMarkerDOMESNumber: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {dx: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {dy: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {dz: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {surveyMethod: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {localSiteTiesAccuracy: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {dateMeasured: new FormControl([''])},//, [Validators.maxLength(100)]],
+            {tiedMarkerName: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
+            {tiedMarkerUsage: new FormControl('')},//, [Validators.maxLength(100)]],
+            {tiedMarkerCDPNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {tiedMarkerDOMESNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dx: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dy: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dz: new FormControl('')},//, [Validators.maxLength(100)]],
+            {surveyMethod: new FormControl('')},//, [Validators.maxLength(100)]],
+            {localSiteTiesAccuracy: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateMeasured: new FormControl('')},//, [Validators.maxLength(100)]],
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {fieldMaps: new FormControl('')},
-            {dateDeleted: new FormControl([''])},
-            {dateInserted: new FormControl([''])},
-            {deletedReason: new FormControl([''])}
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
         ]);
     }
 

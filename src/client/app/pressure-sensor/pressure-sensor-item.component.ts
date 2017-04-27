@@ -45,19 +45,19 @@ export class PressureSensorItemComponent extends AbstractItem implements OnInit 
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {manufacturer: new FormControl([''])},//, [Validators.required, Validators.minLength(100)]],
-            {serialNumber: new FormControl([''])},//, [Validators.required, Validators.maxLength(100)]],
-            {dataSamplingInterval: new FormControl(['', []])},
-            {accuracyHPa: new FormControl(['', []])},
-            {heightDiffToAntenna: new FormControl(['', []])},
-            {calibrationDate: new FormControl(['', []])},
-            {startDate: new FormControl([''])},//, [Validators.required]],
-            {endDate: new FormControl(['', []])},  // requiredIfNotCurrent="true"
+            {manufacturer: new FormControl('')},//, [Validators.required, Validators.minLength(100)]],
+            {serialNumber: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
+            {dataSamplingInterval: new FormControl('')},
+            {accuracyHPa: new FormControl('')},
+            {heightDiffToAntenna: new FormControl('')},
+            {calibrationDate: new FormControl('')},
+            {startDate: new FormControl('')},//, [Validators.required]],
+            {endDate: new FormControl('')},  // requiredIfNotCurrent="true"
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {fieldMaps: new FormControl('')},
-            {dateDeleted: new FormControl([''])},
-            {dateInserted: new FormControl([''])},
-            {deletedReason: new FormControl([''])}
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
         ]);
     }
 

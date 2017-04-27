@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Injector } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
@@ -19,7 +19,7 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
      */
     @Input() antenna: GnssAntennaViewModel;
 
-    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+    constructor(protected dialogService: DialogService) {
         super(dialogService);
     }
 
@@ -45,24 +45,24 @@ export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {antennaType: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {serialNumber: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {dateInstalled: new FormControl([''])},//, [Validators.required, dateTimeFormatValidator]],
+            {antennaType: new FormControl('')},//, [Validators.maxLength(100)]],
+            {serialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
             {dateRemoved: new FormControl('')},    // requiredIfNotCurrent="true"
-            {antennaReferencePoint: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {markerArpEastEcc: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {markerArpUpEcc: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {markerArpNorthEcc: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {alignmentFromTrueNorth: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {antennaRadomeType: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {radomeSerialNumber: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {antennaCableType: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {antennaCableLength: new FormControl([''])},//, [Validators.maxLength(100)]],
+            {antennaReferencePoint: new FormControl('')},//, [Validators.maxLength(100)]],
+            {markerArpEastEcc: new FormControl('')},//, [Validators.maxLength(100)]],
+            {markerArpUpEcc: new FormControl('')},//, [Validators.maxLength(100)]],
+            {markerArpNorthEcc: new FormControl('')},//, [Validators.maxLength(100)]],
+            {alignmentFromTrueNorth: new FormControl('')},//, [Validators.maxLength(100)]],
+            {antennaRadomeType: new FormControl('')},//, [Validators.maxLength(100)]],
+            {radomeSerialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {antennaCableType: new FormControl('')},//, [Validators.maxLength(100)]],
+            {antennaCableLength: new FormControl('')},//, [Validators.maxLength(100)]],
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {fieldMaps: new FormControl('')},
-            {dateDeleted: new FormControl([''])},
-            {dateInserted: new FormControl([''])},
-            {deletedReason: new FormControl([''])}
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
         ]);
     }
 }

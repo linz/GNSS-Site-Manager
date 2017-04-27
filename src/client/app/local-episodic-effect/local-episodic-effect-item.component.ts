@@ -35,21 +35,6 @@ export class LocalEpisodicEffectItemComponent extends AbstractItem implements On
         return this.localEpisodicEffect;
     }
 
-    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
-        let itemGroup: FormGroup = formBuilder.group({
-            // turn off all Validators until work out solution to 'was false now true' problem
-            // TODO Fix Validators
-            event: [''],//, [Validators.required, Validators.minLength(100)]],
-            startDate: [''],//, [Validators.required]],
-            endDate: ['', []],  // requiredIfNotCurrent="true"
-            fieldMaps: '',
-            dateDeleted: '',
-            dateInserted: '',
-            deletedReason: ''
-        });
-        return itemGroup;
-    }
-
     /**
      * Return the controls to become the form.
      *
@@ -60,13 +45,13 @@ export class LocalEpisodicEffectItemComponent extends AbstractItem implements On
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {event: new FormControl([''])},//, [Validators.required, Validators.minLength(100)]],
-            {startDate: new FormControl([''])},//, [Validators.required]],
-            {endDate: new FormControl(['', []])},  // requiredIfNotCurrent="true"
+            {event: new FormControl('')},//, [Validators.required, Validators.minLength(100)]],
+            {startDate: new FormControl('')},//, [Validators.required]],
+            {endDate: new FormControl('')},  // requiredIfNotCurrent="true"
             {fieldMaps: new FormControl('')},
-            {dateDeleted: new FormControl([''])},
-            {dateInserted: new FormControl([''])},
-            {deletedReason: new FormControl([''])}
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
         ]);
     }
 

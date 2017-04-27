@@ -33,19 +33,19 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {receiverType: new FormControl([''])}, //, [Validators.maxLength(100)]],
-            {manufacturerSerialNumber: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {dateInstalled: new FormControl([''])},//, [Validators.required, dateTimeFormatValidator]],
-            {dateRemoved: new FormControl([''])},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
-            {firmwareVersion: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {satelliteSystem: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {elevationCutoffSetting: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {temperatureStabilization: new FormControl([''])}, //, [Validators.required]],//, [Validators.maxLength(100)]],
+            {receiverType: new FormControl('')}, //, [Validators.maxLength(100)]],
+            {manufacturerSerialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
+            {dateRemoved: new FormControl('')},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
+            {firmwareVersion: new FormControl('')},//, [Validators.maxLength(100)]],
+            {satelliteSystem: new FormControl('')},//, [Validators.maxLength(100)]],
+            {elevationCutoffSetting: new FormControl('')},//, [Validators.maxLength(100)]],
+            {temperatureStabilization: new FormControl('')}, //, [Validators.required]],//, [Validators.maxLength(100)]],
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {fieldMaps: new FormControl('')},
-            {dateDeleted: new FormControl([''])},
-            {dateInserted: new FormControl([''])},
-            {deletedReason: new FormControl([''])}
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
         ]);
     }
 

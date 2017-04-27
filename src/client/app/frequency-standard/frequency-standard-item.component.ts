@@ -45,15 +45,15 @@ export class FrequencyStandardItemComponent extends AbstractItem implements OnIn
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {standardType: new FormControl([''])},//, [Validators.minLength(4)]],
-            {inputFrequency: new FormControl([''])},//, [Validators.maxLength(100)]],
-            {startDate: new FormControl([''])},//, [Validators.required]],
-            {endDate: new FormControl([''])},  //  requiredIfNotCurrent="true"
+            {standardType: new FormControl('')},//, [Validators.minLength(4)]],
+            {inputFrequency: new FormControl('')},//, [Validators.maxLength(100)]],
+            {startDate: new FormControl('')},//, [Validators.required]],
+            {endDate: new FormControl('')},  //  requiredIfNotCurrent="true"
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {fieldMaps: new FormControl('')},
-            {dateDeleted: new FormControl([''])},
-            {dateInserted: new FormControl([''])},
-            {deletedReason: new FormControl([''])}
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
         ]);
     }
 

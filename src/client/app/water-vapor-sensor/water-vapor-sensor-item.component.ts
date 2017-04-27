@@ -45,17 +45,17 @@ export class WaterVaporSensorItemComponent extends AbstractItem implements OnIni
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {manufacturer: new FormControl([''])},//, [Validators.required, Validators.minLength(100)]],
-            {serialNumber: new FormControl([''])},//, [Validators.required, Validators.maxLength(100)]],
-            {heightDiffToAntenna: new FormControl([''])},
-            {calibrationDate: new FormControl([''])},
-            {startDate: new FormControl([''])},//, [Validators.required]],
-            {endDate: new FormControl([''])},  // requiredIfNotCurrent="true"
+            {manufacturer: new FormControl('')},//, [Validators.required, Validators.minLength(100)]],
+            {serialNumber: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
+            {heightDiffToAntenna: new FormControl('')},
+            {calibrationDate: new FormControl('')},
+            {startDate: new FormControl('')},//, [Validators.required]],
+            {endDate: new FormControl('')},  // requiredIfNotCurrent="true"
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {fieldMaps: new FormControl('')},
-            {dateDeleted: new FormControl([''])},
-            {dateInserted: new FormControl([''])},
-            {deletedReason: new FormControl([''])}
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
         ]);
     }
 
