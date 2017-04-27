@@ -5,8 +5,6 @@ import { RouterModule, Route } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BaseRequestOptions, ConnectionBackend, Http, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-
-import { NameListService } from '../shared/index';
 import { SelectSiteModule } from './select-site.module';
 import { SelectSiteComponent } from './select-site.component';
 import { CorsSiteService } from '../shared/cors-site/cors-site.service';
@@ -45,7 +43,6 @@ export function main() {
                 providers: [
                     {provide: CorsSiteService, useValue: fakeCorsSiteService},
                     {provide: WFSService, useValue: fakeWFSService},
-                    NameListService,
                     ServiceWorkerService,
                     DialogService,
                     BaseRequestOptions,

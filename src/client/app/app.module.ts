@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AboutModule } from './about/about.module';
 import { SharedModule } from './shared/shared.module';
-import { HomeModule } from './home/home.module';
 import { SiteInfoModule } from './site-info/site-info.module';
 import { SelectSiteModule } from './select-site/select-site.module';
 import { UserRegistrationModule } from './user-registration/user-registration.module';
@@ -28,7 +27,6 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
     SiteInfoModule,
     SelectSiteModule,
     UserRegistrationModule,
-    HomeModule,
     SharedModule.forRoot()
   ],
   declarations: [

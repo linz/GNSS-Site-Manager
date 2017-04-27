@@ -35,7 +35,7 @@ export class HttpUtilsService {
     }
 
     /**
-     * Creates a new NameListService with the injected Http.
+     * Creates a new HttpUtilsService with the injected Http.
      * @param {Http} http - The injected Http.
      * @constructor
     */
