@@ -16,6 +16,7 @@ export class SiteLogViewModel {
 }
 
 export class ViewSiteLog {
+    [key:string]: any;      // Allow easy object access without typescript error
     siteIdentification: any = {};
     siteLocation: any = {};
     gnssReceivers: GnssReceiverViewModel[];
