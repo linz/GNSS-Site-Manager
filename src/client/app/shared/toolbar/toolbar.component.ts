@@ -55,13 +55,15 @@ export class ToolbarComponent implements OnInit {
     this.onClose.emit( this.siteId !== null );
   }
 
-  // TODO - need to get this status from SiteInfoComponent.siteInfoForm.dirty
-  hasFormChanged() {
-      return this.isFormModifiedState;
-      // return false;
-  }
+    public isFormDirty(): boolean {
+        return this.isFormModifiedState
+    }
 
-  /**
+    public isFormInvalid(): boolean {
+        return false;
+    }
+
+    /**
    * Component method to request the Service Worker clears it's cache.
    */
   clearCache = (): void => {
