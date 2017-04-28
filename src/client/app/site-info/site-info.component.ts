@@ -18,6 +18,7 @@ import { LocalEpisodicEffectsGroupComponent } from '../local-episodic-effect/loc
 import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-local-ties-group.component';
 import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
@@ -200,7 +201,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         return;
     }
 
-    // let that: any = this;
+    this.removeDeletedItems();
 
     this.dialogService.confirmSaveDialog(diffMsg, () => {
       // function() {
@@ -399,5 +400,31 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             formValue[subObject] = formValue.siteInformation[subObject];
             delete formValue.siteInformation[subObject];
         }
+    }
+
+    /**
+     * When items are deleted they are given a dateRemoved, but aren't deleted until now (so they show up in the diff).
+     */
+    private removeDeletedItems() {
+        let items: string[] = Object.keys(this.siteLogModel);
+        for (let item of items) {
+            if (Array.isArray(this.siteLogModel[item])) {
+                console.debug('removeDeletedItems - group: ', item);
+                this.removeDeletedGroupItems(this.siteLogModel[item]);
+            }
+        }
+    }
+
+    private removeDeletedGroupItems(siteLogModelGroupItems: any[]) {
+        console.debug('    removeDeletedGroupItems - items: ', siteLogModelGroupItems);
+        let i: number;
+        for (i = siteLogModelGroupItems.length - 1; i >= 0; i--) {
+            if (siteLogModelGroupItems[i].hasOwnProperty('dateDeleted')
+                && siteLogModelGroupItems[i]['dateDeleted']
+                && siteLogModelGroupItems[i]['dateDeleted'].length > 0) {
+                siteLogModelGroupItems.splice(i,1);
+            }
+        }
+        console.debug('    removeDeletedGroupItems - items after: ', siteLogModelGroupItems);
     }
 }
