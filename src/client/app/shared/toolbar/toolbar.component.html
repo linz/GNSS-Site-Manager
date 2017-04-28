@@ -28,22 +28,23 @@
         <span class="right-panel">
             <span *ngIf="siteId">
                 <span class="hidden-md hidden-sm hidden-xs">
-                        <span class="id-label">Selected Site: {{siteId}} (form mod: {{hasFormChanged()}}) </span>
-                        <button class="btn small-btn" (click)="save()" [disabled]="!hasFormChanged()"
+                        <span class="id-label" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">Selected Site: {{siteId}}</span>
+                        <button class="btn small-btn" (click)="save()" [disabled]="!isFormDirty()"
                                 title="Review and save changes">Save</button>
-                        <button class="btn small-btn" (click)="revert()" title="Discard changes">Revert</button>
+                        <button class="btn small-btn" (click)="revert()" [disabled]="!isFormDirty()"
+                                title="Discard changes">Revert</button>
                         <button class="btn small-btn" (click)="close()"
                                 title="Close current page and go back to Home page">Close</button>
                 </span>
                 <span class="hidden-lg">
                   <div dropdown class="pull-left">
                     <nav dropdownToggle id="site-id-menu" class="menu-label">
-                        <span class="btn-label">{{siteId}} (form mod: {{hasFormChanged()}})</span>
+                        <span class="btn-label" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">{{siteId}}</span>
                         <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
                     </nav>
                     <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-                        <li role="menuitem"><a (click)="save()" title="Review and save changes">Save</a></li>
-                        <li role="menuitem"><a (click)="revert()" title="Discard changes">Revert</a></li>
+                        <li role="menuitem"><a (click)="save()" title="Review and save changes" [ngClass]="{'disabled': !isFormDirty()}">Save</a></li>
+                        <li role="menuitem"><a (click)="revert()" title="Discard changes" [ngClass]="{'disabled': !isFormDirty()}">Revert</a></li>
                         <li class="divider dropdown-divider"></li>
                         <li role="menuitem"><a (click)="close()">Close</a></li>
                     </ul>
