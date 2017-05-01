@@ -1,14 +1,14 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, MiscUtils,
-         JsonDiffService, JsonCheckService, JsonPointerService, NameListService, ServiceWorkerService,
+         JsonDiffService, JsonCheckService, JsonPointerService, ServiceWorkerService,
          JsonixService } from './shared/index';
 import { SiteInfoComponent } from './site-info/site-info.component';
 import { JsonViewModelService } from './shared/json-data-view-model/json-view-model.service';
 
 /**
  * This class represents the main application component. Within the @Routes annotation is the configuration of the
- * applications routes, configuring the paths for the lazy loaded components (HomeComponent, SelectSiteComponent, AboutComponent).
+ * applications routes, configuring the paths for the lazy loaded components (SelectSiteComponent, AboutComponent).
  */
 @Component({
   moduleId: module.id,
@@ -19,7 +19,6 @@ import { JsonViewModelService } from './shared/json-data-view-model/json-view-mo
     DialogService,
     MiscUtils,
     JsonixService,
-    NameListService,
     ServiceWorkerService,
     SiteLogService,
     SiteInfoComponent,

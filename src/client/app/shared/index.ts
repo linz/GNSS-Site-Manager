@@ -6,7 +6,6 @@ export * from './cors-setup/index';
 export * from './json-pointer/index';
 export * from './site-log/index';
 export * from './global/index';
-export * from './name-list/index';
 export * from './service-worker/index';
 export * from './config/env.config';
 export * from './jsonix/index';

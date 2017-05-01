@@ -14,11 +14,9 @@ import {
 } from '@angular/router/testing';
 import { CollapseModule } from 'ng2-bootstrap';
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
 import { Http, BaseRequestOptions, ConnectionBackend, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { WFSService } from './shared/wfs/wfs.service';
@@ -32,15 +30,12 @@ export function main() {
   describe('App component', () => {
 
     let config: Route[] = [
-      { path: '', component: HomeComponent },
       { path: 'about', component: AboutComponent }
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, ReactiveFormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
-        declarations: [TestComponent, ToolbarComponent, FooterComponent,
-          NavbarComponent, AppComponent,
-          HomeComponent, AboutComponent],
+        imports: [FormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
+        declarations: [TestComponent, ToolbarComponent, FooterComponent, AppComponent, AboutComponent],
         providers: [
           {provide: APP_BASE_HREF, useValue: '/'},
           MockBackend,
