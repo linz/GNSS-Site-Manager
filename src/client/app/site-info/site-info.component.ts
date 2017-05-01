@@ -30,16 +30,9 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
-    // public siteContactName: string = ConstantsService.SITE_CONTACT;
-    // public siteMetadataCustodianName: string = ConstantsService.SITE_METADATA_CUSTODIAN;
-    // public siteDataCenterName: string = ConstantsService.SITE_DATA_CENTER;
-    // public siteDataSourceName: string = ConstantsService.SITE_DATA_SOURCE;
-    public siteInfoForm: FormGroup;                 // model driven forms
-    public siteInformationForm: FormGroup;                 // model driven forms
+    public siteInfoForm: FormGroup;
+    public siteInformationForm: FormGroup;
     public hasEditRole: boolean = false;
-    // public formIsDirty: boolean = false;    // Necessary as need to compose dirty of template and model forms
-
-    // private SITE_CONTACT: ResponsiblePartyType = ResponsiblePartyType.siteContact;
     public responsiblePartyType: any = ResponsiblePartyType;
     public siteLogOrigin: ViewSiteLog;
     public siteLogModel: ViewSiteLog;
@@ -49,9 +42,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
   private siteIdentification: any = null;
   private siteLocation: any = {};
   private siteContacts: Array<any> = [];
-  // private siteMetadataCustodian: any = {};
-  // private siteDataCenters: Array<any> = [];
-  // private siteDataSource: any = {};
   private errorMessage: string;
   private siteInfoTab: any = null;
   private submitted: boolean = false;
@@ -60,10 +50,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         isSiteInfoGroupOpen: true,
         isSiteMediaOpen: false,
         isMetaCustodianOpen: false,
-        // hasNewSiteContact: false,
-        // hasNewSiteMetadataCustodian: false,
-        // hasNewSiteDataCenter: false,
-        // hasNewSiteDataSource: false,
     };
 
     private authSubscription: Subscription;
@@ -118,10 +104,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.submitted = false;
 
     this.siteInfoTab = this.route.params.subscribe(() => {
-        // this.removeAllExistingControlItems();
       this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
         (responseJson: any) => {
-          // this.siteLogModel = this.jsonCheckService.getValidSiteLog(responseJson.siteLog);//['geo:siteLog']);
           this.siteLogModel = responseJson.siteLog;
           console.debug('loadSiteInfoData - siteLogModel: ', this.siteLogModel);
 
@@ -150,9 +134,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.siteIdentification = null;
     this.siteLocation = null;
     this.siteContacts.length = 0;
-    // this.siteMetadataCustodian = null;
-    // this.siteDataCenters.length = 0;
-    // this.siteDataSource = null;
     this.status = null;
     this.errorMessage = '';
     if (this.authSubscription) {
@@ -204,13 +185,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     this.removeDeletedItems();
 
     this.dialogService.confirmSaveDialog(diffMsg, () => {
-      // function() {
         this.isLoading = true;
         this.submitted = true;
-        // this.status.hasNewSiteContact = false;
-        // this.status.hasNewSiteMetadataCustodian = false;
-        // this.status.hasNewSiteDataCenter = false;
-        // this.status.hasNewSiteDataSource = false;
         let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
         siteLogViewModel.siteLog=this.siteLogModel;
         this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
@@ -336,8 +312,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 return ResponsiblePartyGroupComponent.compare;
             case 'siteMetadataCustodian':
                 return ResponsiblePartyGroupComponent.compare;
-            // case 'siteDataCenter':
-            //     return ResponsiblePartyGroupComponent.compare;
             case 'siteDataSource':
                 return ResponsiblePartyGroupComponent.compare;
             case 'gnssReceivers':
