@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
-import { GnssAntennaItemComponent } from './gnss-antenna-item.component';
 
 /**
  * This class represents a collection of GNSS Antenna items.
@@ -12,7 +11,7 @@ import { GnssAntennaItemComponent } from './gnss-antenna-item.component';
     selector: 'gnss-antenna-group',
     templateUrl: 'gnss-antenna-group.component.html',
 })
-export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewModel> implements OnInit {
+export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewModel> {
     static compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
         let date1: string = obj1.dateInstalled;
         let date2: string = obj2.dateInstalled;
@@ -29,16 +28,13 @@ export class GnssAntennaGroupComponent extends AbstractGroup<GnssAntennaViewMode
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
+        }
     }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
     }
 
     getItemName(): string {

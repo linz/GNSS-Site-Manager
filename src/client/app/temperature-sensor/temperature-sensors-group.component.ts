@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
-import { TemperatureSensorItemComponent } from './temperature-sensor-item.component';
 
 /**
  * This class represents a group of Temperature Sensors.
@@ -12,7 +11,7 @@ import { TemperatureSensorItemComponent } from './temperature-sensor-item.compon
     selector: 'temperature-sensors-group',
     templateUrl: 'temperature-sensors-group.component.html',
 })
-export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> implements OnInit {
+export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> {
 
     static compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
         let date1: string = obj1.startDate;
@@ -30,17 +29,13 @@ export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureS
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
-        console.log('TemperatureSensors (Original): ', this.getItemsOriginalCollection());
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
+        }
     }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
     }
 
     getItemName(): string {

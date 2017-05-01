@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
-import { PressureSensorItemComponent } from './pressure-sensor-item.component';
 
 /**
  * This class represents a group of Pressure Sensors.
@@ -12,7 +11,7 @@ import { PressureSensorItemComponent } from './pressure-sensor-item.component';
     selector: 'pressure-sensors-group',
     templateUrl: 'pressure-sensors-group.component.html',
 })
-export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> implements OnInit {
+export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorViewModel> {
     static compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
@@ -29,17 +28,13 @@ export class PressureSensorsGroupComponent extends AbstractGroup<PressureSensorV
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
-        console.log('PressureSensors (Original): ', this.getItemsOriginalCollection());
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
+        }
     }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
     }
 
     getItemName(): string {

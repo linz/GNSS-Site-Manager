@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { HumiditySensorViewModel } from './humidity-sensor-view-model';
-import { HumiditySensorItemComponent } from './humidity-sensor-item.component';
 
 /**.
  * This class represents a group of Humidity Sensors.
@@ -12,7 +11,7 @@ import { HumiditySensorItemComponent } from './humidity-sensor-item.component';
     selector: 'humidity-sensors-group',
     templateUrl: 'humidity-sensors-group.component.html',
 })
-export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorViewModel> implements OnInit {
+export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorViewModel> {
     static compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
@@ -29,16 +28,13 @@ export class HumiditySensorsGroupComponent extends AbstractGroup<HumiditySensorV
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
+        }
     }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
     }
 
     getItemName(): string {

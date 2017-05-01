@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { FrequencyStandardItemComponent } from './frequency-standard-item.component';
+import { FormBuilder } from '@angular/forms';
 
 /**
  * This class represents a collection of FrequencyStandard Component.
@@ -12,7 +11,7 @@ import { FrequencyStandardItemComponent } from './frequency-standard-item.compon
     selector: 'frequency-standard-group',
     templateUrl: 'frequency-standard-group.component.html',
 })
-export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> implements OnInit {
+export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> {
     @Input() frequencyStandards: any;
 
     @Input()
@@ -25,7 +24,9 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
+        }
     }
 
     static compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
@@ -36,11 +37,6 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
     }
 
     getItemName(): string {

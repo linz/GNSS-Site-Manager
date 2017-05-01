@@ -399,7 +399,7 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         if (this.groupArrayForm.length > index) {
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
             if (formGroup.controls[field]) {
-                formGroup.controls[field].setValue(value)
+                formGroup.controls[field].setValue(value);
             }
         }
     }

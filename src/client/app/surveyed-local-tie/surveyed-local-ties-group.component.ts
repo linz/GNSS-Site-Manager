@@ -1,9 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
-import { GnssReceiverItemComponent } from '../gnss-receiver/gnss-receiver-item.component';
-import { SurveyedLocalTieItemComponent } from './surveyed-local-tie-item.component';
 
 /**.
  * This class represents a group of Surveyed Local Ties.
@@ -13,7 +11,7 @@ import { SurveyedLocalTieItemComponent } from './surveyed-local-tie-item.compone
     selector: 'surveyed-local-ties-group',
     templateUrl: 'surveyed-local-ties-group.component.html',
 })
-export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> implements OnInit {
+export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> {
     static compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
         let date1: string = obj1.dateMeasured;
         let date2: string = obj2.dateMeasured;
@@ -30,17 +28,13 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        originalSiteLogModel && this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
-        console.log('SurveyedLocalTies (Original): ', this.getItemsOriginalCollection());
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
+        }
     }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
-    }
-
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
     }
 
     getItemName(): string {

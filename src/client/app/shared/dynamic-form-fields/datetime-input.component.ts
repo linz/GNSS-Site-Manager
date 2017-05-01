@@ -89,6 +89,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
   public hasChanges: boolean = false;
   public invalidDatetime: boolean = false;
 
+    public miscUtils: any = MiscUtils;
+
     private _datetimeDisplay: string = '';
     private _datetimeDisplayLast: string = '';
     private hours: number = 0;
@@ -97,8 +99,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
   private datetimeSuffix: string = '.000Z';
   private datetimeLast: string = '';
-
-  private miscUtils: any = MiscUtils;
 
     static formatTimeToDisplay(dateStr: string, returnAsIsUponFailure: boolean = false): string {
         let datetimeDisplay: string = '';

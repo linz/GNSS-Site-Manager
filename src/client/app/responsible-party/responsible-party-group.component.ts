@@ -1,8 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
-import { ResponsiblePartyItemComponent } from './responsible-party-item.component';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
@@ -37,7 +36,7 @@ export class ResponsiblePartyType {
     selector: 'gnss-responsible-party-group',
     templateUrl: 'responsible-party-group.component.html',
 })
-export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePartyViewModel> implements OnInit {
+export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePartyViewModel> {
     private _partyName: ResponsiblePartyType;
 
     static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
@@ -74,21 +73,6 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
         super(formBuilder);
     }
 
-    ngOnInit() {
-        // This is happening too early before itemProperties are set in the @Input
-        // this.setupForm();
-    }
-
-    private init() {
-        if (!this.partyName) {
-            throw new Error('Party attribute is required for ResponsiblePartyGroupComponent');
-        } else {
-        }
-
-        this.unlimitedItems = (this.partyName !== ResponsiblePartyType.siteMetadataCustodian);
-        this.setupForm(this.partyName.toString());
-    }
-
     getItemName(): string {
         return this.partyName.getTitle();
     }
@@ -99,5 +83,15 @@ export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePar
 
     newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel(blank);
+    }
+
+    private init() {
+        if (!this.partyName) {
+            throw new Error('Party attribute is required for ResponsiblePartyGroupComponent');
+        } else {
+        }
+
+        this.unlimitedItems = (this.partyName !== ResponsiblePartyType.siteMetadataCustodian);
+        this.setupForm(this.partyName.toString());
     }
 }

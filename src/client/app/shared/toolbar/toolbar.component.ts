@@ -48,7 +48,6 @@ export class ToolbarComponent implements OnInit {
 
   revert() {
     this.onRevert.emit( this.siteId !== null );
-    // javascript:history.go(0);
   }
 
   close() {
@@ -56,7 +55,7 @@ export class ToolbarComponent implements OnInit {
   }
 
     public isFormDirty(): boolean {
-        return this.isFormModifiedState
+        return this.isFormModifiedState;
     }
 
     public isFormInvalid(): boolean {
