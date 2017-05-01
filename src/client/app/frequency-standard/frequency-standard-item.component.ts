@@ -1,65 +1,60 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This class represents a single item of GNSS Antennas.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'frequency-standard-item',
-  templateUrl: 'frequency-standard-item.component.html',
+    moduleId: module.id,
+    selector: 'frequency-standard-item',
+    templateUrl: 'frequency-standard-item.component.html',
 })
-export class FrequencyStandardItemComponent extends AbstractItem {
-  public miscUtils: any = MiscUtils;
+export class FrequencyStandardItemComponent extends AbstractItem implements OnInit {
+    /**
+     * The Frequency Standard in question.
+     */
+    @Input() frequencyStandard: FrequencyStandardViewModel;
 
-  /**
-   * Total number of Frequency Standards
-   */
-  @Input() total: number;
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(dialogService);
+    }
 
-  /**
-   * The index of this Frequency Standard (zero-based)
-   */
-  @Input() index: number;
+    ngOnInit() {
+        this.patchForm();
+    }
 
-  /**
-   * The Frequency Standard in question.
-   */
-  @Input() frequencyStandard: FrequencyStandardViewModel;
+    getItemName(): string {
+        return 'Frequency Standard';
+    }
 
-  /**
-   * This is to receive geodesyEvent from parent.
-   */
-  @Input() geodesyEvent: GeodesyEvent;
+    getItem(): AbstractViewModel {
+        return this.frequencyStandard;
+    }
 
-  /**
-   * Events children components can send to their parent components. Usually these are then passed to all
-   * child components.
-   * @type {EventEmitter<boolean>}
-   */
-  @Output() returnEvents = new EventEmitter<GeodesyEvent>();
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {standardType: new FormControl('')},//, [Validators.minLength(4)]],
+            {inputFrequency: new FormControl('')},//, [Validators.maxLength(100)]],
+            {startDate: new FormControl('')},//, [Validators.required]],
+            {endDate: new FormControl('')},  //  requiredIfNotCurrent="true"
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
+        ]);
+    }
 
-  constructor(protected dialogService: DialogService) {
-    super(dialogService);
-  }
-
-  getGeodesyEvent(): GeodesyEvent {
-    return this.geodesyEvent;
-  }
-
-  getIndex(): number {
-    return this.index;
-  }
-
-  getReturnEvents(): EventEmitter<GeodesyEvent> {
-    return this.returnEvents;
-  }
-
-  getItemName(): string {
-    return 'Frequency Standard';
-  }
 }

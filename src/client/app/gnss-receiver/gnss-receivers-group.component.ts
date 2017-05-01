@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 
@@ -12,22 +12,29 @@ import { GnssReceiverViewModel } from './gnss-receiver-view-model';
     templateUrl: 'gnss-receivers-group.component.html',
 })
 export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewModel> {
-    public miscUtils: any = MiscUtils;
+    static compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
+        let date1: string = obj1.dateInstalled;
+        let date2: string = obj2.dateInstalled;
+        return AbstractGroup.compareDates(date1, date2);
+    }
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        this.setItemsCollection(siteLogModel.gnssReceivers);
-        console.log('GnssReceivers: ', this.getItemsCollection());
+       if (siteLogModel) {
+           this.setItemsCollection(siteLogModel.gnssReceivers);
+           this.setupForm('gnssReceivers');
+       }
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        this.setItemsOriginalCollection(originalSiteLogModel.gnssReceivers);
-        console.log('GnssReceivers (Original): ', this.getItemsOriginalCollection());
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.gnssReceivers);
+        }
     }
 
-    constructor() {
-        super();
+    constructor(protected formBuilder: FormBuilder) {
+        super(formBuilder);
     }
 
     getItemName(): string {
@@ -35,15 +42,13 @@ export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewM
     }
 
     compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
-        let date1: string = obj1.dateInstalled;
-        let date2: string = obj2.dateInstalled;
-        return AbstractGroup.compareDates(date1, date2);
+        return GnssReceiversGroupComponent.compare(obj1, obj2);
     }
 
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(): GnssReceiverViewModel {
-        return new GnssReceiverViewModel();
+    newItemViewModel(blank?: boolean): GnssReceiverViewModel {
+        return new GnssReceiverViewModel(blank);
     }
 }

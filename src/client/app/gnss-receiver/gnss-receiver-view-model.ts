@@ -16,8 +16,12 @@ export class GnssReceiverViewModel extends AbstractViewModel {
     public dateRemoved: string;
     public notes: string;
 
-    constructor() {
-        super();
+    /**
+     *
+     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
+     */
+    constructor(blank: boolean = false) {
+        super();//dontSetDetfaults);
 
         this.receiverType = '';
         this.manufacturerSerialNumber = '';
@@ -28,38 +32,31 @@ export class GnssReceiverViewModel extends AbstractViewModel {
         this.temperatureStabilization = 0;
 
         let presentDT: string = MiscUtils.getPresentDateTime();
-        this.dateInstalled = presentDT;
+        this.dateInstalled = blank ? '' : presentDT;
         this.dateRemoved = '';
         this.notes = '';
     }
 
     createFieldMappings(): void {
-
         this.addFieldMapping('/gnssReceiver/igsModelCode/value', 'string', '/receiverType', 'string');
-
         this.addFieldMapping('/gnssReceiver/manufacturerSerialNumber', 'string', '/manufacturerSerialNumber', 'string');
-
         this.addFieldMapping('/gnssReceiver/firmwareVersion', 'string', '/firmwareVersion', 'string');
-
         this.addFieldMapping('/gnssReceiver/satelliteSystem/0/value', 'string', '/satelliteSystem', 'string');
-
         this.addFieldMapping('/gnssReceiver/elevationCutoffSetting', 'string', '/elevationCutoffSetting', 'number');
-
         this.addFieldMapping('/gnssReceiver/temperatureStabilization', 'string', '/temperatureStabilization', 'number');
-
         this.addFieldMapping('/gnssReceiver/dateInstalled/value/0', 'string', '/dateInstalled', 'string');
-
         this.addFieldMapping('/gnssReceiver/dateRemoved/value/0', 'string', '/dateRemoved', 'string');
-
         this.addFieldMapping('/gnssReceiver/notes', 'string', '/notes', 'string');
     };
 
     /**
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
+     * Return what is changed as an object so the form can be patched.
      */
-    setFinalValuesBeforeCreatingNewItem(): void {
+    setFinalValuesBeforeCreatingNewItem(): Object {
         let presentDT: string = MiscUtils.getPresentDateTime();
 
         this.dateRemoved = presentDT;
+        return {dateRemoved: presentDT};
     }
 }

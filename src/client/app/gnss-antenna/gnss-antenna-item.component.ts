@@ -1,65 +1,68 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
+import { Component, Input, OnInit, Injector } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This class represents a single item of GNSS Antennas.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'gnss-antenna-item',
-  templateUrl: 'gnss-antenna-item.component.html',
+    moduleId: module.id,
+    selector: 'gnss-antenna-item',
+    templateUrl: 'gnss-antenna-item.component.html',
 })
-export class GnssAntennaItemComponent extends AbstractItem {
-  public miscUtils: any = MiscUtils;
+export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
+    /**
+     * The GNSS Antenna in question.
+     */
+    @Input() antenna: GnssAntennaViewModel;
 
-  /**
-   * Total number of GNSS antennas
-   */
-  @Input() total: number;
+    constructor(protected dialogService: DialogService) {
+        super(dialogService);
+    }
 
-  /**
-   * The index of this antenna (zero-based)
-   */
-  @Input() index: number;
+    ngOnInit() {
+        this.patchForm();
+    }
 
-  /**
-   * The GNSS Antenna in question.
-   */
-  @Input() antenna: GnssAntennaViewModel;
+    getItemName(): string {
+        return 'GNSS Antenna';
+    }
 
-  /**
-   * This is to receive geodesyEvent from parent.
-   */
-  @Input() geodesyEvent: GeodesyEvent;
+    getItem(): AbstractViewModel {
+        return this.antenna;
+    }
 
-  /**
-   * Events children components can send to their parent components.  Usually these are then passed to all
-   * child components.
-   * @type {EventEmitter<boolean>}
-   */
-  @Output() returnEvents = new EventEmitter<GeodesyEvent>();
-
-  constructor(protected dialogService: DialogService) {
-    super(dialogService);
-  }
-
-  getGeodesyEvent(): GeodesyEvent {
-    return this.geodesyEvent;
-  }
-
-  getIndex(): number {
-    return this.index;
-  }
-
-  getReturnEvents(): EventEmitter<GeodesyEvent> {
-    return this.returnEvents;
-  }
-
-  getItemName(): string {
-    return 'GNSS Antenna';
-  }
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {antennaType: new FormControl('')},//, [Validators.maxLength(100)]],
+            {serialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
+            {dateRemoved: new FormControl('')},    // requiredIfNotCurrent="true"
+            {antennaReferencePoint: new FormControl('')},//, [Validators.maxLength(100)]],
+            {markerArpEastEcc: new FormControl('')},//, [Validators.maxLength(100)]],
+            {markerArpUpEcc: new FormControl('')},//, [Validators.maxLength(100)]],
+            {markerArpNorthEcc: new FormControl('')},//, [Validators.maxLength(100)]],
+            {alignmentFromTrueNorth: new FormControl('')},//, [Validators.maxLength(100)]],
+            {antennaRadomeType: new FormControl('')},//, [Validators.maxLength(100)]],
+            {radomeSerialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {antennaCableType: new FormControl('')},//, [Validators.maxLength(100)]],
+            {antennaCableLength: new FormControl('')},//, [Validators.maxLength(100)]],
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
+        ]);
+    }
 }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 
@@ -7,40 +7,46 @@ import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
  * This class represents a group of Temperature Sensors.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'temperature-sensors-group',
-  templateUrl: 'temperature-sensors-group.component.html',
+    moduleId: module.id,
+    selector: 'temperature-sensors-group',
+    templateUrl: 'temperature-sensors-group.component.html',
 })
 export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> {
-  public miscUtils: any = MiscUtils;
 
-  @Input()
-  set siteLogModel(siteLogModel: any) {
-    this.setItemsCollection(siteLogModel.temperatureSensors);
-    console.log('TemperatureSensors: ', this.getItemsCollection());
-  }
+    static compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
+        return AbstractGroup.compareDates(date1, date2);
+    }
 
-  @Input()
-  set originalSiteLogModel(originalSiteLogModel: any) {
-    this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
-    console.log('TemperatureSensors (Original): ', this.getItemsOriginalCollection());
-  }
+    @Input()
+    set siteLogModel(siteLogModel: any) {
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.temperatureSensors);
+            this.setupForm('temperatureSensors');
+        }
+    }
 
-  constructor() {
-    super();
-  }
+    @Input()
+    set originalSiteLogModel(originalSiteLogModel: any) {
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
+        }
+    }
 
-  getItemName(): string {
-    return 'Temperature Sensor';
-  }
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
+    }
 
-  compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
-    let date1: string = obj1.startDate;
-    let date2: string = obj2.startDate;
-    return AbstractGroup.compareDates(date1, date2);
-  }
+    getItemName(): string {
+        return 'Temperature Sensor';
+    }
 
-  newViewModelItem(): TemperatureSensorViewModel {
-    return new TemperatureSensorViewModel();
-  }
+    compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
+        return TemperatureSensorsGroupComponent.compare(obj1, obj2);
+    }
+
+    newItemViewModel(blank?: boolean): TemperatureSensorViewModel {
+        return new TemperatureSensorViewModel(blank);
+    }
 }

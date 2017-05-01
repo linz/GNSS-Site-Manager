@@ -72,6 +72,14 @@ body {
   padding-left: 1px;
   padding-right: 1px;
 }
+
+.disabled {
+    display: none;
+    color: #888 !important;
+    pointer-events: none;
+    cursor: default;
+}
+
 ul {
   margin: 10px 0 0;
   padding: 0 0 0 20px;
@@ -154,6 +162,7 @@ ul {
 .btn-group-xs > .btn, .btn-xs {
     font-size: 14px;
     padding: 0 5px;
+    line-height: 1.6;
 }
 .panel-group .panel-level-1 {
   margin-top: 15px;
@@ -162,7 +171,7 @@ ul {
   margin-bottom: 15px;
 }
 .panel-group .panel-heading {
-  padding: 5px 15px;
+  padding: 4px 15px;
 }
 .panel-group .panel-level-1 .panel-body {
   padding: 15px 15px 0;
@@ -426,39 +435,62 @@ ul {
   background-color: #008369;
   padding: 3px 5px;
 }
-.panel-level-1.panel-dirty {
+.btn-label.gnss-dirty {
+    background-color: #d9f7e3 !important;
+}
+.id-label.gnss-dirty {
+    background-color: #d9f7e3 !important;
+}
+.panel-level-1.gnss-dirty {
   border-color: #006a55 !important;
 }
-.panel-level-1.panel-dirty > .panel-heading {
+.panel-level-1.gnss-dirty > .panel-heading {
   background-color: #008369 !important;
 }
-.panel-level-2.panel-dirty {
+.panel-level-2.gnss-dirty {
   border-color: #afeec4 !important;
 }
-.panel-level-2.panel-dirty > .panel-heading {
+.panel-level-2.gnss-dirty > .panel-heading {
   background-color: #d9f7e3 !important;
 }
-.panel-level-1.panel-invalid {
-  border-color: #a33f1f !important;
+.btn-label.gnss-invalid {
+    background-color: #a33f1f !important;
+    color: #ffffff !important;
 }
-.panel-level-1.panel-invalid > .panel-heading {
+.id-label.gnss-invalid {
+    background-color: #a33f1f !important;
+    color: #ffffff !important;
+}
+.panel-level-1.gnss-invalid {
+    border-color: #a33f1f !important;
+}
+.panel-level-1.gnss-invalid > .panel-heading {
   background-color: #a33f1f !important;
 }
-.panel-level-2.panel-invalid {
+.panel-level-2.gnss-invalid {
   border-color: #ffd497 !important;
 }
-.panel-level-2.panel-invalid > .panel-heading {
+.panel-level-2.gnss-invalid > .panel-heading {
   background-color: #ffe9ca !important;
 }
-form .ng-dirty.ng-valid {
+input.ng-dirty.ng-valid,
+input.ng-dirty.ng-valid + .input-group-btn > .btn-calendar,
+select.ng-dirty.ng-valid,
+textarea.ng-dirty.ng-valid {
   border-color: #00b300;
   background-color: #ebffeb;
 }
-form .ng-dirty.ng-invalid {
+input.ng-dirty.ng-invalid,
+input.ng-dirty.ng-invalid + .input-group-btn > .btn-calendar,
+select.ng-dirty.ng-invalid,
+textarea.ng-dirty.ng-invalid {
   border-color: #ca1200;
   background-color: #ffefff;
 }
-form .christine.ng-invalid {
+input.christine.ng-invalid,
+input.ng-christine.ng-invalid + .input-group-btn > .btn-calendar,
+select.ng-christine.ng-invalid,
+textarea.christine.ng-invalid {
   border-color: #ff1700;
 }
 
@@ -601,6 +633,7 @@ form .christine.ng-invalid {
   .btn-group-xs > .btn, .btn-xs {
     border-radius: 4px;
     font-size: 16px;
+    line-height: 1.5;
     margin-top: -4px;
     padding: 2px 10px;
   }
@@ -1024,3 +1057,4 @@ form .christine.ng-invalid {
         top: 1px;
     }
 }
+

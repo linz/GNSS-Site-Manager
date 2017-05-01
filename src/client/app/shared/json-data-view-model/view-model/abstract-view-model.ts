@@ -2,6 +2,8 @@ import { FieldMaps, FieldMap } from '../field-maps';
 import { TypedPointer } from '../typed-pointer';
 import { MiscUtils } from '../../global/misc-utils';
 
+export const dontSetDetfaults: boolean = false;
+
 export abstract class AbstractViewModel {
     // Base Fields
     // Change tracking
@@ -18,12 +20,15 @@ export abstract class AbstractViewModel {
         return this.fieldMaps;
     }
 
-    constructor() {
-        this.addSuperFieldMappings();
+    constructor(setDefaults: boolean = true) {
+        if (setDefaults) {
+            this.setDefaultValues();
+            this.addSuperFieldMappings();
+        }
         this.createFieldMappings();
     }
 
-    /**
+     /**
      * Client calls this for each data/view field mappings to build fieldMaps.
      *
      * @param dataPath - path in the data model
@@ -58,18 +63,22 @@ export abstract class AbstractViewModel {
 
     /**
      * Set change tracking value to now().
+     * @return the date so can use in FormModel
      */
-    setDateInserted(): void {
+    setDateInserted(): string {
         let date: string = MiscUtils.getPresentDateTime();
         this.dateInserted = date;
+        return date;
     }
 
     /**
      * Set change tracking value to now().
+     * @return the date so can use in FormModel
      */
-    setDateDeleted(): void {
+    setDateDeleted(): string {
         let date: string = MiscUtils.getPresentDateTime();
         this.dateDeleted = date;
+        return date;
     }
 
     setDeletedReason(reason: string): void {
@@ -84,8 +93,15 @@ export abstract class AbstractViewModel {
 
     /**
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
+     * Return what is changed as an object so the form can be patched.
      */
-    abstract setFinalValuesBeforeCreatingNewItem(): void;
+    abstract setFinalValuesBeforeCreatingNewItem(): Object;
+
+    private setDefaultValues() {
+        this.dateDeleted = '';
+        this.dateInserted = '';
+        this.deletedReason = '';
+    }
 
     private assertCorrect(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string) {
       // TODO: where is assert? They should be in a unit test anyway.

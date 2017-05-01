@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
 
@@ -26,7 +26,7 @@ import { HttpUtilsService } from './shared/global/http-utils.service';
 import { UserAuthService } from './shared/global/user-auth.service';
 
 export function main() {
-	
+
   describe('App component', () => {
 
     let config: Route[] = [
@@ -34,7 +34,7 @@ export function main() {
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
+        imports: [FormsModule, ReactiveFormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
         declarations: [TestComponent, ToolbarComponent, FooterComponent, AppComponent, AboutComponent],
         providers: [
           {provide: APP_BASE_HREF, useValue: '/'},

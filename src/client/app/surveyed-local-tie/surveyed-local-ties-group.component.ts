@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { MiscUtils } from '../shared/index';
+import { FormBuilder } from '@angular/forms';
 import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 
@@ -12,22 +12,29 @@ import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
     templateUrl: 'surveyed-local-ties-group.component.html',
 })
 export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocalTieViewModel> {
-    public miscUtils: any = MiscUtils;
+    static compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
+        let date1: string = obj1.dateMeasured;
+        let date2: string = obj2.dateMeasured;
+        return AbstractGroup.compareDates(date1, date2);
+    }
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        this.setItemsCollection(siteLogModel.surveyedLocalTies);
-        console.log('SurveyedLocalTies: ', this.getItemsCollection());
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel.surveyedLocalTies);
+            this.setupForm('surveyedLocalTies');
+        }
     }
 
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
-        this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
-        console.log('SurveyedLocalTies (Original): ', this.getItemsOriginalCollection());
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
+        }
     }
 
-    constructor() {
-        super();
+    constructor(formBuilder: FormBuilder) {
+        super(formBuilder);
     }
 
     getItemName(): string {
@@ -35,15 +42,13 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroup<SurveyedLocal
     }
 
     compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
-        let date1: string = obj1.dateMeasured;
-        let date2: string = obj2.dateMeasured;
-        return AbstractGroup.compareDates(date1, date2);
+        return SurveyedLocalTiesGroupComponent.compare(obj1, obj2);
     }
 
     /* **************************************************
      * Other methods
      */
-    newViewModelItem(): SurveyedLocalTieViewModel {
+    newItemViewModel(blank?: boolean): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
     }
 }

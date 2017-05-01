@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This component represents a single GNSS Receiver.
@@ -13,48 +13,48 @@ import { DialogService } from '../shared/index';
     selector: 'gnss-receiver-item',
     templateUrl: 'gnss-receiver-item.component.html',
 })
-export class GnssReceiverItemComponent extends AbstractItem {
-    public miscUtils: any = MiscUtils;
-
-    /**
-     * Total number of gnssReceivers
-     */
-    @Input() total: number;
-    /**
-     * The index of this sensor (zero-based)
-     */
-    @Input() index: number;
+export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
     /**
      * The GnssReceiver in question.
      */
     @Input() gnssReceiver: GnssReceiverViewModel;
 
-    /**
-     * This is to receive geodesyEvent from parent.
-     */
-    @Input() geodesyEvent: GeodesyEvent;
-
-    /**
-     * Events children components can send to their parent components.  Usually these are then passed to all
-     * child components.
-     * @type {EventEmitter<boolean>}
-     */
-    @Output() returnEvents = new EventEmitter<GeodesyEvent>();
-
-    constructor(protected dialogService: DialogService) {
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
         super(dialogService);
     }
 
-    getGeodesyEvent(): GeodesyEvent {
-        return this.geodesyEvent;
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {receiverType: new FormControl('')}, //, [Validators.maxLength(100)]],
+            {manufacturerSerialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
+            {dateRemoved: new FormControl('')},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
+            {firmwareVersion: new FormControl('')},//, [Validators.maxLength(100)]],
+            {satelliteSystem: new FormControl('')},//, [Validators.maxLength(100)]],
+            {elevationCutoffSetting: new FormControl('')},//, [Validators.maxLength(100)]],
+            {temperatureStabilization: new FormControl('')}, //, [Validators.required]],//, [Validators.maxLength(100)]],
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
+        ]);
     }
 
-    getIndex(): number {
-        return this.index;
+    ngOnInit() {
+        this.patchForm();
     }
 
-    getReturnEvents(): EventEmitter<GeodesyEvent> {
-        return this.returnEvents;
+    getItem(): AbstractViewModel {
+        return this.gnssReceiver;
     }
 
     getItemName(): string {

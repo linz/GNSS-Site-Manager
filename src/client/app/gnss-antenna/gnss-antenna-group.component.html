@@ -1,4 +1,4 @@
-<div class="panel panel-level-1">
+<div [formGroup]="siteInfoForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
   <div class="panel-heading">
             <span class="panel-title cursor-ptr"
                   (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
@@ -11,7 +11,7 @@
               <button class="btn btn-similar btn-xs"
                       title="Add a new {{getItemName()}}"
                       [disabled]="hasGroupANewItem"
-                      (click)="addNew(); miscUtils.showFullView($event);">
+                      (click)="addNew($event); miscUtils.showFullView($event);">
                 <i class="glyphicon glyphicon-plus-sign"></i>
                 New <span class="hidden-xxs">Antenna</span>
               </button>
@@ -21,13 +21,17 @@
     <div class="margin-bottom15" *ngIf="isEmptyCollection()">
       No information available for {{getItemName()}}
     </div>
-    <div *ngFor="let antenna of getItemsCollection(); let i = index">
-      <gnss-antenna-item [antenna]="antenna"
+      <div formArrayName="gnssAntennas">
+          <div *ngFor="let antenna of getItemsCollection(); let i = index">
+      <gnss-antenna-item [groupArray]="groupArrayForm"
+                         [antenna]="antenna"
+                         [formGroupName]="i"
                          [total]="itemProperties.length"
                          [index]="i"
                          [geodesyEvent]="geodesyEvent"
                          (returnEvents)="returnEvents($event)">
       </gnss-antenna-item>
     </div>
+      </div>
   </div>
 </div>

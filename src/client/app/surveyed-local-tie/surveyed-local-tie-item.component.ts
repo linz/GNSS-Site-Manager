@@ -1,9 +1,9 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This component represents a single Surveyed Local Tie.
@@ -13,51 +13,54 @@ import { DialogService } from '../shared/index';
     selector: 'surveyed-local-tie-item',
     templateUrl: 'surveyed-local-tie-item.component.html',
 })
-export class SurveyedLocalTieItemComponent extends AbstractItem {
-    public miscUtils: any = MiscUtils;
-
-    /**
-     * Total number of surveyedLocalTies
-     */
-    @Input() total: number;
-    /**
-     * The index of this sensor (zero-based)
-     */
-    @Input() index: number;
+export class SurveyedLocalTieItemComponent extends AbstractItem implements OnInit {
     /**
      * The SurveyedLocalTie in question.
      */
     @Input() surveyedLocalTie: SurveyedLocalTieViewModel;
 
-    /**
-     * This is to receive geodesyEvent from parent.
-     */
-    @Input() geodesyEvent: GeodesyEvent;
-
-    /**
-     * Events children components can send to their parent components.  Usually these are then passed to all
-     * child components.
-     * @type {EventEmitter<boolean>}
-     */
-    @Output() returnEvents = new EventEmitter<GeodesyEvent>();
-
-    constructor(protected dialogService: DialogService) {
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
         super(dialogService);
     }
 
-    getGeodesyEvent(): GeodesyEvent {
-        return this.geodesyEvent;
-    }
-
-    getIndex(): number {
-        return this.index;
-    }
-
-    getReturnEvents(): EventEmitter<GeodesyEvent> {
-        return this.returnEvents;
+    ngOnInit() {
+        this.patchForm();
     }
 
     getItemName(): string {
         return 'Surveyed Local Tie';
     }
+
+    getItem(): AbstractViewModel {
+        return this.surveyedLocalTie;
+    }
+
+    /**
+     * Return the controls to become the form.
+     *
+     * @return array of AbstractControl objects
+     */
+    getFormControls(): ItemControls {
+        // let itemGroup: FormGroup = formBuilder.group({
+        // turn off all Validators until work out solution to 'was false now true' problem
+        // TODO Fix Validators
+        return new ItemControls([
+            {tiedMarkerName: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
+            {tiedMarkerUsage: new FormControl('')},//, [Validators.maxLength(100)]],
+            {tiedMarkerCDPNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {tiedMarkerDOMESNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dx: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dy: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dz: new FormControl('')},//, [Validators.maxLength(100)]],
+            {surveyMethod: new FormControl('')},//, [Validators.maxLength(100)]],
+            {localSiteTiesAccuracy: new FormControl('')},//, [Validators.maxLength(100)]],
+            {dateMeasured: new FormControl('')},//, [Validators.maxLength(100)]],
+            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {fieldMaps: new FormControl('')},
+            {dateDeleted: new FormControl('')},
+            {dateInserted: new FormControl('')},
+            {deletedReason: new FormControl('')}
+        ]);
+    }
+
 }
