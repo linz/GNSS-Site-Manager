@@ -24,9 +24,9 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
  * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'sd-site-info',
-  templateUrl: 'site-info.component.html'
+    moduleId: module.id,
+    selector: 'sd-site-info',
+    templateUrl: 'site-info.component.html'
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
@@ -38,13 +38,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     public siteLogModel: ViewSiteLog;
 
     private siteId: string;
-  private isLoading: boolean = false;
-  private siteIdentification: any = null;
-  private siteLocation: any = {};
-  private siteContacts: Array<any> = [];
-  private errorMessage: string;
-  private siteInfoTab: any = null;
-  private submitted: boolean = false;
+    private isLoading: boolean = false;
+    private siteIdentification: any = null;
+    private siteLocation: any = {};
+    private siteContacts: Array<any> = [];
+    private errorMessage: string;
+    private siteInfoTab: any = null;
+    private submitted: boolean = false;
     private status: any = {
         oneAtATime: false,
         isSiteInfoGroupOpen: true,
@@ -54,204 +54,205 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     private authSubscription: Subscription;
 
-  /**
-   * Creates an instance of the SiteInfoComponent with the injected Router/ActivatedRoute/CorsSite Services.
-   *
-   * @param {Router} router - The injected Router.
-   * @param {ActivatedRoute} route - The injected ActivatedRoute.
-   * @param {DialogService} dialogService - The injected DialogService.
-   * @param {SiteLogService} siteLogService - The injected SiteLogService.
-   * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
-   */
-  constructor(private router: Router,
-              private route: ActivatedRoute,
-              private dialogService: DialogService,
-              private siteLogService: SiteLogService,
-              private jsonDiffService: JsonDiffService,
-              private jsonCheckService: JsonCheckService,
-              private userAuthService: UserAuthService,
-              private formBuilder: FormBuilder,
-              private _changeDetectionRef : ChangeDetectorRef) {
-  }
-
-  /**
-   * Initialise all data on loading the site-info page
-   */
-  public ngOnInit() {
-    this.route.params.forEach((params: Params) => {
-      let id: string = params['id'];
-      this.siteId = id;
-    });
-
-    this.authSubscription = this.setupAuthSubscription();
-    this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
-    this.setupForm();
-    this.loadSiteInfoData();
-    this.setupSubscriptions();
-  }
-
-   /**
-   * Retrieve relevant site/setup/log information from DB based on given Site Id
-   */
-  public loadSiteInfoData() {
-    // Do not allow direct access to site-info page
-    if (!this.siteId) {
-      this.goToHomePage();
+    /**
+     * Creates an instance of the SiteInfoComponent with the injected Router/ActivatedRoute/CorsSite Services.
+     *
+     * @param {Router} router - The injected Router.
+     * @param {ActivatedRoute} route - The injected ActivatedRoute.
+     * @param {DialogService} dialogService - The injected DialogService.
+     * @param {SiteLogService} siteLogService - The injected SiteLogService.
+     * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
+     */
+    constructor(private router: Router,
+        private route: ActivatedRoute,
+        private dialogService: DialogService,
+        private siteLogService: SiteLogService,
+        private jsonDiffService: JsonDiffService,
+        private jsonCheckService: JsonCheckService,
+        private userAuthService: UserAuthService,
+        private formBuilder: FormBuilder,
+        private _changeDetectionRef : ChangeDetectorRef) {
     }
 
-       console.log('---------> SiteInfoComponent - Load / Revert ------------------------');
-    this.isLoading = true;
-    this.submitted = false;
+    /**
+     * Initialise all data on loading the site-info page
+     */
+    public ngOnInit() {
+        this.route.params.forEach((params: Params) => {
+            let id: string = params['id'];
+            this.siteId = id;
+        });
 
-    this.siteInfoTab = this.route.params.subscribe(() => {
-      this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
-        (responseJson: any) => {
-          this.siteLogModel = responseJson.siteLog;
-          console.debug('loadSiteInfoData - siteLogModel: ', this.siteLogModel);
+        this.authSubscription = this.setupAuthSubscription();
+        this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
+        this.setupForm();
+        this.loadSiteInfoData();
+        this.setupSubscriptions();
+    }
 
-          this.backupSiteLogJson();
-          this.isLoading = false;
-            this.siteLogService.sendFormModifiedStateMessage(false);
-          this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
-        },
-        (error: Error) =>  {
-          this.errorMessage = <any>error;
-          this.isLoading = false;
-          this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
+    /**
+     * Retrieve relevant site/setup/log information from DB based on given Site Id
+     */
+    public loadSiteInfoData() {
+        // Do not allow direct access to site-info page
+        if (!this.siteId) {
+            this.goToHomePage();
         }
-      );
-    });
-  }
 
-  /**
-   * Clear all variables/arrays
-   */
-  public ngOnDestroy() {
-    this.isLoading =  false;
-    this.hasEditRole = false;
-    this.siteId = null;
-    this.siteLogModel = null;
-    this.siteIdentification = null;
-    this.siteLocation = null;
-    this.siteContacts.length = 0;
-    this.status = null;
-    this.errorMessage = '';
-    if (this.authSubscription) {
-        this.authSubscription.unsubscribe();
-    }
-
-    // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
-    // object is created.  Hence this field might not have been created.
-    if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
-      this.siteInfoTab.unsubscribe();
-    }
-  }
-
-  /**
-   * Save changes made back to siteLog XML
-   */
-  public save(formValue: any) {
-      if (! formValue) {
-          // Currently the toolbar save will pass null.  Just use siteInfoForm
-          if (this.siteInfoForm.pristine) {
-              return;
-          }
-          formValue = this.siteInfoForm.value;
-      }
-        console.log('---------> SiteInfoComponent - Save ------------------------');
-      console.log(' siteLog before form merge: ', this.siteLogModel);
-      console.log(' formValue before merge and reverse: ', formValue);
-      let formValueClone: any =_.cloneDeep(formValue);
-      this.moveSiteInformationUp(formValueClone);
-
-      /* Get the arrays in the form in the same order as the SiteLogModel */
-      this.sortArrays(formValueClone);
-      console.log(' formValue before merge and after reverse: ', formValueClone);
-
-      /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
-        an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
-      _.merge(this.siteLogModel, formValueClone);
-      console.log(' siteLog after form merge: ', this.siteLogModel);
-      console.log(' siteLogOrigin: ', this.siteLogOrigin);
-
-    let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
-
-    if ( diffMsg === null || diffMsg.trim() === '') {
-      this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
-        this.siteLogService.sendFormModifiedStateMessage(false);
-        return;
-    }
-
-    this.removeDeletedItems();
-
-    this.dialogService.confirmSaveDialog(diffMsg, () => {
+        console.log('---------> SiteInfoComponent - Load / Revert ------------------------');
         this.isLoading = true;
-        this.submitted = true;
-        let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
-        siteLogViewModel.siteLog=this.siteLogModel;
-        this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
-          (responseJson: any) => {
-            //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
-            this.isLoading = false;
-              this.siteLogService.sendFormModifiedStateMessage(false);
-              this.backupSiteLogJson();
-            this.dialogService.showSuccessMessage('Done in saving SiteLog data for '+this.siteId);
-          },
-          (error: Error) =>  {
-            this.isLoading = false;
-            this.errorMessage = <any>error;
-            console.error(error);
-            this.dialogService.showErrorMessage('Error in saving SiteLog data for '+this.siteId);
-          }
+        this.submitted = false;
+
+        this.siteInfoTab = this.route.params.subscribe(() => {
+            this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
+                (responseJson: any) => {
+                    this.siteLogModel = responseJson.siteLog;
+                    console.debug('loadSiteInfoData - siteLogModel: ', this.siteLogModel);
+
+                    this.backupSiteLogJson();
+                    this.isLoading = false;
+                    this.siteLogService.sendFormModifiedStateMessage(false);
+                    this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
+                },
+                (error: Error) =>  {
+                    this.errorMessage = <any>error;
+                    this.isLoading = false;
+                    this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
+                }
+            );
+        });
+    }
+
+    /**
+     * Clear all variables/arrays
+     */
+    public ngOnDestroy() {
+        this.isLoading =  false;
+        this.hasEditRole = false;
+        this.siteId = null;
+        this.siteLogModel = null;
+        this.siteIdentification = null;
+        this.siteLocation = null;
+        this.siteContacts.length = 0;
+        this.status = null;
+        this.errorMessage = '';
+        if (this.authSubscription) {
+            this.authSubscription.unsubscribe();
+        }
+
+        // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
+        // object is created.  Hence this field might not have been created.
+        if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
+            this.siteInfoTab.unsubscribe();
+        }
+    }
+
+    /**
+     * Save changes made back to siteLog XML
+     */
+    public save(formValue: any) {
+        if (! formValue) {
+            // Currently the toolbar save will pass null.  Just use siteInfoForm
+            if (this.siteInfoForm.pristine) {
+                return;
+            }
+            formValue = this.siteInfoForm.value;
+        }
+        console.log('---------> SiteInfoComponent - Save ------------------------');
+        console.log(' siteLog before form merge: ', this.siteLogModel);
+        console.log(' formValue before merge and reverse: ', formValue);
+        let formValueClone: any =_.cloneDeep(formValue);
+        this.moveSiteInformationUp(formValueClone);
+
+        /* Get the arrays in the form in the same order as the SiteLogModel */
+        this.sortArrays(formValueClone);
+        console.log(' formValue before merge and after reverse: ', formValueClone);
+
+        /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
+        an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
+        _.merge(this.siteLogModel, formValueClone);
+        console.log(' siteLog after form merge: ', this.siteLogModel);
+        console.log(' siteLogOrigin: ', this.siteLogOrigin);
+
+        let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
+
+        if ( diffMsg === null || diffMsg.trim() === '') {
+            this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
+            this.siteLogService.sendFormModifiedStateMessage(false);
+            return;
+        }
+
+        this.removeDeletedItems();
+
+        this.dialogService.confirmSaveDialog(diffMsg,
+            () => {
+                this.isLoading = true;
+                this.submitted = true;
+                let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
+                siteLogViewModel.siteLog=this.siteLogModel;
+                this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
+                    (responseJson: any) => {
+                        //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
+                        this.isLoading = false;
+                        this.siteLogService.sendFormModifiedStateMessage(false);
+                        this.backupSiteLogJson();
+                        this.dialogService.showSuccessMessage('Done in saving SiteLog data for '+this.siteId);
+                    },
+                    (error: Error) =>  {
+                        this.isLoading = false;
+                        this.errorMessage = <any>error;
+                        console.error(error);
+                        this.dialogService.showErrorMessage('Error in saving SiteLog data for '+this.siteId);
+                    }
+                );
+            },
+            () => {
+                this.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+this.siteId);
+                this.isLoading = false;
+            }
         );
-      },
-      () => {
-        this.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+this.siteId);
+    }
+
+    /**
+     * Navigate to the default home page (Select-Site tab)
+     */
+    public goToHomePage() {
+        let link = ['/'];
+        this.router.navigate(link);
         this.isLoading = false;
-      }
-    );
-  }
+    }
 
-  /**
-   * Navigate to the default home page (Select-Site tab)
-   */
-  public goToHomePage() {
-    let link = ['/'];
-    this.router.navigate(link);
-    this.isLoading = false;
-  }
+    /**
+     * Return true if any of the SiteLog data have been changed.
+     *
+     * TODO: we may use other methods to detect changes, e.g., the form.$dirty variable
+     */
+    public hasChanges(): boolean {
+        return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
+    }
 
-  /**
-   * Return true if any of the SiteLog data have been changed.
-   *
-   * TODO: we may use other methods to detect changes, e.g., the form.$dirty variable
-   */
-  public hasChanges(): boolean {
-    return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
-  }
+    /**
+     * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
+     */
+    public confirmCloseSiteInfoPage(): Promise<boolean> {
+        let msg: string = `You have made changes to the ${this.siteId} Site Log. Close the page will lose any unsaved changes.`;
+        let that: any = this;
+        return new Promise<boolean>((resolve, reject) => {
+            this.dialogService.confirmCloseDialog(msg,
+                function() {
+                    that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
+                    resolve(true);
+                },
+                function() {
+                    resolve(false);
+                }
+            );
+        });
+    }
 
-  /**
-   * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
-   */
-  public confirmCloseSiteInfoPage(): Promise<boolean> {
-    let msg: string = `You have made changes to the ${this.siteId} Site Log. Close the page will lose any unsaved changes.`;
-    let that: any = this;
-    return new Promise<boolean>((resolve, reject) => {
-        this.dialogService.confirmCloseDialog(msg,
-          function() {
-            that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
-            resolve(true);
-          },
-          function() {
-            resolve(false);
-          }
-        );
-    });
-  }
-
-  public backupSiteLogJson() {
-    this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
-  }
+    public backupSiteLogJson() {
+        this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
+    }
 
     public isFormDirty(): boolean {
         return this.siteInfoForm ? this.siteInfoForm.dirty : false;
