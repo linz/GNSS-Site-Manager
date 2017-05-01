@@ -1,65 +1,63 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AbstractItem } from '../shared/abstract-groups-items/abstract-item';
-import { GeodesyEvent } from '../shared/events-messages/Event';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
  * This class represents a single item of GNSS Antennas.
  */
 @Component({
-  moduleId: module.id,
-  selector: 'gnss-antenna-item',
-  templateUrl: 'gnss-antenna-item.component.html',
+    moduleId: module.id,
+    selector: 'gnss-antenna-item',
+    templateUrl: 'gnss-antenna-item.component.html',
 })
-export class GnssAntennaItemComponent extends AbstractItem {
-  public miscUtils: any = MiscUtils;
+export class GnssAntennaItemComponent extends AbstractItem implements OnInit {
+    /**
+     * The GNSS Antenna in question.
+     */
+    @Input() antenna: GnssAntennaViewModel;
 
-  /**
-   * Total number of GNSS antennas
-   */
-  @Input() total: number;
+    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(dialogService);
+    }
 
-  /**
-   * The index of this antenna (zero-based)
-   */
-  @Input() index: number;
+    ngOnInit() {
+        this.patchForm();
+    }
 
-  /**
-   * The GNSS Antenna in question.
-   */
-  @Input() antenna: GnssAntennaViewModel;
+    getItemName(): string {
+        return 'GNSS Antenna';
+    }
 
-  /**
-   * This is to receive geodesyEvent from parent.
-   */
-  @Input() geodesyEvent: GeodesyEvent;
+    getItem(): AbstractViewModel {
+        return this.antenna;
+    }
 
-  /**
-   * Events children components can send to their parent components.  Usually these are then passed to all
-   * child components.
-   * @type {EventEmitter<boolean>}
-   */
-  @Output() returnEvents = new EventEmitter<GeodesyEvent>();
-
-  constructor(protected dialogService: DialogService) {
-    super(dialogService);
-  }
-
-  getGeodesyEvent(): GeodesyEvent {
-    return this.geodesyEvent;
-  }
-
-  getIndex(): number {
-    return this.index;
-  }
-
-  getReturnEvents(): EventEmitter<GeodesyEvent> {
-    return this.returnEvents;
-  }
-
-  getItemName(): string {
-    return 'GNSS Antenna';
-  }
+    public static newFormInstance(formBuilder: FormBuilder): FormGroup {
+        let itemGroup: FormGroup = formBuilder.group({
+            // turn off all Validators until work out solution to 'was false now true' problem
+            // TODO Fix Validators
+            antennaType: [''],//, [Validators.maxLength(100)]],
+            serialNumber: [''],//, [Validators.maxLength(100)]],
+            dateInstalled: [''],//, [Validators.required, dateTimeFormatValidator]],
+            dateRemoved: '',    // requiredIfNotCurrent="true"
+            antennaReferencePoint: [''],//, [Validators.maxLength(100)]],
+            markerArpEastEcc: [''],//, [Validators.maxLength(100)]],
+            markerArpUpEcc: [''],//, [Validators.maxLength(100)]],
+            markerArpNorthEcc: [''],//, [Validators.maxLength(100)]],
+            alignmentFromTrueNorth: [''],//, [Validators.maxLength(100)]],
+            antennaRadomeType: [''],//, [Validators.maxLength(100)]],
+            radomeSerialNumber: [''],//, [Validators.maxLength(100)]],
+            antennaCableType: [''],//, [Validators.maxLength(100)]],
+            antennaCableLength: [''],//, [Validators.maxLength(100)]],
+            notes: [''],//, [Validators.maxLength(20)]],
+            fieldMaps: '',
+            dateDeleted: '',
+            dateInserted: '',
+            deletedReason: ''
+        });
+        return itemGroup;
+    }
 }
