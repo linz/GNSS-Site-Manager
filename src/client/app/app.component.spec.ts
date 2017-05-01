@@ -34,7 +34,7 @@ export function main() {
     ];
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [FormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
+        imports: [FormsModule, ReactiveFormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
         declarations: [TestComponent, ToolbarComponent, FooterComponent, AppComponent, AboutComponent],
         providers: [
           {provide: APP_BASE_HREF, useValue: '/'},
