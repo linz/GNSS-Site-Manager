@@ -46,7 +46,7 @@ export class SiteLogDataModel {
             this.pressureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].pressureSensors, true);
             this.temperatureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].temperatureSensors, true);
             this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].waterVaporSensors, true);
-            this.siteContact = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteContact, true);
+            this.siteContact = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteContacts, true);
 
             // objects
             this.TYPE_NAME = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].TYPE_NAME, false);
