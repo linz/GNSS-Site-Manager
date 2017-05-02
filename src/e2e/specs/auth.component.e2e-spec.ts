@@ -14,7 +14,7 @@ describe('Authorization/Authentication', () => {
         element(by.cssContainingText('table tr td', 'ADE1')).click();
 
         // find the fourCharacterID input field and check if it is editable (it shouldn't be)
-        let fourCharacterId = element(by.css('input[name="fourCharacterID"]'));
+        let fourCharacterId = element(by.css('text-input[controlname="fourCharacterID"]'));
         expect(fourCharacterId.isEnabled()).toBe(false);
     });
 
@@ -67,7 +67,7 @@ describe('Authorization/Authentication', () => {
         element(by.cssContainingText('table tr td', 'ADE1')).click();
 
         // find the fourCharacterID input field and check if it is editable (it should be)
-        let fourCharacterId = element(by.css('input[name="fourCharacterID"]'));
+        let fourCharacterId = element(by.css('text-input[controlname="fourCharacterID"]'));
         expect(fourCharacterId.isEnabled()).toBe(true);
     });
 });
