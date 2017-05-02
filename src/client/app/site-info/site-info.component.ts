@@ -2,8 +2,10 @@ import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@ang
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from 'oidc-client';
-import { ConstantsService, DialogService, MiscUtils,
-         SiteLogService, JsonDiffService, JsonCheckService } from '../shared/index';
+import {
+    ConstantsService, DialogService, MiscUtils,
+    SiteLogService, JsonDiffService, JsonCheckService
+} from '../shared/index';
 import { SiteLogViewModel, ViewSiteLog } from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
@@ -64,14 +66,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
      * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
      */
     constructor(private router: Router,
-        private route: ActivatedRoute,
-        private dialogService: DialogService,
-        private siteLogService: SiteLogService,
-        private jsonDiffService: JsonDiffService,
-        private jsonCheckService: JsonCheckService,
-        private userAuthService: UserAuthService,
-        private formBuilder: FormBuilder,
-        private _changeDetectionRef : ChangeDetectorRef) {
+                private route: ActivatedRoute,
+                private dialogService: DialogService,
+                private siteLogService: SiteLogService,
+                private jsonDiffService: JsonDiffService,
+                private jsonCheckService: JsonCheckService,
+                private userAuthService: UserAuthService,
+                private formBuilder: FormBuilder,
+                private _changeDetectionRef: ChangeDetectorRef) {
     }
 
     /**
@@ -114,7 +116,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                     this.siteLogService.sendFormModifiedStateMessage(false);
                     this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
                 },
-                (error: Error) =>  {
+                (error: Error) => {
                     this.errorMessage = <any>error;
                     this.isLoading = false;
                     this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
@@ -127,7 +129,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
      * Clear all variables/arrays
      */
     public ngOnDestroy() {
-        this.isLoading =  false;
+        this.isLoading = false;
         this.hasEditRole = false;
         this.siteId = null;
         this.siteLogModel = null;
@@ -151,7 +153,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
      * Save changes made back to siteLog XML
      */
     public save(formValue: any) {
-        if (! formValue) {
+        if (!formValue) {
             // Currently the toolbar save will pass null.  Just use siteInfoForm
             if (this.siteInfoForm.pristine) {
                 return;
@@ -161,7 +163,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         console.log('---------> SiteInfoComponent - Save ------------------------');
         console.log(' siteLog before form merge: ', this.siteLogModel);
         console.log(' formValue before merge and reverse: ', formValue);
-        let formValueClone: any =_.cloneDeep(formValue);
+        let formValueClone: any = _.cloneDeep(formValue);
         this.moveSiteInformationUp(formValueClone);
 
         /* Get the arrays in the form in the same order as the SiteLogModel */
@@ -169,14 +171,14 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         console.log(' formValue before merge and after reverse: ', formValueClone);
 
         /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
-        an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
+         an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
         _.merge(this.siteLogModel, formValueClone);
         console.log(' siteLog after form merge: ', this.siteLogModel);
         console.log(' siteLogOrigin: ', this.siteLogOrigin);
 
         let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
 
-        if ( diffMsg === null || diffMsg.trim() === '') {
+        if (diffMsg === null || diffMsg.trim() === '') {
             this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
             this.siteLogService.sendFormModifiedStateMessage(false);
             return;
@@ -188,26 +190,26 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             () => {
                 this.isLoading = true;
                 this.submitted = true;
-                let siteLogViewModel: SiteLogViewModel  = new SiteLogViewModel();
-                siteLogViewModel.siteLog=this.siteLogModel;
+                let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
+                siteLogViewModel.siteLog = this.siteLogModel;
                 this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
                     (responseJson: any) => {
                         //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
                         this.isLoading = false;
                         this.siteLogService.sendFormModifiedStateMessage(false);
                         this.backupSiteLogJson();
-                        this.dialogService.showSuccessMessage('Done in saving SiteLog data for '+this.siteId);
+                        this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
                     },
-                    (error: Error) =>  {
+                    (error: Error) => {
                         this.isLoading = false;
                         this.errorMessage = <any>error;
                         console.error(error);
-                        this.dialogService.showErrorMessage('Error in saving SiteLog data for '+this.siteId);
+                        this.dialogService.showErrorMessage('Error in saving SiteLog data for ' + this.siteId);
                     }
                 );
             },
             () => {
-                this.dialogService.showLogMessage('Cancelled in saving SiteLog data for '+this.siteId);
+                this.dialogService.showLogMessage('Cancelled in saving SiteLog data for ' + this.siteId);
                 this.isLoading = false;
             }
         );
@@ -239,11 +241,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         let that: any = this;
         return new Promise<boolean>((resolve, reject) => {
             this.dialogService.confirmCloseDialog(msg,
-                function() {
+                function () {
                     that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
                     resolve(true);
                 },
-                function() {
+                function () {
                     resolve(false);
                 }
             );
@@ -259,7 +261,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     public isFormInvalid(): boolean {
-        return this.siteInfoForm ? ! this.siteInfoForm.valid : false;
+        return this.siteInfoForm ? !this.siteInfoForm.valid : false;
     }
 
     public isSiteInformationFormDirty(): boolean {
@@ -267,7 +269,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     public isSiteInformationFormInvalid(): boolean {
-        return this.siteInformationForm ? ! this.siteInformationForm.valid : false;
+        return this.siteInformationForm ? !this.siteInformationForm.valid : false;
     }
 
     private setupForm() {
@@ -397,7 +399,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             if (siteLogModelGroupItems[i].hasOwnProperty('dateDeleted')
                 && siteLogModelGroupItems[i]['dateDeleted']
                 && siteLogModelGroupItems[i]['dateDeleted'].length > 0) {
-                siteLogModelGroupItems.splice(i,1);
+                siteLogModelGroupItems.splice(i, 1);
             }
         }
         console.debug('    removeDeletedGroupItems - items after: ', siteLogModelGroupItems);
