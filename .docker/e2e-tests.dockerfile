@@ -1,7 +1,5 @@
 FROM ubuntu:17.04
 
-ENV http_proxy=http://sun-web-intdev.ga.gov.au:2710
-ENV https_proxy=http://sun-web-intdev.ga.gov.au:2710
 ENV no_proxy=localhost
 
 RUN apt-get update -y
