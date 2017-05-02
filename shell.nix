@@ -20,6 +20,7 @@ let
       chromium
       nodejs-6_x
       xvfb_run
+      pythonPackages.docker_compose
       xorg.xhost
     ];
   };
