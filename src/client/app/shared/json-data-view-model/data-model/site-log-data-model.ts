@@ -33,36 +33,35 @@ export class SiteLogDataModel {
      * Extract the data in the supplied JSON object or create an empty array / object for each item that doesn't exist.
      */
     constructor(dataModelJson: any) {
-
-        if (dataModelJson['geo:siteLog']) {
-
+        let siteLogModel: any = dataModelJson['geo:siteLog'];
+        if (siteLogModel) {
             // arrays
-            this.gnssReceivers = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].gnssReceivers, true);
-            this.gnssAntennas = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].gnssAntennas, true);
-            this.surveyedLocalTies = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].surveyedLocalTies, true);
-            this.frequencyStandards = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].frequencyStandards, true);
-            this.localEpisodicEffects = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].localEpisodicEffects, true);
-            this.humiditySensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].humiditySensors, true);
-            this.pressureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].pressureSensors, true);
-            this.temperatureSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].temperatureSensors, true);
-            this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].waterVaporSensors, true);
-            this.siteContact = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteContacts, true);
+            this.gnssReceivers = this.getSuppliedValueOrEmptyValue(siteLogModel.gnssReceivers, true);
+            this.gnssAntennas = this.getSuppliedValueOrEmptyValue(siteLogModel.gnssAntennas, true);
+            this.surveyedLocalTies = this.getSuppliedValueOrEmptyValue(siteLogModel.surveyedLocalTies, true);
+            this.frequencyStandards = this.getSuppliedValueOrEmptyValue(siteLogModel.frequencyStandards, true);
+            this.localEpisodicEffects = this.getSuppliedValueOrEmptyValue(siteLogModel.localEpisodicEffects, true);
+            this.humiditySensors = this.getSuppliedValueOrEmptyValue(siteLogModel.humiditySensors, true);
+            this.pressureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.pressureSensors, true);
+            this.temperatureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.temperatureSensors, true);
+            this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.waterVaporSensors, true);
+            this.siteContact = this.getSuppliedValueOrEmptyValue(siteLogModel.siteContacts, true);
 
             // objects
-            this.TYPE_NAME = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].TYPE_NAME, false);
-            this.description = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].description, false);
-            this.descriptionReference = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].descriptionReference, false);
-            this.identifier = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].identifier, false);
-            this.boundedBy = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].boundedBy, false);
-            this.atSite = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].atSite, false);
-            this.formInformation = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].formInformation, false);
-            this.siteIdentification = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteIdentification, false);
-            this.siteLocation = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteLocation, false);
-            this.siteOwner = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteOwner, false);
-            this.siteMetadataCustodian = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteMetadataCustodian, false);
-            this.siteDataSource = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].siteDataSource, false);
-            this.moreInformation = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].moreInformation, false);
-            this.dataStreams = this.getSuppliedValueOrEmptyValue(dataModelJson['geo:siteLog'].dataStreams, false);
+            this.TYPE_NAME = this.getSuppliedValueOrEmptyValue(siteLogModel.TYPE_NAME, false);
+            this.description = this.getSuppliedValueOrEmptyValue(siteLogModel.description, false);
+            this.descriptionReference = this.getSuppliedValueOrEmptyValue(siteLogModel.descriptionReference, false);
+            this.identifier = this.getSuppliedValueOrEmptyValue(siteLogModel.identifier, false);
+            this.boundedBy = this.getSuppliedValueOrEmptyValue(siteLogModel.boundedBy, false);
+            this.atSite = this.getSuppliedValueOrEmptyValue(siteLogModel.atSite, false);
+            this.formInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.formInformation, false);
+            this.siteIdentification = this.getSuppliedValueOrEmptyValue(siteLogModel.siteIdentification, false);
+            this.siteLocation = this.getSuppliedValueOrEmptyValue(siteLogModel.siteLocation, false);
+            this.siteOwner = this.getSuppliedValueOrEmptyValue(siteLogModel.siteOwner, false);
+            this.siteMetadataCustodian = this.getSuppliedValueOrEmptyValue(siteLogModel.siteMetadataCustodian, false);
+            this.siteDataSource = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataSource, false);
+            this.moreInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.moreInformation, false);
+            this.dataStreams = this.getSuppliedValueOrEmptyValue(siteLogModel.dataStreams, false);
         }
     }
 
