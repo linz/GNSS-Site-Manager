@@ -161,8 +161,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             formValue = this.siteInfoForm.value;
         }
         console.log('---------> SiteInfoComponent - Save ------------------------');
-        console.log(' siteLog before form merge: ', this.siteLogModel);
-        console.log(' formValue before merge and reverse: ', formValue);
         let formValueClone: any = _.cloneDeep(formValue);
         this.moveSiteInformationUp(formValueClone);
 
@@ -173,8 +171,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
          an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
         _.merge(this.siteLogModel, formValueClone);
-        console.log(' siteLog after form merge: ', this.siteLogModel);
-        console.log(' siteLogOrigin: ', this.siteLogOrigin);
 
         let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
 
@@ -292,8 +288,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             if (this.siteInfoForm.dirty) {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
-                console.log('  and siteLogModel: ', this.siteLogModel);
-                console.log('  and siteLogOrigin: ', this.siteLogOrigin);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
                 console.log('form dirty - no: ', value);

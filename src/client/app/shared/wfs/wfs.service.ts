@@ -38,12 +38,7 @@ export class WFSService {
     wfsQuery(params: SelectSiteSearchType): Observable<any> {
         console.debug('wfsQuery - params: ', params);
         let jsonQuery: string = this.buildJsonQuery(params);
-        // console.log('wfsQuery - jsonQuery: ', jsonQuery);
-        // console.log('wfsQuery - jsonQuery (length): ', jsonQuery.length);
         let xmlQuery: string = this.convertWFSQueryToML(jsonQuery);
-        // console.log('wfsQuery - xmlQuery: ', xmlQuery);
-        // console.log('wfsQuery - xmlQuery (length): ', xmlQuery.length);
-
         return this.doWFSQuery(xmlQuery);
     }
 
@@ -173,7 +168,6 @@ export class WFSService {
     private buildJsonQuery(params: SelectSiteSearchType): string {
         let siteId: string = params.site4CharId !== undefined ? this.escapeRegEx(params.site4CharId) : '';
         let siteName: string = params.siteName !== undefined ? this.escapeRegEx(params.siteName) : '';
-        console.log('buildJsonQuery - siteId: '+siteId+', siteName:'+siteName);
         return `{
             "wfs:GetFeature": {
                 "TYPE_NAME": "WFS_2_0.GetFeatureType",

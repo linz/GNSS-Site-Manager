@@ -72,7 +72,6 @@ export class SiteLogService {
     }
 
     getSiteLogByFourCharacterIdUsingGeodesyMLWFS(fourCharacterId: string): Observable<any> {
-        // console.log('getSiteLogByFourCharacterIdGeodesyMLWFS(fourCharacterId: ', fourCharacterId);
         let params: SelectSiteSearchType = {
             // TODO - make this the selected value
             siteName: 'ADE1'
@@ -131,7 +130,6 @@ export class SiteLogService {
     saveSiteLog(siteLogViewModel: SiteLogViewModel): Observable<Response> {
         console.log('saveSiteLog - siteLogViewModel: ', siteLogViewModel);
         let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModelJson(siteLogViewModel);
-        console.log('saveSiteLog - siteLogDataModel: ', siteLogDataModel);
 
         // wrap the JSON object in a "geo:siteLog" element before converting to GeodesyML
         let siteLogJsonObj : any = {
@@ -147,8 +145,6 @@ export class SiteLogService {
             ' xmlns:gco="http://www.isotc211.org/2005/gco"' +
             ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
         geodesyMl += siteLogML + '</geo:GeodesyML>';
-        // console.log('saveSiteLog - geodesyMl: ', geodesyMl);
-        console.log('saveSiteLog - geodesyMl (length): ', geodesyMl.length);
 
         const headers = new Headers();
 
@@ -201,7 +197,6 @@ export class SiteLogService {
      * getSiteLogByFourCharacterId().
      */
     private doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
-        console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
         return this.http.get(this.constantsService.getWebServiceURL()
             + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
             .map((response: Response) => {
@@ -211,11 +206,9 @@ export class SiteLogService {
     }
 
     private handleData(response: Response) {
-        console.debug('site log service - from wfsService - handle data - response: ', response);
         let data: any = response.text();//.json();
         let status: number = response.status;
         let statustext: string = response.statusText;
-        console.debug('SiteLogService call wfsQuery - status: ' + status + ' status text: ' + statustext + ' data: ', data);
         return response; //data;
     }
 }
