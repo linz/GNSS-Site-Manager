@@ -23,7 +23,7 @@ export class SiteIdentificationComponent implements OnInit {
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
             this._siteLogModel = siteLogModel;
             this.siteIdentification = siteLogModel.siteIdentification;
-            this._changeDetectionRef.detectChanges();
+            this.changeDetectionRef.detectChanges();
             this.patchForm();
         }
     }
@@ -53,7 +53,7 @@ export class SiteIdentificationComponent implements OnInit {
         return this._originalSiteLogModel;
     }
 
-    constructor(private formBuilder: FormBuilder, private _changeDetectionRef : ChangeDetectorRef) {}
+    constructor(private formBuilder: FormBuilder, private changeDetectionRef : ChangeDetectorRef) {}
 
     ngOnInit() {
         this.setupForm();
@@ -90,7 +90,7 @@ export class SiteIdentificationComponent implements OnInit {
             faultZonesNearby: [''],//, [Validators.maxLength(100)]],
             distanceActivity: [''],//, [Validators.maxLength(100)]],
             notes: [''],//, [Validators.maxLength(2000)]],
-    });
+        });
         this.siteInformationForm.addControl('siteIdentification', this.siteIdentificationForm);
     }
 
