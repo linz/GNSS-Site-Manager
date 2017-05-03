@@ -7,12 +7,11 @@ export class DialogService {
   /*
    * Opens a customised dialog showing the changes made and prompts the user to confirm before saving
    */
-  public confirmSaveDialog(msg: string, okCallback: () => any, cancelCallback: () => any) {
-    let header: string = '<div class="title">Review & Save Changes</div>';
-    let body: string = '<div class="body">' + msg + '</div>';
-    let footer: string = '<p class="footer">Do you want to save all changes made?</p>';
-    let msgHtml: string = '<div>' + header + body + footer + '</div>';
-    this.showConfirmDialog(msgHtml, okCallback, cancelCallback);
+  public confirmSaveDialog(okCallback: () => any, cancelCallback: () => any) {
+    let title: string = '<div class="title">Confirmation</div>';
+    let body: string = '<p class="footer">Do you want to save all changes made?</p>';
+    let message: string = '<div>' + title + body + '</div>';
+    this.showConfirmDialog(message, okCallback, cancelCallback);
   }
 
   /*

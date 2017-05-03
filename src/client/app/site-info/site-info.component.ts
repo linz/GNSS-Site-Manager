@@ -186,7 +186,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
         this.removeDeletedItems();
 
-        this.dialogService.confirmSaveDialog(diffMsg,
+        this.dialogService.confirmSaveDialog(
             () => {
                 this.isLoading = true;
                 this.submitted = true;
