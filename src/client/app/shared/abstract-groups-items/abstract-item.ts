@@ -157,7 +157,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     public isFormDirty(): boolean {
-        // console.debug(`abstractitem - isFormDirty - dirty: ${this.itemGroup.dirty}, status: ${this.itemGroup.status}`);
         return this.itemGroup ? (this.itemGroup.dirty || this.isNew) : false;
     }
 

@@ -124,18 +124,12 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     getItemsCollection(showDeleted?: boolean): T[] {
         let doShowDeleted: boolean = true;
-        // if (this.getItemName().match(/receiver/i)) {
-        //     let size: number = this.itemProperties ? this.itemProperties.length : -1;
-        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${this.itemProperties ?
-        // this.itemProperties.length : 0}): `, this.itemProperties);
-        // }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
         }
 
         if (this.itemProperties) {
             let filteredOrNot: T[] = doShowDeleted ? lodash.clone(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
-            //let reversed: T[] = filteredOrNot.reverse();
             return filteredOrNot;
         } else {
             return [];
@@ -173,8 +167,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     addToItemsCollection(item: T, origItem: T): number {
         let indexAddedAt: number;
-        // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
-        // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
         if (sortingDirectionAscending) {
             this.itemProperties.push(item);
             this.itemOriginalProperties.push(origItem);
@@ -239,7 +231,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param isItDirty if to mark it dirty or not.
      */
     addChildItemToForm(isItDirty: boolean = false) {
-        // let itemGroup: FormGroup = this.newItemFormInstance();
         let itemGroup: FormGroup = this.formBuilder.group({});
         if (sortingDirectionAscending) {
             this.groupArrayForm.push(itemGroup);
@@ -296,7 +287,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         let newItem: T = <T> this.newItemViewModel();
         let newItemOrig: T = this.newItemViewModel(newItemShouldBeBlank);
 
-        // Add the new humidity sensor as current one
         let indexAddedAt: number = this.addToItemsCollection(newItem, newItemOrig);
         this.setInserted(indexAddedAt, newItem);
 
@@ -313,8 +303,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * Need to modify both the SiteLogModel and the form model.
      */
     private updateSecondToLastItem() {
-        // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
-        // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
         let updatedValue: Object;
         let index: number;
         if (sortingDirectionAscending) {

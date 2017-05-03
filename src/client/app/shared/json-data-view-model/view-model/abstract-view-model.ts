@@ -5,8 +5,6 @@ import { MiscUtils } from '../../global/misc-utils';
 export const dontSetDetfaults: boolean = false;
 
 export abstract class AbstractViewModel {
-    // Base Fields
-    // Change tracking
     public dateDeleted: string;
     public dateInserted: string;
     public deletedReason: string;
@@ -55,7 +53,6 @@ export abstract class AbstractViewModel {
      * Setup common field mappings
      */
     addSuperFieldMappings(): void {
-        // Change tracking
         this.addFieldMapping('/dateDeleted/value/0', 'string', '/dateDeleted', 'string');
         this.addFieldMapping('/dateInserted/value/0', 'string', '/dateInserted', 'string');
         this.addFieldMapping('/deletedReason', 'string', '/deletedReason', 'string');
