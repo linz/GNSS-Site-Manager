@@ -10,8 +10,10 @@
              class="form-control"
              [(ngModel)]="model"
              required="{{required}}"
-             rows="{{rows}}">
+             rows="{{rows}}"
+             [ngClass]="{'ng-dirty': isDirty(controlName), 'ng-invalid': isInValid(controlName), 'ng-valid': isValid(controlName)}">
          </textarea>
+             <!--[ngClass]="{'gnss-invalid':isInValid(controlName)}">-->
 
         <small>{{getErrorReport(controlName)}}</small>
     </div>
