@@ -23,8 +23,8 @@ export class SiteIdentificationComponent implements OnInit {
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
             this._siteLogModel = siteLogModel;
             this.siteIdentification = siteLogModel.siteIdentification;
-            this.changeDetectionRef.detectChanges();
             this.patchForm();
+            this.changeDetectionRef.detectChanges();
         }
     }
 
