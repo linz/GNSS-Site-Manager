@@ -7,8 +7,8 @@ const defaultTZms: string = '.000Z';
 const validDisplayFormat: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g;
 
 /**
-* Validator to apply in the model based form in the .ts file.  This validates that the form is correct.
-*/
+ * Validator to apply in the model based form in the .ts file.  This validates that the form is correct.
+ */
 export function dateTimeFormatValidator(control: FormControl): { [s: string]: any } {
     let value: string = control.value;
 
@@ -26,9 +26,9 @@ export function dateTimeFormatValidator(control: FormControl): { [s: string]: an
 }
 
 /**
-* Validator to apply in the model based form in the .ts file.  This validates that if the item isn't index=0 (ie. an older one)
-* then it is required.
-*/
+ * Validator to apply in the model based form in the .ts file.  This validates that if the item isn't index=0 (ie. an older one)
+ * then it is required.
+ */
 export function createDateTimeRequiredIfNotCurrentValidator(index: number) {
     return function dateTimeRequiredIfNotCurrentValidator(control: FormControl): { [s: string]: any } {
         let value: string = control.value;
@@ -164,8 +164,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Initialize relevant variables when the directive is instantiated
-    */
+     * Initialize relevant variables when the directive is instantiated
+     */
 
     /* Methods for Model-based forms - implement ControlValueAccessor */
 
@@ -189,8 +189,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Close the calendar if mouse clicks outside of it
-    */
+     * Close the calendar if mouse clicks outside of it
+     */
     @HostListener('document:click', ['$event'])
     public handleClickOutside(event: any) {
         if (this.showDatetimePicker) {
@@ -217,8 +217,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Set the selected datetime value to the datetime model when users click on the OK button
-    */
+     * Set the selected datetime value to the datetime model when users click on the OK button
+     */
     public setSelectedDatetime(): void {
         if (this.invalidHours || this.invalidMinutes || this.invalidSeconds) {
             return;
@@ -233,23 +233,23 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Cancel the selected datetime value and close the popup
-    */
+     * Cancel the selected datetime value and close the popup
+     */
     public cancelSelectedDatetime(event: any): void {
         this.updateCalendar();
         this.showDatetimePicker = false;
     }
 
     /**
-    * Update the datetime model when users select a date on calendar
-    */
+     * Update the datetime model when users select a date on calendar
+     */
     public updateDate(event: any): void {
         this.datetimeModel = event;
     }
 
     /**
-    * Update the calendar and datetime model in response to direct changes made in the input box
-    */
+     * Update the calendar and datetime model in response to direct changes made in the input box
+     */
     public updateCalendar(): void {
         let newDate: Date = this.convertStringToDate(this.datetimeDisplay);
         if (newDate === null) {
@@ -375,8 +375,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Update hour/minute/second time strings in response to any changes in hours, minutes, and seconds.
-    */
+     * Update hour/minute/second time strings in response to any changes in hours, minutes, and seconds.
+     */
     private updateTimeStrings() {
         this.hoursString = this.padTwo(this.hours);
         this.minutesString = this.padTwo(this.minutes);
@@ -384,8 +384,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Convert a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
-    */
+     * Convert a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
+     */
     private convertStringToDate(dtStr: string): Date {
         if (dtStr === null || dtStr.trim().length === 0) {
             return null;
@@ -417,19 +417,19 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Emit a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
-    */
+     * Emit a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
+     */
     private emitOutputDatetime(): void {
         if (this.datetimeModel === null) {
             return;
         }
 
         let dateStr: string = this.datetimeModel.getFullYear() + '-'
-                            + this.padTwo(this.datetimeModel.getMonth() + 1) + '-'
-                            + this.padTwo(this.datetimeModel.getDate());
+            + this.padTwo(this.datetimeModel.getMonth() + 1) + '-'
+            + this.padTwo(this.datetimeModel.getDate());
         let timeStr: string = this.padTwo(this.datetimeModel.getHours()) + ':'
-                            + this.padTwo(this.datetimeModel.getMinutes()) + ':'
-                            + this.padTwo(this.datetimeModel.getSeconds());
+            + this.padTwo(this.datetimeModel.getMinutes()) + ':'
+            + this.padTwo(this.datetimeModel.getSeconds());
 
         this.datetimeDisplay = dateStr + ' ' + timeStr;
         this.datetimeLast = this.datetime;
@@ -437,9 +437,9 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Returns an integer between min and max values by parsing from input str,
-    * return null if it is not a number or out of range.
-    */
+     * Returns an integer between min and max values by parsing from input str,
+     * return null if it is not a number or out of range.
+     */
     private toInteger(str: string, min: number, max: number): number {
         try {
             let num: number = parseInt(str, 10);
@@ -456,8 +456,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Convert an integer to a two-character string.
-    */
+     * Convert an integer to a two-character string.
+     */
     private padTwo(index: number): string {
         if (index < 10) {
             return '0' + index.toString();
@@ -475,8 +475,8 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
     /**
-    * Validators with closures need to be created based on @Input attributes.  Others can be set in the Model form in the .ts.
-    */
+     * Validators with closures need to be created based on @Input attributes.  Others can be set in the Model form in the .ts.
+     */
     private createValidators() {
         if (this.requiredIfNotCurrent === true && this.index > 0 ) {
             throw new Error('DatetimeInputComponent - requiredIfNotCurrent Input requires an index input');
