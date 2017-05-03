@@ -161,6 +161,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             this._datetime = dt;
             this._datetimeDisplay = DatetimeInputComponent.formatTimeToDisplay(dt);
             this.propagateChange(this._datetime);
+            this.updateCalendar();
         }
   }
 
