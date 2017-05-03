@@ -63,6 +63,7 @@ export class UserAuthService {
 
     login() {
         this.userManager.signinRedirect().then(() => {
+            console.log('UserAuthService - signinRedirect done');
         }).catch((err) => {
             console.log('UserAuthService - signinRedirect error');
             console.log(err);
