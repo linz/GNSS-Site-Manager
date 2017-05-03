@@ -16,7 +16,7 @@ export abstract class AbstractGnssControls {
             console.warn('Control "'+controlId+'" doesnt exist on form.');
             return errString;
         }
-        //console.log('error reprot - control: ', controlId);
+
         if (control.errors) {
             for (let e of Object.keys(control.errors)) {
                 console.log(e + ' -> ', control.errors[e]);
@@ -25,10 +25,6 @@ export abstract class AbstractGnssControls {
                 errString += JSON.stringify(control.errors[e]);
             }
         }
-        // if (errString.length > 0) {
-        //     console.log('getErrorReport for "' + controlId + '": -> ' + errString);
-        //     console.log('getErrorReport control: ', control);
-        // }
         return errString;
     }
 }

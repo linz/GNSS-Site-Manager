@@ -104,12 +104,10 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      * @param changes sent by the NG Framework
      */
     ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-        // console.log(`ngOnChanges for item: ${this.index}`);
         let log: string[] = [];
         for (let propName in changes) {
             let changedProp = changes[propName];
             if (changedProp.isFirstChange()) {
-                // console.log(`Item index ${this.index} - initial value of ${propName} set to: `, changedProp);
                 if (propName === 'geodesyEvent') {
                     this.handleGeodesyEvents();
                 }
@@ -118,7 +116,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     handleGeodesyEvents() {
-            // console.log('child event for item index: '+this.index+': ', EventNames[this.getGeodesyEvent().name]);
             switch (this.getGeodesyEvent().name) {
                 case EventNames.newItem:
                     this.newItem(this.getGeodesyEvent().valueNumber);
@@ -160,7 +157,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     }
 
     public isFormDirty(): boolean {
-        // console.debug(`abstractitem - isFormDirty - dirty: ${this.itemGroup.dirty}, status: ${this.itemGroup.status}`);
         return this.itemGroup ? (this.itemGroup.dirty || this.isNew) : false;
     }
 
@@ -181,7 +177,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      * Patching (or setting) is used to apply the values in the model to the form.
      */
     protected patchForm() {
-        console.log(`${this.getItemName()} #${this.index} - setValue: `, this.getItem());
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
         this.addFields(this.itemGroup, this.getFormControls());
         // For some reason, when - Open Group, Open Item, Close Group, Reopen Group, it is being marked as dirty
@@ -216,7 +211,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      *  Mark an item for deletion using the specified reason.
      */
     private deleteItem(index: number, deleteReason : string) {
-        console.log('child call removeItem(' + index + ')');
         let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
     }
@@ -225,7 +219,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      *  Mark an item for deletion using the specified reason.
      */
     private cancelNew(index: number, deleteReason : string) {
-        console.log('child call cancelNew(' + index + ')');
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;

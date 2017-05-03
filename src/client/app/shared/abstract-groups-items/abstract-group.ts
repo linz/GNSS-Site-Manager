@@ -124,18 +124,12 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     getItemsCollection(showDeleted?: boolean): T[] {
         let doShowDeleted: boolean = true;
-        // if (this.getItemName().match(/receiver/i)) {
-        //     let size: number = this.itemProperties ? this.itemProperties.length : -1;
-        //     console.debug(`getItemsCollection for ` + this.getItemName() + ` (size: ${this.itemProperties ?
-        // this.itemProperties.length : 0}): `, this.itemProperties);
-        // }
         if (showDeleted !== undefined) {
             doShowDeleted = showDeleted;
         }
 
         if (this.itemProperties) {
             let filteredOrNot: T[] = doShowDeleted ? lodash.clone(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
-            //let reversed: T[] = filteredOrNot.reverse();
             return filteredOrNot;
         } else {
             return [];
@@ -173,8 +167,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      */
     addToItemsCollection(item: T, origItem: T): number {
         let indexAddedAt: number;
-        // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
-        // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
         if (sortingDirectionAscending) {
             this.itemProperties.push(item);
             this.itemOriginalProperties.push(origItem);
@@ -185,9 +177,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
             indexAddedAt = 0;
         }
         this.addChildItemToForm();
-        console.log('addToItemsCollection - itemProperties: ', this.itemProperties);
-        console.log('addToItemsCollection - itemOriginalProperties: ', this.itemOriginalProperties);
-        console.log('addToItemsCollection - groupArrayForm: ', this.groupArrayForm);
         return indexAddedAt;
     }
 
@@ -196,8 +185,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param geodesyEvent
      */
     returnEvents(geodesyEvent: GeodesyEvent) {
-        console.log('Parent - returnEvent: ', geodesyEvent);
-
         switch (geodesyEvent.name) {
             case EventNames.removeItem:
                 this.removeItem(geodesyEvent.valueNumber, geodesyEvent.valueString);
@@ -214,7 +201,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         event.preventDefault();
         this.addNewItem();
         this.newItemEvent();
-        console.log('itemProperties at end of addNew: ', this.itemProperties);
     }
 
     /**
@@ -245,7 +231,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * @param isItDirty if to mark it dirty or not.
      */
     addChildItemToForm(isItDirty: boolean = false) {
-        // let itemGroup: FormGroup = this.newItemFormInstance();
         let itemGroup: FormGroup = this.formBuilder.group({});
         if (sortingDirectionAscending) {
             this.groupArrayForm.push(itemGroup);
@@ -264,7 +249,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * keep it and mark as deleted using change tracking.
      */
     public removeItem(itemIndex: number, reason: string) {
-        console.log('parent - remove item: ', itemIndex);
         // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
         // (high to low start date).  This call is coming from the UI (the display order) and the default for
         // getItemsCollection() is the reverse order so this works out ok
@@ -276,7 +260,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * Permanently Remove an item.  Typically done when deleting an item just added and not yet persisted.
      */
     public cancelNew(itemIndex: number, reason: string) {
-        console.log('parent - remove item Permanently: ', itemIndex);
         // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
         // (high to low start date).  Thus to access the original dataItems we need to reverse the index.
         let newIndex: number = this.itemProperties.length - itemIndex - 1;
@@ -304,15 +287,8 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
         let newItem: T = <T> this.newItemViewModel();
         let newItemOrig: T = this.newItemViewModel(newItemShouldBeBlank);
 
-        console.log('New View Model: ', newItem);
-        console.log('itemProperties before new item: ', this.itemProperties);
-        console.log('itemPropertiesOrig before new item: ', this.itemOriginalProperties);
-
-        // Add the new humidity sensor as current one
         let indexAddedAt: number = this.addToItemsCollection(newItem, newItemOrig);
         this.setInserted(indexAddedAt, newItem);
-
-        console.log('itemProperties after new item: ', this.itemProperties);
 
         if (this.itemProperties.length > 1) {
             this.updateSecondToLastItem();
@@ -320,8 +296,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
 
         // Let the parent form know that it now has a new child
         this.groupArrayForm.markAsDirty();
-        console.log('itemProperties after everything in addNew: ', this.itemProperties);
-        console.log('itemOriginalProperties after everything in addNew: ', this.itemOriginalProperties);
     }
 
     /**
@@ -329,8 +303,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * Need to modify both the SiteLogModel and the form model.
      */
     private updateSecondToLastItem() {
-        // If the data is stored ascendingly (see AbstractGroup / compareDates() then use push() to append the next item.
-        // If the data is stored descendingly (see AbstractGroup / compareDates() then use splice(0, 0) to prepend the next item.
         let updatedValue: Object;
         let index: number;
         if (sortingDirectionAscending) {
@@ -371,7 +343,6 @@ export abstract class AbstractGroup<T extends AbstractViewModel> {
      * After a new item is created 'EventNames.newItem' is sent so that item can init itself.
      */
     private newItemEvent() {
-        console.log('parent newItemEvent');
         let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
         geodesyEvent.name = EventNames.newItem;
         geodesyEvent.valueNumber = 0;

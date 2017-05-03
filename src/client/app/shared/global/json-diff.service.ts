@@ -71,20 +71,15 @@ export class JsonDiffService {
         if (!jsonDiffs) {
             return '';
         }
-        console.log('Diff - deep-diff: ', jsonDiffs);
         let siteManagerDiffs: DiffItem[] = this.getJsonDiffsList(jsonDiffs, oldJson, newJson);
-        console.log('Diff - diff list: ', siteManagerDiffs);
-        let normalisedDiffsList: NormalisedDiffs = this.getNormalisedDiffsList(siteManagerDiffs);//, oldJson, newJson);
-        console.log('Diff - normalisedDiffs: ', normalisedDiffsList);
+        let normalisedDiffsList: NormalisedDiffs = this.getNormalisedDiffsList(siteManagerDiffs);
         let jsonDiffsTable: string = this.getJsonDiffsTable(normalisedDiffsList);
-        // console.log('jsonDiffsTable: ', jsonDiffsTable);
 
         return jsonDiffsTable;
     }
 
     getJsonDiff(oldJson: any, newJson: any): IDiff[] {
         let jsonDiff2: any = diff.diff(oldJson, newJson);
-        // console.log('deep-diff: ', jsonDiff2);
         return jsonDiff2;
     }
 
@@ -100,7 +95,7 @@ export class JsonDiffService {
             let diffItems: DiffItem[] = this.parseDiffs(diff, newJson);
             Array.prototype.push.apply(diffStruct, diffItems);
         }
-        // console.log('getJsonDiffsList: ', diffStruct);
+
         return diffStruct;
     }
 
