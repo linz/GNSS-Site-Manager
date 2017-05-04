@@ -18,7 +18,7 @@ let
     paths = [
       awscli
       chromium
-      nodejs-6_x
+      nodejs-7_x
       xvfb_run
       pythonPackages.docker_compose
       xorg.xhost
