@@ -13,6 +13,9 @@ xdescribe('Authorization/Authentication', () => {
         // find the element of interest in the search results and click it
         element(by.cssContainingText('table tr td', 'ADE1')).click();
 
+        // find the site identification group header and click it
+        element(by.cssContainingText('span', 'Site Identification')).click();
+
         // find the fourCharacterID input field and check if it is editable (it shouldn't be)
         let fourCharacterId = element(by.css('text-input[controlname="fourCharacterID"]'));
         expect(fourCharacterId.isEnabled()).toBe(false);
@@ -65,6 +68,9 @@ xdescribe('Authorization/Authentication', () => {
 
         // find the element of interest in the search results and click it
         element(by.cssContainingText('table tr td', 'ADE1')).click();
+
+        // find the site identification group header and click it
+        element(by.cssContainingText('span', 'Site Identification')).click();
 
         // find the fourCharacterID input field and check if it is editable (it should be)
         let fourCharacterId = element(by.css('text-input[controlname="fourCharacterID"]'));

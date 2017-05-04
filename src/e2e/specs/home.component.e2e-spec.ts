@@ -6,7 +6,7 @@ describe('Home', () => {
     return await browser.get('/');
   });
 
-  it('should have an input', () => {
+  it('should display the application title', () => {
     expect(element(by.css('sd-app span#app-title')).getText()).toEqual('GNSS Site Manager');
   });
 
