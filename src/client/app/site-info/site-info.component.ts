@@ -410,4 +410,5 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 siteLogModelGroupItems.splice(i, 1);
             }
         }
+    }
 }
