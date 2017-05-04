@@ -34,14 +34,14 @@ export class GnssReceiverItemComponent extends AbstractItem implements OnInit {
         // TODO Fix Validators
         return new ItemControls([
             {receiverType: new FormControl('')}, //, [Validators.maxLength(100)]],
-            {manufacturerSerialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
+            {manufacturerSerialNumber: new FormControl('', [Validators.maxLength(4)])},
             {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
             {dateRemoved: new FormControl('')},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
             {firmwareVersion: new FormControl('')},//, [Validators.maxLength(100)]],
             {satelliteSystem: new FormControl('')},//, [Validators.maxLength(100)]],
             {elevationCutoffSetting: new FormControl('')},//, [Validators.maxLength(100)]],
             {temperatureStabilization: new FormControl('')}, //, [Validators.required]],//, [Validators.maxLength(100)]],
-            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {notes: new FormControl('', [Validators.maxLength(20)])},
             {fieldMaps: new FormControl('')},
             {dateDeleted: new FormControl('')},
             {dateInserted: new FormControl('')},

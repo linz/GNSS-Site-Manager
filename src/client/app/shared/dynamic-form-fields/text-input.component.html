@@ -1,29 +1,15 @@
-<div class="form-group">
+<div class="form-group" [formGroup]="form">
 
     <label *ngIf="required" class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required"><ng-content></ng-content></label>
     <label *ngIf="!required" class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label"><ng-content></ng-content></label>
 
-    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-
+    <div class="text-input" class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
          <input
              type="text"
+             [formControlName]="controlName"
+             [(ngModel)]="value"
              class="form-control"
-             [(ngModel)]="value"/>
-             <!--required="{{required}}"
-             minlength="{{minlength}}"
-             maxlength="{{maxlength}}"-->
-             <!--name="{{name}}_{{index}}"
-             #name="ngModel"/>-->
-             <!--(ngModelChange)="change($event)"-->
-
-         <!--<small
-             *ngIf="required"
-             [hidden]="name.valid || name.pristine"
-             class="alert alert-danger">
-             "{{label}}" is required <span> (minimum XX characters)</span> <!-- removed stuff
-         </small>-->
+             />
         <small>{{getErrorReport(controlName)}}</small>
-
-
     </div>
 </div>

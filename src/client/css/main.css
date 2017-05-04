@@ -494,6 +494,16 @@ textarea.christine.ng-invalid {
   border-color: #ff1700;
 }
 
+input.ng-invalid, textarea.ng-invalid {
+    border-color: #ff1700 !important;
+}
+text-input.ng-invalid {
+    border-color: #ff1700 !important;
+}
+text-input.ng-invalid {
+    border-color: #ff1700 !important;
+}
+
 .col-lg-1,
 .col-lg-10,
 .col-lg-11,
