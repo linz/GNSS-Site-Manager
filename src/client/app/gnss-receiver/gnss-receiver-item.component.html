@@ -4,7 +4,16 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(gnssReceiver.dateInstalled, gnssReceiver.dateRemoved)"></span>
+            <span *ngIf="index == 0">
+                <span class="hidden-xsm">Current </span>
+        <span class="hidden-xxs">Receiver (</span> Since {{ miscUtils.getDate(gnssReceiver.dateInstalled) }}
+        <span class="hidden-xxs">)</span>
+        </span>
+        <span *ngIf="index != 0">
+                <span class="hidden-xsm">Previous </span>
+        <span class="hidden-xxs">Receiver (</span> {{ miscUtils.getDate(gnssReceiver.dateInstalled) }} &ndash; {{ miscUtils.getDate(gnssReceiver.dateRemoved) }}
+        <span class="hidden-xxs">)</span>
+        </span>
         </span>
         <span *ngIf="gnssReceiver.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">

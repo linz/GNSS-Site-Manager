@@ -89,10 +89,10 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     abstract getFormControls(): ItemControls;
 
     /**
-     * Creates an instance of the AbstractItem with the injected Services.
-     *
-     * @param {DialogService} dialogService - The injected DialogService.
-     */
+   * Creates an instance of the AbstractItem with the injected Services.
+   *
+   * @param {DialogService} dialogService - The injected DialogService.
+   */
     constructor(protected dialogService: DialogService) { }
 
     ngOnInit() {
@@ -189,34 +189,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
         if (! wasDirty) {
             setTimeout(()=> {this.itemGroup.markAsPristine();});
         }
-    }
-
-    /**
-     * Return the item header label in HTML format, including item name and date range.
-     *
-     * @param startDatetime: the start/installed/measured date-time of the item
-     * @param endDatetime: the optional end/removed date-time of the item
-     */
-    public getItemHeaderHtml(startDatetime: string, endDatetime?: string): string {
-
-        let headerHtml: string = '<span class="hidden-xsm">'
-                               + (this.getIndex() === 0 ? 'Current' : 'Previous')
-                               + ' </span>';
-
-        if (startDatetime) {
-            headerHtml += '<span class="hidden-xxs">' + this.getItemName() + ' </span>';
-            let dateRange: string = '';
-            if (endDatetime) {
-                dateRange = MiscUtils.getDate(startDatetime) + ' &ndash; ' + MiscUtils.getDate(endDatetime);
-            } else {
-                dateRange = 'Since ' + MiscUtils.getDate(startDatetime);
-            }
-            headerHtml += '<span class="hidden-xxs">(</span>' + dateRange + '<span class="hidden-xxs">)</span>';
-        } else {
-            headerHtml += '<span>' + this.getItemName() + ' </span>';
-        }
-
-        return headerHtml;
     }
 
     /**

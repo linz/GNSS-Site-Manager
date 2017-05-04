@@ -1,10 +1,20 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" id="antenna_{{index}}" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
   <div class="panel-heading">
         <span class="panel-title cursor-ptr" (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
-            <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
-            </i>
-            <span [innerHTML]="getItemHeaderHtml(antenna.dateInstalled, antenna.dateRemoved)"></span>
+      <i class="glyphicon"
+         [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+      </i>
+      <span *ngIf="index == 0">
+        <span class="hidden-xsm">Current </span>
+        <span class="hidden-xxs">Antenna (</span> Since {{ miscUtils.getDate(antenna.dateInstalled) }}
+        <span class="hidden-xxs">)</span>
+        </span>
+        <span *ngIf="index != 0">
+        <span class="hidden-xsm">Previous </span>
+        <span class="hidden-xxs">Antenna (</span> {{ miscUtils.getDate(antenna.dateInstalled) }} &ndash; {{ miscUtils.getDate(antenna.dateRemoved) }}
+        <span class="hidden-xxs">)</span>
       </span>
+    </span>
     <span *ngIf="antenna.dateDeleted" class="delete-marker"
         title="It will be deleted when saving all changes for the site">
         (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)

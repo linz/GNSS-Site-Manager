@@ -5,7 +5,19 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(waterVaporSensor.startDate, waterVaporSensor.endDate)"></span>
+            <span *ngIf="index == 0">
+                <span class="hidden-xsm">Current </span>
+                <span class="hidden-xxs">Water Vapor Sensor (</span>
+                Since {{ miscUtils.getDate(waterVaporSensor.startDate) }}
+                <span class="hidden-xxs">)</span>
+            </span>
+            <span *ngIf="index != 0">
+                <span class="hidden-xsm">Previous </span>
+                <span class="hidden-xxs">Water Vapor Sensor (</span>
+                {{ miscUtils.getDate(waterVaporSensor.startDate) }} &ndash;
+                {{ miscUtils.getDate(waterVaporSensor.endDate) }}
+                <span class="hidden-xxs">)</span>
+            </span>
         </span>
         <span *ngIf="waterVaporSensor.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">

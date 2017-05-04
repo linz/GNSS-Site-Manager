@@ -4,7 +4,16 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(surveyedLocalTie.dateMeasured)"></span>
+            <span *ngIf="index == 0">
+                <span class="hidden-xsm">Current </span>
+        <span class="hidden-xxs">Surveyed Local Tie (</span> {{ miscUtils.getDate(surveyedLocalTie.dateMeasured) }}
+        <span class="hidden-xxs">)</span>
+        </span>
+        <span *ngIf="index != 0">
+                <span class="hidden-xsm">Previous </span>
+        <span class="hidden-xxs">Surveyed Local Tie (</span> {{ miscUtils.getDate(surveyedLocalTie.dateMeasured) }}
+        <span class="hidden-xxs">)</span>
+        </span>
         </span>
         <span *ngIf="surveyedLocalTie.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">
