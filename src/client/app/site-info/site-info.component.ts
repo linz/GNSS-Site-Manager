@@ -187,13 +187,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
         this.removeDeletedItems();
 
-<<<<<<< HEAD
         this.dialogService.confirmSaveDialog(
-=======
-        let that = this;
-
-        this.dialogService.confirmSaveDialog(diffMsg,
->>>>>>> GEOD-417 - Fix so a save or revert makes everything pristine
             () => {
                 this.isLoading = true;
                 this.submitted = true;
@@ -201,10 +195,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 siteLogViewModel.siteLog = this.siteLogModel;
                 this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
                     (responseJson: any) => {
-                        //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
                         this.isLoading = false;
                         this.siteInfoForm.markAsPristine();
-                        // (<FormControl>that.siteInfoForm.controls['gnssReceivers'].at(0).controls.notes).markAsPristine();
                         this.siteLogService.sendFormModifiedStateMessage(false);
                         this.backupSiteLogJson();
                         this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
@@ -301,8 +293,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             if (this.siteInfoForm.dirty) {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
-                // console.log('  and siteLogModel: ', this.siteLogModel);
-                // console.log('  and siteLogOrigin: ', this.siteLogOrigin);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
                 console.log('form dirty - no: ', value);
@@ -314,8 +304,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             if (this.siteInfoForm.dirty) {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
-                // console.log('  and siteLogModel: ', this.siteLogModel);
-                // console.log('  and siteLogOrigin: ', this.siteLogOrigin);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
                 console.log('form dirty - no: ', value);

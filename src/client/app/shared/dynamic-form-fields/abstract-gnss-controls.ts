@@ -31,7 +31,6 @@ export abstract class AbstractGnssControls {
     protected isDirty(controlId: string): boolean {
         let control: AbstractControl;
         let dirty: boolean = true;
-        // Force an error as this field should have been set
         control = this.superForm.controls[controlId];
         if (!control) {
             dirty = false;
@@ -45,7 +44,6 @@ export abstract class AbstractGnssControls {
     protected isValid(controlId: string): boolean {
         let control: AbstractControl;
         let valid: boolean = true;
-        // Force an error as this field should have been set
         control = this.superForm.controls[controlId];
         if (!control) {
             valid = true;
@@ -56,9 +54,8 @@ export abstract class AbstractGnssControls {
         return valid;
     }
 
-    protected isInValid(controlId: string): boolean {
+    protected isInvalid(controlId: string): boolean {
         let valid: boolean = this.isValid(controlId);
-        // console.debug(`isInValid for ${controlId} - ${! valid}`);
         return !valid;
     }
 }
