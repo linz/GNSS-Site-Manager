@@ -35,15 +35,6 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
         super.setForm(this.form);
     }
 
-    private checkPreConditions() {
-        if (!this.controlName || this.controlName.length === 0) {
-            console.error('NumberInputComponent - controlName Input is required');
-        }
-        if (!this.form) {
-            console.error('NumberInputComponent - form Input is required');
-        }
-    }
-
     get value(): string {
         return this._value;
     }
@@ -68,5 +59,14 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
 
     registerOnTouched(fn: Function) {
         this.propagateTouch = fn;
+    }
+
+    private checkPreConditions() {
+        if (!this.controlName || this.controlName.length === 0) {
+            console.error('NumberInputComponent - controlName Input is required');
+        }
+        if (!this.form) {
+            console.error('NumberInputComponent - form Input is required');
+        }
     }
 }
