@@ -30,16 +30,16 @@ export abstract class AbstractGnssControls {
 
     protected isDirty(controlId: string): boolean {
         let control: AbstractControl;
-        let valid: boolean = true;
+        let dirty: boolean = true;
         // Force an error as this field should have been set
         control = this.superForm.controls[controlId];
-        if (!control || !control.errors) {
-            valid = true;
+        if (!control) {
+            dirty = false;
         } else {
-            valid = control.dirty;
+            dirty = control.dirty;
         }
-        console.warn('  isValid Control "' + controlId + ': '+ valid + ' - ', control);
-        return valid;
+        console.warn('  isDirty Control "' + controlId + '": '+ dirty + ' - ', control);
+        return dirty;
     }
 
     protected isValid(controlId: string): boolean {
@@ -47,12 +47,12 @@ export abstract class AbstractGnssControls {
         let valid: boolean = true;
         // Force an error as this field should have been set
         control = this.superForm.controls[controlId];
-        if (!control || !control.errors) {
+        if (!control) {
             valid = true;
         } else {
-            valid = control.valid;  //(Object.keys(control.errors).length === 0);
+            valid = control.valid;
         }
-        console.warn('  isValid Control "' + controlId + ': '+ valid + ' - ', control);
+        console.warn('  isValid Control "' + controlId + '": '+ valid + ' - ', control);
         return valid;
     }
 

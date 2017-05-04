@@ -9,7 +9,7 @@ import {
 import { SiteLogViewModel, ViewSiteLog } from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
-import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
 import * as _ from 'lodash';
 import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
 import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
@@ -158,6 +158,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             if (this.siteInfoForm.pristine) {
                 return;
             }
+            if (this.siteInfoForm.invalid) {
+                console.warn('Cannot save SiteLog - it is invalid');
+                this.dialogService.showErrorMessage('Cannot save SiteLog - it is invalid');
+                return;
+            }
             formValue = this.siteInfoForm.value;
         }
         console.log('---------> SiteInfoComponent - Save ------------------------');
@@ -182,7 +187,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
         this.removeDeletedItems();
 
+<<<<<<< HEAD
         this.dialogService.confirmSaveDialog(
+=======
+        let that = this;
+
+        this.dialogService.confirmSaveDialog(diffMsg,
+>>>>>>> GEOD-417 - Fix so a save or revert makes everything pristine
             () => {
                 this.isLoading = true;
                 this.submitted = true;
@@ -192,6 +203,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                     (responseJson: any) => {
                         //if (form)form.pristine = true;  // Note: pristine has no setter method in ng2-form!
                         this.isLoading = false;
+                        this.siteInfoForm.markAsPristine();
+                        // (<FormControl>that.siteInfoForm.controls['gnssReceivers'].at(0).controls.notes).markAsPristine();
                         this.siteLogService.sendFormModifiedStateMessage(false);
                         this.backupSiteLogJson();
                         this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
@@ -288,6 +301,21 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             if (this.siteInfoForm.dirty) {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
+                // console.log('  and siteLogModel: ', this.siteLogModel);
+                // console.log('  and siteLogOrigin: ', this.siteLogOrigin);
+            } else {
+                this.siteLogService.sendFormModifiedStateMessage(false);
+                console.log('form dirty - no: ', value);
+            }
+        });
+
+        this.siteInfoForm.statusChanges.debounceTime(500).subscribe((value: any) => {
+            console.debug('form status change: ', this.siteInfoForm);
+            if (this.siteInfoForm.dirty) {
+                this.siteLogService.sendFormModifiedStateMessage(true);
+                console.log('form dirty - yes: ', value);
+                // console.log('  and siteLogModel: ', this.siteLogModel);
+                // console.log('  and siteLogOrigin: ', this.siteLogOrigin);
             } else {
                 this.siteLogService.sendFormModifiedStateMessage(false);
                 console.log('form dirty - no: ', value);
@@ -380,14 +408,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         let items: string[] = Object.keys(this.siteLogModel);
         for (let item of items) {
             if (Array.isArray(this.siteLogModel[item])) {
-                console.debug('removeDeletedItems - group: ', item);
                 this.removeDeletedGroupItems(this.siteLogModel[item]);
             }
         }
     }
 
     private removeDeletedGroupItems(siteLogModelGroupItems: any[]) {
-        console.debug('    removeDeletedGroupItems - items: ', siteLogModelGroupItems);
         let i: number;
         for (i = siteLogModelGroupItems.length - 1; i >= 0; i--) {
             if (siteLogModelGroupItems[i].hasOwnProperty('dateDeleted')
@@ -396,6 +422,4 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 siteLogModelGroupItems.splice(i, 1);
             }
         }
-        console.debug('    removeDeletedGroupItems - items after: ', siteLogModelGroupItems);
-    }
 }

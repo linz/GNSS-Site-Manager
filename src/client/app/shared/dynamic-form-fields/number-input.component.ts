@@ -27,18 +27,22 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
 
     private _value: string = '';
 
+    propagateChange: Function = (_: any) => { };
+    propagateTouch: Function = () => { };
+
     ngOnInit() {
-        if (!this.controlName || this.controlName.length === 0) {
-            console.error('TextAreaInputComponent - controlName Input is required');
-        }
-        if (!this.form) {
-            console.error('TextAreaInputComponent - form Input is required');
-        }
+        this.checkPreConditions();
         super.setForm(this.form);
     }
 
-    propagateChange: Function = (_: any) => { };
-    propagateTouch: Function = () => { };
+    private checkPreConditions() {
+        if (!this.controlName || this.controlName.length === 0) {
+            console.error('NumberInputComponent - controlName Input is required');
+        }
+        if (!this.form) {
+            console.error('NumberInputComponent - form Input is required');
+        }
+    }
 
     get value(): string {
         return this._value;

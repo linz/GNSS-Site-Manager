@@ -1,17 +1,17 @@
-<div class="form-group">
-    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label" [ngClass]="{required: isRequired()}">
-        <ng-content></ng-content>
-    </label>
+<div class="form-group"> <!-- [formGroup]="form"-->
+  <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label" [ngClass]="{required: isRequired()}">
+      <ng-content></ng-content>
+  </label>
     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
 
-        <div>
-            <div class="input-group">
-                <input type="text" maxlength="24"
-                       class="form-control z-lowest"
-                       [(ngModel)]="datetimeDisplay"
-                       [ngClass]="{'ng-dirty': hasChanges, 'ng-invalid': invalidDatetime }"
-                       (change)="updateCalendar()"
-                       (focus)="miscUtils.scrollIntoView($event, showDatetimePicker); showDatetimePicker = true;"/>
+    <div>
+      <div class="input-group"> <!-- [ngClass]="{'gnss-dirty': hasChanges, 'gnss-invalid':isInValid(controlName)}">   -- Or invalidDatetime -->
+               <!--[formControlName]="controlName"-->
+        <input type="text" maxlength="24"
+               class="form-control z-lowest"
+               [(ngModel)]="datetimeDisplay"
+               (change)="updateCalendar()"
+               (focus)="miscUtils.scrollIntoView($event, showDatetimePicker); showDatetimePicker = true;"/>
         <span class="input-group-btn z-lowest">
           <button id="calendar-btn" type="button"
                   class="btn btn-default btn-calendar z-lowest"

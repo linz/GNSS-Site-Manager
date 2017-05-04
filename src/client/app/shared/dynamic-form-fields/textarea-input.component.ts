@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormGroup } from '@angular/forms';
 import { AbstractGnssControls } from './abstract-gnss-controls';
 
@@ -47,11 +47,10 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
     }
 
     writeValue(value: string) {
-       if (value !== undefined && value !== this._model) {
-           this.model = value;
-       }
+        if (value !== undefined && value !== this._model) {
+            this.model = value;
+        }
     }
-
 
     registerOnChange(fn: Function) {
         this.propagateChange = fn;
@@ -69,4 +68,6 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
             console.error('TextAreaInputComponent - form Input is required');
         }
     }
+
+
 }
