@@ -4,17 +4,7 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span *ngIf="index == 0">
-                <span class="hidden-xsm">Current </span>
-        <span class="hidden-xxs">Temperature Sensor (</span> Since {{ miscUtils.getDate(temperatureSensor.startDate) }}
-        <span class="hidden-xxs">)</span>
-        </span>
-        <span *ngIf="index != 0">
-                <span class="hidden-xsm">Previous </span>
-        <span class="hidden-xxs">Temperature Sensor (</span> {{ miscUtils.getDate(temperatureSensor.startDate) }} &ndash;
-        {{ miscUtils.getDate(temperatureSensor.endDate) }}
-        <span class="hidden-xxs">)</span>
-        </span>
+            <span [innerHTML]="getItemHeaderHtml(temperatureSensor.startDate, temperatureSensor.endDate)"></span>
         </span>
         <span *ngIf="temperatureSensor.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">
