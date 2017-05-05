@@ -19,7 +19,7 @@ export class SiteLocationMappings extends AbstractViewModel {
             'string',
             '/state', 'string');
 
-        this.addFieldMapping('/countryCodeISO', 'string',
+        this.addFieldMapping('/countryCodeISO/value', 'string',
             '/countryCodeISO', 'string');
         this.addFieldMapping('/tectonicPlate/value', 'string',
             '/tectonicPlate', 'string');
