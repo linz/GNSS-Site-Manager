@@ -19,14 +19,21 @@
                 <text-input formControlName="city" controlName="city" [form]="siteLocationForm">City / Town</text-input>
                 <text-input formControlName="state" controlName="state" [form]="siteLocationForm">State</text-input>
                 <text-input formControlName="countryCodeISO" controlName="countryCodeISO" [form]="siteLocationForm">Country Code ISO</text-input>
-                <text-input formControlName="approximatePositionITRF_x" controlName="approximatePositionITRF_x" [form]="siteLocationForm"
-                   >Approximate position ITRF X</text-input>
-                <text-input formControlName="approximatePositionITRF_y" controlName="approximatePositionITRF_y" [form]="siteLocationForm"
-                   >Approximate position ITRF Y</text-input>
-                <text-input formControlName="approximatePositionITRF_z" controlName="approximatePositionITRF_z" [form]="siteLocationForm"
-                   >Approximate position ITRF Z</text-input>
-                <text-input formControlName="approximatePositionITRF_elevationMEllips" controlName="approximatePositionITRF_elevationMEllips"
-                    [form]="siteLocationForm">Approximate position ITRF elevationMEllips</text-input>
+                
+                <text-input formControlName="cartesianPosition_x" controlName="cartesianPosition_x" 
+                    [form]="siteLocationForm">X Coordinate (m)</text-input>
+                <text-input formControlName="cartesianPosition_y" controlName="cartesianPosition_y" 
+                    [form]="siteLocationForm">Y Coordinate (m)</text-input>
+                <text-input formControlName="cartesianPosition_z" controlName="cartesianPosition_z" 
+                    [form]="siteLocationForm">Z Coordinate (m)</text-input>
+
+                <text-input formControlName="geodeticPosition_lat" controlName="geodeticPosition_lat" 
+                    [form]="siteLocationForm">Latitude (dd)</text-input>
+                <text-input formControlName="geodeticPosition_long" controlName="geodeticPosition_long" 
+                    [form]="siteLocationForm">Longitude (dd)</text-input>
+                <text-input formControlName="geodeticPosition_height" controlName="geodeticPosition_height" 
+                    [form]="siteLocationForm">Ellipsoidal height (m)</text-input>
+
                 <text-input formControlName="tectonicPlate" controlName="tectonicPlate" [form]="siteLocationForm">Tectonic Plate</text-input>
                 <textarea-input formControlName="notes" controlName="notes" [form]="siteLocationForm">Notes</textarea-input>
             </div>
