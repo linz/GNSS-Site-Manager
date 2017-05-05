@@ -26,15 +26,18 @@ export class SiteLocationMappings extends AbstractViewModel {
         this.addFieldMapping('/notes', 'string',
             '/notes', 'string');
 
-        this.addFieldMapping('/approximatePositionITRF/xCoordinateInMeters', 'string',
-            '/approximatePositionITRF_x', 'string');
-        this.addFieldMapping('/approximatePositionITRF/yCoordinateInMeters', 'string',
-            '/approximatePositionITRF_y', 'string');
-        this.addFieldMapping('/approximatePositionITRF/zCoordinateInMeters', 'string',
-            '/approximatePositionITRF_z', 'string');
-        this.addFieldMapping('/approximatePositionITRF/elevationMEllips', 'string',
-            '/approximatePositionITRF_elevationMEllips', 'string');
-
+        this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/0', 'string',
+            '/cartesianPosition_x', 'string');
+        this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/1', 'string',
+            '/cartesianPosition_y', 'string');
+        this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/2', 'string',
+            '/cartesianPosition_z', 'string');
+        this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/0', 'string',
+            '/geodeticPosition_lat', 'string');
+        this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/1', 'string',
+            '/geodeticPosition_long', 'string');
+        this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/2', 'string',
+            '/geodeticPosition_height', 'string');
     };
 
     /**
