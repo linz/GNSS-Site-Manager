@@ -19,5 +19,7 @@ USER tester
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
 RUN bash -c "(. ~/.nvm/nvm.sh && nvm install 7.7.3)"
 
+ADD .docker/entrypoint.sh /
 
-CMD bash -c "(cd ~/gnss-site-manager && . ~/.nvm/nvm.sh && npm run e2e.ci)"
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["npm run e2e.ci"]
