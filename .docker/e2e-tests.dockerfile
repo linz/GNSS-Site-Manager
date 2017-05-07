@@ -17,7 +17,7 @@ RUN mkdir -p /home/tester && \
 USER tester
 
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-RUN bash -c "(. ~/.nvm/nvm.sh && nvm install 6.10.2)"
+RUN bash -c "(. ~/.nvm/nvm.sh && nvm install 7.7.3)"
 
 ADD ${pwd} /home/tester/gnss-site-manager
 
