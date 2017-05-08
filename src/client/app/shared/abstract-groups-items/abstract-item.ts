@@ -130,7 +130,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     /**
      * Remove an item from the UI and delete if it is an existing record.
      */
-    removeItem(index: number) {
+    removeItem(index: number): boolean {
       let deleteReason: string = 'New item not needed';
 
       if (this.isNew) {
@@ -176,7 +176,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     /**
      * Patching (or setting) is used to apply the values in the model to the form.
      */
-    protected patchForm() {
+    protected patchForm(): void {
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
         this.addFields(this.itemGroup, this.getFormControls());
         // For some reason, when - Open Group, Open Item, Close Group, Reopen Group, it is being marked as dirty
@@ -228,7 +228,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      *
      * @param indexOfNew
      */
-    private newItem(indexOfNew: number) {
+    private newItem(indexOfNew: number): void {
         if (this.getIndex() === indexOfNew) {
             this.isNew = true;
             this.isOpen = true;
@@ -242,7 +242,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     /**
      *  Mark an item for deletion using the specified reason.
      */
-    private deleteItem(index: number, deleteReason : string) {
+    private deleteItem(index: number, deleteReason : string): void {
         let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
     }
@@ -250,7 +250,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
     /**
      *  Mark an item for deletion using the specified reason.
      */
-    private cancelNew(index: number, deleteReason : string) {
+    private cancelNew(index: number, deleteReason : string): void {
         let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;
@@ -263,7 +263,7 @@ export abstract class AbstractItem implements OnInit, OnChanges {
      * @param itemGroup is the container for the Item's form controls.  It may or may not already contain Form AbstractControls.
      * @param formControls is an array of objects containing the forms AbstractControls to add to the itemGroup.
      */
-    private addFields(itemGroup: FormGroup, formControls: ItemControls) {
+    private addFields(itemGroup: FormGroup, formControls: ItemControls): void {
         if (Object.keys(this.itemGroup.controls).length === 0) {
             for (let control of formControls.itemControls) {
                 let key: any = Object.keys(control)[0];
