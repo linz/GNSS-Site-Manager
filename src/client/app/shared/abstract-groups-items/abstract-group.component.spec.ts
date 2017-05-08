@@ -1,4 +1,4 @@
-import { AbstractGroupComponent } from './abstract-group';
+import { AbstractGroupComponent } from './abstract-group.component';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 
 class AbstractViewModelImpl extends AbstractViewModel {

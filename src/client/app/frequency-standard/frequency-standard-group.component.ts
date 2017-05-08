@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
 import { FormBuilder } from '@angular/forms';
 
