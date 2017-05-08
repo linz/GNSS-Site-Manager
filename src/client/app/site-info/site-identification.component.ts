@@ -64,7 +64,7 @@ export class SiteIdentificationComponent implements OnInit {
     }
 
     public isFormInvalid(): boolean {
-        return this.siteIdentificationForm ? ! this.siteIdentificationForm.valid : false;
+        return this.siteIdentificationForm.invalid;
     }
 
     private setupForm() {
