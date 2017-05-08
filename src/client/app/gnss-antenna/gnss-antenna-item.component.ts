@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Injector } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item';
+import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
