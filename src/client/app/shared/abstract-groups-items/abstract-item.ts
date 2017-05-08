@@ -17,7 +17,7 @@ export interface ItemControl {
     [name: string]: AbstractControl;
 }
 
-export abstract class AbstractItem implements OnInit, OnChanges {
+export abstract class AbstractItemComponent implements OnInit, OnChanges {
     protected miscUtils: any = MiscUtils;
 
     protected itemGroup: FormGroup;
