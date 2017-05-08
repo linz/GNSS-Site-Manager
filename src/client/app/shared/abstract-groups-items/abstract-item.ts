@@ -185,9 +185,13 @@ export abstract class AbstractItem implements OnInit, OnChanges {
         // they fix this.
         // Check its dirty status before doing the setValue() and restore to that state afterwards
         let wasDirty: boolean = this.itemGroup ? this.itemGroup.dirty : true;   // True because it is new
-        setTimeout(()=> {this.itemGroup.setValue(this.getItem());});
-        if (! wasDirty) {
-            setTimeout(()=> {this.itemGroup.markAsPristine();});
+        setTimeout(() => {
+            this.itemGroup.setValue(this.getItem());
+        });
+        if (!wasDirty) {
+            setTimeout(() => {
+                this.itemGroup.markAsPristine();
+            });
         }
     }
 
