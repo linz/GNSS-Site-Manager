@@ -23,7 +23,7 @@ export class SiteIdentificationComponent implements OnInit {
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
             this._siteLogModel = siteLogModel;
             this.siteIdentification = siteLogModel.siteIdentification;
-            this.patchForm();
+            this.siteIdentificationForm.setValue(this.siteIdentification);
             this.changeDetectionRef.detectChanges();
         }
     }
@@ -57,7 +57,6 @@ export class SiteIdentificationComponent implements OnInit {
 
     ngOnInit() {
         this.setupForm();
-        // patchForm is called from the setter in this form
     }
 
     public isFormDirty(): boolean {
@@ -92,10 +91,6 @@ export class SiteIdentificationComponent implements OnInit {
             notes: [''],//, [Validators.maxLength(2000)]],
         });
         this.siteInformationForm.addControl('siteIdentification', this.siteIdentificationForm);
-    }
-
-    private patchForm() {
-        this.siteIdentificationForm.setValue(this.siteIdentification);
     }
 }
 
