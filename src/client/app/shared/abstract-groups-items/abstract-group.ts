@@ -9,7 +9,7 @@ export const sortingDirectionAscending: boolean = false;
 export const newItemShouldBeBlank: boolean = true;
 export const newItemShouldNotBeBlank: boolean = false;
 
-export abstract class AbstractGroup<T extends AbstractViewModel> {
+export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
     hasGroupANewItem: boolean = false;
 

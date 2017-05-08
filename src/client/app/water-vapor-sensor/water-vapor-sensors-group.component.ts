@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
 
 /**
@@ -11,11 +11,11 @@ import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
     selector: 'water-vapor-sensors-group',
     templateUrl: 'water-vapor-sensors-group.component.html',
 })
-export class WaterVaporSensorsGroupComponent extends AbstractGroup<WaterVaporSensorViewModel> {
+export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<WaterVaporSensorViewModel> {
     static compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
+        return AbstractGroupComponent.compareDates(date1, date2);
     }
 
     @Input()

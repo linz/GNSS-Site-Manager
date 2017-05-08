@@ -1,4 +1,4 @@
-import { AbstractGroup } from './abstract-group';
+import { AbstractGroupComponent } from './abstract-group';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 
 class AbstractViewModelImpl extends AbstractViewModel {
@@ -19,7 +19,7 @@ class AbstractViewModelImpl extends AbstractViewModel {
     }
 }
 
-class AbstractGroupImpl extends AbstractGroup<AbstractViewModelImpl> {
+class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
     newItemViewModel(): AbstractViewModelImpl {
         return new AbstractViewModelImpl('new item');
     }
@@ -29,7 +29,7 @@ class AbstractGroupImpl extends AbstractGroup<AbstractViewModelImpl> {
     }
 
     compare(obj1: AbstractViewModelImpl, obj2: AbstractViewModelImpl): number {
-        return AbstractGroup.compareDates(obj1.startDate, obj2.startDate);
+        return AbstractGroupComponent.compareDates(obj1.startDate, obj2.startDate);
     }
 }
 

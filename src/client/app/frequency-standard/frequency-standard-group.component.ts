@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
 import { FormBuilder } from '@angular/forms';
 
@@ -11,7 +11,7 @@ import { FormBuilder } from '@angular/forms';
     selector: 'frequency-standard-group',
     templateUrl: 'frequency-standard-group.component.html',
 })
-export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStandardViewModel> {
+export class FrequencyStandardGroupComponent extends AbstractGroupComponent<FrequencyStandardViewModel> {
     @Input() frequencyStandards: any;
 
     @Input()
@@ -32,7 +32,7 @@ export class FrequencyStandardGroupComponent extends AbstractGroup<FrequencyStan
     static compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
+        return AbstractGroupComponent.compareDates(date1, date2);
     }
 
     constructor(formBuilder: FormBuilder) {
