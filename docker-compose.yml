@@ -20,6 +20,7 @@ services:
       dockerfile: ./.docker/e2e-tests.dockerfile
       args:
         - http_proxy
+        - https_proxy
     image: e2e-tests
     volumes:
         - .:/home/tester/gnss-site-manager
