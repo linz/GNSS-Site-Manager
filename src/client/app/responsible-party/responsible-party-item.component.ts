@@ -20,22 +20,49 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      */
     @Input() responsibleParty: ResponsiblePartyViewModel;
 
+    @Input() responsibleParty: ResponsiblePartyViewModel;
     @Input() partyName: ResponsiblePartyType;
+    @Input() isMandatory: boolean;
+    @Input() isMultiple: boolean;
 
     constructor(protected dialogService: DialogService) {
         super(dialogService);
     }
 
     ngOnInit() {
+        this.isOpen = (this.total == 1);
         this.patchForm();
+    }
+
+    getItem(): AbstractViewModel {
+        return this.responsibleParty;
     }
 
     getItemName(): string {
         return this.partyName.getTitle();
     }
 
-    getItem(): AbstractViewModel {
-        return this.responsibleParty;
+    /**
+     * Return the item header label in HTML format, including individual name and organisation name.
+     *
+     * @param startDatetime: the start/installed/measured date-time of the item
+     * @param endDatetime: the optional end/removed date-time of the item
+     */
+    public getItemHeaderHtml(): string {
+        let headerHtml: string = '';
+        if (this.responsibleParty.individualName) {
+            headerHtml = this.responsibleParty.individualName;
+        }
+
+        if (this.responsibleParty.organisationName) {
+            if (headerHtml) {
+                headerHtml += ' <span class="hidden-xsm">(' + this.responsibleParty.organisationName + ')</span>';
+            } else {
+                headerHtml = '<span>' + this.responsibleParty.organisationName + ' </span>';
+            }
+        }
+
+        return (headerHtml ? headerHtml : 'New ' + this.partyName.getTitle());
     }
 
     /**

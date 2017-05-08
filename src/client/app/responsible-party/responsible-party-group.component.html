@@ -7,7 +7,7 @@
             </i>
             {{getItemName()}}s
         </span>
-        <span class="pull-right" *ngIf="isUnlimitedItemsAllowed()">
+        <span class="pull-right" *ngIf="isUnlimitedItemsAllowed()" [hidden]="!isMultiple && total == 1">
             <button class="btn btn-similar btn-xs" title="Add a new {{getItemName()}}"
                     [disabled]="hasGroupANewItem" (click)="addNew($event); miscUtils.showFullView($event);">
             <i class="glyphicon glyphicon-plus-sign"></i>
@@ -21,17 +21,17 @@
     </div>
       <div [formArrayName]="partyName.toString()">
       <div *ngFor="let responsibleParty of getItemsCollection(); let i = index">
-      <!-- [geodesyEvent] - send event to child components -->
-      <!-- (open/close Above/Below Event) - receive events from child components -->
-      <!-- (returnEvents) - single point to call events on parent -->
       <gnss-responsible-party-item [groupArray]="groupArrayForm"
                                    [partyName]="partyName"
-                                 [responsibleParty]="responsibleParty"
+                                   [responsibleParty]="responsibleParty"
                                    [formGroupName]="i"
-                                 [total]="itemProperties.length"
-                                 [index]="i"
-                                 [geodesyEvent]="geodesyEvent"
-                                 (returnEvents)="returnEvents($event)"></gnss-responsible-party-item>
+                                   [total]="itemProperties.length"
+                                   [index]="i"
+                                   [isMandatory]="isMandatory"
+                                   [isMultiple]="isMultiple"
+                                   [geodesyEvent]="geodesyEvent"
+                                   (returnEvents)="returnEvents($event)">
+      </gnss-responsible-party-item>
     </div>
       </div>
   </div>

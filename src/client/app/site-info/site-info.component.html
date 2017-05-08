@@ -24,12 +24,16 @@
 
                         <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteContact"
+                                                      [isMandatory]="true"
+                                                      [isMultiple]="true"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
                         <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteMetadataCustodian"
+                                                      [isMandatory]="true"
+                                                      [isMultiple]="false"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
@@ -41,6 +45,8 @@
 
                         <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteDataSource"
+                                                      [isMandatory]="false"
+                                                      [isMultiple]="false"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>

@@ -37,6 +37,9 @@ export class ResponsiblePartyType {
     templateUrl: 'responsible-party-group.component.html',
 })
 export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<ResponsiblePartyViewModel> {
+
+    @Input() isMandatory: boolean;
+    @Input() isMultiple: boolean;
     private _partyName: ResponsiblePartyType;
 
     static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
@@ -52,6 +55,21 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
 
     get partyName(): ResponsiblePartyType {
         return this._partyName;
+    }
+
+    @Input()
+    set siteLogModel(siteLogModel: any) {
+        if (siteLogModel) {
+            this.setItemsCollection(siteLogModel[this.partyName.toString()]);
+            this.init();
+        }
+    }
+
+    @Input()
+    set originalSiteLogModel(originalSiteLogModel: any) {
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(originalSiteLogModel[this.partyName.toString()]);
+        }
     }
 
     constructor(protected formBuilder: FormBuilder) {
