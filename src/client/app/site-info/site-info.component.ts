@@ -32,7 +32,10 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 })
 export class SiteInfoComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
-    public siteInfoForm: FormGroup;
+
+    // the master form that contains all the other forms 
+    public siteLogForm: FormGroup;
+
     public siteInformationForm: FormGroup;
     public hasEditRole: boolean = false;
     public responsiblePartyType: any = ResponsiblePartyType;
@@ -154,16 +157,16 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
      */
     public save(formValue: any) {
         if (!formValue) {
-            // Currently the toolbar save will pass null.  Just use siteInfoForm
-            if (this.siteInfoForm.pristine) {
+            // Currently the toolbar save will pass null.  Just use siteLogForm
+            if (this.siteLogForm.pristine) {
                 return;
             }
-            if (this.siteInfoForm.invalid) {
+            if (this.siteLogForm.invalid) {
                 console.warn('Cannot save SiteLog - it is invalid');
                 this.dialogService.showErrorMessage('Cannot save SiteLog - it is invalid');
                 return;
             }
-            formValue = this.siteInfoForm.value;
+            formValue = this.siteLogForm.value;
         }
         console.log('---------> SiteInfoComponent - Save ------------------------');
         let formValueClone: any = _.cloneDeep(formValue);
@@ -196,7 +199,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
                     (responseJson: any) => {
                         this.isLoading = false;
-                        this.siteInfoForm.markAsPristine();
+                        this.siteLogForm.markAsPristine();
                         this.siteLogService.sendFormModifiedStateMessage(false);
                         this.backupSiteLogJson();
                         this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
@@ -258,11 +261,11 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     public isFormDirty(): boolean {
-        return this.siteInfoForm ? this.siteInfoForm.dirty : false;
+        return this.siteLogForm ? this.siteLogForm.dirty : false;
     }
 
     public isFormInvalid(): boolean {
-        return this.siteInfoForm.invalid;
+        return this.siteLogForm.invalid;
     }
 
     public isSiteInformationFormDirty(): boolean {
@@ -275,8 +278,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
     private setupForm() {
         this.siteInformationForm = this.formBuilder.group({});
-        this.siteInfoForm = this.formBuilder.group({});
-        this.siteInfoForm.addControl('siteInformation', this.siteInformationForm);
+        this.siteLogForm = this.formBuilder.group({});
+        this.siteLogForm.addControl('siteInformation', this.siteInformationForm);
     }
 
     private setupAuthSubscription(): Subscription {
@@ -289,8 +292,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
      * Template and Model driven forms are handled differently and separately
      */
     private setupSubscriptions() {
-        this.siteInfoForm.valueChanges.debounceTime(500).subscribe((value: any) => {
-            if (this.siteInfoForm.dirty) {
+        this.siteLogForm.valueChanges.debounceTime(500).subscribe((value: any) => {
+            if (this.siteLogForm.dirty) {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
             } else {
@@ -299,9 +302,9 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.siteInfoForm.statusChanges.debounceTime(500).subscribe((value: any) => {
-            console.debug('form status change: ', this.siteInfoForm);
-            if (this.siteInfoForm.dirty) {
+        this.siteLogForm.statusChanges.debounceTime(500).subscribe((value: any) => {
+            console.debug('form status change: ', this.siteLogForm);
+            if (this.siteLogForm.dirty) {
                 this.siteLogService.sendFormModifiedStateMessage(true);
                 console.log('form dirty - yes: ', value);
             } else {
