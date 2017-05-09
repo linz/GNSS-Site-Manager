@@ -1,4 +1,4 @@
-import { EventEmitter, OnInit, Input, Output, OnChanges, SimpleChange, ChangeDetectorRef, Injector } from '@angular/core';
+import { EventEmitter, Input, Output, OnChanges, SimpleChange, ChangeDetectorRef, Injector } from '@angular/core';
 import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
@@ -17,7 +17,7 @@ export interface ItemControl {
     [name: string]: AbstractControl;
 }
 
-export abstract class AbstractItemComponent implements OnInit, OnChanges {
+export abstract class AbstractItemComponent implements OnChanges {
     protected miscUtils: any = MiscUtils;
 
     protected itemGroup: FormGroup;
@@ -94,10 +94,6 @@ export abstract class AbstractItemComponent implements OnInit, OnChanges {
      * @param {DialogService} dialogService - The injected DialogService.
      */
     constructor(protected dialogService: DialogService) { }
-
-    ngOnInit() {
-        this.isOpen = this.getIndex() === 0;
-    }
 
     /**
      * Deteect changes in @Inputs and delegate to handlers
