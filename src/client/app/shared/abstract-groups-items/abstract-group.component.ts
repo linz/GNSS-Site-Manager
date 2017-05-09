@@ -293,7 +293,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
     }
 
     public isFormInvalid(): boolean {
-        return this.groupArrayForm ? !this.groupArrayForm.valid : false;
+        return this.groupArrayForm && this.groupArrayForm.invalid;
     }
 
     /* ************** Private Methods ************** */

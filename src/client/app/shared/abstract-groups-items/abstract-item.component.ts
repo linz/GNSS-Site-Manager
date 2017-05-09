@@ -157,7 +157,7 @@ export abstract class AbstractItemComponent implements OnChanges {
     }
 
     public isFormInvalid(): boolean {
-        return this.itemGroup ? ! this.itemGroup.valid : false;
+        return this.itemGroup && this.itemGroup.invalid;
     }
 
     /**
