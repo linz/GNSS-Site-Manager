@@ -14,21 +14,6 @@ import { FormBuilder } from '@angular/forms';
 export class FrequencyStandardGroupComponent extends AbstractGroupComponent<FrequencyStandardViewModel> {
     @Input() frequencyStandards: any;
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.frequencyStandards);
-            this.setupForm('frequencyStandards');
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.frequencyStandards);
-        }
-    }
-
     static compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
@@ -41,6 +26,10 @@ export class FrequencyStandardGroupComponent extends AbstractGroupComponent<Freq
 
     getItemName(): string {
         return 'Frequency Standard';
+    }
+
+    getControlName(): string {
+        return 'frequencyStandards';
     }
 
     compare(obj1: FrequencyStandardViewModel, obj2: FrequencyStandardViewModel): number {

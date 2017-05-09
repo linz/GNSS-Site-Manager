@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
@@ -18,27 +18,16 @@ export class PressureSensorsGroupComponent extends AbstractGroupComponent<Pressu
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.pressureSensors);
-            this.setupForm('pressureSensors');
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.pressureSensors);
-        }
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return 'Pressure Sensor';
+    }
+
+    getControlName(): string {
+        return 'pressureSensors';
     }
 
     compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {

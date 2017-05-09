@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
@@ -18,27 +18,20 @@ export class GnssAntennaGroupComponent extends AbstractGroupComponent<GnssAntenn
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.gnssAntennas);
-            this.setupForm('gnssAntennas');
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.gnssAntennas);
-        }
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return 'GNSS Antenna';
+    }
+
+    getControlName(): string {
+        return 'gnssAntennas';
+    }
+
+    getFormData(siteLog: any): any {
+        return siteLog.gnssAntennas;
     }
 
     compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {

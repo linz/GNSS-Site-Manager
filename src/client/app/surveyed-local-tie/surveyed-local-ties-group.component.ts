@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
@@ -18,27 +18,16 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroupComponent<Surv
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.surveyedLocalTies);
-            this.setupForm('surveyedLocalTies');
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.surveyedLocalTies);
-        }
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return 'Surveyed Local Tie';
+    }
+
+    getControlName(): string {
+        return 'surveyedLocalTies';
     }
 
     compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {

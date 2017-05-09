@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
@@ -19,27 +19,16 @@ export class TemperatureSensorsGroupComponent extends AbstractGroupComponent<Tem
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.temperatureSensors);
-            this.setupForm('temperatureSensors');
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.temperatureSensors);
-        }
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return 'Temperature Sensor';
+    }
+
+    getControlName(): string {
+        return 'temperatureSensors';
     }
 
     compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {

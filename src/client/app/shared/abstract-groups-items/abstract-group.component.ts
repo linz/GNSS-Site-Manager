@@ -17,6 +17,21 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
     protected groupArrayForm: FormArray;
     @Input() siteInfoForm: FormGroup;
 
+    @Input()
+    set siteLogModel(siteLogModel: any) {
+       if (siteLogModel) {
+           this.setItemsCollection(this.getFormData(siteLogModel));
+           this.setupForm(this.getControlName());
+       }
+    }
+
+    @Input()
+    set originalSiteLogModel(originalSiteLogModel: any) {
+        if (originalSiteLogModel) {
+            this.setItemsOriginalCollection(this.getFormData(originalSiteLogModel));
+        }
+    }
+
     /**
      * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
      * It is true by default.
@@ -84,6 +99,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
      */
     abstract getItemName(): string;
 
+    abstract getControlName(): string;
+
     /**
      * The child class needs to define this to make an instance of itself.
      * @param blank - if to exclude all default values so it is completely blank.  Defaults to false.
@@ -98,6 +115,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
      * @param obj2
      */
     abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
+
+    getFormData(siteLog: any): any {
+        return siteLog[this.getControlName()];
+    }
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.

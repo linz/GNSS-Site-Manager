@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
@@ -18,27 +18,16 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<Wate
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.waterVaporSensors);
-            this.setupForm('waterVaporSensors');
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.waterVaporSensors);
-        }
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return 'Water Vapor Sensor';
+    }
+
+    getControlName(): string {
+        return 'waterVaporSensors';
     }
 
     compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
