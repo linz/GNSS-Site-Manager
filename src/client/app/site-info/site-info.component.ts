@@ -33,7 +33,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 export class SiteInfoComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
 
-    // the master form that contains all the other forms 
+    // the master form that contains all the other forms
     public siteLogForm: FormGroup;
 
     public siteInformationForm: FormGroup;
