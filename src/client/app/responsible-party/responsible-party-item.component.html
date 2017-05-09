@@ -1,18 +1,21 @@
-<!-- Input: temperatureSensor (single) -->
-<div [formGroup]="itemGroup" class="panel panel-level-2" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-    <div class="panel-heading">
-        <span class="panel-title cursor-ptr" (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
+<div [formGroup]="itemGroup" class="panel panel-level-3"
+     [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid(), 'no-borders': total == 1}">
+    <div class="panel-heading" [hidden]="total == 1">
+        <span [hidden]="total <= 1" class="panel-title cursor-ptr"
+              (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}"> </i>
-            <span class="hidden-xsm">{{getItemName()}} {{getItemNumber()}}</span>
+            <span [innerHTML]="getItemHeaderHtml(typeName)"></span>
         </span>
-        <span class="pull-right"> <!-- *ngIf="index == 0 && isNew" -->
-            <button class="btn btn-danger btn-xs" title="{{getRemoveOrDeletedText()}} the temperature sensor" (click)="removeItem(index)">
+        <span class="pull-right" [hidden]="!isNew && isMandatory && total == 1">
+            <button class="btn btn-danger btn-xs"
+                    title="{{getRemoveOrDeletedText()}} the temperature sensor"
+                    (click)="removeItem(index)">
                 <i class="glyphicon glyphicon-remove"></i>
                 <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
             </button>
         </span>
     </div>
-    <div class="panel-body" *ngIf="isOpen">
+    <div class="panel-body" [hidden]="!isOpen">
         <div *ngIf=" responsibleParty == null ">
             No information available for {{getItemName()}}
         </div>

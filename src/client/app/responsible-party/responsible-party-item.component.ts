@@ -15,27 +15,49 @@ import { DialogService } from '../shared/global/dialog.service';
     templateUrl: 'responsible-party-item.component.html',
 })
 export class ResponsiblePartyItemComponent extends AbstractItemComponent implements OnInit {
-    /**
-     * The ResponsibleParty in question.
-     */
-    @Input() responsibleParty: ResponsiblePartyViewModel;
 
-    @Input() partyName: ResponsiblePartyType;
+    @Input() responsibleParty: ResponsiblePartyViewModel;
+    @Input() partyType: ResponsiblePartyType;
+    @Input() isMandatory: boolean;
 
     constructor(protected dialogService: DialogService) {
         super(dialogService);
     }
 
     ngOnInit() {
+        this.isOpen = (this.total === 1);
         this.patchForm();
-    }
-
-    getItemName(): string {
-        return this.partyName.getTitle();
     }
 
     getItem(): AbstractViewModel {
         return this.responsibleParty;
+    }
+
+    getItemName(): string {
+        return this.partyType.getTitle();
+    }
+
+    /**
+     * Return the item header label in HTML format, including individual name and organisation name.
+     *
+     * Note: it will be used for SiteContact and SiteDataCenter if they have multiple items. In smaller screen devices,
+     * the organisation names will be hidden from the headers.
+     */
+    public getItemHeaderHtml(): string {
+        let headerHtml: string = '';
+        if (this.responsibleParty.individualName) {
+            headerHtml = this.responsibleParty.individualName;
+        }
+
+        if (this.responsibleParty.organisationName) {
+            if (headerHtml) {
+                headerHtml += ' <span class="hidden-xsm">(' + this.responsibleParty.organisationName + ')</span>';
+            } else {
+                headerHtml = '<span>' + this.responsibleParty.organisationName + ' </span>';
+            }
+        }
+
+        return (headerHtml ? headerHtml : 'New ' + this.partyType.getTitle());
     }
 
     /**
@@ -69,5 +91,4 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {deletedReason: new FormControl('')}
         ]);
     }
-
 }

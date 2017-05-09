@@ -5,6 +5,7 @@ import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
+    static siteOwner = new ResponsiblePartyType('siteOwner', 'Site Owner');
     static siteContact = new ResponsiblePartyType('siteContact', 'Site Contact');
     static siteMetadataCustodian = new ResponsiblePartyType('siteMetadataCustodian', 'Site Metadata Custodian');
     static siteDataCenter = new ResponsiblePartyType('siteDataCenter', 'Site Data Center');
@@ -13,7 +14,7 @@ export class ResponsiblePartyType {
     constructor(private value: string, private title: string) {
     }
 
-    toString() {
+    getObjectName(): string {
         return this.value;
     }
 
@@ -23,13 +24,14 @@ export class ResponsiblePartyType {
 }
 
 /**
- * This class represents the responsible parties.  It is used for 4 different types.  May be 1+ of each except where noted.
- * This group will contain each one as an item (even if only 1).
+ * This class represents the responsible parties, which have 5 different types.
+ * This group will contain each one as its items (even if it has only 1 item).
  *
- * 1. Site Contact
- * 2. Site Metadata Custodian (1 only)
- * 3. Site Date Center
- * 4. Site Date Source
+ * 1. Site Owner: mandatory, 1 only (object)
+ * 2. Site Contact: mandatory, multiple (array)
+ * 3. Site Metadata Custodian: mandatory, 1 only (object)
+ * 4. Site Date Center: optional, multiple (array)
+ * 5. Site Date Source: optional, 1 only (object)
  */
 @Component({
     moduleId: module.id,
@@ -37,7 +39,10 @@ export class ResponsiblePartyType {
     templateUrl: 'responsible-party-group.component.html',
 })
 export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<ResponsiblePartyViewModel> {
-    private _partyName: ResponsiblePartyType;
+
+    @Input() isMandatory: boolean;
+    @Input() isMultiple: boolean;
+    private _partyType: ResponsiblePartyType;
 
     static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
         let name1: string = obj1.individualName;
@@ -46,12 +51,12 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     }
 
     @Input()
-    set partyName(partyName: ResponsiblePartyType) {
-        this._partyName = partyName;
+    set partyType(partyType: ResponsiblePartyType) {
+        this._partyType = partyType;
     }
 
-    get partyName(): ResponsiblePartyType {
-        return this._partyName;
+    get partyType(): ResponsiblePartyType {
+        return this._partyType;
     }
 
     constructor(protected formBuilder: FormBuilder) {
@@ -59,11 +64,11 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     }
 
     getItemName(): string {
-        return this.partyName.getTitle();
+        return this.partyType.getTitle();
     }
 
     getControlName(): string {
-        return this.partyName.toString();
+        return this.partyType.getObjectName();
     }
 
     compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
@@ -72,15 +77,5 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
 
     newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel(blank);
-    }
-
-    private init() {
-        if (!this.partyName) {
-            throw new Error('Party attribute is required for ResponsiblePartyGroupComponent');
-        } else {
-        }
-
-        this.unlimitedItems = (this.partyName !== ResponsiblePartyType.siteMetadataCustodian);
-        this.setupForm(this.partyName.toString());
     }
 }
