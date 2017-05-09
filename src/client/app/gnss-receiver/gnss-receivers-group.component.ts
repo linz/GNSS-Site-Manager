@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 
 /**.
@@ -11,11 +11,11 @@ import { GnssReceiverViewModel } from './gnss-receiver-view-model';
     selector: 'gnss-receivers-group',
     templateUrl: 'gnss-receivers-group.component.html',
 })
-export class GnssReceiversGroupComponent extends AbstractGroup<GnssReceiverViewModel> {
+export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssReceiverViewModel> {
     static compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
         let date1: string = obj1.dateInstalled;
         let date2: string = obj2.dateInstalled;
-        return AbstractGroup.compareDates(date1, date2);
+        return AbstractGroupComponent.compareDates(date1, date2);
     }
 
     @Input()

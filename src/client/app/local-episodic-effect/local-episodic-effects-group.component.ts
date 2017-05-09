@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
 
 /**.
@@ -11,11 +11,11 @@ import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model
     selector: 'local-episodic-effects-group',
     templateUrl: 'local-episodic-effects-group.component.html',
 })
-export class LocalEpisodicEffectsGroupComponent extends AbstractGroup<LocalEpisodicEffectViewModel> {
+export class LocalEpisodicEffectsGroupComponent extends AbstractGroupComponent<LocalEpisodicEffectViewModel> {
     static compare(obj1: LocalEpisodicEffectViewModel, obj2: LocalEpisodicEffectViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
+        return AbstractGroupComponent.compareDates(date1, date2);
     }
 
     @Input()

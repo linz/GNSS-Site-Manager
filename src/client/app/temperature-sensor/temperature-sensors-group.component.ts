@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 
 /**
@@ -11,12 +11,12 @@ import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
     selector: 'temperature-sensors-group',
     templateUrl: 'temperature-sensors-group.component.html',
 })
-export class TemperatureSensorsGroupComponent extends AbstractGroup<TemperatureSensorViewModel> {
+export class TemperatureSensorsGroupComponent extends AbstractGroupComponent<TemperatureSensorViewModel> {
 
     static compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
         let date1: string = obj1.startDate;
         let date2: string = obj2.startDate;
-        return AbstractGroup.compareDates(date1, date2);
+        return AbstractGroupComponent.compareDates(date1, date2);
     }
 
     @Input()

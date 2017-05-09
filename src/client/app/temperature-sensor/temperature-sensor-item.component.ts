@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
+import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'temperature-sensor-item',
     templateUrl: 'temperature-sensor-item.component.html',
 })
-export class TemperatureSensorItemComponent extends AbstractItem implements OnInit {
+export class TemperatureSensorItemComponent extends AbstractItemComponent implements OnInit {
     /**
      * The TemperatureSensor in question.
      */

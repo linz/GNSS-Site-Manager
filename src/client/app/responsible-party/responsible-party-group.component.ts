@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { AbstractGroup } from '../shared/abstract-groups-items/abstract-group';
+import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
@@ -36,7 +36,7 @@ export class ResponsiblePartyType {
     selector: 'gnss-responsible-party-group',
     templateUrl: 'responsible-party-group.component.html',
 })
-export class ResponsiblePartyGroupComponent extends AbstractGroup<ResponsiblePartyViewModel> {
+export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<ResponsiblePartyViewModel> {
     private _partyName: ResponsiblePartyType;
 
     static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {

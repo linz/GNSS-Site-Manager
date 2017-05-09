@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
-import { AbstractItem, ItemControls } from '../shared/abstract-groups-items/abstract-item';
+import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -14,7 +14,7 @@ import { DialogService } from '../shared/global/dialog.service';
     selector: 'gnss-responsible-party-item',
     templateUrl: 'responsible-party-item.component.html',
 })
-export class ResponsiblePartyItemComponent extends AbstractItem implements OnInit {
+export class ResponsiblePartyItemComponent extends AbstractItemComponent implements OnInit {
     /**
      * The ResponsibleParty in question.
      */
