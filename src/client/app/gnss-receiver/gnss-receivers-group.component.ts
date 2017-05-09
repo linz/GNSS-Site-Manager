@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
@@ -18,27 +18,16 @@ export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssRece
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-       if (siteLogModel) {
-           this.setItemsCollection(siteLogModel.gnssReceivers);
-           this.setupForm('gnssReceivers');
-       }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.gnssReceivers);
-        }
-    }
-
     constructor(protected formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return 'GNSS Receiver';
+    }
+
+    getControlName(): string {
+        return 'gnssReceivers';
     }
 
     compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { HumiditySensorViewModel } from './humidity-sensor-view-model';
@@ -18,27 +18,16 @@ export class HumiditySensorsGroupComponent extends AbstractGroupComponent<Humidi
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel.humiditySensors);
-            this.setupForm('humiditySensors');
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel.humiditySensors);
-        }
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return 'Humidity Sensor';
+    }
+
+    getControlName(): string {
+        return 'humiditySensors';
     }
 
     compare(obj1: HumiditySensorViewModel, obj2: HumiditySensorViewModel): number {

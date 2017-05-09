@@ -54,27 +54,16 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
         return this._partyName;
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel[this.partyName.toString()]);
-            this.init();
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel[this.partyName.toString()]);
-        }
-    }
-
     constructor(protected formBuilder: FormBuilder) {
         super(formBuilder);
     }
 
     getItemName(): string {
         return this.partyName.getTitle();
+    }
+
+    getControlName(): string {
+        return this.partyName.toString();
     }
 
     compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
