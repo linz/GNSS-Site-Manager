@@ -5,6 +5,7 @@ import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
+    static siteOwner = new ResponsiblePartyType('siteOwner', 'Site Owner');
     static siteContact = new ResponsiblePartyType('siteContact', 'Site Contact');
     static siteMetadataCustodian = new ResponsiblePartyType('siteMetadataCustodian', 'Site Metadata Custodian');
     static siteDataCenter = new ResponsiblePartyType('siteDataCenter', 'Site Data Center');
@@ -13,7 +14,7 @@ export class ResponsiblePartyType {
     constructor(private value: string, private title: string) {
     }
 
-    toString() {
+    getObjectName(): string {
         return this.value;
     }
 
@@ -23,13 +24,14 @@ export class ResponsiblePartyType {
 }
 
 /**
- * This class represents the responsible parties.  It is used for 4 different types.  May be 1+ of each except where noted.
- * This group will contain each one as an item (even if only 1).
+ * This class represents the responsible parties, which have 5 different types.
+ * This group will contain each one as its items (even if it has only 1 item).
  *
- * 1. Site Contact
- * 2. Site Metadata Custodian (1 only)
- * 3. Site Date Center
- * 4. Site Date Source
+ * 1. Site Owner: mandatory, 1 only (object)
+ * 2. Site Contact: mandatory, multiple (array)
+ * 3. Site Metadata Custodian: mandatory, 1 only (object)
+ * 4. Site Date Center: optional, multiple (array)
+ * 5. Site Date Source: optional, 1 only (object)
  */
 @Component({
     moduleId: module.id,
@@ -49,18 +51,18 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     }
 
     @Input()
-    set partyName(partyName: ResponsiblePartyType) {
-        this._partyName = partyName;
+    set partyType(partyType: ResponsiblePartyType) {
+        this._partyName = partyType;
     }
 
-    get partyName(): ResponsiblePartyType {
+    get partyType(): ResponsiblePartyType {
         return this._partyName;
     }
 
     @Input()
     set siteLogModel(siteLogModel: any) {
         if (siteLogModel) {
-            this.setItemsCollection(siteLogModel[this.partyName.toString()]);
+            this.setItemsCollection(siteLogModel[this.partyType.getObjectName()]);
             this.init();
         }
     }
@@ -68,7 +70,7 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     @Input()
     set originalSiteLogModel(originalSiteLogModel: any) {
         if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel[this.partyName.toString()]);
+            this.setItemsOriginalCollection(originalSiteLogModel[this.partyType.getObjectName()]);
         }
     }
 
@@ -77,7 +79,7 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     }
 
     getItemName(): string {
-        return this.partyName.getTitle();
+        return this.partyType.getTitle();
     }
 
     getControlName(): string {
@@ -93,12 +95,11 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     }
 
     private init() {
-        if (!this.partyName) {
+        if (!this.partyType) {
             throw new Error('Party attribute is required for ResponsiblePartyGroupComponent');
         } else {
         }
 
-        this.unlimitedItems = (this.partyName !== ResponsiblePartyType.siteMetadataCustodian);
-        this.setupForm(this.partyName.toString());
+        this.setupForm(this.partyType.getObjectName());
     }
 }

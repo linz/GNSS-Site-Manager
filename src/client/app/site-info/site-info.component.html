@@ -22,29 +22,40 @@
                                        [originalSiteLogModel]="siteLogOrigin">
                         </site-location>
 
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
-                                                      [partyName]="responsiblePartyType.siteContact"
-                                                      [isMandatory]="true"
-                                                      [isMultiple]="true"
-                                                      [siteLogModel]="siteLogModel"
-                                                      [originalSiteLogModel]="siteLogOrigin">
-                        </gnss-responsible-party-group>
-
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
-                                                      [partyName]="responsiblePartyType.siteMetadataCustodian"
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                                                      [partyType]="responsiblePartyType.siteOwner"
                                                       [isMandatory]="true"
                                                       [isMultiple]="false"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
-                        <!--TODO - WOrk out if SiteDataCentre is a responsibleParty or under MoreInformation-->
-                        <!--<gnss-responsible-party-group [siteLogForm]="siteLogForm" [partyName]="responsiblePartyType.siteDataCenter"-->
-                        <!--[siteLogModel]="siteLogModel"-->
-                        <!--[originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>-->
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                                                      [partyType]="responsiblePartyType.siteContact"
+                                                      [isMandatory]="true"
+                                                      [isMultiple]="true"
+                                                      [siteLogModel]="siteLogModel"
+                                                      [originalSiteLogModel]="siteLogOrigin">
+                        </gnss-responsible-party-group>
 
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
-                                                      [partyName]="responsiblePartyType.siteDataSource"
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                                                      [partyType]="responsiblePartyType.siteMetadataCustodian"
+                                                      [isMandatory]="true"
+                                                      [isMultiple]="false"
+                                                      [siteLogModel]="siteLogModel"
+                                                      [originalSiteLogModel]="siteLogOrigin">
+                        </gnss-responsible-party-group>
+
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                                                      [partyType]="responsiblePartyType.siteDataCenter"
+                                                      [isMandatory]="false"
+                                                      [isMultiple]="true"
+                                                      [siteLogModel]="siteLogModel"
+                                                      [originalSiteLogModel]="siteLogOrigin">
+                        </gnss-responsible-party-group>
+
+                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                                                      [partyType]="responsiblePartyType.siteDataSource"
                                                       [isMandatory]="false"
                                                       [isMultiple]="false"
                                                       [siteLogModel]="siteLogModel"

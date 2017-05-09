@@ -21,16 +21,15 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() responsibleParty: ResponsiblePartyViewModel;
 
     @Input() responsibleParty: ResponsiblePartyViewModel;
-    @Input() partyName: ResponsiblePartyType;
+    @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
-    @Input() isMultiple: boolean;
 
     constructor(protected dialogService: DialogService) {
         super(dialogService);
     }
 
     ngOnInit() {
-        this.isOpen = (this.total == 1);
+        this.isOpen = (this.total === 1);
         this.patchForm();
     }
 
@@ -39,7 +38,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     }
 
     getItemName(): string {
-        return this.partyName.getTitle();
+        return this.partyType.getTitle();
     }
 
     /**
@@ -62,7 +61,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             }
         }
 
-        return (headerHtml ? headerHtml : 'New ' + this.partyName.getTitle());
+        return (headerHtml ? headerHtml : 'New ' + this.partyType.getTitle());
     }
 
     /**

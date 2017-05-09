@@ -65,7 +65,7 @@ export class JsonViewModelService {
         siteLogViewModel.siteLog.siteMetadataCustodian = [this.dataToViewModelItem(siteLogDataModel.siteMetadataCustodian,
             ResponsiblePartyViewModel)];
         siteLogViewModel.siteLog.siteDataSource = this.dataToViewModel(siteLogDataModel.siteDataSource, ResponsiblePartyViewModel);
-        // siteLogViewModel.siteLog.siteDataCenter = this.dataToViewModel(siteLogDataModel.siteDataCentre, ResponsiblePartyViewModel);
+        siteLogViewModel.siteLog.siteDataCenter = this.dataToViewModel(siteLogDataModel.siteDataCenter, ResponsiblePartyViewModel);
 
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.siteLog.moreInformation = siteLogDataModel.moreInformation;
@@ -99,6 +99,8 @@ export class JsonViewModelService {
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteContact, siteLogDataModel.siteContact,
             new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteDataSource, siteLogDataModel.siteDataSource,
+            new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+        DataViewTranslatorService.translate(viewModelJson.siteLog.siteDataCenter, siteLogDataModel.siteDataCenter,
             new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
         // Only one siteOwner, siteMetadataCustodian (at most) in an array
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteOwner[0], siteLogDataModel.siteOwner,

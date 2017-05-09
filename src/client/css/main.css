@@ -228,6 +228,18 @@ ul {
   margin: 10px 0;
   border-bottom: 1px solid #d9edf7;
 }
+.panel-group .panel-level-3.no-borders,
+.panel-group .panel-level-3.no-borders > .panel-heading,
+.panel-group .panel-level-3.no-borders > .panel-body {
+  border: 0;
+  box-shadow: none;
+}
+.panel-group .panel-level-3.no-borders {
+  margin-bottom: 0;
+}
+.panel-group .panel-level-3 .panel-title .glyphicon {
+  color: #2f2f2f;
+}
 .panel-group .panel-error {
   border: 1px solid #f2dede;
   margin: 10px 0;

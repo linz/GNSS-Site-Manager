@@ -33,12 +33,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
     }
 
     /**
-     * If this group can contain unlimited number of Items.  If its true then there will be a 'new' button (maybe more).
-     * It is true by default.
-     */
-    protected _unlimitedItemsAllowed: boolean = true;
-
-    /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      * @type {{name: EventNames}}
      */
@@ -80,18 +74,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
     }
 
     constructor(protected formBuilder: FormBuilder) {
-    }
-
-    set unlimitedItems(unlimitedItemsAllowed: boolean) {
-        this._unlimitedItemsAllowed = unlimitedItemsAllowed;
-    }
-
-    get unlimitedItems(): boolean {
-        return this._unlimitedItemsAllowed;
-    }
-
-    isUnlimitedItemsAllowed(): boolean {
-        return this.unlimitedItems;
     }
 
     /**

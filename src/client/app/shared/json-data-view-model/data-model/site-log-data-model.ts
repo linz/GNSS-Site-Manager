@@ -24,8 +24,8 @@ export class SiteLogDataModel {
     siteOwner: any;
     siteContact: any[];
     siteMetadataCustodian: any;
-    siteDataSource: any[];
-    // siteDataCentre: any[];
+    siteDataCenter: any[];
+    siteDataSource: any;
     moreInformation: any;
     dataStreams: any;
 
@@ -46,6 +46,7 @@ export class SiteLogDataModel {
             this.temperatureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.temperatureSensors, true);
             this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.waterVaporSensors, true);
             this.siteContact = this.getSuppliedValueOrEmptyValue(siteLogModel.siteContacts, true);
+            this.siteDataCenter = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataCenter, true);
 
             // objects
             this.TYPE_NAME = this.getSuppliedValueOrEmptyValue(siteLogModel.TYPE_NAME, false);
