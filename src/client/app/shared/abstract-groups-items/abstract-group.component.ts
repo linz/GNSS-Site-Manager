@@ -170,7 +170,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
         if (itemProperties && itemProperties.length > 0) {
             this.sortUsingComparator(this.itemProperties);
         }
-        console.debug(this.getItemName() + ' Collection sorted:', this.itemProperties);
     }
 
     setItemsOriginalCollection(itemProperties: T[]) {
@@ -230,7 +229,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
      * @param itemsArrayName that is set on the siteLogForm
      */
     setupForm(itemsArrayName: string) {
-        console.debug(`setupForm ${itemsArrayName}`);
         this.groupArrayForm = this.formBuilder.array([]);
         if (this.siteLogForm.controls[itemsArrayName]) {
             this.siteLogForm.removeControl(itemsArrayName);
