@@ -282,46 +282,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     private setupAuthSubscription(): Subscription {
         return this.userAuthService.userLoadededEvent.subscribe((user: User) => {
             this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
-
-            let siteIdentificationControl: FormGroup = this.siteInformationForm.controls['siteIdentification'] as FormGroup;
-            if (this.hasEditRole) {
-                this.f('', this.siteInfoForm.controls, true);
-                // siteIdentificationControl.controls['siteName'].enable();
-            } else {
-                this.f('', this.siteInfoForm.controls, false);
-                // siteIdentificationControl.controls['siteName'].disable();
-            }
-            console.log('######################');
-            console.log('######################');
-            console.log('######################');
-            console.log('######################');
-            console.log('######################');
-            console.log('######################');
-            console.log('######################');
-            // this.siteInfoForm.disable();
-            // this._changeDetectionRef.detectChanges();
         });
     }
-
-    private f(context: string, controls: {[key: string]: AbstractControl}, enabled: boolean): void {
-        Object.keys(controls).forEach((key) => {
-            let control : AbstractControl = controls[key];
-            if (control instanceof FormGroup) {
-                this.f(context + '.' + key, (control as FormGroup).controls, enabled);
-            } else {
-                if (key !== 'dateInstalled') {
-                    if (enabled) {
-                        control.enable();
-                    } else {
-                        control.disable();
-                    }
-                }
-                console.log(context + '.' + key);
-            }
-        });
-    }
-
-
 
     /**
      * Template and Model driven forms are handled differently and separately
