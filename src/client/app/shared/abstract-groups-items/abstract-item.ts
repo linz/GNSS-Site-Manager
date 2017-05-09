@@ -268,7 +268,6 @@ export abstract class AbstractItem implements OnInit, OnChanges {
             for (let control of formControls.itemControls) {
                 let key: any = Object.keys(control)[0];
                 let value: AbstractControl = control[key];
-                console.debug(`add control to ${this.getItemName()} - "${key}":`, value);
                 itemGroup.addControl(key, value);
             }
         }
