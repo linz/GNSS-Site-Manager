@@ -59,21 +59,6 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
         return this._partyType;
     }
 
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            this.setItemsCollection(siteLogModel[this.partyType.getObjectName()]);
-            this.init();
-        }
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(originalSiteLogModel[this.partyType.getObjectName()]);
-        }
-    }
-
     constructor(protected formBuilder: FormBuilder) {
         super(formBuilder);
     }
@@ -83,7 +68,7 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     }
 
     getControlName(): string {
-        return this.partyType.toString();
+        return this.partyType.getObjectName();
     }
 
     compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
@@ -92,14 +77,5 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
 
     newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel(blank);
-    }
-
-    private init() {
-        if (!this.partyType) {
-            throw new Error('Party attribute is required for ResponsiblePartyGroupComponent');
-        } else {
-        }
-
-        this.setupForm(this.partyType.getObjectName());
     }
 }
