@@ -42,7 +42,6 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
             'characterString/gco:CharacterString',
             'string', '/deliveryPoint2', 'string');
 
-
         this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/address/ciAddress/city/characterString/gco:CharacterString',
             'string', '/city', 'string');
         this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/address/ciAddress/administrativeArea/' +

@@ -15,10 +15,6 @@ import { DialogService } from '../shared/global/dialog.service';
     templateUrl: 'responsible-party-item.component.html',
 })
 export class ResponsiblePartyItemComponent extends AbstractItemComponent implements OnInit {
-    /**
-     * The ResponsibleParty in question.
-     */
-    @Input() responsibleParty: ResponsiblePartyViewModel;
 
     @Input() responsibleParty: ResponsiblePartyViewModel;
     @Input() partyType: ResponsiblePartyType;
@@ -44,8 +40,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     /**
      * Return the item header label in HTML format, including individual name and organisation name.
      *
-     * @param startDatetime: the start/installed/measured date-time of the item
-     * @param endDatetime: the optional end/removed date-time of the item
+     * Note: it will be used for SiteContact and SiteDataCenter if they have multiple items. In smaller screen devices,
+     * the organisation names will be hidden from the headers.
      */
     public getItemHeaderHtml(): string {
         let headerHtml: string = '';
@@ -95,5 +91,4 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {deletedReason: new FormControl('')}
         ]);
     }
-
 }

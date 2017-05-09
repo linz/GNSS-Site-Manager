@@ -134,13 +134,11 @@ export abstract class AbstractItemComponent implements OnChanges {
       } else {
           this.dialogService.confirmDeleteDialog(
             this.getItemName(),
-            (deleteReason : string) => {
-               // ok callback
+            (deleteReason : string) => {  // ok callback
                this.deleteItem(index, deleteReason);
                 this.itemGroup.markAsDirty();
             },
-            () => {
-              // cancel callback
+            () => {  // cancel callback
               console.log('delete cancelled by user');
             }
           );

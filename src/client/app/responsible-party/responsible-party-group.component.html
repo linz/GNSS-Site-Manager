@@ -1,7 +1,8 @@
-<div [formGroup]="siteLogForm" class="panel panel-level-2" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-  <div class="panel-heading">
-      <span class="panel-title cursor-ptr"
-            (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
+<div [formGroup]="siteInfoForm" class="panel panel-level-2"
+     [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+    <div class="panel-heading">
+        <span class="panel-title cursor-ptr"
+              (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isGroupOpen, 'glyphicon-plus-sign': !isGroupOpen}">
             </i>
@@ -14,24 +15,24 @@
                 New <span class="hidden-xxs">{{getItemName()}}</span>
             </button>
         </span>
-  </div>
-  <div class="panel-body" *ngIf="isGroupOpen">
-    <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
-      No information available for {{getItemName()}}
     </div>
-      <div [formArrayName]="partyType.getObjectName()">
-      <div *ngFor="let responsibleParty of getItemsCollection(); let i = index">
-      <gnss-responsible-party-item [groupArray]="groupArrayForm"
-                                   [partyType]="partyType"
-                                   [responsibleParty]="responsibleParty"
-                                   [index]="i"
-                                   [formGroupName]="i"
-                                   [total]="getItemsCollection().length"
-                                   [isMandatory]="isMandatory"
-                                   [geodesyEvent]="geodesyEvent"
-                                   (returnEvents)="returnEvents($event)">
-      </gnss-responsible-party-item>
+    <div class="panel-body" *ngIf="isGroupOpen">
+        <div *ngIf="getItemsCollection() == null || getItemsCollection().length == 0 ">
+            No information available for {{getItemName()}}
+        </div>
+        <div [formArrayName]="partyType.getObjectName()">
+            <div *ngFor="let responsibleParty of getItemsCollection(); let i = index">
+                <gnss-responsible-party-item [groupArray]="groupArrayForm"
+                                             [partyType]="partyType"
+                                             [responsibleParty]="responsibleParty"
+                                             [index]="i"
+                                             [formGroupName]="i"
+                                             [total]="getItemsCollection().length"
+                                             [isMandatory]="isMandatory"
+                                             [geodesyEvent]="geodesyEvent"
+                                             (returnEvents)="returnEvents($event)">
+                </gnss-responsible-party-item>
+            </div>
+        </div>
     </div>
-      </div>
-  </div>
 </div>
