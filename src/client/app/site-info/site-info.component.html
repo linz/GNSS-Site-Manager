@@ -1,6 +1,6 @@
 <div class="container centered clear-pad">
     <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
-        <form [formGroup]="siteInfoForm" novalidate class="form-horizontal">
+        <form [formGroup]="siteLogForm" novalidate class="form-horizontal">
             <div class="panel-group">
                 <div [formGroup]="siteInformationForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isSiteInformationFormDirty(), 'gnss-invalid': isSiteInformationFormInvalid()}">
                     <div class="panel-heading">
@@ -22,24 +22,24 @@
                                        [originalSiteLogModel]="siteLogOrigin">
                         </site-location>
 
-                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteContact"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
-                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteMetadataCustodian"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
                         <!--TODO - WOrk out if SiteDataCentre is a responsibleParty or under MoreInformation-->
-                        <!--<gnss-responsible-party-group [siteInfoForm]="siteInfoForm" [partyName]="responsiblePartyType.siteDataCenter"-->
+                        <!--<gnss-responsible-party-group [siteLogForm]="siteLogForm" [partyName]="responsiblePartyType.siteDataCenter"-->
                         <!--[siteLogModel]="siteLogModel"-->
                         <!--[originalSiteLogModel]="siteLogOrigin"></gnss-responsible-party-group>-->
 
-                        <gnss-responsible-party-group [siteInfoForm]="siteInformationForm"
+                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
                                                       [partyName]="responsiblePartyType.siteDataSource"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
@@ -47,47 +47,47 @@
                     </div>
                 </div>
 
-                <gnss-receivers-group [siteInfoForm]="siteInfoForm"
+                <gnss-receivers-group [siteLogForm]="siteLogForm"
                                       [siteLogModel]="siteLogModel"
                                       [originalSiteLogModel]="siteLogOrigin">
                 </gnss-receivers-group>
 
-                <gnss-antenna-group [siteInfoForm]="siteInfoForm"
+                <gnss-antenna-group [siteLogForm]="siteLogForm"
                                     [siteLogModel]="siteLogModel"
                                     [originalSiteLogModel]="siteLogOrigin">
                 </gnss-antenna-group>
 
-                <surveyed-local-ties-group [siteInfoForm]="siteInfoForm"
+                <surveyed-local-ties-group [siteLogForm]="siteLogForm"
                                            [siteLogModel]="siteLogModel"
                                            [originalSiteLogModel]="siteLogOrigin">
                 </surveyed-local-ties-group>
 
-                <frequency-standard-group [siteInfoForm]="siteInfoForm"
+                <frequency-standard-group [siteLogForm]="siteLogForm"
                                           [siteLogModel]="siteLogModel"
                                           [originalSiteLogModel]="siteLogOrigin">
                 </frequency-standard-group>
 
-                <local-episodic-effects-group [siteInfoForm]="siteInfoForm"
+                <local-episodic-effects-group [siteLogForm]="siteLogForm"
                                               [siteLogModel]="siteLogModel"
                                               [originalSiteLogModel]="siteLogOrigin">
                 </local-episodic-effects-group>
 
-                <humidity-sensors-group [siteInfoForm]="siteInfoForm"
+                <humidity-sensors-group [siteLogForm]="siteLogForm"
                                         [siteLogModel]="siteLogModel"
                                         [originalSiteLogModel]="siteLogOrigin">
                 </humidity-sensors-group>
 
-                <pressure-sensors-group [siteInfoForm]="siteInfoForm"
+                <pressure-sensors-group [siteLogForm]="siteLogForm"
                                         [siteLogModel]="siteLogModel"
                                         [originalSiteLogModel]="siteLogOrigin">
                 </pressure-sensors-group>
 
-                <temperature-sensors-group [siteInfoForm]="siteInfoForm"
+                <temperature-sensors-group [siteLogForm]="siteLogForm"
                                            [siteLogModel]="siteLogModel"
                                            [originalSiteLogModel]="siteLogOrigin">
                 </temperature-sensors-group>
 
-                <water-vapor-sensors-group [siteInfoForm]="siteInfoForm"
+                <water-vapor-sensors-group [siteLogForm]="siteLogForm"
                                            [siteLogModel]="siteLogModel"
                                            [originalSiteLogModel]="siteLogOrigin">
                 </water-vapor-sensors-group>
