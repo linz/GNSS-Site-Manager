@@ -262,7 +262,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     public isFormInvalid(): boolean {
-        return this.siteInfoForm ? !this.siteInfoForm.valid : false;
+        return this.siteInfoForm.invalid;
     }
 
     public isSiteInformationFormDirty(): boolean {
@@ -270,7 +270,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     public isSiteInformationFormInvalid(): boolean {
-        return this.siteInformationForm ? !this.siteInformationForm.valid : false;
+        return this.siteInformationForm.invalid;
     }
 
     private setupForm() {

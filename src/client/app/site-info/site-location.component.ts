@@ -54,7 +54,7 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
     }
 
     public isFormInvalid(): boolean {
-        return this.siteLocationForm ? ! this.siteLocationForm.valid : false;
+        return this.siteLocationForm.invalid;
     }
 
     private setupForm() {
