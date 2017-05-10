@@ -229,31 +229,40 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Return true if any of the SiteLog data have been changed.
-     *
-     * TODO: we may use other methods to detect changes, e.g., the form.$dirty variable
-     */
-    public hasChanges(): boolean {
-        return this.jsonDiffService.isDiff(this.siteLogOrigin, this.siteLogModel);
-    }
-
-    /**
      * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
      */
     public confirmCloseSiteInfoPage(): Promise<boolean> {
-        let msg: string = `You have made changes to the ${this.siteId} Site Log. Close the page will lose any unsaved changes.`;
-        let that: any = this;
+        let msg: string = 'You have made changes to the ${this.siteId} Site Log. \
+            Closing the page will lose any unsaved changes.';
         return new Promise<boolean>((resolve, reject) => {
-            this.dialogService.confirmCloseDialog(msg,
-                function () {
-                    that.dialogService.showLogMessage('Site Info page closed without saving changes made.');
-                    resolve(true);
-                },
-                function () {
-                    resolve(false);
-                }
-            );
-        });
+        this.dialogService.confirmCloseDialog(msg,
+            () => {
+                this.dialogService.showLogMessage('Site Info page closed without saving changes made.');
+                resolve(true);
+            },
+            () => {
+                this.dialogService.showLogMessage('Close cancelled');
+                resolve(false);
+            }
+        );
+      });
+    }
+
+    /**
+     * Shows a dialog prompting users to confirm reverting/reloading the page
+     */
+    public confirmRevert() {
+        let msg: string = 'You have made changes to the Site Log. \
+            Reverting will reload the page and will lose any unsaved changes.';
+
+        this.dialogService.confirmRevertDialog(msg,
+            () => {
+                window.location.reload();
+            },
+            () => {
+                this.dialogService.showLogMessage('Revert cancelled');
+            }
+        );
     }
 
     public backupSiteLogJson() {
