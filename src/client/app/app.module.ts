@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpModule } from '@angular/http';
@@ -15,6 +15,9 @@ import { SelectSiteModule } from './select-site/select-site.module';
 import { UserRegistrationModule } from './user-registration/user-registration.module';
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
+export class ServiceLocator {
+    static injector: Injector;
+}
 
 @NgModule({
   imports: [
@@ -39,4 +42,8 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
   }],
   bootstrap: [ AppComponent ]
 })
-export class AppModule { }
+export class AppModule {
+    constructor(private injector: Injector) {
+        ServiceLocator.injector = injector;
+    }
+}
