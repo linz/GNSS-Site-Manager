@@ -12,7 +12,7 @@
             (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
         </span>
         <span class="pull-right" [ngClass]="{'hidden-xs': waterVaporSensor.dateDeleted}">
-          <button [disabled]="waterVaporSensor.dateDeleted"
+            <button [disabled]="isDeleteDisabled()"
                   class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the water vapor sensor"
                   (click)="removeItem(index)">

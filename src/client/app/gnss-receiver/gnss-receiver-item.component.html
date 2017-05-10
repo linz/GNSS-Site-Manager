@@ -11,7 +11,7 @@
             (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
         </span>
         <span class="pull-right" [ngClass]="{'hidden-xs': gnssReceiver.dateDeleted}">
-               <button [disabled]="isDeleteDisabled()"
+            <button [disabled]="isDeleteDisabled()"
                   class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the GNSS receiver"
                   (click)="removeItem(index)">

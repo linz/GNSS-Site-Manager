@@ -12,7 +12,7 @@
             (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
         </span>
         <span class="pull-right" [ngClass]="{'hidden-xs': localEpisodicEffect.dateDeleted}">
-          <button [disabled]="localEpisodicEffect.dateDeleted"
+            <button [disabled]="isDeleteDisabled()"
                   class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the local episodic effect"
                   (click)="removeItem(index)">
