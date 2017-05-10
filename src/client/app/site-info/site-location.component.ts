@@ -20,7 +20,7 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
     set siteLogModel(siteLogModel: any) {
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
             this.siteLocation = siteLogModel.siteLocation;
-            this._changeDetectionRef.detectChanges();
+            this.changeDetectionRef.detectChanges();
             this.patchForm();
         }
     }
@@ -38,7 +38,7 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
     private siteLocation: any;
     private siteLocationOrig: any;
 
-    constructor(private formBuilder: FormBuilder, private _changeDetectionRef : ChangeDetectorRef) {}
+    constructor(private formBuilder: FormBuilder, private changeDetectionRef: ChangeDetectorRef) {}
 
     ngOnInit() {
         this.setupForm();
