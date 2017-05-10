@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MiscUtils } from '../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
  * This class represents the SiteInfoComponent & SiteIdentification for viewing and editing the details of site/receiver/antenna.
@@ -53,7 +54,10 @@ export class SiteIdentificationComponent implements OnInit {
         return this._originalSiteLogModel;
     }
 
-    constructor(private formBuilder: FormBuilder, private changeDetectionRef : ChangeDetectorRef) {}
+    constructor(private userAuthService: UserAuthService,
+                private formBuilder: FormBuilder,
+                private changeDetectionRef: ChangeDetectorRef) {
+    }
 
     ngOnInit() {
         this.setupForm();
@@ -90,6 +94,11 @@ export class SiteIdentificationComponent implements OnInit {
             distanceActivity: [''],//, [Validators.maxLength(100)]],
             notes: [''],//, [Validators.maxLength(2000)]],
         });
+        if (this.userAuthService.hasAuthorityToEditSite()) {
+            this.siteIdentificationForm.enable();
+        } else {
+            this.siteIdentificationForm.disable();
+        }
         this.siteInformationForm.addControl('siteIdentification', this.siteIdentificationForm);
     }
 }

@@ -1,9 +1,11 @@
-import { EventEmitter, Input, Output, OnChanges, SimpleChange, ChangeDetectorRef, Injector } from '@angular/core';
+import { EventEmitter, Input, Output, OnChanges, AfterViewInit, SimpleChange, Injector } from '@angular/core';
 import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
+import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
+import { ServiceLocator } from '../../app.module';
 
 export class ItemControls {
     itemControls: [ItemControl];
@@ -17,7 +19,7 @@ export interface ItemControl {
     [name: string]: AbstractControl;
 }
 
-export abstract class AbstractItemComponent implements OnChanges {
+export abstract class AbstractItemComponent implements OnChanges, AfterViewInit {
     protected miscUtils: any = MiscUtils;
 
     protected itemGroup: FormGroup;
@@ -49,12 +51,26 @@ export abstract class AbstractItemComponent implements OnChanges {
     protected isNew: boolean = false;
     protected isOpen: boolean = false;
 
+    private userAuthService: UserAuthService;
+
     /**
      * Creates an instance of the AbstractItem with the injected Services.
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
-    constructor(protected dialogService: DialogService) { }
+    constructor(protected dialogService: DialogService) {
+        this.userAuthService = ServiceLocator.injector.get(UserAuthService);
+    }
+
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            if (this.userAuthService.hasAuthorityToEditSite()) {
+                this.itemGroup.enable();
+            } else {
+                this.itemGroup.disable();
+            }
+        });
+    }
 
     /**
      * Get the index of the item.

@@ -37,7 +37,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     public siteLogForm: FormGroup;
 
     public siteInformationForm: FormGroup;
-    public hasEditRole: boolean = false;
     public responsiblePartyType: any = ResponsiblePartyType;
     public siteLogOrigin: ViewSiteLog;
     public siteLogModel: ViewSiteLog;
@@ -89,7 +88,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
         });
 
         this.authSubscription = this.setupAuthSubscription();
-        this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
         this.setupForm();
         this.loadSiteInfoData();
         this.setupSubscriptions();
@@ -133,7 +131,6 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
      */
     public ngOnDestroy() {
         this.isLoading = false;
-        this.hasEditRole = false;
         this.siteId = null;
         this.siteLogModel = null;
         this.siteIdentification = null;
@@ -292,8 +289,12 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     private setupAuthSubscription(): Subscription {
-        return this.userAuthService.userLoadededEvent.subscribe((user: User) => {
-            this.hasEditRole = this.userAuthService.hasAuthorityToEditSite(this.siteId);
+        return this.userAuthService.userLoadededEvent.subscribe((_: User) => {
+            if (this.userAuthService.hasAuthorityToEditSite()) {
+                this.siteLogForm.enable();
+            } else {
+                this.siteLogForm.disable();
+            }
         });
     }
 

@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl, FormControl } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
+import { UserAuthService } from '../shared/global/user-auth.service';
+
 /**
  * This class represents the SiteInfoComponent & SiteIdentification for viewing and editing the details of site/receiver/antenna.
  */
@@ -38,7 +40,10 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
     private siteLocation: any;
     private siteLocationOrig: any;
 
-    constructor(private formBuilder: FormBuilder, private changeDetectionRef: ChangeDetectorRef) {}
+    constructor(private userAuthService: UserAuthService,
+                private formBuilder: FormBuilder,
+                private changeDetectionRef: ChangeDetectorRef) {
+    }
 
     ngOnInit() {
         this.setupForm();
@@ -71,6 +76,11 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
             tectonicPlate: ['', [Validators.maxLength(100)]],
             notes: ['', [Validators.maxLength(2000)]],
         });
+        if (this.userAuthService.hasAuthorityToEditSite()) {
+            this.siteLocationForm.enable();
+        } else {
+            this.siteLocationForm.disable();
+        }
         this.siteInformationForm.addControl('siteLocation', this.siteLocationForm);
     }
 

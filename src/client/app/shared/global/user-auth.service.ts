@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router';
 import { UserManager, MetadataService, User } from 'oidc-client';
 import * as lodash from 'lodash';
 import { ConstantsService } from './constants.service';
@@ -26,7 +27,7 @@ export class UserAuthService {
     private userManager: UserManager;
     private currentUser: User;
 
-    constructor(private http: Http, private constantsService: ConstantsService) {
+    constructor(private http: Http, private router: Router, private constantsService: ConstantsService) {
         this.userManager = new UserManager({
             authority: this.constantsService.getOpenAMServerURL() + '/oauth2',
             client_id: 'GnssSiteManager',
@@ -90,7 +91,10 @@ export class UserAuthService {
         }
     }
 
-    public hasAuthorityToEditSite(siteId: string): boolean {
+    public hasAuthorityToEditSite(siteId?: string): boolean {
+        if (!siteId) {
+            siteId = this.router.routerState.snapshot.root.children[0].url[1].path;
+        }
         return this.hasAuthortiy('edit-' + siteId.toLowerCase());
     }
 
