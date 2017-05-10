@@ -57,7 +57,7 @@ export class AppComponent {
    */
   onRevert(event: any) {
     if (event) {
-      window.location.reload();
+        this.siteInfo.confirmRevert();
     }
   }
 
