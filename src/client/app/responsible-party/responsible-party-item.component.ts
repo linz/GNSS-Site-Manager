@@ -35,7 +35,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     }
 
     ngOnInit() {
-        this.isOpen = (this.total === 1);
+        this.isOpen = (this.index === 0);
         this.patchForm();
     }
 
