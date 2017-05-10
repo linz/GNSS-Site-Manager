@@ -4,7 +4,22 @@ import { MiscUtils } from '../shared/global/misc-utils';
 import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
- * This class represents the SiteInfoComponent & SiteIdentification for viewing and editing the details of site/receiver/antenna.
+ * This class represents the SiteLocation sub-component under the SiteInformation Component.
+ *
+ * Main fields of Site Location (from https://igscb.jpl.nasa.gov/igscb/station/general/blank.log):
+ *     City or Town             :
+ *     State or Province        :
+ *     Country                  :
+ *     Tectonic Plate           :
+ *     Approximate Position (ITRF)
+ *       X coordinate (m)       :
+ *       Y coordinate (m)       :
+ *       Z coordinate (m)       :
+ *       Latitude (N is +)      : (+/-DDMMSS.SS)
+ *       Longitude (E is +)     : (+/-DDDMMSS.SS)
+ *       Elevation (m,ellips.)  : (F7.1)
+ *     Additional Information   : (multiple lines)
+ *
  */
 @Component({
     moduleId: module.id,
