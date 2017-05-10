@@ -4,7 +4,29 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
- * This class represents the SiteInfoComponent & SiteIdentification for viewing and editing the details of site/receiver/antenna.
+ * This class represents the SiteIdentification sub-component under the SiteInformation Component.
+ *
+ * Main fields of Site Identification (from https://igscb.jpl.nasa.gov/igscb/station/general/blank.log):
+ * -----------------------------------------------------------------------------------------------------
+ *      Site Name                :
+ *      Four Character ID        : (A4)
+ *      Monument Inscription     :
+ *      IERS DOMES Number        : (A9)
+ *      CDP Number               : (A4)
+ *      Monument Description     : (PILLAR/BRASS PLATE/STEEL MAST/etc)
+ *        Height of the Monument : (m)
+ *        Monument Foundation    : (STEEL RODS, CONCRETE BLOCK, ROOF, etc)
+ *        Foundation Depth       : (m)
+ *      Marker Description       : (CHISELLED CROSS/DIVOT/BRASS NAIL/etc)
+ *      Date Installed           : (CCYY-MM-DDThh:mmZ)
+ *      Geologic Characteristic  : (BEDROCK/CLAY/CONGLOMERATE/GRAVEL/SAND/etc)
+ *        Bedrock Type           : (IGNEOUS/METAMORPHIC/SEDIMENTARY)
+ *        Bedrock Condition      : (FRESH/JOINTED/WEATHERED)
+ *        Fracture Spacing       : (1-10 cm/11-50 cm/51-200 cm/over 200 cm)
+ *        Fault zones nearby     : (YES/NO/Name of the zone)
+ *          Distance/activity    : (multiple lines)
+ *      Additional Information   : (multiple lines)
+ * -----------------------------------------------------------------------------------------------------------
  */
 @Component({
     moduleId: module.id,
