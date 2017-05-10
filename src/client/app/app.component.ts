@@ -47,13 +47,17 @@ export class AppComponent {
   }
 
   /**
-   * Invoke the loadSiteInfoData() method of SiteInfo c triggered by the "Revert" button on Toolbar component
+   * Event triggered by the "Revert" button on Toolbar component.
+   * Reload the page, discarding all user edits to the current record and refreshing it from the database.
+   * We had tried to simply restore the model from the database and make the UI pristine:
+   *     this.siteInfo.loadSiteInfoData();
+   * but there are too many known and unknown bugs with that approach so we go with this extreme solution.
    *
    * @event: boolean - true if the selected siteId is not null
    */
   onRevert(event: any) {
     if (event) {
-      this.siteInfo.loadSiteInfoData();
+      window.location.reload();
     }
   }
 
