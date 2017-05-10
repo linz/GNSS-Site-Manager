@@ -104,7 +104,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             this.goToHomePage();
         }
 
-        console.log('---------> SiteInfoComponent - Load / Revert ------------------------');
+        console.log('---------> SiteInfoComponent - Load ------------------------');
         this.isLoading = true;
         this.submitted = false;
 
