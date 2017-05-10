@@ -50,6 +50,13 @@ export abstract class AbstractItemComponent implements OnChanges {
     protected isOpen: boolean = false;
 
     /**
+     * Creates an instance of the AbstractItem with the injected Services.
+     *
+     * @param {DialogService} dialogService - The injected DialogService.
+     */
+    constructor(protected dialogService: DialogService) { }
+
+    /**
      * Get the index of the item.
      */
     getIndex(): number {
@@ -87,13 +94,6 @@ export abstract class AbstractItemComponent implements OnChanges {
      * @return array of AbstractControl objects
      */
     abstract getFormControls(): ItemControls;
-
-    /**
-     * Creates an instance of the AbstractItem with the injected Services.
-     *
-     * @param {DialogService} dialogService - The injected DialogService.
-     */
-    constructor(protected dialogService: DialogService) { }
 
     /**
      * Deteect changes in @Inputs and delegate to handlers
