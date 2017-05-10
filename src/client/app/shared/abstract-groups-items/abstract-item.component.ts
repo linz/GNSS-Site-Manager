@@ -50,6 +50,7 @@ export abstract class AbstractItemComponent implements OnChanges, AfterViewInit 
 
     protected isNew: boolean = false;
     protected isOpen: boolean = false;
+    private _isDeleted: boolean = false;
 
     private userAuthService: UserAuthService;
 
@@ -64,12 +65,28 @@ export abstract class AbstractItemComponent implements OnChanges, AfterViewInit 
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            if (this.userAuthService.hasAuthorityToEditSite()) {
+            if (this.isEditable()) {
                 this.itemGroup.enable();
             } else {
                 this.itemGroup.disable();
             }
         });
+    }
+
+    isEditable(): boolean {
+        return this.userAuthService.hasAuthorityToEditSite();
+    }
+
+    isDeleteDisabled(): boolean {
+        return !this.isEditable() || this.isDeleted;
+    }
+
+    set isDeleted(f: boolean) {
+        this._isDeleted = f;
+    }
+
+    get isDeleted(): boolean {
+        return this._isDeleted;
     }
 
     /**
@@ -253,6 +270,7 @@ export abstract class AbstractItemComponent implements OnChanges, AfterViewInit 
      *  Mark an item for deletion using the specified reason.
      */
     private deleteItem(index: number, deleteReason : string): void {
+        this.isDeleted = true;
         let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
     }
