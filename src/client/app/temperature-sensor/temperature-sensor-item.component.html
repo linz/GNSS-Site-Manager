@@ -11,7 +11,7 @@
             (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
         </span>
         <span class="pull-right" [ngClass]="{'hidden-xs': temperatureSensor.dateDeleted}">
-          <button [disabled]="temperatureSensor.dateDeleted"
+            <button [disabled]="isDeleteDisabled()"
                   class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the temperature sensor"
                   (click)="removeItem(index)">
