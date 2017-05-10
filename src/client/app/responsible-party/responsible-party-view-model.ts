@@ -7,18 +7,14 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
     public individualName: string = '';
     public organisationName: string = '';
     public positionName: string = '';
-    public deliveryPoint1: string = '';
-    public deliveryPoint2: string = '';
+    public deliveryPoint: string = '';
     public city: string = '';
     public administrativeArea: string = '';
     public postalCode: string = '';
     public country: string = '';
-    public email1: string = '';
-    public email2: string = '';
-    public phone1: string = '';
-    public phone2: string = '';
-    public fax1: string = '';
-    public fax2: string = '';
+    public email: string = '';
+    public phone: string = '';
+    public fax: string = '';
 
     /**
      * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
@@ -37,10 +33,7 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
 
         this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/address/ciAddress/deliveryPoint/0/' +
             'characterString/gco:CharacterString',
-            'string', '/deliveryPoint1', 'string');
-        this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/address/ciAddress/deliveryPoint/1/' +
-            'characterString/gco:CharacterString',
-            'string', '/deliveryPoint2', 'string');
+            'string', '/deliveryPoint', 'string');
 
         this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/address/ciAddress/city/characterString/gco:CharacterString',
             'string', '/city', 'string');
@@ -53,24 +46,15 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
 
         this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/address/ciAddress/electronicMailAddress/0/' +
             'characterString/gco:CharacterString',
-            'string', '/email1', 'string');
-        this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/address/ciAddress/electronicMailAddress/1/' +
-            'characterString/gco:CharacterString',
-            'string', '/email2', 'string');
+            'string', '/email', 'string');
 
         this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/phone/ciTelephone/voice/0/' +
             'characterString/gco:CharacterString',
-            'string', '/phone1', 'string');
-        this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/phone/ciTelephone/voice/1/' +
-            'characterString/gco:CharacterString',
-            'string', '/phone2', 'string');
+            'string', '/phone', 'string');
 
         this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/phone/ciTelephone/facsimile/0/' +
             'characterString/gco:CharacterString',
-            'string', '/fax1', 'string');
-        this.addFieldMapping('/ciResponsibleParty/contactInfo/ciContact/phone/ciTelephone/facsimile/1/' +
-            'characterString/gco:CharacterString',
-            'string', '/fax2', 'string');
+            'string', '/fax', 'string');
     };
 
     /**

@@ -7,7 +7,17 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 import { DialogService } from '../shared/global/dialog.service';
 
 /**
- * This component represents a single Temperature Sensor.
+ * This component represents a single responsible party.
+ *
+ * CI Address
+ * ------------------------------------------------------------------------
+ * 	deliveryPoint 	        0..*    Street address
+ * 	city 	                0..1
+ * 	administrativeArea 	    0..1 	State or provence
+ * 	postalCode 	            0..1 	Zip code
+ * 	country 	            0..1
+ * 	electronicMailAddress 	0..* 	Email
+ * ------------------------------------------------------------------------
  */
 @Component({
     moduleId: module.id,
@@ -73,18 +83,14 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {individualName: new FormControl('')},//, [Validators.required, Validators.minLength(100)]],
             {organisationName: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
             {positionName: new FormControl('')},
-            {deliveryPoint1: new FormControl('')},
-            {deliveryPoint2: new FormControl('')},
+            {deliveryPoint: new FormControl('')},
             {city: new FormControl('')},
             {administrativeArea: new FormControl('')},//, [Validators.required]],
             {postalCode: new FormControl('')},
             {country: new FormControl('')}, //, [Validators.maxLength(2000)]],
-            {email1: new FormControl('')},
-            {email2: new FormControl('')},
-            {phone1: new FormControl('')},
-            {phone2: new FormControl('')},
-            {fax1: new FormControl('')},
-            {fax2: new FormControl('')},
+            {email: new FormControl('')},
+            {phone: new FormControl('')},
+            {fax: new FormControl('')},
             {fieldMaps: new FormControl('')},
             {dateDeleted: new FormControl('')},
             {dateInserted: new FormControl('')},
