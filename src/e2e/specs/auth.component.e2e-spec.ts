@@ -19,10 +19,8 @@ describe('Authorization/Authentication', () => {
         element(by.cssContainingText('span', 'Site Identification')).click();
 
         // find the fourCharacterID input field and check if it is editable (it shouldn't be)
-        let fourCharacterId = element(by.css('text-input[controlname="fourCharacterID"]'));
-
-        // TODO: uncomment when disabling of fields is implemented
-        // expect(fourCharacterId.isEnabled()).toBe(false);
+        let fourCharacterId = element(by.xpath('//text-input[@controlname="fourCharacterID"]//input'));
+        expect(fourCharacterId.isEnabled()).toBe(false);
     });
 
     // this test logs in using OpenAM, a non-angular page and then returns to our app
@@ -54,8 +52,6 @@ describe('Authorization/Authentication', () => {
                 );
         }, 20000);
 
-        loadRoot();
-
         // wait maximum of 20 secs to return to the search page
         // TODO - check this non-functional requirement as I just made it up
         browser.driver.wait(function() {
@@ -79,7 +75,7 @@ describe('Authorization/Authentication', () => {
         element(by.cssContainingText('span', 'Site Identification')).click();
 
         // find the fourCharacterID input field and check if it is editable (it should be)
-        let fourCharacterId = element(by.css('text-input[controlname="fourCharacterID"]'));
+        let fourCharacterId = element(by.xpath('//text-input[@controlname="fourCharacterID"]//input'));
         expect(fourCharacterId.isEnabled()).toBe(true);
     });
 });
