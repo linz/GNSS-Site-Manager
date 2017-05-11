@@ -11,7 +11,6 @@ export const newItemShouldNotBeBlank: boolean = false;
 
 export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
     isGroupOpen: boolean = false;
-    hasGroupANewItem: boolean = false;
 
     miscUtils: any = MiscUtils;
     protected groupArrayForm: FormArray;
@@ -113,10 +112,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
 
     getIsGroupOpen(): boolean {
         return this.isGroupOpen;
-    }
-
-    getHasGroupANewItem(): boolean {
-        return this.hasGroupANewItem;
     }
 
     /**
