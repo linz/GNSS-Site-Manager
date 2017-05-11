@@ -1,5 +1,5 @@
 import { JsonPointerService } from '../json-pointer/json-pointer.service';
-import { FieldMaps } from './field-maps';
+import { FieldMap } from './field-maps';
 import { TypedPointer } from './typed-pointer';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 
@@ -14,7 +14,7 @@ export class DataViewTranslatorService {
    * fieldMappings.viewModel
    * @param fieldMappings to/from data and view
    */
-  static translateD2V<T extends AbstractViewModel>(dataModel: any, viewModel: T, fieldMappings: FieldMaps): void {
+  static translateD2V<T extends AbstractViewModel>(dataModel: any, viewModel: T, fieldMappings: FieldMap[]): void {
       DataViewTranslatorService.translate(dataModel, viewModel, fieldMappings, false);
   }
 
@@ -25,7 +25,7 @@ export class DataViewTranslatorService {
    * fieldMappings.dataModel
    * @param fieldMappings to/from data and view
    */
-  static translateV2D<T extends AbstractViewModel>(viewModel: T, dataModel: any, fieldMappings: FieldMaps): any {
+  static translateV2D<T extends AbstractViewModel>(viewModel: T, dataModel: any, fieldMappings: FieldMap[]): any {
       DataViewTranslatorService.translate(viewModel, dataModel, fieldMappings, true);
   }
 
@@ -38,8 +38,8 @@ export class DataViewTranslatorService {
    * @param writeViewToData - if false then write source data model to target view model (pass source, target appropriately);
    *                        if true then write source view model to target data model (pass source, target appropriately);
    */
-  static translate(source: any, target: any, fieldMappings: FieldMaps, writeViewToData: boolean = false) {
-      for (let fieldMap of fieldMappings.fieldMaps) {
+  static translate(source: any, target: any, fieldMappings: FieldMap[], writeViewToData: boolean = false) {
+      for (let fieldMap of fieldMappings) {
           // View and Data references currently retained from original translate context
           let sourceTypedPointer: TypedPointer;
           let targetTypedPointer: TypedPointer;
