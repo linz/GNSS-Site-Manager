@@ -1,20 +1,18 @@
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { DataViewTranslatorService, doWriteViewToData } from './data-view-translator';
+import { DataViewTranslatorService, doWriteViewToData, FieldMap } from './data-view-translator';
 import { JsonViewModelServiceSpecData } from './json-view-model.service.spec.data';
-import { FieldMaps } from './field-maps';
 import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
 
 export function main() {
   let completeValidSitelog: any = JsonViewModelServiceSpecData.data();
-  let fieldMappings: FieldMaps = new HumiditySensorViewModel().getFieldMaps();
+  let fieldMappings: FieldMap[] = new HumiditySensorViewModel().getFieldMaps();
 
   describe('Json view translator service', () => {
 
     it('should be defined', () => {
       expect(completeValidSitelog).toBeDefined();
       expect(fieldMappings).toBeDefined();
-      expect(fieldMappings.fieldMaps).toBeDefined();
-      expect(fieldMappings.fieldMaps.length).toBeGreaterThan(0);
+      expect(fieldMappings.length).toBeGreaterThan(0);
     });
 
     it('should translate d2v for humiditySensors', () => {
