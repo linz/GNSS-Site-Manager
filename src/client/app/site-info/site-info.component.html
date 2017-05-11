@@ -11,7 +11,7 @@
                             Site Information
                         </span>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" [hidden]="!isGroupOpen">
                         <site-identification [siteInformationForm]="siteInformationForm"
                                              [siteLogModel]="siteLogModel"
                                              [originalSiteLogModel]="siteLogOrigin">
