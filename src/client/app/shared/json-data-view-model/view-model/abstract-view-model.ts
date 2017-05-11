@@ -1,5 +1,4 @@
-import { FieldMap } from '../field-maps';
-import { TypedPointer } from '../typed-pointer';
+import { FieldMap, TypedPointer } from './../data-view-translator';
 import { MiscUtils } from '../../global/misc-utils';
 
 export const dontSetDetfaults: boolean = false;

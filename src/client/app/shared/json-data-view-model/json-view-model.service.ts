@@ -12,8 +12,7 @@ import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-
 import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-party-view-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
-import { DataViewTranslatorService, doWriteViewToData } from './data-view-translator';
-import { FieldMap } from './field-maps';
+import { DataViewTranslatorService, doWriteViewToData, FieldMap } from './data-view-translator';
 import { SiteIdentificationMappings } from '../../site-info/site-identification.mapping';
 import { SiteLocationMappings } from '../../site-info/site-location.mapping';
 

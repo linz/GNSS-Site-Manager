@@ -1,9 +1,37 @@
 import { JsonPointerService } from '../json-pointer/json-pointer.service';
-import { FieldMap } from './field-maps';
-import { TypedPointer } from './typed-pointer';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 
 export const doWriteViewToData: boolean = true;
+
+/**
+ * Tuple to assist in mapping data model to view model by defining one side of the relationship
+ * pointer - Json Pointer path
+ * type - type of the data defined at that path
+ */
+export class TypedPointer {
+  pointer: string;
+  type: string;
+
+  constructor(pointer: string, type: string) {
+    this.pointer = pointer;
+    this.type = type;
+  }
+}
+
+/**
+ * Mapping to assist in mapping data model to view model by linking both sides.
+ * A collection of these defines a complete (for the application) or partial (for just one or a few sections of data)
+ * mapping to translate one of view or data model to the other.
+ */
+export class FieldMap {
+  dataTypedPointer: TypedPointer;
+  viewTypedPointer: TypedPointer;
+
+  constructor(dataTypedPointer: TypedPointer, viewTypedPointer: TypedPointer) {
+    this.dataTypedPointer = dataTypedPointer;
+    this.viewTypedPointer = viewTypedPointer;
+  }
+}
 
 export class DataViewTranslatorService {
 
