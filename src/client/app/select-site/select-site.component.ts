@@ -32,7 +32,7 @@ export class SelectSiteComponent implements OnInit {
   /**
    * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.
    *
-   * @param {Router} router - The injected Router for switching between select-site and site-info pages.
+   * @param {Router} router - The injected Router for switching between select-site and site-log pages.
    * @param {CorsSiteService} corsSiteService - The injected CorsSiteService.
    * @param {DialogService} dialogService - The injected DialogService.
    * @param {ServiceWorkerService} serviceWorkerService - service interface to the Service Worker
@@ -108,7 +108,7 @@ export class SelectSiteComponent implements OnInit {
    */
   public selectSite(site: any) {
     this.selectedSite = site;
-    let link = ['/siteInfo', site.fourCharacterId];
+    let link = ['/siteLog', site.fourCharacterId];
     this.router.navigate(link);
   }
 

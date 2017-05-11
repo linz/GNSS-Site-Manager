@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
-import { SiteInfoComponent } from './site-info.component';
+import { SiteLogComponent } from './site-log.component';
 import { SiteIdentificationComponent } from './site-identification.component';
 import { SiteLocationComponent } from './site-location.component';
-import { SiteInfoRoutingModule } from './site-info-routing.module';
-import { ConfirmDeactivateSiteInfoGuard } from './site-info-deactivate.module';
+import { SiteLogRoutingModule } from './site-log-routing.module';
+import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
 import { ResponsiblePartyModule } from '../responsible-party/responsible-party.module';
 import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
 import { GnssAntennaModule } from '../gnss-antenna/gnss-antenna.module';
@@ -20,7 +20,7 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
 
 @NgModule({
   imports: [
-    SiteInfoRoutingModule,
+    SiteLogRoutingModule,
     CommonModule,
     SharedModule,
     ResponsiblePartyModule,
@@ -35,11 +35,11 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
     WaterVaporSensorModule,
     DynamicFormFieldsModule
   ],
-  declarations: [SiteInfoComponent, SiteIdentificationComponent, SiteLocationComponent],
-  exports: [SiteInfoComponent, SiteIdentificationComponent, SiteLocationComponent],
+  declarations: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
+  exports: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
   providers: [
-    ConfirmDeactivateSiteInfoGuard,
+    ConfirmDeactivateSiteLogGuard,
   ],
 })
 
-export class SiteInfoModule { }
+export class SiteLogModule { }

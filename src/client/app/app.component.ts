@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, MiscUtils,
          JsonDiffService, JsonCheckService, JsonPointerService, ServiceWorkerService,
          JsonixService } from './shared/index';
-import { SiteInfoComponent } from './site-info/site-info.component';
+import { SiteLogComponent } from './site-log/site-log.component';
 import { JsonViewModelService } from './shared/json-data-view-model/json-view-model.service';
 
 /**
@@ -21,7 +21,7 @@ import { JsonViewModelService } from './shared/json-data-view-model/json-view-mo
     JsonixService,
     ServiceWorkerService,
     SiteLogService,
-    SiteInfoComponent,
+    SiteLogComponent,
     JsonDiffService,
     JsonCheckService,
     JsonPointerService,
@@ -31,18 +31,18 @@ import { JsonViewModelService } from './shared/json-data-view-model/json-view-mo
   styleUrls: ['app.component.css'],
 })
 export class AppComponent {
-  constructor(private siteInfo: SiteInfoComponent, private viewContainerRef: ViewContainerRef, private router: Router) {
+  constructor(private siteLogComponent: SiteLogComponent, private viewContainerRef: ViewContainerRef, private router: Router) {
     console.log('Environment config', Config);
   }
 
   /**
-   * Invoke the save() method of SiteInfo component triggered by the "Save" button on Toolbar component
+   * Invoke the save() method of SiteLog component triggered by the "Save" button on Toolbar component
    *
    * @event: boolean - true if the selected siteId is not null
    */
   onSave(event: any) {
     if (event) {
-      this.siteInfo.save(null);
+      this.siteLogComponent.save(null);
     }
   }
 
@@ -50,30 +50,30 @@ export class AppComponent {
    * Event triggered by the "Revert" button on Toolbar component.
    * Reload the page, discarding all user edits to the current record and refreshing it from the database.
    * We had tried to simply restore the model from the database and make the UI pristine:
-   *     this.siteInfo.loadSiteInfoData();
+   *     this.siteLogComponent.loadSiteLogData();
    * but there are too many known and unknown bugs with that approach so we go with this extreme solution.
    *
    * @event: boolean - true if the selected siteId is not null
    */
   onRevert(event: any) {
     if (event) {
-        this.siteInfo.confirmRevert();
+        this.siteLogComponent.confirmRevert();
     }
   }
 
   /**
-   * Invoke the goToHomePage() method of SiteInfo component triggered by the "Close" button on Toolbar component
+   * Invoke the goToHomePage() method of SiteLog component triggered by the "Close" button on Toolbar component
    *
    * @event: boolean - true if the selected siteId is not null
    */
   onClose(event: any) {
     if (event) {
-      this.siteInfo.goToHomePage();
+      this.siteLogComponent.goToHomePage();
     }
   }
 
   onActivate(event: any) {
-    this.siteInfo = event;
+    this.siteLogComponent = event;
     localStorage.setItem('routerUrl', this.router.url);
   }
 }
