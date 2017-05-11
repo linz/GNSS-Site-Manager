@@ -1,5 +1,6 @@
-import { EventEmitter, Input, Output, OnChanges, AfterViewInit, SimpleChange, Injector } from '@angular/core';
+import { EventEmitter, Input, Output, OnChanges, AfterViewInit, SimpleChange } from '@angular/core';
 import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
@@ -19,7 +20,7 @@ export interface ItemControl {
     [name: string]: AbstractControl;
 }
 
-export abstract class AbstractItemComponent implements OnChanges, AfterViewInit {
+export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnChanges, AfterViewInit {
     protected miscUtils: any = MiscUtils;
 
     protected itemGroup: FormGroup;
@@ -52,15 +53,13 @@ export abstract class AbstractItemComponent implements OnChanges, AfterViewInit 
     protected isOpen: boolean = false;
     private _isDeleted: boolean = false;
 
-    private userAuthService: UserAuthService;
-
     /**
      * Creates an instance of the AbstractItem with the injected Services.
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
     constructor(protected dialogService: DialogService) {
-        this.userAuthService = ServiceLocator.injector.get(UserAuthService);
+        super();
     }
 
     ngAfterViewInit(): void {
@@ -73,12 +72,8 @@ export abstract class AbstractItemComponent implements OnChanges, AfterViewInit 
         });
     }
 
-    isEditable(): boolean {
-        return this.userAuthService.hasAuthorityToEditSite();
-    }
-
     isDeleteDisabled(): boolean {
-        return !this.isEditable() || this.isDeleted;
+        return !super.isEditable() || this.isDeleted;
     }
 
     set isDeleted(f: boolean) {

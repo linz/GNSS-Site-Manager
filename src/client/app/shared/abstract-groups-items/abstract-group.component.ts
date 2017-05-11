@@ -1,5 +1,6 @@
 import { Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
@@ -9,7 +10,7 @@ export const sortingDirectionAscending: boolean = false;
 export const newItemShouldBeBlank: boolean = true;
 export const newItemShouldNotBeBlank: boolean = false;
 
-export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
+export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent {
     isGroupOpen: boolean = false;
 
     miscUtils: any = MiscUtils;
@@ -73,6 +74,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> {
     }
 
     constructor(protected formBuilder: FormBuilder) {
+        super();
     }
 
     /**
