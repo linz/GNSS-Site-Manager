@@ -11,7 +11,6 @@ export function main() {
   describe('Json view translator service', () => {
 
     it('should be defined', () => {
-      // expect(dataViewTranslatorService).toBeDefined();
       expect(completeValidSitelog).toBeDefined();
       expect(fieldMappings).toBeDefined();
       expect(fieldMappings.fieldMaps).toBeDefined();
@@ -29,6 +28,7 @@ export function main() {
 
       expect(firstHSV).toBeDefined();
 
+      expect(firstHSV.accuracyPercentRelativeHumidity).not.toBeNull();
       expect(firstHSV.accuracyPercentRelativeHumidity).toEqual(firstHSD.humiditySensor.accuracyPercentRelativeHumidity);
       expect(firstHSV.aspiration).toEqual(firstHSD.humiditySensor.aspiration);
       expect(firstHSV.dataSamplingInterval).toEqual(firstHSD.humiditySensor.dataSamplingInterval);
@@ -46,7 +46,7 @@ export function main() {
     it('should translate v2d for humiditySensors', () => {
       let humiditySensorsData: any = new SiteLogDataModel(completeValidSitelog).humiditySensors;
       expect(humiditySensorsData).toBeDefined();
-      let firstHSD: any = humiditySensorsData[0].humiditySensor;
+      let firstHSD: any = humiditySensorsData[0];
 
       let firstHSV: HumiditySensorViewModel = new HumiditySensorViewModel();
 
@@ -57,6 +57,7 @@ export function main() {
 
       expect(newHSD).toBeDefined();
 
+      expect(newHSD.humiditySensor.accuracyPercentRelativeHumidity).not.toBeNull();
       expect(newHSD.humiditySensor.accuracyPercentRelativeHumidity).toEqual(firstHSV.accuracyPercentRelativeHumidity);
       expect(newHSD.humiditySensor.aspiration).toEqual(firstHSV.aspiration);
       expect(newHSD.humiditySensor.dataSamplingInterval).toEqual(firstHSV.dataSamplingInterval);
@@ -71,7 +72,6 @@ export function main() {
       expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeNull();
     });
 
-    // now using (new) translate() method
       it('should translate d2v for humiditySensors using translate method', () => {
           let humiditySensorsData: any[] = new SiteLogDataModel(completeValidSitelog).humiditySensors;
           expect(humiditySensorsData).toBeDefined();
@@ -79,11 +79,11 @@ export function main() {
 
           let firstHSV: HumiditySensorViewModel = new HumiditySensorViewModel();
 
-          // DataViewTranslatorService.translateD2V(firstHSD, firstHSV, firstHSV.getFieldMaps());
           DataViewTranslatorService.translate(firstHSD, firstHSV, firstHSV.getFieldMaps()); // comment
 
           expect(firstHSV).toBeDefined();
 
+          expect(firstHSV.accuracyPercentRelativeHumidity).not.toBeNull();
           expect(firstHSV.accuracyPercentRelativeHumidity).toEqual(firstHSD.humiditySensor.accuracyPercentRelativeHumidity);
           expect(firstHSV.aspiration).toEqual(firstHSD.humiditySensor.aspiration);
           expect(firstHSV.dataSamplingInterval).toEqual(firstHSD.humiditySensor.dataSamplingInterval);
@@ -102,18 +102,18 @@ export function main() {
       it('should translate v2d for humiditySensors using translate method', () => {
           let humiditySensorsData: any = new SiteLogDataModel(completeValidSitelog).humiditySensors;
           expect(humiditySensorsData).toBeDefined();
-          let firstHSD: any = humiditySensorsData[0].humiditySensor;
+          let firstHSD: any = humiditySensorsData[0];
 
           let firstHSV: HumiditySensorViewModel = new HumiditySensorViewModel();
 
           DataViewTranslatorService.translateD2V(firstHSD, firstHSV, firstHSV.getFieldMaps());
 
           let newHSD: any = {};
-          // DataViewTranslatorService.translateV2D(firstHSV, newHSD, firstHSV.getFieldMaps());
           DataViewTranslatorService.translate(firstHSV, newHSD, firstHSV.getFieldMaps(), doWriteViewToData);
 
           expect(newHSD).toBeDefined();
 
+          expect(newHSD.humiditySensor.accuracyPercentRelativeHumidity).not.toBeNull();
           expect(newHSD.humiditySensor.accuracyPercentRelativeHumidity).toEqual(firstHSV.accuracyPercentRelativeHumidity);
           expect(newHSD.humiditySensor.aspiration).toEqual(firstHSV.aspiration);
           expect(newHSD.humiditySensor.dataSamplingInterval).toEqual(firstHSV.dataSamplingInterval);
