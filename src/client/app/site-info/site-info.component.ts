@@ -177,9 +177,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
          an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
         _.merge(this.siteLogModel, formValueClone);
 
-        let diffMsg: string = this.jsonDiffService.getJsonDiffHtml(this.siteLogOrigin, this.siteLogModel);
-
-        if (diffMsg === null || diffMsg.trim() === '') {
+        if (!this.isFormDirty()) {
             this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
             this.siteLogService.sendFormModifiedStateMessage(false);
             return;
