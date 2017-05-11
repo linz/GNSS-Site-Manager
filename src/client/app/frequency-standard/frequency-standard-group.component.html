@@ -9,6 +9,7 @@
     </span>
     <span class="pull-right">
       <button class="btn btn-similar btn-xs"
+              [disabled]="!isEditable()"
               title="Add a new {{getItemName()}}"
               (click)="addNew($event); miscUtils.showFullView($event);">
         <i class="glyphicon glyphicon-plus-sign"></i>
