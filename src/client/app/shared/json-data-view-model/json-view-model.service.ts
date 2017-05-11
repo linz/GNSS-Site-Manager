@@ -12,8 +12,7 @@ import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-
 import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-party-view-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
-import { DataViewTranslatorService, doWriteViewToData } from './data-view-translator';
-import { FieldMaps } from './field-maps';
+import { DataViewTranslatorService, doWriteViewToData, FieldMap } from './data-view-translator';
 import { SiteIdentificationMappings } from '../../site-info/site-identification.mapping';
 import { SiteLocationMappings } from '../../site-info/site-location.mapping';
 
@@ -138,9 +137,7 @@ export class JsonViewModelService {
      */
     private dataToViewModelItem<T extends AbstractViewModel>(dataModel: any, type: {new(): T ;}): T {
         let newViewModel: T = new type();
-        let fieldMappings: FieldMaps = newViewModel.getFieldMaps();
-        DataViewTranslatorService.translateD2V(dataModel, newViewModel, fieldMappings);
-
+        DataViewTranslatorService.translateD2V(dataModel, newViewModel, newViewModel.getFieldMaps());
         return newViewModel;
     }
 
@@ -153,7 +150,7 @@ export class JsonViewModelService {
     private viewToDataModel<T extends AbstractViewModel>(viewModels: T[]): any[] {
         let dataModels: any[] = [];
         for (let viewModel of viewModels) {
-            let fieldMappings: FieldMaps = (<T> viewModel).getFieldMaps();
+            let fieldMappings: FieldMap[] = (<T> viewModel).getFieldMaps();
             let dataModel: any = {};
             DataViewTranslatorService.translateV2D(viewModel, dataModel, fieldMappings);
             dataModels.push(dataModel);

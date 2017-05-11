@@ -1,5 +1,4 @@
-import { FieldMaps, FieldMap } from '../field-maps';
-import { TypedPointer } from '../typed-pointer';
+import { FieldMap, TypedPointer } from './../data-view-translator';
 import { MiscUtils } from '../../global/misc-utils';
 
 export const dontSetDetfaults: boolean = false;
@@ -12,9 +11,9 @@ export abstract class AbstractViewModel {
     /**
      * Mapping to/from Data and View model fields.  See createFieldMappings().
      */
-    private fieldMaps: FieldMaps;
+    private fieldMaps: FieldMap[] = [];
 
-    public getFieldMaps(): FieldMaps {
+    public getFieldMaps(): FieldMap[] {
         return this.fieldMaps;
     }
 
@@ -36,9 +35,6 @@ export abstract class AbstractViewModel {
      * @returns {FieldMaps}
      */
     addFieldMapping(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string): void {
-        if (!this.fieldMaps) {
-            this.fieldMaps = new FieldMaps();
-        }
         if (dataPath.length === 0 || dataPathType.length === 0 || viewPath.length === 0 || viewPathType.length === 0) {
             throw new Error('expecting 4 data items - dataPath, dataPathType, viewPath, viewPathType');
         }
@@ -46,7 +42,7 @@ export abstract class AbstractViewModel {
 
         let dataTypePointer: TypedPointer = new TypedPointer(dataPath, dataPathType);
         let viewTypePointer: TypedPointer = new TypedPointer(viewPath, viewPathType);
-        this.fieldMaps.add(new FieldMap(dataTypePointer, viewTypePointer));
+        this.fieldMaps.push(new FieldMap(dataTypePointer, viewTypePointer));
     }
 
     /**
