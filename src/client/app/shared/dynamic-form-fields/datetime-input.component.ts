@@ -1,4 +1,5 @@
-import { Component, ElementRef, HostListener, Input, OnInit, DoCheck, forwardRef } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit, DoCheck, forwardRef, SimpleChange, OnChanges,
+    ChangeDetectorRef} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, NG_VALIDATORS, FormControl, FormGroup } from '@angular/forms';
 import { AbstractGnssControls } from './abstract-gnss-controls';
 import { MiscUtils } from '../index';
@@ -17,6 +18,7 @@ export function dateTimeFormatValidator(control: FormControl): { [s: string]: an
     let displayFormattedValue: string = DatetimeInputComponent.formatTimeToDisplay(value, true);
     let formatStringMsg: string = 'Format: YYYY-MM-DD hh:mm:ss';
 
+    console.debug('dateTimeFormatValidator - in:  ', displayFormattedValue);
     if (displayFormattedValue && (displayFormattedValue.length === 0 || displayFormattedValue.match(validDisplayFormat))) {
         // Use a Validator.required if needed
         return null;
@@ -61,7 +63,7 @@ export function createDateTimeRequiredIfNotCurrentValidator(index: number) {
         // { provide: NG_VALIDATORS, useValue: dateTimeValidator, multi: true }
     ]
 })
-export class DatetimeInputComponent extends AbstractGnssControls implements OnInit, DoCheck, ControlValueAccessor {
+export class DatetimeInputComponent extends AbstractGnssControls implements OnInit, DoCheck, ControlValueAccessor, OnChanges {
     @Input() name: string = 'Date';
     @Input() required: boolean = false;
     @Input() requiredIfNotCurrent: boolean = false;
@@ -73,12 +75,13 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     public _datetime: string = '';
     public _datetimeLast: string = '';
+    public _datetimeDate: Date;
 
-    public datetimeModel: Date;
-
-    public hoursString: string = '00';
-    public minutesString: string = '00';
-    public secondsString: string = '00';
+    // public datetimeModel: Date;
+    //
+    // public hoursString: string = '00';
+    // public minutesString: string = '00';
+    // public secondsString: string = '00';
 
     public invalidHours: boolean = false;
     public invalidMinutes: boolean = false;
@@ -89,14 +92,14 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     public miscUtils: any = MiscUtils;
 
-    private _datetimeDisplay: string = '';
-    private _datetimeDisplayLast: string = '';
-    private hours: number = 0;
-    private minutes: number = 0;
-    private seconds: number = 0;
+    // private _datetimeDisplay: string = '';
+    // private _datetimeDisplayLast: string = '';
+    // private hours: number = 0;
+    // private minutes: number = 0;
+    // private seconds: number = 0;
 
-    private datetimeSuffix: string = '.000Z';
-    private datetimeLast: string = '';
+    // private datetimeSuffix: string = '.000Z';
+    // private datetimeLast: string = '';
 
     static formatTimeToDisplay(dateStr: string, returnAsIsUponFailure: boolean = false): string {
         let datetimeDisplay: string = '';
@@ -115,14 +118,16 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     public propagateTouch: Function = () => { };
     public validateFn: Function = () => { };
 
-    constructor(private elemRef: ElementRef) {
+    constructor(private elemRef: ElementRef, private changeDetectionRef : ChangeDetectorRef) {
         super();
+        // this._datetimeDate = new Date();
     }
 
     ngOnInit() {
         this.checkPreConditions();
         this.createValidators();
         super.setForm(this.form);
+        // this._datetimeDate = new Date();
     }
 
     validate(c: FormControl): any {
@@ -131,35 +136,62 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     ngDoCheck(): void {
         // If the @Input is changed externally, want to update the displayed date
-        if (this.datetimeLast !== this.datetime) {
-            this.datetimeLast = this.datetime;
-        }
+        // if (null && this.datetimeLast !== this.datetime) {
+        //     console.debug(`${this.controlName} - ngDoCheck - update this.datetimeLast (was ${this.datetimeLast}) to ${this.datetime}`)
+        //     this.datetimeLast = this.datetime;
+        // }
     }
 
-    set datetimeDisplay(dt: string) {
-        if (dt !== this._datetimeDisplayLast) {
-            this._datetimeDisplayLast = this._datetimeDisplay;
-            this._datetimeDisplay = dt;
-            this._datetime = this.formatDisplayToTime(dt);
-            this.propagateChange(this._datetime);
+    ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+        let log: string[] = [];
+        for (let propName in changes) {
+            let changedProp = changes[propName];
+            console.debug(`ngOnChanges - prop: ${propName}, value: ${changedProp.currentValue}`)
+            // if (changedProp.isFirstChange()) {
+            // if (propName === 'geodesyEvent') {
+            //     this.handleGeodesyEvents();
+            // }
+            // }
         }
     }
-
-    get datetimeDisplay() {
-        return this._datetimeDisplay;
-    }
+    // set datetimeDisplay(dt: string) {
+    //     if (null && dt !== this._datetimeDisplayLast) {
+    //         this._datetimeDisplayLast = this._datetimeDisplay;
+    //         this._datetimeDisplay = dt;
+    //         this._datetime = this.formatDisplayToTime(dt);
+    //         this.propagateChange(this._datetime);
+    //     }
+    // }
+    //
+    // get datetimeDisplay() {
+    //     return this._datetimeDisplay;
+    // }
 
     set datetime(dt: string) {
-        if (dt !== this._datetimeLast) {
-            this._datetimeLast = this._datetime;
-            this._datetime = dt;
-            this._datetimeDisplay = DatetimeInputComponent.formatTimeToDisplay(dt);
+        if (dt !== this._datetime) {
+            // The datePicker sets its ngModel to formats like 'Sun 24th may 2016' or the like.  Convert.
+            let d: Date = new Date(dt);
+            // d.setTime(dt);
+            let d2: string = this.getFormatDateToDatetimeString(d);
+            // let d2: string = '2000-08-23T00:00:00.000Z';
+            // this._datetimeLast = dt;    //this._datetime;
+            this._datetime = d2;
+            this._datetimeDate = d;
+            console.debug(`${this.controlName} - set datetime - set to ${d2}, _datetimeDate is ${this._datetimeDate} - _datetimeLast is ${this._datetimeLast}`)
+            // this._datetimeDisplay = DatetimeInputComponent.formatTimeToDisplay(dt);
+            // this.datetimeModel = new Date();
             this.propagateChange(this._datetime);
-            this.updateCalendar();
+            // this.form.markAsTouched();//markAsTouched();// patchValue({controlName: this._datetime});
+            // this.updateCalendar();
+            // console.debug(`${this.controlName} - END set datetime - set to ${dt} - _datetimeLast is ${this._datetimeLast}`)
+        } else {
+            console.debug(`${this.controlName} - set datetime - not setting as same`);
         }
+
     }
 
     get datetime(): string {
+        // console.debug(`${this.controlName} - get dateTime: ${this._datetime}`);
         return this._datetime;
     }
 
@@ -171,6 +203,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     writeValue(value: string) {
         if (value) {
+            // console.debug(`${this.controlName} - writeValue ${value} - _datetime is ${this._datetime}`)
             this.datetime = value;
         }
     }
@@ -205,7 +238,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
                     isInside = true;
                     break;
                 } else if (clickedComponent.type && clickedComponent.type === 'button'
-                        && clickedComponent.tabIndex && clickedComponent.tabIndex === -1) {
+                    && clickedComponent.tabIndex && clickedComponent.tabIndex === -1) {
                     isInside = true;
                     break;
                 }
@@ -219,156 +252,200 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     /**
      * Set the selected datetime value to the datetime model when users click on the OK button
      */
-    public setSelectedDatetime(): void {
-        if (this.invalidHours || this.invalidMinutes || this.invalidSeconds) {
-            return;
-        }
-
-        this.showDatetimePicker = false;
-        this.datetimeModel.setHours(this.hours);
-        this.datetimeModel.setMinutes(this.minutes);
-        this.datetimeModel.setSeconds(this.seconds);
-        this.emitOutputDatetime();
-        this.hasChanges = true;
-    }
+    // public setSelectedDatetime(): void {
+    //     if (this.invalidHours || this.invalidMinutes || this.invalidSeconds) {
+    //         return;
+    //     }
+    //
+    //     this.showDatetimePicker = false;
+    //     this.datetimeModel.setHours(this.hours);
+    //     this.datetimeModel.setMinutes(this.minutes);
+    //     this.datetimeModel.setSeconds(this.seconds);
+    //     this.emitOutputDatetime();
+    //     this.hasChanges = true;
+    // }
 
     /**
      * Cancel the selected datetime value and close the popup
      */
-    public cancelSelectedDatetime(event: any): void {
-        this.updateCalendar();
-        this.showDatetimePicker = false;
-    }
+    // public cancelSelectedDatetime(event: any): void {
+    //     this.updateCalendar();
+    //     this.showDatetimePicker = false;
+    // }
 
     /**
      * Update the datetime model when users select a date on calendar
      */
     public updateDate(event: any): void {
-        this.datetimeModel = event;
+        let d: Date = new Date(String(event));
+        this.datetime = this.getFormatDateToDatetimeString(d);  // String(event);  //
+        console.debug(`updateDate to ${d} - dateTime is now: ${this.datetime}`);
     }
 
     /**
      * Update the calendar and datetime model in response to direct changes made in the input box
      */
-    public updateCalendar(): void {
-        let newDate: Date = this.convertStringToDate(this.datetimeDisplay);
-        if (newDate === null) {
-            this.datetimeModel = new Date();
-        } else {
-            this.datetimeModel = newDate;
-        }
-        this.hours = this.datetimeModel.getHours();
-        this.minutes = this.datetimeModel.getMinutes();
-        this.seconds = this.datetimeModel.getSeconds();
-        this.updateTimeStrings();
+    /*    public updateCalendar(): void {
+     let newDate: Date = this.convertStringToDate(this.datetimeDisplay);
+     if (newDate === null) {
+     this.datetimeModel = new Date();
+     } else {
+     this.datetimeModel = newDate;
+     }
+     this.hours = this.datetimeModel.getHours();
+     this.minutes = this.datetimeModel.getMinutes();
+     this.seconds = this.datetimeModel.getSeconds();
+     this.updateTimeStrings();
+     }
+
+     public updateHours(): void {
+     this.hours = this.toInteger(this.hoursString, 0, 23);
+     if (this.hours === null) {
+     this.invalidHours = true;
+     this.hours = 0;
+     } else {
+     this.invalidHours = false;
+     this.updateTimeStrings();
+     }
+     }
+
+     public updateMinutes(): void {
+     this.minutes = this.toInteger(this.minutesString, 0, 59);
+     if (this.minutes === null) {
+     this.invalidMinutes = true;
+     this.minutes = 0;
+     } else {
+     this.invalidMinutes = false;
+     this.updateTimeStrings();
+     }
+     }
+
+     public updateSeconds(): void {
+     this.seconds = this.toInteger(this.secondsString, 0, 59);
+     if (this.seconds === null) {
+     this.invalidSeconds = true;
+     this.seconds = 0;
+     } else {
+     this.invalidSeconds = false;
+     this.updateTimeStrings();
+     }
+     }*/
+
+    public getHours(): number {
+        let d: Date = new Date(this.datetime);
+        return d.getHours();
     }
 
-    public updateHours(): void {
-        this.hours = this.toInteger(this.hoursString, 0, 23);
-        if (this.hours === null) {
-            this.invalidHours = true;
-            this.hours = 0;
-        } else {
-            this.invalidHours = false;
-            this.updateTimeStrings();
-        }
+    public getMinutes(): number {
+        let d: Date = new Date(this.datetime);
+        return d.getMinutes();
     }
 
-    public updateMinutes(): void {
-        this.minutes = this.toInteger(this.minutesString, 0, 59);
-        if (this.minutes === null) {
-            this.invalidMinutes = true;
-            this.minutes = 0;
-        } else {
-            this.invalidMinutes = false;
-            this.updateTimeStrings();
-        }
-    }
-
-    public updateSeconds(): void {
-        this.seconds = this.toInteger(this.secondsString, 0, 59);
-        if (this.seconds === null) {
-            this.invalidSeconds = true;
-            this.seconds = 0;
-        } else {
-            this.invalidSeconds = false;
-            this.updateTimeStrings();
-        }
+    public getSeconds(): number {
+        let d: Date = new Date(this.datetime);
+        return d.getSeconds();
     }
 
     public incrementHours(): void {
-        this.hours += 1;
-        if (this.hours > 23) {
-            this.hours = 0;
-        } else if (this.hours < 0) {
-            this.hours = 23;
+        let d: Date = new Date(this.datetime);
+        let hours: number = d.getHours();
+        hours++;
+        if (hours > 23) {
+            hours = 0;
+        } else if (hours < 0) {
+            hours = 23;
         }
-        this.invalidHours = false;
-        this.updateTimeStrings();
+        d.setHours(hours);
+        this.datetime = this.getFormatDateToDatetimeString(d);
+        console.debug(`incrementHours to ${d} - dateTime is now: ${this.datetime}`);
     }
 
     public decrementHours(): void {
-        this.hours -= 1;
-        if (this.hours > 23) {
-            this.hours = 0;
-        } else if (this.hours < 0) {
-            this.hours = 23;
+        let d: Date = new Date(this.datetime);
+        let hours: number = d.getHours();
+        hours--;
+        if (hours > 23) {
+            hours = 0;
+        } else if (hours < 0) {
+            hours = 23;
         }
-        this.invalidHours = false;
-        this.updateTimeStrings();
+        d.setHours(hours);
+        this.datetime = this.getFormatDateToDatetimeString(d);
+        console.debug(`incrementHours to ${d} - dateTime is now: ${this.datetime}`);
     }
 
-    public incrementMinutes(): void {
-        this.minutes += 1;
-        if (this.minutes > 59) {
-            this.minutes = 0;
-            this.incrementHours();
-        } else if (this.minutes < 0) {
-            this.minutes = 59;
-            this.decrementHours();
-        }
-        this.invalidMinutes = false;
-        this.updateTimeStrings();
-    }
+    /*       this.hours += 1;
+     if (this.hours > 23) {
+     this.hours = 0;
+     } else if (this.hours < 0) {
+     this.hours = 23;
+     }
+     this.invalidHours = false;
+     this.updateTimeStrings();
+     }
 
-    public decrementMinutes(): void {
-        this.minutes -= 1;
-        if (this.minutes > 59) {
-            this.minutes = 0;
-            this.incrementHours();
-        } else if (this.minutes < 0) {
-            this.minutes = 59;
-            this.decrementHours();
-        }
-        this.invalidMinutes = false;
-        this.updateTimeStrings();
-    }
+     public decrementHours(): void {
+     this.hours -= 1;
+     if (this.hours > 23) {
+     this.hours = 0;
+     } else if (this.hours < 0) {
+     this.hours = 23;
+     }
+     this.invalidHours = false;
+     this.updateTimeStrings();
+     }
 
-    public incrementSeconds(): void {
-        this.seconds += 1;
-        if (this.seconds > 59) {
-            this.seconds = 0;
-            this.incrementMinutes();
-        } else if (this.seconds < 0) {
-            this.seconds = 59;
-            this.decrementMinutes();
-        }
-        this.invalidSeconds = false;
-        this.updateTimeStrings();
-    }
+     public incrementMinutes(): void {
+     this.minutes += 1;
+     if (this.minutes > 59) {
+     this.minutes = 0;
+     this.incrementHours();
+     } else if (this.minutes < 0) {
+     this.minutes = 59;
+     this.decrementHours();
+     }
+     this.invalidMinutes = false;
+     this.updateTimeStrings();
+     }
 
-    public decrementSeconds(): void {
-        this.seconds -= 1;
-        if (this.seconds > 59) {
-            this.seconds = 0;
-            this.incrementMinutes();
-        } else if (this.seconds < 0) {
-            this.seconds = 59;
-            this.decrementMinutes();
-        }
-        this.invalidSeconds = false;
-        this.updateTimeStrings();
-    }
+     public decrementMinutes(): void {
+     this.minutes -= 1;
+     if (this.minutes > 59) {
+     this.minutes = 0;
+     this.incrementHours();
+     } else if (this.minutes < 0) {
+     this.minutes = 59;
+     this.decrementHours();
+     }
+     this.invalidMinutes = false;
+     this.updateTimeStrings();
+     }
+
+     public incrementSeconds(): void {
+     this.seconds += 1;
+     if (this.seconds > 59) {
+     this.seconds = 0;
+     this.incrementMinutes();
+     } else if (this.seconds < 0) {
+     this.seconds = 59;
+     this.decrementMinutes();
+     }
+     this.invalidSeconds = false;
+     this.updateTimeStrings();
+     }
+
+     public decrementSeconds(): void {
+     this.seconds -= 1;
+     if (this.seconds > 59) {
+     this.seconds = 0;
+     this.incrementMinutes();
+     } else if (this.seconds < 0) {
+     this.seconds = 59;
+     this.decrementMinutes();
+     }
+     this.invalidSeconds = false;
+     this.updateTimeStrings();
+     }*/
 
     public isRequired() : boolean {
         return this.required || (this.requiredIfNotCurrent && this.index[0] !== 0);
@@ -377,64 +454,111 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     /**
      * Update hour/minute/second time strings in response to any changes in hours, minutes, and seconds.
      */
-    private updateTimeStrings() {
-        this.hoursString = this.padTwo(this.hours);
-        this.minutesString = this.padTwo(this.minutes);
-        this.secondsString = this.padTwo(this.seconds);
-    }
+    // private updateTimeStrings() {
+    //     this.hoursString = this.padTwo(this.hours);
+    //     this.minutesString = this.padTwo(this.minutes);
+    //     this.secondsString = this.padTwo(this.seconds);
+    // }
 
     /**
      * Convert a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
      */
-    private convertStringToDate(dtStr: string): Date {
-        if (dtStr === null || dtStr.trim().length === 0) {
-            return null;
-        } else if (dtStr.trim().length < 19) {
-            return null;
-        }
+    // private convertStringToDate(dtStr: string): Date {
+    //     if (dtStr === null || dtStr.trim().length === 0) {
+    //         return null;
+    //     } else if (dtStr.trim().length < 19) {
+    //         return null;
+    //     }
+    //
+    //     try {
+    //         let date: Date = new Date(dtStr.substring(0, 19).replace(' ', 'T'));
+    //         if (date !== null && date.toString() !== 'Invalid Date') {
+    //             return date;
+    //         }
+    //     } catch(error) {
+    //         console.log('Error:'+error);
+    //     }
+    //
+    //     return null;
+    // }
 
-        try {
-            let date: Date = new Date(dtStr.substring(0, 19).replace(' ', 'T'));
-            if (date !== null && date.toString() !== 'Invalid Date') {
-                return date;
+    // private formatDisplayToTime(displayStr: string): string {
+    //     let datetime = '';
+    //     if (displayStr !== null) {
+    //         datetime = displayStr.replace(' ', 'T');
+    //         if (displayStr.match(validDisplayFormat)) {
+    //             datetime += defaultTZms;
+    //         }
+    //     }
+    //     return datetime;
+    // }
+
+    private isaDate(date: Date): boolean {
+        if ( Object.prototype.toString.call(date) === "[object Date]" ) {
+            // it is a date
+            if ( isNaN( date.getTime() ) ) {  // d.valueOf() could also work
+                // date is not valid
+                return false;
             }
-        } catch(error) {
-            console.log('Error:'+error);
+            else {
+                // date is valid
+                return true;
+            }
         }
-
-        return null;
+        else {
+            // not a date
+            return false;
+        }
     }
 
-    private formatDisplayToTime(displayStr: string): string {
-        let datetime = '';
-        if (displayStr !== null) {
-            datetime = displayStr.replace(' ', 'T');
-            if (displayStr.match(validDisplayFormat)) {
-                datetime += defaultTZms;
-            }
-        }
-        return datetime;
-    }
+    private getFormatDateToDatetimeString(date: Date): string {
+        console.debug(`getFormatDateToDatetimeString - date ${date} typeof date: [${typeof date}] date valid: ${this.isaDate(date)} and getFullYear(): ${date.getFullYear()}`);
+        let dateStr: string = date.getFullYear() + '-'
+            + this.padTwo(date.getMonth() + 1) + '-'
+            + this.padTwo(date.getDate());
+        // let dateStr: string = date.getFullYear() + '-'
+        //         + date.getMonth() + '-'
+        //         + date.getDate();
+        // let newDate: Date = new Date(date.getTime());
+        // let newDate: Date = new Date();
+        // let newDate: Date = date;
+        // let dateStr: string = newDate.getFullYear() + '-' + (newDate.getMonth()+1) + '-' + newDate.getDate();
+        let timeStr: string = this.padTwo(date.getHours()) + ':'
+            + this.padTwo(date.getMinutes()) + ':'
+            + this.padTwo(date.getSeconds());
 
+        let dateTime: string = dateStr + 'T' + timeStr + defaultTZms;
+        let test: string = '2007-6-24';//T00:00:00';//.000Z';
+        // return
+        console.debug(`  getFormatDateToDatetimeString - should return '${dateTime}'`);
+        console.debug(`  getFormatDateToDatetimeString - but wl return '${test}'`);
+        console.debug(`  getFormatDateToDatetimeString - NOPE returning it`);
+        return dateTime;
+        // return test;
+
+        // this.datetimeDisplay = dateStr + ' ' + timeStr;
+        // this.datetimeLast = this.datetime;
+        // this.datetime = dateStr + 'T' + timeStr + defaultTZms;
+    }
     /**
      * Emit a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
      */
-    private emitOutputDatetime(): void {
-        if (this.datetimeModel === null) {
-            return;
-        }
-
-        let dateStr: string = this.datetimeModel.getFullYear() + '-'
-            + this.padTwo(this.datetimeModel.getMonth() + 1) + '-'
-            + this.padTwo(this.datetimeModel.getDate());
-        let timeStr: string = this.padTwo(this.datetimeModel.getHours()) + ':'
-            + this.padTwo(this.datetimeModel.getMinutes()) + ':'
-            + this.padTwo(this.datetimeModel.getSeconds());
-
-        this.datetimeDisplay = dateStr + ' ' + timeStr;
-        this.datetimeLast = this.datetime;
-        this.datetime = dateStr + 'T' + timeStr + defaultTZms;
-    }
+    // private emitOutputDatetime(): void {
+    //     if (this.datetimeModel === null) {
+    //         return;
+    //     }
+    //
+    //     let dateStr: string = this.datetimeModel.getFullYear() + '-'
+    //         + this.padTwo(this.datetimeModel.getMonth() + 1) + '-'
+    //         + this.padTwo(this.datetimeModel.getDate());
+    //     let timeStr: string = this.padTwo(this.datetimeModel.getHours()) + ':'
+    //         + this.padTwo(this.datetimeModel.getMinutes()) + ':'
+    //         + this.padTwo(this.datetimeModel.getSeconds());
+    //
+    //     this.datetimeDisplay = dateStr + ' ' + timeStr;
+    //     this.datetimeLast = this.datetime;
+    //     this.datetime = dateStr + 'T' + timeStr + defaultTZms;
+    // }
 
     /**
      * Returns an integer between min and max values by parsing from input str,
@@ -484,3 +608,4 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         this.validateFn = createDateTimeRequiredIfNotCurrentValidator(this.index);
     }
 }
+

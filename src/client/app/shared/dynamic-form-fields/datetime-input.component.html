@@ -1,4 +1,4 @@
-<div class="form-group"> <!-- [formGroup]="form"-->
+<div class="form-group" [formGroup]="form">
   <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label" [ngClass]="{required: isRequired()}">
       <ng-content></ng-content>
   </label>
@@ -7,11 +7,12 @@
     <div>
       <div class="input-group">
                <!--[formControlName]="controlName"-->
-        <input type="text" maxlength="24"
+          <label [ngClass]="{'ng-dirty': isDirty(controlName), 'ng-invalid': isInvalid(controlName)}">{{datetime}}</label>
+          <!--<input type="text" maxlength="24"
                class="form-control z-lowest"
                [(ngModel)]="datetimeDisplay"
                (change)="updateCalendar()"
-               (focus)="miscUtils.scrollIntoView($event, showDatetimePicker); showDatetimePicker = true;"/>
+               (focus)="miscUtils.scrollIntoView($event, showDatetimePicker); showDatetimePicker = true;"/>-->
         <span class="input-group-btn z-lowest">
           <button id="calendar-btn" type="button"
                   class="btn btn-default btn-calendar z-lowest"
@@ -23,7 +24,7 @@
             <small>{{getErrorReport(controlName)}}</small>
 
             <div class="calendar-popup" *ngIf="showDatetimePicker">
-                <datepicker [(ngModel)]="datetimeModel"
+                <datepicker [formControlName]="controlName"
                             [showWeeks]="false"
                             (selectionDone)="updateDate($event)"></datepicker>
                 <div class="center-time">
@@ -49,6 +50,16 @@
                             </td>
                         </tr>
                         <tr>
+                            <td class="form-group">
+                                <label class="form-control text-center input-time">{{getHours()}}</label>
+                            </td>
+                            <td class="form-group">
+                                <label class="form-control text-center input-time">{{getMinutes()}}</label>
+                            </td>
+                            <td class="form-group">
+                                <label class="form-control text-center input-time">{{getSeconds()}}</label>
+                            </td>
+<!--
                             <td class="form-group" [ngClass]="{'has-error': invalidHours}">
                                 <input type="text" [(ngModel)]="hoursString"
                                        (change)="updateHours()"
@@ -66,6 +77,7 @@
                                        (change)="updateSeconds()"
                                        class="form-control text-center input-time" maxlength="2">
                             </td>
+-->
                         </tr>
                         <tr class="text-center">
                             <td>

@@ -37,7 +37,7 @@ export abstract class AbstractGnssControls {
         } else {
             dirty = control.dirty;
         }
-        console.warn('  isDirty Control "' + controlId + '": '+ dirty + ' - ', control);
+        // console.warn('  isDirty Control "' + controlId + '": '+ dirty + ' - ', control);
         return dirty;
     }
 
@@ -50,7 +50,7 @@ export abstract class AbstractGnssControls {
         } else {
             valid = control.valid;
         }
-        console.warn('  isValid Control "' + controlId + '": '+ valid + ' - ', control);
+        // console.warn('  isValid Control "' + controlId + '": '+ valid + ' - ', control);
         return valid;
     }
 
