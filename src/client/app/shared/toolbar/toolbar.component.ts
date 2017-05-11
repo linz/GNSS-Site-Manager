@@ -37,21 +37,21 @@ export class ToolbarComponent implements OnInit {
         private dialogService: DialogService) {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.setupSubscriptions();
         this.updateCacheList();
     }
 
-    save() {
-        this.onSave.emit( this.siteId !== null );
+    save(): void {
+        this.onSave.emit(this.siteId !== null);
     }
 
-    revert() {
-        this.onRevert.emit( this.siteId !== null );
+    revert(): void {
+        this.onRevert.emit(this.siteId !== null);
     }
 
-    close() {
-        this.onClose.emit( this.siteId !== null );
+    close(): void {
+        this.onClose.emit(this.siteId !== null);
     }
 
     public isFormDirty(): boolean {
@@ -65,17 +65,16 @@ export class ToolbarComponent implements OnInit {
     /**
      * Component method to request the Service Worker clears it's cache.
      */
-    clearCache = (): void => {
+    clearCache(): void {
         this.serviceWorkerService.clearCache().then((data: string) => {
             console.debug('toolbar.component clearCacheObservable() success: ', data);
-            // Force a reloading of the cache
             self.location.reload();
         }, (error: Error) => {
             throw new Error('Error in clearCacheObservable: ' + error.message);
         });
     }
 
-    updateCacheList = (): void => {
+    updateCacheList(): void {
         this.serviceWorkerService.getCacheList().then((data: string[]) => {
             this.cacheItems.length = 0;
             this.cacheItems = data;
@@ -84,15 +83,15 @@ export class ToolbarComponent implements OnInit {
         });
     }
 
-    login() {
+    login(): void {
         this.userAuthService.login();
     }
 
-    logout() {
+    logout(): void {
         this.userAuthService.logout();
     }
 
-    showUserProfile() {
+    showUserProfile(): void {
         let userProfile: string = '<div class="title">User Profile</div>'
             + '<div class="profile-table"><table>'
             + '<tr><td class="name">User Name</td><td class="value">' + this.user.profile.sub + '</td></tr>'
@@ -103,18 +102,18 @@ export class ToolbarComponent implements OnInit {
         this.dialogService.showAlertDialog(userProfile);
     }
 
-    changePassword() {
+    changePassword(): void {
         this.userAuthService.changePassword();
     }
 
-    private setupSubscriptions() {
+    private setupSubscriptions(): void {
         this.setupServiceWorkerSubscription();
         this.setupRouterSubscription();
         this.setupAuthSubscription();
         this.setupSiteLogSubscription();
     }
 
-    private setupServiceWorkerSubscription() {
+    private setupServiceWorkerSubscription(): void {
         this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
             if (isCacheChanged) {
                 this.updateCacheList();
@@ -122,7 +121,7 @@ export class ToolbarComponent implements OnInit {
         });
     }
 
-    private setupRouterSubscription() {
+    private setupRouterSubscription(): void {
         this.router.events
             .filter(event => event instanceof NavigationEnd)
             .subscribe(event => {
@@ -137,13 +136,13 @@ export class ToolbarComponent implements OnInit {
             });
     }
 
-    private setupSiteLogSubscription() {
+    private setupSiteLogSubscription(): void {
         this.isFormModifiedSubscription = this.siteLogService.getIsFormModifiedSubscription().subscribe((isModified: boolean) => {
             this.isFormModifiedState = isModified;
         });
     }
 
-    private setupAuthSubscription() {
+    private setupAuthSubscription(): void {
         this.loadedUserSub = this.userAuthService.userLoadededEvent.subscribe((u: User) => {
             this.user = u;
         });
