@@ -3,8 +3,6 @@ import { MiscUtils } from '../shared/global/misc-utils';
 
 export class GnssAntennaViewModel extends AbstractViewModel {
 
-    public dateInstalled: string;
-    public dateRemoved: string;
     public antennaType: string;
     public serialNumber: string;
     public antennaReferencePoint: string;
@@ -23,8 +21,6 @@ export class GnssAntennaViewModel extends AbstractViewModel {
      */
     constructor(blank: boolean = false) {
         super();
-        this.dateInstalled = blank ? '' : MiscUtils.getPresentDateTime();
-        this.dateRemoved = '';
         this.antennaType = '';
         this.serialNumber = '';
         this.antennaReferencePoint = '';
@@ -40,8 +36,8 @@ export class GnssAntennaViewModel extends AbstractViewModel {
     }
 
     createFieldMappings(): void {
-        this.addFieldMapping('/gnssAntenna/dateInstalled/value/0', 'string', '/dateInstalled', 'string');
-        this.addFieldMapping('/gnssAntenna/dateRemoved/value/0', 'string', '/dateRemoved', 'string');
+        this.addFieldMapping('/gnssAntenna/dateInstalled/value/0', 'string', '/startDate', 'string');
+        this.addFieldMapping('/gnssAntenna/dateRemoved/value/0', 'string', '/endDate', 'string');
         this.addFieldMapping('/gnssAntenna/igsModelCode/value', 'string', '/antennaType', 'string');
         this.addFieldMapping('/gnssAntenna/manufacturerSerialNumber', 'string', '/serialNumber', 'string');
         this.addFieldMapping('/gnssAntenna/antennaReferencePoint/value', 'string', '/antennaReferencePoint', 'string');
@@ -55,15 +51,4 @@ export class GnssAntennaViewModel extends AbstractViewModel {
         this.addFieldMapping('/gnssAntenna/antennaCableLength', 'string', '/antennaCableLength', 'number');
         this.addFieldMapping('/gnssAntenna/notes', 'string', '/notes', 'string');
     };
-
-    /**
-     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
-     */
-    setFinalValuesBeforeCreatingNewItem(): Object {
-        let presentDT: string = MiscUtils.getPresentDateTime();
-
-        this.dateRemoved = presentDT;
-        return {dateRemoved: presentDT};
-    }
 }

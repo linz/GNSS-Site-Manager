@@ -8,10 +8,12 @@ import * as lodash from 'lodash';
 
 export const sortingDirectionAscending: boolean = false;
 export const newItemShouldBeBlank: boolean = true;
-export const newItemShouldNotBeBlank: boolean = false;
 
 export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent {
     isGroupOpen: boolean = false;
+
+    // flag to indicate that the current or latest item in a group has an end date set
+    currentItemAlreadyHasEndDate: boolean = false;
 
     miscUtils: any = MiscUtils;
     protected groupArrayForm: FormArray;
@@ -55,6 +57,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     private itemOriginalProperties: T[];
 
+    public static compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number {
+        return AbstractGroupComponent.compareDates(obj1.startDate, obj2.startDate);
+    }
+
     /**
      * This is used in comparators but isn't a comparator - just a helper function.  In the comparator, extract the dates
      * (using getDateInstalled(), getBeginPositionDate(), ...) and return compareDates(date1, date2)
@@ -90,15 +96,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @param blank - if to exclude all default values so it is completely blank.  Defaults to false.
      */
     abstract newItemViewModel(blank?: boolean): T;
-
-    /**
-     * Subclasses can create a comparator relevant for their data structures.  Reduce size in these by
-     * using getDateInstalled(), getBeginPositionDate.
-     *
-     * @param obj1
-     * @param obj2
-     */
-    abstract compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number;
 
     getFormData(siteLog: any): any {
         return siteLog[this.getControlName()];
@@ -255,15 +252,21 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     /**
-     * Permanently Remove an item.  Typically done when deleting an item just added and not yet persisted.
+     * Delete a newly added item (ie cancel adding the item).
+     * @param {string} reason - ignored.
      */
     public cancelNew(itemIndex: number, reason: string) {
-        // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
-        // (high to low start date).  Thus to access the original dataItems we need to reverse the index.
-        let newIndex: number = this.itemProperties.length - itemIndex - 1;
-        this.itemProperties.splice(newIndex, 1);
+        if (!this.currentItemAlreadyHasEndDate) {
+            let updatedValue = this.itemProperties[itemIndex+1].unsetEndDate();
+            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
+            this.updateFormControl(itemIndex+1, 'endDate', '');
+            formGroup.patchValue(updatedValue);
+            (<FormGroup>this.groupArrayForm.at(itemIndex+1)).controls['endDate'].markAsPristine();
+        }
+        this.itemProperties.splice(itemIndex, 1);
+        this.itemOriginalProperties.splice(itemIndex, 1);
+        this.groupArrayForm.value.splice(itemIndex, 1);
     }
-
 
     public isFormDirty(): boolean {
         return this.groupArrayForm ? this.groupArrayForm.dirty : false;
@@ -308,7 +311,11 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         } else {
             index = 1;
         }
-        updatedValue = this.itemProperties[index].setFinalValuesBeforeCreatingNewItem();
+        // check the truthiness of the proposition that the existing record was already end-dated
+        if ((this.itemProperties[index].hasEndDateField() && this.itemProperties[index].endDate)) {
+            this.currentItemAlreadyHasEndDate = true;
+        }
+        updatedValue = this.itemProperties[index].setEndDateToCurrentDate();
         if (updatedValue && Object.keys(updatedValue).length > 0) {
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
             formGroup.patchValue(updatedValue);
@@ -330,7 +337,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @param collection
      */
     private sortUsingComparator(collection: any[]) {
-        collection.sort(this.compare);
+        collection.sort(AbstractGroupComponent.compare);
     }
 
     private isntDeleted(item: T): boolean {

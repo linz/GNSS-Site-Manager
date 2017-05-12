@@ -16,8 +16,6 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
 
     public localSiteTiesAccuracy: string;
     public surveyMethod: string;
-    public dateMeasured: string;
-
     public notes: string;
 
     /**
@@ -25,9 +23,6 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
      */
     constructor(blank: boolean = false) {
         super();
-        let presentDT: string = blank ? '' : MiscUtils.getPresentDateTime();
-        this.dateMeasured = presentDT;
-
         this.tiedMarkerName = '';
         this.tiedMarkerUsage = '';
         this.tiedMarkerCDPNumber = '';
@@ -63,18 +58,32 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
             '/dz', 'number');
 
         this.addFieldMapping('/surveyedLocalTie/dateMeasured/value/0', 'string',
-            '/dateMeasured', 'string');
+            '/startDate', 'string');
 
         this.addFieldMapping('/surveyedLocalTie/notes', 'string',
             '/notes', 'string');
     };
 
     /**
-     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
+     * @see AbstractViewModel.setEndDateToCurrentDate
      */
-    setFinalValuesBeforeCreatingNewItem(): Object {
-        // NOOP - nothing to do for now
+    setEndDateToCurrentDate(): Object {
+        // NOOP
         return {};
+    }
+
+    /**
+     * @see AbstractViewModel.unsetEndDate
+     */
+    unsetEndDate(): Object {
+        // NOOP
+        return {};
+    }
+
+    /**
+     * Overridden because this type of item cannot have an end date.
+     */
+    hasEndDateField() : boolean {
+        return false;
     }
 }

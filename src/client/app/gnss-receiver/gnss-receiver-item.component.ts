@@ -35,8 +35,8 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
         return new ItemControls([
             {receiverType: new FormControl('')}, //, [Validators.maxLength(100)]],
             {manufacturerSerialNumber: new FormControl('', [Validators.maxLength(4)])},
-            {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
-            {dateRemoved: new FormControl('')},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
+            {startDate: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
+            {endDate: new FormControl('')},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
             {firmwareVersion: new FormControl('')},//, [Validators.maxLength(100)]],
             {satelliteSystem: new FormControl('')},//, [Validators.maxLength(100)]],
             {elevationCutoffSetting: new FormControl('')},//, [Validators.maxLength(100)]],

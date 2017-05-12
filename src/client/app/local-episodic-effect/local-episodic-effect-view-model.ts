@@ -2,12 +2,6 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 import { MiscUtils } from '../shared/global/misc-utils';
 
 export class LocalEpisodicEffectViewModel extends AbstractViewModel {
-    /**
-     * Not the best form making private fields public, however saves clutter of creating accessors / getters for all
-     */
-    public startDate: string;
-    public endDate: string;
-
     public event: string;
 
     /**
@@ -15,10 +9,6 @@ export class LocalEpisodicEffectViewModel extends AbstractViewModel {
      */
     constructor(blank: boolean = false) {
         super();
-        let presentDT: string = MiscUtils.getPresentDateTime();
-
-        this.startDate = blank ? '' : presentDT;
-        this.endDate = '';
         this.event = '';
     }
 
@@ -34,15 +24,4 @@ export class LocalEpisodicEffectViewModel extends AbstractViewModel {
         this.addFieldMapping('/localEpisodicEffect/event', 'string',
             '/event', 'string');
     };
-
-    /**
-     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
-     */
-    setFinalValuesBeforeCreatingNewItem(): Object {
-        let presentDT: string = MiscUtils.getPresentDateTime();
-
-        this.endDate = presentDT;
-        return {endDate: presentDT};
-    }
 }

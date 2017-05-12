@@ -50,7 +50,9 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
             {dz: new FormControl('')},//, [Validators.maxLength(100)]],
             {surveyMethod: new FormControl('')},//, [Validators.maxLength(100)]],
             {localSiteTiesAccuracy: new FormControl('')},//, [Validators.maxLength(100)]],
-            {dateMeasured: new FormControl('')},//, [Validators.maxLength(100)]],
+            {startDate: new FormControl('')},//, [Validators.maxLength(100)]],
+            // TODO see GEOD-454 endDate not needed by this component but the value exists in the model
+            {endDate: new FormControl('')},//, [Validators.maxLength(100)]],
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {fieldMaps: new FormControl('')},
             {dateDeleted: new FormControl('')},
@@ -58,5 +60,4 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
             {deletedReason: new FormControl('')}
         ]);
     }
-
 }

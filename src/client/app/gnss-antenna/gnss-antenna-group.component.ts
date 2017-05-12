@@ -12,12 +12,6 @@ import { GnssAntennaViewModel } from './gnss-antenna-view-model';
     templateUrl: 'gnss-antenna-group.component.html',
 })
 export class GnssAntennaGroupComponent extends AbstractGroupComponent<GnssAntennaViewModel> {
-    static compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
-        let date1: string = obj1.dateInstalled;
-        let date2: string = obj2.dateInstalled;
-        return AbstractGroupComponent.compareDates(date1, date2);
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }

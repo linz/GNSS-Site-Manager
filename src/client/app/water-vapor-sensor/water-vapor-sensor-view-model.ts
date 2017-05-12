@@ -2,12 +2,6 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 import { MiscUtils } from '../shared/global/misc-utils';
 
 export class WaterVaporSensorViewModel extends AbstractViewModel {
-    /**
-     * Not the best form making fields public, however saves clutter of creating accessors / getters for all
-     */
-    public startDate: string;
-    public endDate: string;
-
     public calibrationDate: string;
 
     public notes: string;
@@ -20,11 +14,7 @@ export class WaterVaporSensorViewModel extends AbstractViewModel {
      */
     constructor(blank: boolean = false) {
         super();
-        let presentDT: string = MiscUtils.getPresentDateTime();
-
-        this.startDate = blank ? '' : presentDT;
-        this.calibrationDate = blank ? '' : presentDT;
-        this.endDate = '';
+        this.calibrationDate = blank ? '' : MiscUtils.getPresentDateTime();
         this.notes = '';
         this.manufacturer = '';
         this.serialNumber = '';
@@ -55,15 +45,4 @@ export class WaterVaporSensorViewModel extends AbstractViewModel {
         this.addFieldMapping('/waterVaporSensor/heightDiffToAntenna', 'string',
             '/heightDiffToAntenna', 'number');
     };
-
-    /**
-     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
-     */
-    setFinalValuesBeforeCreatingNewItem(): Object {
-        let presentDT: string = MiscUtils.getPresentDateTime();
-
-        this.endDate = presentDT;
-        return {endDate: presentDT};
-    }
 }

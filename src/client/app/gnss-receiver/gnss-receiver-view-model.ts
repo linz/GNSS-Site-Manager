@@ -2,18 +2,12 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 import { MiscUtils } from '../shared/global/misc-utils';
 
 export class GnssReceiverViewModel extends AbstractViewModel {
-    /**
-     * Not the best form making private fields public, however saves clutter of creating accessors / getters for all
-     */
-
     public receiverType: string;
     public manufacturerSerialNumber: string;
     public firmwareVersion: string;
     public satelliteSystem: string;
     public elevationCutoffSetting: number;
     public temperatureStabilization: number;
-    public dateInstalled: string;
-    public dateRemoved: string;
     public notes: string;
 
     /**
@@ -30,10 +24,6 @@ export class GnssReceiverViewModel extends AbstractViewModel {
 
         this.elevationCutoffSetting = 0;
         this.temperatureStabilization = 0;
-
-        let presentDT: string = MiscUtils.getPresentDateTime();
-        this.dateInstalled = blank ? '' : presentDT;
-        this.dateRemoved = '';
         this.notes = '';
     }
 
@@ -44,19 +34,8 @@ export class GnssReceiverViewModel extends AbstractViewModel {
         this.addFieldMapping('/gnssReceiver/satelliteSystem/0/value', 'string', '/satelliteSystem', 'string');
         this.addFieldMapping('/gnssReceiver/elevationCutoffSetting', 'string', '/elevationCutoffSetting', 'number');
         this.addFieldMapping('/gnssReceiver/temperatureStabilization', 'string', '/temperatureStabilization', 'number');
-        this.addFieldMapping('/gnssReceiver/dateInstalled/value/0', 'string', '/dateInstalled', 'string');
-        this.addFieldMapping('/gnssReceiver/dateRemoved/value/0', 'string', '/dateRemoved', 'string');
+        this.addFieldMapping('/gnssReceiver/dateInstalled/value/0', 'string', '/startDate', 'string');
+        this.addFieldMapping('/gnssReceiver/dateRemoved/value/0', 'string', '/endDate', 'string');
         this.addFieldMapping('/gnssReceiver/notes', 'string', '/notes', 'string');
     };
-
-    /**
-     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
-     */
-    setFinalValuesBeforeCreatingNewItem(): Object {
-        let presentDT: string = MiscUtils.getPresentDateTime();
-
-        this.dateRemoved = presentDT;
-        return {dateRemoved: presentDT};
-    }
 }

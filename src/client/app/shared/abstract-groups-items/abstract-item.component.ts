@@ -51,6 +51,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     protected isNew: boolean = false;
     protected isOpen: boolean = false;
+
     private _isDeleted: boolean = false;
 
     /**
@@ -204,7 +205,10 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      * @param startDatetime: the start/installed/measured date-time of the item
      * @param endDatetime: the optional end/removed date-time of the item
      */
-    public getItemHeaderHtml(startDatetime: string, endDatetime?: string): string {
+    public getItemHeaderHtml(): string {
+
+        let startDatetime = this.getItem().startDate;
+        let endDatetime = this.getItem().endDate;
 
         let headerHtml: string = '<span class="hidden-xsm">'
                                + (this.getIndex() === 0 ? 'Current' : 'Previous')

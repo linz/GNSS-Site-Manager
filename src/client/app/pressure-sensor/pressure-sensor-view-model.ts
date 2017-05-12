@@ -2,12 +2,6 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 import { MiscUtils } from '../shared/global/misc-utils';
 
 export class PressureSensorViewModel extends AbstractViewModel {
-    /**
-     * Not the best form making fields public, however saves clutter of creating accessors / getters for all
-     */
-    public startDate: string;
-    public endDate: string;
-
     public calibrationDate: string;
 
     public dataSamplingInterval: number;
@@ -22,11 +16,7 @@ export class PressureSensorViewModel extends AbstractViewModel {
      */
     constructor(blank: boolean = false) {
         super();
-        let presentDT: string = blank ? '' : MiscUtils.getPresentDateTime();
-
-        this.startDate = presentDT;
-        this.calibrationDate = presentDT;
-        this.endDate = '';
+        this.calibrationDate = MiscUtils.getPresentDateTime();
         this.dataSamplingInterval = 0;
         this.accuracyHPa = 0;
         this.notes = '';
@@ -66,15 +56,4 @@ export class PressureSensorViewModel extends AbstractViewModel {
         this.addFieldMapping('/pressureSensor/heightDiffToAntenna', 'string',
             '/heightDiffToAntenna', 'number');
     };
-
-    /**
-     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
-     */
-    setFinalValuesBeforeCreatingNewItem(): Object {
-        let presentDT: string = MiscUtils.getPresentDateTime();
-
-        this.endDate = presentDT;
-        return {endDate: presentDT};
-    }
 }

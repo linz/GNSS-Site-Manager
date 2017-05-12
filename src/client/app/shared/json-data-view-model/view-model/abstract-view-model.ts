@@ -7,6 +7,8 @@ export abstract class AbstractViewModel {
     public dateDeleted: string;
     public dateInserted: string;
     public deletedReason: string;
+    public startDate: string;
+    public endDate: string;
 
     /**
      * Mapping to/from Data and View model fields.  See createFieldMappings().
@@ -88,12 +90,43 @@ export abstract class AbstractViewModel {
      * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
      * Return what is changed as an object so the form can be patched.
      */
-    abstract setFinalValuesBeforeCreatingNewItem(): Object;
+    setEndDateToCurrentDate(): Object {
+        if (this.hasOwnProperty('endDate')) {
+            let presentDT: string = MiscUtils.getPresentDateTime();
+            this.endDate = presentDT;
+            return {endDate: presentDT};
+        } else {
+            return {};
+        }
+    }
+
+    /**
+     * Called on the 'current' object after cancelling creation of a new one to undo field population.
+     * Return what is changed as an object so the form can be patched.
+     */
+    unsetEndDate(): Object {
+        if (this.hasOwnProperty('endDate')) {
+            this.endDate = '';
+            return {endDate: this.endDate};
+        } else {
+            return {};
+        }
+    }
+
+    /**
+     * Returns true if this is the kind of object that can have an end date.
+     * Most things can so this method returns true by default, but some things do not have an end date.
+     */
+    hasEndDateField() : boolean {
+        return true;
+    }
 
     private setDefaultValues() {
         this.dateDeleted = '';
         this.dateInserted = '';
         this.deletedReason = '';
+        this.startDate = MiscUtils.getPresentDateTime();
+        this.endDate = '';
     }
 
     private assertCorrect(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string) {

@@ -12,11 +12,6 @@ class AbstractViewModelImpl extends AbstractViewModel {
     createFieldMappings(): void {
         // comment
     }
-
-    setFinalValuesBeforeCreatingNewItem(): Object {
-        // comment
-        return null;
-    }
 }
 
 class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {

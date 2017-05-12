@@ -13,8 +13,8 @@ import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 })
 export class SurveyedLocalTiesGroupComponent extends AbstractGroupComponent<SurveyedLocalTieViewModel> {
     static compare(obj1: SurveyedLocalTieViewModel, obj2: SurveyedLocalTieViewModel): number {
-        let date1: string = obj1.dateMeasured;
-        let date2: string = obj2.dateMeasured;
+        let date1: string = obj1.startDate;
+        let date2: string = obj2.startDate;
         return AbstractGroupComponent.compareDates(date1, date2);
     }
 
