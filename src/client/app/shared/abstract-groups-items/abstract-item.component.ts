@@ -28,7 +28,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     @Input('groupArray') groupArray: FormArray;
 
     /**
-     * The index of this sensor (zero-based)
+     * The index of this item in `groupArray`
      */
     @Input() index: number;
 
