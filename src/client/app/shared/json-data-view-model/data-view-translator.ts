@@ -1,5 +1,6 @@
 import { JsonPointerService } from '../json-pointer/json-pointer.service';
 import { AbstractViewModel } from './view-model/abstract-view-model';
+import { MiscUtils } from '../global/misc-utils';
 
 export const doWriteViewToData: boolean = true;
 
@@ -57,33 +58,36 @@ export class DataViewTranslatorService {
         DataViewTranslatorService.translate(viewModel, dataModel, fieldMappings, true);
     }
 
-    /**
-     * Generic translate independant of view and data models.  As long as the mappings are in the source, the data will be
-     * written into the mapped location in the target.
-     *
-     * @param source - source to read from - if writeViewToData is false then this is the data model else the view model
-     * @param target - target to write to - if writeViewToData is false then this is the view model else the data model
-     * @param writeViewToData - if false then write source data model to target view model (pass source, target appropriately);
-     *                        if true then write source view model to target data model (pass source, target appropriately);
-     */
-    static translate(source: any, target: any, fieldMappings: FieldMap[], writeViewToData: boolean = false) {
-        for (let fieldMap of fieldMappings) {
-            // View and Data references currently retained from original translate context
-            let sourceTypedPointer: TypedPointer;
-            let targetTypedPointer: TypedPointer;
-            if (!writeViewToData) {
-                sourceTypedPointer = fieldMap.dataTypedPointer;
-                targetTypedPointer = fieldMap.viewTypedPointer;
-            } else {
-                sourceTypedPointer = fieldMap.viewTypedPointer;
-                targetTypedPointer = fieldMap.dataTypedPointer;
-            }
-            let sourceValue: string = JsonPointerService.get(source, sourceTypedPointer.pointer);
-            if (targetTypedPointer.type === 'number') {
-                JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue !== null ? parseFloat(sourceValue) : null);
-            } else {
-                JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue);
-            }
-        }
-    }
+  /**
+   * Generic translate independant of view and data models.  As long as the mappings are in the source, the data will be
+   * written into the mapped location in the target.
+   *
+   * @param source - source to read from - if writeViewToData is false then this is the data model else the view model
+   * @param target - target to write to - if writeViewToData is false then this is the view model else the data model
+   * @param writeViewToData - if false then write source data model to target view model (pass source, target appropriately);
+   *                        if true then write source view model to target data model (pass source, target appropriately);
+   */
+  static translate(source: any, target: any, fieldMappings: FieldMap[], writeViewToData: boolean = false) {
+      for (let fieldMap of fieldMappings) {
+          // View and Data references currently retained from original translate context
+          let sourceTypedPointer: TypedPointer;
+          let targetTypedPointer: TypedPointer;
+          if (! writeViewToData) {
+              sourceTypedPointer = fieldMap.dataTypedPointer;
+              targetTypedPointer = fieldMap.viewTypedPointer;
+          } else {
+              sourceTypedPointer = fieldMap.viewTypedPointer;
+              targetTypedPointer = fieldMap.dataTypedPointer;
+          }
+          let sourceValue: string = JsonPointerService.get(source, sourceTypedPointer.pointer);
+          if (targetTypedPointer.type === 'number') {
+              JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue !== null ? parseFloat(sourceValue) : null);
+          } else if (sourceTypedPointer.type === 'date') {  // 'date' type will only be on the view side
+              JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue !== null ?
+                  MiscUtils.formatDateToDatetimeString(sourceValue) : null);
+          } else {
+              JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue);
+          }
+      }
+  }
 }

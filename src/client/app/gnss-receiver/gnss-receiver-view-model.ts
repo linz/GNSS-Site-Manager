@@ -34,8 +34,8 @@ export class GnssReceiverViewModel extends AbstractViewModel {
         this.addFieldMapping('/gnssReceiver/satelliteSystem/0/value', 'string', '/satelliteSystem', 'string');
         this.addFieldMapping('/gnssReceiver/elevationCutoffSetting', 'string', '/elevationCutoffSetting', 'number');
         this.addFieldMapping('/gnssReceiver/temperatureStabilization', 'string', '/temperatureStabilization', 'number');
-        this.addFieldMapping('/gnssReceiver/dateInstalled/value/0', 'string', '/startDate', 'string');
-        this.addFieldMapping('/gnssReceiver/dateRemoved/value/0', 'string', '/endDate', 'string');
+        this.addFieldMapping('/gnssReceiver/dateInstalled/value/0', 'string', '/startDate', 'date');
+        this.addFieldMapping('/gnssReceiver/dateRemoved/value/0', 'string', '/endDate', 'date');
         this.addFieldMapping('/gnssReceiver/notes', 'string', '/notes', 'string');
     };
 }

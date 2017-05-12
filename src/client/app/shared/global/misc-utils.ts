@@ -33,6 +33,50 @@ export class MiscUtils {
     }
 
     /**
+     * Return a date as a string in the "YYYY-MM-DD'T'hh:mm:ss.000Z" format.
+     *
+     * @param date
+     * @return {string}
+     */
+    public static formatDateToDatetimeString(date: Date|string): string {
+        // If already a string return as-is
+        if (typeof date === 'string') {
+            return date;
+        }
+        if (! MiscUtils.isDate(date)) {
+            throw new Error(`Input isnt a date - type: ${typeof date}, value: ${date}`);
+        }
+        let dateStr: string = date.getFullYear() + '-'
+            + MiscUtils.padTwo(date.getMonth() + 1) + '-'
+            + MiscUtils.padTwo(date.getDate());
+        let timeStr: string = this.padTwo(date.getHours()) + ':'
+            + MiscUtils.padTwo(date.getMinutes()) + ':'
+            + MiscUtils.padTwo(date.getSeconds());
+
+        let dateTime: string = dateStr + 'T' + timeStr + '.000Z';
+
+        return dateTime;
+    }
+
+    public static isDate(date: Date): boolean {
+        if (Object.prototype.toString.call(date) === "[object Date]") {
+            return ! isNaN(date.getTime());
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Convert an integer to a two-character string.
+     */
+    public static padTwo(index: number): string {
+        if (index < 10) {
+            return '0' + index.toString();
+        }
+        return index.toString();
+    }
+
+    /**
      * Clone a JSON object from existing one so that both have no reference
      */
     public static cloneJsonObj(obj: any): any {

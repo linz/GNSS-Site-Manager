@@ -2,6 +2,8 @@ import { SiteLogDataModel } from './data-model/site-log-data-model';
 import { DataViewTranslatorService, doWriteViewToData, FieldMap } from './data-view-translator';
 import { JsonViewModelServiceSpecData } from './json-view-model.service.spec.data';
 import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
+import { GnssReceiverViewModel } from '../../gnss-receiver/gnss-receiver-view-model';
+import { MiscUtils } from '../global/misc-utils';
 
 export function main() {
   let completeValidSitelog: any = JsonViewModelServiceSpecData.data();
@@ -125,6 +127,45 @@ export function main() {
               .beginPosition.value[0]);
           expect(firstHSV.endDate).toBeNull();
           expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeNull();
+      });
+
+    // now test the new 'date' format type - that is only applied v2d
+
+      fit('should translate v2d for gnssReceivers using translate method and Date() dates', () => {
+          let receiverData: any = new SiteLogDataModel(completeValidSitelog).gnssReceivers;
+          expect(receiverData).toBeDefined();
+          let firstRD: any = receiverData[1];
+
+          let firstRV: GnssReceiverViewModel = new GnssReceiverViewModel();
+
+          DataViewTranslatorService.translateD2V(firstRD, firstRV, firstRV.getFieldMaps());
+
+          // Now change the dateInstalled, removed to dates
+          firstRV.dateInstalled = new Date(firstRV.dateInstalled);
+
+          let newRD: any = {};
+          // DataViewTranslatorService.translateV2D(firstHSV, newHSD, firstHSV.getFieldMaps());
+          DataViewTranslatorService.translate(firstRV, newRD, firstRV.getFieldMaps(), doWriteViewToData);
+
+          expect(newRD).toBeDefined();
+
+          expect(newRD.gnssReceiver.igsModelCode.value).not.toBeNull();
+          expect(newRD.gnssReceiver.igsModelCode.value).toEqual(firstRV.receiverType);
+          expect(newRD.gnssReceiver.manufacturerSerialNumber).toEqual(firstRV.manufacturerSerialNumber);
+          expect(newRD.gnssReceiver.firmwareVersion).toEqual(firstRV.firmwareVersion);
+          expect(newRD.gnssReceiver.satelliteSystem[0].value).toEqual(firstRV.satelliteSystem);
+          expect(newRD.gnssReceiver.elevationCutoffSetting).toEqual(firstRV.elevationCutoffSetting);
+          expect(newRD.gnssReceiver.notes).toEqual(firstRV.notes);
+          expect(newRD.gnssReceiver.temperatureStabilization).toEqual(firstRV.temperatureStabilization);
+
+          // dateInstalled was changed to a Date
+          expect(newRD.gnssReceiver.dateInstalled.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.dateInstalled));
+          // But dateRemoved wasn't
+          expect(newRD.gnssReceiver.dateRemoved.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.dateRemoved));
+          // expect(firstRV.startDate).toEqual(newRD.gnssReceiver.validTime.abstractTimePrimitive['gml:TimePeriod']
+          //     .beginPosition.value[0]);
+          // expect(firstRV.endDate).toBeNull();
+          // expect(newRD.gnssReceiver.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeNull();
       });
   });
 }
