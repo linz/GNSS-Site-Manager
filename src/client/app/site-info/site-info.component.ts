@@ -332,9 +332,13 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
                 console.warn(`createComparator - ${itemName} does not have a comparator`);
                 // And this should never get called as it isn't an array
                 return null;
+            case 'siteOwner':
+                return ResponsiblePartyGroupComponent.compare;
             case 'siteContact':
                 return ResponsiblePartyGroupComponent.compare;
             case 'siteMetadataCustodian':
+                return ResponsiblePartyGroupComponent.compare;
+            case 'siteDataCenter':
                 return ResponsiblePartyGroupComponent.compare;
             case 'siteDataSource':
                 return ResponsiblePartyGroupComponent.compare;
