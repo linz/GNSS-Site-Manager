@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'gnss-receiver-item',
     templateUrl: 'gnss-receiver-item.component.html',
 })
-export class GnssReceiverItemComponent extends AbstractItemComponent implements OnInit {
+export class GnssReceiverItemComponent extends AbstractItemComponent {
     /**
      * The GnssReceiver in question.
      */
@@ -47,10 +47,6 @@ export class GnssReceiverItemComponent extends AbstractItemComponent implements 
             {dateInserted: new FormControl('')},
             {deletedReason: new FormControl('')}
         ]);
-    }
-
-    ngOnInit() {
-        this.patchForm();
     }
 
     getItem(): AbstractViewModel {

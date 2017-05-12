@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'frequency-standard-item',
     templateUrl: 'frequency-standard-item.component.html',
 })
-export class FrequencyStandardItemComponent extends AbstractItemComponent implements OnInit {
+export class FrequencyStandardItemComponent extends AbstractItemComponent {
     /**
      * The Frequency Standard in question.
      */
@@ -21,10 +21,6 @@ export class FrequencyStandardItemComponent extends AbstractItemComponent implem
 
     constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
         super(dialogService);
-    }
-
-    ngOnInit() {
-        this.patchForm();
     }
 
     getItemName(): string {

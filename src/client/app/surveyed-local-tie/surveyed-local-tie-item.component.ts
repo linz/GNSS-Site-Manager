@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'surveyed-local-tie-item',
     templateUrl: 'surveyed-local-tie-item.component.html',
 })
-export class SurveyedLocalTieItemComponent extends AbstractItemComponent implements OnInit {
+export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
     /**
      * The SurveyedLocalTie in question.
      */
@@ -21,10 +21,6 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
 
     constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
         super(dialogService);
-    }
-
-    ngOnInit() {
-        this.patchForm();
     }
 
     getItemName(): string {

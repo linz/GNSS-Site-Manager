@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'water-vapor-sensor-item',
     templateUrl: 'water-vapor-sensor-item.component.html',
 })
-export class WaterVaporSensorItemComponent extends AbstractItemComponent implements OnInit {
+export class WaterVaporSensorItemComponent extends AbstractItemComponent {
     /**
      * The WaterVaporSensor in question.
      */
@@ -21,10 +21,6 @@ export class WaterVaporSensorItemComponent extends AbstractItemComponent impleme
 
     constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
         super(dialogService);
-    }
-
-    ngOnInit() {
-        this.patchForm();
     }
 
     getItemName(): string {

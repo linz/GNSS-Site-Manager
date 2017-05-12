@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { HumiditySensorViewModel } from './humidity-sensor-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'humidity-sensor-item',
     templateUrl: 'humidity-sensor-item.component.html',
 })
-export class HumiditySensorItemComponent extends AbstractItemComponent implements OnInit {
+export class HumiditySensorItemComponent extends AbstractItemComponent {
     /**
      * The HumiditySensor in question.
      */
@@ -21,10 +21,6 @@ export class HumiditySensorItemComponent extends AbstractItemComponent implement
 
     constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
         super(dialogService);
-    }
-
-    ngOnInit() {
-        this.patchForm();
     }
 
     getItemName(): string {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'temperature-sensor-item',
     templateUrl: 'temperature-sensor-item.component.html',
 })
-export class TemperatureSensorItemComponent extends AbstractItemComponent implements OnInit {
+export class TemperatureSensorItemComponent extends AbstractItemComponent {
     /**
      * The TemperatureSensor in question.
      */
@@ -21,10 +21,6 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent implem
 
     constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
         super(dialogService);
-    }
-
-    ngOnInit() {
-        this.patchForm();
     }
 
     getItemName(): string {

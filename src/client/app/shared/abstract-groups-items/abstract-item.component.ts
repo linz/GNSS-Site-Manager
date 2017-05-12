@@ -1,4 +1,4 @@
-import { EventEmitter, Input, Output, OnChanges, AfterViewInit, SimpleChange } from '@angular/core';
+import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange } from '@angular/core';
 import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
@@ -20,7 +20,7 @@ export interface ItemControl {
     [name: string]: AbstractControl;
 }
 
-export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnChanges, AfterViewInit {
+export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnInit, OnChanges, AfterViewInit {
     protected miscUtils: any = MiscUtils;
 
     protected itemGroup: FormGroup;
@@ -122,6 +122,10 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      * @return array of AbstractControl objects
      */
     abstract getFormControls(): ItemControls;
+
+    ngOnInit() {
+        this.patchForm();
+    }
 
     /**
      * Deteect changes in @Inputs and delegate to handlers

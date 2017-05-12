@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Injector } from '@angular/core';
+import { Component, Input, Injector } from '@angular/core';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
@@ -13,7 +13,7 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
     selector: 'gnss-antenna-item',
     templateUrl: 'gnss-antenna-item.component.html',
 })
-export class GnssAntennaItemComponent extends AbstractItemComponent implements OnInit {
+export class GnssAntennaItemComponent extends AbstractItemComponent {
     /**
      * The GNSS Antenna in question.
      */
@@ -21,10 +21,6 @@ export class GnssAntennaItemComponent extends AbstractItemComponent implements O
 
     constructor(protected dialogService: DialogService) {
         super(dialogService);
-    }
-
-    ngOnInit() {
-        this.patchForm();
     }
 
     getItemName(): string {
