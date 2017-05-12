@@ -23,14 +23,14 @@ import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vap
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 /**
- * This class represents the SiteInfoComponent for viewing and editing the details of site/receiver/antenna.
+ * This class represents the SiteLogComponent for viewing and editing the details of site/receiver/antenna.
  */
 @Component({
     moduleId: module.id,
-    selector: 'sd-site-info',
-    templateUrl: 'site-info.component.html'
+    selector: 'sd-site-log',
+    templateUrl: 'site-log.component.html'
 })
-export class SiteInfoComponent implements OnInit, OnDestroy {
+export class SiteLogComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
 
     // the master form that contains all the other forms
@@ -47,7 +47,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     private siteLocation: any = {};
     private siteContacts: Array<any> = [];
     private errorMessage: string;
-    private siteInfoTab: any = null;
+    private siteLogTab: any = null;
     private submitted: boolean = false;
     private status: any = {
         oneAtATime: false,
@@ -59,7 +59,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     private authSubscription: Subscription;
 
     /**
-     * Creates an instance of the SiteInfoComponent with the injected Router/ActivatedRoute/CorsSite Services.
+     * Creates an instance of the SiteLogComponent with the injected Router/ActivatedRoute/CorsSite Services.
      *
      * @param {Router} router - The injected Router.
      * @param {ActivatedRoute} route - The injected ActivatedRoute.
@@ -79,7 +79,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Initialise all data on loading the site-info page
+     * Initialise all data on loading the site-log page
      */
     public ngOnInit() {
         this.route.params.forEach((params: Params) => {
@@ -89,38 +89,38 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
         this.authSubscription = this.setupAuthSubscription();
         this.setupForm();
-        this.loadSiteInfoData();
+        this.loadSiteLogData();
         this.setupSubscriptions();
     }
 
     /**
      * Retrieve relevant site/setup/log information from DB based on given Site Id
      */
-    public loadSiteInfoData() {
-        // Do not allow direct access to site-info page
+    public loadSiteLogData() {
+        // Do not allow direct access to site-log page
         if (!this.siteId) {
             this.goToHomePage();
         }
 
-        console.log('---------> SiteInfoComponent - Load ------------------------');
+        console.log('---------> SiteLogComponent - Load ------------------------');
         this.isLoading = true;
         this.submitted = false;
 
-        this.siteInfoTab = this.route.params.subscribe(() => {
+        this.siteLogTab = this.route.params.subscribe(() => {
             this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
                 (responseJson: any) => {
                     this.siteLogModel = responseJson.siteLog;
-                    console.debug('loadSiteInfoData - siteLogModel: ', this.siteLogModel);
+                    console.debug('loadSiteLogData - siteLogModel: ', this.siteLogModel);
 
                     this.backupSiteLogJson();
                     this.isLoading = false;
                     this.siteLogService.sendFormModifiedStateMessage(false);
-                    this.dialogService.showSuccessMessage('Site log info loaded successfully for ' + this.siteId);
+                    this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
                 },
                 (error: Error) => {
                     this.errorMessage = <any>error;
                     this.isLoading = false;
-                    this.dialogService.showErrorMessage('No site log info found for ' + this.siteId);
+                    this.dialogService.showErrorMessage('No site log found for ' + this.siteId);
                 }
             );
         });
@@ -144,8 +144,8 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
 
         // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
         // object is created.  Hence this field might not have been created.
-        if (this.siteInfoTab !== undefined && this.siteInfoTab !== null) {
-            this.siteInfoTab.unsubscribe();
+        if (this.siteLogTab !== undefined && this.siteLogTab !== null) {
+            this.siteLogTab.unsubscribe();
         }
     }
 
@@ -165,7 +165,7 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
             }
             formValue = this.siteLogForm.value;
         }
-        console.log('---------> SiteInfoComponent - Save ------------------------');
+        console.log('---------> SiteLogComponent - Save ------------------------');
         let formValueClone: any = _.cloneDeep(formValue);
         this.moveSiteInformationUp(formValueClone);
 
@@ -224,15 +224,15 @@ export class SiteInfoComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Popup a dialog prompting users whether or not to save changes if any before closing the site-info page
+     * Popup a dialog prompting users whether or not to save changes if any before closing the site-log page
      */
-    public confirmCloseSiteInfoPage(): Promise<boolean> {
+    public confirmCloseSiteLogPage(): Promise<boolean> {
         let msg: string = 'You have made changes to the ${this.siteId} Site Log. \
             Closing the page will lose any unsaved changes.';
         return new Promise<boolean>((resolve, reject) => {
         this.dialogService.confirmCloseDialog(msg,
             () => {
-                this.dialogService.showLogMessage('Site Info page closed without saving changes made.');
+                this.dialogService.showLogMessage('Site Log page closed without saving changes made.');
                 resolve(true);
             },
             () => {

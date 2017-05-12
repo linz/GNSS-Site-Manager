@@ -13,8 +13,8 @@ import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-p
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, doWriteViewToData, FieldMap } from './data-view-translator';
-import { SiteIdentificationMappings } from '../../site-info/site-identification.mapping';
-import { SiteLocationMappings } from '../../site-info/site-location.mapping';
+import { SiteIdentificationMappings } from '../../site-log/site-identification.mapping';
+import { SiteLocationMappings } from '../../site-log/site-location.mapping';
 
 /**
  * This class provides the service to convert from 'Geodesy data model JSON' (from the XML via Jsonix) to
