@@ -38,7 +38,7 @@ export class SiteLocationComponent implements OnInit {
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
             this.siteLocation = siteLogModel.siteLocation;
             this.changeDetectionRef.detectChanges();
-            this.patchForm();
+            this.siteLocationForm.setValue(this.siteLocation);
         }
     }
 
@@ -62,7 +62,6 @@ export class SiteLocationComponent implements OnInit {
 
     ngOnInit() {
         this.setupForm();
-        // patchForm is called from the setter in this form
     }
 
     public isFormDirty(): boolean {
@@ -93,10 +92,6 @@ export class SiteLocationComponent implements OnInit {
             this.siteLocationForm.disable();
         }
         this.parentForm.addControl('siteLocation', this.siteLocationForm);
-    }
-
-    private patchForm() {
-        this.siteLocationForm.setValue(this.siteLocation);
     }
 }
 
