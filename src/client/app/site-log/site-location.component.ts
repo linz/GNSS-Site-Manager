@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl, FormControl } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { UserAuthService } from '../shared/global/user-auth.service';
@@ -26,7 +26,7 @@ import { UserAuthService } from '../shared/global/user-auth.service';
     selector: 'site-location',
     templateUrl: 'site-location.component.html'
 })
-export class SiteLocationComponent implements OnInit, OnDestroy {
+export class SiteLocationComponent implements OnInit {
     @Input('parentForm') parentForm: FormGroup;
 
     status: any = {
@@ -63,10 +63,6 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.setupForm();
         // patchForm is called from the setter in this form
-    }
-
-    ngOnDestroy() {
-
     }
 
     public isFormDirty(): boolean {
