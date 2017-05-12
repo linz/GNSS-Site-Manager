@@ -15,7 +15,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     miscUtils: any = MiscUtils;
     protected groupArrayForm: FormArray;
-    @Input() siteLogForm: FormGroup;
+
+    @Input() parentForm: FormGroup;
 
     @Input()
     set siteLogModel(siteLogModel: any) {
@@ -205,15 +206,14 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     /**
      * Setup the form for the group.  It will contain an array of Items.
      *
-     * @param itemsArrayName that is set on the siteLogForm
+     * @param itemsArrayName that is set on the parentForm
      */
     setupForm(itemsArrayName: string) {
         this.groupArrayForm = this.formBuilder.array([]);
-        if (this.siteLogForm.controls[itemsArrayName]) {
-            this.siteLogForm.removeControl(itemsArrayName);
+        if (this.parentForm.controls[itemsArrayName]) {
+            this.parentForm.removeControl(itemsArrayName);
         }
-        this.siteLogForm.addControl(itemsArrayName, this.groupArrayForm);
-
+        this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
         this.setupChildItems();
     }
 

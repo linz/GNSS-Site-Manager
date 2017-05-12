@@ -34,7 +34,7 @@ import { UserAuthService } from '../shared/global/user-auth.service';
     templateUrl: 'site-identification.component.html'
 })
 export class SiteIdentificationComponent implements OnInit {
-    @Input('siteInformationForm') siteInformationForm: FormGroup;
+    @Input('parentForm') parentForm: FormGroup;
 
     status: any = {
         isSiteIdentificationGroupOpen: false
@@ -121,7 +121,7 @@ export class SiteIdentificationComponent implements OnInit {
         } else {
             this.siteIdentificationForm.disable();
         }
-        this.siteInformationForm.addControl('siteIdentification', this.siteIdentificationForm);
+        this.parentForm.addControl('siteIdentification', this.siteIdentificationForm);
     }
 }
 
