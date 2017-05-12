@@ -1,88 +1,80 @@
 <div class="container clear-pad">
     <div class="header-container">
-        <span class="hidden-xs" id="ga-logo">
+        <span id="ga-logo">
             <a href="http://www.ga.gov.au" title="Go to Geoscience Australia home page" target="_blank">
-                <span class="hidden-sm">
+                <span class="hidden-sm hidden-xs">
                     <img class="logo-inline" src="assets/ga-logo-inline.png"
                          alt="Australian Government - Geoscience Australia">
                 </span>
-                <span class="visible-sm">
+                <span class="visible-sm visible-xs">
                     <img class="logo-stacked" src="assets/ga-logo-stacked.png"
                          alt="Australian Government - Geoscience Australia">
                 </span>
             </a>
         </span>
-        <span dropdown class="visible-xs" id="links-left">
-            <button dropdownToggle type="button" class="btn menu-btn">
-                <i class="glyphicon glyphicon-menu-hamburger"></i>
-            </button>
-            <ul dropdownMenu role="menu" aria-labelledby="menu-button">
-                <li role="menuitem"><a [routerLink]="['/']">Select Site</a></li>
-                <li role="menuitem"><a [routerLink]="['/about']">About</a></li>
-                <!-- TODO: Disable service worker for now -->
-                <!-- <li class="divider dropdown-divider"></li> -->
-                <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
-            </ul>
-        </span>
-        <span class="title" id="app-title">GNSS Site Manager</span>
-        <span class="right-panel">
-            <span *ngIf="siteId">
-                <span class="hidden-md hidden-sm hidden-xs">
-                        <span class="id-label" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">Selected Site: {{siteId}}</span>
-                        <button class="btn small-btn" (click)="save()" [disabled]="!isFormDirty()"
-                                title="Review and save changes">Save</button>
-                        <button class="btn small-btn" (click)="revert()" [disabled]="!isFormDirty()"
-                                title="Discard changes">Revert</button>
-                        <button class="btn small-btn" (click)="close()"
-                                title="Close current page and go back to Home page">Close</button>
-                </span>
-                <span class="hidden-lg">
-                  <div dropdown class="pull-left">
-                    <nav dropdownToggle id="site-id-menu" class="menu-label">
-                        <span class="btn-label" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">{{siteId}}</span>
-                        <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
-                    </nav>
-                    <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-                        <li role="menuitem"><a (click)="save()" title="Review and save changes" [ngClass]="{'disabled': !isFormDirty()}">Save</a></li>
-                        <li role="menuitem"><a (click)="revert()" title="Discard changes" [ngClass]="{'disabled': !isFormDirty()}">Revert</a></li>
-                        <li class="divider dropdown-divider"></li>
-                        <li role="menuitem"><a (click)="close()">Close</a></li>
-                    </ul>
-                  </div>
-                </span>
-            </span>
-            <span dropdown class="btn-group hidden-xs" id="links-right">
-                <button dropdownToggle type="button" class="btn menu-btn">
-                    <i class="glyphicon glyphicon-menu-hamburger"></i>
-                </button>
+        <span class="title" id="application-title">GNSS Site Manager</span>
+        <span class="dropdown-menu-panel" id="dropdown-menu-panel">
+            <span dropdown *ngIf="siteId" class="pull-left" id="site-id-dropdown-menu">
+                <nav dropdownToggle class="site-id-menu">
+                    <span class="site-id-menu-label">{{siteId}}</span><!-- remove space between
+                    --><i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
+                </nav>
                 <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-                    <li role="menuitem"><a [routerLink]="['/']">Select Site</a></li>
-                    <li role="menuitem"><a [routerLink]="['/about']">About</a></li>
+                    <li role="menuitem" title="Save changes">
+                        <a (click)="save()" [ngClass]="{'disabled': !isFormDirty()}">Save</a>
+                    </li>
+                    <li role="menuitem" title="Discard changes">
+                        <a (click)="revert()" [ngClass]="{'disabled': !isFormDirty()}">Revert</a>
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem" title="Close current page and go back to Home page">
+                        <a (click)="close()">Close</a>
+                    </li>
+                </ul>
+            </span>
+            <span dropdown id="profile-dropdown-menu">
+                <nav dropdownToggle class="profile-menu">
+                    <i class="glyphicon glyphicon-user"></i>
+                    <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
+                </nav>
+                <ul *ngIf="!user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                    <li role="menuitem">
+                        <a (click)="login()">Login</a>
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem">
+                        <a [routerLink]="['/userRegistration']">Register</a>
+                    </li>
+                </ul>
+                <ul *ngIf="user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                    <li role="menuitem">
+                        <a (click)="showUserProfile()">View Profile</a>
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem">
+                        <a (click)="changePassword()">Change Password</a>
+                    </li>
+                    <li class="divider dropdown-divider"></li>
+                    <li role="menuitem">
+                        <a (click)="logout()">Logout</a>
+                    </li>
+                </ul>
+            </span>
+            <span dropdown class="pull-right" id="navigation-dropdown-menu">
+                <nav dropdownToggle class="navigation-menu">
+                    <i class="glyphicon glyphicon-menu-hamburger"></i>
+                </nav>
+                <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
+                    <li role="menuitem">
+                        <a [routerLink]="['/']">Select Site</a>
+                    </li>
+                    <li role="menuitem">
+                        <a [routerLink]="['/about']">About</a>
+                    </li>
                     <!-- TODO: Disable service worker for now -->
                     <!-- <li class="divider dropdown-divider"></li> -->
                     <!-- <li role="menuitem"><a (click)="clearCache()">Update Application</a></li> -->
                 </ul>
-            </span>
-            <span class="pull-right" id="login">
-                <span *ngIf="!user">
-                    <button class="btn small-btn" (click)="login()">Login</button>
-                    <button class="btn small-btn" [routerLink]="['/userRegistration']">Register</button>
-                </span>
-                <span *ngIf="user">
-                    <div dropdown>
-                        <nav dropdownToggle id="user-menu" class="menu-label">
-                            <span class="btn-label">{{user.profile.sub}}</span>
-                            <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
-                        </nav>
-                        <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-                            <li role="menuitem"><a (click)="showUserProfile()">View Profile</a></li>
-                            <li class="divider dropdown-divider"></li>
-                            <li role="menuitem"><a (click)="changePassword()">Change Password</a></li>
-                            <li class="divider dropdown-divider"></li>
-                            <li role="menuitem"><a (click)="logout()">Logout</a></li>
-                        </ul>
-                    </div>
-                </span>
             </span>
         </span>
     </div>
