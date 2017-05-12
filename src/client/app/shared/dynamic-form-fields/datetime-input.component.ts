@@ -92,6 +92,10 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     public miscUtils: any = MiscUtils;
 
+    isFormDisabled(): boolean {
+        return this.form.disabled;
+    }
+
     // private _datetimeDisplay: string = '';
     // private _datetimeDisplayLast: string = '';
     // private hours: number = 0;

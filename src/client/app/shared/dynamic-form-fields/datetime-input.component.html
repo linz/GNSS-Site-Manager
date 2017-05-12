@@ -7,7 +7,7 @@
     <div>
       <div class="input-group">
                <!--[formControlName]="controlName"-->
-          <label [ngClass]="{'ng-dirty': isDirty(controlName), 'ng-invalid': isInvalid(controlName)}">{{datetime}}</label>
+          <label [ngClass]="{'ng-dirty': isDirty(controlName), 'ng-invalid': isInvalid(controlName), 'labeldisabled': isFormDisabled()}">{{datetime}}</label>
           <!--<input type="text" maxlength="24"
                class="form-control z-lowest"
                [(ngModel)]="datetimeDisplay"
@@ -16,7 +16,8 @@
         <span class="input-group-btn z-lowest">
           <button id="calendar-btn" type="button"
                   class="btn btn-default btn-calendar z-lowest"
-                  (click)="showDatetimePicker = miscUtils.scrollIntoView($event, showDatetimePicker)">
+                  (click)="showDatetimePicker = miscUtils.scrollIntoView($event, showDatetimePicker)"
+                  [disabled]="isFormDisabled()" >
             <span id="calendar-icon" class="glyphicon glyphicon-calendar"></span>
           </button>
         </span>
