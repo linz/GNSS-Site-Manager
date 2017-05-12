@@ -1,5 +1,5 @@
 <div [formGroup]="siteLocationForm" class="panel panel-level-2"
-     [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': siteInformationForm.invalid}">
+     [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': parentForm.invalid}">
     <div class="panel-heading">
         <span class="panel-title cursor-ptr"
               (click)="status.isSiteLocationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteLocationGroupOpen)">

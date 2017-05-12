@@ -27,7 +27,7 @@ import { UserAuthService } from '../shared/global/user-auth.service';
     templateUrl: 'site-location.component.html'
 })
 export class SiteLocationComponent implements OnInit, OnDestroy {
-    @Input('siteInformationForm') siteInformationForm: FormGroup;
+    @Input('parentForm') parentForm: FormGroup;
 
     status: any = {
         isSiteLocationGroupOpen: false
@@ -96,7 +96,7 @@ export class SiteLocationComponent implements OnInit, OnDestroy {
         } else {
             this.siteLocationForm.disable();
         }
-        this.siteInformationForm.addControl('siteLocation', this.siteLocationForm);
+        this.parentForm.addControl('siteLocation', this.siteLocationForm);
     }
 
     private patchForm() {

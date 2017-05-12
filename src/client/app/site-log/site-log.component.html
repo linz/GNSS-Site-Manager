@@ -12,17 +12,17 @@
                         </span>
                     </div>
                     <div class="panel-body" [hidden]="!isGroupOpen">
-                        <site-identification [siteInformationForm]="siteInformationForm"
+                        <site-identification [parentForm]="siteInformationForm"
                                              [siteLogModel]="siteLogModel"
                                              [originalSiteLogModel]="siteLogOrigin">
                         </site-identification>
 
-                        <site-location [siteInformationForm]="siteInformationForm"
+                        <site-location [parentForm]="siteInformationForm"
                                        [siteLogModel]="siteLogModel"
                                        [originalSiteLogModel]="siteLogOrigin">
                         </site-location>
 
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
+                        <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteOwner"
                                                       [isMandatory]="true"
                                                       [isMultiple]="false"
@@ -30,7 +30,7 @@
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
+                        <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteContact"
                                                       [isMandatory]="true"
                                                       [isMultiple]="true"
@@ -38,7 +38,7 @@
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
+                        <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteMetadataCustodian"
                                                       [isMandatory]="true"
                                                       [isMultiple]="false"
@@ -46,7 +46,7 @@
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
+                        <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteDataCenter"
                                                       [isMandatory]="false"
                                                       [isMultiple]="true"
@@ -54,57 +54,58 @@
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
 
-                        <gnss-responsible-party-group [siteLogForm]="siteInformationForm"
+                        <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteDataSource"
                                                       [isMandatory]="false"
                                                       [isMultiple]="false"
                                                       [siteLogModel]="siteLogModel"
                                                       [originalSiteLogModel]="siteLogOrigin">
                         </gnss-responsible-party-group>
+-->
                     </div>
                 </div>
 
-                <gnss-receivers-group [siteLogForm]="siteLogForm"
+                <gnss-receivers-group [parentForm]="siteLogForm"
                                       [siteLogModel]="siteLogModel"
                                       [originalSiteLogModel]="siteLogOrigin">
                 </gnss-receivers-group>
 
-                <gnss-antenna-group [siteLogForm]="siteLogForm"
+                <gnss-antenna-group [parentForm]="siteLogForm"
                                     [siteLogModel]="siteLogModel"
                                     [originalSiteLogModel]="siteLogOrigin">
                 </gnss-antenna-group>
 
-                <surveyed-local-ties-group [siteLogForm]="siteLogForm"
+                <surveyed-local-ties-group [parentForm]="siteLogForm"
                                            [siteLogModel]="siteLogModel"
                                            [originalSiteLogModel]="siteLogOrigin">
                 </surveyed-local-ties-group>
 
-                <frequency-standard-group [siteLogForm]="siteLogForm"
+                <frequency-standard-group [parentForm]="siteLogForm"
                                           [siteLogModel]="siteLogModel"
                                           [originalSiteLogModel]="siteLogOrigin">
                 </frequency-standard-group>
 
-                <local-episodic-effects-group [siteLogForm]="siteLogForm"
+                <local-episodic-effects-group [parentForm]="siteLogForm"
                                               [siteLogModel]="siteLogModel"
                                               [originalSiteLogModel]="siteLogOrigin">
                 </local-episodic-effects-group>
 
-                <humidity-sensors-group [siteLogForm]="siteLogForm"
+                <humidity-sensors-group [parentForm]="siteLogForm"
                                         [siteLogModel]="siteLogModel"
                                         [originalSiteLogModel]="siteLogOrigin">
                 </humidity-sensors-group>
 
-                <pressure-sensors-group [siteLogForm]="siteLogForm"
+                <pressure-sensors-group [parentForm]="siteLogForm"
                                         [siteLogModel]="siteLogModel"
                                         [originalSiteLogModel]="siteLogOrigin">
                 </pressure-sensors-group>
 
-                <temperature-sensors-group [siteLogForm]="siteLogForm"
+                <temperature-sensors-group [parentForm]="siteLogForm"
                                            [siteLogModel]="siteLogModel"
                                            [originalSiteLogModel]="siteLogOrigin">
                 </temperature-sensors-group>
 
-                <water-vapor-sensors-group [siteLogForm]="siteLogForm"
+                <water-vapor-sensors-group [parentForm]="siteLogForm"
                                            [siteLogModel]="siteLogModel"
                                            [originalSiteLogModel]="siteLogOrigin">
                 </water-vapor-sensors-group>
