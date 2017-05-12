@@ -35,8 +35,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     }
 
     ngOnInit() {
+        super.ngOnInit();
         this.isOpen = (this.index === 0);
-        this.patchForm();
     }
 
     getItem(): AbstractViewModel {
