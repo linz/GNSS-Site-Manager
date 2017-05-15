@@ -33,6 +33,51 @@ export class StatusInfoComponent implements OnInit {
         this.setupAuthSubscription();
     }
 
+    public isAuthorizedSite(): boolean {
+        if (!this.siteId) {
+            return false;
+        } else {
+            for (let auth of this.user.profile.authorities) {
+                auth = auth.toUpperCase();
+                if (auth === 'SUPERUSER') {
+                    return true;
+                } else if (auth.startsWith('EDIT-') && auth.slice(5) === this.siteId) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    public getFormStatus(): string {
+        let formStatus: string = '';
+        if (this.isFormModified) {
+            formStatus = 'modified, ';
+        } else {
+            formStatus = '';
+        }
+
+        if (this.isFormInvalid) {
+            formStatus += 'invalid';
+        } else {
+            formStatus += 'valid';
+        }
+        return formStatus;
+    }
+
+    public getUserAuthorityString(): string {
+        let authorities: any = [];
+        for (let auth of this.user.profile.authorities) {
+            auth = auth.toLowerCase();
+            if (auth === 'superuser') {
+                return 'All sites';
+            } else if (auth.startsWith('edit-')) {
+                authorities.push(auth.slice(5).toUpperCase());
+            }
+        }
+        return authorities.join();
+    }
+
     private setupRouterSubscription(): void {
         this.router.events
             .filter(event => event instanceof NavigationEnd)
@@ -58,18 +103,5 @@ export class StatusInfoComponent implements OnInit {
         this.userAuthService.userLoadededEvent.subscribe((u: User) => {
             this.user = u;
         });
-    }
-
-    private getUserAuthorityString(): string {
-        let authorities: any = [];
-        for (let auth of this.user.profile.authorities) {
-            auth = auth.toLowerCase();
-            if (auth === 'superuser') {
-                return 'All sites';
-            } else if (auth.startsWith('edit-')) {
-                authorities.push(auth.slice(5).toUpperCase());
-            }
-        }
-        return authorities.join();
     }
 }

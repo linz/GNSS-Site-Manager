@@ -1,11 +1,13 @@
 :host {
-  background-color: #fff;
+  background-color: transparent;
+  color: #0000b3;
   display: block;
   float: none;
-  height: 75px;
-  max-height: 75px;
-  margin: 0;
-  padding: 0;
+  font-size: 15px;
+  height: 25px;
+  max-height: 25px;
+  margin: 5px 0 0;
+  padding: 5px;
   width: 100%;
 }
 

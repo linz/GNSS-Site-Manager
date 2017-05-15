@@ -1,11 +1,20 @@
-<div class="container clear-pad">
+<div class="">
     <span *ngIf="user == null">
-        <span>You are not logged in. </span>
+        <span>You have not logged in and are not authorized to edit</span>
+        <span *ngIf="siteId == null">
+            any sites
+        </span>
+        <span *ngIf="siteId != null">
+            {{siteId}} ({{getFormStatus()}})
+        </span>
     </span>
     <span *ngIf="user != null">
-        <span>You have logged in as "{{user.profile.sub}}" and are allowed to edit sites: {{getUserAuthorityString}}</span>
-    </span>
-    <span *ngIf="siteId != null">
-        Site selected: {{siteId}} (Input form is {{isFormModified ? 'modified' : ''}} {{isFormInvalid ? 'invalid' : 'valid'}})
+        <span>You have logged in as "{{user.profile.sub}}"</span>
+        <span *ngIf="siteId == null">
+            and are authorized to edit {{getUserAuthorityString()}})
+        </span>
+        <span *ngIf="siteId != null">
+            and are {{isAuthorizedSite() ? '' : 'not'}} authorized to edit {{siteId}} ({{getFormStatus()}})
+        </span>
     </span>
 </div>
