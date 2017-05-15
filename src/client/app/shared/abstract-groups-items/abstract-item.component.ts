@@ -91,13 +91,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         return this.index;
     }
 
-    /**
-     * Get the 1-based index number.
-     */
-    getItemNumber(): number {
-        return this.index+1;
-    }
-
     getGeodesyEvent(): GeodesyEvent {
         return this.geodesyEvent;
     }
@@ -188,15 +181,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     public isFormInvalid(): boolean {
         return this.itemGroup && this.itemGroup.invalid;
-    }
-
-    /**
-     * Add the itemGroup (the item) to the array (groupArray).
-     * @param itemGroup to add
-     */
-    addToGroupArray(itemGroup: FormGroup): void {
-        this.groupArray.insert(0, itemGroup);
-        console.warn(`AbstractItem (${this.getItemName()}) - addToGroupArray - groupArray size now: ${this.groupArray.length}`);
     }
 
     /**
