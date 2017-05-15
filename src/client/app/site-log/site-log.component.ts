@@ -21,6 +21,7 @@ import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-
 import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
+import { StatusInfoComponent } from '../shared/status-info/status-info.component';
 
 /**
  * This class represents the SiteLogComponent for viewing and editing the details of site/receiver/antenna.

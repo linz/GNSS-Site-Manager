@@ -6,6 +6,7 @@ import { DropdownModule, TooltipModule, CollapseModule  } from 'ng2-bootstrap';
 
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
+import { StatusInfoComponent } from './status-info/status-info.component';
 import { CorsSiteService } from './cors-site/index';
 import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
@@ -27,11 +28,13 @@ import { JsonViewModelService } from './json-data-view-model/index';
   ],
   declarations: [
     ToolbarComponent,
-    FooterComponent
+    FooterComponent,
+    StatusInfoComponent
   ],
   exports: [
     ToolbarComponent,
     FooterComponent,
+    StatusInfoComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

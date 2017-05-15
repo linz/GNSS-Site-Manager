@@ -1,8 +1,10 @@
 <div class="container centered clear-pad">
     <div class="col-md-12 col-sm-12 col-xs-12 col-xxs-12 pad-sm">
+        <gnss-status-info></gnss-status-info>
         <form [formGroup]="siteLogForm" novalidate class="form-horizontal">
             <div class="panel-group">
-                <div [formGroup]="siteInformationForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isSiteInformationFormDirty(), 'gnss-invalid': isSiteInformationFormInvalid()}">
+                <div [formGroup]="siteInformationForm" class="panel panel-level-1"
+                     [ngClass]="{'gnss-dirty': isSiteInformationFormDirty(), 'gnss-invalid': isSiteInformationFormInvalid()}">
                     <div class="panel-heading">
                         <span class="panel-title cursor-ptr"
                               (click)="isGroupOpen = miscUtils.scrollIntoView($event, isGroupOpen)">
