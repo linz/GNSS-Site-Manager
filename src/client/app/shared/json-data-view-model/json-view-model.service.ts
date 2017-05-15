@@ -150,10 +150,12 @@ export class JsonViewModelService {
     private viewToDataModel<T extends AbstractViewModel>(viewModels: T[]): any[] {
         let dataModels: any[] = [];
         for (let viewModel of viewModels) {
-            let fieldMappings: FieldMap[] = (<T> viewModel).getFieldMaps();
-            let dataModel: any = {};
-            DataViewTranslatorService.translateV2D(viewModel, dataModel, fieldMappings);
-            dataModels.push(dataModel);
+            if ((<T> viewModel).getFieldMaps) {
+                let fieldMappings: FieldMap[] = (<T> viewModel).getFieldMaps();
+                let dataModel: any = {};
+                DataViewTranslatorService.translateV2D(viewModel, dataModel, fieldMappings);
+                dataModels.push(dataModel);
+            }
         }
         return dataModels;
     }
