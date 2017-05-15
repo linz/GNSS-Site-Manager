@@ -17,10 +17,6 @@
   max-height: 70px;
   padding: 0;
 }
-.right-panel {
-  float: right;
-  padding: 17px 0;
-}
 .title {
   display: inline;
   font-size: 24px;
@@ -42,58 +38,48 @@ img.logo-stacked {
   height: 69px;
   width: 100px;
 }
-.menu-btn {
-  background-color: transparent;
-  border-color: #2f2f2f;
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 1.0;
-  margin-left: 10px !important;
-  margin-right: 4px;
-  padding: 4px 10px 1px;
+.dropdown-menu-panel {
+  display: inline-block;
+  float: right;
+  padding: 15px 0;
 }
-.menu-btn:hover,
-.menu-btn:focus,
-.small-btn:hover,
-.small-btn:focus,
-.wrap-btn:hover,
-.wrap-btn:focus {
+.site-id-menu,
+.profile-menu,
+.navigation-menu {
+  background-color: transparent;
+  border: 1px solid #2f2f2f;
+  border-radius: 4px;
+  display: inline;
+  font-size: 15px;
+  line-height: 2.95;
+  margin: 0 5px;
+}
+.site-id-menu {
+  padding: 5px 3px;
+}
+.profile-menu {
+  padding: 5px 9px;
+}
+.navigation-menu {
+  font-size: 23.5px;
+  line-height: 1.9;
+  padding: 0 11px;
+}
+.navigation-menu:hover,
+.navigation-menu:focus,
+.site-id-menu:hover,
+.site-id-menu:focus,
+.profile-menu:hover,
+.profile-menu:focus {
+  cursor: pointer;
   color: #006983;
   border-color: #006983;
+  background-color: #e5f5e0;
 }
-.small-btn {
-  background-color: transparent;
-  border-color: #2f2f2f;
-  font-size: 16px !important;
-  font-weight: 400 !important;
-  margin-left: 10px;
-  margin-top: 0;
-  padding: 4px 8px;
-}
-.wrap-btn {
-  background-color: transparent;
-  border-color: #2f2f2f;
-  font-size: 15px !important;
-  font-weight: 400 !important;
-  padding: 3px 6px;
-  margin-top: 4px;
-}
-.id-label {
-  font-size: 15px;
-  font-weight: normal;
-  vertical-align: middle;
-}
-.btn-label {
+.site-id-menu-label {
   font-size: 15px;
   font-weight: normal;
   margin-right: 0;
-}
-.menu-label {
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: normal;
-  line-height: 2.5;
-  margin-left: 0;
 }
 .dropdown-icon {
   font-size: 10px;
@@ -112,6 +98,9 @@ img.logo-stacked {
 .dropdown-menu > li > a {
   padding: 5px 20px;
   margin-bottom: 5px;
+}
+#profile-dropdown-menu > ul {
+    margin: 15px 5px 0 0;
 }
 
 /* A horizontal strap just right below the header */
@@ -141,50 +130,29 @@ img.logo-stacked {
   background-color: #a33f1f;
 }
 
-@media (max-width: 1180px) AND (min-width: 991px){
-  .menu-label {
-    margin-right: 5px;
-  }
-}
-
 @media (max-width: 990px) {
   .title {
     font-size: 22px;
     letter-spacing: 0;
     margin-left: 10px;
   }
-  .menu-btn {
-    border-color: transparent;
-    margin-left: 10px !important;
-    margin-right: 0;
-  }
 }
 
 /* Special CSS classes defined for small devices such as smart phone (landscape) */
 @media (max-width: 767px) {
   .header-container {
-    padding: 18px 10px;
+    padding: 10px 10px 0 0;
   }
-  .right-panel {
-    padding: 0;
+  #ga-logo {
+    margin-top: -10px;
   }
   .title {
     font-size: 20px;
     line-height: 2.0;
     margin-left: 0;
   }
-  .menu-btn {
-    border-color: transparent;
-    margin-left: -5px !important;
-    padding: 3px 6px 3px;
-  }
-  .menu-label {
-    line-height: 2.2;
-    margin-left: 10px;
-    margin-right: 10px;
-  }
-  .small-btn {
-    font-weight: 300;
+  .dropdown-menu-panel {
+    padding: 2px;
   }
   .visible-xs {
     display: inline-block !important;
@@ -194,7 +162,10 @@ img.logo-stacked {
 /* Special CSS classes defined for small devices such as smart phone (portrait) */
 @media (max-width: 480px) {
   .header-container {
-    padding: 18px 5px;
+    padding: 15px 5px 0 0;
+  }
+  #ga-logo {
+    margin-top: -15px;
   }
   .title {
     display: inline-block;
@@ -203,37 +174,35 @@ img.logo-stacked {
     margin: -18px 0 -18px 10px;
     width: 100px;
   }
-  .menu-btn {
-    border: 0;
-    font-size: 22px;
-    line-height: 1.2;
-    margin-left: 0 !important;
-    margin-top: 6px;
-    padding: 0;
+  .dropdown-menu-panel {
+    margin-top: -2px;
   }
-  .menu-label {
-    line-height: 2.0;
-    margin-right: 5px;
-  }
-  .small-btn {
-    font-size: 15px !important;
-    font-weight: 200;
+  .site-id-menu,
+  .profile-menu,
+  .navigation-menu {
+    margin: 0 3px;
   }
 }
-@media (max-width: 365px) {
+@media (max-width: 400px) {
+  .header-container {
+    padding: 10px 5px 0 0;
+  }
+  .dropdown-menu-panel {
+    margin-top: 0;
+  }
   .title {
     display: inline-block;
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.1;
-    margin: -12px 0 0 5px;
-    width: 75px;
+    margin: -5px 0 0 0;
+    width: 70px;
   }
-  .menu-btn {
-    margin-top: -6px;
-    padding: 0;
+}
+@media (max-width: 355px) {
+  #ga-logo {
+    display: none;
   }
-  .small-btn {
-    margin-left: 5px;
-    padding: 4px;
+  .title {
+    margin-left: 10px;
   }
 }

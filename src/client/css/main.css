@@ -160,9 +160,9 @@ ul {
   color: #fff;
 }
 .btn-group-xs > .btn, .btn-xs {
-    font-size: 14px;
-    padding: 0 5px;
-    line-height: 1.6;
+  font-size: 14px;
+  padding: 0 5px;
+  line-height: 1.6;
 }
 .panel-group .panel-level-1 {
   margin-top: 15px;
@@ -460,10 +460,7 @@ ul {
   background-color: #008369;
   padding: 3px 5px;
 }
-.btn-label.gnss-dirty {
-    background-color: #d9f7e3 !important;
-}
-.id-label.gnss-dirty {
+.site-id-menu-label.gnss-dirty {
     background-color: #d9f7e3 !important;
 }
 .panel-level-1.gnss-dirty {
@@ -484,11 +481,7 @@ ul {
 .panel-level-3.gnss-dirty > .panel-heading {
   background-color: #e9faef !important;
 }
-.btn-label.gnss-invalid {
-    background-color: #a33f1f !important;
-    color: #ffffff !important;
-}
-.id-label.gnss-invalid {
+.site-id-menu-label.gnss-invalid {
     background-color: #a33f1f !important;
     color: #ffffff !important;
 }
