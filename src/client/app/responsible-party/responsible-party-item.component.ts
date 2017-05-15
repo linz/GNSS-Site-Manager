@@ -92,8 +92,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {phone: new FormControl('')},
             {fax: new FormControl('')},
             {fieldMaps: new FormControl('')},
-            {startDate: new FormControl('')},            
-            {endDate: new FormControl('')},     
+            {startDate: new FormControl('')},
+            {endDate: new FormControl('')},
             {dateDeleted: new FormControl('')},
             {dateInserted: new FormControl('')},
             {deletedReason: new FormControl('')}
