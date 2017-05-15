@@ -24,10 +24,6 @@ export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssRece
         return 'gnssReceivers';
     }
 
-    compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
-        return GnssReceiversGroupComponent.compare(obj1, obj2);
-    }
-
     /* **************************************************
      * Other methods
      */

@@ -26,10 +26,6 @@ class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
     getControlName(): string {
         return 'abstractGroupImpl';
     }
-
-    compare(obj1: AbstractViewModelImpl, obj2: AbstractViewModelImpl): number {
-        return AbstractGroupComponent.compareDates(obj1.startDate, obj2.startDate);
-    }
 }
 
 export function main() {

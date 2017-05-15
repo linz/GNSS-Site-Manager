@@ -12,11 +12,6 @@ import { PressureSensorViewModel } from './pressure-sensor-view-model';
     templateUrl: 'pressure-sensors-group.component.html',
 })
 export class PressureSensorsGroupComponent extends AbstractGroupComponent<PressureSensorViewModel> {
-    static compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroupComponent.compareDates(date1, date2);
-    }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
@@ -28,10 +23,6 @@ export class PressureSensorsGroupComponent extends AbstractGroupComponent<Pressu
 
     getControlName(): string {
         return 'pressureSensors';
-    }
-
-    compare(obj1: PressureSensorViewModel, obj2: PressureSensorViewModel): number {
-        return PressureSensorsGroupComponent.compare(obj1, obj2);
     }
 
     newItemViewModel(blank?: boolean): PressureSensorViewModel {

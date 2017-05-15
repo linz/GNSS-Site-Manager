@@ -12,11 +12,6 @@ import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
     templateUrl: 'water-vapor-sensors-group.component.html',
 })
 export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<WaterVaporSensorViewModel> {
-    static compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroupComponent.compareDates(date1, date2);
-    }
 
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
@@ -28,10 +23,6 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<Wate
 
     getControlName(): string {
         return 'waterVaporSensors';
-    }
-
-    compare(obj1: WaterVaporSensorViewModel, obj2: WaterVaporSensorViewModel): number {
-        return WaterVaporSensorsGroupComponent.compare(obj1, obj2);
     }
 
     newItemViewModel(blank?: boolean): WaterVaporSensorViewModel {
