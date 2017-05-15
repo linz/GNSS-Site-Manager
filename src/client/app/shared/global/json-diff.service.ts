@@ -373,13 +373,6 @@ export class JsonDiffService {
             if (object.endDate && this.isString(object.endDate)) {
                 ident += ' &ndash; ' + MiscUtils.getDate(object.endDate);
             }
-        } else if (object.dateInstalled && this.isString(object.dateInstalled)) {
-            ident += MiscUtils.getDate(object.dateInstalled);
-            if (object.dateRemoved && this.isString(object.dateRemoved)) {
-                ident += ' &ndash; ' + MiscUtils.getDate(object.dateRemoved);
-            }
-        } else if (object.dateMeasured && this.isString(object.dateMeasured)) {
-            ident += MiscUtils.getDate(object.dateMeasured);
         }
         return ident;
     }

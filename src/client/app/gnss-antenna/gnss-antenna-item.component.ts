@@ -43,8 +43,8 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
         return new ItemControls([
             {antennaType: new FormControl('')},//, [Validators.maxLength(100)]],
             {serialNumber: new FormControl('')},//, [Validators.maxLength(100)]],
-            {dateInstalled: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
-            {dateRemoved: new FormControl('')},    // requiredIfNotCurrent="true"
+            {startDate: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
+            {endDate: new FormControl('')},    // requiredIfNotCurrent="true"
             {antennaReferencePoint: new FormControl('')},//, [Validators.maxLength(100)]],
             {markerArpEastEcc: new FormControl('')},//, [Validators.maxLength(100)]],
             {markerArpUpEcc: new FormControl('')},//, [Validators.maxLength(100)]],

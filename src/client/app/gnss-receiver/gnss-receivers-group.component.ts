@@ -12,12 +12,6 @@ import { GnssReceiverViewModel } from './gnss-receiver-view-model';
     templateUrl: 'gnss-receivers-group.component.html',
 })
 export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssReceiverViewModel> {
-    static compare(obj1: GnssReceiverViewModel, obj2: GnssReceiverViewModel): number {
-        let date1: string = obj1.dateInstalled;
-        let date2: string = obj2.dateInstalled;
-        return AbstractGroupComponent.compareDates(date1, date2);
-    }
-
     constructor(protected formBuilder: FormBuilder) {
         super(formBuilder);
     }
