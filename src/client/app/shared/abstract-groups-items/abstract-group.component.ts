@@ -315,7 +315,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             formGroup.markAsDirty();
             // If the Group hasn't been opened, no form controls will exist.  It is unusual for users to create a new Item without
             // looking at whatever normally exists.  If not opened then the modified fields won't get marked as dirty.
-            // It this is a problem then we could create the form controls (see AbstractItem.patchForm())
+            // It this is a problem then we could create the form controls.
             if (Object.keys(formGroup.controls).length > 0) {
                 for (let key of Object.keys(updatedValue)) {
                     (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
