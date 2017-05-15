@@ -99,6 +99,9 @@ img.logo-stacked {
   padding: 5px 20px;
   margin-bottom: 5px;
 }
+#profile-dropdown-menu > ul {
+    margin: 15px 5px 0 0;
+}
 
 /* A horizontal strap just right below the header */
 .strap-container {
