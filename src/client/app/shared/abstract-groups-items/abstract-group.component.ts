@@ -265,7 +265,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         }
         this.itemProperties.splice(itemIndex, 1);
         this.itemOriginalProperties.splice(itemIndex, 1);
-        this.groupArrayForm.value.splice(itemIndex, 1);
+        this.groupArrayForm.controls.splice(itemIndex, 1);
     }
 
     public isFormDirty(): boolean {
