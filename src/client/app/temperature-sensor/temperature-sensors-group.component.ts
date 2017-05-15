@@ -13,12 +13,6 @@ import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 })
 export class TemperatureSensorsGroupComponent extends AbstractGroupComponent<TemperatureSensorViewModel> {
 
-    static compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
-        let date1: string = obj1.startDate;
-        let date2: string = obj2.startDate;
-        return AbstractGroupComponent.compareDates(date1, date2);
-    }
-
     constructor(formBuilder: FormBuilder) {
         super(formBuilder);
     }
@@ -29,10 +23,6 @@ export class TemperatureSensorsGroupComponent extends AbstractGroupComponent<Tem
 
     getControlName(): string {
         return 'temperatureSensors';
-    }
-
-    compare(obj1: TemperatureSensorViewModel, obj2: TemperatureSensorViewModel): number {
-        return TemperatureSensorsGroupComponent.compare(obj1, obj2);
     }
 
     newItemViewModel(blank?: boolean): TemperatureSensorViewModel {

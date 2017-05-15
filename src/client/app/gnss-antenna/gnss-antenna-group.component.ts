@@ -28,10 +28,6 @@ export class GnssAntennaGroupComponent extends AbstractGroupComponent<GnssAntenn
         return siteLog.gnssAntennas;
     }
 
-    compare(obj1: GnssAntennaViewModel, obj2: GnssAntennaViewModel): number {
-        return GnssAntennaGroupComponent.compare(obj1, obj2);
-    }
-
     newItemViewModel(blank?: boolean): GnssAntennaViewModel {
         return new GnssAntennaViewModel(blank);
     }

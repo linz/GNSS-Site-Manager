@@ -44,12 +44,6 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     @Input() isMultiple: boolean;
     private _partyType: ResponsiblePartyType;
 
-    static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
-        let name1: string = obj1.individualName;
-        let name2: string = obj2.individualName;
-        return name1.localeCompare(name2);
-    }
-
     @Input()
     set partyType(partyType: ResponsiblePartyType) {
         this._partyType = partyType;
@@ -69,10 +63,6 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
 
     getControlName(): string {
         return this.partyType.getObjectName();
-    }
-
-    compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
-        return ResponsiblePartyGroupComponent.compare(obj1, obj2);
     }
 
     newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
