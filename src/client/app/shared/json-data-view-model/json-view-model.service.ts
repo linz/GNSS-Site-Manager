@@ -22,7 +22,6 @@ import { SiteLocationMappings } from '../../site-log/site-location.mapping';
  */
 @Injectable()
 export class JsonViewModelService {
-    private _siteLogDataModel: SiteLogDataModel;
     /**
      * Given Geodesy data model JSON, translate to view model json.
      * @param dataModel from the GeodesyML - complete ViewSiteLog instance.
