@@ -79,12 +79,14 @@ export class DataViewTranslatorService {
               sourceTypedPointer = fieldMap.viewTypedPointer;
               targetTypedPointer = fieldMap.dataTypedPointer;
           }
-          let sourceValue: string = JsonPointerService.get(source, sourceTypedPointer.pointer);
+          let sourceValue: any = JsonPointerService.get(source, sourceTypedPointer.pointer);
           if (targetTypedPointer.type === 'number') {
               JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue !== null ? parseFloat(sourceValue) : null);
           } else if (sourceTypedPointer.type === 'date') {  // 'date' type will only be on the view side
-              JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue !== null ?
-                  MiscUtils.formatDateToDatetimeString(sourceValue) : null);
+              // Currently the dates can be string (from the database) or Date (as returned by DatePicker widget)
+              // Must handle both (eg. AbstractViewModel.startDate)
+              let dateValue: string = MiscUtils.isDate(sourceValue) ? MiscUtils.formatDateToDatetimeString(sourceValue) : sourceValue;
+              JsonPointerService.set(target, targetTypedPointer.pointer, dateValue !== null ? dateValue : null);
           } else {
               JsonPointerService.set(target, targetTypedPointer.pointer, sourceValue);
           }

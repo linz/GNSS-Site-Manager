@@ -141,7 +141,7 @@ export function main() {
           DataViewTranslatorService.translateD2V(firstRD, firstRV, firstRV.getFieldMaps());
 
           // Now change the dateInstalled, removed to dates
-          firstRV.dateInstalled = new Date(firstRV.dateInstalled);
+          firstRV.startDate = new Date(firstRV.startDate);
 
           let newRD: any = {};
           // DataViewTranslatorService.translateV2D(firstHSV, newHSD, firstHSV.getFieldMaps());
@@ -159,9 +159,9 @@ export function main() {
           expect(newRD.gnssReceiver.temperatureStabilization).toEqual(firstRV.temperatureStabilization);
 
           // dateInstalled was changed to a Date
-          expect(newRD.gnssReceiver.dateInstalled.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.dateInstalled));
+          expect(newRD.gnssReceiver.dateInstalled.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.startDate));
           // But dateRemoved wasn't
-          expect(newRD.gnssReceiver.dateRemoved.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.dateRemoved));
+          expect(newRD.gnssReceiver.dateRemoved.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.endDate));
           // expect(firstRV.startDate).toEqual(newRD.gnssReceiver.validTime.abstractTimePrimitive['gml:TimePeriod']
           //     .beginPosition.value[0]);
           // expect(firstRV.endDate).toBeNull();

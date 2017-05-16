@@ -8,8 +8,8 @@ export abstract class AbstractViewModel {
     public dateInserted: string;
     public deletedReason: string;
     // datePicker will make into a Date but the data is to be made string.  DatePicker will take string as input.
-    public startDate: string|any;
-    public endDate: string|any;
+    public startDate: string | any;
+    public endDate: string | any;
 
     /**
      * Mapping to/from Data and View model fields.  See createFieldMappings().
