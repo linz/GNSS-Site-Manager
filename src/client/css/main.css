@@ -999,6 +999,16 @@ text-input.ng-invalid {
    Note: this is a downgrade approach and is for IE only!
 */
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .glyphicon-user {
+        background: url('./img/user-black.png') no-repeat;
+        height: 15px !important;
+        width: 15px !important;
+    }
+    .glyphicon-user.dim-icon {
+        background: url('./img/user-gray.png') no-repeat;
+        height: 15px !important;
+        width: 15px !important;
+    }
     .glyphicon-menu-hamburger {
         background: url('./img/menu-hamburger.png') no-repeat;
         height: 15px !important;

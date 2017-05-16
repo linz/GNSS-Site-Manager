@@ -51,11 +51,9 @@ img.logo-stacked {
   border-radius: 4px;
   display: inline;
   font-size: 15px;
-  height: 35px;
-  min-height: 35px;
-  max-height: 35px;
   line-height: 2.95;
   margin: 0 5px;
+  vertical-align: middle;
 }
 .site-id-menu {
   padding: 5px 8px;
@@ -64,9 +62,16 @@ img.logo-stacked {
   padding: 5px 10px;
 }
 .navigation-menu {
-  font-size: 23.5px;
+  font-size: 24px;
+  height: 36px;
   line-height: 1.9;
   padding: 0 12px;
+}
+#navigation-dropdown-menu {
+  top: -1px;
+}
+.navigation-menu .glyphicon-menu-hamburger {
+  top: 4px !important;
 }
 .navigation-menu:hover,
 .navigation-menu:focus,
@@ -106,7 +111,7 @@ img.logo-stacked {
   margin: 15px 5px 0 0;
 }
 .dim-icon {
-  color: #aaa;
+  color: #a2a2a2;
 }
 
 /* A horizontal strap just right below the header */
@@ -158,7 +163,7 @@ img.logo-stacked {
     margin-left: 0;
   }
   .dropdown-menu-panel {
-    padding: 2px;
+    padding: 2px 0;
   }
   .visible-xs {
     display: inline-block !important;
@@ -186,10 +191,10 @@ img.logo-stacked {
   .site-id-menu,
   .profile-menu,
   .navigation-menu {
-    margin: 0 3px;
+    margin: 0 2px 0 0;
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .header-container {
     padding: 10px 5px 0 0;
   }
