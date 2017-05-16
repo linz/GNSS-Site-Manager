@@ -448,6 +448,9 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         return this.required || (this.requiredIfNotCurrent && this.index[0] !== 0);
     }
 
+    public closeDatetime() {
+        this.showDatetimePicker = false;
+    }
     /**
      * Update hour/minute/second time strings in response to any changes in hours, minutes, and seconds.
      */
