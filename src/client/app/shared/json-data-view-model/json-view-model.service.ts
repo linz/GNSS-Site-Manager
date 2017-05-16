@@ -10,7 +10,7 @@ import { PressureSensorViewModel } from '../../pressure-sensor/pressure-sensor-v
 import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
 import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-sensor-view-model';
 import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-party-view-model';
-import { SiteLogViewModel } from './view-model/site-log-view-model';
+import { SiteLogViewModel, ViewSiteLog } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, doWriteViewToData, FieldMap } from './data-view-translator';
 import { SiteIdentificationMappings } from '../../site-log/site-identification.mapping';
@@ -33,45 +33,36 @@ export class JsonViewModelService {
         console.debug('dataModelToViewModelJson - siteLogDataModel: ', siteLogDataModel);
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
+        let siteLogView: ViewSiteLog = siteLogViewModel.siteLog;
 
-        siteLogViewModel.siteLog.gnssAntennas = this.dataToViewModel(siteLogDataModel.gnssAntennas,
-            GnssAntennaViewModel);
-        siteLogViewModel.siteLog.gnssReceivers = this.dataToViewModel(siteLogDataModel.gnssReceivers,
-            GnssReceiverViewModel);
-        siteLogViewModel.siteLog.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies,
-            SurveyedLocalTieViewModel);
-        siteLogViewModel.siteLog.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards,
-            FrequencyStandardViewModel);
-        siteLogViewModel.siteLog.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects,
-            LocalEpisodicEffectViewModel);
-        siteLogViewModel.siteLog.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors,
-            HumiditySensorViewModel);
-        siteLogViewModel.siteLog.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors,
-            PressureSensorViewModel);
-        siteLogViewModel.siteLog.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors,
-            TemperatureSensorViewModel);
-        siteLogViewModel.siteLog.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors,
-            WaterVaporSensorViewModel);
+        siteLogView.gnssAntennas = this.dataToViewModel(siteLogDataModel.gnssAntennas, GnssAntennaViewModel);
+        siteLogView.gnssReceivers = this.dataToViewModel(siteLogDataModel.gnssReceivers, GnssReceiverViewModel);
+        siteLogView.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies, SurveyedLocalTieViewModel);
+        siteLogView.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards, FrequencyStandardViewModel);
+        siteLogView.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects, LocalEpisodicEffectViewModel);
+        siteLogView.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors, HumiditySensorViewModel);
+        siteLogView.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors, PressureSensorViewModel);
+        siteLogView.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
+        siteLogView.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
 
         // Form (View) Model approach
-        DataViewTranslatorService.translate(siteLogDataModel.siteIdentification, siteLogViewModel.siteLog.siteIdentification,
+        DataViewTranslatorService.translate(siteLogDataModel.siteIdentification, siteLogView.siteIdentification,
             new SiteIdentificationMappings().getFieldMaps());
-        DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLog.siteLocation,
+
+        DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogView.siteLocation,
             new SiteLocationMappings().getFieldMaps());
 
-        siteLogViewModel.siteLog.siteOwner = [this.dataToViewModelItem(siteLogDataModel.siteOwner, ResponsiblePartyViewModel)];
-        siteLogViewModel.siteLog.siteContact = this.dataToViewModel(siteLogDataModel.siteContact, ResponsiblePartyViewModel);
-        siteLogViewModel.siteLog.siteMetadataCustodian = [this.dataToViewModelItem(siteLogDataModel.siteMetadataCustodian,
-            ResponsiblePartyViewModel)];
-        siteLogViewModel.siteLog.siteDataSource = this.dataToViewModel(siteLogDataModel.siteDataSource, ResponsiblePartyViewModel);
-        siteLogViewModel.siteLog.siteDataCenter = this.dataToViewModel(siteLogDataModel.siteDataCenter, ResponsiblePartyViewModel);
+        siteLogView.siteOwner = [this.dataToViewModelItem(siteLogDataModel.siteOwner, ResponsiblePartyViewModel)];
+        siteLogView.siteContact = this.dataToViewModel(siteLogDataModel.siteContact, ResponsiblePartyViewModel);
+        siteLogView.siteMetadataCustodian = [this.dataToViewModelItem(siteLogDataModel.siteMetadataCustodian, ResponsiblePartyViewModel)];
+        siteLogView.siteDataSource = this.dataToViewModel(siteLogDataModel.siteDataSource, ResponsiblePartyViewModel);
+        siteLogView.siteDataCenter = this.dataToViewModel(siteLogDataModel.siteDataCenter, ResponsiblePartyViewModel);
 
         // For now just copy the DataModel parts over that haven't had translate to view written yet
-        siteLogViewModel.siteLog.moreInformation = siteLogDataModel.moreInformation;
-        siteLogViewModel.siteLog.dataStreams = siteLogDataModel.dataStreams;
+        siteLogView.moreInformation = siteLogDataModel.moreInformation;
+        siteLogView.dataStreams = siteLogDataModel.dataStreams;
 
         console.debug('dataModelToViewModelJson - siteLogViewModel: ', siteLogViewModel);
-
         return siteLogViewModel;
     }
 
@@ -92,18 +83,23 @@ export class JsonViewModelService {
 
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteIdentification, siteLogDataModel.siteIdentification,
             new SiteIdentificationMappings().getFieldMaps(), doWriteViewToData);
+
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteLocation, siteLogDataModel.siteLocation,
             new SiteLocationMappings().getFieldMaps(), doWriteViewToData);
 
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteContact, siteLogDataModel.siteContact,
             new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteDataSource, siteLogDataModel.siteDataSource,
             new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteDataCenter, siteLogDataModel.siteDataCenter,
             new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+
         // Only one siteOwner, siteMetadataCustodian (at most) in an array
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteOwner[0], siteLogDataModel.siteOwner,
             new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
+
         DataViewTranslatorService.translate(viewModelJson.siteLog.siteMetadataCustodian[0], siteLogDataModel.siteMetadataCustodian,
             new ResponsiblePartyViewModel().getFieldMaps(), doWriteViewToData);
 
