@@ -29,14 +29,14 @@ export class HumiditySensorViewModel extends AbstractViewModel {
     createFieldMappings(): void {
         this.addFieldMapping('/humiditySensor/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
             'string',
-            '/startDate', 'string');
+            '/startDate', 'date');
 
         this.addFieldMapping('/humiditySensor/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
             'string',
-            '/endDate', 'string');
+            '/endDate', 'date');
 
         this.addFieldMapping('/humiditySensor/calibrationDate/value/0', 'string',
-            '/calibrationDate', 'string');
+            '/calibrationDate', 'date');
 
         this.addFieldMapping('/humiditySensor/dataSamplingInterval', 'string',
             '/dataSamplingInterval', 'number');

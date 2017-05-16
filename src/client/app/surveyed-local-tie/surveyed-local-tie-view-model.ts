@@ -58,10 +58,10 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
             '/dz', 'number');
 
         this.addFieldMapping('/surveyedLocalTie/dateMeasured/value/0', 'string',
-            '/startDate', 'string');
+            '/startDate', 'date');
 
         this.addFieldMapping('/surveyedLocalTie/notes', 'string',
-            '/notes', 'string');
+            '/notes', 'date');
     };
 
     /**
