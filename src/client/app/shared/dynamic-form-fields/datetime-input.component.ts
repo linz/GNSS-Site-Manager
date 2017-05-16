@@ -174,14 +174,14 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     set datetime(dt: string) {
         if (dt !== this._datetime) {
             // The datePicker sets its ngModel to formats like 'Sun 24th may 2016' or the like.  Convert.
-            let d: Date = new Date(dt);
+            // let d: Date = new Date(dt);
             // d.setTime(dt);
-            let d2: string = this.getFormatDateToDatetimeString(d);
+            let dateString: string = MiscUtils.formatDateToDatetimeString(new Date(dt));
             // let d2: string = '2000-08-23T00:00:00.000Z';
             // this._datetimeLast = dt;    //this._datetime;
-            this._datetime = d2;
-            this._datetimeDate = d;
-            console.debug(`${this.controlName} - set datetime - set to ${d2}, _datetimeDate is ${this._datetimeDate} - _datetimeLast is ${this._datetimeLast}`)
+            this._datetime = dateString;
+            // this._datetimeDate = d;
+            console.debug(`${this.controlName} - set datetime - set to ${dateString}, _datetimeDate is ${this._datetimeDate} - _datetimeLast is ${this._datetimeLast}`)
             // this._datetimeDisplay = DatetimeInputComponent.formatTimeToDisplay(dt);
             // this.datetimeModel = new Date();
             this.propagateChange(this._datetime);
@@ -282,7 +282,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
      */
     public updateDate(event: any): void {
         let d: Date = new Date(String(event));
-        this.datetime = this.getFormatDateToDatetimeString(d);  // String(event);  //
+        this.datetime = MiscUtils.formatDateToDatetimeString(d);
         console.debug(`updateDate to ${d} - dateTime is now: ${this.datetime}`);
     }
 
@@ -360,7 +360,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             hours = 23;
         }
         d.setHours(hours);
-        this.datetime = this.getFormatDateToDatetimeString(d);
+        this.datetime = MiscUtils.formatDateToDatetimeString(d);
         console.debug(`incrementHours to ${d} - dateTime is now: ${this.datetime}`);
     }
 
@@ -374,7 +374,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             hours = 23;
         }
         d.setHours(hours);
-        this.datetime = this.getFormatDateToDatetimeString(d);
+        this.datetime = MiscUtils.formatDateToDatetimeString(d);
         console.debug(`incrementHours to ${d} - dateTime is now: ${this.datetime}`);
     }
 
@@ -515,35 +515,35 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         }
     }
 
-    private getFormatDateToDatetimeString(date: Date): string {
-        console.debug(`getFormatDateToDatetimeString - date ${date} typeof date: [${typeof date}] date valid: ${this.isaDate(date)} and getFullYear(): ${date.getFullYear()}`);
-        let dateStr: string = date.getFullYear() + '-'
-            + this.padTwo(date.getMonth() + 1) + '-'
-            + this.padTwo(date.getDate());
-        // let dateStr: string = date.getFullYear() + '-'
-        //         + date.getMonth() + '-'
-        //         + date.getDate();
-        // let newDate: Date = new Date(date.getTime());
-        // let newDate: Date = new Date();
-        // let newDate: Date = date;
-        // let dateStr: string = newDate.getFullYear() + '-' + (newDate.getMonth()+1) + '-' + newDate.getDate();
-        let timeStr: string = this.padTwo(date.getHours()) + ':'
-            + this.padTwo(date.getMinutes()) + ':'
-            + this.padTwo(date.getSeconds());
-
-        let dateTime: string = dateStr + 'T' + timeStr + defaultTZms;
-        let test: string = '2007-6-24';//T00:00:00';//.000Z';
-        // return
-        console.debug(`  getFormatDateToDatetimeString - should return '${dateTime}'`);
-        console.debug(`  getFormatDateToDatetimeString - but wl return '${test}'`);
-        console.debug(`  getFormatDateToDatetimeString - NOPE returning it`);
-        return dateTime;
-        // return test;
-
-        // this.datetimeDisplay = dateStr + ' ' + timeStr;
-        // this.datetimeLast = this.datetime;
-        // this.datetime = dateStr + 'T' + timeStr + defaultTZms;
-    }
+    // private getFormatDateToDatetimeString(date: Date): string {
+    //     console.debug(`getFormatDateToDatetimeString - date ${date} typeof date: [${typeof date}] date valid: ${this.isaDate(date)} and getFullYear(): ${date.getFullYear()}`);
+    //     let dateStr: string = date.getFullYear() + '-'
+    //         + this.padTwo(date.getMonth() + 1) + '-'
+    //         + this.padTwo(date.getDate());
+    //     // let dateStr: string = date.getFullYear() + '-'
+    //     //         + date.getMonth() + '-'
+    //     //         + date.getDate();
+    //     // let newDate: Date = new Date(date.getTime());
+    //     // let newDate: Date = new Date();
+    //     // let newDate: Date = date;
+    //     // let dateStr: string = newDate.getFullYear() + '-' + (newDate.getMonth()+1) + '-' + newDate.getDate();
+    //     let timeStr: string = this.padTwo(date.getHours()) + ':'
+    //         + this.padTwo(date.getMinutes()) + ':'
+    //         + this.padTwo(date.getSeconds());
+    //
+    //     let dateTime: string = dateStr + 'T' + timeStr + defaultTZms;
+    //     let test: string = '2007-6-24';//T00:00:00';//.000Z';
+    //     // return
+    //     console.debug(`  getFormatDateToDatetimeString - should return '${dateTime}'`);
+    //     console.debug(`  getFormatDateToDatetimeString - but wl return '${test}'`);
+    //     console.debug(`  getFormatDateToDatetimeString - NOPE returning it`);
+    //     return dateTime;
+    //     // return test;
+    //
+    //     // this.datetimeDisplay = dateStr + ' ' + timeStr;
+    //     // this.datetimeLast = this.datetime;
+    //     // this.datetime = dateStr + 'T' + timeStr + defaultTZms;
+    // }
     /**
      * Emit a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
      */
