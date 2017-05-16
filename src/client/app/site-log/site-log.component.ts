@@ -408,10 +408,11 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * When items are deleted they are given a dateRemoved, but aren't deleted until now (so they show up in the diff).
      */
     private removeDeletedItems() {
-        let items: string[] = Object.keys(this.siteLogModel);
-        for (let item of items) {
-            if (Array.isArray(this.siteLogModel[item])) {
-                this.removeDeletedGroupItems(this.siteLogModel[item]);
+        let keys: string[] = Object.keys(this.siteLogModel);
+        for (let key of keys) {
+            let item = (<any> this.siteLogModel)[key];
+            if (Array.isArray(item)) {
+                this.removeDeletedGroupItems(item);
             }
         }
     }

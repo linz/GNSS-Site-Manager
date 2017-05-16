@@ -12,7 +12,6 @@ import { GnssReceiverViewModel } from '../../../gnss-receiver/gnss-receiver-view
  * View Model equivalent of ../data-model/SiteLogDataModel
  */
 export class SiteLogViewModel {
-    [key:string]: any;      // Allow easy object access without typescript error
     siteIdentification: any = {};
     siteLocation: any = {};
     gnssReceivers: GnssReceiverViewModel[];
