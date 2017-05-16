@@ -47,7 +47,7 @@ export class SiteLogService {
             try {
                 this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId).subscribe(
                     (responseJson: any) => {
-                        let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModelJson(responseJson);
+                        let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
                         observer.next(siteLogViewModel);
                     },
                     (error: Error) => HttpUtilsService.handleError
@@ -65,7 +65,7 @@ export class SiteLogService {
      */
     saveSiteLog(siteLogViewModel: SiteLogViewModel): Observable<Response> {
         console.log('saveSiteLog - siteLogViewModel: ', siteLogViewModel);
-        let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModelJson(siteLogViewModel);
+        let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModel(siteLogViewModel);
 
         // wrap the JSON object in a "geo:siteLog" element before converting to GeodesyML
         let siteLogJsonObj : any = {
