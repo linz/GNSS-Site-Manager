@@ -104,7 +104,7 @@ export class JsonViewModelServiceSpecData {
                             },
                             type: {
                                 TYPE_NAME: 'GML_3_2_1.CodeType',
-                                value: ''
+                                value: 'some_type'
                             },
                             remarks: '',
                             extension: {
@@ -120,10 +120,6 @@ export class JsonViewModelServiceSpecData {
                             manufacturerDescription: '',
                             manufacturerSerialNumber: '3213',
                             igsModelCode: {
-                                TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
-                                value: ''
-                            },
-                            receiverType: {
                                 TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
                                 codeList:
                                     'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml' +

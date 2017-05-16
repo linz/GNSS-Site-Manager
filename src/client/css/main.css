@@ -1,3 +1,4 @@
+
 /* GA
 html {
   height: 100%;
@@ -72,9 +73,15 @@ body {
   padding-left: 1px;
   padding-right: 1px;
 }
-
+/* TODO: find what this is being applied to so can qualify.  Then change 'label.labeldisabled' to 'label.disabled' below */
 .disabled {
     display: none;
+    color: #888 !important;
+    pointer-events: none;
+    cursor: default;
+}
+
+label.labeldisabled {
     color: #888 !important;
     pointer-events: none;
     cursor: default;
@@ -503,6 +510,7 @@ ul {
 .panel-level-3.gnss-invalid > .panel-heading {
   background-color: #fff1de !important;
 }
+label.ng-dirty,label.ng-dirty.ng-valid,
 input.ng-dirty.ng-valid,
 input.ng-dirty.ng-valid + .input-group-btn > .btn-calendar,
 select.ng-dirty.ng-valid,
@@ -510,6 +518,7 @@ textarea.ng-dirty.ng-valid {
   border-color: #00b300;
   background-color: #ebffeb;
 }
+label.ng-dirty.ng-invalid,
 input.ng-dirty.ng-invalid,
 input.ng-dirty.ng-invalid + .input-group-btn > .btn-calendar,
 select.ng-dirty.ng-invalid,
@@ -524,7 +533,7 @@ textarea.christine.ng-invalid {
   border-color: #ff1700;
 }
 
-input.ng-invalid, textarea.ng-invalid {
+label.ng-invalid, input.ng-invalid, textarea.ng-invalid {
     border-color: #ff1700 !important;
 }
 text-input.ng-invalid {

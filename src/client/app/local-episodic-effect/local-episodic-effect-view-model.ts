@@ -15,11 +15,11 @@ export class LocalEpisodicEffectViewModel extends AbstractViewModel {
     createFieldMappings(): void {
         this.addFieldMapping('/localEpisodicEffect/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
             'string',
-            '/startDate', 'string');
+            '/startDate', 'date');
 
         this.addFieldMapping('/localEpisodicEffect/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
             'string',
-            '/endDate', 'string');
+            '/endDate', 'date');
 
         this.addFieldMapping('/localEpisodicEffect/event', 'string',
             '/event', 'string');

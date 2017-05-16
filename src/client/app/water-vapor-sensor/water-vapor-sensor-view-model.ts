@@ -24,14 +24,14 @@ export class WaterVaporSensorViewModel extends AbstractViewModel {
     createFieldMappings(): void {
         this.addFieldMapping('/waterVaporSensor/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
             'string',
-            '/startDate', 'string');
+            '/startDate', 'date');
 
         this.addFieldMapping('/waterVaporSensor/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
             'string',
-            '/endDate', 'string');
+            '/endDate', 'date');
 
         this.addFieldMapping('/waterVaporSensor/calibrationDate/value/0', 'string',
-            '/calibrationDate', 'string');
+            '/calibrationDate', 'date');
 
         this.addFieldMapping('/waterVaporSensor/notes', 'string',
             '/notes', 'string');

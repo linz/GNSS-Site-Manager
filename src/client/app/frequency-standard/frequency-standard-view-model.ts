@@ -18,10 +18,10 @@ export class FrequencyStandardViewModel extends AbstractViewModel {
 
     createFieldMappings(): void {
         this.addFieldMapping('/frequencyStandard/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
-            'string', '/startDate', 'string');
+            'string', '/startDate', 'date');
 
         this.addFieldMapping('/frequencyStandard/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
-            'string', '/endDate', 'string');
+            'string', '/endDate', 'date');
 
         this.addFieldMapping('/frequencyStandard/standardType/value', 'string',
             '/standardType', 'string');

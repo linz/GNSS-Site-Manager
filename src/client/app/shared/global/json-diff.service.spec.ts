@@ -645,14 +645,14 @@ export function main() {
     it('test getIdentifier()', () => {
       let ident = jsonDiffService.getIdentifier(jsonDiffService.getObject(humiditySensor_1Sensors, '/humiditySensors/0/humiditySensor'));
       expect(ident).toBeDefined();
-      expect(ident).toEqual(MiscUtils.getDate('2016-10-01T00:00:00.000Z'));
+      expect(ident).toEqual(MiscUtils.getDateComponent('2016-10-01T00:00:00.000Z'));
     });
 
     it('test getIdentifier() 2', () => {
       let ident = jsonDiffService.getIdentifier(jsonDiffService.getObject(humiditySensor_2Sensors, '/humiditySensors/0/humiditySensor'));
       expect(ident).toBeDefined();
-      expect(ident).toEqual(MiscUtils.getDate('2016-10-01T00:00:00.000Z') + ' &ndash; ' +
-        MiscUtils.getDate('2016-10-31T00:00:00.000Z'));
+      expect(ident).toEqual(MiscUtils.getDateComponent('2016-10-01T00:00:00.000Z') + ' &ndash; ' +
+        MiscUtils.getDateComponent('2016-10-31T00:00:00.000Z'));
     });
 
     it('test humidity sensor intermediate diff - Edit manufacturer', () => {
@@ -666,7 +666,7 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Edited);
       expect(diffItem.container).toEqual('humiditySensors');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('2016-11-15T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('2016-11-15T00:00:00.000Z'));
       expect(diffItem.item).toEqual('manufacturer');
       expect(diffItem.oldValue).toEqual('Vaisala1');
       expect(diffItem.newValue).toEqual('Vaisala1 new');
@@ -684,7 +684,7 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Edited);
       expect(diffItem.container).toEqual('humiditySensors');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('2016-11-16T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('2016-11-16T00:00:00.000Z'));
       expect(diffItem.item).toEqual('startDate');
       expect(diffItem.oldValue).toEqual('2016-11-15T00:00:00.000Z');
       expect(diffItem.newValue).toEqual('2016-11-16T00:00:00.000Z');
@@ -702,7 +702,7 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Edited);
       expect(diffItem.container).toEqual('humiditySensors');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('2016-11-16T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('2016-11-16T00:00:00.000Z'));
       expect(diffItem.item).toEqual('startDate');
       expect(diffItem.oldValue).toEqual('2016-11-15T00:00:00.000Z');
       expect(diffItem.newValue).toEqual('2016-11-16T00:00:00.000Z');
@@ -711,7 +711,7 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Edited);
       expect(diffItem.container).toEqual('humiditySensors');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('2016-11-16T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('2016-11-16T00:00:00.000Z'));
       expect(diffItem.item).toEqual('manufacturer');
       expect(diffItem.oldValue).toEqual('Vaisala1');
       expect(diffItem.newValue).toEqual('Vaisala1 new');
@@ -729,8 +729,8 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.New);
       expect(diffItem.container).toEqual('gnssReceivers');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
-        MiscUtils.getDate('1998-09-17T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
+        MiscUtils.getDateComponent('1998-09-17T00:00:00.000Z'));
       expect(diffItem.item).toEqual('newField');
       expect(diffItem.oldValue).toEqual('');
       expect(diffItem.newValue).toEqual('newFieldValue');
@@ -748,8 +748,8 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Deleted);
       expect(diffItem.container).toEqual('gnssReceivers');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
-        MiscUtils.getDate('1998-09-17T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
+        MiscUtils.getDateComponent('1998-09-17T00:00:00.000Z'));
       expect(diffItem.item).toEqual('notes');
       expect(diffItem.oldValue).toEqual('Receiver 1');
       expect(diffItem.newValue).toEqual('');
@@ -767,8 +767,8 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.New);
       expect(diffItem.container).toEqual('gnssReceivers');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
-        MiscUtils.getDate('1998-09-17T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
+        MiscUtils.getDateComponent('1998-09-17T00:00:00.000Z'));
       expect(diffItem.item).toEqual('newField');
       expect(diffItem.oldValue).toEqual('');
       expect(diffItem.newValue).toEqual('newFieldValue');
@@ -777,8 +777,8 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Deleted);
       expect(diffItem.container).toEqual('gnssReceivers');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
-        MiscUtils.getDate('1998-09-17T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('1996-01-01T00:00:00.000Z') + ' &ndash; ' +
+        MiscUtils.getDateComponent('1998-09-17T00:00:00.000Z'));
       expect(diffItem.item).toEqual('notes');
       expect(diffItem.oldValue).toEqual('Receiver 1');
       expect(diffItem.newValue).toEqual('');
@@ -811,7 +811,7 @@ export function main() {
       expect(diffItem.oldValue).toEqual('');
       expect(diffItem.newValue).toBeDefined();
       let humiditySensor: HumiditySensorViewModel = <HumiditySensorViewModel> diffItem.newValue.humiditySensor;
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate(humiditySensor.startDate));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent(humiditySensor.startDate));
       console.log('humiditySensor new item:', humiditySensor);
       expect(humiditySensor.manufacturer).toEqual('Vaisala1 2');
       expect(humiditySensor.serialNumber).toEqual('P2240006 2');
@@ -847,7 +847,7 @@ export function main() {
       expect(humiditySensor.manufacturer).toEqual('Vaisala1 2');
       expect(humiditySensor.serialNumber).toEqual('P2240006 2');
       expect(humiditySensor.dateInserted).toEqual(date1);
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate(humiditySensor.startDate));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent(humiditySensor.startDate));
 
       diffItem = intDiffs[2];
       expect(diffItem.diffType).toEqual(DiffType.NewArrayItem);
@@ -860,7 +860,7 @@ export function main() {
       expect(humiditySensor.manufacturer).toEqual('Vaisala1 3');
       expect(humiditySensor.serialNumber).toEqual('P2240006 3');
       expect(humiditySensor.dateInserted).toEqual(date2);
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate(humiditySensor.startDate));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent(humiditySensor.startDate));
     });
 
     it('arrays test humidity sensor - were 3 remove 3rd', () => {
@@ -929,7 +929,7 @@ export function main() {
 
       let identifier: string = nd[0];
       expect(identifier).toContain(
-        MiscUtils.getDate(humiditySensor_new_manufacturer.humiditySensors[0].humiditySensor.startDate));
+        MiscUtils.getDateComponent(humiditySensor_new_manufacturer.humiditySensors[0].humiditySensor.startDate));
 
       let diffItems: DiffItem[] = nd[1];
       expect(diffItems.length).toEqual(1);
@@ -938,7 +938,7 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Edited);
       expect(diffItem.container).toEqual('humiditySensors');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('2016-11-15T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('2016-11-15T00:00:00.000Z'));
       expect(diffItem.item).toEqual('manufacturer');
       expect(diffItem.oldValue).toEqual('Vaisala1');
       expect(diffItem.newValue).toEqual('Vaisala1 new');
@@ -961,14 +961,14 @@ export function main() {
       let diffItems: DiffItem[] = nd[1];
 
       expect(identifier).toContain(
-        MiscUtils.getDate(humiditySensor_new_manufacturer_date.humiditySensors[0].humiditySensor.startDate));
+        MiscUtils.getDateComponent(humiditySensor_new_manufacturer_date.humiditySensors[0].humiditySensor.startDate));
 
       expect(diffItems.length).toEqual(2);
       let diffItem: DiffItem = diffItems[1];
 
       expect(diffItem.diffType).toEqual(DiffType.Edited);
       expect(diffItem.container).toEqual('humiditySensors');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('2016-11-16T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('2016-11-16T00:00:00.000Z'));
       expect(diffItem.item).toEqual('startDate');
       expect(diffItem.oldValue).toEqual('2016-11-15T00:00:00.000Z');
       expect(diffItem.newValue).toEqual('2016-11-16T00:00:00.000Z');
@@ -977,7 +977,7 @@ export function main() {
 
       expect(diffItem.diffType).toEqual(DiffType.Edited);
       expect(diffItem.container).toEqual('humiditySensors');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate('2016-11-16T00:00:00.000Z'));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent('2016-11-16T00:00:00.000Z'));
       expect(diffItem.item).toEqual('manufacturer');
       expect(diffItem.oldValue).toEqual('Vaisala1');
       expect(diffItem.newValue).toEqual('Vaisala1 new');
@@ -1008,8 +1008,8 @@ export function main() {
       // mapKey looks something like 'container => identifier' eg. 'HumiditySensors=>2016-12-01..._to_2016-12-31...'
       console.log('mapKey: ', mapKey);
       expect(mapKey).toContain('humiditySensor');
-      expect(mapKey).toContain(MiscUtils.getDate(humiditySensor_2Sensors.humiditySensors[0].humiditySensor.startDate));
-      expect(mapKey).toContain(MiscUtils.getDate(humiditySensor_2Sensors.humiditySensors[0].humiditySensor.endDate));
+      expect(mapKey).toContain(MiscUtils.getDateComponent(humiditySensor_2Sensors.humiditySensors[0].humiditySensor.startDate));
+      expect(mapKey).toContain(MiscUtils.getDateComponent(humiditySensor_2Sensors.humiditySensors[0].humiditySensor.endDate));
 
       expect(diffItems.length).toEqual(1);
       diffItem = diffItems[0];
@@ -1052,7 +1052,7 @@ export function main() {
       console.log('humiditySensor new item:', humiditySensor);
       expect(humiditySensor.manufacturer).toEqual('Vaisala1 2');
       expect(humiditySensor.serialNumber).toEqual('P2240006 2');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate(humiditySensor.startDate));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent(humiditySensor.startDate));
     });
 
     it('normalised test humidity sensor 1 add 2nd, 3rd', () => {
@@ -1085,8 +1085,8 @@ export function main() {
       // mapKey looks something like 'container => identifier' eg. 'HumiditySensors=>2016-12-01..._to_2016-12-31...'
       console.log('mapKey: ', mapKey);
       expect(mapKey).toContain('humiditySensor');
-      expect(mapKey).toContain(MiscUtils.getDate(humiditySensor_3Sensors.humiditySensors[0].humiditySensor.startDate));
-      expect(mapKey).toContain(MiscUtils.getDate(humiditySensor_3Sensors.humiditySensors[0].humiditySensor.endDate));
+      expect(mapKey).toContain(MiscUtils.getDateComponent(humiditySensor_3Sensors.humiditySensors[0].humiditySensor.startDate));
+      expect(mapKey).toContain(MiscUtils.getDateComponent(humiditySensor_3Sensors.humiditySensors[0].humiditySensor.endDate));
 
       expect(diffItems.length).toEqual(1);
       diffItem = diffItems[0];
@@ -1129,7 +1129,7 @@ export function main() {
       console.log('humiditySensor new item:', humiditySensor);
       expect(humiditySensor.manufacturer).toEqual('Vaisala1 2');
       expect(humiditySensor.serialNumber).toEqual('P2240006 2');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate(humiditySensor.startDate));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent(humiditySensor.startDate));
 
       /* ******************** 3 ************************** */
       nextContainerDiff = diffEntries.next();
@@ -1160,7 +1160,7 @@ export function main() {
       console.log('humiditySensor new item:', humiditySensor);
       expect(humiditySensor.manufacturer).toEqual('Vaisala1 3');
       expect(humiditySensor.serialNumber).toEqual('P2240006 3');
-      expect(diffItem.identifier).toEqual(MiscUtils.getDate(humiditySensor.startDate));
+      expect(diffItem.identifier).toEqual(MiscUtils.getDateComponent(humiditySensor.startDate));
     });
 
     it('normalised test humidity sensor - were 3 remove 2nd, 3rd', () => {
@@ -1196,9 +1196,9 @@ export function main() {
       console.log('mapKey: ', mapKey);
       expect(mapKey).toContain('humiditySensor');
       expect(mapKey).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.startDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.startDate));
       expect(mapKey).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.endDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.endDate));
 
       expect(diffItems.length).toEqual(1);
       diffItem = diffItems[0];
@@ -1212,9 +1212,9 @@ export function main() {
       expect(diffItem.item).toEqual('dateDeleted');
       expect(diffItem.container).toEqual('humiditySensors');
       expect(diffItem.identifier).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.startDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.startDate));
       expect(diffItem.identifier).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.endDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[1].humiditySensor.endDate));
       expect(diffItem.oldValue).toEqual('');
       expect(diffItem.newValue).toEqual(date1);
 
@@ -1228,9 +1228,9 @@ export function main() {
       console.log('mapKey: ', mapKey);
       expect(mapKey).toContain('humiditySensor');
       expect(mapKey).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.startDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.startDate));
       expect(mapKey).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.endDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.endDate));
 
       expect(diffItems.length).toEqual(1);
       diffItem = diffItems[0];
@@ -1245,9 +1245,9 @@ export function main() {
       expect(diffItem.item).toEqual('dateDeleted');
       expect(diffItem.container).toEqual('humiditySensors');
       expect(diffItem.identifier).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.startDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.startDate));
       expect(diffItem.identifier).toContain(
-        MiscUtils.getDate(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.endDate));
+        MiscUtils.getDateComponent(humiditySensor_3Sensors_Remove2nd3rd.humiditySensors[2].humiditySensor.endDate));
       expect(diffItem.oldValue).toEqual('');
       expect(diffItem.newValue).toEqual(date2);
     });

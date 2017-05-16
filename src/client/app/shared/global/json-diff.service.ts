@@ -369,9 +369,9 @@ export class JsonDiffService {
             return '';
         }
         if (object.startDate && this.isString(object.startDate)) {
-            ident += MiscUtils.getDate(object.startDate);
+            ident += MiscUtils.getDateComponent(object.startDate);
             if (object.endDate && this.isString(object.endDate)) {
-                ident += ' &ndash; ' + MiscUtils.getDate(object.endDate);
+                ident += ' &ndash; ' + MiscUtils.getDateComponent(object.endDate);
             }
         }
         return ident;

@@ -207,8 +207,9 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      */
     public getItemHeaderHtml(): string {
 
-        let startDatetime = this.getItem().startDate;
-        let endDatetime = this.getItem().endDate;
+        // TODO - change view model to be exclusively Date and fix this
+        let startDatetime: any = this.getItem().startDate;
+        let endDatetime: any = this.getItem().endDate;
 
         let headerHtml: string = '<span class="hidden-xsm">'
                                + (this.getIndex() === 0 ? 'Current' : 'Previous')
@@ -217,10 +218,14 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         if (startDatetime) {
             headerHtml += '<span class="hidden-xxs">' + this.getItemName() + ' </span>';
             let dateRange: string = '';
+            let startDateString: string = MiscUtils.isDate(startDatetime) ? MiscUtils.formatDateToDateString(startDatetime):
+                MiscUtils.getDateComponent(startDatetime);
             if (endDatetime) {
-                dateRange = MiscUtils.getDate(startDatetime) + ' &ndash; ' + MiscUtils.getDate(endDatetime);
+                let endDateString: string = MiscUtils.isDate(endDatetime) ? MiscUtils.formatDateToDateString(endDatetime):
+                    MiscUtils.getDateComponent(endDatetime);
+                dateRange = endDateString + ' &ndash; ' + startDateString;
             } else {
-                dateRange = 'Since ' + MiscUtils.getDate(startDatetime);
+                dateRange = 'Since ' + startDateString;
             }
             headerHtml += '<span class="hidden-xxs">(</span>' + dateRange + '<span class="hidden-xxs">)</span>';
         } else {
