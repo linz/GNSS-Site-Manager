@@ -74,36 +74,13 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     @Input() controlName: string;
 
     public _datetime: string = '';
-    public _datetimeLast: string = '';
-    public _datetimeDate: Date;
-
-    // public datetimeModel: Date;
-    //
-    // public hoursString: string = '00';
-    // public minutesString: string = '00';
-    // public secondsString: string = '00';
-
-    public invalidHours: boolean = false;
-    public invalidMinutes: boolean = false;
-    public invalidSeconds: boolean = false;
     public showDatetimePicker: boolean = false;
-    public hasChanges: boolean = false;
-    public invalidDatetime: boolean = false;
 
     public miscUtils: any = MiscUtils;
 
     isFormDisabled(): boolean {
         return this.form.disabled;
     }
-
-    // private _datetimeDisplay: string = '';
-    // private _datetimeDisplayLast: string = '';
-    // private hours: number = 0;
-    // private minutes: number = 0;
-    // private seconds: number = 0;
-
-    // private datetimeSuffix: string = '.000Z';
-    // private datetimeLast: string = '';
 
     static formatTimeToDisplay(dateStr: string, returnAsIsUponFailure: boolean = false): string {
         let datetimeDisplay: string = '';
@@ -171,6 +148,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     //     return this._datetimeDisplay;
     // }
 
+    // TODO - needs fixing to handle TimeZones
     set datetime(dt: string) {
         if (dt !== this._datetime) {
             // The datePicker sets its ngModel to formats like 'Sun 24th may 2016' or the like.  Convert.
@@ -181,7 +159,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             // this._datetimeLast = dt;    //this._datetime;
             this._datetime = dateString;
             // this._datetimeDate = d;
-            console.debug(`${this.controlName} - set datetime - set to ${dateString}, _datetimeDate is ${this._datetimeDate} - _datetimeLast is ${this._datetimeLast}`)
+            console.debug(`${this.controlName} - set datetime - set to ${dateString} from ${dt} string`)
             // this._datetimeDisplay = DatetimeInputComponent.formatTimeToDisplay(dt);
             // this.datetimeModel = new Date();
             this.propagateChange(this._datetime);
@@ -281,9 +259,23 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
      * Update the datetime model when users select a date on calendar
      */
     public updateDate(event: any): void {
-        let d: Date = new Date(String(event));
-        this.datetime = MiscUtils.formatDateToDatetimeString(d);
-        console.debug(`updateDate to ${d} - dateTime is now: ${this.datetime}`);
+        // TODO - fix time zone handling.  The DateTime widget will correct the date string to local timezone.
+        // TODO - I've been trying to mess around with forcing to Z / UTC but DateTime assumes local timezone.
+        // TODO - To prevent TZ problem use something like moment and moment-timezone
+        // TODO - Also see 'set datetime()' above.
+        let d: string = String(event);
+        this.datetime = d.replace(/ *(([\w:]+ +){1,6})(.*)/, "$1GMT+0000 (UTC)");
+        // let d: Date = new Date(String(event));
+        // // date defaults to local time zone.  The dates we choose are UTC so do the convert.
+        // let dateInStr: string = d.toString();
+        // // format of date string is ' Mon Sep 28 1998 14:36:22 GMT-0700 (PDT)'
+        // console.debug(`dateString is ${dateInStr}`);
+        // // dateInStr = dateInStr.replace(/ *(([\w:]+ +){1,6})(.*)/, "$1GMT+0 (UTC)");
+        // console.debug(`dateString after replace is ${dateInStr}`);
+        // // let dateUTC: Date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDay(), d.getHours(), d.getMinutes(), d.getSeconds()));
+        // this.datetime = MiscUtils.formatDateToDatetimeString(d);
+        // // No what I've done doesnt work - you can't force a TZ - it is always
+        // console.debug(`updateDate to str: ${dateInStr}, date: ${d} - dateTime is now: ${this.datetime}`);
     }
 
     /**
@@ -335,6 +327,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
      }
      }*/
 
+    // TODO - can't get time working properly until sort out TimeZones
     public getHours(): number {
         let d: Date = new Date(this.datetime);
         return d.getHours();
@@ -515,35 +508,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         }
     }
 
-    // private getFormatDateToDatetimeString(date: Date): string {
-    //     console.debug(`getFormatDateToDatetimeString - date ${date} typeof date: [${typeof date}] date valid: ${this.isaDate(date)} and getFullYear(): ${date.getFullYear()}`);
-    //     let dateStr: string = date.getFullYear() + '-'
-    //         + this.padTwo(date.getMonth() + 1) + '-'
-    //         + this.padTwo(date.getDate());
-    //     // let dateStr: string = date.getFullYear() + '-'
-    //     //         + date.getMonth() + '-'
-    //     //         + date.getDate();
-    //     // let newDate: Date = new Date(date.getTime());
-    //     // let newDate: Date = new Date();
-    //     // let newDate: Date = date;
-    //     // let dateStr: string = newDate.getFullYear() + '-' + (newDate.getMonth()+1) + '-' + newDate.getDate();
-    //     let timeStr: string = this.padTwo(date.getHours()) + ':'
-    //         + this.padTwo(date.getMinutes()) + ':'
-    //         + this.padTwo(date.getSeconds());
-    //
-    //     let dateTime: string = dateStr + 'T' + timeStr + defaultTZms;
-    //     let test: string = '2007-6-24';//T00:00:00';//.000Z';
-    //     // return
-    //     console.debug(`  getFormatDateToDatetimeString - should return '${dateTime}'`);
-    //     console.debug(`  getFormatDateToDatetimeString - but wl return '${test}'`);
-    //     console.debug(`  getFormatDateToDatetimeString - NOPE returning it`);
-    //     return dateTime;
-    //     // return test;
-    //
-    //     // this.datetimeDisplay = dateStr + ' ' + timeStr;
-    //     // this.datetimeLast = this.datetime;
-    //     // this.datetime = dateStr + 'T' + timeStr + defaultTZms;
-    // }
     /**
      * Emit a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
      */
@@ -563,35 +527,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     //     this.datetimeLast = this.datetime;
     //     this.datetime = dateStr + 'T' + timeStr + defaultTZms;
     // }
-
-    /**
-     * Returns an integer between min and max values by parsing from input str,
-     * return null if it is not a number or out of range.
-     */
-    private toInteger(str: string, min: number, max: number): number {
-        try {
-            let num: number = parseInt(str, 10);
-            if (isNaN(num)) {
-                return null;
-            } else if (num < min || num > max) {
-                return null;
-            } else {
-                return num;
-            }
-        } catch(error) {
-            return null;
-        }
-    }
-
-    /**
-     * Convert an integer to a two-character string.
-     */
-    private padTwo(index: number): string {
-        if (index < 10) {
-            return '0' + index.toString();
-        }
-        return index.toString();
-    }
 
     private checkPreConditions() {
         if (!this.controlName || this.controlName.length === 0) {
