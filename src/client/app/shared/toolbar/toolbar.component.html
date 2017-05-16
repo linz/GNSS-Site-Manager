@@ -16,8 +16,8 @@
         <span class="dropdown-menu-panel" id="dropdown-menu-panel">
             <span dropdown *ngIf="siteId" class="pull-left" id="site-id-dropdown-menu">
                 <nav dropdownToggle class="site-id-menu">
-                    <span class="site-id-menu-label">{{siteId}}</span><!-- remove space between
-                    --><i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
+                    <span class="site-id-menu-label">{{siteId}}</span>
+                    <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
                 </nav>
                 <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
                     <li role="menuitem" title="Save changes">
@@ -34,23 +34,21 @@
             </span>
             <span dropdown id="profile-dropdown-menu">
                 <nav dropdownToggle class="profile-menu">
-                    <i class="glyphicon glyphicon-user"></i>
+                    <i class="glyphicon glyphicon-user" [ngClass]="{'dim-icon': !user}"></i>
                     <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
                 </nav>
                 <ul *ngIf="!user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
                     <li role="menuitem">
                         <a (click)="login()">Login</a>
                     </li>
-                    <li class="divider dropdown-divider"></li>
                     <li role="menuitem">
                         <a [routerLink]="['/userRegistration']">Register</a>
                     </li>
                 </ul>
                 <ul *ngIf="user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
                     <li role="menuitem">
-                        <a (click)="showUserProfile()">View Profile</a>
+                        <a (click)="showUserProfile()">{{user.profile.sub}} Profile</a>
                     </li>
-                    <li class="divider dropdown-divider"></li>
                     <li role="menuitem">
                         <a (click)="changePassword()">Change Password</a>
                     </li>

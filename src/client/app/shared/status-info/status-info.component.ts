@@ -52,17 +52,13 @@ export class StatusInfoComponent implements OnInit {
     public getFormStatus(): string {
         let formStatus: string = '';
         if (this.isFormModified) {
-            formStatus = 'modified, ';
-        } else {
-            formStatus = '';
+            formStatus = 'modified';
         }
 
         if (this.isFormInvalid) {
-            formStatus += 'invalid';
-        } else {
-            formStatus += 'valid';
+            formStatus += (formStatus ? ', ' : '') + 'invalid';
         }
-        return formStatus;
+        return formStatus ? 'The form is ' + formStatus : '';
     }
 
     public getUserAuthorityString(): string {

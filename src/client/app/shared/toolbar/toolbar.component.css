@@ -51,19 +51,22 @@ img.logo-stacked {
   border-radius: 4px;
   display: inline;
   font-size: 15px;
+  height: 35px;
+  min-height: 35px;
+  max-height: 35px;
   line-height: 2.95;
   margin: 0 5px;
 }
 .site-id-menu {
-  padding: 5px 3px;
+  padding: 5px 8px;
 }
 .profile-menu {
-  padding: 5px 9px;
+  padding: 5px 10px;
 }
 .navigation-menu {
   font-size: 23.5px;
   line-height: 1.9;
-  padding: 0 11px;
+  padding: 0 12px;
 }
 .navigation-menu:hover,
 .navigation-menu:focus,
@@ -100,7 +103,10 @@ img.logo-stacked {
   margin-bottom: 5px;
 }
 #profile-dropdown-menu > ul {
-    margin: 15px 5px 0 0;
+  margin: 15px 5px 0 0;
+}
+.dim-icon {
+  color: #aaa;
 }
 
 /* A horizontal strap just right below the header */
@@ -160,7 +166,7 @@ img.logo-stacked {
 }
 
 /* Special CSS classes defined for small devices such as smart phone (portrait) */
-@media (max-width: 480px) {
+@media (max-width: 500px) {
   .header-container {
     padding: 15px 5px 0 0;
   }

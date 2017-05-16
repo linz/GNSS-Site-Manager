@@ -5,7 +5,7 @@
             any sites
         </span>
         <span *ngIf="siteId != null">
-            {{siteId}} ({{getFormStatus()}})
+            {{siteId}}. {{getFormStatus()}}
         </span>
     </span>
     <span *ngIf="user != null">
@@ -14,7 +14,7 @@
             and are authorized to edit {{getUserAuthorityString()}})
         </span>
         <span *ngIf="siteId != null">
-            and are {{isAuthorizedSite() ? '' : 'not'}} authorized to edit {{siteId}} ({{getFormStatus()}})
+            and are {{isAuthorizedSite() ? '' : 'not'}} authorized to edit {{siteId}}. {{getFormStatus()}}
         </span>
     </span>
 </div>
