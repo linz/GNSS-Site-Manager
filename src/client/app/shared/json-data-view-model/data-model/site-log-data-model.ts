@@ -22,9 +22,9 @@ export class SiteLogDataModel {
     temperatureSensors: any[];
     waterVaporSensors: any[];
     siteOwner: any;
-    siteContact: any[];
+    siteContacts: any[];
     siteMetadataCustodian: any;
-    siteDataCenter: any[];
+    siteDataCenters: any[];
     siteDataSource: any;
     moreInformation: any;
     dataStreams: any;
@@ -33,7 +33,7 @@ export class SiteLogDataModel {
      * Extract the data in the supplied JSON object or create an empty array / object for each item that doesn't exist.
      */
     constructor(dataModelJson: any) {
-        let siteLogModel: any = dataModelJson['geo:siteLog'];
+        let siteLogModel: SiteLogDataModel = dataModelJson['geo:siteLog'];
         if (siteLogModel) {
             // arrays
             this.gnssReceivers = this.getSuppliedValueOrEmptyValue(siteLogModel.gnssReceivers, true);
@@ -45,8 +45,8 @@ export class SiteLogDataModel {
             this.pressureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.pressureSensors, true);
             this.temperatureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.temperatureSensors, true);
             this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.waterVaporSensors, true);
-            this.siteContact = this.getSuppliedValueOrEmptyValue(siteLogModel.siteContacts, true);
-            this.siteDataCenter = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataCenter, true);
+            this.siteContacts = this.getSuppliedValueOrEmptyValue(siteLogModel.siteContacts, true);
+            this.siteDataCenters = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataCenters, true);
 
             // objects
             this.TYPE_NAME = this.getSuppliedValueOrEmptyValue(siteLogModel.TYPE_NAME, false);

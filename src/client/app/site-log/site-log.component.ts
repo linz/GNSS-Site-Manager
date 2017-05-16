@@ -332,11 +332,11 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 return null;
             case 'siteOwner':
                 return ResponsiblePartyGroupComponent.compare;
-            case 'siteContact':
+            case 'siteContacts':
                 return ResponsiblePartyGroupComponent.compare;
             case 'siteMetadataCustodian':
                 return ResponsiblePartyGroupComponent.compare;
-            case 'siteDataCenter':
+            case 'siteDataCenters':
                 return ResponsiblePartyGroupComponent.compare;
             case 'siteDataSource':
                 return ResponsiblePartyGroupComponent.compare;
@@ -390,9 +390,9 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.moveSiteInformationUpSpecifically(formValue, 'siteIdentification');
         this.moveSiteInformationUpSpecifically(formValue, 'siteLocation');
         this.moveSiteInformationUpSpecifically(formValue, 'siteOwner');
-        this.moveSiteInformationUpSpecifically(formValue, 'siteContact');
+        this.moveSiteInformationUpSpecifically(formValue, 'siteContacts');
         this.moveSiteInformationUpSpecifically(formValue, 'siteMetadataCustodian');
-        this.moveSiteInformationUpSpecifically(formValue, 'siteDataCenter');
+        this.moveSiteInformationUpSpecifically(formValue, 'siteDataCenters');
         this.moveSiteInformationUpSpecifically(formValue, 'siteDataSource');
         delete formValue.siteInformation;
     }

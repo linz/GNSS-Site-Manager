@@ -24,9 +24,9 @@ export class SiteLogViewModel {
     temperatureSensors: TemperatureSensorViewModel[];
     waterVaporSensors: any[];
     siteOwner: ResponsiblePartyViewModel[];             // Array of 0..1 item
-    siteContact: ResponsiblePartyViewModel[];
+    siteContacts: ResponsiblePartyViewModel[];
     siteMetadataCustodian: ResponsiblePartyViewModel[]; // Array of 0..1 item
-    siteDataCenter: ResponsiblePartyViewModel[];
+    siteDataCenters: ResponsiblePartyViewModel[];
     siteDataSource: ResponsiblePartyViewModel[];
     moreInformation: any = {};
     dataStreams: any = {};

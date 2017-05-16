@@ -6,9 +6,9 @@ import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
     static siteOwner = new ResponsiblePartyType('siteOwner', 'Site Owner');
-    static siteContact = new ResponsiblePartyType('siteContact', 'Site Contact');
+    static siteContact = new ResponsiblePartyType('siteContacts', 'Site Contact');
     static siteMetadataCustodian = new ResponsiblePartyType('siteMetadataCustodian', 'Site Metadata Custodian');
-    static siteDataCenter = new ResponsiblePartyType('siteDataCenter', 'Site Data Center');
+    static siteDataCenter = new ResponsiblePartyType('siteDataCenters', 'Site Data Center');
     static siteDataSource = new ResponsiblePartyType('siteDataSource', 'Site Data Source');
 
     constructor(private value: string, private title: string) {
