@@ -59,7 +59,7 @@ export class MiscUtils {
     }
 
     public static isDate(date: Date): boolean {
-        if (Object.prototype.toString.call(date) === "[object Date]") {
+        if (Object.prototype.toString.call(date) === '[object Date]') {
             return ! isNaN(date.getTime());
         } else {
             return false;

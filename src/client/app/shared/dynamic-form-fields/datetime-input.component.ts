@@ -77,10 +77,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     public miscUtils: any = MiscUtils;
 
-    isFormDisabled(): boolean {
-        return this.form.disabled;
-    }
-
     static formatTimeToDisplay(dateStr: string, returnAsIsUponFailure: boolean = false): string {
         let datetimeDisplay: string = '';
         if (dateStr !== null) {
@@ -102,6 +98,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         super();
     }
 
+
     ngOnInit() {
         this.checkPreConditions();
         this.createValidators();
@@ -122,7 +119,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             // let d2: string = '2000-08-23T00:00:00' + defaultTZms;
             // this._datetimeLast = dt;    //this._datetime;
             this._datetime = dateString;
-            console.debug(`${this.controlName} - set datetime - set to ${dateString} from ${dt} string`)
+            console.debug(`${this.controlName} - set datetime - set to ${dateString} from ${dt} string`);
             this.propagateChange(this._datetime);
             // this.updateCalendar();
         } else {
@@ -184,6 +181,10 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         }
     }
 
+    public isFormDisabled(): boolean {
+        return this.form.disabled;
+    }
+
     // TODO - put these back in place.  Currently the buttons just close the dialog.
     /**
      * Set the selected datetime value to the datetime model when users click on the OK button
@@ -222,15 +223,15 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         // TODO - To prevent TZ problem use something like moment and moment-timezone
         // TODO - Also see 'set datetime()' above.
         let d: string = String(event);
-        this.datetime = d.replace(/ *(([\w:]+ +){1,6})(.*)/, "$1GMT+0000 (UTC)");
+        this.datetime = d.replace(/ *(([\w:]+ +){1,6})(.*)/, '$1GMT+0000 (UTC)');
         // let d: Date = new Date(String(event));
         // // date defaults to local time zone.  The dates we choose are UTC so do the convert.
         // let dateInStr: string = d.toString();
         // // format of date string is ' Mon Sep 28 1998 14:36:22 GMT-0700 (PDT)'
         // console.debug(`dateString is ${dateInStr}`);
-        // // dateInStr = dateInStr.replace(/ *(([\w:]+ +){1,6})(.*)/, "$1GMT+0 (UTC)");
+        // // dateInStr = dateInStr.replace(/ *(([\w:]+ +){1,6})(.*)/, '$1GMT+0 (UTC)');
         // console.debug(`dateString after replace is ${dateInStr}`);
-        // // let dateUTC: Date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDay(), d.getHours(), d.getMinutes(), d.getSeconds()));
+        // let dateUTC: Date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDay(), d.getHours(), d.getMinutes(), d.getSeconds()));
         // this.datetime = MiscUtils.formatDateToDatetimeString(d);
         // // No what I've done doesnt work - you can't force a TZ - it is always
         // console.debug(`updateDate to str: ${dateInStr}, date: ${d} - dateTime is now: ${this.datetime}`);
