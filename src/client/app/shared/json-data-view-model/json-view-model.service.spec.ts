@@ -40,7 +40,7 @@ export function main() {
 
     it('should translate parts - data to view', () => {
 
-      let siteLogViewModel: SiteLogViewModel = jsonViewModelService.dataModelToViewModelJson(completeValidSitelog);
+      let siteLogViewModel: SiteLogViewModel = jsonViewModelService.dataModelToViewModel(completeValidSitelog);
       let siteLog: any = siteLogViewModel.siteLog;
       expect(siteLog).toBeDefined();
       console.debug('should translate parts - view model: ', siteLog.siteIdentification);
@@ -80,8 +80,8 @@ export function main() {
 
     it('should translate parts - view to data', () => {
 
-      let siteLogViewModel: SiteLogViewModel = jsonViewModelService.dataModelToViewModelJson(completeValidSitelog);
-      let siteLogDataModel: SiteLogDataModel = jsonViewModelService.viewModelToDataModelJson(siteLogViewModel);
+      let siteLogViewModel: SiteLogViewModel = jsonViewModelService.dataModelToViewModel(completeValidSitelog);
+      let siteLogDataModel: SiteLogDataModel = jsonViewModelService.viewModelToDataModel(siteLogViewModel);
 
       expect(siteLogDataModel.humiditySensors).toBeDefined();
       expect(siteLogDataModel.humiditySensors.length).not.toBe(0);
