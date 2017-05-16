@@ -39,9 +39,7 @@ export function main() {
         });
 
         it('should translate parts - data to view', () => {
-
-            let siteLogViewModel: SiteLogViewModel = jsonViewModelService.dataModelToViewModel(completeValidSitelog);
-            let siteLog: any = siteLogViewModel.siteLog;
+            let siteLog: SiteLogViewModel = jsonViewModelService.dataModelToViewModel(completeValidSitelog);
             expect(siteLog).toBeDefined();
             console.debug('should translate parts - view model: ', siteLog.siteIdentification);
             expect(siteLog.siteIdentification).toBeDefined();

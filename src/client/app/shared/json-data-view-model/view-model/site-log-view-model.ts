@@ -7,15 +7,11 @@ import { PressureSensorViewModel } from '../../../pressure-sensor/pressure-senso
 import { TemperatureSensorViewModel } from '../../../temperature-sensor/temperature-sensor-view-model';
 import { ResponsiblePartyViewModel } from '../../../responsible-party/responsible-party-view-model';
 import { GnssReceiverViewModel } from '../../../gnss-receiver/gnss-receiver-view-model';
+
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
  */
-// TODO: Remove this extra level of nesting, if not needed.
 export class SiteLogViewModel {
-    siteLog: ViewSiteLog = new ViewSiteLog();
-}
-
-export class ViewSiteLog {
     [key:string]: any;      // Allow easy object access without typescript error
     siteIdentification: any = {};
     siteLocation: any = {};
