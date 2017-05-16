@@ -6,7 +6,7 @@ import {
     ConstantsService, DialogService, MiscUtils,
     SiteLogService, JsonDiffService, JsonCheckService
 } from '../shared/index';
-import { SiteLogViewModel, ViewSiteLog } from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
 import { AbstractControl, FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
@@ -38,8 +38,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
     public siteInformationForm: FormGroup;
     public responsiblePartyType: any = ResponsiblePartyType;
-    public siteLogOrigin: ViewSiteLog;
-    public siteLogModel: ViewSiteLog;
+    public siteLogOrigin: SiteLogViewModel;
+    public siteLogModel: SiteLogViewModel;
 
     private siteId: string;
     private isLoading: boolean = false;
@@ -108,8 +108,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
         this.siteLogTab = this.route.params.subscribe(() => {
             this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
-                (responseJson: any) => {
-                    this.siteLogModel = responseJson.siteLog;
+                (response: SiteLogViewModel) => {
+                    this.siteLogModel = response;
                     console.debug('loadSiteLogData - siteLogModel: ', this.siteLogModel);
 
                     this.backupSiteLogJson();
@@ -189,9 +189,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             () => {
                 this.isLoading = true;
                 this.submitted = true;
-                let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
-                siteLogViewModel.siteLog = this.siteLogModel;
-                this.siteLogService.saveSiteLog(siteLogViewModel).subscribe(
+                this.siteLogService.saveSiteLog(this.siteLogModel).subscribe(
                     (responseJson: any) => {
                         this.isLoading = false;
                         this.siteLogForm.markAsPristine();
