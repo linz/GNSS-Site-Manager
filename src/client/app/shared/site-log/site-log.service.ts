@@ -37,19 +37,6 @@ export class SiteLogService {
     }
 
     /**
-     * Returns one site log defined by the fourCharacterId.
-     * @param {string} fourCharacterId - The Four Character Id of the site.
-     * @return {object[]} The Observable for the HTTP request in JSON format.
-     */
-    getSiteLogByFourCharacterId(fourCharacterId: string): Observable<any> {
-        console.log('getSiteLogByFourCharacterId(fourCharacterId: ', fourCharacterId);
-        return this.http.get(this.constantsService.getWebServiceURL()
-            + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=json')
-            .map(HttpUtilsService.handleJsonData)
-            .catch(HttpUtilsService.handleError);
-    }
-
-    /**
      * Returns one site log defined by the fourCharacterId in ViewModel JSON format.
      *
      * @param {string} fourCharacterId - The Four Character Id of the site.
@@ -69,57 +56,6 @@ export class SiteLogService {
                 observer.error(new Error(error));
             }
         });
-    }
-
-    getSiteLogByFourCharacterIdUsingGeodesyMLWFS(fourCharacterId: string): Observable<any> {
-        let params: SelectSiteSearchType = {
-            // TODO - make this the selected value
-            siteName: 'ADE1'
-        };
-        return this.wfsService.wfsQuery(params)
-            .map(this.handleData)
-            .catch((e: any) => {
-                // propagate errors through the Observable
-                return Observable.create((obs: any) => {
-                    obs.error('ERROR in getSiteLogByFourCharacterIdUsingGeodesyMLWFS: ', e);
-                });
-            });
-    }
-
-    /**
-     * Returns all site logs with the given siteId.
-     * @param {number} siteId - The foreign key Site Id to the ViewSiteLog table.
-     * @return {object[]} The Observable for the HTTP request.
-     */
-    getSiteLogsBySiteId(siteId: number): Observable <any> {
-        let params = '';
-        if (typeof siteId !== 'undefined' && siteId !== null && siteId > 0) {
-            params = 'siteId=' + siteId;
-        }
-        return this.http.get(this.constantsService.getWebServiceURL() + '/siteLogs?' + params)
-            .map(HttpUtilsService.handleJsonData)
-            .catch(HttpUtilsService.handleError);
-    }
-
-    /**
-     * Returns one site log defined by the row id provided.
-     * @param {number} id - The primary key Id of the ViewSiteLog record.
-     * @return {object[]} The Observable for the HTTP request.
-     */
-    getSiteLogById(id: number): Observable <any> {
-        return this.http.get(this.constantsService.getWebServiceURL() + '/siteLogs?id=' + id)
-            .map(HttpUtilsService.handleJsonData)
-            .catch(HttpUtilsService.handleError);
-    }
-
-    /**
-     * Returns all records from the ViewSiteLog table.
-     * @return {object[]} The Observable for the HTTP request.
-     */
-    getAllSiteLogs(): Observable <any[]> {
-        return this.http.get(this.constantsService.getWebServiceURL() + '/siteLogs?size=1000')
-            .map(HttpUtilsService.handleJsonData)
-            .catch(HttpUtilsService.handleError);
     }
 
     /**
@@ -203,12 +139,5 @@ export class SiteLogService {
                 return this.handleXMLData(response);
             })
             .catch(HttpUtilsService.handleError);
-    }
-
-    private handleData(response: Response) {
-        let data: any = response.text();//.json();
-        let status: number = response.status;
-        let statustext: string = response.statusText;
-        return response; //data;
     }
 }
