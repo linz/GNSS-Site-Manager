@@ -131,7 +131,7 @@ export function main() {
 
     // now test the new 'date' format type - that is only applied v2d
 
-      fit('should translate v2d for gnssReceivers using translate method and Date() dates', () => {
+      it('should translate v2d for gnssReceivers using translate method and Date() dates', () => {
           let receiverData: any = new SiteLogDataModel(completeValidSitelog).gnssReceivers;
           expect(receiverData).toBeDefined();
           let firstRD: any = receiverData[1];
@@ -161,7 +161,7 @@ export function main() {
           // dateInstalled was changed to a Date
           expect(newRD.gnssReceiver.dateInstalled.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.startDate));
           // But dateRemoved wasn't
-          expect(newRD.gnssReceiver.dateRemoved.value[0]).toEqual(MiscUtils.formatDateToDatetimeString(firstRV.endDate));
+          expect(newRD.gnssReceiver.dateRemoved.value[0]).toEqual(firstRV.endDate);
           // expect(firstRV.startDate).toEqual(newRD.gnssReceiver.validTime.abstractTimePrimitive['gml:TimePeriod']
           //     .beginPosition.value[0]);
           // expect(firstRV.endDate).toBeNull();
