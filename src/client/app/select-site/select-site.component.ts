@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -13,11 +13,13 @@ import { DialogService, CorsSiteService, ServiceWorkerService } from '../shared/
     selector: 'sd-select-site',
     templateUrl: 'select-site.component.html',
 })
-export class SelectSiteComponent implements OnInit {
+export class SelectSiteComponent implements OnInit, AfterViewInit {
     public columns: Array<any> = [
         {name: 'fourCharacterId', sort: ''},
         {name: 'name', sort: ''}
     ];
+
+    @ViewChild('searchTextInput') searchTextInput: ElementRef;
 
     private serviceWorkerSubscription: Subscription;
     private searchTextSubject = new Subject<string>();
@@ -52,6 +54,10 @@ export class SelectSiteComponent implements OnInit {
         this.setupSubscriptions();
         this.clearAll();
         this.updateCacheList();
+    }
+
+    ngAfterViewInit(): void {
+        this.searchTextInput.nativeElement.focus();
     }
 
     setupSubscriptions() {
