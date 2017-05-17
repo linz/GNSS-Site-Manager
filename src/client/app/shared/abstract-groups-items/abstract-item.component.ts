@@ -258,6 +258,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         this.isDeleted = true;
         let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);
+        this.itemGroup.disable();
     }
 
     /**
