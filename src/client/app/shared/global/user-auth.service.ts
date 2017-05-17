@@ -23,7 +23,7 @@ export class UserRegistration {
  */
 @Injectable()
 export class UserAuthService {
-    public userLoadededEvent: EventEmitter<User> = new EventEmitter<User>();
+    public userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
     private userManager: UserManager;
     private currentUser: User;
 
@@ -44,7 +44,7 @@ export class UserAuthService {
             .then((user) => {
                 if (user) {
                     this.currentUser = user;
-                    this.userLoadededEvent.emit(user);
+                    this.userLoadedEvent.emit(user);
                 } else {
                     this.currentUser = null;
                 }
@@ -95,10 +95,10 @@ export class UserAuthService {
         if (!siteId) {
             siteId = this.router.routerState.snapshot.root.children[0].url[1].path;
         }
-        return this.hasAuthortiy('edit-' + siteId.toLowerCase());
+        return this.hasAuthority('edit-' + siteId.toLowerCase());
     }
 
-    public hasAuthortiy(authority: string): boolean {
+    public hasAuthority(authority: string): boolean {
         if (!this.currentUser || !authority) {
             return false;
         } else if (!this.currentUser.profile || !this.currentUser.profile.authorities) {
@@ -108,6 +108,23 @@ export class UserAuthService {
                 return myAuthority === 'superuser' || myAuthority === authority;
             });
         }
+    }
+
+    public getAuthorisedSites(): string {
+        if (!this.currentUser || !this.currentUser.profile || !this.currentUser.profile.authorities) {
+            return '';
+        }
+
+        let authorizedSites: any = [];
+        for (let auth of this.currentUser.profile.authorities) {
+            auth = auth.toLowerCase();
+            if (auth === 'superuser') {
+                return 'All sites';
+            } else if (auth.startsWith('edit-')) {
+                authorizedSites.push(auth.slice(5).toUpperCase());
+            }
+        }
+        return authorizedSites.join();
     }
 
     private addEventHandlers() {

@@ -1,0 +1,20 @@
+<div class="status-info-bar">
+    <span *ngIf="user == null">
+        <span>You have not logged in and are not authorised to edit</span>
+        <span *ngIf="siteId == null">
+            any sites
+        </span>
+        <span *ngIf="siteId != null">
+            {{siteId}}. {{getFormStatus()}}
+        </span>
+    </span>
+    <span *ngIf="user != null">
+        <span>You have logged in as "{{user.profile.sub}}"</span>
+        <span *ngIf="siteId == null">
+            and are authorised to edit {{getAuthorisedSites()}}).
+        </span>
+        <span *ngIf="siteId != null">
+            and are {{isAuthorisedSite() ? '' : 'not'}} authorised to edit {{siteId}}. {{getFormStatus()}}
+        </span>
+    </span>
+</div>

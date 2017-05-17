@@ -97,7 +97,7 @@ export class ToolbarComponent implements OnInit {
             + '<tr><td class="name">User Name</td><td class="value">' + this.user.profile.sub + '</td></tr>'
             + '<tr><td class="name">Full Name</td><td class="value">' + this.user.profile.name + '</td></tr>'
             + '<tr><td class="name">Last Name</td><td class="value">' + this.user.profile.family_name + '</td></tr>'
-            + '<tr><td class="name">Authorized Sites</td><td class="value">' + this.getUserAuthorityString() + '</td></tr>'
+            + '<tr><td class="name">Authorised Sites</td><td class="value">' + this.getAuthorisedSites() + '</td></tr>'
             +'</table></div>';
         this.dialogService.showAlertDialog(userProfile);
     }
@@ -143,21 +143,12 @@ export class ToolbarComponent implements OnInit {
     }
 
     private setupAuthSubscription(): void {
-        this.loadedUserSub = this.userAuthService.userLoadededEvent.subscribe((u: User) => {
+        this.loadedUserSub = this.userAuthService.userLoadedEvent.subscribe((u: User) => {
             this.user = u;
         });
     }
 
-    private getUserAuthorityString(): string {
-        let authorities: any = [];
-        for (let auth of this.user.profile.authorities) {
-            auth = auth.toLowerCase();
-            if (auth === 'superuser') {
-                return 'All sites';
-            } else if (auth.startsWith('edit-')) {
-                authorities.push(auth.slice(5).toUpperCase());
-            }
-        }
-        return authorities.join();
+    private getAuthorisedSites(): string {
+        return this.userAuthService.getAuthorisedSites();
     }
 }
