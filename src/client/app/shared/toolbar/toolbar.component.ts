@@ -149,6 +149,6 @@ export class ToolbarComponent implements OnInit {
     }
 
     private getAuthorisedSites(): string {
-        return this.userAuthService.getAuthorizedSites();
+        return this.userAuthService.getAuthorisedSites();
     }
 }

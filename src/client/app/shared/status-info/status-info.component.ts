@@ -50,7 +50,7 @@ export class StatusInfoComponent implements OnInit {
     }
 
     public getAuthorisedSites(): string {
-        return this.userAuthService.getAuthorizedSites();
+        return this.userAuthService.getAuthorisedSites();
     }
 
     private setupRouterSubscription(): void {

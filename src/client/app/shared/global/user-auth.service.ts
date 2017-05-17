@@ -113,12 +113,13 @@ export class UserAuthService {
     public getAuthorisedSites(): string {
         if (!this.currentUser || !this.currentUser.profile || !this.currentUser.profile.authorities) {
             return '';
+        }
 
         let authorizedSites: any = [];
         for (let auth of this.currentUser.profile.authorities) {
             auth = auth.toLowerCase();
             if (auth === 'superuser') {
-                return 'all sites';
+                return 'All sites';
             } else if (auth.startsWith('edit-')) {
                 authorizedSites.push(auth.slice(5).toUpperCase());
             }
