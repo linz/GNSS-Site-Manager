@@ -97,7 +97,7 @@ export class ToolbarComponent implements OnInit {
             + '<tr><td class="name">User Name</td><td class="value">' + this.user.profile.sub + '</td></tr>'
             + '<tr><td class="name">Full Name</td><td class="value">' + this.user.profile.name + '</td></tr>'
             + '<tr><td class="name">Last Name</td><td class="value">' + this.user.profile.family_name + '</td></tr>'
-            + '<tr><td class="name">Authorized Sites</td><td class="value">' + this.getUserAuthorityString() + '</td></tr>'
+            + '<tr><td class="name">Authorised Sites</td><td class="value">' + this.getUserAuthorityString() + '</td></tr>'
             +'</table></div>';
         this.dialogService.showAlertDialog(userProfile);
     }

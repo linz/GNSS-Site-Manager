@@ -33,7 +33,7 @@ export class StatusInfoComponent implements OnInit {
         this.setupAuthSubscription();
     }
 
-    public isAuthorizedSite(): boolean {
+    public isAuthorisedSite(): boolean {
         if (!this.siteId) {
             return false;
         } else {
@@ -56,9 +56,9 @@ export class StatusInfoComponent implements OnInit {
         }
 
         if (this.isFormInvalid) {
-            formStatus += (formStatus ? ', ' : '') + 'invalid';
+            formStatus += (formStatus ? ' and ' : '') + 'invalid';
         }
-        return formStatus ? 'The form is ' + formStatus : '';
+        return (formStatus ? 'The form is ' + formStatus + '.' : '');
     }
 
     public getUserAuthorityString(): string {
@@ -66,7 +66,7 @@ export class StatusInfoComponent implements OnInit {
         for (let auth of this.user.profile.authorities) {
             auth = auth.toLowerCase();
             if (auth === 'superuser') {
-                return 'All sites';
+                return 'all sites';
             } else if (auth.startsWith('edit-')) {
                 authorities.push(auth.slice(5).toUpperCase());
             }
