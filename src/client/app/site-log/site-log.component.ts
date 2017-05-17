@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from 'oidc-client';
@@ -77,6 +77,13 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder,
                 private _changeDetectionRef: ChangeDetectorRef) {
+    }
+
+    @HostListener('window:beforeunload', ['$event'])
+    public onBeforeUnload($event: UIEvent): void {
+        if (this.isFormDirty()) {
+            $event.returnValue = false;
+        }
     }
 
     /**
