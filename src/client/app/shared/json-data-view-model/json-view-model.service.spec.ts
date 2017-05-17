@@ -69,7 +69,7 @@ export function main() {
             expect(siteLog.waterVaporSensors.length).not.toBe(0);
             expect(siteLog.siteOwner).toBeDefined();
             expect(siteLog.siteOwner.length).not.toBe(0);
-            expect(siteLog.siteContact).toBeDefined();
+            expect(siteLog.siteContacts).toBeDefined();
             expect(siteLog.siteMetadataCustodian).toBeDefined();
             expect(siteLog.siteDataSource).toBeDefined();
             expect(siteLog.moreInformation).toBeDefined();
@@ -96,7 +96,7 @@ export function main() {
             expect(siteLogDataModel.waterVaporSensors.length).not.toBe(0);
             expect(siteLogDataModel.siteOwner).toBeDefined();
             expect(siteLogDataModel.siteOwner.length).not.toBe(0);
-            expect(siteLogDataModel.siteContact).toBeDefined();
+            expect(siteLogDataModel.siteContacts).toBeDefined();
             expect(siteLogDataModel.siteMetadataCustodian).toBeDefined();
             expect(siteLogDataModel.siteDataSource).toBeDefined();
             expect(siteLogDataModel.moreInformation).toBeDefined();
