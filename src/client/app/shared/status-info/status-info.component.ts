@@ -34,19 +34,7 @@ export class StatusInfoComponent implements OnInit {
     }
 
     public isAuthorisedSite(): boolean {
-        if (!this.siteId) {
-            return false;
-        } else {
-            for (let auth of this.user.profile.authorities) {
-                auth = auth.toUpperCase();
-                if (auth === 'SUPERUSER') {
-                    return true;
-                } else if (auth.startsWith('EDIT-') && auth.slice(5) === this.siteId) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        return this.userAuthService.hasAuthorityToEditSite(this.siteId);
     }
 
     public getFormStatus(): string {
@@ -61,17 +49,8 @@ export class StatusInfoComponent implements OnInit {
         return (formStatus ? 'The form is ' + formStatus + '.' : '');
     }
 
-    public getUserAuthorityString(): string {
-        let authorities: any = [];
-        for (let auth of this.user.profile.authorities) {
-            auth = auth.toLowerCase();
-            if (auth === 'superuser') {
-                return 'all sites';
-            } else if (auth.startsWith('edit-')) {
-                authorities.push(auth.slice(5).toUpperCase());
-            }
-        }
-        return authorities.join();
+    public getAuthorisedSites(): string {
+        return this.userAuthService.getAuthorizedSites();
     }
 
     private setupRouterSubscription(): void {
@@ -96,7 +75,7 @@ export class StatusInfoComponent implements OnInit {
     }
 
     private setupAuthSubscription(): void {
-        this.userAuthService.userLoadededEvent.subscribe((u: User) => {
+        this.userAuthService.userLoadedEvent.subscribe((u: User) => {
             this.user = u;
         });
     }

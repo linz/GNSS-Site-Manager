@@ -286,7 +286,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     private setupAuthSubscription(): Subscription {
-        return this.userAuthService.userLoadededEvent.subscribe((_: User) => {
+        return this.userAuthService.userLoadedEvent.subscribe((_: User) => {
             if (this.userAuthService.hasAuthorityToEditSite()) {
                 this.siteLogForm.enable();
             } else {
