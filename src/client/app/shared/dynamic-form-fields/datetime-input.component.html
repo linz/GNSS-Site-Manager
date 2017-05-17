@@ -7,7 +7,7 @@
     <div>
       <div class="input-group">
                <!--[formControlName]="controlName"-->
-          <label [ngClass]="{'ng-dirty': isDirty(controlName), 'ng-invalid': isInvalid(controlName), 'labeldisabled': isFormDisabled()}">{{datetime}}</label>
+          <label [ngClass]="{'ng-dirty': isDirty(controlName), 'ng-invalid': isInvalid(controlName), 'labeldisabled': isFormDisabled()}">{{datetime | date: 'yyyy-MM-dd HH:mm:ss'}}</label>
         <span class="input-group-btn z-lowest">
           <button id="calendar-btn" type="button"
                   class="btn btn-default btn-calendar z-lowest"
@@ -78,14 +78,7 @@
                     <button class="btn btn-ok"
                             (click)="closeDatetime()"
                             title="Set selected date/time and close calendar">
-                        <i class="glyphicon glyphicon-ok"></i>
-                        OK
-                    </button>
-                    <button class="btn btn-cancel pull-right"
-                            (click)="closeDatetime()"
-                            title="Cancel selected date/time and close calendar">
-                        <i class="glyphicon glyphicon-remove"></i>
-                        Cancel
+                        Close
                     </button>
                 </div>
             </div>

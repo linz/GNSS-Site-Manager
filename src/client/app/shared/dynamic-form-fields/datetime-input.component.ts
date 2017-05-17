@@ -2,6 +2,7 @@ import { Component, ElementRef, HostListener, Input, OnInit, forwardRef } from '
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, NG_VALIDATORS, FormControl, FormGroup } from '@angular/forms';
 import { AbstractGnssControls } from './abstract-gnss-controls';
 import { MiscUtils } from '../index';
+import * as moment from 'moment-timezone';
 
 const defaultTZms: string = '.000Z';
 const validDisplayFormat: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g;
@@ -98,7 +99,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         super();
     }
 
-
     ngOnInit() {
         this.checkPreConditions();
         this.createValidators();
@@ -112,14 +112,19 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     // TODO - needs fixing to handle TimeZones
     set datetime(dt: string) {
         if (dt !== this._datetime) {
-            // The datePicker sets its ngModel to formats like 'Sun 24th may 2016'.  Convert.
-            // let d: Date = new Date(dt);
-            // d.setTime(dt);
-            let dateString: string = MiscUtils.formatDateToDatetimeString(new Date(dt));
-            // let d2: string = '2000-08-23T00:00:00' + defaultTZms;
-            // this._datetimeLast = dt;    //this._datetime;
-            this._datetime = dateString;
-            console.debug(`${this.controlName} - set datetime - set to ${dateString} from ${dt} string`);
+            // The DatePicker ALWAYS displays the date in the local timezone, converting as necessary.
+            // However we've stated we are displaying it in UTC and the data is stored in UTC.
+            // So trick everyone and everything by subtracting the TZ offset from the chosen date
+            let date: Date = new Date(dt);
+            console.debug(`${this.controlName} - set datetime - dt: ${dt}, date: ${date}`);
+            let m1: any = moment(date);
+            let tzOffsetHours: any = m1.utcOffset() / 60;
+            console.log('m1: ', m1.format());
+            m1.subtract(tzOffsetHours, 'hours');
+            console.debug(' offset: ', tzOffsetHours);
+            // console.log('m1 now: ', m1.format());
+            this._datetime = m1.format();   // .utc()
+            console.debug(`${this.controlName} - set datetime - set to ${this._datetime} from ${dt}`);
             this.propagateChange(this._datetime);
             // this.updateCalendar();
         } else {
@@ -185,31 +190,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         return this.form.disabled;
     }
 
-    // TODO - put these back in place.  Currently the buttons just close the dialog.
-    /**
-     * Set the selected datetime value to the datetime model when users click on the OK button
-     */
-    // public setSelectedDatetime(): void {
-    //     if (this.invalidHours || this.invalidMinutes || this.invalidSeconds) {
-    //         return;
-    //     }
-    //
-    //     this.showDatetimePicker = false;
-    //     this.datetimeModel.setHours(this.hours);
-    //     this.datetimeModel.setMinutes(this.minutes);
-    //     this.datetimeModel.setSeconds(this.seconds);
-    //     this.emitOutputDatetime();
-    //     this.hasChanges = true;
-    // }
-
-    /**
-     * Cancel the selected datetime value and close the popup
-     */
-    // public cancelSelectedDatetime(event: any): void {
-    //     this.updateCalendar();
-    //     this.showDatetimePicker = false;
-    // }
-
     public closeDatetime() {
         this.showDatetimePicker = false;
     }
@@ -218,23 +198,13 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
      * Update the datetime model when users select a date on calendar
      */
     public updateDate(event: any): void {
-        // TODO - fix time zone handling.  The DateTime widget will correct the date string to local timezone.
-        // TODO - I've been trying to mess around with forcing to Z / UTC but DateTime assumes local timezone.
-        // TODO - To prevent TZ problem use something like moment and moment-timezone
-        // TODO - Also see 'set datetime()' above.
+        // The date that is sent to the `datetime setter` needs to be in UTC / GMT+0 format.  However ONLY change the TZ and not the time
+        // For example 11pm (23:00) GMT+10 should be changed to 11pm (23:00) UTC.  This is due to the fact that the dateTime Picker
+        // works exclusively with the local timezone but we must display the data and persist in UTC.  So we trick the user and the picker.
+        console.debug('updateDate - input date: ', event);
         let d: string = String(event);
         this.datetime = d.replace(/ *(([\w:]+ +){1,6})(.*)/, '$1GMT+0000 (UTC)');
-        // let d: Date = new Date(String(event));
-        // // date defaults to local time zone.  The dates we choose are UTC so do the convert.
-        // let dateInStr: string = d.toString();
-        // // format of date string is ' Mon Sep 28 1998 14:36:22 GMT-0700 (PDT)'
-        // console.debug(`dateString is ${dateInStr}`);
-        // // dateInStr = dateInStr.replace(/ *(([\w:]+ +){1,6})(.*)/, '$1GMT+0 (UTC)');
-        // console.debug(`dateString after replace is ${dateInStr}`);
-        // let dateUTC: Date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDay(), d.getHours(), d.getMinutes(), d.getSeconds()));
-        // this.datetime = MiscUtils.formatDateToDatetimeString(d);
-        // // No what I've done doesnt work - you can't force a TZ - it is always
-        // console.debug(`updateDate to str: ${dateInStr}, date: ${d} - dateTime is now: ${this.datetime}`);
+        console.debug('updateDate - date after setting: ', this.datetime);
     }
 
     // TODO - can't get time working properly until sort out TimeZones
@@ -253,10 +223,13 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         return d.getSeconds();
     }
 
-    public incrementHours(): void {
+    /**
+     * Add or Subtract the number of hours
+     */
+    public shiftHours(shiftBy: number): void {
         let d: Date = new Date(this.datetime);
         let hours: number = d.getHours();
-        hours++;
+        hours+=shiftBy;
         if (hours > 23) {
             hours = 0;
         } else if (hours < 0) {
@@ -264,21 +237,65 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         }
         d.setHours(hours);
         this.datetime = MiscUtils.formatDateToDatetimeString(d);
-        console.debug(`incrementHours to ${d} - dateTime is now: ${this.datetime}`);
+        console.debug(`shifttHours by ${shiftBy} to ${d} - dateTime is now: ${this.datetime}`);
+    }
+
+    public incrementHours(): void {
+        this.shiftHours(1);
     }
 
     public decrementHours(): void {
+        this.shiftHours(-1);
+    }
+
+    /**
+     * Add or Subtract the number of hinutes
+     */
+    public shiftMinutes(shiftBy: number): void {
         let d: Date = new Date(this.datetime);
-        let hours: number = d.getHours();
-        hours--;
-        if (hours > 23) {
-            hours = 0;
-        } else if (hours < 0) {
-            hours = 23;
+        let minutes: number = d.getMinutes();
+        minutes+=shiftBy;
+        if (minutes > 23) {
+            minutes = 0;
+        } else if (minutes < 0) {
+            minutes = 23;
         }
-        d.setHours(hours);
+        d.setMinutes(minutes);
         this.datetime = MiscUtils.formatDateToDatetimeString(d);
-        console.debug(`incrementHours to ${d} - dateTime is now: ${this.datetime}`);
+        console.debug(`shiftMinutes by ${shiftBy} to ${d} - dateTime is now: ${this.datetime}`);
+    }
+
+    public incrementMinutes(): void {
+        this.shiftMinutes(1);
+    }
+
+    public decrementMinutes(): void {
+        this.shiftMinutes(-1);
+    }
+
+    /**
+     * Add or Subtract the number of seconds
+     */
+    public shiftSeconds(shiftBy: number): void {
+        let d: Date = new Date(this.datetime);
+        let seconds: number = d.getSeconds();
+        seconds+=shiftBy;
+        if (seconds > 23) {
+            seconds = 0;
+        } else if (seconds < 0) {
+            seconds = 23;
+        }
+        d.setSeconds(seconds);
+        this.datetime = MiscUtils.formatDateToDatetimeString(d);
+        console.debug(`shiftSeconds by ${shiftBy} to ${d} - dateTime is now: ${this.datetime}`);
+    }
+
+    public incrementSeconds(): void {
+        this.shiftSeconds(1);
+    }
+
+    public decrementSeconds(): void {
+        this.shiftSeconds(-1);
     }
 
     public isRequired() : boolean {
