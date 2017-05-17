@@ -14,7 +14,7 @@
           <div class="form-group">
             <div class="col-md-9 col-md-offset-1 col-sm-9 col-sm-offset-1
                       col-xs-12 col-xs-offset-0 col-xxs-12 col-xxs-offset-0 extra-v-margin">
-              <input type="text" name="searchText" maxlength="200" class="form-control"
+              <input #searchTextInput type="text" name="searchText" maxlength="200" class="form-control"
                      (input)="searchTextSubject.next($event.target.value)"
                      placeholder="Search by Site Id or Site Name"/>
             </div>
