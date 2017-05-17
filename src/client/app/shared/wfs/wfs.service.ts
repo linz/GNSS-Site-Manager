@@ -6,6 +6,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { HttpUtilsService } from '../global/http-utils.service';
 import { ConstantsService } from '../global/constants.service';
+import * as _ from 'lodash';
 
 /**
  * This class provides the service to work with WFS in Geoservers.
@@ -37,9 +38,8 @@ export class WFSService {
      */
     wfsQuery(params: SelectSiteSearchType): Observable<any> {
         console.debug('wfsQuery - params: ', params);
-        let jsonQuery: string = this.buildJsonQuery(params);
-        let xmlQuery: string = this.convertWFSQueryToML(jsonQuery);
-        return this.doWFSQuery(xmlQuery);
+        return this.wfsGetFeatureRequestBody(params)
+            .flatMap((wfsRequestBody: string) => this.doWFSQuery(wfsRequestBody));
     }
 
     /**
@@ -161,73 +161,18 @@ export class WFSService {
     }
 
     /**
-     * Build a WFS Query (in JSON format) where query type is SelectSiteSearchType
+     * Build a WFS GetFeature request body for the given search parameters
      * @param params: a SelectSiteSearchType object contains site ID and name for searching of CORS sites
      * @returns {string}
      */
-    private buildJsonQuery(params: SelectSiteSearchType): string {
-        let siteId: string = params.site4CharId !== undefined ? this.escapeRegEx(params.site4CharId) : '';
-        let siteName: string = params.siteName !== undefined ? this.escapeRegEx(params.siteName) : '';
-        return `{
-            "wfs:GetFeature": {
-                "TYPE_NAME": "WFS_2_0.GetFeatureType",
-                "service": "WFS",
-                "version": "2.0.0",
-                "abstractQueryExpression": [{
-                    "wfs:Query": {
-                        "TYPE_NAME": "WFS_2_0.QueryType",
-                        "typeNames": ["geo:Site"],
-                        "abstractSortingClause": {
-                            "fes:Or": [{
-                                "fes:PropertyIsEqualTo": {
-                                    "TYPE_NAME": "Filter_2_0.PropertyIsEqualToType",
-                                    "expression": [{
-                                        "fes:Literal": {
-                                            "TYPE_NAME": "Filter_2_0.BooleanType",
-                                            "content": ["true"]
-                                        }
-                                    }, {
-                                        "fes:Function": {
-                                            "name": "isLike",
-                                            "expression": [{
-                                                "fes:ValueReference": "gml:identifier"
-                                            }, {
-                                                "fes:Literal": {
-                                                    "TYPE_NAME": "Filter_2_0.LiteralType",
-                                                    "content": ["(?i)${siteId}.*"]
-                                                }
-                                            }]
-                                        }
-                                    }]
-                                }
-                            }, {
-                                "fes:PropertyIsEqualTo": {
-                                    "TYPE_NAME": "Filter_2_0.PropertyIsEqualToType",
-                                    "expression": [{
-                                        "fes:Literal": {
-                                            "TYPE_NAME": "Filter_2_0.BooleanType",
-                                            "content": ["true"]
-                                        }
-                                    }, {
-                                        "fes:Function": {
-                                            "name": "isLike",
-                                            "expression": [{
-                                                "fes:ValueReference": "gml:name"
-                                            }, {
-                                                "fes:Literal": {
-                                                    "TYPE_NAME": "Filter_2_0.LiteralType",
-                                                    "content": ["(?i).*${siteName}.*"]
-                                                }
-                                            }]
-                                        }
-                                    }]
-                                }
-                            }]
-                        }
-                    }
-                }]
-            }
-        }`;
+    private wfsGetFeatureRequestBody(params: SelectSiteSearchType): Observable<string> {
+        let templateArgs = {
+            'siteId': params.site4CharId !== undefined ? this.escapeRegEx(params.site4CharId) : '',
+            'siteName': params.siteName !== undefined ? this.escapeRegEx(params.siteName) : '',
+        };
+
+        return this.http.get('/assets/wfs-search-sites.xml-template')
+            .map(response => _.template(response.text())(templateArgs));
     }
 
     private convertWFSQueryToML(jsonQuery: string): string {

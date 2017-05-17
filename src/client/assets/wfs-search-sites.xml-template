@@ -1,0 +1,25 @@
+<wfs:GetFeature
+    xmlns:wfs="http://www.opengis.net/wfs/2.0"
+    xmlns:fes="http://www.opengis.net/fes/2.0"
+    service="WFS"
+    version="2.0.0">
+
+    <wfs:Query typeNames="geo:Site">
+        <fes:Or>
+            <fes:PropertyIsEqualTo>
+                <fes:Literal>true</fes:Literal>
+                <fes:Function name="isLike">
+                    <fes:ValueReference>gml:identifier</fes:ValueReference>
+                    <fes:Literal>(?i)<%= siteId %>.*</fes:Literal>
+                </fes:Function>
+            </fes:PropertyIsEqualTo>
+            <fes:PropertyIsEqualTo>
+                <fes:Literal>true</fes:Literal>
+                <fes:Function name="isLike">
+                    <fes:ValueReference>gml:name</fes:ValueReference>
+                    <fes:Literal>(?i).*<%= siteName %>.*</fes:Literal>
+                </fes:Function>
+            </fes:PropertyIsEqualTo>
+        </fes:Or>
+    </wfs:Query>
+</wfs:GetFeature>
