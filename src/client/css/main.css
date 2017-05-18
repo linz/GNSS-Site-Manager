@@ -66,6 +66,12 @@ body {
   z-index: 101;
 }
 
+.overlay {
+	position:absolute;
+	height: 0%;
+	width: 0%;
+}
+
 .clear-pad {
   padding: 0 !important;
 }
