@@ -223,7 +223,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
             if (endDatetime) {
                 let endDateString: string = MiscUtils.isDate(endDatetime) ? MiscUtils.formatDateToDateString(endDatetime):
                     MiscUtils.getDateComponent(endDatetime);
-                dateRange = endDateString + ' &ndash; ' + startDateString;
+                dateRange = startDateString + ' &ndash; ' + endDateString;
             } else {
                 dateRange = 'Since ' + startDateString;
             }
