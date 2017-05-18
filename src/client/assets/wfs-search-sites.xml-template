@@ -21,5 +21,10 @@
                 </fes:Function>
             </fes:PropertyIsEqualTo>
         </fes:Or>
+        <fes:SortBy>
+            <fes:SortProperty>
+                <fes:ValueReference>gml:identifier</fes:ValueReference>
+            </fes:SortProperty>
+      </fes:SortBy>
     </wfs:Query>
 </wfs:GetFeature>
