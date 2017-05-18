@@ -156,6 +156,8 @@
     "@types/deep-diff": "0.0.30",
     "@types/json-pointer": "^1.0.30",
     "@types/lodash": "4.14.61",
+    "@types/moment": "^2.13.0",
+    "@types/moment-timezone": "^0.2.34",
     "alertify.js": "^1.0.10",
     "babel-polyfill": "^6.22.0",
     "bootstrap": "3.3.7",
@@ -165,13 +167,14 @@
     "json-pointer": "file:lib/json-pointer-0.6.0.tgz",
     "lodash": "4.17.4",
     "moment": "^2.14.1",
+    "moment-timezone": "^0.5.13",
     "ng2-bootstrap": "~1.3.3",
     "ogc-schemas": "^2.6.1",
     "ogc-schemas-ga": "./lib/ogc-schemas-ga-2.6.2-SNAPSHOT.tgz",
     "oidc-client": "^1.3.0-beta.2",
+    "rxjs": "^5.2.0",
     "scroll-into-view": "1.7.1",
     "systemjs": "0.19.41",
-    "zone.js": "^0.8.4",
-    "rxjs": "^5.2.0"
+    "zone.js": "^0.8.4"
   }
 }

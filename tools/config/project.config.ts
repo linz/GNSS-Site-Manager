@@ -43,6 +43,9 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/Filter_2_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/OWS_1_1_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/WFS_2_0.js', inject: 'libs'},
+      {src: 'moment', inject: 'libs'},
+      {src: 'moment-timezone/moment-timezone.js', inject: 'libs'},
+      //'builds/moment-timezone-with-data.js', inject: 'libs'}
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
@@ -71,6 +74,11 @@ export class ProjectConfig extends SeedConfig {
         name: 'ng2-bootstrap/*',
         path: 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js'
       },
+        {
+            name: 'moment-timezone',
+            path: 'node_modules/moment-timezone/moment-timezone.js'
+            //builds/moment-timezone-with-data.js'
+        },
       {
         name: 'lodash',
         path: 'node_modules/lodash/lodash.js'
@@ -108,13 +116,14 @@ export class ProjectConfig extends SeedConfig {
         path: 'node_modules/traceur/bin/traceur.js'
       },
       {
+        name: 'oidc-client',
+        path: 'node_modules/oidc-client/lib/oidc-client.min.js'
+      },
+
+      {
         name: 'moment',
         path: 'node_modules/moment/moment.js'
       },
-      {
-        name: 'oidc-client',
-        path: 'node_modules/oidc-client/lib/oidc-client.min.js'
-      }
     ];
 
     this.addPackagesBundles(additionalPackages);

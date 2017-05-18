@@ -44,7 +44,7 @@
 }
 .calendar-popup .center-btns {
   margin: 0 auto;
-  width: 150px;
+  width: 70px;
 }
 @media (max-width: 767px) {
   .calendar-popup .center-btns {
