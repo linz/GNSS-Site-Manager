@@ -44,6 +44,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
     private siteId: string;
     private isLoading: boolean = false;
+    private reverting: boolean = false;
     private siteIdentification: any = null;
     private siteLocation: any = {};
     private siteContacts: Array<any> = [];
@@ -81,7 +82,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
     @HostListener('window:beforeunload', ['$event'])
     public onBeforeUnload($event: UIEvent): void {
-        if (this.isFormDirty()) {
+        if (this.isFormDirty() && !this.reverting) {
             $event.returnValue = false;
         }
     }
@@ -258,6 +259,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
         this.dialogService.confirmRevertDialog(msg,
             () => {
+                this.reverting = true;
                 window.location.reload();
             },
             () => {
