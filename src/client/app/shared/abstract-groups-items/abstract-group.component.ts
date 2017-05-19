@@ -6,7 +6,6 @@ import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-v
 import { MiscUtils } from '../global/misc-utils';
 import * as lodash from 'lodash';
 
-export const sortingDirectionAscending: boolean = false;
 export const newItemShouldBeBlank: boolean = true;
 
 export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent {
@@ -66,10 +65,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * (using getDateInstalled(), getBeginPositionDate(), ...) and return compareDates(date1, date2)
      * @param date1
      * @param date2
-     * @param sortAscending - true if to sort ascendingly.  Const sortingDirectionAscending by default.
+     * @param sortAscending - true if to sort ascendingly.  false by default.
      * @return -1: date1 < date2; 1: date1 > date2; 0: date1 == date2 if descending or 1: date1 < date2; -1: date1 > date2 if ascending
      */
-    public static compareDates(date1: string, date2: string, sortAscending: boolean = sortingDirectionAscending): number {
+    public static compareDates(date1: string, date2: string, sortAscending: boolean = false): number {
         let sortModifier: number = sortAscending ? 1 : -1;
         if (date1 < date2) {
             return -1 * sortModifier;
@@ -162,19 +161,11 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @return index in itemProperties (and FormArray) where item is inserted
      */
-    addToItemsCollection(item: T, origItem: T): number {
-        let indexAddedAt: number;
-        if (sortingDirectionAscending) {
-            this.itemProperties.push(item);
-            this.itemOriginalProperties.push(origItem);
-            indexAddedAt = this.itemProperties.length - 1;
-        } else {
-            this.itemProperties.splice(0, 0, item);
-            this.itemOriginalProperties.splice(0, 0, origItem);
-            indexAddedAt = 0;
-        }
+    addToItemsCollection(item: T, origItem: T) {
+        this.itemProperties.splice(0, 0, item);
+        this.itemOriginalProperties.splice(0, 0, origItem);
+
         this.addChildItemToForm();
-        return indexAddedAt;
     }
 
     /**
@@ -227,11 +218,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     addChildItemToForm(isItDirty: boolean = false) {
         let itemGroup: FormGroup = this.formBuilder.group({});
-        if (sortingDirectionAscending) {
-            this.groupArrayForm.push(itemGroup);
-        } else {
-            this.groupArrayForm.insert(0, itemGroup);
-        }
+        this.groupArrayForm.insert(0, itemGroup);
+
         if (isItDirty) {
             itemGroup.markAsDirty();
         }
@@ -288,8 +276,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let newItem: T = <T> this.newItemViewModel();
         let newItemOrig: T = this.newItemViewModel(newItemShouldBeBlank);
 
-        let indexAddedAt: number = this.addToItemsCollection(newItem, newItemOrig);
-        this.setInserted(indexAddedAt, newItem);
+        this.addToItemsCollection(newItem, newItemOrig);
+        this.setInserted(0, newItem);
 
         if (this.itemProperties.length > 1) {
             this.updateSecondToLastItem();
@@ -305,12 +293,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     private updateSecondToLastItem() {
         let updatedValue: Object;
-        let index: number;
-        if (sortingDirectionAscending) {
-            index = this.itemProperties.length - 2;
-        } else {
-            index = 1;
-        }
+        let index: number = 1;
+
         // check the truthiness of the proposition that the existing record was already end-dated
         if ((this.itemProperties[index].hasEndDateField() && this.itemProperties[index].endDate)) {
             this.currentItemAlreadyHasEndDate = true;
