@@ -27,6 +27,7 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
+  min-width: 300px;
 }
 
 /* Box-sizing border-box */
