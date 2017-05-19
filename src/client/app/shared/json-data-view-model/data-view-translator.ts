@@ -10,8 +10,8 @@ export const doWriteViewToData: boolean = true;
  * type - type of the data defined at that path
  */
 export class TypedPointer {
-    pointer: string;
-    type: string;
+    readonly pointer: string;
+    readonly type: string;
 
     constructor(pointer: string, type: string) {
         this.pointer = pointer;
@@ -25,8 +25,8 @@ export class TypedPointer {
  * mapping to translate one of view or data model to the other.
  */
 export class FieldMap {
-    dataTypedPointer: TypedPointer;
-    viewTypedPointer: TypedPointer;
+    readonly dataTypedPointer: TypedPointer;
+    readonly viewTypedPointer: TypedPointer;
 
     constructor(dataTypedPointer: TypedPointer, viewTypedPointer: TypedPointer) {
         this.dataTypedPointer = dataTypedPointer;
