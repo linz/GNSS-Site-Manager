@@ -374,8 +374,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * The array items in the form data (eg. gnssAntennas) need to be sorted according to the app desired order
-     * (see AbstractGroup / sortingDirectionAscending.  It will likely always be descending so that is how it is seen in the form.
+     * Sort the the array items (eg. gnssAntennas) in the form data
      * @param formValue
      */
     private sortArrays(formValue: any) {
@@ -384,7 +383,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             if (Array.isArray(formValue[item])) {
                 let comparator: any = this.returnAssociatedComparator(item);
                 if (comparator) {
-                    formValue[item].sort(comparator);//this.compare);
+                    formValue[item].sort(comparator);
                 }
             }
         }
