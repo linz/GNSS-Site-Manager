@@ -137,7 +137,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         this.datetime = this.formatDatetimeToDisplay(this.formControl.value);
         let newDate: Date = this.convertStringToDate(this.datetime);
         if (newDate === null) {
-            this.datetimeModel = new Date();
+            this.datetimeModel = new Date(MiscUtils.getUTCDateTime());
         } else {
             this.datetimeModel = newDate;
         }
