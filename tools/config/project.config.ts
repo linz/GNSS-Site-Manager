@@ -92,10 +92,6 @@ export class ProjectConfig extends SeedConfig {
         path: 'node_modules/json-pointer/index.js'
       },
       {
-        name: 'deep-diff',
-        path: 'node_modules/deep-diff/index.js'
-      },
-      {
         name: 'scroll-into-view',
         path: 'node_modules/scroll-into-view/scrollIntoView.js'
       },
