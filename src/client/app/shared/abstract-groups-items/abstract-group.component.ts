@@ -178,7 +178,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
                 this.removeItem(geodesyEvent.valueNumber, geodesyEvent.valueString);
                 break;
             case EventNames.cancelNew:
-                this.cancelNew(geodesyEvent.valueNumber, geodesyEvent.valueString);
+                this.cancelNew(geodesyEvent.valueNumber);
                 break;
             default:
                 console.log('returnEvents - unknown event: ', EventNames[geodesyEvent.name]);
@@ -243,7 +243,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * Delete a newly added item (ie cancel adding the item).
      * @param {string} reason - ignored.
      */
-    public cancelNew(itemIndex: number, reason: string) {
+    public cancelNew(itemIndex: number) {
         if (!this.currentItemAlreadyHasEndDate) {
             let updatedValue = this.itemProperties[itemIndex+1].unsetEndDate();
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
@@ -292,24 +292,29 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * Need to modify both the SiteLogModel and the form model.
      */
     private updateSecondToLastItem() {
-        let updatedValue: Object;
+
         let index: number = 1;
 
-        // check the truthiness of the proposition that the existing record was already end-dated
-        if ((this.itemProperties[index].hasEndDateField() && this.itemProperties[index].endDate)) {
-            this.currentItemAlreadyHasEndDate = true;
-        }
-        updatedValue = this.itemProperties[index].setEndDateToCurrentDate();
-        if (updatedValue && Object.keys(updatedValue).length > 0) {
-            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-            formGroup.patchValue(updatedValue);
-            formGroup.markAsDirty();
-            // If the Group hasn't been opened, no form controls will exist.  It is unusual for users to create a new Item without
-            // looking at whatever normally exists.  If not opened then the modified fields won't get marked as dirty.
-            // It this is a problem then we could create the form controls.
-            if (Object.keys(formGroup.controls).length > 0) {
-                for (let key of Object.keys(updatedValue)) {
-                    (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+        if (this.itemProperties[index].hasEndDateField() ) {
+
+            let updatedValue: Object;
+
+            // check the truthiness of the proposition that the existing record was already end-dated
+            if (this.itemProperties[index].endDate) {
+                this.currentItemAlreadyHasEndDate = true;
+            }
+            updatedValue = this.itemProperties[index].setEndDateToCurrentDate();
+            if (updatedValue && Object.keys(updatedValue).length > 0) {
+                let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+                formGroup.patchValue(updatedValue);
+                formGroup.markAsDirty();
+                // If the Group hasn't been opened, no form controls will exist.  It is unusual for users to create a new Item without
+                // looking at whatever normally exists.  If not opened then the modified fields won't get marked as dirty.
+                // It this is a problem then we could create the form controls.
+                if (Object.keys(formGroup.controls).length > 0) {
+                    for (let key of Object.keys(updatedValue)) {
+                        (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+                    }
                 }
             }
         }

@@ -175,27 +175,29 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             formValue = this.siteLogForm.value;
         }
         console.log('---------> SiteLogComponent - Save ------------------------');
-        let formValueClone: any = _.cloneDeep(formValue);
-        this.moveSiteInformationUp(formValueClone);
-
-        /* Get the arrays in the form in the same order as the SiteLogModel */
-        this.sortArrays(formValueClone);
-        console.log(' formValue before merge and after reverse: ', formValueClone);
-
-        /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
-         an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
-        _.merge(this.siteLogModel, formValueClone);
-
-        if (!this.isFormDirty()) {
-            this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
-            this.siteLogService.sendFormModifiedStateMessage(false);
-            return;
-        }
-
-        this.removeDeletedItems();
 
         this.dialogService.confirmSaveDialog(
             () => {
+
+                this.removeDeletedItems();
+
+                let formValueClone: any = _.cloneDeep(formValue);
+                this.moveSiteInformationUp(formValueClone);
+
+                /* Get the arrays in the form in the same order as the SiteLogModel */
+                this.sortArrays(formValueClone);
+                console.log(' formValue before merge and after reverse: ', formValueClone);
+
+                /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
+                 an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
+                _.merge(this.siteLogModel, formValueClone);
+
+                if (!this.isFormDirty()) {
+                    this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
+                    this.siteLogService.sendFormModifiedStateMessage(false);
+                    return;
+                }
+
                 this.isLoading = true;
                 this.submitted = true;
                 this.siteLogService.saveSiteLog(this.siteLogModel).subscribe(

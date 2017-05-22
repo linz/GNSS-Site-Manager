@@ -99,4 +99,25 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {deletedReason: new FormControl('')}
         ]);
     }
+
+    /**
+     * Remove an item from the UI and delete if it is an existing record.
+     */
+    removeItem(index: number): boolean {
+      if (this.isNew) {
+        this.cancelNew(index);
+      } else {
+          this.dialogService.confirmDeleteDialogWithNoReason(
+            this.getItemName(),
+            () => {  // ok callback - no reason needed
+               this.deleteItem(index, null);
+                this.itemGroup.markAsDirty();
+            },
+            () => {  // cancel callback
+              console.log('delete cancelled by user');
+            }
+          );
+      }
+      return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
+    }
 }

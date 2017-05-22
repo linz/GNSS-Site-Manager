@@ -6,9 +6,14 @@
             <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}"> </i>
             <span [innerHTML]="getItemHeaderHtml(typeName)"></span>
         </span>
+        <span *ngIf="responsibleParty.dateDeleted" class="delete-marker"
+            title="It will be deleted when saving all changes for the site">
+            (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
+        </span>
         <span class="pull-right" [hidden]="!isNew && isMandatory && total == 1">
-            <button class="btn btn-danger btn-xs"
-                    title="{{getRemoveOrDeletedText()}} the temperature sensor"
+            <button [disabled]="isDeleteDisabled()"
+                    class="btn btn-danger btn-xs"
+                    title="{{getRemoveOrDeletedText()}} the {{getItemName()}}"
                     (click)="removeItem(index)">
                 <i class="glyphicon glyphicon-remove"></i>
                 <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
@@ -19,7 +24,7 @@
         <div *ngIf=" responsibleParty == null ">
             No information available for {{getItemName()}}
         </div>
-        <div *ngIf=" responsibleParty != null ">
+        <div *ngIf="responsibleParty != null" [ngClass]="{'container-dirty': responsibleParty.dateDeleted}">
             <div class="form-group">
                 <text-input formControlName="individualName" controlName="individualName" [form]="itemGroup">Individual Name</text-input>
                 <text-input formControlName="organisationName" controlName="organisationName" [form]="itemGroup">Organisation Name</text-input>
