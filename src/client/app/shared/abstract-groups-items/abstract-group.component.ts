@@ -214,10 +214,11 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     /**
      * Delete a newly added item (ie cancel adding the item).
-     * @param {string} reason - ignored.
+     *
+     * @param {string} itemIndex - the index of the new item to be cancelled.
      */
     public cancelNew(itemIndex: number) {
-        if (!this.currentItemAlreadyHasEndDate) {
+        if (this.itemProperties.length > 1 && !this.currentItemAlreadyHasEndDate) {
             let updatedValue = this.itemProperties[itemIndex+1].unsetEndDate();
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
             this.updateFormControl(itemIndex+1, 'endDate', '');
