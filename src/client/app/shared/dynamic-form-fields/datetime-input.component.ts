@@ -52,11 +52,19 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
    /**
-    * Validate datetime value changed externally by manual typing.
-    #
-    * Note: it won't be invalid if it is selected by the calendar dialog
+    * Validate datetime value changed externally by manual typing or by JavaScript methods.
+    *
+    * Note: datetime values selected by the calendar dialog will be valid and dirty!
     */
     ngDoCheck(): void {
+        if(this.datetime !== this.formControl.value && this.formControl.value) {
+            this.datetime = this.formControl.value;
+            this.updateCalendar();
+            setTimeout(() => {
+                this.formControl.markAsDirty({onlySelf: false});
+            });
+        }
+
         if (this.datetimeLast !== this.datetime) {
             this.datetimeLast = this.datetime;
             this.validateDatetime();

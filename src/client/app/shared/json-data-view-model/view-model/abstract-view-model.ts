@@ -126,7 +126,7 @@ export abstract class AbstractViewModel {
         this.dateDeleted = '';
         this.dateInserted = '';
         this.deletedReason = '';
-        this.startDate = MiscUtils.getUTCDateTime();
+        this.startDate = '';
         this.endDate = '';
     }
 

@@ -20,7 +20,7 @@
         </button>
         </span>
     </div>
-    <div class="panel-body" *ngIf="isOpen">
+    <div class="panel-body" [hidden]="!isOpen">
         <div *ngIf=" temperatureSensor == null ">
             No information available for current GNSS temperature sensor
         </div>

@@ -246,16 +246,28 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         }
 
         let newItem: T = <T> this.newItemViewModel();
-
         this.addToItemsCollection(newItem);
-        this.setInserted(0, newItem);
-
-        if (this.itemProperties.length > 1) {
-            this.updateSecondToLastItem();
-        }
+        setTimeout(() => {
+            this.updateDatesForNewItem(0, newItem);
+            if (this.itemProperties.length > 1) {
+                this.updateSecondToLastItem();
+            }
+        });
 
         // Let the parent form know that it now has a new child
         this.groupArrayForm.markAsDirty();
+    }
+
+    private updateDatesForNewItem(index: number, item: T) {
+        let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+        let date: string = item.setDateInserted();
+        item.startDate = date;
+        if (formGroup.controls['startDate']) {
+            formGroup.controls['startDate'].setValue(date);
+        }
+        if (formGroup.controls['dateInserted']) {
+            formGroup.controls['dateInserted'].setValue(date);
+        }
     }
 
     /**
@@ -284,7 +296,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
                 // It this is a problem then we could create the form controls.
                 if (Object.keys(formGroup.controls).length > 0) {
                     for (let key of Object.keys(updatedValue)) {
-                        (<FormGroup>this.groupArrayForm.at(index)).controls[key].markAsDirty();
+                        formGroup.controls[key].markAsDirty();
                     }
                 }
             }
@@ -318,11 +330,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
         let date: string = item.setDateDeleted();
         this.updateFormControl(index, 'dateDeleted', date);
-    }
-
-    private setInserted(index: number, item: T) {
-        let date: string = item.setDateInserted();
-        this.updateFormControl(index, 'dateInserted', date);
     }
 
     private setDeletedReason(index: number, reason: string) {
