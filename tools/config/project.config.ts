@@ -119,10 +119,13 @@ export class ProjectConfig extends SeedConfig {
         name: 'oidc-client',
         path: 'node_modules/oidc-client/lib/oidc-client.min.js'
       },
-
       {
         name: 'moment',
         path: 'node_modules/moment/moment.js'
+      },
+      {
+        name: 'map-factory',
+        path: 'node_modules/map-factory/dist/lib/map-factory.js'
       },
     ];
 

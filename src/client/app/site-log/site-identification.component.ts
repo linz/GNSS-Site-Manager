@@ -97,8 +97,6 @@ export class SiteIdentificationComponent implements OnInit {
         this.siteIdentificationForm = this.formBuilder.group({
             siteName: [''],//, [Validators.minLength(4), Validators.maxLength(100)]],
             fourCharacterID: [''],//, [Validators.required, Validators.minLength(4), Validators.maxLength(9)]],
-            monumentNumber: '',
-            receiverNumber: '',
             monumentInscription: [''],//, [Validators.maxLength(100)]],
             iersDOMESNumber: [''],//, [Validators.maxLength(100)]],
             cdpNumber: [''],//, [Validators.maxLength(100)]],

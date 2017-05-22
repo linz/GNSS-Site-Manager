@@ -1,7 +1,7 @@
-import { JsonPointerService } from '../json-pointer/json-pointer.service';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as _ from 'lodash';
+import createMapper from 'map-factory';
 
 /**
  * Tuple to assist in mapping data model to view model by defining one side of the relationship
@@ -59,16 +59,28 @@ export class DataViewTranslatorService {
      * @param target - target to write to
      */
     static translate(source: any, target: any, objectMap: ObjectMap) {
+        let mapper = createMapper({ alwaysSet: true });
+
         for (let fieldMap of objectMap.getFieldMaps()) {
-            let sourceValue: any = JsonPointerService.get(source, fieldMap.sourceField.pointer);
-            if (fieldMap.sourceField.type === 'date') {  // 'date' type will only be on the view side
-                // Currently the dates can be string (from the database) or Date (as returned by DatePicker widget)
-                // Must handle both (eg. AbstractViewModel.startDate)
-                let dateValue: string = MiscUtils.isDate(sourceValue) ? MiscUtils.formatDateToDatetimeString(sourceValue) : sourceValue;
-                JsonPointerService.set(target, fieldMap.targetField.pointer, dateValue !== null ? dateValue : null);
-            } else {
-                JsonPointerService.set(target, fieldMap.targetField.pointer, sourceValue);
-            }
+            let sourcePath = DataViewTranslatorService.toDotNotation(fieldMap.sourceField.pointer);
+            let targetPath = DataViewTranslatorService.toDotNotation(fieldMap.targetField.pointer);
+
+            mapper.map(sourcePath).to(targetPath, (source: any) => {
+                if (source instanceof Date) {
+                    return MiscUtils.formatDateToDatetimeString(source as Date);
+                }
+                return source;
+            });
         }
+
+        let result = mapper.execute(source, target);
+        _.merge(target, result);
+    }
+
+    private static toDotNotation(jsonPointer: string): string {
+        return jsonPointer
+            .substring(1)
+            .replace(/\//g, '.')
+            .replace(/\.([0-9]+)/g, '[$1]');
     }
 }
