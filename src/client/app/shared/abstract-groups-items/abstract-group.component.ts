@@ -178,7 +178,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
                 this.removeItem(geodesyEvent.valueNumber, geodesyEvent.valueString);
                 break;
             case EventNames.cancelNew:
-                this.cancelNew(geodesyEvent.valueNumber, geodesyEvent.valueString);
+                this.cancelNew(geodesyEvent.valueNumber);
                 break;
             default:
                 console.log('returnEvents - unknown event: ', EventNames[geodesyEvent.name]);
@@ -243,7 +243,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * Delete a newly added item (ie cancel adding the item).
      * @param {string} reason - ignored.
      */
-    public cancelNew(itemIndex: number, reason: string) {
+    public cancelNew(itemIndex: number) {
         if (!this.currentItemAlreadyHasEndDate) {
             let updatedValue = this.itemProperties[itemIndex+1].unsetEndDate();
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
@@ -361,7 +361,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     private updateFormControl(index: number, field: string, value: string) {
-        console.log('updatng form control');
         if (this.groupArrayForm.length > index) {
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
             if (formGroup.controls[field]) {

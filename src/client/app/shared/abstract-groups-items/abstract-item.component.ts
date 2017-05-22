@@ -162,10 +162,9 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      * Remove an item from the UI and delete if it is an existing record.
      */
     removeItem(index: number): boolean {
-      let deleteReason: string = 'New item not needed';
 
       if (this.isNew) {
-        this.cancelNew(index, deleteReason);
+        this.cancelNew(index);
       } else {
           this.dialogService.confirmDeleteDialog(
             this.getItemName(),
@@ -233,8 +232,8 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     /**
      *  Mark an item for deletion using the specified reason.
      */
-    protected cancelNew(index: number, deleteReason : string): void {
-        let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
+    protected cancelNew(index: number): void {
+        let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index};
         this.getReturnEvents().emit(geodesyEvent);
         this.isNew = false;
     }
@@ -243,7 +242,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     /**
      *  Mark an item for deletion using the specified reason.
      */
-    protected deleteItem(index: number, deleteReason : string): void {
+    protected deleteItem(index: number, deleteReason : string | null): void {
         this.isDeleted = true;
         let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
         this.getReturnEvents().emit(geodesyEvent);

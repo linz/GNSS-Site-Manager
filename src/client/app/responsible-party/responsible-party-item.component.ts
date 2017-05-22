@@ -105,12 +105,12 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      */
     removeItem(index: number): boolean {
       if (this.isNew) {
-        this.cancelNew(index, 'no reason needed');
+        this.cancelNew(index);
       } else {
           this.dialogService.confirmDeleteDialogWithNoReason(
             this.getItemName(),
             () => {  // ok callback - no reason needed
-               this.deleteItem(index, 'no reason needed');
+               this.deleteItem(index, null);
                 this.itemGroup.markAsDirty();
             },
             () => {  // cancel callback

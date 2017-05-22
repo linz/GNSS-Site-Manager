@@ -13,7 +13,7 @@
         <span class="pull-right" [hidden]="!isNew && isMandatory && total == 1">
             <button [disabled]="isDeleteDisabled()"
                     class="btn btn-danger btn-xs"
-                    title="{{getRemoveOrDeletedText()}} the temperature sensor"
+                    title="{{getRemoveOrDeletedText()}} the {{getItemName()}}"
                     (click)="removeItem(index)">
                 <i class="glyphicon glyphicon-remove"></i>
                 <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
