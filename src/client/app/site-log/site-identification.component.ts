@@ -56,24 +56,11 @@ export class SiteIdentificationComponent implements OnInit {
     private siteIdentificationForm: FormGroup;
 
     private _siteLogModel: any;
-    private _originalSiteLogModel: any;
 
     private siteIdentification: any;
-    private siteIdentificationOrig: any;
 
     get siteLogModel(): any {
         return this._siteLogModel;
-    }
-
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        this._originalSiteLogModel = originalSiteLogModel;
-        this.siteIdentificationOrig = originalSiteLogModel &&
-            Object.keys(originalSiteLogModel).length > 0 ? originalSiteLogModel.siteIdentification : {};
-    }
-
-    get originalSiteLogModel(): any {
-        return this._originalSiteLogModel;
     }
 
     constructor(private userAuthService: UserAuthService,

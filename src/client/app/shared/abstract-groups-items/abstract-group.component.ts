@@ -27,13 +27,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
        }
     }
 
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        if (originalSiteLogModel) {
-            this.setItemsOriginalCollection(this.getFormData(originalSiteLogModel));
-        }
-    }
-
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
      * @type {{name: EventNames}}
@@ -41,20 +34,14 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     private geodesyEvent: GeodesyEvent = new GeodesyEvent(EventNames.none);
 
     /**
-     * All the items.  They are stored in ascending order so that the oldest items are 'left-most' in the array, just like
-     * in the itemOriginalProperties so that differences work to show the new items added.  The sorting field is determined
-     * through the abstract method compare(left, right)).
+     * All the items.  They are stored in ascending order so that the oldest items are 'left-most' in the array.
+     * The sorting field is determined through the abstract method compare(left, right)).
      *
      * The display order on the form is in reverse with the oldest items at the bottom.  This is achieved with the method
      * getItemsCollection().
      *
      */
     private itemProperties: T[];
-
-    /**
-     * A backup of the original list of items.  Used to diff against upon Save.
-     */
-    private itemOriginalProperties: T[];
 
     public static compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number {
         return AbstractGroupComponent.compareDates(obj1.startDate, obj2.startDate);
@@ -114,8 +101,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     /**
-     * Return collection - optionally with deleted items filter out.  Always in reverse order.  IT WILL NOT
-     * change the original collection's order or composition.
+     * Return collection - optionally with deleted items filter out.  Always in reverse order.
      * @param showDeleted - false by default
      * @return {T[]}
      */
@@ -137,21 +123,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         return (!this.itemProperties || this.itemProperties.length === 0);
     }
 
-    getItemsOriginalCollection(): T[] {
-        return this.itemOriginalProperties;
-    }
-
     setItemsCollection(itemProperties: T[]) {
         this.itemProperties = itemProperties;
         if (itemProperties && itemProperties.length > 0) {
             this.sortUsingComparator(this.itemProperties);
-        }
-    }
-
-    setItemsOriginalCollection(itemProperties: T[]) {
-        this.itemOriginalProperties = itemProperties;
-        if (itemProperties && itemProperties.length > 0) {
-            this.sortUsingComparator(this.itemOriginalProperties);
         }
     }
 
@@ -161,10 +136,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @return index in itemProperties (and FormArray) where item is inserted
      */
-    addToItemsCollection(item: T, origItem: T) {
+    addToItemsCollection(item: T) {
         this.itemProperties.splice(0, 0, item);
-        this.itemOriginalProperties.splice(0, 0, origItem);
-
         this.addChildItemToForm();
     }
 
@@ -252,7 +225,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             (<FormGroup>this.groupArrayForm.at(itemIndex+1)).controls['endDate'].markAsPristine();
         }
         this.itemProperties.splice(itemIndex, 1);
-        this.itemOriginalProperties.splice(itemIndex, 1);
         this.groupArrayForm.controls.splice(itemIndex, 1);
     }
 
@@ -274,9 +246,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         }
 
         let newItem: T = <T> this.newItemViewModel();
-        let newItemOrig: T = this.newItemViewModel(newItemShouldBeBlank);
 
-        this.addToItemsCollection(newItem, newItemOrig);
+        this.addToItemsCollection(newItem);
         this.setInserted(0, newItem);
 
         if (this.itemProperties.length > 1) {

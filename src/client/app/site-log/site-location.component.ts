@@ -42,18 +42,11 @@ export class SiteLocationComponent implements OnInit {
         }
     }
 
-    @Input()
-    set originalSiteLogModel(originalSiteLogModel: any) {
-        this.siteLocationOrig = originalSiteLogModel &&
-        Object.keys(originalSiteLogModel).length > 0 ? originalSiteLogModel.siteLocation : {};
-    }
-
     private miscUtils: any = MiscUtils;
 
     private siteLocationForm: FormGroup;
 
     private siteLocation: any;
-    private siteLocationOrig: any;
 
     constructor(private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder,
