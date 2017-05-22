@@ -1,8 +1,7 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Config, CorsSiteService, CorsSetupService, SiteLogService, DialogService, MiscUtils,
-         JsonDiffService, JsonCheckService, JsonPointerService, ServiceWorkerService,
-         JsonixService } from './shared/index';
+         ServiceWorkerService, JsonixService } from './shared/index';
 import { SiteLogComponent } from './site-log/site-log.component';
 import { JsonViewModelService } from './shared/json-data-view-model/json-view-model.service';
 
@@ -22,9 +21,6 @@ import { JsonViewModelService } from './shared/json-data-view-model/json-view-mo
     ServiceWorkerService,
     SiteLogService,
     SiteLogComponent,
-    JsonDiffService,
-    JsonCheckService,
-    JsonPointerService,
     JsonViewModelService,
   ],
   templateUrl: 'app.component.html',

@@ -2,10 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, HostListene
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { User } from 'oidc-client';
-import {
-    ConstantsService, DialogService, MiscUtils,
-    SiteLogService, JsonDiffService, JsonCheckService
-} from '../shared/index';
+import { ConstantsService, DialogService, MiscUtils, SiteLogService } from '../shared/index';
 import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
@@ -73,8 +70,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 private route: ActivatedRoute,
                 private dialogService: DialogService,
                 private siteLogService: SiteLogService,
-                private jsonDiffService: JsonDiffService,
-                private jsonCheckService: JsonCheckService,
                 private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder,
                 private _changeDetectionRef: ChangeDetectorRef) {
