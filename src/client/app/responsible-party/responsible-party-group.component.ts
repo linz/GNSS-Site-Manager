@@ -44,6 +44,12 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     @Input() isMultiple: boolean;
     private _partyType: ResponsiblePartyType;
 
+    public static compare(obj1: ResponsiblePartyViewModel, obj2: ResponsiblePartyViewModel): number {
+        // TODO implement sorting (alphabetically by individual name perhaps)
+        // make sure that the view model is sorted in sync with the data model
+        return 0;
+    }
+
     @Input()
     set partyType(partyType: ResponsiblePartyType) {
         this._partyType = partyType;
@@ -68,4 +74,5 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel(blank);
     }
+
 }

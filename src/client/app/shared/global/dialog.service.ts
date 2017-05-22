@@ -80,6 +80,21 @@ export class DialogService {
   }
 
   /*
+   * Opens a dialog to confirm deleting a record.
+   * The record type (from getItemName()) must be supplied,
+   * along with callbacks to handle the "Delete" and "Cancel" buttons.
+   * calls the showDeletePromptDialog with a default message.
+   */
+  public confirmDeleteDialogWithNoReason(recordType: string, okCallback: () => any, cancelCallback: () => any) {
+    let title: string = '<div class="title">Confirm Delete</div>';
+    let body: string = '<p class="body">Do you want to delete the ' + recordType + '?</p>';
+    let note: string = '<p class="note">NOTE: Changes will not be saved until the "Save" button on the top header is clicked.</p>';
+    let msgHtml: string = '<div>' + title + body + note + '</div>';
+
+    return this.showConfirmDialog(msgHtml, okCallback, cancelCallback);
+  }
+
+  /*
    * Opens a dialog prompting user to input a value for the reason for deleting a record.
    * Handles very basic validation of the input message: if no message supplied
    * adds an error message and redisplays the dialog.

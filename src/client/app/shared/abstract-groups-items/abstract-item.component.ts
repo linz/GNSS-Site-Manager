@@ -229,6 +229,28 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         return headerHtml;
     }
 
+
+    /**
+     *  Mark an item for deletion using the specified reason.
+     */
+    protected cancelNew(index: number, deleteReason : string): void {
+        let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
+        this.getReturnEvents().emit(geodesyEvent);
+        this.isNew = false;
+    }
+
+
+    /**
+     *  Mark an item for deletion using the specified reason.
+     */
+    protected deleteItem(index: number, deleteReason : string): void {
+        this.isDeleted = true;
+        let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
+        this.getReturnEvents().emit(geodesyEvent);
+        this.itemGroup.disable();
+    }
+
+
     /**
      * Event Handler - if this item has the given indexOfNew, then this is a new item.
      *
@@ -245,24 +267,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         }
     }
 
-    /**
-     *  Mark an item for deletion using the specified reason.
-     */
-    private deleteItem(index: number, deleteReason : string): void {
-        this.isDeleted = true;
-        let geodesyEvent: GeodesyEvent = {name: EventNames.removeItem, valueNumber: index, valueString: deleteReason};
-        this.getReturnEvents().emit(geodesyEvent);
-        this.itemGroup.disable();
-    }
-
-    /**
-     *  Mark an item for deletion using the specified reason.
-     */
-    private cancelNew(index: number, deleteReason : string): void {
-        let geodesyEvent: GeodesyEvent = {name: EventNames.cancelNew, valueNumber: index, valueString: deleteReason};
-        this.getReturnEvents().emit(geodesyEvent);
-        this.isNew = false;
-    }
 
     /**
      * When the group is setup, blank FormGroups for the contained Items are created (no controsl).  This method populates the
