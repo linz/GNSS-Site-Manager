@@ -18,104 +18,88 @@
                     </div>
                     <div class="panel-body" [hidden]="!isGroupOpen">
                         <site-identification [parentForm]="siteInformationForm"
-                                             [siteLogModel]="siteLogModel"
-                                             [originalSiteLogModel]="siteLogOrigin">
+                                             [siteLogModel]="siteLogModel">
                         </site-identification>
 
                         <site-location [parentForm]="siteInformationForm"
-                                       [siteLogModel]="siteLogModel"
-                                       [originalSiteLogModel]="siteLogOrigin">
+                                       [siteLogModel]="siteLogModel">
                         </site-location>
 
                         <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteOwner"
                                                       [isMandatory]="true"
                                                       [isMultiple]="false"
-                                                      [siteLogModel]="siteLogModel"
-                                                      [originalSiteLogModel]="siteLogOrigin">
+                                                      [siteLogModel]="siteLogModel">
                         </gnss-responsible-party-group>
 
                         <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteContact"
                                                       [isMandatory]="true"
                                                       [isMultiple]="true"
-                                                      [siteLogModel]="siteLogModel"
-                                                      [originalSiteLogModel]="siteLogOrigin">
+                                                      [siteLogModel]="siteLogModel">
                         </gnss-responsible-party-group>
 
                         <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteMetadataCustodian"
                                                       [isMandatory]="true"
                                                       [isMultiple]="false"
-                                                      [siteLogModel]="siteLogModel"
-                                                      [originalSiteLogModel]="siteLogOrigin">
+                                                      [siteLogModel]="siteLogModel">
                         </gnss-responsible-party-group>
 
                         <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteDataCenter"
                                                       [isMandatory]="false"
                                                       [isMultiple]="true"
-                                                      [siteLogModel]="siteLogModel"
-                                                      [originalSiteLogModel]="siteLogOrigin">
+                                                      [siteLogModel]="siteLogModel">
                         </gnss-responsible-party-group>
 
                         <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteDataSource"
                                                       [isMandatory]="false"
                                                       [isMultiple]="false"
-                                                      [siteLogModel]="siteLogModel"
-                                                      [originalSiteLogModel]="siteLogOrigin">
+                                                      [siteLogModel]="siteLogModel">
                         </gnss-responsible-party-group>
 
                     </div>
                 </div>
 
                 <gnss-receivers-group [parentForm]="siteLogForm"
-                                      [siteLogModel]="siteLogModel"
-                                      [originalSiteLogModel]="siteLogOrigin">
+                                      [siteLogModel]="siteLogModel">
                 </gnss-receivers-group>
 
                 <gnss-antenna-group [parentForm]="siteLogForm"
-                                    [siteLogModel]="siteLogModel"
-                                    [originalSiteLogModel]="siteLogOrigin">
+                                    [siteLogModel]="siteLogModel">
                 </gnss-antenna-group>
 
                 <surveyed-local-ties-group [parentForm]="siteLogForm"
-                                           [siteLogModel]="siteLogModel"
-                                           [originalSiteLogModel]="siteLogOrigin">
+                                           [siteLogModel]="siteLogModel">
                 </surveyed-local-ties-group>
 
                 <frequency-standard-group [parentForm]="siteLogForm"
-                                          [siteLogModel]="siteLogModel"
-                                          [originalSiteLogModel]="siteLogOrigin">
+                                          [siteLogModel]="siteLogModel">
                 </frequency-standard-group>
 
                 <local-episodic-effects-group [parentForm]="siteLogForm"
-                                              [siteLogModel]="siteLogModel"
-                                              [originalSiteLogModel]="siteLogOrigin">
+                                              [siteLogModel]="siteLogModel">
                 </local-episodic-effects-group>
 
                 <humidity-sensors-group [parentForm]="siteLogForm"
-                                        [siteLogModel]="siteLogModel"
-                                        [originalSiteLogModel]="siteLogOrigin">
+                                        [siteLogModel]="siteLogModel">
                 </humidity-sensors-group>
 
                 <pressure-sensors-group [parentForm]="siteLogForm"
-                                        [siteLogModel]="siteLogModel"
-                                        [originalSiteLogModel]="siteLogOrigin">
+                                        [siteLogModel]="siteLogModel">
                 </pressure-sensors-group>
 
                 <temperature-sensors-group [parentForm]="siteLogForm"
-                                           [siteLogModel]="siteLogModel"
-                                           [originalSiteLogModel]="siteLogOrigin">
+                                           [siteLogModel]="siteLogModel">
                 </temperature-sensors-group>
 
                 <water-vapor-sensors-group [parentForm]="siteLogForm"
-                                           [siteLogModel]="siteLogModel"
-                                           [originalSiteLogModel]="siteLogOrigin">
+                                           [siteLogModel]="siteLogModel">
                 </water-vapor-sensors-group>
 
             </div>
         </form>
     </div>
-</div>
+    </div>

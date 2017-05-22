@@ -36,7 +36,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
     public siteInformationForm: FormGroup;
     public responsiblePartyType: any = ResponsiblePartyType;
-    public siteLogOrigin: SiteLogViewModel;
     public siteLogModel: SiteLogViewModel;
 
     private siteId: string;
@@ -116,7 +115,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     this.siteLogModel = response;
                     console.debug('loadSiteLogData - siteLogModel: ', this.siteLogModel);
 
-                    this.backupSiteLogJson();
                     this.isLoading = false;
                     this.siteLogService.sendFormModifiedStateMessage(false);
                     this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
@@ -183,8 +181,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 this.sortArrays(formValueClone);
                 console.log(' formValue before merge and after reverse: ', formValueClone);
 
-                /* Apply any new values from the form to the SiteLogModel.  NOTE that when any new items were created
-                 an inital copy was added to the SiteLogModel and SiteLogOrigin.  And in the form model too of course. */
                 _.merge(this.siteLogModel, formValueClone);
 
                 if (!this.isFormDirty()) {
@@ -200,7 +196,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         this.isLoading = false;
                         this.siteLogForm.markAsPristine();
                         this.siteLogService.sendFormModifiedStateMessage(false);
-                        this.backupSiteLogJson();
                         this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
                     },
                     (error: Error) => {
@@ -263,10 +258,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 this.dialogService.showLogMessage('Revert cancelled');
             }
         );
-    }
-
-    public backupSiteLogJson() {
-        this.siteLogOrigin = MiscUtils.cloneJsonObj(this.siteLogModel);
     }
 
     public isFormDirty(): boolean {
