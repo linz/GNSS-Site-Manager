@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { FrequencyStandardViewModel } from './frequency-standard-view-model';
 import { FormBuilder } from '@angular/forms';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
  * This class represents a collection of FrequencyStandard Component.
@@ -13,8 +14,8 @@ import { FormBuilder } from '@angular/forms';
 })
 export class FrequencyStandardGroupComponent extends AbstractGroupComponent<FrequencyStandardViewModel> {
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
+    constructor(protected userAuthService: UserAuthService, formBuilder: FormBuilder) {
+        super(userAuthService, formBuilder);
     }
 
     getItemName(): string {

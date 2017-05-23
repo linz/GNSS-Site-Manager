@@ -39,7 +39,7 @@ export function main() {
     describe('AbstractGroup test - test showDeleted', () => {
 
         beforeEach(() => {
-            abstractGroupImpl = new AbstractGroupImpl(null);
+            abstractGroupImpl = new AbstractGroupImpl(null, null);
             avmi1 = new AbstractViewModelImpl('4');
             avmi1.setDateDeleted(MiscUtils.getUTCDateTime());
             avmi2 = new AbstractViewModelImpl('3');
@@ -91,7 +91,7 @@ export function main() {
         let countNotSet: number = 0;
 
         beforeEach(() => {
-            abstractGroupImpl = new AbstractGroupImpl(null);
+            abstractGroupImpl = new AbstractGroupImpl(null, null);
             avmi1 = new AbstractViewModelImpl('4');
             avmi2 = new AbstractViewModelImpl('3');
             avmi4 = new AbstractViewModelImpl('2');

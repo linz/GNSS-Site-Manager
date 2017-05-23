@@ -4,6 +4,7 @@ import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-i
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
  * This class represents a single item of GNSS Antennas.
@@ -19,8 +20,8 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      */
     @Input() antenna: GnssAntennaViewModel;
 
-    constructor(protected dialogService: DialogService) {
-        super(dialogService);
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService) {
+        super(userAuthService, dialogService);
     }
 
     getItemName(): string {

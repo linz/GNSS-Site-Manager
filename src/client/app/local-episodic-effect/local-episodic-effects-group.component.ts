@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**.
  * This class represents a group of Local Episodic Effects.
@@ -13,8 +14,8 @@ import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model
 })
 export class LocalEpisodicEffectsGroupComponent extends AbstractGroupComponent<LocalEpisodicEffectViewModel> {
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
+    constructor(protected userAuthService: UserAuthService, formBuilder: FormBuilder) {
+        super(userAuthService, formBuilder);
     }
 
     getItemName(): string {

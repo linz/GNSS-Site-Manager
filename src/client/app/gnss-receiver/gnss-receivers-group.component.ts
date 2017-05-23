@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**.
  * This class represents a group of GNSS Receivers.
@@ -12,8 +13,8 @@ import { GnssReceiverViewModel } from './gnss-receiver-view-model';
     templateUrl: 'gnss-receivers-group.component.html',
 })
 export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssReceiverViewModel> {
-    constructor(protected formBuilder: FormBuilder) {
-        super(formBuilder);
+    constructor(protected userAuthService: UserAuthService, protected formBuilder: FormBuilder) {
+        super(userAuthService, formBuilder);
     }
 
     getItemName(): string {
