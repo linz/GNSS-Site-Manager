@@ -27,9 +27,7 @@ export abstract class AbstractGnssControls {
             return errString;
         }
         if (control.errors) {
-            // console.log('error report - control: ', controlId);
             for (let e of Object.keys(control.errors)) {
-                // console.log(e + ' -> ', control.errors[e]);
                 if (errString.length > 0) {
                     errString += ', ';
                 }
@@ -67,7 +65,6 @@ export abstract class AbstractGnssControls {
         } else {
             dirty = control.dirty;
         }
-        // console.warn('  isDirty Control "' + controlId + '": '+ dirty + ' - ', control);
         return dirty;
     }
 
@@ -80,7 +77,6 @@ export abstract class AbstractGnssControls {
         } else {
             valid = control.valid;
         }
-        // console.warn('  isValid Control "' + controlId + '": '+ valid + ' - ', control);
         return valid;
     }
 
