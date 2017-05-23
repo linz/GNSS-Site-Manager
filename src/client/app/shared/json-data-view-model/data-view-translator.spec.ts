@@ -39,7 +39,7 @@ export function main() {
       expect(firstHSV.calibrationDate).toEqual(firstHSD.humiditySensor.calibrationDate.value[0]);
       expect(firstHSV.startDate).toEqual(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]);
       expect(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeUndefined();
-      expect(firstHSV.endDate).toBeNull();
+      expect(firstHSV.endDate).toBe('');
     });
 
     it('should translate v2d for humiditySensors', () => {
@@ -56,7 +56,6 @@ export function main() {
 
       expect(newHSD).toBeDefined();
 
-      expect(newHSD.humiditySensor.accuracyPercentRelativeHumidity).not.toBeNull();
       expect(newHSD.humiditySensor.accuracyPercentRelativeHumidity).toEqual(firstHSV.accuracyPercentRelativeHumidity);
       expect(newHSD.humiditySensor.aspiration).toEqual(firstHSV.aspiration);
       expect(newHSD.humiditySensor.dataSamplingInterval).toEqual(firstHSV.dataSamplingInterval);
@@ -67,8 +66,8 @@ export function main() {
 
       expect(newHSD.humiditySensor.calibrationDate.value[0]).toEqual(firstHSV.calibrationDate);
       expect(firstHSV.startDate).toEqual(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]);
-      expect(firstHSV.endDate).toBeNull();
-      expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeNull();
+      expect(firstHSV.endDate).toBe('');
+      expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBe('');
     });
 
       it('should translate d2v for humiditySensors using translate method', () => {
@@ -82,7 +81,6 @@ export function main() {
 
           expect(firstHSV).toBeDefined();
 
-          expect(firstHSV.accuracyPercentRelativeHumidity).not.toBeNull();
           expect(firstHSV.accuracyPercentRelativeHumidity).toEqual(firstHSD.humiditySensor.accuracyPercentRelativeHumidity);
           expect(firstHSV.aspiration).toEqual(firstHSD.humiditySensor.aspiration);
           expect(firstHSV.dataSamplingInterval).toEqual(firstHSD.humiditySensor.dataSamplingInterval);
@@ -95,7 +93,7 @@ export function main() {
           expect(firstHSV.startDate).toEqual(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']
               .beginPosition.value[0]);
           expect(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeUndefined();
-          expect(firstHSV.endDate).toBeNull();
+          expect(firstHSV.endDate).toBe('');
       });
 
       it('should translate v2d for humiditySensors using translate method', () => {
@@ -124,8 +122,8 @@ export function main() {
           expect(newHSD.humiditySensor.calibrationDate.value[0]).toEqual(firstHSV.calibrationDate);
           expect(firstHSV.startDate).toEqual(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']
               .beginPosition.value[0]);
-          expect(firstHSV.endDate).toBeNull();
-          expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBeNull();
+          expect(firstHSV.endDate).toBe('');
+          expect(newHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].endPosition.value[0]).toBe('');
       });
 
     // now test the new 'date' format type - that is only applied v2d
@@ -133,11 +131,15 @@ export function main() {
       it('should translate v2d for gnssReceivers using translate method and Date() dates', () => {
           let receiverData: any = new SiteLogDataModel(completeValidSitelog).gnssReceivers;
           expect(receiverData).toBeDefined();
-          let firstRD: any = receiverData[1];
+          let firstRD: any = receiverData[0];
 
           let firstRV: GnssReceiverViewModel = new GnssReceiverViewModel();
 
+          console.log('firstRD: ' + JSON.stringify(firstRD, null, 4));
           DataViewTranslatorService.translate(firstRD, firstRV, firstRV.getObjectMap());
+
+          console.log('firstRV: ' + JSON.stringify(firstRV, null, 4));
+
 
           // Now change the dateInstalled, removed to dates
           firstRV.startDate = new Date(firstRV.startDate);
@@ -145,9 +147,13 @@ export function main() {
           let newRD: any = {};
           DataViewTranslatorService.translate(firstRV, newRD, firstRV.getObjectMap().inverse());
 
+          console.log('newRD: ' + JSON.stringify(newRD, null, 4));
+
+
+
           expect(newRD).toBeDefined();
 
-          expect(newRD.gnssReceiver.igsModelCode.value).not.toBeNull();
+          expect(newRD.gnssReceiver.igsModelCode.value).not.toBe('');
           expect(newRD.gnssReceiver.igsModelCode.value).toEqual(firstRV.receiverType);
           expect(newRD.gnssReceiver.manufacturerSerialNumber).toEqual(firstRV.manufacturerSerialNumber);
           expect(newRD.gnssReceiver.firmwareVersion).toEqual(firstRV.firmwareVersion);
