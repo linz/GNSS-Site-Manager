@@ -22,9 +22,6 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
     @Input() public required: boolean = false;
     @Input() public rows: string = '';
     @Input() public maxlength: string = '';
-    // controlName & form needed for validation
-    @Input() controlName: string;
-    @Input() form: FormGroup;
     private _model: string = '';
 
     propagateChange: Function = (_: any) => { };

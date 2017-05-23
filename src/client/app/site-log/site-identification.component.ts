@@ -82,24 +82,25 @@ export class SiteIdentificationComponent implements OnInit {
 
     private setupForm() {
         this.siteIdentificationForm = this.formBuilder.group({
-            siteName: [''],//, [Validators.minLength(4), Validators.maxLength(100)]],
-            fourCharacterID: [''],//, [Validators.required, Validators.minLength(4), Validators.maxLength(9)]],
-            monumentInscription: [''],//, [Validators.maxLength(100)]],
-            iersDOMESNumber: [''],//, [Validators.maxLength(100)]],
-            cdpNumber: [''],//, [Validators.maxLength(100)]],
-            monumentDescription: [''],//, [Validators.maxLength(100)]],
+            siteName: ['', [Validators.minLength(4), Validators.maxLength(50)]],
+            // '     ' prevents validation error at start
+            fourCharacterID: ['     ', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
+            monumentInscription: ['', [Validators.maxLength(100)]],
+            iersDOMESNumber: ['', [Validators.maxLength(50)]],
+            cdpNumber: ['', [Validators.maxLength(25)]],
+            monumentDescription: ['', [Validators.maxLength(100)]],
             heightOfTheMonument: '',
-            monumentFoundation: [''],//, [Validators.maxLength(100)]],
+            monumentFoundation: ['', [Validators.maxLength(50)]],
             foundationDepth: '',
-            markerDescription: [''],//, [Validators.maxLength(100)]],
-            dateInstalled: [''],//, [Validators.maxLength(100)]],
-            geologicCharacteristic: [''],//, [Validators.maxLength(100)]],
-            bedrockType: [''],//, [Validators.maxLength(100)]],
-            bedrockCondition: [''],//, [Validators.maxLength(100)]],
-            fractureSpacing: [''],//, [Validators.maxLength(100)]],
-            faultZonesNearby: [''],//, [Validators.maxLength(100)]],
-            distanceActivity: [''],//, [Validators.maxLength(100)]],
-            notes: [''],//, [Validators.maxLength(2000)]],
+            markerDescription: ['', [Validators.maxLength(100)]],
+            dateInstalled: [''],    // Validators wont work in the DateTime custom component
+            geologicCharacteristic: ['', [Validators.maxLength(100)]],
+            bedrockType: ['', [Validators.maxLength(50)]],
+            bedrockCondition: ['', [Validators.maxLength(50)]],
+            fractureSpacing: ['', [Validators.maxLength(50)]],
+            faultZonesNearby: ['', [Validators.maxLength(50)]],
+            distanceActivity: ['', [Validators.maxLength(50)]],
+            notes: ['', [Validators.maxLength(2000)]],
         });
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteIdentificationForm.enable();

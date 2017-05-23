@@ -37,22 +37,19 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
      * @return array of AbstractControl objects
      */
     getFormControls(): ItemControls {
-        // let itemGroup: FormGroup = formBuilder.group({
-        // turn off all Validators until work out solution to 'was false now true' problem
-        // TODO Fix Validators
         return new ItemControls([
-            {tiedMarkerName: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
-            {tiedMarkerUsage: new FormControl('')},//, [Validators.maxLength(100)]],
-            {tiedMarkerCDPNumber: new FormControl('')},//, [Validators.maxLength(100)]],
-            {tiedMarkerDOMESNumber: new FormControl('')},//, [Validators.maxLength(100)]],
-            {dx: new FormControl('')},//, [Validators.maxLength(100)]],
-            {dy: new FormControl('')},//, [Validators.maxLength(100)]],
-            {dz: new FormControl('')},//, [Validators.maxLength(100)]],
-            {surveyMethod: new FormControl('')},//, [Validators.maxLength(100)]],
-            {localSiteTiesAccuracy: new FormControl('')},//, [Validators.maxLength(100)]],
-            {startDate: new FormControl('')},//, [Validators.maxLength(100)]],
+            {tiedMarkerName: new FormControl('', [Validators.minLength(25)])},
+            {tiedMarkerUsage: new FormControl('', [Validators.minLength(25)])},
+            {tiedMarkerCDPNumber: new FormControl('', [Validators.minLength(25)])},
+            {tiedMarkerDOMESNumber: new FormControl('', [Validators.minLength(25)])},
+            {dx: new FormControl('', [Validators.minLength(25)])},
+            {dy: new FormControl('', [Validators.minLength(25)])},
+            {dz: new FormControl('', [Validators.minLength(25)])},
+            {surveyMethod: new FormControl('', [Validators.minLength(25)])},
+            {localSiteTiesAccuracy: new FormControl('', [Validators.minLength(25)])},
+            {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             // TODO see GEOD-454 endDate not needed by this component but the value exists in the model
-            {endDate: new FormControl('')},//, [Validators.maxLength(100)]],
+            {endDate: new FormControl('')},
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {objectMap: new FormControl('')},
             {dateDeleted: new FormControl('')},

@@ -29,18 +29,15 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
      * @return array of AbstractControl objects
      */
     getFormControls(): ItemControls {
-        // let itemGroup: FormGroup = formBuilder.group({
-        // turn off all Validators until work out solution to 'was false now true' problem
-        // TODO Fix Validators
         return new ItemControls([
-            {receiverType: new FormControl('')}, //, [Validators.maxLength(100)]],
+            {receiverType: new FormControl('', [Validators.maxLength(25)])},
             {manufacturerSerialNumber: new FormControl('', [Validators.maxLength(4)])},
-            {startDate: new FormControl('')},//, [Validators.required, dateTimeFormatValidator]],
-            {endDate: new FormControl('')},//, [requiredIfNotCurrent="true" , dateTimeFormatValidator]],
-            {firmwareVersion: new FormControl('')},//, [Validators.maxLength(100)]],
-            {satelliteSystem: new FormControl('')},//, [Validators.maxLength(100)]],
-            {elevationCutoffSetting: new FormControl('')},//, [Validators.maxLength(100)]],
-            {temperatureStabilization: new FormControl('')}, //, [Validators.required]],//, [Validators.maxLength(100)]],
+            {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
+            {endDate: new FormControl('')},
+            {firmwareVersion: new FormControl('', [Validators.maxLength(25)])},
+            {satelliteSystem: new FormControl('', [Validators.maxLength(25)])},
+            {elevationCutoffSetting: new FormControl('', [Validators.maxLength(25)])},
+            {temperatureStabilization: new FormControl('', [Validators.required])}, // Validators.pattern(/^\d{1,3}$/) - works!
             {notes: new FormControl('', [Validators.maxLength(20)])},
             {objectMap: new FormControl('')},
             {dateDeleted: new FormControl('')},

@@ -18,9 +18,6 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
     @Input() name: string = '';
     @Input() label: string = '';
     // controlName & form needed for validation
-    @Input() controlName: string;
-    @Input() form: FormGroup;
-    @Input() required: boolean = false;
 
     private _value: string = '';
 
@@ -60,10 +57,10 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
 
     private checkPreConditions() {
         if (!this.controlName || this.controlName.length === 0) {
-            console.error('TextAreaInputComponent - controlName Input is required');
+            console.error('TextInputComponent - controlName Input is required');
         }
         if (!this.form) {
-            console.error('TextAreaInputComponent - form Input is required');
+            console.error('TextInputComponent - form Input is required');
         }
     }
 }

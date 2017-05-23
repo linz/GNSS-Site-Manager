@@ -37,19 +37,16 @@ export class PressureSensorItemComponent extends AbstractItemComponent {
      * @return array of AbstractControl objects
      */
     getFormControls(): ItemControls {
-        // let itemGroup: FormGroup = formBuilder.group({
-        // turn off all Validators until work out solution to 'was false now true' problem
-        // TODO Fix Validators
         return new ItemControls([
-            {manufacturer: new FormControl('')},//, [Validators.required, Validators.minLength(100)]],
-            {serialNumber: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
+            {manufacturer: new FormControl('', [Validators.required, Validators.minLength(100)])},
+            {serialNumber: new FormControl('', [Validators.required, Validators.maxLength(100)])},
             {dataSamplingInterval: new FormControl('')},
             {accuracyHPa: new FormControl('')},
             {heightDiffToAntenna: new FormControl('')},
             {calibrationDate: new FormControl('')},
-            {startDate: new FormControl('')},//, [Validators.required]],
-            {endDate: new FormControl('')},  // requiredIfNotCurrent="true"
-            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
+            {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
+            {endDate: new FormControl('')},
+            {notes: new FormControl('', [Validators.maxLength(2000)])},
             {objectMap: new FormControl('')},
             {dateDeleted: new FormControl('')},
             {dateInserted: new FormControl('')},
