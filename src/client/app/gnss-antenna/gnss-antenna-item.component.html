@@ -19,7 +19,7 @@
         </button>
         </span>
     </div>
-    <div class="panel-body" *ngIf="isOpen">
+    <div class="panel-body" [hidden]="!isOpen">
         <div class="margin-bottom15" *ngIf=" antenna == null ">
             No information available for current GNSS Antenna
         </div>

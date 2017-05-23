@@ -75,18 +75,9 @@ export class SiteIdentificationMappings extends AbstractViewModel {
     };
 
     /**
-     * @see AbstractViewModel.setEndDateToCurrentDate
+     * Overridden parent method to return false because SiteIdentification does not have an end date.
      */
-    setEndDateToCurrentDate(): Object {
-        // NOOP
-        return {};
-    }
-
-    /**
-     * @see AbstractViewModel.unsetEndDate
-     */
-    unsetEndDate(): Object {
-        // NOOP
-        return {};
+    hasEndDateField(): boolean {
+        return false;
     }
 }

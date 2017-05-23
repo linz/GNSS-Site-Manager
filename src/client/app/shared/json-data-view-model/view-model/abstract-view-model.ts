@@ -1,15 +1,13 @@
 import { FieldMap, ObjectMap, TypedPointer } from './../data-view-translator';
-import { MiscUtils } from '../../global/misc-utils';
 
 export const dontSetDetfaults: boolean = false;
 
 export abstract class AbstractViewModel {
-    public dateDeleted: string;
-    public dateInserted: string;
-    public deletedReason: string;
-    // datePicker will make into a Date but the data is to be made string.  DatePicker will take string as input.
     public startDate: string | any;
     public endDate: string | any;
+    public dateInserted: string;
+    public dateDeleted: string;
+    public deletedReason: string;
 
     /**
      * Mapping to/from Data and View model fields.  See createFieldMappings().
@@ -58,23 +56,29 @@ export abstract class AbstractViewModel {
     }
 
     /**
-     * Set change tracking value to now().
-     * @return the date so can use in FormModel
+     * Returns true if this kind of objects have an end date.
+     *
+     * SiteIdentification, SiteLocation, ResponsibleParty and SurveyedLocalTie must override this method to return
+     * false as they do not have an end date.
      */
-    setDateInserted(): string {
-        let date: string = MiscUtils.getUTCDateTime();
-        this.dateInserted = date;
-        return date;
+    hasEndDateField() : boolean {
+        return true;
     }
 
-    /**
-     * Set change tracking value to now().
-     * @return the date so can use in FormModel
-     */
-    setDateDeleted(): string {
-        let date: string = MiscUtils.getUTCDateTime();
+    setStartDate(date: string) {
+        this.startDate = date;
+    }
+
+    setEndDate(date: string) {
+        this.endDate = date;
+    }
+
+    setDateInserted(date: string) {
+        this.dateInserted = date;
+    }
+
+    setDateDeleted(date: string) {
         this.dateDeleted = date;
-        return date;
     }
 
     setDeletedReason(reason: string): void {
@@ -87,46 +91,11 @@ export abstract class AbstractViewModel {
      */
     public abstract createFieldMappings(): void;
 
-    /**
-     * Called on the 'last' object before creating a new one to populate it with some values such as endDate.
-     * Return what is changed as an object so the form can be patched.
-     */
-    setEndDateToCurrentDate(): Object {
-        if (this.hasOwnProperty('endDate')) {
-            let presentDT: string = MiscUtils.getUTCDateTime();
-            this.endDate = presentDT;
-            return {endDate: presentDT};
-        } else {
-            return {};
-        }
-    }
-
-    /**
-     * Called on the 'current' object after cancelling creation of a new one to undo field population.
-     * Return what is changed as an object so the form can be patched.
-     */
-    unsetEndDate(): Object {
-        if (this.hasOwnProperty('endDate')) {
-            this.endDate = '';
-            return {endDate: this.endDate};
-        } else {
-            return {};
-        }
-    }
-
-    /**
-     * Returns true if this is the kind of object that can have an end date.
-     * Most things can so this method returns true by default, but some things do not have an end date.
-     */
-    hasEndDateField() : boolean {
-        return true;
-    }
-
     private setDefaultValues() {
         this.dateDeleted = '';
         this.dateInserted = '';
         this.deletedReason = '';
-        this.startDate = MiscUtils.getUTCDateTime();
+        this.startDate = '';
         this.endDate = '';
     }
 

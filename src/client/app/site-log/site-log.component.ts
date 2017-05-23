@@ -41,19 +41,12 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     private siteId: string;
     private isLoading: boolean = false;
     private reverting: boolean = false;
+    private isSiteInfoFormOpen: boolean = false;
     private siteIdentification: any = null;
     private siteLocation: any = {};
     private siteContacts: Array<any> = [];
-    private errorMessage: string;
     private siteLogTab: any = null;
     private submitted: boolean = false;
-    private status: any = {
-        oneAtATime: false,
-        isSiteInfoGroupOpen: true,
-        isSiteMediaOpen: false,
-        isMetaCustodianOpen: false,
-    };
-
     private authSubscription: Subscription;
 
     /**
@@ -120,7 +113,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
                 },
                 (error: Error) => {
-                    this.errorMessage = <any>error;
                     this.isLoading = false;
                     this.dialogService.showErrorMessage('No site log found for ' + this.siteId);
                 }
@@ -138,8 +130,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.siteIdentification = null;
         this.siteLocation = null;
         this.siteContacts.length = 0;
-        this.status = null;
-        this.errorMessage = '';
         if (this.authSubscription) {
             this.authSubscription.unsubscribe();
         }
@@ -200,7 +190,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     },
                     (error: Error) => {
                         this.isLoading = false;
-                        this.errorMessage = <any>error;
                         console.error(error);
                         this.dialogService.showErrorMessage('Error in saving SiteLog data for ' + this.siteId);
                     }

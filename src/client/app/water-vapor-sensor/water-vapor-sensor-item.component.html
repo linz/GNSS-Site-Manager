@@ -21,7 +21,7 @@
           </button>
         </span>
     </div>
-    <div class="panel-body" *ngIf="isOpen">
+    <div class="panel-body" [hidden]="!isOpen">
         <div *ngIf=" waterVaporSensor == null ">
             No information available for current Water Vapor Sensor
         </div>
