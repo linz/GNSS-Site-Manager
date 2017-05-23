@@ -34,9 +34,9 @@ export abstract class AbstractGnssControls {
                     errString += ", ";
                 }
                 if (e === 'maxlength') {
-                    errString += 'Maximum Length exceeded: ' + control.errors[e].requiredLength;
+                    errString += 'Maximum length exceeded: ' + control.errors[e].requiredLength;
                 } else if (e === 'minlength') {
-                    errString += 'Minimum Length not reached: ' + control.errors[e].requiredLength;
+                    errString += 'Minimum length not reached: ' + control.errors[e].requiredLength;
                 } else if (e === 'pattern') {
                     let pat: string;
                     if (control.errors[e].requiredPattern === validDatetimeFormat.toString()) {
