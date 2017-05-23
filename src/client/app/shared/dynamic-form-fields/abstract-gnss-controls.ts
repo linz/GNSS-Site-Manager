@@ -31,7 +31,7 @@ export abstract class AbstractGnssControls {
             for (let e of Object.keys(control.errors)) {
                 // console.log(e + ' -> ', control.errors[e]);
                 if (errString.length > 0) {
-                    errString += ", ";
+                    errString += ', ';
                 }
                 if (e === 'maxlength') {
                     errString += 'Maximum length exceeded: ' + control.errors[e].requiredLength;

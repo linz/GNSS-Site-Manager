@@ -29,7 +29,7 @@ function validatorFnFactory(min: number, max: number) {
             return {outside_range: arg};
         }
         return null;
-    }
+    };
 }
 
 @Component({
@@ -73,7 +73,8 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
 
     set value(value: string) {
         let valueNumber: number = MiscUtils.stringToNumber(value);
-        if (value && value !== this._value && MiscUtils.isNumeric(valueNumber) && valueNumber >= this.minNumber && valueNumber <= this.maxNumber) {
+        if (value && value !== this._value && MiscUtils.isNumeric(valueNumber)
+            && valueNumber >= this.minNumber && valueNumber <= this.maxNumber) {
             this._value = value;
             this.propagateChange(value);
         }
@@ -94,6 +95,10 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
         this.propagateTouch = fn;
     }
 
+    validate(c: FormControl) {
+        return this.validator(c);
+    }
+
     private checkPreConditions() {
         if (!this.controlName || this.controlName.length === 0) {
             console.error('NumberInputComponent - controlName Input is required');
@@ -101,9 +106,5 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
         if (!this.form) {
             console.error('NumberInputComponent - form Input is required');
         }
-    }
-
-    validate(c: FormControl) {
-        return this.validator(c);
     }
 }
