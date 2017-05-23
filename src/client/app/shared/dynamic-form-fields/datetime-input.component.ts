@@ -1,9 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnInit, DoCheck } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
-import { AbstractGnssControls } from './abstract-gnss-controls';
+import { AbstractGnssControls, validDatetimeFormat, validDatetimeFormatHuman } from './abstract-gnss-controls';
 import { MiscUtils } from '../index';
-
-const validDatetimeFormat: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g;
 
 /**
  * This class represents the Datetime Input Component for choosing dates.
@@ -29,7 +27,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     public datetime: string = '';
     public formControl: AbstractControl;
     @Input() public form: FormGroup;
-    @Input() public controlName: string;
     @Input() public required: boolean = true;
     @Input() public label: string = '';
 
@@ -261,7 +258,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             this.invalidDatetime = true;
         } else {
             if (this.datetime
-                .match(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g)) {
+                .match(validDatetimeFormat)) {
                 this.invalidDatetime = false;
             } else {
                 this.invalidDatetime = true;
@@ -281,7 +278,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         } else if (this.invalidDatetime) {
             message += ' not valid ';
         }
-        message += '(Valid Date Format: YYYY-MM-DD hh:mm:ss)';
+        message += '(Valid Date Format: ' + validDatetimeFormatHuman;
         return message;
     }
 

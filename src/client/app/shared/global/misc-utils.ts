@@ -34,7 +34,7 @@ export class MiscUtils {
     }
 
     public static formatDateToDateString(date: Date): string {
-        if (! MiscUtils.isDate(date)) {
+        if (!MiscUtils.isDate(date)) {
             throw new Error(`Input isnt a date - type: ${typeof date}, value: ${date}`);
         }
         let dateStr: string = date.getFullYear() + '-'
@@ -42,6 +42,7 @@ export class MiscUtils {
             + MiscUtils.padTwo(date.getDate());
         return dateStr;
     }
+
     /**
      * Return a date as a string in the "YYYY-MM-DD'T'hh:mm:ss.000Z" format.
      *
@@ -49,7 +50,7 @@ export class MiscUtils {
      * @return {string}
      */
     public static formatDateToDatetimeString(date: Date): string {
-        if (! MiscUtils.isDate(date)) {
+        if (!MiscUtils.isDate(date)) {
             throw new Error(`Input isnt a date - type: ${typeof date}, value: ${date}`);
         }
         let dateStr: string = MiscUtils.formatDateToDateString(date);
@@ -65,7 +66,7 @@ export class MiscUtils {
 
     public static isDate(date: Date): boolean {
         if (Object.prototype.toString.call(date) === '[object Date]') {
-            return ! isNaN(date.getTime());
+            return !isNaN(date.getTime());
         } else {
             return false;
         }
@@ -146,6 +147,24 @@ export class MiscUtils {
         } else {
             let settings: any = {time: 1000, align: {top: 0, left: 0}};
             this.scrollToView(elem, settings);
+        }
+    }
+
+    public static isNumeric(n: any) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
+    public static stringToNumber(numStr: string): number {
+        if (typeof numStr === 'number') {
+            return numStr;
+        }
+        if (numStr && typeof numStr === 'string' && numStr.match(/\d+/)) {
+            return parseInt(numStr);
+        } else {
+            if (numStr) {
+                console.error('Not a number: ', numStr);
+            }
+            return null;
         }
     }
 }
