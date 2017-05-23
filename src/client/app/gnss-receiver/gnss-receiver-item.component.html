@@ -30,7 +30,7 @@
             <text-input formControlName="firmwareVersion" controlName="firmwareVersion" [form]="itemGroup">Firmware Version</text-input>
             <text-input formControlName="satelliteSystem" controlName="satelliteSystem" [form]="itemGroup">Satellite System</text-input>
             <number-input formControlName="elevationCutoffSetting" controlName="elevationCutoffSetting" [form]="itemGroup"
-                [step]="1">Elevation Cutoff Setting (degrees)</number-input>
+                [step]="1" min="-359" max="359">Elevation Cutoff Setting (degrees)</number-input>
             <number-input formControlName="temperatureStabilization" controlName="temperatureStabilization" [form]="itemGroup"
                 [step]="1">Temperature Stabilization (&deg;C)</number-input>
             <datetime-input [form]="itemGroup" controlName="startDate">Date Installed (UTC)</datetime-input>
