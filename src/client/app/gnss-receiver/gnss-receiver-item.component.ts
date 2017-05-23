@@ -37,7 +37,7 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
             {firmwareVersion: new FormControl('', [Validators.maxLength(25)])},
             {satelliteSystem: new FormControl('', [Validators.maxLength(25)])},
             {elevationCutoffSetting: new FormControl('', [Validators.maxLength(25)])},
-            {temperatureStabilization: new FormControl('', [Validators.required])}, // Validators.pattern(/^\d{1,3}$/) - works!
+            {temperatureStabilization: new FormControl('')}, // Validators.pattern(/^\d{1,3}$/) - works!
             {notes: new FormControl('', [Validators.maxLength(20)])},
             {objectMap: new FormControl('')},
             {dateDeleted: new FormControl('')},
