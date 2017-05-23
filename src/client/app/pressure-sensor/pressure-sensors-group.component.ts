@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
  * This class represents a group of Pressure Sensors.
@@ -13,8 +14,8 @@ import { PressureSensorViewModel } from './pressure-sensor-view-model';
 })
 export class PressureSensorsGroupComponent extends AbstractGroupComponent<PressureSensorViewModel> {
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
+    constructor(protected userAuthService: UserAuthService, formBuilder: FormBuilder) {
+        super(userAuthService, formBuilder);
     }
 
     getItemName(): string {

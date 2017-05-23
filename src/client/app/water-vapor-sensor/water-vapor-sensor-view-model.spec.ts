@@ -9,7 +9,7 @@ export function main() {
       waterVaporSensorsViewModel = new WaterVaporSensorViewModel();
     });
 
-    fit('test default constructor and all fields are created', () => {
+    it('test default constructor and all fields are created', () => {
       expect(waterVaporSensorsViewModel).toBeDefined();
       expect(waterVaporSensorsViewModel.heightDiffToAntenna).toEqual(0);
       expect(waterVaporSensorsViewModel.manufacturer).toEqual('');

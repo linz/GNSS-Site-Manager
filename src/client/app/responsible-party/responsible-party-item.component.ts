@@ -5,6 +5,7 @@ import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { DialogService } from '../shared/global/dialog.service';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
  * This component represents a single responsible party.
@@ -30,8 +31,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
 
-    constructor(protected dialogService: DialogService) {
-        super(dialogService);
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService) {
+        super(userAuthService, dialogService);
     }
 
     ngOnInit() {

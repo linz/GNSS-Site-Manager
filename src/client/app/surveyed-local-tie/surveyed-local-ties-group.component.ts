@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**.
  * This class represents a group of Surveyed Local Ties.
@@ -13,8 +14,8 @@ import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 })
 export class SurveyedLocalTiesGroupComponent extends AbstractGroupComponent<SurveyedLocalTieViewModel> {
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
+    constructor(protected userAuthService: UserAuthService, formBuilder: FormBuilder) {
+        super(userAuthService, formBuilder);
     }
 
     getItemName(): string {

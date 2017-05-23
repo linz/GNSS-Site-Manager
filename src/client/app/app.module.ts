@@ -15,10 +15,6 @@ import { SelectSiteModule } from './select-site/select-site.module';
 import { UserRegistrationModule } from './user-registration/user-registration.module';
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
-export class ServiceLocator {
-    static injector: Injector;
-}
-
 @NgModule({
   imports: [
     AppRoutingModule,
@@ -43,7 +39,4 @@ export class ServiceLocator {
   bootstrap: [ AppComponent ]
 })
 export class AppModule {
-    constructor(private injector: Injector) {
-        ServiceLocator.injector = injector;
-    }
 }

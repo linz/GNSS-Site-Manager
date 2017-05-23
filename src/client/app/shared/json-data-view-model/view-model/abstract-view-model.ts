@@ -1,4 +1,5 @@
 import { FieldMap, ObjectMap, TypedPointer } from './../data-view-translator';
+import { MiscUtils } from '../../global/misc-utils';
 
 export const dontSetDetfaults: boolean = false;
 
@@ -95,7 +96,7 @@ export abstract class AbstractViewModel {
         this.dateDeleted = '';
         this.dateInserted = '';
         this.deletedReason = '';
-        this.startDate = '';
+        this.startDate = MiscUtils.getUTCDateTime();
         this.endDate = '';
     }
 

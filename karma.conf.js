@@ -82,6 +82,7 @@ module.exports = function (config) {
       { pattern: 'node_modules/raf/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/performance-now/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/oidc-client/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/map-factory/dist/lib/**/*.js', included: false, watched: false },
 
       'test-config.js',
       'dist/dev/app/system-config.js',

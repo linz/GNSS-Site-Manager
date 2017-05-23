@@ -5,6 +5,7 @@ import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as lodash from 'lodash';
+import { UserAuthService } from '../global/user-auth.service';
 
 export const newItemShouldBeBlank: boolean = true;
 
@@ -66,8 +67,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         }
     }
 
-    constructor(protected formBuilder: FormBuilder) {
-        super();
+    constructor(protected userAuthService: UserAuthService, protected formBuilder: FormBuilder) {
+        super(userAuthService);
     }
 
     /**

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
  * This class represents a group of WaterVapor Sensors.
@@ -13,8 +14,8 @@ import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
 })
 export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<WaterVaporSensorViewModel> {
 
-    constructor(formBuilder: FormBuilder) {
-        super(formBuilder);
+    constructor(protected userAuthService: UserAuthService, formBuilder: FormBuilder) {
+        super(userAuthService, formBuilder);
     }
 
     getItemName(): string {

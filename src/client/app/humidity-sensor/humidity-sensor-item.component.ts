@@ -4,6 +4,7 @@ import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-i
 import { HumiditySensorViewModel } from './humidity-sensor-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 /**
  * This component represents a single Humidity Sensor.
@@ -19,8 +20,8 @@ export class HumiditySensorItemComponent extends AbstractItemComponent {
      */
     @Input() humiditySensor: HumiditySensorViewModel;
 
-    constructor(protected dialogService: DialogService, private formBuilder: FormBuilder) {
-        super(dialogService);
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, private formBuilder: FormBuilder) {
+        super(userAuthService, dialogService);
     }
 
     getItemName(): string {

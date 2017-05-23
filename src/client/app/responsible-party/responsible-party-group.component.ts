@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
+import { UserAuthService } from '../shared/global/user-auth.service';
 
 // Enum version wouldn't work in templates.  Can't have strings in enums.
 export class ResponsiblePartyType {
@@ -59,8 +60,8 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
         return this._partyType;
     }
 
-    constructor(protected formBuilder: FormBuilder) {
-        super(formBuilder);
+    constructor(protected userAuthService: UserAuthService, protected formBuilder: FormBuilder) {
+        super(userAuthService, formBuilder);
     }
 
     getItemName(): string {

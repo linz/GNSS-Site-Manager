@@ -6,7 +6,6 @@ import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
 import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
-import { ServiceLocator } from '../../app.module';
 
 export class ItemControls {
     itemControls: [ItemControl];
@@ -59,8 +58,8 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
-    constructor(protected dialogService: DialogService) {
-        super();
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService) {
+        super(userAuthService);
     }
 
     ngAfterViewInit(): void {
