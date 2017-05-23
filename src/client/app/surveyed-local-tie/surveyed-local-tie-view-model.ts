@@ -65,25 +65,9 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
     };
 
     /**
-     * @see AbstractViewModel.setEndDateToCurrentDate
+     * Overridden parent method to return false because SurveyedLocalTie does not have an end date.
      */
-    setEndDateToCurrentDate(): Object {
-        // NOOP
-        return {};
-    }
-
-    /**
-     * @see AbstractViewModel.unsetEndDate
-     */
-    unsetEndDate(): Object {
-        // NOOP
-        return {};
-    }
-
-    /**
-     * Overridden because this type of item cannot have an end date.
-     */
-    hasEndDateField() : boolean {
+    hasEndDateField(): boolean {
         return false;
     }
 }

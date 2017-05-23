@@ -58,18 +58,9 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
     };
 
     /**
-     * @see AbstractViewModel.setEndDateToCurrentDate
+     * Overridden parent method to return false because ResponsibleParty does not have an end date.
      */
-    setEndDateToCurrentDate(): Object {
-        // NOOP
-        return {};
-    }
-
-    /**
-     * @see AbstractViewModel.unsetEndDate
-     */
-    unsetEndDate(): Object {
-        // NOOP
-        return {};
+    hasEndDateField(): boolean {
+        return false;
     }
 }

@@ -1,5 +1,6 @@
 import { AbstractGroupComponent } from './abstract-group.component';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
+import { MiscUtils } from '../global/misc-utils';
 
 class AbstractViewModelImpl extends AbstractViewModel {
     public startDate: string;
@@ -40,7 +41,7 @@ export function main() {
         beforeEach(() => {
             abstractGroupImpl = new AbstractGroupImpl(null);
             avmi1 = new AbstractViewModelImpl('4');
-            avmi1.setDateDeleted();
+            avmi1.setDateDeleted(MiscUtils.getUTCDateTime());
             avmi2 = new AbstractViewModelImpl('3');
             avmi4 = new AbstractViewModelImpl('2');
             avmi3 = new AbstractViewModelImpl('1');

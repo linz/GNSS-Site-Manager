@@ -204,12 +204,20 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * Remove an item.  Originally it was removed from the list.  However we now want to track deletes so
      * keep it and mark as deleted using change tracking.
      */
-    public removeItem(itemIndex: number, reason: string) {
-        // Be aware that the default order is one way (low to high start date), but what is displayed is the opposite
-        // (high to low start date).  This call is coming from the UI (the display order) and the default for
-        // getItemsCollection() is the reverse order so this works out ok
-        this.setDeletedReason(itemIndex, reason);
-        this.setDeleted(itemIndex);
+    public removeItem(index: number, reason: string) {
+        let date: string = MiscUtils.getUTCDateTime();
+        let item: T = this.getItemsCollection()[index];
+        item.setDateDeleted(date);
+        item.setDeletedReason(reason);
+        if (this.groupArrayForm.length > index) {
+            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+            if (formGroup.controls['dateDeleted']) {
+                formGroup.controls['dateDeleted'].setValue(date);
+            }
+            if (formGroup.controls['deletedReason']) {
+                formGroup.controls['deletedReason'].setValue(reason);
+            }
+        }
     }
 
     /**
@@ -218,13 +226,16 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @param {string} itemIndex - the index of the new item to be cancelled.
      */
     public cancelNew(itemIndex: number) {
-        if (this.itemProperties.length > 1 && !this.currentItemAlreadyHasEndDate) {
-            let updatedValue = this.itemProperties[itemIndex+1].unsetEndDate();
+        if (this.itemProperties.length > (itemIndex + 1) && !this.currentItemAlreadyHasEndDate) {
+            this.itemProperties[itemIndex+1].setEndDate('');
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
-            this.updateFormControl(itemIndex+1, 'endDate', '');
-            formGroup.patchValue(updatedValue);
-            (<FormGroup>this.groupArrayForm.at(itemIndex+1)).controls['endDate'].markAsPristine();
+            if (formGroup.controls['endDate']) {
+                formGroup.controls['endDate'].setValue('');
+                formGroup.controls['endDate'].markAsPristine();
+            }
         }
+
+        (<FormGroup>this.groupArrayForm.at(itemIndex)).markAsPristine();
         this.itemProperties.splice(itemIndex, 1);
         this.groupArrayForm.controls.splice(itemIndex, 1);
     }
@@ -249,57 +260,44 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let newItem: T = <T> this.newItemViewModel();
         this.addToItemsCollection(newItem);
         setTimeout(() => {
-            this.updateDatesForNewItem(0, newItem);
-            if (this.itemProperties.length > 1) {
-                this.updateSecondToLastItem();
-            }
+            let dateUtc: string = MiscUtils.getUTCDateTime();
+            this.updateDatesForNewItem(newItem, dateUtc);
+            this.updateEndDateForSecondItem(dateUtc);
         });
-
-        // Let the parent form know that it now has a new child
-        this.groupArrayForm.markAsDirty();
     }
 
-    private updateDatesForNewItem(index: number, item: T) {
+    private updateDatesForNewItem(item: T, dateUtc: string) {
+        let index: number = 0;
         let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-        let date: string = item.setDateInserted();
-        item.startDate = date;
+
+        item.setStartDate(dateUtc);
         if (formGroup.controls['startDate']) {
-            formGroup.controls['startDate'].setValue(date);
+            formGroup.controls['startDate'].setValue(dateUtc);
         }
+
+        item.setDateInserted(dateUtc);
         if (formGroup.controls['dateInserted']) {
-            formGroup.controls['dateInserted'].setValue(date);
+            formGroup.controls['dateInserted'].setValue(dateUtc);
         }
+
     }
 
     /**
-     * Let the ViewModels do anything they like with the 2nd last (previous) item - such as set end/removal date.
-     * Need to modify both the SiteLogModel and the form model.
+     * Update EndDate field for the second item which was the current one before adding a new item.
+     *
+     * @param datetime: the datetime string to be set for EndDate
      */
-    private updateSecondToLastItem() {
-
+    private updateEndDateForSecondItem(dateUtc: string) {
         let index: number = 1;
-
-        if (this.itemProperties[index].hasEndDateField() ) {
-
-            let updatedValue: Object;
-
-            // check the truthiness of the proposition that the existing record was already end-dated
+        if (this.itemProperties.length > 1 && this.itemProperties[index].hasEndDateField() ) {
             if (this.itemProperties[index].endDate) {
                 this.currentItemAlreadyHasEndDate = true;
             }
-            updatedValue = this.itemProperties[index].setEndDateToCurrentDate();
-            if (updatedValue && Object.keys(updatedValue).length > 0) {
-                let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-                formGroup.patchValue(updatedValue);
-                formGroup.markAsDirty();
-                // If the Group hasn't been opened, no form controls will exist.  It is unusual for users to create a new Item without
-                // looking at whatever normally exists.  If not opened then the modified fields won't get marked as dirty.
-                // It this is a problem then we could create the form controls.
-                if (Object.keys(formGroup.controls).length > 0) {
-                    for (let key of Object.keys(updatedValue)) {
-                        formGroup.controls[key].markAsDirty();
-                    }
-                }
+            this.itemProperties[index].setEndDate(dateUtc);
+            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+            if (formGroup.controls['endDate']) {
+                formGroup.controls['endDate'].setValue(dateUtc);
+                formGroup.controls['endDate'].markAsDirty();
             }
         }
     }
@@ -324,27 +322,5 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
         geodesyEvent.name = EventNames.newItem;
         geodesyEvent.valueNumber = 0;
-    }
-
-    private setDeleted(index: number) {
-        let item: T = this.getItemsCollection()[index];
-
-        let date: string = item.setDateDeleted();
-        this.updateFormControl(index, 'dateDeleted', date);
-    }
-
-    private setDeletedReason(index: number, reason: string) {
-        let item: T = this.getItemsCollection()[index];
-        item.setDeletedReason(reason);
-        this.updateFormControl(index, 'deletedReason', reason);
-    }
-
-    private updateFormControl(index: number, field: string, value: string) {
-        if (this.groupArrayForm.length > index) {
-            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-            if (formGroup.controls[field]) {
-                formGroup.controls[field].setValue(value);
-            }
-        }
     }
 }
