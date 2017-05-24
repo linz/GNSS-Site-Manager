@@ -1,5 +1,4 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 
 export class GnssReceiverViewModel extends AbstractViewModel {
     public receiverType: string;
