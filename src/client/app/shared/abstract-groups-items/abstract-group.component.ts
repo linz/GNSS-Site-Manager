@@ -99,7 +99,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     /**
      * Return collection - optionally with deleted items filter out.  Always in reverse order.
-     * @param showDeleted - false by default
+     * @param showDeleted - true by default
      * @return {T[]}
      */
     getItemsCollection(showDeleted?: boolean): T[] {

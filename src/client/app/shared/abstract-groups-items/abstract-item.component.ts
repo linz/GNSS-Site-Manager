@@ -118,6 +118,12 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      */
     abstract getFormControls(): ItemControls;
 
+    /**
+     * Allow items to deal with total number of items change
+     */
+    protected handleTotalChange(currentValue: number, previousValue: number): void {
+    }
+
     ngOnInit() {
         this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
             console.debug('application state: ', applicationState);
@@ -153,6 +159,9 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
                 if (propName === 'geodesyEvent') {
                     this.handleGeodesyEvents();
                 }
+            }
+            if (propName === 'total') {
+                this.handleTotalChange(changedProp.currentValue, changedProp.previousValue);
             }
         }
     }

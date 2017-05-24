@@ -123,4 +123,13 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
       }
       return false; // same as 'event.preventDefault()` (which I'm having trouble as cant get event parameter)
     }
+
+    /**
+     * Allow items to deal with total number of items change
+     */
+    protected handleTotalChange(currentValue: number, previousValue: number): void {
+        if (currentValue === 1) {
+            this.isOpen = true;
+        }
+    }
 }
