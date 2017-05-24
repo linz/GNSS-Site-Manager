@@ -1,5 +1,5 @@
 import { LocalEpisodicEffectViewModel } from './local-episodic-effect-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
+
 export function main() {
   let localEpisodicEffectViewModel: LocalEpisodicEffectViewModel;
 
@@ -11,12 +11,8 @@ export function main() {
 
     it('test default constructor and all fields are created', () => {
       expect(localEpisodicEffectViewModel).toBeDefined();
-
       expect(localEpisodicEffectViewModel.event).toEqual('');
-
-      let nowPart: string = MiscUtils.getUTCDateTime();
-      expect(localEpisodicEffectViewModel.startDate).toBeDefined();
-      expect(localEpisodicEffectViewModel.startDate).toContain(nowPart);
+      expect(localEpisodicEffectViewModel.startDate).toEqual('');
       expect(localEpisodicEffectViewModel.endDate).toEqual('');
     });
   });

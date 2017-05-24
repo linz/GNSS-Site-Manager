@@ -1,5 +1,5 @@
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
+
 export function main() {
   let temperatureSensorsViewModel: TemperatureSensorViewModel;
 
@@ -18,13 +18,8 @@ export function main() {
       expect(temperatureSensorsViewModel.manufacturer).toEqual('');
       expect(temperatureSensorsViewModel.notes).toEqual('');
       expect(temperatureSensorsViewModel.serialNumber).toEqual('');
-      // The defaults for calibration and start date is now() - drop time when test for this
-      let nowPart: string = MiscUtils.getUTCDateTime();
-      expect(temperatureSensorsViewModel.calibrationDate).toBeDefined();
-      expect(temperatureSensorsViewModel.calibrationDate).not.toEqual('');
-      expect(temperatureSensorsViewModel.calibrationDate).toContain(nowPart);
-      expect(temperatureSensorsViewModel.startDate).toBeDefined();
-      expect(temperatureSensorsViewModel.startDate).toContain(nowPart);
+      expect(temperatureSensorsViewModel.calibrationDate).toEqual('');
+      expect(temperatureSensorsViewModel.startDate).toEqual('');
       expect(temperatureSensorsViewModel.endDate).toEqual('');
     });
   });

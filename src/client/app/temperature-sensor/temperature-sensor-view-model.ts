@@ -1,5 +1,4 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 
 export class TemperatureSensorViewModel extends AbstractViewModel {
     public calibrationDate: string;
@@ -15,7 +14,7 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
      */
     constructor(blank: boolean = false) {
         super();
-        this.calibrationDate = blank ? '' : MiscUtils.getUTCDateTime();
+        this.calibrationDate = '';
         this.dataSamplingInterval = 0;
         this.accuracyDegreesCelcius = 0;
         this.notes = '';
