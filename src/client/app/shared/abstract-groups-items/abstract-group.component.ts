@@ -320,4 +320,14 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         geodesyEvent.name = EventNames.newItem;
         geodesyEvent.valueNumber = 0;
     }
+
+    /**
+     * Toggle the group (open or close it)
+     * TODO move this up into abstract base component and consolidate naming of
+     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
+     */
+    private toggleGroup(event: UIEvent) {
+        event.preventDefault();
+        this.isGroupOpen = this.miscUtils.scrollIntoView(event, this.isGroupOpen);
+    }
 }

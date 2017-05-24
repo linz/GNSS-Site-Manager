@@ -1,6 +1,9 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" id="antenna_{{index}}" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
   <div class="panel-heading">
-        <span class="panel-title cursor-ptr" (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
+        <span class="panel-title cursor-ptr" tabindex="0"
+	        (keyup.space)="toggleGroup($event)"
+	        (keyup.enter)="toggleGroup($event)"
+	        (click)="toggleGroup($event)">
             <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             <span [innerHTML]="getItemHeaderHtml()"></span>

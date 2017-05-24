@@ -303,4 +303,14 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
             }
         }
     }
+
+    /**
+     * Toggle the item (open or close it)
+     * TODO move this up into abstract base component and consolidate naming of
+     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
+     */
+    private toggleGroup(event: UIEvent) {
+        event.preventDefault();
+        this.isOpen = this.miscUtils.scrollIntoView(event, this.isOpen);
+    }
 }
