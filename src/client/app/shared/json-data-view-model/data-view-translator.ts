@@ -1,6 +1,7 @@
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import createMapper from 'map-factory';
 
 /**
@@ -66,8 +67,8 @@ export class DataViewTranslatorService {
             let targetPath = DataViewTranslatorService.toDotNotation(fieldMap.targetField.pointer);
 
             mapper.map(sourcePath).to(targetPath, (source: any) => {
-                if (source instanceof Date) {
-                    return MiscUtils.formatDateToDatetimeString(source as Date);
+                if (fieldMap.sourceField.type === 'date' && source !== '') {
+                    return moment.utc(source).format();
                 }
                 return source;
             });
