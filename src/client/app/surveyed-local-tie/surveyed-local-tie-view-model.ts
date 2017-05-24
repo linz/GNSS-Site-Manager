@@ -18,10 +18,7 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
     public surveyMethod: string;
     public notes: string;
 
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
         this.tiedMarkerName = '';
         this.tiedMarkerUsage = '';

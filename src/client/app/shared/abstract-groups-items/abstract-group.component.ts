@@ -78,11 +78,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     abstract getControlName(): string;
 
-    /**
-     * The child class needs to define this to make an instance of itself.
-     * @param blank - if to exclude all default values so it is completely blank.  Defaults to false.
-     */
-    abstract newItemViewModel(blank?: boolean): T;
+    abstract newItemViewModel(): T;
 
     getFormData(siteLog: any): any {
         return siteLog[this.getControlName()];

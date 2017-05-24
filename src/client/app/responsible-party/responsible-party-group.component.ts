@@ -72,8 +72,8 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
         return this.partyType.getObjectName();
     }
 
-    newItemViewModel(blank?: boolean): ResponsiblePartyViewModel {
-        return new ResponsiblePartyViewModel(blank);
+    newItemViewModel(): ResponsiblePartyViewModel {
+        return new ResponsiblePartyViewModel();
     }
 
 }

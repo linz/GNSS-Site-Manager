@@ -16,10 +16,7 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
     public phone: string = '';
     public fax: string = '';
 
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
     }
 

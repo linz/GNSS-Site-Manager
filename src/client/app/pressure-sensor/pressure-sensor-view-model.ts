@@ -10,10 +10,7 @@ export class PressureSensorViewModel extends AbstractViewModel {
     public serialNumber: string;
     public heightDiffToAntenna: number;
 
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
         this.calibrationDate = '';
         this.dataSamplingInterval = 0;

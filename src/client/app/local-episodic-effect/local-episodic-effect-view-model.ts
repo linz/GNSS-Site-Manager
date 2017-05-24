@@ -4,10 +4,7 @@ import { MiscUtils } from '../shared/global/misc-utils';
 export class LocalEpisodicEffectViewModel extends AbstractViewModel {
     public event: string;
 
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
         this.event = '';
     }

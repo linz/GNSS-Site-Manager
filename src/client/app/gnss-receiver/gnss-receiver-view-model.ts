@@ -10,12 +10,8 @@ export class GnssReceiverViewModel extends AbstractViewModel {
     public temperatureStabilization: number;
     public notes: string;
 
-    /**
-     *
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
-        super();//dontSetDetfaults);
+    constructor() {
+        super();
 
         this.receiverType = '';
         this.manufacturerSerialNumber = '';
