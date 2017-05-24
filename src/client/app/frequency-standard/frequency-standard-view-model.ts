@@ -1,19 +1,12 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 
 export class FrequencyStandardViewModel extends AbstractViewModel {
-    public standardType: string;
-    public inputFrequency: number;
-    public notes: string;
+    public standardType: string = '';
+    public inputFrequency: number = 0;
+    public notes: string = '';
 
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
-        this.standardType = '';
-        this.inputFrequency = 0;
-        this.notes = '';
     }
 
     createFieldMappings(): void {

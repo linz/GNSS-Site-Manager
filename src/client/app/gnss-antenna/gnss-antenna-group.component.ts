@@ -29,7 +29,7 @@ export class GnssAntennaGroupComponent extends AbstractGroupComponent<GnssAntenn
         return siteLog.gnssAntennas;
     }
 
-    newItemViewModel(blank?: boolean): GnssAntennaViewModel {
-        return new GnssAntennaViewModel(blank);
+    newItemViewModel(): GnssAntennaViewModel {
+        return new GnssAntennaViewModel();
     }
 }

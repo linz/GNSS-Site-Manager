@@ -1,38 +1,22 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 
 export class GnssAntennaViewModel extends AbstractViewModel {
 
-    public antennaType: string;
-    public serialNumber: string;
-    public antennaReferencePoint: string;
-    public markerArpEastEcc: number;
-    public markerArpUpEcc: number;
-    public markerArpNorthEcc: number;
-    public alignmentFromTrueNorth: number;
-    public antennaRadomeType: string;
-    public radomeSerialNumber: string;
-    public antennaCableType: string;
-    public antennaCableLength: number;
+    public antennaType: string = '';
+    public serialNumber: string = '';
+    public antennaReferencePoint: string = '';
+    public markerArpEastEcc: number = 0;
+    public markerArpUpEcc: number = 0;
+    public markerArpNorthEcc: number = 0;
+    public alignmentFromTrueNorth: number = 0;
+    public antennaRadomeType: string = '';
+    public radomeSerialNumber: string = '';
+    public antennaCableType: string = '';
+    public antennaCableLength: number = 0;
     public notes: string;
 
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
-        this.antennaType = '';
-        this.serialNumber = '';
-        this.antennaReferencePoint = '';
-        this.markerArpEastEcc = 0;
-        this.markerArpUpEcc = 0;
-        this.markerArpNorthEcc = 0;
-        this.alignmentFromTrueNorth = 0;
-        this.antennaRadomeType = '';
-        this.radomeSerialNumber = '';
-        this.antennaCableType = '';
-        this.antennaCableLength = 0;
-        this.notes = '';
     }
 
     createFieldMappings(): void {

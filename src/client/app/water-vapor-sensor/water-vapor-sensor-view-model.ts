@@ -1,23 +1,14 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class WaterVaporSensorViewModel extends AbstractViewModel {
-    public calibrationDate: string;
+    public calibrationDate: string = '';
+    public notes: string = '';
+    public manufacturer: string = '';
+    public serialNumber: string = '';
+    public heightDiffToAntenna: number = 0;
 
-    public notes: string;
-    public manufacturer: string;
-    public serialNumber: string;
-    public heightDiffToAntenna: number;
-
-    /**
-     * @param blank - if blank then don't add any default values - leave completely blank (empty) with '' | 0
-     */
-    constructor(blank: boolean = false) {
+    constructor() {
         super();
-        this.calibrationDate = '';
-        this.notes = '';
-        this.manufacturer = '';
-        this.serialNumber = '';
-        this.heightDiffToAntenna = 0;
     }
 
     createFieldMappings(): void {
