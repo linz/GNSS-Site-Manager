@@ -41,15 +41,15 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
-            {tiedMarkerName: new FormControl('', [Validators.minLength(25)])},
-            {tiedMarkerUsage: new FormControl('', [Validators.minLength(25)])},
-            {tiedMarkerCDPNumber: new FormControl('', [Validators.minLength(25)])},
-            {tiedMarkerDOMESNumber: new FormControl('', [Validators.minLength(25)])},
-            {dx: new FormControl('', [Validators.minLength(25)])},
-            {dy: new FormControl('', [Validators.minLength(25)])},
-            {dz: new FormControl('', [Validators.minLength(25)])},
-            {surveyMethod: new FormControl('', [Validators.minLength(25)])},
-            {localSiteTiesAccuracy: new FormControl('', [Validators.minLength(25)])},
+            {tiedMarkerName: new FormControl('', [Validators.maxLength(50)])},
+            {tiedMarkerUsage: new FormControl('', [Validators.maxLength(50)])},
+            {tiedMarkerCDPNumber: new FormControl('', [Validators.maxLength(25)])},
+            {tiedMarkerDOMESNumber: new FormControl('', [Validators.maxLength(25)])},
+            {dx: new FormControl('', [Validators.maxLength(25)])},
+            {dy: new FormControl('', [Validators.maxLength(25)])},
+            {dz: new FormControl('', [Validators.maxLength(25)])},
+            {surveyMethod: new FormControl('', [Validators.maxLength(50)])},
+            {localSiteTiesAccuracy: new FormControl('', [Validators.maxLength(50)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             // TODO see GEOD-454 endDate not needed by this component but the value exists in the model
             {endDate: new FormControl('')},

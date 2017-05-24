@@ -41,9 +41,9 @@ export class WaterVaporSensorItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
-            {manufacturer: new FormControl('', [Validators.required, Validators.minLength(25)])},
-            {serialNumber: new FormControl('', [Validators.required, Validators.minLength(25)])},
-            {heightDiffToAntenna: new FormControl('')},
+            {manufacturer: new FormControl('', [Validators.required, Validators.maxLength(25)])},
+            {serialNumber: new FormControl('', [Validators.required, Validators.maxLength(25)])},
+            {heightDiffToAntenna: new FormControl('', [Validators.maxLength(25)])},
             {calibrationDate: new FormControl('')},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
