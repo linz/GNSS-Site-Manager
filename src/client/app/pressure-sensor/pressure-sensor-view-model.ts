@@ -1,24 +1,16 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class PressureSensorViewModel extends AbstractViewModel {
-    public calibrationDate: string;
-
-    public dataSamplingInterval: number;
-    public accuracyHPa: number;
-    public notes: string;
-    public manufacturer: string;
-    public serialNumber: string;
-    public heightDiffToAntenna: number;
+    public calibrationDate: string = '';
+    public dataSamplingInterval: number = 0;
+    public accuracyHPa: number = 0;
+    public notes: string = '';
+    public manufacturer: string = '';
+    public serialNumber: string = '';
+    public heightDiffToAntenna: number = 0;
 
     constructor() {
         super();
-        this.calibrationDate = '';
-        this.dataSamplingInterval = 0;
-        this.accuracyHPa = 0;
-        this.notes = '';
-        this.manufacturer = '';
-        this.serialNumber = '';
-        this.heightDiffToAntenna = 0;
     }
 
     // TODO - remove type field and use generics instead

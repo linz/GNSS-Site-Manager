@@ -1,25 +1,16 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class GnssReceiverViewModel extends AbstractViewModel {
-    public receiverType: string;
-    public manufacturerSerialNumber: string;
-    public firmwareVersion: string;
-    public satelliteSystem: string;
-    public elevationCutoffSetting: number;
-    public temperatureStabilization: number;
-    public notes: string;
+    public receiverType: string = '';
+    public manufacturerSerialNumber: string = '';
+    public firmwareVersion: string = '';
+    public satelliteSystem: string = '';
+    public elevationCutoffSetting: number = 0;
+    public temperatureStabilization: number = 0;
+    public notes: string = '';
 
     constructor() {
         super();
-
-        this.receiverType = '';
-        this.manufacturerSerialNumber = '';
-        this.firmwareVersion = '';
-        this.satelliteSystem = '';
-
-        this.elevationCutoffSetting = 0;
-        this.temperatureStabilization = 0;
-        this.notes = '';
     }
 
     createFieldMappings(): void {

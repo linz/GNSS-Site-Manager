@@ -2,33 +2,21 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 
 export class SurveyedLocalTieViewModel extends AbstractViewModel {
 
-    /**
-     * Not the best form making private fields public, however saves clutter of creating accessors / getters for all
-     */
-    public tiedMarkerName: string;
-    public tiedMarkerUsage: string;
-    public tiedMarkerCDPNumber: string;
-    public tiedMarkerDOMESNumber: string;
-    public dx: number;
-    public dy: number;
-    public dz: number;
+    public tiedMarkerName: string = '';
+    public tiedMarkerUsage: string = '';
+    public tiedMarkerCDPNumber: string = '';
+    public tiedMarkerDOMESNumber: string = '';
 
-    public localSiteTiesAccuracy: string;
-    public surveyMethod: string;
-    public notes: string;
+    public dx: number = 0;
+    public dy: number = 0;
+    public dz: number = 0;
+
+    public localSiteTiesAccuracy: string = '';
+    public surveyMethod: string = '';
+    public notes: string = '';
 
     constructor() {
         super();
-        this.tiedMarkerName = '';
-        this.tiedMarkerUsage = '';
-        this.tiedMarkerCDPNumber = '';
-        this.tiedMarkerDOMESNumber = '';
-        this.localSiteTiesAccuracy = '';
-        this.surveyMethod = '';
-        this.notes = '';
-        this.dx = 0;
-        this.dy = 0;
-        this.dz = 0;
     }
 
     createFieldMappings(): void {

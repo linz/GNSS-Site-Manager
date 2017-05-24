@@ -1,15 +1,12 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class FrequencyStandardViewModel extends AbstractViewModel {
-    public standardType: string;
-    public inputFrequency: number;
-    public notes: string;
+    public standardType: string = '';
+    public inputFrequency: number = 0;
+    public notes: string = '';
 
     constructor() {
         super();
-        this.standardType = '';
-        this.inputFrequency = 0;
-        this.notes = '';
     }
 
     createFieldMappings(): void {
