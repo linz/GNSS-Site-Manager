@@ -135,21 +135,13 @@ export function main() {
 
           let firstRV: GnssReceiverViewModel = new GnssReceiverViewModel();
 
-          console.log('firstRD: ' + JSON.stringify(firstRD, null, 4));
           DataViewTranslatorService.translate(firstRD, firstRV, firstRV.getObjectMap());
-
-          console.log('firstRV: ' + JSON.stringify(firstRV, null, 4));
-
 
           // Now change the dateInstalled, removed to dates
           firstRV.startDate = new Date(firstRV.startDate);
 
           let newRD: any = {};
           DataViewTranslatorService.translate(firstRV, newRD, firstRV.getObjectMap().inverse());
-
-          console.log('newRD: ' + JSON.stringify(newRD, null, 4));
-
-
 
           expect(newRD).toBeDefined();
 
