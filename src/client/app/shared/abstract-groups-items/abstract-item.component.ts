@@ -6,6 +6,7 @@ import { DialogService } from '../index';
 import { MiscUtils } from '../global/misc-utils';
 import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
+import { SiteLogService, ApplicationState, ApplicationSaveState } from '../site-log/site-log.service';
 
 export class ItemControls {
     itemControls: [ItemControl];
@@ -58,7 +59,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
         super(userAuthService);
     }
 
@@ -117,6 +118,16 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     abstract getFormControls(): ItemControls;
 
     ngOnInit() {
+        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
+            console.debug('application state: ', applicationState);
+            if (! applicationState.applicationFormModified) {
+                this.itemGroup.markAsPristine();
+            }
+            if (applicationState.applicationSaveState === ApplicationSaveState.saved) {
+                this.isNew = false;
+            }
+        });
+
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
         this.addFields(this.itemGroup, this.getFormControls());
         // Check its dirty status before doing the setValue() and restore to that state afterwards

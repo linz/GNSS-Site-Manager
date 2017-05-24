@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
-import { SiteLogService } from '../site-log/site-log.service';
+import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 
 /**
  * This class represents the toolbar component which is the header of all UI pages.
@@ -26,8 +26,7 @@ export class ToolbarComponent implements OnInit {
     private cacheItems: Array<string> = [];
 
     private loadedUserSub: any;
-    private isFormModifiedSubscription: Subscription;
-    private isFormModifiedState: boolean;
+    private isFormModified: boolean;
 
     constructor(private serviceWorkerService: ServiceWorkerService,
         private route: ActivatedRoute,
@@ -55,7 +54,7 @@ export class ToolbarComponent implements OnInit {
     }
 
     public isFormDirty(): boolean {
-        return this.isFormModifiedState;
+        return this.isFormModified;
     }
 
     public isFormInvalid(): boolean {
@@ -137,8 +136,10 @@ export class ToolbarComponent implements OnInit {
     }
 
     private setupSiteLogSubscription(): void {
-        this.isFormModifiedSubscription = this.siteLogService.getIsFormModifiedSubscription().subscribe((isModified: boolean) => {
-            this.isFormModifiedState = isModified;
+        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
+            if (applicationState.applicationFormModified) {
+                this.isFormModified = true;
+            }
         });
     }
 

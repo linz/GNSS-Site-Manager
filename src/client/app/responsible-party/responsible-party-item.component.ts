@@ -1,11 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { DialogService } from '../shared/global/dialog.service';
 import { UserAuthService } from '../shared/global/user-auth.service';
+import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
  * This component represents a single responsible party.
@@ -31,8 +32,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService) {
-        super(userAuthService, dialogService);
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+        super(userAuthService, dialogService, siteLogService);
     }
 
     ngOnInit() {

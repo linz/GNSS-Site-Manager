@@ -2,7 +2,7 @@ import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
-import { SiteLogService } from '../site-log/site-log.service';
+import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 
 /**
  * This class represents the status information component which shows the status of user login and roles, selected site,
@@ -69,8 +69,10 @@ export class StatusInfoComponent implements OnInit {
     }
 
     private setupSiteLogSubscription(): void {
-        this.siteLogService.getIsFormModifiedSubscription().subscribe((isModified: boolean) => {
-            this.isFormModified = isModified;
+        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
+            if (applicationState.applicationFormModified) {
+                this.isFormModified = true;
+            }
         });
     }
 

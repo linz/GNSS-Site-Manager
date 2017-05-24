@@ -14,13 +14,22 @@ import { SiteLogDataModel } from '../json-data-view-model/data-model/site-log-da
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
 
+export enum ApplicationSaveState {
+    idle, saving, saved
+}
+
+export interface ApplicationState {
+    applicationFormModified: boolean;
+    applicationSaveState: ApplicationSaveState
+}
+
 /**
  * This class provides the service with methods to retrieve CORS Setup info from DB.
  */
 @Injectable()
 export class SiteLogService {
 
-    private isFormModifiedSubject: Subject<boolean> = new Subject();
+    private applicationStateSubject: Subject<ApplicationState> = new Subject();
 
      /**
      * Creates a new SiteLogService with the injected Http.
@@ -97,19 +106,19 @@ export class SiteLogService {
     }
 
     /**
-     * Method to allow clients to subscribe to know when the form modified state has changed
-     * @return {Observable<null>}
+     * Method to allow clients to subscribe to know about application state changes.
+     * @return {Observable<ApplicationStateSubject>}
      */
-    getIsFormModifiedSubscription(): Observable<boolean> {
-        return this.isFormModifiedSubject.asObservable();
+    getApplicationStateSubscription(): Observable<ApplicationState> {
+        return this.applicationStateSubject.asObservable();
     }
 
     /**
      * Inform subscribers when the form modified state has changed
-     * @param isModified - state of form
+     * @param applicationState - the state object.  Fields can be null if its state is unknown
      */
-    sendFormModifiedStateMessage(isModified: boolean) {
-        this.isFormModifiedSubject.next(isModified);
+    sendApplicationStateMessage(applicationState: ApplicationState) {
+        this.applicationStateSubject.next(applicationState);
     }
 
     private handleXMLData(response: Response): string {
