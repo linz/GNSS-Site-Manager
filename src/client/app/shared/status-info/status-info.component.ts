@@ -73,6 +73,7 @@ export class StatusInfoComponent implements OnInit {
             if (applicationState.applicationFormModified) {
                 this.isFormModified = true;
             }
+            this.isFormInvalid = applicationState.applicationFormInvalid;
         });
     }
 
