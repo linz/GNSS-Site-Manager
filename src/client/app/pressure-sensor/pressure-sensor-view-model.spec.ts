@@ -1,5 +1,5 @@
 import { PressureSensorViewModel } from './pressure-sensor-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
+
 export function main() {
   let pressureSensorsViewModel: PressureSensorViewModel;
 
@@ -18,13 +18,8 @@ export function main() {
       expect(pressureSensorsViewModel.manufacturer).toEqual('');
       expect(pressureSensorsViewModel.notes).toEqual('');
       expect(pressureSensorsViewModel.serialNumber).toEqual('');
-      // The defaults for calibration and start date is now() - drop time when test for this
-      let nowPart: string = MiscUtils.getUTCDateTime();
-      expect(pressureSensorsViewModel.calibrationDate).toBeDefined();
-      expect(pressureSensorsViewModel.calibrationDate).not.toEqual('');
-      expect(pressureSensorsViewModel.calibrationDate).toContain(nowPart);
-      expect(pressureSensorsViewModel.startDate).toBeDefined();
-      expect(pressureSensorsViewModel.startDate).toContain(nowPart);
+      expect(pressureSensorsViewModel.calibrationDate).toEqual('');
+      expect(pressureSensorsViewModel.startDate).toEqual('');
       expect(pressureSensorsViewModel.endDate).toEqual('');
     });
   });

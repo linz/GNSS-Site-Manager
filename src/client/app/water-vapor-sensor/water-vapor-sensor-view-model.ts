@@ -1,5 +1,4 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
 
 export class WaterVaporSensorViewModel extends AbstractViewModel {
     public calibrationDate: string;
@@ -14,7 +13,7 @@ export class WaterVaporSensorViewModel extends AbstractViewModel {
      */
     constructor(blank: boolean = false) {
         super();
-        this.calibrationDate = blank ? '' : MiscUtils.getUTCDateTime();
+        this.calibrationDate = '';
         this.notes = '';
         this.manufacturer = '';
         this.serialNumber = '';

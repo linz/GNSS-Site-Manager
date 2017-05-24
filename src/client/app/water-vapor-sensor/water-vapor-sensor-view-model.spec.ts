@@ -1,5 +1,5 @@
 import { WaterVaporSensorViewModel } from './water-vapor-sensor-view-model';
-import { MiscUtils } from '../shared/global/misc-utils';
+
 export function main() {
   let waterVaporSensorsViewModel: WaterVaporSensorViewModel;
 
@@ -15,13 +15,8 @@ export function main() {
       expect(waterVaporSensorsViewModel.manufacturer).toEqual('');
       expect(waterVaporSensorsViewModel.notes).toEqual('');
       expect(waterVaporSensorsViewModel.serialNumber).toEqual('');
-      // The defaults for calibration and start date is now() - drop time when test for this
-      let nowPart: string = MiscUtils.getUTCDateTime();
-      expect(waterVaporSensorsViewModel.calibrationDate).toBeDefined();
-      expect(waterVaporSensorsViewModel.calibrationDate).not.toEqual('');
-      expect(waterVaporSensorsViewModel.calibrationDate).toContain(nowPart);
-      expect(waterVaporSensorsViewModel.startDate).toBeDefined();
-      expect(waterVaporSensorsViewModel.startDate).toContain(nowPart);
+      expect(waterVaporSensorsViewModel.calibrationDate).toEqual('');
+      expect(waterVaporSensorsViewModel.startDate).toEqual('');
       expect(waterVaporSensorsViewModel.endDate).toEqual('');
     });
   });
