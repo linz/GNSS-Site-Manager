@@ -1,10 +1,11 @@
-import { Component, Input, Injector } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { Component, Input } from '@angular/core';
+import { Validators, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
+import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
  * This class represents a single item of GNSS Antennas.
@@ -20,8 +21,9 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      */
     @Input() antenna: GnssAntennaViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService) {
-        super(userAuthService, dialogService);
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
+        super(userAuthService, dialogService, siteLogService);
     }
 
     getItemName(): string {
@@ -43,7 +45,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
             {serialNumber: new FormControl('', [Validators.minLength(4)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
-            {antennaReferencePoint: new FormControl('')},
+            {antennaReferencePoint: new FormControl(' ', [Validators.required])},
             {markerArpEastEcc: new FormControl('', [Validators.maxLength(100)])},
             {markerArpUpEcc: new FormControl('', [Validators.maxLength(100)])},
             {markerArpNorthEcc: new FormControl('', [Validators.maxLength(100)])},

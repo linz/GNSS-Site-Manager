@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { Validators, FormControl } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
+import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
  * This component represents a single Temperature Sensor.
@@ -20,8 +21,9 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
      */
     @Input() temperatureSensor: TemperatureSensorViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, private formBuilder: FormBuilder) {
-        super(userAuthService, dialogService);
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
+        super(userAuthService, dialogService, siteLogService);
     }
 
     getItemName(): string {
