@@ -67,8 +67,8 @@ export class DataViewTranslatorService {
             let targetPath = DataViewTranslatorService.toDotNotation(fieldMap.targetField.pointer);
 
             mapper.map(sourcePath).to(targetPath, (source: any) => {
-                if (fieldMap.sourceField.type === 'date' && source !== '') {
-                    return moment.utc(source).format();
+                if (typeof source === 'string' && fieldMap.sourceField.type === 'date' && source !== '') {
+                    return MiscUtils.formatUTCDateTime(source as string);
                 }
                 return source;
             });
