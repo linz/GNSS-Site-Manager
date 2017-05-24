@@ -41,11 +41,11 @@ export class PressureSensorItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
-            {manufacturer: new FormControl('', [Validators.required, Validators.minLength(100)])},
+            {manufacturer: new FormControl('', [Validators.required, Validators.maxLength(100)])},
             {serialNumber: new FormControl('', [Validators.required, Validators.maxLength(100)])},
-            {dataSamplingInterval: new FormControl('')},
-            {accuracyHPa: new FormControl('')},
-            {heightDiffToAntenna: new FormControl('')},
+            {dataSamplingInterval: new FormControl('', [Validators.maxLength(25)])},
+            {accuracyHPa: new FormControl('', [Validators.maxLength(25)])},
+            {heightDiffToAntenna: new FormControl('', [Validators.maxLength(25)])},
             {calibrationDate: new FormControl('')},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},

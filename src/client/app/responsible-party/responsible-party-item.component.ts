@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
@@ -83,17 +83,17 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {individualName: new FormControl('')},//, [Validators.required, Validators.minLength(100)]],
-            {organisationName: new FormControl('')},//, [Validators.required, Validators.maxLength(100)]],
-            {positionName: new FormControl('')},
-            {deliveryPoint: new FormControl('')},
-            {city: new FormControl('')},
-            {administrativeArea: new FormControl('')},//, [Validators.required]],
-            {postalCode: new FormControl('')},
+            {individualName: new FormControl('',[Validators.required, Validators.maxLength(100)])},
+            {organisationName: new FormControl('',[Validators.required, Validators.maxLength(100)])},
+            {positionName: new FormControl('', [Validators.maxLength(50)])},
+            {deliveryPoint: new FormControl('', [Validators.maxLength(50)])},
+            {city: new FormControl('', [Validators.maxLength(50)])},
+            {administrativeArea: new FormControl('', [Validators.required, Validators.maxLength(50)])},
+            {postalCode: new FormControl('', [Validators.maxLength(25)])},
             {country: new FormControl('')}, //, [Validators.maxLength(2000)]],
-            {email: new FormControl('')},
-            {phone: new FormControl('')},
-            {fax: new FormControl('')},
+            {email: new FormControl('', [Validators.maxLength(50)])},
+            {phone: new FormControl('', [Validators.maxLength(25)])},
+            {fax: new FormControl('', [Validators.maxLength(25)])},
             {objectMap: new FormControl('')},
             {startDate: new FormControl('')},
             {endDate: new FormControl('')},

@@ -44,12 +44,12 @@ export class HumiditySensorItemComponent extends AbstractItemComponent {
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {manufacturer: new FormControl('', [Validators.required, Validators.minLength(50)])},
+            {manufacturer: new FormControl('', [Validators.required, Validators.maxLength(50)])},
             {serialNumber: new FormControl('', [Validators.required, Validators.maxLength(50)])},
-            {dataSamplingInterval: new FormControl('')},
-            {accuracyPercentRelativeHumidity: new FormControl('')},
-            {aspiration: new FormControl('')},
-            {heightDiffToAntenna: new FormControl('')},
+            {dataSamplingInterval: new FormControl('', [Validators.maxLength(25)])},
+            {accuracyPercentRelativeHumidity: new FormControl('', [Validators.maxLength(25)])},
+            {aspiration: new FormControl('', [Validators.maxLength(50)])},
+            {heightDiffToAntenna: new FormControl('', [Validators.maxLength(25)])},
             {calibrationDate: new FormControl('')},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
