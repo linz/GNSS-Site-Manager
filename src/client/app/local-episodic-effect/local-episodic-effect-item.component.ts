@@ -21,7 +21,8 @@ export class LocalEpisodicEffectItemComponent extends AbstractItemComponent {
      */
     @Input() localEpisodicEffect: LocalEpisodicEffectViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 

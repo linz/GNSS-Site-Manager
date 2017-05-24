@@ -21,7 +21,8 @@ export class FrequencyStandardItemComponent extends AbstractItemComponent {
      */
     @Input() frequencyStandard: FrequencyStandardViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 

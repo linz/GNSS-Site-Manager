@@ -21,7 +21,8 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      */
     @Input() antenna: GnssAntennaViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 

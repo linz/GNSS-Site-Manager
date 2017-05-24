@@ -32,7 +32,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 

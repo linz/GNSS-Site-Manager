@@ -21,7 +21,8 @@ export class PressureSensorItemComponent extends AbstractItemComponent {
      */
     @Input() pressureSensor: PressureSensorViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 

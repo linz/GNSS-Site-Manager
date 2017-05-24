@@ -21,7 +21,8 @@ export class HumiditySensorItemComponent extends AbstractItemComponent {
      */
     @Input() humiditySensor: HumiditySensorViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 

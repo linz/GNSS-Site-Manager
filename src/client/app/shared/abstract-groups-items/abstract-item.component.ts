@@ -59,7 +59,8 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService);
     }
 

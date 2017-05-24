@@ -21,7 +21,8 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
      */
     @Input() surveyedLocalTie: SurveyedLocalTieViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 

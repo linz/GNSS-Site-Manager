@@ -20,7 +20,7 @@ export enum ApplicationSaveState {
 
 export interface ApplicationState {
     applicationFormModified: boolean;
-    applicationSaveState: ApplicationSaveState
+    applicationSaveState: ApplicationSaveState;
 }
 
 /**

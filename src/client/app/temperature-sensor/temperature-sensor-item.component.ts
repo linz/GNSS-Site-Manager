@@ -21,7 +21,8 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
      */
     @Input() temperatureSensor: TemperatureSensorViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService, protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+                protected siteLogService: SiteLogService) {
         super(userAuthService, dialogService, siteLogService);
     }
 
