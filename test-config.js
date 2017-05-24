@@ -11,7 +11,6 @@ System.config({
       'raf': 'raf/index',
       'performance-now': 'performance-now/lib/performance-now',
       'oidc-client': 'oidc-client/lib/oidc-client',
-      'moment-timezone': 'moment-timezone/moment-timezone.js',
       'map-factory': 'map-factory/dist/lib/map-factory.js'
   }
 });

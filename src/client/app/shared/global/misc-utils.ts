@@ -1,5 +1,5 @@
 import * as lodash from 'lodash';
-import * as moment from 'moment-timezone';
+import * as moment from 'moment';
 
 export class MiscUtils {
     private static scrollToView: any = require('scroll-into-view');
@@ -9,6 +9,10 @@ export class MiscUtils {
      */
     public static getUTCDateTime(): string {
         return moment().utc().format('YYYY-MM-DD hh:mm:ss');
+    }
+
+    public static formatUTCDateTime(date: string): string {
+        return moment.utc(date).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
     }
 
     public static prettyFormatDateTime(date: string) {
