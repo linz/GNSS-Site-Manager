@@ -1,7 +1,9 @@
 <div [formGroup]="siteIdentificationForm" class="panel panel-level-2"
      [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
     <div class="panel-heading">
-        <span class="panel-title cursor-ptr"
+        <span class="panel-title cursor-ptr" tabindex="0"
+            (keyup.space)="status.isSiteIdentificationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteIdentificationGroupOpen)"
+            (keyup.enter)="status.isSiteIdentificationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteIdentificationGroupOpen)"
             (click)="status.isSiteIdentificationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteIdentificationGroupOpen)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': status.isSiteIdentificationGroupOpen, 'glyphicon-plus-sign': !status.isSiteIdentificationGroupOpen}">
