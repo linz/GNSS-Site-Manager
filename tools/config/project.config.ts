@@ -44,8 +44,6 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/OWS_1_1_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/WFS_2_0.js', inject: 'libs'},
       {src: 'moment', inject: 'libs'},
-      {src: 'moment-timezone/moment-timezone.js', inject: 'libs'},
-      //'builds/moment-timezone-with-data.js', inject: 'libs'}
     ];
 
     // Add `local` third-party libraries to be injected/bundled.
