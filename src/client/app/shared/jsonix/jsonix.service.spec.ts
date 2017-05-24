@@ -156,12 +156,6 @@ export function main() {
       }
     }`;
 
-    it('should parse valid Json with an array containing a null value', () => {
-      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithNullInAnArray));
-      expect(geodesyMl).not.toBeNull();
-      console.log(geodesyMl);
-    });
-
     let validJsonWithLocalEpisodicEffects = `
     {
         "geo:siteLog": {

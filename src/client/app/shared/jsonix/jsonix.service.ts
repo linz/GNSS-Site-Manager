@@ -68,40 +68,6 @@ export class JsonixService {
      * @returns {string} the valid GeodesyMl
      */
     jsonToGeodesyML(jsonObj: Object): string {
-        // before marshalling, traverse the object fix up any elements that jsonix can't handle
-        this.traverseJsonObject(jsonObj);
-
-        let geodesyMl: string = marshaller.marshalString(jsonObj);
-
-        return geodesyMl;
-    }
-
-
-    /**
-     * Traverse the supplied object and perform preprocessing fixes on it.
-     * For example, jsonix fails when an array element contains a null element.
-     * We may have some elements like that in the json, end dates being one example.
-     */
-    traverseJsonObject(object: any): void {
-
-        var type = typeof object;
-
-        if (Array.isArray(object)) {
-            if (object.length === 1 && object[0] === null) {
-                object.pop();
-            } else {
-                object.forEach(function (element) {
-                    if (typeof element === 'object') {
-                        this.traverseJsonObject(element);
-                    }
-                }, this);
-            }
-        } else {
-            if (type === 'object') {
-                for (var key in object) {
-                    this.traverseJsonObject(object[key]);
-                }
-            }
-        }
+        return marshaller.marshalString(jsonObj);
     }
 }
