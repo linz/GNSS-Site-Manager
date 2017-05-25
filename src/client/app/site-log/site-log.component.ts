@@ -309,19 +309,14 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 applicationFormInvalid: this.siteLogForm.invalid,
                 applicationSaveState: ApplicationSaveState.idle
             });
-            console.log('form dirty - '+this.siteLogForm.dirty+': ', value);
-
-
         });
 
         this.siteLogForm.statusChanges.debounceTime(500).subscribe((value: any) => {
-            console.debug('form status change: ', this.siteLogForm);
             this.siteLogService.sendApplicationStateMessage({
                 applicationFormModified: this.siteLogForm.dirty,
                 applicationFormInvalid: this.siteLogForm.invalid,
                 applicationSaveState: ApplicationSaveState.idle
             });
-            console.log('form dirty - '+this.siteLogForm.dirty+': ', value);
         });
     }
 
