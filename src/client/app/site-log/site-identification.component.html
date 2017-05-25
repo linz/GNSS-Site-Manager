@@ -14,7 +14,7 @@
             <img src="../../assets/ajax-loader.gif" class="ajax-loader-img">
         </span>
     </div>
-    <div class="panel-body" *ngIf="status.isSiteIdentificationGroupOpen">
+    <div class="panel-body" [hidden]="! status.isSiteIdentificationGroupOpen">
         <div class="margin-bottom15" *ngIf=" siteIdentification == null ">
             No information available for the GNSS site: {{siteId}}
         </div>
