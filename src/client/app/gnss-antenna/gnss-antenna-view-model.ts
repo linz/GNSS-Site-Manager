@@ -13,7 +13,7 @@ export class GnssAntennaViewModel extends AbstractViewModel {
     public radomeSerialNumber: string = '';
     public antennaCableType: string = '';
     public antennaCableLength: number = 0;
-    public notes: string;
+    public notes: string = '';
 
     constructor() {
         super();
