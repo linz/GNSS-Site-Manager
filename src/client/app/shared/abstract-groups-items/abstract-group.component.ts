@@ -29,7 +29,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     ngOnInit() {
-           this.setupForm(this.getControlName());
+        this.setupForm(this.getControlName());
     }
 
     /**
