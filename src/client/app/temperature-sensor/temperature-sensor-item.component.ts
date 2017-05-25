@@ -41,8 +41,8 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
-            {manufacturer: new FormControl('', [Validators.required, Validators.maxLength(50)])},
-            {serialNumber: new FormControl('', [Validators.required, Validators.maxLength(25)])},
+            {manufacturer: new FormControl(' ', [Validators.required, Validators.maxLength(50)])},
+            {serialNumber: new FormControl(' ', [Validators.required, Validators.maxLength(25)])},
             {dataSamplingInterval: new FormControl('', [Validators.maxLength(25)])},
             {accuracyDegreesCelcius: new FormControl('', [Validators.maxLength(25)])},
             {heightDiffToAntenna: new FormControl('', [Validators.maxLength(25)])},

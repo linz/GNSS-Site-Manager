@@ -17,7 +17,7 @@
             </button>
         </span>
     </div>
-    <div class="panel-body" *ngIf="isGroupOpen">
+    <div class="panel-body" [hidden]="! isGroupOpen">
         <div *ngIf="isEmptyCollection()">
             No information available for GNSS Receivers
         </div>

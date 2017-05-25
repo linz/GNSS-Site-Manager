@@ -1,4 +1,4 @@
-import { Input } from '@angular/core';
+import { Input, OnInit } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
@@ -9,7 +9,7 @@ import { UserAuthService } from '../global/user-auth.service';
 
 export const newItemShouldBeBlank: boolean = true;
 
-export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent {
+export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent implements OnInit {
     isGroupOpen: boolean = false;
 
     // flag to indicate that the current or latest item in a group has an end date set
@@ -24,7 +24,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     set siteLogModel(siteLogModel: any) {
        if (siteLogModel) {
            this.setItemsCollection(this.getFormData(siteLogModel));
-           this.setupForm(this.getControlName());
+           this.setupChildItems();
        }
     }
 
@@ -69,6 +69,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     constructor(protected userAuthService: UserAuthService, protected formBuilder: FormBuilder) {
         super(userAuthService);
+    }
+
+    ngOnInit() {
+        this.setupForm(this.getControlName());
     }
 
     /**
@@ -172,7 +176,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             this.parentForm.removeControl(itemsArrayName);
         }
         this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
-        this.setupChildItems();
     }
 
     setupChildItems() {
