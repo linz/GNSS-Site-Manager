@@ -9,7 +9,7 @@ import { UserAuthService } from '../global/user-auth.service';
 
 export const newItemShouldBeBlank: boolean = true;
 
-export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent implements OnInit{
+export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent implements OnInit {
     isGroupOpen: boolean = false;
 
     // flag to indicate that the current or latest item in a group has an end date set
@@ -26,10 +26,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
            this.setItemsCollection(this.getFormData(siteLogModel));
            this.setupChildItems();
        }
-    }
-
-    ngOnInit() {
-        this.setupForm(this.getControlName());
     }
 
     /**
@@ -73,6 +69,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     constructor(protected userAuthService: UserAuthService, protected formBuilder: FormBuilder) {
         super(userAuthService);
+    }
+
+    ngOnInit() {
+        this.setupForm(this.getControlName());
     }
 
     /**
