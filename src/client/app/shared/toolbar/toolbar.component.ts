@@ -27,6 +27,7 @@ export class ToolbarComponent implements OnInit {
 
     private loadedUserSub: any;
     private isFormModified: boolean;
+    private isFormInvalid: boolean;
 
     constructor(private serviceWorkerService: ServiceWorkerService,
         private route: ActivatedRoute,
@@ -57,8 +58,8 @@ export class ToolbarComponent implements OnInit {
         return this.isFormModified;
     }
 
-    public isFormInvalid(): boolean {
-        return false;
+    public isSiteLogFormInvalid(): boolean {
+        return this.isFormInvalid;
     }
 
     /**
@@ -137,9 +138,8 @@ export class ToolbarComponent implements OnInit {
 
     private setupSiteLogSubscription(): void {
         this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
-            if (applicationState.applicationFormModified) {
-                this.isFormModified = true;
-            }
+            this.isFormModified = applicationState.applicationFormModified;
+            this.isFormInvalid = applicationState.applicationFormInvalid;
         });
     }
 

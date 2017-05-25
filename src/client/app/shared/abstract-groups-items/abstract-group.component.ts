@@ -232,6 +232,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             }
         }
 
+        (<FormGroup>this.groupArrayForm.at(itemIndex)).reset();
         (<FormGroup>this.groupArrayForm.at(itemIndex)).markAsPristine();
         this.itemProperties.splice(itemIndex, 1);
         this.groupArrayForm.controls.splice(itemIndex, 1);

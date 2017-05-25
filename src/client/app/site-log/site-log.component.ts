@@ -112,6 +112,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     this.isLoading = false;
                     this.siteLogService.sendApplicationStateMessage({
                         applicationFormModified: false,
+                        applicationFormInvalid: false,
                         applicationSaveState: ApplicationSaveState.idle
                     });
                     this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
@@ -181,6 +182,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
                     this.siteLogService.sendApplicationStateMessage({
                         applicationFormModified: false,
+                        applicationFormInvalid: false,
                         applicationSaveState: ApplicationSaveState.saving
                     });
                     return;
@@ -194,10 +196,12 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         this.siteLogForm.markAsPristine();
                         this.siteLogService.sendApplicationStateMessage({
                             applicationFormModified: false,
+                            applicationFormInvalid: false,
                             applicationSaveState: ApplicationSaveState.saved
                         });
                         this.siteLogService.sendApplicationStateMessage({
                             applicationFormModified: false,
+                            applicationFormInvalid: false,
                             applicationSaveState: ApplicationSaveState.idle
                         });
                         this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
@@ -300,36 +304,19 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      */
     private setupSubscriptions() {
         this.siteLogForm.valueChanges.debounceTime(500).subscribe((value: any) => {
-            if (this.siteLogForm.dirty) {
-                this.siteLogService.sendApplicationStateMessage({
-                    applicationFormModified: true,
-                    applicationSaveState: ApplicationSaveState.idle
-                });
-                console.log('form dirty - yes: ', value);
-            } else {
-                this.siteLogService.sendApplicationStateMessage({
-                    applicationFormModified: false,
-                    applicationSaveState: ApplicationSaveState.idle
-                });
-                console.log('form dirty - no: ', value);
-            }
+            this.siteLogService.sendApplicationStateMessage({
+                applicationFormModified: this.siteLogForm.dirty,
+                applicationFormInvalid: this.siteLogForm.invalid,
+                applicationSaveState: ApplicationSaveState.idle
+            });
         });
 
         this.siteLogForm.statusChanges.debounceTime(500).subscribe((value: any) => {
-            console.debug('form status change: ', this.siteLogForm);
-            if (this.siteLogForm.dirty) {
-                this.siteLogService.sendApplicationStateMessage({
-                    applicationFormModified: true,
-                    applicationSaveState: ApplicationSaveState.idle
-                });
-                console.log('form dirty - yes: ', value);
-            } else {
-                this.siteLogService.sendApplicationStateMessage({
-                    applicationFormModified: false,
-                    applicationSaveState: ApplicationSaveState.idle
-                });
-                console.log('form dirty - no: ', value);
-            }
+            this.siteLogService.sendApplicationStateMessage({
+                applicationFormModified: this.siteLogForm.dirty,
+                applicationFormInvalid: this.siteLogForm.invalid,
+                applicationSaveState: ApplicationSaveState.idle
+            });
         });
     }
 

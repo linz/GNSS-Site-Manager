@@ -70,9 +70,8 @@ export class StatusInfoComponent implements OnInit {
 
     private setupSiteLogSubscription(): void {
         this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
-            if (applicationState.applicationFormModified) {
-                this.isFormModified = true;
-            }
+            this.isFormModified = applicationState.applicationFormModified;
+            this.isFormInvalid = applicationState.applicationFormInvalid;
         });
     }
 
