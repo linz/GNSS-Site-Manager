@@ -60,13 +60,19 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         let headerHtml: string = '';
         if (this.responsibleParty.individualName) {
             headerHtml = this.responsibleParty.individualName;
+        } else if (this.itemGroup.controls['individualName']) {
+            headerHtml = this.itemGroup.controls['individualName'].value;
         }
 
-        if (this.responsibleParty.organisationName) {
+        let organisationName: string = this.responsibleParty.organisationName ?
+                                       this.responsibleParty.organisationName :
+                                       (this.itemGroup.controls['organisationName'] ?
+                                       this.itemGroup.controls['organisationName'].value : '');
+        if (organisationName) {
             if (headerHtml) {
-                headerHtml += ' <span class="hidden-xsm">(' + this.responsibleParty.organisationName + ')</span>';
+                headerHtml += ' <span class="hidden-xsm">(' + organisationName + ')</span>';
             } else {
-                headerHtml = '<span>' + this.responsibleParty.organisationName + ' </span>';
+                headerHtml = '<span>' + organisationName + ' </span>';
             }
         }
 
@@ -83,12 +89,12 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {individualName: new FormControl(' ',[Validators.required, Validators.maxLength(100)])},
-            {organisationName: new FormControl(' ',[Validators.required, Validators.maxLength(100)])},
+            {individualName: new FormControl(' ',[Validators.maxLength(100)])},
+            {organisationName: new FormControl(' ',[Validators.maxLength(100)])},
             {positionName: new FormControl('', [Validators.maxLength(50)])},
             {deliveryPoint: new FormControl('', [Validators.maxLength(50)])},
             {city: new FormControl('', [Validators.maxLength(50)])},
-            {administrativeArea: new FormControl(' ', [Validators.required, Validators.maxLength(50)])},
+            {administrativeArea: new FormControl(' ', [Validators.maxLength(50)])},
             {postalCode: new FormControl('', [Validators.maxLength(25)])},
             {country: new FormControl('')}, //, [Validators.maxLength(2000)]],
             {email: new FormControl('', [Validators.maxLength(50)])},
