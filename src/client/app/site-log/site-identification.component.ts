@@ -44,10 +44,8 @@ export class SiteIdentificationComponent implements OnInit {
     set siteLogModel(siteLogModel: any) {
         // Avoid errors that occurs when this form is built before the data is loaded
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
-            this._siteLogModel = siteLogModel;
             this.siteIdentification = siteLogModel.siteIdentification;
             this.siteIdentificationForm.setValue(this.siteIdentification);
-            this.changeDetectionRef.detectChanges();
         }
     }
 
@@ -55,13 +53,7 @@ export class SiteIdentificationComponent implements OnInit {
 
     private siteIdentificationForm: FormGroup;
 
-    private _siteLogModel: any;
-
     private siteIdentification: any;
-
-    get siteLogModel(): any {
-        return this._siteLogModel;
-    }
 
     constructor(private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder,
