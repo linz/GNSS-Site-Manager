@@ -37,7 +37,6 @@ export class SiteLocationComponent implements OnInit {
     set siteLogModel(siteLogModel: any) {
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
             this.siteLocation = siteLogModel.siteLocation;
-            this.changeDetectionRef.detectChanges();
             this.siteLocationForm.setValue(this.siteLocation);
         }
     }
