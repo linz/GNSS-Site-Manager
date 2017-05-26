@@ -60,13 +60,16 @@ export class DataViewTranslatorService {
      * @param target - target to write to
      */
     static translate(source: any, target: any, objectMap: ObjectMap) {
-        let mapper = createMapper({ alwaysSet: true });
+        let mapper = createMapper({ alwaysTransform: true, alwaysSet: true });
 
         for (let fieldMap of objectMap.getFieldMaps()) {
             let sourcePath = DataViewTranslatorService.toDotNotation(fieldMap.sourceField.pointer);
-            let targetPath = DataViewTranslatorService.toDotNotation(fieldMap.targetField.pointer);
+            let targetPath = DataViewTranslatorService.toDotNotation(fieldMap.targetField.pointer) + '?';
 
             mapper.map(sourcePath).to(targetPath, (source: any) => {
+                if (source === undefined) {
+                    return null;
+                }
                 if (typeof source === 'string' && fieldMap.sourceField.type === 'date' && source !== '') {
                     return MiscUtils.formatUTCDateTime(source as string);
                 }
