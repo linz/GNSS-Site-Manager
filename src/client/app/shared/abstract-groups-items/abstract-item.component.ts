@@ -126,7 +126,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     ngOnInit() {
         this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
-            console.debug('application state: ', applicationState);
             if (! applicationState.applicationFormModified) {
                 this.itemGroup.markAsPristine();
             }
@@ -137,14 +136,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
         this.addFields(this.itemGroup, this.getFormControls());
-        // Check its dirty status before doing the setValue() and restore to that state afterwards
-        let wasDirty: boolean = this.itemGroup ? this.itemGroup.dirty : true;   // True because it is new
         this.itemGroup.setValue(this.getItem());
-        if (!wasDirty) {
-            setTimeout(() => {
-                this.itemGroup.markAsPristine();
-            });
-        }
     }
 
     /**
@@ -169,7 +161,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     handleGeodesyEvents() {
             switch (this.getGeodesyEvent().name) {
                 case EventNames.newItem:
-                    this.newItem(this.getGeodesyEvent().valueNumber);
+                    this.updateNewItemFlags(this.getGeodesyEvent().valueNumber);
                     break;
                 case EventNames.none:
                     break;
@@ -205,7 +197,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     public isFormDirty(): boolean {
-        return this.itemGroup ? (this.itemGroup.dirty || this.isNew) : false;
+        return this.itemGroup && this.itemGroup.dirty;
     }
 
     public isFormInvalid(): boolean {
@@ -271,11 +263,16 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
 
     /**
-     * Event Handler - if this item has the given indexOfNew, then this is a new item.
+     * Event Handler - if this item has the given indexOfNew, then update relevant flags for the new item.
      *
-     * @param indexOfNew
+     * @param indexOfNew: index of the new item in the item array
      */
-    private newItem(indexOfNew: number): void {
+    private updateNewItemFlags(indexOfNew: number): void {
+        setTimeout(() => {
+            if (this.itemGroup) {
+                this.itemGroup.markAsDirty();
+            }
+        });
         if (this.getIndex() === indexOfNew) {
             this.isNew = true;
             this.isOpen = true;

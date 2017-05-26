@@ -235,14 +235,13 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             }
         }
 
-        (<FormGroup>this.groupArrayForm.at(itemIndex)).reset();
         (<FormGroup>this.groupArrayForm.at(itemIndex)).markAsPristine();
         this.itemProperties.splice(itemIndex, 1);
-        this.groupArrayForm.controls.splice(itemIndex, 1);
+        this.groupArrayForm.removeAt(itemIndex);
     }
 
     public isFormDirty(): boolean {
-        return this.groupArrayForm ? this.groupArrayForm.dirty : false;
+        return this.groupArrayForm && this.groupArrayForm.dirty;
     }
 
     public isFormInvalid(): boolean {
@@ -280,13 +279,12 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         if (formGroup.controls['dateInserted']) {
             formGroup.controls['dateInserted'].setValue(dateUtc);
         }
-
     }
 
     /**
      * Update EndDate field for the second item which was the current one before adding a new item.
      *
-     * @param datetime: the datetime string to be set for EndDate
+     * @param dateUtc: the UTC datetime string to be set to EndDate
      */
     private updateEndDateForSecondItem(dateUtc: string) {
         let index: number = 1;

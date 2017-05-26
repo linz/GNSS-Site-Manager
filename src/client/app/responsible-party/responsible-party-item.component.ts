@@ -60,13 +60,19 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         let headerHtml: string = '';
         if (this.responsibleParty.individualName) {
             headerHtml = this.responsibleParty.individualName;
+        } else if (this.itemGroup.controls['individualName']) {
+            headerHtml = this.itemGroup.controls['individualName'].value;
         }
 
-        if (this.responsibleParty.organisationName) {
+        let organisationName: string = this.responsibleParty.organisationName ?
+                                       this.responsibleParty.organisationName :
+                                       (this.itemGroup.controls['organisationName'] ?
+                                       this.itemGroup.controls['organisationName'].value : '');
+        if (organisationName) {
             if (headerHtml) {
-                headerHtml += ' <span class="hidden-xsm">(' + this.responsibleParty.organisationName + ')</span>';
+                headerHtml += ' <span class="hidden-xsm">(' + organisationName + ')</span>';
             } else {
-                headerHtml = '<span>' + this.responsibleParty.organisationName + ' </span>';
+                headerHtml = '<span>' + organisationName + ' </span>';
             }
         }
 
