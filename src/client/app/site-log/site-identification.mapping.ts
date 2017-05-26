@@ -61,14 +61,9 @@ export class SiteIdentificationMappings extends AbstractViewModel {
         this.addFieldMapping('/monumentInscription', 'string',
             '/monumentInscription', 'string');
 
-        this.addFieldMapping('/monumentNumber', 'string',
-            '/monumentNumber', 'string');
-
         this.addFieldMapping('/notes', 'string',
             '/notes', 'string');
 
-        this.addFieldMapping('/receiverNumber', 'string',
-            '/receiverNumber', 'string');
 
         this.addFieldMapping('/siteName', 'string',
             '/siteName', 'string');
