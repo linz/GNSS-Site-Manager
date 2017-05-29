@@ -1,8 +1,9 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the status information component which shows the status of user login and roles, selected site,
@@ -14,17 +15,23 @@ import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
     templateUrl: 'status-info.component.html',
     styleUrls: ['status-info.component.css']
 })
-export class StatusInfoComponent implements OnInit {
+export class StatusInfoComponent implements OnInit, OnDestroy {
     public siteId: string;
     public user: User | null = null;
     public isFormModified: boolean = false;
     public isFormInvalid: boolean = false;
+    private unsubscribe: Subject<void> = new Subject<void>();
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private userAuthService: UserAuthService,
         private siteLogService: SiteLogService) {
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     ngOnInit(): void {
@@ -56,6 +63,7 @@ export class StatusInfoComponent implements OnInit {
     private setupRouterSubscription(): void {
         this.router.events
             .filter(event => event instanceof NavigationEnd)
+            .takeUntil(this.unsubscribe)
             .subscribe(event => {
                 let currentRoute: ActivatedRoute = this.route.root;
                 while (currentRoute.children[0] !== undefined) {
@@ -69,14 +77,18 @@ export class StatusInfoComponent implements OnInit {
     }
 
     private setupSiteLogSubscription(): void {
-        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
-            this.isFormModified = applicationState.applicationFormModified;
-            this.isFormInvalid = applicationState.applicationFormInvalid;
-        });
+        this.siteLogService.getApplicationStateSubscription()
+            .takeUntil(this.unsubscribe)
+            .subscribe((applicationState: ApplicationState) => {
+                this.isFormModified = applicationState.applicationFormModified;
+                this.isFormInvalid = applicationState.applicationFormInvalid;
+            });
     }
 
     private setupAuthSubscription(): void {
-        this.userAuthService.userLoadedEvent.subscribe((u: User) => {
+        this.userAuthService.userLoadedEvent
+            .takeUntil(this.unsubscribe)
+            .subscribe((u: User) => {
             this.user = u;
         });
     }

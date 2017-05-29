@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { JsonixService } from '../jsonix/jsonix.service';
 import { Http, Response, ResponseOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
@@ -7,6 +7,7 @@ import 'rxjs/add/operator/catch';
 import { HttpUtilsService } from '../global/http-utils.service';
 import { ConstantsService } from '../global/constants.service';
 import * as _ from 'lodash';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class provides the service to work with WFS in Geoservers.
@@ -19,7 +20,8 @@ export interface SelectSiteSearchType {
 }
 
 @Injectable()
-export class WFSService {
+export class WFSService implements OnDestroy {
+    private unsubscribe: Subject<void> = new Subject<void>();
 
     /**
      * Creates a new CorsSetupService with the injected Http.
@@ -29,6 +31,11 @@ export class WFSService {
      * @constructor
      */
     constructor(private jsonixService: JsonixService, private http: Http, private constantsService: ConstantsService) {
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     /**
@@ -53,19 +60,21 @@ export class WFSService {
     private doWFSQuery(xmlQuery: string): Observable<any> {
         let content: any;
         return new Observable((observer: any) => {
-            this.doWFSPost(xmlQuery).subscribe(
-                (responseJson: any) => {
-                    try {
-                        let response: Response = this.handleWFSPostResponse(responseJson);
-                        content = this.getContent(response);
-                    } catch (error) {
-                        observer.error(new Error(error));
-                    }
-                    observer.next(content);
-                    observer.complete();
-                },
-                (error: Error) => HttpUtilsService.handleError
-            );
+            this.doWFSPost(xmlQuery)
+                .takeUntil(this.unsubscribe)
+                .subscribe(
+                    (responseJson: any) => {
+                        try {
+                            let response: Response = this.handleWFSPostResponse(responseJson);
+                            content = this.getContent(response);
+                        } catch (error) {
+                            observer.error(new Error(error));
+                        }
+                        observer.next(content);
+                        observer.complete();
+                    },
+                    (error: Error) => HttpUtilsService.handleError
+                );
         });
     }
 

@@ -1,12 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs/Subscription';
 import { User } from 'oidc-client';
-import { ConstantsService, DialogService, MiscUtils, SiteLogService } from '../shared/index';
+import { DialogService, MiscUtils, SiteLogService } from '../shared/index';
 import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
-import { AbstractControl, FormBuilder, FormGroup, FormArray, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import * as _ from 'lodash';
 import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
 import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
@@ -17,9 +16,8 @@ import { LocalEpisodicEffectsGroupComponent } from '../local-episodic-effect/loc
 import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-local-ties-group.component';
 import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
-import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { StatusInfoComponent } from '../shared/status-info/status-info.component';
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
+import { Subject } from 'rxjs/Subject';
 
 /**
  * This class represents the SiteLogComponent for viewing and editing the details of site/receiver/antenna.
@@ -36,19 +34,18 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     public siteLogForm: FormGroup;
 
     public siteInformationForm: FormGroup;
-    public responsiblePartyType: any = ResponsiblePartyType;
+    public responsiblePartyType: any = ResponsiblePartyType;    // Used in template
     public siteLogModel: SiteLogViewModel;
 
     private siteId: string;
     private isLoading: boolean = false;
     private reverting: boolean = false;
-    private isSiteInfoFormOpen: boolean = false;
     private siteIdentification: any = null;
     private siteLocation: any = {};
     private siteContacts: Array<any> = [];
-    private siteLogTab: any = null;
     private submitted: boolean = false;
-    private authSubscription: Subscription;
+
+    private unsubscribe: Subject<void> = new Subject<void>();
 
     /**
      * Creates an instance of the SiteLogComponent with the injected Router/ActivatedRoute/CorsSite Services.
@@ -64,8 +61,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 private dialogService: DialogService,
                 private siteLogService: SiteLogService,
                 private userAuthService: UserAuthService,
-                private formBuilder: FormBuilder,
-                private _changeDetectionRef: ChangeDetectorRef) {
+                private formBuilder: FormBuilder) {
     }
 
     @HostListener('window:beforeunload', ['$event'])
@@ -84,7 +80,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             this.siteId = id;
         });
 
-        this.authSubscription = this.setupAuthSubscription();
+        this.setupAuthSubscription();
         this.setupForm();
         this.loadSiteLogData();
         this.setupSubscriptions();
@@ -103,25 +99,27 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         this.submitted = false;
 
-        this.siteLogTab = this.route.params.subscribe(() => {
-            this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId).subscribe(
-                (response: SiteLogViewModel) => {
-                    this.siteLogModel = response;
-                    console.debug('loadSiteLogData - siteLogModel: ', this.siteLogModel);
+        this.route.params.subscribe(() => {
+            this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId)
+                .takeUntil(this.unsubscribe)
+                .subscribe(
+                    (response: SiteLogViewModel) => {
+                        this.siteLogModel = response;
+                        console.debug('loadSiteLogData - siteLogModel: ', this.siteLogModel);
 
-                    this.isLoading = false;
-                    this.siteLogService.sendApplicationStateMessage({
-                        applicationFormModified: false,
-                        applicationFormInvalid: false,
-                        applicationSaveState: ApplicationSaveState.idle
-                    });
-                    this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
-                },
-                (error: Error) => {
-                    this.isLoading = false;
-                    this.dialogService.showErrorMessage('No site log found for ' + this.siteId);
-                }
-            );
+                        this.isLoading = false;
+                        this.siteLogService.sendApplicationStateMessage({
+                            applicationFormModified: false,
+                            applicationFormInvalid: false,
+                            applicationSaveState: ApplicationSaveState.idle
+                        });
+                        this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
+                    },
+                    (error: Error) => {
+                        this.isLoading = false;
+                        this.dialogService.showErrorMessage('No site log found for ' + this.siteId);
+                    }
+                );
         });
     }
 
@@ -129,21 +127,15 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * Clear all variables/arrays
      */
     public ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+
         this.isLoading = false;
         this.siteId = null;
         this.siteLogModel = null;
         this.siteIdentification = null;
         this.siteLocation = null;
         this.siteContacts.length = 0;
-        if (this.authSubscription) {
-            this.authSubscription.unsubscribe();
-        }
-
-        // It seems that ngOnDestroy is called when the object is destroyed, but ngOnInit isn't called every time an
-        // object is created.  Hence this field might not have been created.
-        if (this.siteLogTab !== undefined && this.siteLogTab !== null) {
-            this.siteLogTab.unsubscribe();
-        }
     }
 
     /**
@@ -190,28 +182,30 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
                 this.isLoading = true;
                 this.submitted = true;
-                this.siteLogService.saveSiteLog(this.siteLogModel).subscribe(
-                    (responseJson: any) => {
-                        this.isLoading = false;
-                        this.siteLogForm.markAsPristine();
-                        this.siteLogService.sendApplicationStateMessage({
-                            applicationFormModified: false,
-                            applicationFormInvalid: false,
-                            applicationSaveState: ApplicationSaveState.saved
-                        });
-                        this.siteLogService.sendApplicationStateMessage({
-                            applicationFormModified: false,
-                            applicationFormInvalid: false,
-                            applicationSaveState: ApplicationSaveState.idle
-                        });
-                        this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
-                    },
-                    (error: Error) => {
-                        this.isLoading = false;
-                        console.error(error);
-                        this.dialogService.showErrorMessage('Error in saving SiteLog data for ' + this.siteId);
-                    }
-                );
+                this.siteLogService.saveSiteLog(this.siteLogModel)
+                    .takeUntil(this.unsubscribe)
+                    .subscribe(
+                        (responseJson: any) => {
+                            this.isLoading = false;
+                            this.siteLogForm.markAsPristine();
+                            this.siteLogService.sendApplicationStateMessage({
+                                applicationFormModified: false,
+                                applicationFormInvalid: false,
+                                applicationSaveState: ApplicationSaveState.saved
+                            });
+                            this.siteLogService.sendApplicationStateMessage({
+                                applicationFormModified: false,
+                                applicationFormInvalid: false,
+                                applicationSaveState: ApplicationSaveState.idle
+                            });
+                            this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
+                        },
+                        (error: Error) => {
+                            this.isLoading = false;
+                            console.error(error);
+                            this.dialogService.showErrorMessage('Error in saving SiteLog data for ' + this.siteId);
+                        }
+                    );
             },
             () => {
                 this.dialogService.showLogMessage('Cancelled in saving SiteLog data for ' + this.siteId);
@@ -289,35 +283,41 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.siteLogForm.addControl('siteInformation', this.siteInformationForm);
     }
 
-    private setupAuthSubscription(): Subscription {
-        return this.userAuthService.userLoadedEvent.subscribe((_: User) => {
-            if (this.userAuthService.hasAuthorityToEditSite()) {
-                this.siteLogForm.enable();
-            } else {
-                this.siteLogForm.disable();
-            }
-        });
+    private setupAuthSubscription() {
+        this.userAuthService.userLoadedEvent
+            .takeUntil(this.unsubscribe)
+            .subscribe((_: User) => {
+                if (this.userAuthService.hasAuthorityToEditSite()) {
+                    this.siteLogForm.enable();
+                } else {
+                    this.siteLogForm.disable();
+                }
+            });
     }
 
     /**
      * Template and Model driven forms are handled differently and separately
      */
     private setupSubscriptions() {
-        this.siteLogForm.valueChanges.debounceTime(500).subscribe((value: any) => {
-            this.siteLogService.sendApplicationStateMessage({
-                applicationFormModified: this.siteLogForm.dirty,
-                applicationFormInvalid: this.siteLogForm.invalid,
-                applicationSaveState: ApplicationSaveState.idle
+        this.siteLogForm.valueChanges.debounceTime(500)
+            .takeUntil(this.unsubscribe)
+            .subscribe((value: any) => {
+                this.siteLogService.sendApplicationStateMessage({
+                    applicationFormModified: this.siteLogForm.dirty,
+                    applicationFormInvalid: this.siteLogForm.invalid,
+                    applicationSaveState: ApplicationSaveState.idle
+                });
             });
-        });
 
-        this.siteLogForm.statusChanges.debounceTime(500).subscribe((value: any) => {
-            this.siteLogService.sendApplicationStateMessage({
-                applicationFormModified: this.siteLogForm.dirty,
-                applicationFormInvalid: this.siteLogForm.invalid,
-                applicationSaveState: ApplicationSaveState.idle
+        this.siteLogForm.statusChanges.debounceTime(500)
+            .takeUntil(this.unsubscribe)
+            .subscribe((value: any) => {
+                this.siteLogService.sendApplicationStateMessage({
+                    applicationFormModified: this.siteLogForm.dirty,
+                    applicationFormInvalid: this.siteLogForm.invalid,
+                    applicationSaveState: ApplicationSaveState.idle
+                });
             });
-        });
     }
 
     private  returnAssociatedComparator(itemName: string): any {

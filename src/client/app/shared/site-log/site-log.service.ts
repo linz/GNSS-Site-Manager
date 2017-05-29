@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Headers, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { Subject } from 'rxjs/Subject';
@@ -28,9 +28,10 @@ export interface ApplicationState {
  * This class provides the service with methods to retrieve CORS Setup info from DB.
  */
 @Injectable()
-export class SiteLogService {
+export class SiteLogService implements OnDestroy {
 
     private applicationStateSubject: Subject<ApplicationState> = new Subject();
+    private unsubscribe: Subject<void> = new Subject<void>();
 
      /**
      * Creates a new SiteLogService with the injected Http.
@@ -46,6 +47,10 @@ export class SiteLogService {
                 private authService: UserAuthService) {
     }
 
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+    }
     /**
      * Returns one site log defined by the fourCharacterId in ViewModel JSON format.
      *
@@ -55,13 +60,15 @@ export class SiteLogService {
     getSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
         return new Observable((observer: any) => {
             try {
-                this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId).subscribe(
-                    (responseJson: any) => {
-                        let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
-                        observer.next(siteLogViewModel);
-                    },
-                    (error: Error) => HttpUtilsService.handleError
-                );
+                this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
+                    .takeUntil(this.unsubscribe)
+                    .subscribe(
+                        (responseJson: any) => {
+                            let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
+                            observer.next(siteLogViewModel);
+                        },
+                        (error: Error) => HttpUtilsService.handleError
+                    );
             } catch (error) {
                 observer.error(new Error(error));
             }
