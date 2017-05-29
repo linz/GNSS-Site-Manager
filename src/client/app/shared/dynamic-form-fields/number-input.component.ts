@@ -37,11 +37,9 @@ function validatorFnFactory(min: number, max: number) {
     selector: 'number-input',
     templateUrl: 'number-input.component.html',
     styleUrls: ['form-input.component.css'],
-        providers: [CHILD_FORM_VALUE_ACCESSOR, CHILD_FORM_VALIDATORS]
+    providers: [CHILD_FORM_VALUE_ACCESSOR, CHILD_FORM_VALIDATORS]
 })
 export class NumberInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
-    @Input() index: string = '0';
-    @Input() name: string = '';
     @Input() public label: string = '';
     @Input() public required: boolean = false;
     @Input() public step: string = '';
@@ -50,42 +48,20 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
 
     private validator: ValidatorFn;
 
-    private _value: string = '';
-    private minNumber: number;
-    private maxNumber: number;
-
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
 
     ngOnInit() {
         this.checkPreConditions();
 
-        this.maxNumber = MiscUtils.stringToNumber(this.max);
-        this.minNumber = MiscUtils.stringToNumber(this.min);
-        this.validator = validatorFnFactory(this.minNumber, this.maxNumber);
+        let maxNumber: number = MiscUtils.stringToNumber(this.max);
+        let minNumber: number = MiscUtils.stringToNumber(this.min);
+        this.validator = validatorFnFactory(minNumber, maxNumber);
 
         super.setForm(this.form);
     }
 
-    get value(): string {
-        return this._value;
-    }
-
-    set value(value: string) {
-        let valueNumber: number = MiscUtils.stringToNumber(value);
-        if (value && value !== this._value && MiscUtils.isNumeric(valueNumber)
-            && valueNumber >= this.minNumber && valueNumber <= this.maxNumber) {
-            this._value = value;
-            this.propagateChange(value);
-        }
-    }
-
-    writeValue(value: string) {
-        if (value !== undefined && value !== this.value) {
-            this.value = value;
-        }
-    }
-
+    writeValue(value: string) {}
 
     registerOnChange(fn: Function) {
         this.propagateChange = fn;
