@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
@@ -13,7 +13,7 @@ import { DialogService, CorsSiteService, ServiceWorkerService } from '../shared/
     selector: 'sd-select-site',
     templateUrl: 'select-site.component.html',
 })
-export class SelectSiteComponent implements OnInit, AfterViewInit {
+export class SelectSiteComponent implements OnInit, AfterViewInit, OnDestroy {
     public columns: Array<any> = [
         {name: 'fourCharacterId', sort: ''},
         {name: 'name', sort: ''}
@@ -30,6 +30,8 @@ export class SelectSiteComponent implements OnInit, AfterViewInit {
     private errorMessage: string;
     private isSearching: boolean = false;
     private cacheItems: Array<string> = [];
+
+    private unsubscribe: Subject<void> = new Subject<void>();
 
     /**
      * Creates an instance of the SelectSiteComponent with the injected CorsSiteService.
@@ -50,10 +52,16 @@ export class SelectSiteComponent implements OnInit, AfterViewInit {
     ngOnInit() {
         this.searchTextSubject
             .debounceTime(400)
+            .takeUntil(this.unsubscribe)
             .subscribe((newText: string) => this.onSearchTextChange(newText));
         this.setupSubscriptions();
         this.clearAll();
         this.updateCacheList();
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     ngAfterViewInit(): void {
@@ -61,11 +69,13 @@ export class SelectSiteComponent implements OnInit, AfterViewInit {
     }
 
     setupSubscriptions() {
-        this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
-            if (isCacheChanged) {
-                this.updateCacheList();
-            }
-        });
+        this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable
+            .takeUntil(this.unsubscribe)
+            .subscribe((isCacheChanged: boolean) => {
+                if (isCacheChanged) {
+                    this.updateCacheList();
+                }
+            });
     }
 
     /**
@@ -94,6 +104,7 @@ export class SelectSiteComponent implements OnInit, AfterViewInit {
         this.isSearching = true;
         this.sites = [];
         this.corsSiteService.getCorsSitesByUsingWFS(fourCharacterId, siteName)
+            .takeUntil(this.unsubscribe)
             .subscribe(
                 (responseJson: any) => this.sites = responseJson,
                 (error: Error) => this.errorMessage = <any>error,

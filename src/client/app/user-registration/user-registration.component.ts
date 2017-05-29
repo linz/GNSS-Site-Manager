@@ -1,7 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs/Subscription';
+import { FormBuilder } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../shared/index';
 import { UserAuthService } from '../shared/global/user-auth.service';
@@ -11,7 +10,7 @@ import { UserAuthService } from '../shared/global/user-auth.service';
     selector: 'sd-user-registration',
     templateUrl: 'user-registration.component.html',
 })
-export class UserRegistrationComponent {
+export class UserRegistrationComponent implements OnDestroy {
 
     userRegistrationForm = this.formBuilder.group({
         firstName: [''],
@@ -23,12 +22,19 @@ export class UserRegistrationComponent {
         remarks: [''],
     });
 
+    private unsubscribe: Subject<void> = new Subject<void>();
+
     constructor(
         private location: Location,
         private formBuilder: FormBuilder,
         private userService: UserAuthService,
         private dialogs: DialogService,
     ) {}
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
+    }
 
     public cancel() {
         this.location.back();
@@ -37,6 +43,7 @@ export class UserRegistrationComponent {
     public submit() {
         console.log(this.userRegistrationForm.getRawValue());
         this.userService.requestNewUser(this.userRegistrationForm.getRawValue())
+            .takeUntil(this.unsubscribe)
             .subscribe(() =>
                 this.dialogs.showNotificationDialog(
                     `Thank you for registering. You will be contacted by GNSS Operations

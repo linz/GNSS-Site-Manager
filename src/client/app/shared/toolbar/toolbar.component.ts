@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription } from 'rxjs/Subscription';
+import { Subject } from 'rxjs/Subject';
 import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
@@ -15,7 +16,7 @@ import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
     templateUrl: 'toolbar.component.html',
     styleUrls: ['toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent implements OnInit, OnDestroy {
     public siteId: string;
     public user: User | null = null;
     @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -29,12 +30,19 @@ export class ToolbarComponent implements OnInit {
     private isFormModified: boolean;
     private isFormInvalid: boolean;
 
+    private unsubscribe: Subject<void> = new Subject<void>();
+
     constructor(private serviceWorkerService: ServiceWorkerService,
         private route: ActivatedRoute,
         private router: Router,
         private userAuthService: UserAuthService,
         private siteLogService: SiteLogService,
         private dialogService: DialogService) {
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe.next();
+        this.unsubscribe.complete();
     }
 
     ngOnInit(): void {
@@ -114,14 +122,17 @@ export class ToolbarComponent implements OnInit {
     }
 
     private setupServiceWorkerSubscription(): void {
-        this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable.subscribe((isCacheChanged: boolean) => {
-            if (isCacheChanged) {
-                this.updateCacheList();
-            }
-        });
+        this.serviceWorkerSubscription = this.serviceWorkerService.clearCacheObservable
+            .takeUntil(this.unsubscribe)
+            .subscribe((isCacheChanged: boolean) => {
+                if (isCacheChanged) {
+                    this.updateCacheList();
+                }
+            });
     }
 
     private setupRouterSubscription(): void {
+        // Route subscriptions dont ened to be unsubscribed from. See edit1 in https://stackoverflow.com/a/41177163/1019307.
         this.router.events
             .filter(event => event instanceof NavigationEnd)
             .subscribe(event => {
@@ -137,16 +148,20 @@ export class ToolbarComponent implements OnInit {
     }
 
     private setupSiteLogSubscription(): void {
-        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
-            this.isFormModified = applicationState.applicationFormModified;
-            this.isFormInvalid = applicationState.applicationFormInvalid;
-        });
+        this.siteLogService.getApplicationStateSubscription()
+            .takeUntil(this.unsubscribe)
+            .subscribe((applicationState: ApplicationState) => {
+                this.isFormModified = applicationState.applicationFormModified;
+                this.isFormInvalid = applicationState.applicationFormInvalid;
+            });
     }
 
     private setupAuthSubscription(): void {
-        this.loadedUserSub = this.userAuthService.userLoadedEvent.subscribe((u: User) => {
-            this.user = u;
-        });
+        this.loadedUserSub = this.userAuthService.userLoadedEvent
+            .takeUntil(this.unsubscribe)
+            .subscribe((u: User) => {
+                this.user = u;
+            });
     }
 
     private getAuthorisedSites(): string {
