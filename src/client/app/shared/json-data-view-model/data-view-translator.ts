@@ -67,12 +67,23 @@ export class DataViewTranslatorService {
             let targetPath = DataViewTranslatorService.toDotNotation(fieldMap.targetField.pointer) + '?';
 
             mapper.map(sourcePath).to(targetPath, (source: any) => {
+
+                // TODO tidy up the logic in this block
+                // especially if/when we refactor the field mapping in the models
+ 
+                // specially handle undefined, note I think this needs to be here for number types but not certain
                 if (source === undefined) {
                     return null;
                 }
-                if (typeof source === 'string' && fieldMap.sourceField.type === 'date' && source !== '') {
+                // special handling for string types to handle missing values
+                if (typeof source === 'string' && fieldMap.sourceField.type === 'string' && !source) {
+                    return null;
+                }
+                // format a date type iff it has a value
+                if (typeof source === 'string' && fieldMap.sourceField.type === 'date' && source) {
                     return MiscUtils.formatUTCDateTime(source as string);
                 }
+
                 return source;
             });
         }

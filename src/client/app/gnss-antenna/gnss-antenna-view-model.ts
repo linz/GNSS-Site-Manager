@@ -2,18 +2,18 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 
 export class GnssAntennaViewModel extends AbstractViewModel {
 
-    public antennaType: string = '';
-    public serialNumber: string = '';
-    public antennaReferencePoint: string = '';
-    public markerArpEastEcc: number = 0;
-    public markerArpUpEcc: number = 0;
-    public markerArpNorthEcc: number = 0;
-    public alignmentFromTrueNorth: number = 0;
-    public antennaRadomeType: string = '';
-    public radomeSerialNumber: string = '';
-    public antennaCableType: string = '';
-    public antennaCableLength: number = 0;
-    public notes: string = '';
+    public antennaType: string = null;
+    public serialNumber: string = null;
+    public antennaReferencePoint: string = null;
+    public markerArpEastEcc: number = null;
+    public markerArpUpEcc: number = null;
+    public markerArpNorthEcc: number = null;
+    public alignmentFromTrueNorth: number = null;
+    public antennaRadomeType: string = null;
+    public radomeSerialNumber: string = null;
+    public antennaCableType: string = null;
+    public antennaCableLength: number = null;
+    public notes: string = null;
 
     constructor() {
         super();

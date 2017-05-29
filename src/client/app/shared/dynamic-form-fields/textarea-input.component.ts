@@ -22,7 +22,6 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
     @Input() public required: boolean = false;
     @Input() public rows: string = '';
     @Input() public maxlength: string = '';
-    private _model: string = '';
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
@@ -32,22 +31,7 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
         super.setForm(this.form);
     }
 
-    get model(): string {
-        return this._model;
-    }
-
-    set model(value: string) {
-        if (value !== undefined && value !== this._model) {
-            this._model = value;
-            this.propagateChange(value);
-        }
-    }
-
-    writeValue(value: string) {
-        if (value !== undefined && value !== this._model) {
-            this.model = value;
-        }
-    }
+    writeValue(value: string) {}
 
     registerOnChange(fn: Function) {
         this.propagateChange = fn;
