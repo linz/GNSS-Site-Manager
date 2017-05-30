@@ -12,15 +12,15 @@ export function main() {
     it('test default constructor and all fields are created', () => {
       expect(temperatureSensorsViewModel).toBeDefined();
 
-      expect(temperatureSensorsViewModel.accuracyDegreesCelcius).toEqual(0);
-      expect(temperatureSensorsViewModel.dataSamplingInterval).toEqual(0);
-      expect(temperatureSensorsViewModel.heightDiffToAntenna).toEqual(0);
-      expect(temperatureSensorsViewModel.manufacturer).toEqual('');
-      expect(temperatureSensorsViewModel.notes).toEqual('');
-      expect(temperatureSensorsViewModel.serialNumber).toEqual('');
-      expect(temperatureSensorsViewModel.calibrationDate).toEqual('');
-      expect(temperatureSensorsViewModel.startDate).toEqual('');
-      expect(temperatureSensorsViewModel.endDate).toEqual('');
+      expect(temperatureSensorsViewModel.accuracyDegreesCelcius).toBeNull();
+      expect(temperatureSensorsViewModel.dataSamplingInterval).toBeNull();
+      expect(temperatureSensorsViewModel.heightDiffToAntenna).toBeNull();
+      expect(temperatureSensorsViewModel.manufacturer).toBeNull();
+      expect(temperatureSensorsViewModel.notes).toBeNull();
+      expect(temperatureSensorsViewModel.serialNumber).toBeNull();
+      expect(temperatureSensorsViewModel.calibrationDate).toBeNull();
+      expect(temperatureSensorsViewModel.startDate).toBeNull();
+      expect(temperatureSensorsViewModel.endDate).toBeNull();
     });
   });
 }

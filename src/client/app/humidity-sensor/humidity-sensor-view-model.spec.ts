@@ -12,16 +12,16 @@ export function main() {
     it('test default constructor and all fields are created', () => {
       expect(humiditySensorsViewModel).toBeDefined();
 
-      expect(humiditySensorsViewModel.accuracyPercentRelativeHumidity).toEqual(0);
-      expect(humiditySensorsViewModel.aspiration).toEqual('');
-      expect(humiditySensorsViewModel.dataSamplingInterval).toEqual(0);
-      expect(humiditySensorsViewModel.heightDiffToAntenna).toEqual(0);
-      expect(humiditySensorsViewModel.manufacturer).toEqual('');
-      expect(humiditySensorsViewModel.notes).toEqual('');
-      expect(humiditySensorsViewModel.serialNumber).toEqual('');
-      expect(humiditySensorsViewModel.calibrationDate).toEqual('');
-      expect(humiditySensorsViewModel.startDate).toEqual('');
-      expect(humiditySensorsViewModel.endDate).toEqual('');
+      expect(humiditySensorsViewModel.accuracyPercentRelativeHumidity).toBeNull();
+      expect(humiditySensorsViewModel.aspiration).toBeNull();
+      expect(humiditySensorsViewModel.dataSamplingInterval).toBeNull();
+      expect(humiditySensorsViewModel.heightDiffToAntenna).toBeNull();
+      expect(humiditySensorsViewModel.manufacturer).toBeNull();
+      expect(humiditySensorsViewModel.notes).toBeNull();
+      expect(humiditySensorsViewModel.serialNumber).toBeNull();
+      expect(humiditySensorsViewModel.calibrationDate).toBeNull();
+      expect(humiditySensorsViewModel.startDate).toBeNull();
+      expect(humiditySensorsViewModel.endDate).toBeNull();
     });
   });
 }
