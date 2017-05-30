@@ -92,11 +92,11 @@ export abstract class AbstractViewModel {
     public abstract createFieldMappings(): void;
 
     private setDefaultValues() {
-        this.dateDeleted = '';
-        this.dateInserted = '';
-        this.deletedReason = '';
-        this.startDate = '';
-        this.endDate = '';
+        this.dateDeleted = null;
+        this.dateInserted = null;
+        this.deletedReason = null;
+        this.startDate = null;
+        this.endDate = null;
     }
 
     private assertCorrect(dataPath: string, dataPathType: string, viewPath: string, viewPathType: string) {

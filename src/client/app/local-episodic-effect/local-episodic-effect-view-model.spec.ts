@@ -11,9 +11,9 @@ export function main() {
 
     it('test default constructor and all fields are created', () => {
       expect(localEpisodicEffectViewModel).toBeDefined();
-      expect(localEpisodicEffectViewModel.event).toEqual('');
-      expect(localEpisodicEffectViewModel.startDate).toEqual('');
-      expect(localEpisodicEffectViewModel.endDate).toEqual('');
+      expect(localEpisodicEffectViewModel.event).toBeNull();
+      expect(localEpisodicEffectViewModel.startDate).toBeNull();
+      expect(localEpisodicEffectViewModel.endDate).toBeNull();
     });
   });
 }
