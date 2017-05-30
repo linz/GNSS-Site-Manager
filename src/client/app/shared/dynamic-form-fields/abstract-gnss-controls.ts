@@ -1,9 +1,6 @@
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Input } from '@angular/core';
 
-export const validDatetimeFormat: RegExp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1]) ([0-1]\d|2[0-3]):([0-5]\d):([0-5]\d)$/g;
-export const validDatetimeFormatHuman: string = 'YYYY-MM-DD hh:mm:ss';
-
 export abstract class AbstractGnssControls {
     @Input() controlName: string;
     @Input() form: FormGroup;
@@ -36,13 +33,7 @@ export abstract class AbstractGnssControls {
                 } else if (e === 'minlength') {
                     errString += 'Minimum length not reached: ' + control.errors[e].requiredLength;
                 } else if (e === 'pattern') {
-                    let pat: string;
-                    if (control.errors[e].requiredPattern === validDatetimeFormat.toString()) {
-                        pat = validDatetimeFormatHuman;
-                    } else {
-                        pat = control.errors[e].requiredPattern.toString();
-                    }
-                    errString += 'pattern required: ' + pat;
+                    errString += 'pattern required: ' + control.errors[e].requiredPattern.toString();
                 } else if (e === 'required') {
                     errString += 'Field required';
                 } else if (e === 'outside_range') {

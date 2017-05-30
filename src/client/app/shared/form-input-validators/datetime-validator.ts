@@ -1,4 +1,3 @@
-import { Directive, forwardRef } from '@angular/core';
 import { FormControl, Validator } from '@angular/forms';
 import * as moment from 'moment';
 
