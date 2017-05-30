@@ -1,6 +1,7 @@
 import { Component, ElementRef, HostListener, Input, OnInit, DoCheck } from '@angular/core';
-import { AbstractControl, FormGroup } from '@angular/forms';
-import { AbstractGnssControls, validDatetimeFormat, validDatetimeFormatHuman } from './abstract-gnss-controls';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractGnssControls } from './abstract-gnss-controls';
+import { DatetimeValidator } from '../form-input-validators/datetime-validator';
 import { MiscUtils } from '../index';
 
 /**
@@ -21,11 +22,10 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     public invalidHours: boolean = false;
     public invalidMinutes: boolean = false;
     public invalidSeconds: boolean = false;
-    public invalidDatetime: boolean = false;
     public showDatetimePicker: boolean = false;
 
     public datetime: string = '';
-    public formControl: AbstractControl;
+    public formControl: FormControl;
     @Input() public form: FormGroup;
     @Input() public required: boolean = true;
     @Input() public label: string = '';
@@ -33,7 +33,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     private hours: number = 0;
     private minutes: number = 0;
     private seconds: number = 0;
-    private datetimeSuffix: string = '.000Z';
     private datetimeLast: string = '';
 
     constructor(private elemRef: ElementRef) {
@@ -45,10 +44,11 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     */
     ngOnInit() {
         super.setForm(this.form);
-        this.formControl = this.form.controls[this.controlName];
+        this.formControl = <FormControl>this.form.controls[this.controlName];
         this.updateCalendar();
         this.formControl.setValue(this.datetime);
         this.datetimeLast = '';
+        this.addValidatorsToFormControl();
     }
 
    /**
@@ -67,8 +67,18 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
         if (this.datetimeLast !== this.datetime) {
             this.datetimeLast = this.datetime;
-            this.validateDatetime();
         }
+    }
+
+    public addValidatorsToFormControl() {
+        let validators: any = [];
+        if (this.required) {
+            validators.push(Validators.required);
+        }
+        validators.push(new DatetimeValidator());
+        setTimeout( () => {
+            this.formControl.setValidators(validators);
+        });
     }
 
     public isFormDisabled(): boolean {
@@ -112,7 +122,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         }
 
         this.showDatetimePicker = false;
-        this.invalidDatetime = false;
         this.datetimeModel.setHours(this.hours);
         this.datetimeModel.setMinutes(this.minutes);
         this.datetimeModel.setSeconds(this.seconds);
@@ -132,7 +141,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     */
     public updateDate(event: any): void {
         this.datetimeModel = event;
-        this.invalidDatetime = false;
     }
 
    /**
@@ -259,37 +267,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         this.updateTimeStrings();
     }
 
-    public validateDatetime(): void {
-        if (this.datetime === null || this.datetime.trim().length === 0) {
-            this.invalidDatetime = this.required ? true : false;
-        } else if (this.datetime.length < 19) {
-            this.invalidDatetime = true;
-        } else {
-            if (this.datetime
-                .match(validDatetimeFormat)) {
-                this.invalidDatetime = false;
-            } else {
-                this.invalidDatetime = true;
-            }
-        }
-    }
-
-   /**
-    * Get a validation message to apply if the input string is:
-    *   1. required but not supplied, or
-    *   2. supplied but not a valid date
-    */
-    public getValidationMessage() {
-        let message = this.label + ' is ';
-        if (this.required && !this.datetime) {
-            message += ' required ';
-        } else if (this.invalidDatetime) {
-            message += ' not valid ';
-        }
-        message += '(Valid Date Format: ' + validDatetimeFormatHuman;
-        return message;
-    }
-
    /**
     * Update hour/minute/second time strings in response to any changes in hours, minutes, and seconds.
     */
@@ -304,26 +281,23 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     */
     private convertStringToDate(dtStr: string): Date {
         if (dtStr === null || dtStr.trim().length === 0) {
-            this.invalidDatetime = this.required ? true : false;
             return null;
         } else if (dtStr.trim().length < 19) {
-            this.invalidDatetime = true;
             return null;
         }
 
         let date: Date = new Date(dtStr);
         if (MiscUtils.isDate(date)) {
-            this.invalidDatetime = false;
             return date;
         }
-        this.invalidDatetime = true;
+
         return null;
     }
 
     private formatDatetimeToDisplay(datetimeStr: string): string {
         if (datetimeStr) {
             let datetimeDisplay: string = datetimeStr.replace('T', ' ');
-            return datetimeDisplay.replace(/\.\d\d\dZ/, ''); // remove '.000Z'
+            return datetimeDisplay.replace(/\.\d\d\dZ/, '');
         }
         return datetimeStr;
     }
@@ -343,7 +317,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
             + MiscUtils.padTwo(this.datetimeModel.getMinutes()) + ':'
             + MiscUtils.padTwo(this.datetimeModel.getSeconds());
 
-        this.datetime = dateStr + ' ' + timeStr;// + this.datetimeSuffix;
+        this.datetime = dateStr + ' ' + timeStr;
         this.formControl.setValue(this.datetime);
         if (this.datetime !== this.datetimeLast) {
             this.formControl.markAsDirty();

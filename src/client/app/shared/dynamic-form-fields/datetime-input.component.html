@@ -21,8 +21,8 @@
                     </button>
                 </span>
             </div>
-            <small [hidden]="!invalidDatetime" class="alert alert-danger">
-                {{getValidationMessage()}}
+            <small [hidden]="!formControl.errors" class="alert alert-danger">
+                {{getErrorReport(controlName)}}
             </small>
 
             <div class="calendar-popup" *ngIf="showDatetimePicker">
