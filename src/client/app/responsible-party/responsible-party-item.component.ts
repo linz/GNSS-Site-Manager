@@ -89,7 +89,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
-            {individualName: new FormControl(' ',[Validators.maxLength(100)])},
+            {individualName: new FormControl(' ',[Validators.required, Validators.maxLength(100)])},
             {organisationName: new FormControl(' ',[Validators.maxLength(100)])},
             {positionName: new FormControl('', [Validators.maxLength(50)])},
             {deliveryPoint: new FormControl('', [Validators.maxLength(50)])},
