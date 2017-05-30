@@ -47,6 +47,8 @@ export abstract class AbstractGnssControls {
                     errString += 'Field required';
                 } else if (e === 'outside_range') {
                     errString += 'Outside range: '+control.errors[e];
+                } else if (e === 'invalid_datetime_format') {
+                    errString += control.errors[e];
                 } else {
                     errString += e;
                     errString += JSON.stringify(control.errors[e]);
