@@ -4,17 +4,17 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
     /**
      * Not the best form making fields public, however saves clutter of creating accessors / getters for all
      */
-    public individualName: string = '';
-    public organisationName: string = '';
-    public positionName: string = '';
-    public deliveryPoint: string = '';
-    public city: string = '';
-    public administrativeArea: string = '';
-    public postalCode: string = '';
-    public country: string = '';
-    public email: string = '';
-    public phone: string = '';
-    public fax: string = '';
+    public individualName: string = null;
+    public organisationName: string = null;
+    public positionName: string = null;
+    public deliveryPoint: string = null;
+    public city: string = null;
+    public administrativeArea: string = null;
+    public postalCode: string = null;
+    public country: string = null;
+    public email: string = null;
+    public phone: string = null;
+    public fax: string = null;
 
     constructor() {
         super();
