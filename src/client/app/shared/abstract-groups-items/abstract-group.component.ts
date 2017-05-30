@@ -179,9 +179,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     setupChildItems() {
-        for (let viewModel of this.getItemsCollection()) {
+        this.getItemsCollection().forEach(() => {
             this.addChildItemToForm();
-        }
+        });
     }
 
     /**
