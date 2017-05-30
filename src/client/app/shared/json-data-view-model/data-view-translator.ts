@@ -70,7 +70,7 @@ export class DataViewTranslatorService {
 
                 // TODO tidy up the logic in this block
                 // especially if/when we refactor the field mapping in the models
- 
+
                 // specially handle undefined, note I think this needs to be here for number types but not certain
                 if (source === undefined) {
                     return null;
