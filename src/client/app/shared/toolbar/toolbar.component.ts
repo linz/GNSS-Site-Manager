@@ -71,7 +71,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     public isSaveDisabled(): boolean {
-        return !(this.hasAuthorityToEditSite() &&  this.isFormDirty());
+        return !(this.hasAuthorityToEditSite() && this.isFormDirty());
     }
 
     public isRevertDisabled(): boolean {
@@ -177,7 +177,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     private hasAuthorityToEditSite(): boolean {
-        if (! this.siteId) {
+        if (!this.siteId) {
             return false;
         }
         return this.userAuthService.hasAuthorityToEditSite(this.siteId);
