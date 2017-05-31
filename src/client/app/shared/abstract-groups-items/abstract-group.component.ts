@@ -42,7 +42,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * getItemsCollection().
      *
      */
-    private itemProperties: T[];
+    private itemProperties: T[] = [];
 
     public static compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number {
         return AbstractGroupComponent.compareDates(obj1.startDate, obj2.startDate);
@@ -125,8 +125,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     setItemsCollection(itemProperties: T[]) {
-        this.itemProperties = itemProperties;
         if (itemProperties && itemProperties.length > 0) {
+            this.itemProperties = itemProperties;
             this.sortUsingComparator(this.itemProperties);
         }
     }

@@ -58,9 +58,9 @@ export class SiteLogDataModel {
             this.formInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.formInformation, false);
             this.siteIdentification = this.getSuppliedValueOrEmptyValue(siteLogModel.siteIdentification, false);
             this.siteLocation = this.getSuppliedValueOrEmptyValue(siteLogModel.siteLocation, false);
-            this.siteOwner = this.getSuppliedValueOrEmptyValue(siteLogModel.siteOwner, false);
-            this.siteMetadataCustodian = this.getSuppliedValueOrEmptyValue(siteLogModel.siteMetadataCustodian, false);
-            this.siteDataSource = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataSource, false);
+            this.siteOwner = siteLogModel.siteOwner;
+            this.siteMetadataCustodian = siteLogModel.siteMetadataCustodian;
+            this.siteDataSource = siteLogModel.siteDataSource;
             this.moreInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.moreInformation, false);
             this.dataStreams = this.getSuppliedValueOrEmptyValue(siteLogModel.dataStreams, false);
         }
