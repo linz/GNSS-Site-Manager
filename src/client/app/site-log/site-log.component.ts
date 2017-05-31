@@ -147,11 +147,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             if (this.siteLogForm.pristine) {
                 return;
             }
-            if (this.siteLogForm.invalid) {
-                console.warn('Cannot save SiteLog - it is invalid');
-                this.dialogService.showErrorMessage('Cannot save SiteLog - it is invalid');
-                return;
-            }
             formValue = this.siteLogForm.value;
         }
         console.log('---------> SiteLogComponent - Save ------------------------');
