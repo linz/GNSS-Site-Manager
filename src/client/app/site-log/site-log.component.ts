@@ -156,7 +156,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         }
         console.log('---------> SiteLogComponent - Save ------------------------');
 
-        if (! this.userAuthService.hasAuthorityToEditSite()) {
+        if (!this.userAuthService.hasAuthorityToEditSite()) {
             console.warn('Cannot save SiteLog - user deoes not have edit rights');
             this.dialogService.showErrorMessage('Cannot save SiteLog - user deoes not have edit rights');
             return;
