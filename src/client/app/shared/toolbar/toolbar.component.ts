@@ -70,8 +70,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         return this.isFormInvalid;
     }
 
-    public isSaveRevertDisabled(): boolean {
-        return ! (this.hasAuthorityToEditSite() &&  this.isFormDirty());
+    public isSaveDisabled(): boolean {
+        return !(this.hasAuthorityToEditSite() &&  this.isFormDirty());
+    }
+
+    public isRevertDisabled(): boolean {
+        return !this.isFormDirty();
     }
 
     /**
