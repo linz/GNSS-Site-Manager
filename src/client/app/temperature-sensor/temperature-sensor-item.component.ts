@@ -46,6 +46,7 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
             {dataSamplingInterval: new FormControl('', [Validators.maxLength(25)])},
             {accuracyDegreesCelcius: new FormControl('', [Validators.maxLength(25)])},
             {heightDiffToAntenna: new FormControl('', [Validators.maxLength(25)])},
+            {aspiration: new FormControl('', [Validators.maxLength(50)])},
             {calibrationDate: new FormControl('')},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},

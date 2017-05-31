@@ -42,5 +42,8 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
 
         this.addFieldMapping('/temperatureSensor/heightDiffToAntenna', 'string',
             '/heightDiffToAntenna', 'number');
+
+        this.addFieldMapping('/temperatureSensor/aspiration', 'string',
+            '/aspiration', 'number');
     };
 }
