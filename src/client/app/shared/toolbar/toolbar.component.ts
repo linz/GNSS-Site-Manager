@@ -70,6 +70,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         return this.isFormInvalid;
     }
 
+    public isSaveRevertDisabled(): boolean {
+        return ! (this.hasAuthorityToEditSite() &&  this.isFormDirty());
+    }
+
     /**
      * Component method to request the Service Worker clears it's cache.
      */
@@ -166,5 +170,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     private getAuthorisedSites(): string {
         return this.userAuthService.getAuthorisedSites();
+    }
+
+    private hasAuthorityToEditSite(): boolean {
+        if (! this.siteId) {
+            return false;
+        }
+        return this.userAuthService.hasAuthorityToEditSite(this.siteId);
     }
 }

@@ -21,10 +21,10 @@
                 </nav>
                 <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
                     <li role="menuitem" title="Save changes">
-                        <a (click)="save()" [ngClass]="{'disabled': !isFormDirty()}">Save</a>
+                        <a (click)="save()" [ngClass]="{'disabled': isSaveRevertDisabled()}">Save</a>
                     </li>
                     <li role="menuitem" title="Discard changes">
-                        <a (click)="revert()" [ngClass]="{'disabled': !isFormDirty()}">Revert</a>
+                        <a (click)="revert()" [ngClass]="{'disabled': isSaveRevertDisabled()}">Revert</a>
                     </li>
                     <li class="divider dropdown-divider"></li>
                     <li role="menuitem" title="Close current page and go back to Home page">
