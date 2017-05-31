@@ -8,6 +8,7 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
     public manufacturer: string = null;
     public serialNumber: string = null;
     public heightDiffToAntenna: number = null;
+    public aspiration: string = null;
 
     constructor() {
         super();
