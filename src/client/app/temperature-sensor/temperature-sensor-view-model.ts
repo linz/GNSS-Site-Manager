@@ -8,6 +8,7 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
     public manufacturer: string = null;
     public serialNumber: string = null;
     public heightDiffToAntenna: number = null;
+    public aspiration: string = null;
 
     constructor() {
         super();
@@ -42,5 +43,8 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
 
         this.addFieldMapping('/temperatureSensor/heightDiffToAntenna', 'string',
             '/heightDiffToAntenna', 'number');
+
+        this.addFieldMapping('/temperatureSensor/aspiration', 'string',
+            '/aspiration', 'number');
     };
 }

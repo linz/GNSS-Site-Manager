@@ -1,6 +1,6 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
     <div class="panel-heading">
-        <span class="panel-title cursor-ptr" tabindex="0"                                                
+        <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
             (keyup.enter)="toggleGroup($event)"
             (click)="toggleGroup($event)">
@@ -34,6 +34,7 @@
                 <number-input formControlName="dataSamplingInterval" controlName="dataSamplingInterval" [form]="itemGroup">Data Sampling Interval (seconds)</number-input>
                 <number-input formControlName="accuracyDegreesCelcius" controlName="accuracyDegreesCelcius" [form]="itemGroup">Accuracy (&deg;C)</number-input>
                 <number-input formControlName="heightDiffToAntenna" controlName="heightDiffToAntenna" [form]="itemGroup">Height Diff to Antenna (m)</number-input>
+                <text-input formControlName="aspiration" controlName="aspiration" [form]="itemGroup">Aspiration</text-input>
                 <datetime-input [form]="itemGroup" controlName="calibrationDate" [required]="false">Calibration Date</datetime-input>
                 <datetime-input [form]="itemGroup" controlName="startDate">Date Installed (UTC)</datetime-input>
                 <datetime-input [form]="itemGroup" controlName="endDate" [required]="index != 0">Date Removed (UTC)</datetime-input>
