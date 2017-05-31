@@ -113,6 +113,11 @@ img.logo-stacked {
 .dim-icon {
   color: #a2a2a2;
 }
+.disabled {
+    color: #888 !important;
+    pointer-events: none;
+    cursor: default;
+}
 
 /* A horizontal strap just right below the header */
 .strap-container {
