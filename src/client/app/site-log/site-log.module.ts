@@ -18,6 +18,7 @@ import { TemperatureSensorModule } from '../temperature-sensor/temperature-senso
 import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor.module';
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 import { RadioInterferenceModule } from '../radio-interference/radio-interference.module';
+import { SignalObstructionModule } from '../signal-obstruction/signal-obstruction.module';
 
 @NgModule({
   imports: [
@@ -35,7 +36,8 @@ import { RadioInterferenceModule } from '../radio-interference/radio-interferenc
     TemperatureSensorModule,
     WaterVaporSensorModule,
     DynamicFormFieldsModule,
-      RadioInterferenceModule
+      RadioInterferenceModule,
+      SignalObstructionModule
   ],
   declarations: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
   exports: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
