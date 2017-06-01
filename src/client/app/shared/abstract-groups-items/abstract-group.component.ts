@@ -114,7 +114,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     setItemsCollection(itemProperties: T[]) {
-        if (itemProperties && itemProperties.length > 0) {
+        if (itemProperties) {
             this.itemProperties = itemProperties;
             this.sortUsingComparator(this.itemProperties);
         }
@@ -241,10 +241,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     private addNewItem(): void {
         this.isGroupOpen = true;
-
-        if (!this.getItemsCollection()) {
-            this.setItemsCollection([]);
-        }
 
         let newItem: T = <T> this.newItemViewModel();
         this.addToItemsCollection(newItem);
