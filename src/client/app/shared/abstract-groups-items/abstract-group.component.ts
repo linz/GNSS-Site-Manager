@@ -102,22 +102,11 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     /**
-     * Return collection - optionally with deleted items filter out.  Always in reverse order.
-     * @param showDeleted - true by default
+     * Return collection.
      * @return {T[]}
      */
-    getItemsCollection(showDeleted?: boolean): T[] {
-        let doShowDeleted: boolean = true;
-        if (showDeleted !== undefined) {
-            doShowDeleted = showDeleted;
-        }
-
-        if (this.itemProperties) {
-            let filteredOrNot: T[] = doShowDeleted ? lodash.clone(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
-            return filteredOrNot;
-        } else {
-            return [];
-        }
+    getItemsCollection(): T[] {
+        return this.itemProperties;
     }
 
     isEmptyCollection(): boolean {
@@ -308,10 +297,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     private sortUsingComparator(collection: any[]) {
         collection.sort(AbstractGroupComponent.compare);
-    }
-
-    private isntDeleted(item: T): boolean {
-        return (!item.dateDeleted || item.dateDeleted.length === 0);
     }
 
     /**
