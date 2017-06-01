@@ -19,6 +19,7 @@ import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
 import { RadioInterferenceModule } from '../radio-interference/radio-interference.module';
 import { SignalObstructionModule } from '../signal-obstruction/signal-obstruction.module';
+import { MultipathSourceModule } from '../multipath-source/multipath-source.module';
 
 @NgModule({
   imports: [
@@ -37,7 +38,8 @@ import { SignalObstructionModule } from '../signal-obstruction/signal-obstructio
     WaterVaporSensorModule,
     DynamicFormFieldsModule,
       RadioInterferenceModule,
-      SignalObstructionModule
+      SignalObstructionModule,
+      MultipathSourceModule
   ],
   declarations: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
   exports: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
