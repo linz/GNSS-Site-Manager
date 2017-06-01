@@ -30,6 +30,7 @@ export class SiteLogDataModel {
     dataStreams: any;
     radioInterferences: any;
     signalObstructions: any;
+    multipathSources: any;
 
     /**jsonix
      * Extract the data in the supplied JSON object or create an empty array / object for each item that doesn't exist.
@@ -51,6 +52,7 @@ export class SiteLogDataModel {
             this.siteDataCenters = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataCenters, true);
             this.radioInterferences = this.getSuppliedValueOrEmptyValue(siteLogModel.radioInterferences, true);
             this.signalObstructions = this.getSuppliedValueOrEmptyValue(siteLogModel.signalObstructions, true);
+            this.multipathSources = this.getSuppliedValueOrEmptyValue(siteLogModel.multipathSources, true);
 
             // objects
             this.TYPE_NAME = this.getSuppliedValueOrEmptyValue(siteLogModel.TYPE_NAME, false);

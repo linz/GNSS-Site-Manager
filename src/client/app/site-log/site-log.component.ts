@@ -21,6 +21,7 @@ import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vap
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { RadioInterferenceGroupComponent } from '../radio-interference/radio-interference-group.component';
 import { SignalObstructionGroupComponent } from '../signal-obstruction/signal-obstruction-group.component';
+import { MultipathSourceGroupComponent } from '../multipath-source/multipath-source-group.component';
 
 /**
  * This class represents the SiteLogComponent for viewing and editing the details of site/receiver/antenna.
@@ -365,6 +366,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 return RadioInterferenceGroupComponent.compare;
             case 'signalObstructions':
                 return SignalObstructionGroupComponent.compare;
+            case 'multipathSources':
+                return MultipathSourceGroupComponent.compare;
             default:
                 throw new Error(`Unknown item - unable to return comparator for item ${itemName}`);
         }

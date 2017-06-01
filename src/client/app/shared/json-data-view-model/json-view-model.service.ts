@@ -17,6 +17,7 @@ import { SiteIdentificationMappings } from '../../site-log/site-identification.m
 import { SiteLocationMappings } from '../../site-log/site-location.mapping';
 import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
+import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
 
 /**
  * This class provides the service to convert from 'Geodesy data model JSON' (from the XML via Jsonix) to
@@ -68,6 +69,7 @@ export class JsonViewModelService {
 
         siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
         siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
+        siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
 
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.moreInformation = siteLogDataModel.moreInformation;
@@ -111,6 +113,7 @@ export class JsonViewModelService {
         siteLogDataModel.siteDataCenters = this.viewToDataModel(viewModel.siteDataCenters);
         siteLogDataModel.radioInterferences = this.viewToDataModel(viewModel.radioInterferences);
         siteLogDataModel.signalObstructions = this.viewToDataModel(viewModel.signalObstructions);
+        siteLogDataModel.multipathSources = this.viewToDataModel(viewModel.multipathSources);
 
         if (viewModel.siteOwner && viewModel.siteOwner.length !== 0) {
             if (!siteLogDataModel.siteOwner) {

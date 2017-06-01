@@ -9,6 +9,7 @@ import { ResponsiblePartyViewModel } from '../../../responsible-party/responsibl
 import { GnssReceiverViewModel } from '../../../gnss-receiver/gnss-receiver-view-model';
 import { RadioInterferenceViewModel } from '../../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../../signal-obstruction/signal-obstruction-view-model';
+import { MultipathSourceViewModel } from '../../../multipath-source/multipath-source-view-model';
 
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
@@ -32,6 +33,7 @@ export class SiteLogViewModel {
     siteDataSource: ResponsiblePartyViewModel[];
     radioInterferences: RadioInterferenceViewModel[];
     signalObstructions: SignalObstructionViewModel[];
+    multipathSources: MultipathSourceViewModel[];
     moreInformation: any = {};
     dataStreams: any = {};
 }
