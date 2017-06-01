@@ -13,7 +13,7 @@
             (<span [ngClass]="{'hidden-xxxs': index != 0}">marked </span>to delete)
         </span>
         <span class="pull-right" [hidden]="!isNew && isMandatory && total == 1">
-            <button [disabled]="isDeleteDisabled()"
+            <button type="button" [disabled]="isDeleteDisabled()"
                     class="btn btn-danger btn-xs"
                     title="{{getRemoveOrDeletedText()}} the {{getItemName()}}"
                     (click)="removeItem(index)">

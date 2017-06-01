@@ -77,4 +77,8 @@ export abstract class AbstractGnssControls {
         let valid: boolean = this.isValid(controlId);
         return !valid;
     }
+
+    protected ignoreEvent(event: UIEvent) {
+        event.stopPropagation();
+    }
 }
