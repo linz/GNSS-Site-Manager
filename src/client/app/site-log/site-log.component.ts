@@ -18,6 +18,7 @@ import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperat
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { Subject } from 'rxjs/Subject';
+import { RadioInterferenceGroupComponent } from '../radio-interference/radio-interference-group.component';
 
 /**
  * This class represents the SiteLogComponent for viewing and editing the details of site/receiver/antenna.
@@ -358,6 +359,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 return TemperatureSensorsGroupComponent.compare;
             case 'waterVaporSensors':
                 return WaterVaporSensorsGroupComponent.compare;
+            case 'radioInterferences':
+                return RadioInterferenceGroupComponent.compare;
             default:
                 throw new Error(`Unknown item - unable to return comparator for item ${itemName}`);
         }

@@ -17,6 +17,7 @@ import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module'
 import { TemperatureSensorModule } from '../temperature-sensor/temperature-sensor.module';
 import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor.module';
 import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
+import { RadioInterferenceModule } from '../radio-interference/radio-interference.module';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
     PressureSensorModule,
     TemperatureSensorModule,
     WaterVaporSensorModule,
-    DynamicFormFieldsModule
+    DynamicFormFieldsModule,
+      RadioInterferenceModule
   ],
   declarations: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
   exports: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
