@@ -24,9 +24,6 @@
         </div>
         <div formArrayName="radioInterferences">
             <div *ngFor="let radioInterference of getItemsCollection(); let i = index">
-                <!-- [geodesyEvent] - send event to child components -->
-                <!-- (open/close Above/Below Event) - receive events from child components -->
-                <!-- (returnEvents) - single point to call events on parent -->
                 <radio-interference-item [groupArray]="groupArrayForm"
                                          [radioInterference]="radioInterference"
                                          [formGroupName]="i"
