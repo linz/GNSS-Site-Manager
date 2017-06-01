@@ -5,7 +5,7 @@
     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
         <div>
             <div class="input-group">
-                <input type="text" maxlength="24"
+                <input type="text" maxlength="24" (keyup.enter)="ignoreEvent($event);"
                        class="form-control z-lowest"
                        [formControlName]="controlName"
                        [ngClass]="{ 'ng-invalid': invalidDatetime }"
@@ -100,13 +100,13 @@
                     </table>
                 </div>
                 <div class="center-btns">
-                    <button class="btn btn-ok"
+                    <button class="btn btn-ok" type="button"
                             (click)="setSelectedDatetime()"
                             title="Set selected date/time and close calendar">
                         <i class="glyphicon glyphicon-ok"></i>
                         OK
                     </button>
-                    <button class="btn btn-cancel pull-right"
+                    <button class="btn btn-cancel pull-right" type="button"
                             (click)="cancelSelectedDatetime()"
                             title="Cancel selected date/time and close calendar">
                         <i class="glyphicon glyphicon-remove"></i>
