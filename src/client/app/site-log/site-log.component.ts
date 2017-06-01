@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Subject } from 'rxjs/Subject';
 import { User } from 'oidc-client';
+import * as _ from 'lodash';
+
 import { DialogService, MiscUtils, SiteLogService } from '../shared/index';
 import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import * as _ from 'lodash';
 import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
 import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
 import { GnssAntennaGroupComponent } from '../gnss-antenna/gnss-antenna-group.component';
@@ -17,8 +19,8 @@ import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-
 import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
-import { Subject } from 'rxjs/Subject';
 import { RadioInterferenceGroupComponent } from '../radio-interference/radio-interference-group.component';
+import { SignalObstructionGroupComponent } from '../signal-obstruction/signal-obstruction-group.component';
 
 /**
  * This class represents the SiteLogComponent for viewing and editing the details of site/receiver/antenna.
@@ -361,6 +363,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 return WaterVaporSensorsGroupComponent.compare;
             case 'radioInterferences':
                 return RadioInterferenceGroupComponent.compare;
+            case 'signalObstructions':
+                return SignalObstructionGroupComponent.compare;
             default:
                 throw new Error(`Unknown item - unable to return comparator for item ${itemName}`);
         }

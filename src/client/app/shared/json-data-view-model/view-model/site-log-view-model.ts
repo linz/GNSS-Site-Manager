@@ -8,6 +8,7 @@ import { TemperatureSensorViewModel } from '../../../temperature-sensor/temperat
 import { ResponsiblePartyViewModel } from '../../../responsible-party/responsible-party-view-model';
 import { GnssReceiverViewModel } from '../../../gnss-receiver/gnss-receiver-view-model';
 import { RadioInterferenceViewModel } from '../../../radio-interference/radio-interference-view-model';
+import { SignalObstructionViewModel } from '../../../signal-obstruction/signal-obstruction-view-model';
 
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
@@ -30,6 +31,7 @@ export class SiteLogViewModel {
     siteDataCenters: ResponsiblePartyViewModel[];
     siteDataSource: ResponsiblePartyViewModel[];
     radioInterferences: RadioInterferenceViewModel[];
+    signalObstructions: SignalObstructionViewModel[];
     moreInformation: any = {};
     dataStreams: any = {};
 }
