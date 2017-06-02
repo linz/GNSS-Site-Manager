@@ -178,13 +178,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @param isItDirty if to mark it dirty or not.
      */
-    addChildItemToForm(isItDirty: boolean = false) {
+    addChildItemToForm() {
         let itemGroup: FormGroup = this.formBuilder.group({});
         this.groupArrayForm.insert(0, itemGroup);
-
-        if (isItDirty) {
-            itemGroup.markAsDirty();
-        }
     }
 
     /* ************** Methods called from the template ************** */
