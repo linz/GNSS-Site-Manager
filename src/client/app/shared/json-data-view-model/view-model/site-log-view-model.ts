@@ -7,6 +7,9 @@ import { PressureSensorViewModel } from '../../../pressure-sensor/pressure-senso
 import { TemperatureSensorViewModel } from '../../../temperature-sensor/temperature-sensor-view-model';
 import { ResponsiblePartyViewModel } from '../../../responsible-party/responsible-party-view-model';
 import { GnssReceiverViewModel } from '../../../gnss-receiver/gnss-receiver-view-model';
+import { RadioInterferenceViewModel } from '../../../radio-interference/radio-interference-view-model';
+import { SignalObstructionViewModel } from '../../../signal-obstruction/signal-obstruction-view-model';
+import { MultipathSourceViewModel } from '../../../multipath-source/multipath-source-view-model';
 
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
@@ -28,6 +31,9 @@ export class SiteLogViewModel {
     siteMetadataCustodian: ResponsiblePartyViewModel[]; // Array of 0..1 item
     siteDataCenters: ResponsiblePartyViewModel[];
     siteDataSource: ResponsiblePartyViewModel[];
+    radioInterferences: RadioInterferenceViewModel[];
+    signalObstructions: SignalObstructionViewModel[];
+    multipathSources: MultipathSourceViewModel[];
     moreInformation: any = {};
     dataStreams: any = {};
 }

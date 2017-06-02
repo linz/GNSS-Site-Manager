@@ -15,6 +15,9 @@ import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService } from './data-view-translator';
 import { SiteIdentificationMappings } from '../../site-log/site-identification.mapping';
 import { SiteLocationMappings } from '../../site-log/site-location.mapping';
+import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
+import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
+import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
 
 /**
  * This class provides the service to convert from 'Geodesy data model JSON' (from the XML via Jsonix) to
@@ -50,11 +53,23 @@ export class JsonViewModelService {
         DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLocation,
             new SiteLocationMappings().getObjectMap());
 
-        siteLogViewModel.siteOwner = this.dataToViewModel([siteLogDataModel.siteOwner], ResponsiblePartyViewModel);
+        if (siteLogDataModel.siteOwner.ciResponsibleParty) {
+            siteLogViewModel.siteOwner = this.dataToViewModel([siteLogDataModel.siteOwner], ResponsiblePartyViewModel);
+        }
         siteLogViewModel.siteContacts = this.dataToViewModel(siteLogDataModel.siteContacts, ResponsiblePartyViewModel);
-        siteLogViewModel.siteMetadataCustodian = this.dataToViewModel([siteLogDataModel.siteMetadataCustodian], ResponsiblePartyViewModel);
-        siteLogViewModel.siteDataSource = this.dataToViewModel([siteLogDataModel.siteDataSource], ResponsiblePartyViewModel);
+
+        if (siteLogDataModel.siteMetadataCustodian.ciResponsibleParty) {
+            siteLogViewModel.siteMetadataCustodian =
+                this.dataToViewModel([siteLogDataModel.siteMetadataCustodian], ResponsiblePartyViewModel);
+        }
+        if (siteLogDataModel.siteDataSource.ciResponsibleParty) {
+            siteLogViewModel.siteDataSource = this.dataToViewModel([siteLogDataModel.siteDataSource], ResponsiblePartyViewModel);
+        }
         siteLogViewModel.siteDataCenters = this.dataToViewModel(siteLogDataModel.siteDataCenters, ResponsiblePartyViewModel);
+
+        siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
+        siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
+        siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
 
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.moreInformation = siteLogDataModel.moreInformation;
@@ -87,17 +102,33 @@ export class JsonViewModelService {
 
         siteLogDataModel.siteContacts = this.viewToDataModel(viewModel.siteContacts);
 
-        DataViewTranslatorService.translate(viewModel.siteDataSource[0], siteLogDataModel.siteDataSource,
-            new ResponsiblePartyViewModel().getObjectMap().inverse());
+        if (viewModel.siteDataSource && viewModel.siteDataSource.length !== 0) {
+            if (!siteLogDataModel.siteDataSource) {
+                siteLogDataModel.siteDataSource = {};
+            }
+            DataViewTranslatorService.translate(viewModel.siteDataSource[0], siteLogDataModel.siteDataSource,
+                new ResponsiblePartyViewModel().getObjectMap().inverse());
+        }
 
         siteLogDataModel.siteDataCenters = this.viewToDataModel(viewModel.siteDataCenters);
+        siteLogDataModel.radioInterferences = this.viewToDataModel(viewModel.radioInterferences);
+        siteLogDataModel.signalObstructions = this.viewToDataModel(viewModel.signalObstructions);
+        siteLogDataModel.multipathSources = this.viewToDataModel(viewModel.multipathSources);
 
-        // Only one siteOwner, siteMetadataCustodian (at most) in an array
-        DataViewTranslatorService.translate(viewModel.siteOwner[0], siteLogDataModel.siteOwner,
-            new ResponsiblePartyViewModel().getObjectMap().inverse());
-
-        DataViewTranslatorService.translate(viewModel.siteMetadataCustodian[0], siteLogDataModel.siteMetadataCustodian,
-            new ResponsiblePartyViewModel().getObjectMap().inverse());
+        if (viewModel.siteOwner && viewModel.siteOwner.length !== 0) {
+            if (!siteLogDataModel.siteOwner) {
+                siteLogDataModel.siteOwner = {};
+            }
+            DataViewTranslatorService.translate(viewModel.siteOwner[0], siteLogDataModel.siteOwner,
+                new ResponsiblePartyViewModel().getObjectMap().inverse());
+        }
+        if (viewModel.siteMetadataCustodian && viewModel.siteMetadataCustodian.length !== 0) {
+            if (!siteLogDataModel.siteMetadataCustodian) {
+                siteLogDataModel.siteMetadataCustodian = {};
+            }
+            DataViewTranslatorService.translate(viewModel.siteMetadataCustodian[0], siteLogDataModel.siteMetadataCustodian,
+                new ResponsiblePartyViewModel().getObjectMap().inverse());
+        }
 
         siteLogDataModel.moreInformation = viewModel.moreInformation;
         siteLogDataModel.dataStreams = viewModel.dataStreams;

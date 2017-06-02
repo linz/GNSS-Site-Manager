@@ -46,7 +46,7 @@ export class UserRegistrationComponent implements OnDestroy {
             .takeUntil(this.unsubscribe)
             .subscribe(() =>
                 this.dialogs.showNotificationDialog(
-                    `Thank you for registering. You will be contacted by GNSS Operations
+                    `Thank you for registering. You will be contacted by a member from the GNSS Operations
                     Team at Geoscience Australia regarding your login details.`,
                     () => this.location.back()
                 )

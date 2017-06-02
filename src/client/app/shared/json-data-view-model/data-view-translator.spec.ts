@@ -29,12 +29,12 @@ export function main() {
 
       expect(firstHSV.accuracyPercentRelativeHumidity).not.toBeNull();
       expect(firstHSV.accuracyPercentRelativeHumidity).toEqual(firstHSD.humiditySensor.accuracyPercentRelativeHumidity);
-      expect(firstHSV.aspiration).toEqual(firstHSD.humiditySensor.aspiration);
+      expect(firstHSV.aspiration).toBeNull();
       expect(firstHSV.dataSamplingInterval).toEqual(firstHSD.humiditySensor.dataSamplingInterval);
       expect(firstHSV.heightDiffToAntenna).toEqual(firstHSD.humiditySensor.heightDiffToAntenna);
       expect(firstHSV.manufacturer).toEqual(firstHSD.humiditySensor.manufacturer);
-      expect(firstHSV.notes).toEqual(firstHSD.humiditySensor.notes);
-      expect(firstHSV.serialNumber).toEqual(firstHSD.humiditySensor.serialNumber);
+      expect(firstHSV.notes).toBeNull();
+      expect(firstHSV.serialNumber).toBeNull();
 
       expect(firstHSV.calibrationDate).toEqual(firstHSD.humiditySensor.calibrationDate.value[0]);
       expect(firstHSV.startDate).toEqual(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod'].beginPosition.value[0]);
@@ -57,7 +57,7 @@ export function main() {
       expect(newHSD).toBeDefined();
 
       expect(newHSD.humiditySensor.accuracyPercentRelativeHumidity).toEqual(firstHSV.accuracyPercentRelativeHumidity);
-      expect(newHSD.humiditySensor.aspiration).toEqual(firstHSV.aspiration);
+      expect(newHSD.humiditySensor.aspiration).toBeNull();
       expect(newHSD.humiditySensor.dataSamplingInterval).toEqual(firstHSV.dataSamplingInterval);
       expect(newHSD.humiditySensor.heightDiffToAntenna).toEqual(firstHSV.heightDiffToAntenna);
       expect(newHSD.humiditySensor.manufacturer).toEqual(firstHSV.manufacturer);
@@ -82,12 +82,12 @@ export function main() {
           expect(firstHSV).toBeDefined();
 
           expect(firstHSV.accuracyPercentRelativeHumidity).toEqual(firstHSD.humiditySensor.accuracyPercentRelativeHumidity);
-          expect(firstHSV.aspiration).toEqual(firstHSD.humiditySensor.aspiration);
+          expect(firstHSV.aspiration).toBeNull();
           expect(firstHSV.dataSamplingInterval).toEqual(firstHSD.humiditySensor.dataSamplingInterval);
           expect(firstHSV.heightDiffToAntenna).toEqual(firstHSD.humiditySensor.heightDiffToAntenna);
           expect(firstHSV.manufacturer).toEqual(firstHSD.humiditySensor.manufacturer);
-          expect(firstHSV.notes).toEqual(firstHSD.humiditySensor.notes);
-          expect(firstHSV.serialNumber).toEqual(firstHSD.humiditySensor.serialNumber);
+          expect(firstHSV.notes).toBeNull();
+          expect(firstHSV.serialNumber).toBeNull();
 
           expect(firstHSV.calibrationDate).toEqual(firstHSD.humiditySensor.calibrationDate.value[0]);
           expect(firstHSV.startDate).toEqual(firstHSD.humiditySensor.validTime.abstractTimePrimitive['gml:TimePeriod']

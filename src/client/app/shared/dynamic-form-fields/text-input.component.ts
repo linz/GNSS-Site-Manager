@@ -17,9 +17,6 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
     @Input() index: string = '0';
     @Input() name: string = '';
     @Input() label: string = '';
-    // controlName & form needed for validation
-
-    private _value: string = '';
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
@@ -29,23 +26,7 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
         super.setForm(this.form);
     }
 
-    get value(): string {
-        return this._value;
-    }
-
-    set value(value: string) {
-        if (value !== undefined && value !== this._value) {
-            this._value = value;
-            this.propagateChange(value);
-        }
-    }
-
-    writeValue(value: string) {
-        if (value !== undefined && value !== this.value) {
-            this.value = value;
-        }
-    }
-
+    writeValue(value: string) {}
 
     registerOnChange(fn: Function) {
         this.propagateChange = fn;

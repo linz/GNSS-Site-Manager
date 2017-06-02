@@ -19,7 +19,9 @@ after_failure:
   - cat /home/travis/build/mgechev/angular-seed/npm-debug.log
 
 branches:
-  only: master
+  only:
+    - master
+    - next
 
 cache:
   directories: node_modules

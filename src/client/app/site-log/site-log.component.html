@@ -29,14 +29,14 @@
 
                         <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteOwner"
-                                                      [isMandatory]="true"
+                                                      [isMandatory]="false"
                                                       [isMultiple]="false"
                                                       [siteLogModel]="siteLogModel">
                         </gnss-responsible-party-group>
 
                         <gnss-responsible-party-group [parentForm]="siteInformationForm"
                                                       [partyType]="responsiblePartyType.siteContact"
-                                                      [isMandatory]="true"
+                                                      [isMandatory]="false"
                                                       [isMultiple]="true"
                                                       [siteLogModel]="siteLogModel">
                         </gnss-responsible-party-group>
@@ -100,6 +100,18 @@
                 <water-vapor-sensors-group [parentForm]="siteLogForm"
                                            [siteLogModel]="siteLogModel">
                 </water-vapor-sensors-group>
+
+                <radio-interferences-group [parentForm]="siteLogForm"
+                                           [siteLogModel]="siteLogModel">
+                </radio-interferences-group>
+
+                <signal-obstructions-group [parentForm]="siteLogForm"
+                                           [siteLogModel]="siteLogModel">
+                </signal-obstructions-group>
+
+                <multipath-source-group [parentForm]="siteLogForm"
+                                           [siteLogModel]="siteLogModel">
+                </multipath-source-group>
 
             </div>
         </form>

@@ -1,0 +1,37 @@
+<div [formGroup]="parentForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+  <div class="panel-heading">
+      <span class="panel-title cursor-ptr" tabindex="0"
+            (keyup.space)="toggleGroup($event)"
+            (keyup.enter)="toggleGroup($event)"
+            (click)="toggleGroup($event)">
+            <i class="glyphicon"
+               [ngClass]="{'glyphicon-minus-sign': isGroupOpen, 'glyphicon-plus-sign': !isGroupOpen}">
+            </i>
+            {{getItemName()}}s
+        </span>
+        <span class="pull-right">
+            <button class="btn btn-similar btn-xs" title="Add a new {{getItemName()}}"
+                    [disabled]="!isEditable()"
+                    (click)="addNew($event); miscUtils.showFullView($event);">
+            <i class="glyphicon glyphicon-plus-sign"></i>
+            New <span class="hidden-xxs">{{getItemName()}}</span>
+            </button>
+        </span>
+  </div>
+    <div class="panel-body" [hidden]="! isGroupOpen">
+        <div *ngIf="isEmptyCollection()">
+            No information available for {{getItemName()}}s
+        </div>
+        <div formArrayName="multipathSources">
+            <div *ngFor="let multipathSource of getItemsCollection(); let i = index">
+                <multipath-source-item [groupArray]="groupArrayForm"
+                                       [multipathSource]="multipathSource"
+                                       [formGroupName]="i"
+                                       [total]="itemProperties.length"
+                                       [index]="i"
+                                       [geodesyEvent]="geodesyEvent"
+                                       (returnEvents)="returnEvents($event)"></multipath-source-item>
+            </div>
+        </div>
+    </div>
+</div>

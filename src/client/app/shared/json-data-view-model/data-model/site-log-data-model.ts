@@ -28,6 +28,9 @@ export class SiteLogDataModel {
     siteDataSource: any;
     moreInformation: any;
     dataStreams: any;
+    radioInterferences: any;
+    signalObstructions: any;
+    multipathSources: any;
 
     /**jsonix
      * Extract the data in the supplied JSON object or create an empty array / object for each item that doesn't exist.
@@ -47,6 +50,9 @@ export class SiteLogDataModel {
             this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.waterVaporSensors, true);
             this.siteContacts = this.getSuppliedValueOrEmptyValue(siteLogModel.siteContacts, true);
             this.siteDataCenters = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataCenters, true);
+            this.radioInterferences = this.getSuppliedValueOrEmptyValue(siteLogModel.radioInterferences, true);
+            this.signalObstructions = this.getSuppliedValueOrEmptyValue(siteLogModel.signalObstructions, true);
+            this.multipathSources = this.getSuppliedValueOrEmptyValue(siteLogModel.multipathSources, true);
 
             // objects
             this.TYPE_NAME = this.getSuppliedValueOrEmptyValue(siteLogModel.TYPE_NAME, false);
@@ -58,9 +64,9 @@ export class SiteLogDataModel {
             this.formInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.formInformation, false);
             this.siteIdentification = this.getSuppliedValueOrEmptyValue(siteLogModel.siteIdentification, false);
             this.siteLocation = this.getSuppliedValueOrEmptyValue(siteLogModel.siteLocation, false);
-            this.siteOwner = this.getSuppliedValueOrEmptyValue(siteLogModel.siteOwner, false);
-            this.siteMetadataCustodian = this.getSuppliedValueOrEmptyValue(siteLogModel.siteMetadataCustodian, false);
-            this.siteDataSource = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataSource, false);
+            this.siteOwner = siteLogModel.siteOwner;
+            this.siteMetadataCustodian = siteLogModel.siteMetadataCustodian;
+            this.siteDataSource = siteLogModel.siteDataSource;
             this.moreInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.moreInformation, false);
             this.dataStreams = this.getSuppliedValueOrEmptyValue(siteLogModel.dataStreams, false);
         }

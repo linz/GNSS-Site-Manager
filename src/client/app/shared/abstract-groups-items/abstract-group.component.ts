@@ -42,7 +42,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * getItemsCollection().
      *
      */
-    private itemProperties: T[];
+    private itemProperties: T[] = [];
 
     public static compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number {
         return AbstractGroupComponent.compareDates(obj1.startDate, obj2.startDate);
@@ -102,22 +102,11 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     /**
-     * Return collection - optionally with deleted items filter out.  Always in reverse order.
-     * @param showDeleted - true by default
+     * Return collection.
      * @return {T[]}
      */
-    getItemsCollection(showDeleted?: boolean): T[] {
-        let doShowDeleted: boolean = true;
-        if (showDeleted !== undefined) {
-            doShowDeleted = showDeleted;
-        }
-
-        if (this.itemProperties) {
-            let filteredOrNot: T[] = doShowDeleted ? lodash.clone(this.itemProperties) : this.itemProperties.filter(this.isntDeleted);
-            return filteredOrNot;
-        } else {
-            return [];
-        }
+    getItemsCollection(): T[] {
+        return this.itemProperties;
     }
 
     isEmptyCollection(): boolean {
@@ -125,8 +114,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     setItemsCollection(itemProperties: T[]) {
-        this.itemProperties = itemProperties;
-        if (itemProperties && itemProperties.length > 0) {
+        if (itemProperties) {
+            this.itemProperties = itemProperties;
             this.sortUsingComparator(this.itemProperties);
         }
     }
@@ -179,9 +168,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     setupChildItems() {
-        for (let viewModel of this.getItemsCollection()) {
+        this.getItemsCollection().forEach(() => {
             this.addChildItemToForm();
-        }
+        });
     }
 
     /**
@@ -189,13 +178,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @param isItDirty if to mark it dirty or not.
      */
-    addChildItemToForm(isItDirty: boolean = false) {
+    addChildItemToForm() {
         let itemGroup: FormGroup = this.formBuilder.group({});
         this.groupArrayForm.insert(0, itemGroup);
-
-        if (isItDirty) {
-            itemGroup.markAsDirty();
-        }
     }
 
     /* ************** Methods called from the template ************** */
@@ -253,10 +238,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     private addNewItem(): void {
         this.isGroupOpen = true;
 
-        if (!this.getItemsCollection()) {
-            this.setItemsCollection([]);
-        }
-
         let newItem: T = <T> this.newItemViewModel();
         this.addToItemsCollection(newItem);
         setTimeout(() => {
@@ -308,10 +289,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     private sortUsingComparator(collection: any[]) {
         collection.sort(AbstractGroupComponent.compare);
-    }
-
-    private isntDeleted(item: T): boolean {
-        return (!item.dateDeleted || item.dateDeleted.length === 0);
     }
 
     /**

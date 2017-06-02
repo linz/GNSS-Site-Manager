@@ -11,16 +11,15 @@ export function main() {
 
     it('test default constructor and all fields are created', () => {
       expect(pressureSensorsViewModel).toBeDefined();
-
-      expect(pressureSensorsViewModel.accuracyHPa).toEqual(0);
-      expect(pressureSensorsViewModel.dataSamplingInterval).toEqual(0);
-      expect(pressureSensorsViewModel.heightDiffToAntenna).toEqual(0);
-      expect(pressureSensorsViewModel.manufacturer).toEqual('');
-      expect(pressureSensorsViewModel.notes).toEqual('');
-      expect(pressureSensorsViewModel.serialNumber).toEqual('');
-      expect(pressureSensorsViewModel.calibrationDate).toEqual('');
-      expect(pressureSensorsViewModel.startDate).toEqual('');
-      expect(pressureSensorsViewModel.endDate).toEqual('');
+      expect(pressureSensorsViewModel.accuracyHPa).toBeNull();
+      expect(pressureSensorsViewModel.dataSamplingInterval).toBeNull();
+      expect(pressureSensorsViewModel.heightDiffToAntenna).toBeNull();
+      expect(pressureSensorsViewModel.manufacturer).toBeNull();
+      expect(pressureSensorsViewModel.notes).toBeNull();
+      expect(pressureSensorsViewModel.serialNumber).toBeNull();
+      expect(pressureSensorsViewModel.calibrationDate).toBeNull();
+      expect(pressureSensorsViewModel.startDate).toBeNull();
+      expect(pressureSensorsViewModel.endDate).toBeNull();
     });
   });
 }

@@ -1,13 +1,14 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class TemperatureSensorViewModel extends AbstractViewModel {
-    public calibrationDate: string = '';
-    public dataSamplingInterval: number = 0;
-    public accuracyDegreesCelcius: number = 0;
-    public notes: string = '';
-    public manufacturer: string = '';
-    public serialNumber: string = '';
-    public heightDiffToAntenna: number = 0;
+    public calibrationDate: string = null;
+    public dataSamplingInterval: number = null;
+    public accuracyDegreesCelcius: number = null;
+    public notes: string = null;
+    public manufacturer: string = null;
+    public serialNumber: string = null;
+    public heightDiffToAntenna: number = null;
+    public aspiration: string = null;
 
     constructor() {
         super();
@@ -42,5 +43,8 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
 
         this.addFieldMapping('/temperatureSensor/heightDiffToAntenna', 'string',
             '/heightDiffToAntenna', 'number');
+
+        this.addFieldMapping('/temperatureSensor/aspiration', 'string',
+            '/aspiration', 'number');
     };
 }
