@@ -47,9 +47,7 @@ export class UserAuthService {
                     this.userLoadedEvent.emit(user);
                 }
             })
-            .catch((err) => {
-                console.log(err);
-            });
+            .catch(console.log);
 
         this.addEventHandlers();
     }
