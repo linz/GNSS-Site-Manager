@@ -25,7 +25,7 @@ export class UserRegistration {
 export class UserAuthService {
     public userLoadedEvent = new EventEmitter<User | null>();
     private userManager: UserManager;
-    private currentUser: User;
+    private currentUser: User | null = null;
 
     constructor(private http: Http, private router: Router, private constantsService: ConstantsService) {
         this.userManager = new UserManager({
@@ -45,13 +45,10 @@ export class UserAuthService {
                 if (user) {
                     this.currentUser = user;
                     this.userLoadedEvent.emit(user);
-                } else {
-                    this.currentUser = null;
                 }
             })
             .catch((err) => {
                 console.log(err);
-                this.currentUser = null;
             });
 
         this.addEventHandlers();
