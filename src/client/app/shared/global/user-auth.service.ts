@@ -23,7 +23,7 @@ export class UserRegistration {
  */
 @Injectable()
 export class UserAuthService {
-    public userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
+    public userLoadedEvent = new EventEmitter<User | null>();
     private userManager: UserManager;
     private currentUser: User;
 
@@ -120,6 +120,7 @@ export class UserAuthService {
     private addEventHandlers() {
         this.userManager.events.addUserUnloaded((e) => {
             this.currentUser = null;
+            this.userLoadedEvent.emit(null);
         });
     }
 }
