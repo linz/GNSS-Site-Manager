@@ -63,22 +63,12 @@ export class UserAuthService {
     }
 
     login() {
-        this.userManager.signinRedirect().then(() => {
-            console.log('UserAuthService - signinRedirect done');
-        }).catch((err) => {
-            console.log('UserAuthService - signinRedirect error');
-            console.log(err);
-        });
+        this.userManager.signinRedirect().catch(console.log);
     }
 
     logout() {
-        this.userManager.signoutRedirect().then((res) => {
-            console.log('UserAuthService - signed out', res);
-        }).catch((err) => {
-            console.log('UserAuthService - signoutRedirect error');
-            console.log(err);
-        });
-    };
+        this.userManager.signoutRedirect().catch(console.log);
+    }
 
     getUser(): User | null {
       return this.currentUser;
@@ -129,11 +119,7 @@ export class UserAuthService {
 
     private addEventHandlers() {
         this.userManager.events.addUserUnloaded((e) => {
-            console.log('User logged out: ', e);
             this.currentUser = null;
-        });
-        this.userManager.events.addUserLoaded((e) => {
-            console.log('User logged in: ', e);
         });
     }
 }
