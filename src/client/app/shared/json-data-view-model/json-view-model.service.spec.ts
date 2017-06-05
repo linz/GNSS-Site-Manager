@@ -67,10 +67,10 @@ export function main() {
             expect(siteLog.temperatureSensors.length).not.toBe(0);
             expect(siteLog.waterVaporSensors).toBeDefined();
             expect(siteLog.waterVaporSensors.length).not.toBe(0);
-            expect(siteLog.siteOwner).toBeUndefined();
+            expect(siteLog.siteOwner).toEqual([]);
             expect(siteLog.siteContacts).toBeDefined();
             expect(siteLog.siteMetadataCustodian).toBeDefined();
-            expect(siteLog.siteDataSource).toBeUndefined();
+            expect(siteLog.siteDataSource).toEqual([]);
             expect(siteLog.moreInformation).toBeDefined();
             expect(siteLog.dataStreams).toBeDefined();
         });
