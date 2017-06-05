@@ -44,6 +44,8 @@ export class SiteLocationComponent implements OnInit {
     public miscUtils: any = MiscUtils;
 
     private siteLocationForm: FormGroup;
+    private cartesianPosition: FormGroup;
+    private geodeticPosition: FormGroup;
 
     private siteLocation: any;
 
@@ -65,16 +67,22 @@ export class SiteLocationComponent implements OnInit {
     }
 
     private setupForm() {
+        this.cartesianPosition = this.formBuilder.group({
+            cartesianPosition_x: [''],
+            cartesianPosition_y: [''],
+            cartesianPosition_z: ['']
+        });
+        this.geodeticPosition =  this.formBuilder.group({
+            geodeticPosition_lat: [''],
+            geodeticPosition_long: [''],
+            geodeticPosition_height: ['']
+        });
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],
             state: ['', [Validators.maxLength(100)]],
             countryCodeISO: ['', [Validators.maxLength(10)]],
-            cartesianPositionX: [''],
-            cartesianPositionY: [''],
-            cartesianPositionZ: [''],
-            geodeticPositionLat: [''],
-            geodeticPositionLong: [''],
-            geodeticPositionHeight: [''],
+            cartesianPosition: this.cartesianPosition,
+            geodeticPosition: this.geodeticPosition,
             tectonicPlate: ['', [Validators.maxLength(100)]],
             notes: ['', [Validators.maxLength(2000)]],
         });
