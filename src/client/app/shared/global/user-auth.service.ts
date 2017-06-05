@@ -113,7 +113,7 @@ export class UserAuthService {
     }
 
     private addEventHandlers() {
-        this.userManager.events.addUserUnloaded((e) => {
+        this.userManager.events.addUserUnloaded(() => {
             this.currentUser = null;
             this.userLoadedEvent.emit(null);
         });
