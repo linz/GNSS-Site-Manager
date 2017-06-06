@@ -93,7 +93,7 @@ export class UserAuthService {
         if (!siteId) {
             siteId = this.router.routerState.snapshot.root.children[0].url[1].path;
         }
-        return true; //this.hasAuthority('edit-' + siteId.toLowerCase());
+        return this.hasAuthority('edit-' + siteId.toLowerCase());
     }
 
     public hasAuthority(authority: string): boolean {

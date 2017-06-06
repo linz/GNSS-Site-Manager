@@ -126,6 +126,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @return index in itemProperties (and FormArray) where item is inserted
      */
     addToItemsCollection(item: T) {
+        if (!this.itemProperties) {
+            this.itemProperties = [];
+        }
+
         this.itemProperties.splice(0, 0, item);
         this.addChildItemToForm();
     }
@@ -263,6 +267,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         item.setStartDate(dateUtc);
         if (formGroup.controls['startDate']) {
             formGroup.controls['startDate'].setValue(dateUtc);
+            formGroup.controls['startDate'].markAsDirty();
         }
 
         item.setDateInserted(dateUtc);
