@@ -31,10 +31,12 @@ export class UserAuthService {
         this.userManager = new UserManager({
             authority: this.constantsService.getOpenAMServerURL() + '/oauth2',
             client_id: 'GnssSiteManager',
+            response_type: 'id_token token',
             redirect_uri: this.constantsService.getClientURL() + '/auth.html',
             post_logout_redirect_uri: this.constantsService.getClientURL(),
             scope: 'openid profile',
-            silent_redirect_uri: this.constantsService.getClientURL() + '/renew',
+            silent_redirect_uri: this.constantsService.getClientURL() + '/auth.html?silent',
+            accessTokenExpiringNotificationTime: 60,
             automaticSilentRenew: true,
             filterProtocolClaims: true,
             loadUserInfo: true
@@ -116,6 +118,10 @@ export class UserAuthService {
         this.userManager.events.addUserUnloaded(() => {
             this.currentUser = null;
             this.userLoadedEvent.emit(null);
+        });
+        this.userManager.events.addUserLoaded((user: User) => {
+            this.currentUser = user;
+            this.userLoadedEvent.emit(user);
         });
     }
 }

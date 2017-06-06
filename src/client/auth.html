@@ -20,12 +20,18 @@
   <% } %>
 
     <script>
-        new UserManager().signinRedirectCallback().then(function (user) {
-            window.location = localStorage.getItem('routerUrl');
-        })
-        .catch(function (err) {
-            console.error('auth.html: ' + err.message);
-        });
+        if (window.location.href.indexOf('?silent') != -1) {
+            new UserManager().signinSilentCallback().catch(function (err) {
+                console.error('auth.html: ' + err.message);
+            });
+        } else {
+            new UserManager().signinRedirectCallback().then(function (user) {
+                window.location = localStorage.getItem('routerUrl');
+            })
+            .catch(function (err) {
+                console.error('auth.html: ' + err.message);
+            });
+        }
     </script>
 </body>
 </html>
