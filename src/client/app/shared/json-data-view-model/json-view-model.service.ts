@@ -13,8 +13,8 @@ import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-p
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService } from './data-view-translator';
-import { SiteIdentificationMappings } from '../../site-log/site-identification.mapping';
-import { SiteLocationMappings } from '../../site-log/site-location.mapping';
+import { SiteIdentificationViewModel } from '../../site-log/site-identification-view-model';
+import { SiteLocationViewModel } from '../../site-log/site-location-view-model';
 import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
@@ -48,10 +48,10 @@ export class JsonViewModelService {
 
         // Form (View) Model approach
         DataViewTranslatorService.translate(siteLogDataModel.siteIdentification, siteLogViewModel.siteIdentification,
-            new SiteIdentificationMappings().getObjectMap());
+            new SiteIdentificationViewModel().getObjectMap());
 
         DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLocation,
-            new SiteLocationMappings().getObjectMap());
+            new SiteLocationViewModel().getObjectMap());
 
         if (siteLogDataModel.siteOwner.ciResponsibleParty) {
             siteLogViewModel.siteOwner = this.dataToViewModel([siteLogDataModel.siteOwner], ResponsiblePartyViewModel);
@@ -95,10 +95,10 @@ export class JsonViewModelService {
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
 
         DataViewTranslatorService.translate(viewModel.siteIdentification, siteLogDataModel.siteIdentification,
-            new SiteIdentificationMappings().getObjectMap().inverse());
+            new SiteIdentificationViewModel().getObjectMap().inverse());
 
         DataViewTranslatorService.translate(viewModel.siteLocation, siteLogDataModel.siteLocation,
-            new SiteLocationMappings().getObjectMap().inverse());
+            new SiteLocationViewModel().getObjectMap().inverse());
 
         siteLogDataModel.siteContacts = this.viewToDataModel(viewModel.siteContacts);
 

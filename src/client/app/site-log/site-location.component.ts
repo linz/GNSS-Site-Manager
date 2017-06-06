@@ -1,7 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
+import { DialogService } from '../shared/index';
 import { UserAuthService } from '../shared/global/user-auth.service';
+import { SiteLogService, ApplicationState, ApplicationSaveState } from '../shared/site-log/site-log.service';
+import { AbstractBaseComponent } from '../shared/abstract-groups-items/abstract-base.component';
+import { SiteLocationViewModel } from './site-location-view-model';
 
 /**
  * This class represents the SiteLocation sub-component under the SiteInformation Component.
@@ -26,12 +30,16 @@ import { UserAuthService } from '../shared/global/user-auth.service';
     selector: 'site-location',
     templateUrl: 'site-location.component.html'
 })
-export class SiteLocationComponent implements OnInit {
-    @Input('parentForm') parentForm: FormGroup;
+export class SiteLocationComponent extends AbstractBaseComponent implements OnInit {
 
-    status: any = {
-        isSiteLocationGroupOpen: false
-    };
+    private miscUtils: any = MiscUtils;
+    private siteLocationForm: FormGroup;
+    private siteLocation: SiteLocationViewModel;
+    private isOpen: boolean = false;
+    private isNew: boolean = false;
+    private isDeleted: boolean = false;
+
+    @Input('parentForm') parentForm: FormGroup;
 
     @Input()
     set siteLogModel(siteLogModel: any) {
@@ -41,20 +49,30 @@ export class SiteLocationComponent implements OnInit {
         }
     }
 
-    public miscUtils: any = MiscUtils;
-
-    private siteLocationForm: FormGroup;
-    private cartesianPositionForm: FormGroup;
-    private geodeticPositionForm: FormGroup;
-
-    private siteLocation: any;
-
-    constructor(private userAuthService: UserAuthService,
-                private formBuilder: FormBuilder) {
+    constructor(protected userAuthService: UserAuthService,
+                protected siteLogService: SiteLogService,
+                protected dialogService: DialogService,
+                protected formBuilder: FormBuilder,
+                protected changeDetectionRef: ChangeDetectorRef) {
+        super(userAuthService);
     }
 
     ngOnInit() {
         this.setupForm();
+        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
+            if (applicationState.applicationSaveState === ApplicationSaveState.saved) {
+                this.isNew = false;
+                this.isDeleted = false;
+            }
+        });
+    }
+
+    getItemName(): string {
+        return 'Site Location';
+    }
+
+    getControlName(): string {
+        return 'siteLocation';
     }
 
     public isFormDirty(): boolean {
@@ -62,7 +80,79 @@ export class SiteLocationComponent implements OnInit {
     }
 
     public isFormInvalid(): boolean {
-        return this.siteLocationForm.invalid;
+        return this.siteLocationForm ? this.siteLocationForm.invalid : false;
+    }
+
+
+    public isDeleteDisabled(): boolean {
+        if (this.isNew) {
+            return false;
+        }
+        return !super.isEditable() || this.isDeleted;
+    }
+
+    public getRemoveOrDeletedText(): string {
+        return this.isNew ? 'Cancel' : 'Delete';
+    }
+
+    public addNew(event: UIEvent): void {
+        event.preventDefault();
+        this.isNew = true;
+        this.isOpen = true;
+        this.siteLocation = new SiteLocationViewModel();
+        setTimeout(() => {
+            if (this.siteLocationForm) {
+                this.siteLocationForm.markAsDirty();
+            }
+        });
+    }
+
+    /**
+     * Remove an item from the UI and delete if it is an existing record.
+     */
+    public removeItem(): boolean {
+
+        if (this.isNew) {
+            this.cancelNew();
+        } else {
+            this.dialogService.confirmDeleteDialog(
+                this.getItemName(),
+                (deleteReason : string) => {  // ok callback
+                    this.deleteItem(deleteReason);
+                },
+                () => {  // cancel callback
+                    console.log('delete cancelled by user');
+                }
+            );
+        }
+        return false;
+    }
+
+    public cancelNew() {
+        this.siteLocation = null;
+        this.isNew = false;
+        if (this.siteLocationForm) {
+            this.siteLocationForm.markAsPristine();
+            this.parentForm.removeControl(this.getControlName());
+        }
+    }
+
+    /**
+     *  Mark an item for deletion with the given reason.
+     */
+    private deleteItem(deleteReason : string | null): void {
+        this.isDeleted = true;
+        let date: string = MiscUtils.getUTCDateTime();
+        this.siteLocation.dateDeleted = date;
+        this.siteLocation.deletedReason = deleteReason;
+        if (this.siteLocationForm.controls['dateDeleted']) {
+            this.siteLocationForm.controls['dateDeleted'].setValue(date);
+        }
+        if (this.siteLocationForm.controls['deletedReason']) {
+            this.siteLocationForm.controls['deletedReason'].setValue(deleteReason);
+        }
+        this.siteLocationForm.markAsDirty();
+        this.siteLocationForm.disable();
     }
 
     private setupForm() {
@@ -90,6 +180,10 @@ export class SiteLocationComponent implements OnInit {
             geodeticPosition: this.geodeticPositionForm,
             tectonicPlate: ['', [Validators.maxLength(100)]],
             notes: ['', [Validators.maxLength(2000)]],
+            objectMap: [''],
+            dateDeleted: [''],
+            dateInserted: [''],
+            deletedReason: ['']
         });
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteLocationForm.enable();
@@ -142,4 +236,3 @@ export class SiteLocationComponent implements OnInit {
         itemControl.setValidators(Validators.required);
     }
 }
-

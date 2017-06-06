@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MiscUtils } from '../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserAuthService } from '../shared/global/user-auth.service';
+import { SiteIdentificationViewModel } from './site-identification-view-model';
 
 /**
  * This class represents the SiteIdentification sub-component under the SiteInformation Component.
@@ -34,26 +35,25 @@ import { UserAuthService } from '../shared/global/user-auth.service';
     templateUrl: 'site-identification.component.html'
 })
 export class SiteIdentificationComponent implements OnInit {
-    @Input('parentForm') parentForm: FormGroup;
 
-    status: any = {
-        isSiteIdentificationGroupOpen: false
-    };
+    private isOpen: boolean = false;
+    private miscUtils: any = MiscUtils;
+    private siteIdentificationForm: FormGroup;
+    private siteIdentification: SiteIdentificationViewModel;
+
+    @Input('parentForm') parentForm: FormGroup;
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        // Avoid errors that occurs when this form is built before the data is loaded
-        if (siteLogModel && Object.keys(siteLogModel).length > 0) {
+        if  (!siteLogModel
+             || !siteLogModel.siteIdentification
+             || Object.keys(siteLogModel.siteIdentification).length === 0){
+            this.siteIdentification = new SiteIdentificationViewModel();
+        } else {
             this.siteIdentification = siteLogModel.siteIdentification;
             this.siteIdentificationForm.setValue(this.siteIdentification);
         }
     }
-
-    public miscUtils: any = MiscUtils;
-
-    private siteIdentificationForm: FormGroup;
-
-    private siteIdentification: any;
 
     constructor(private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder,
@@ -64,12 +64,20 @@ export class SiteIdentificationComponent implements OnInit {
         this.setupForm();
     }
 
+    public getItemName(): string {
+        return 'Site Identification';
+    }
+
+    public getControlName(): string {
+        return 'siteIdentification';
+    }
+
     public isFormDirty(): boolean {
         return this.siteIdentificationForm ? this.siteIdentificationForm.dirty : false;
     }
 
     public isFormInvalid(): boolean {
-        return this.siteIdentificationForm.invalid;
+        return this.siteIdentificationForm ? this.siteIdentificationForm.invalid : false;
     }
 
     private setupForm() {
@@ -85,7 +93,7 @@ export class SiteIdentificationComponent implements OnInit {
             monumentFoundation: ['', [Validators.maxLength(50)]],
             foundationDepth: '',
             markerDescription: ['', [Validators.maxLength(100)]],
-            dateInstalled: [''],    // Validators wont work in the DateTime custom component
+            dateInstalled: [''],
             geologicCharacteristic: ['', [Validators.maxLength(100)]],
             bedrockType: ['', [Validators.maxLength(50)]],
             bedrockCondition: ['', [Validators.maxLength(50)]],
@@ -93,6 +101,7 @@ export class SiteIdentificationComponent implements OnInit {
             faultZonesNearby: ['', [Validators.maxLength(50)]],
             distanceActivity: ['', [Validators.maxLength(50)]],
             notes: ['', [Validators.maxLength(2000)]],
+            objectMap: [''],
         });
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteIdentificationForm.enable();
@@ -102,4 +111,3 @@ export class SiteIdentificationComponent implements OnInit {
         this.parentForm.addControl('siteIdentification', this.siteIdentificationForm);
     }
 }
-

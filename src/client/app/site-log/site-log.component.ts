@@ -47,7 +47,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     private siteIdentification: any = null;
     private siteLocation: any = {};
     private siteContacts: Array<any> = [];
-    private submitted: boolean = false;
 
     private unsubscribe: Subject<void> = new Subject<void>();
 
@@ -97,13 +96,15 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         // Do not allow direct access to site-log page
         if (!this.siteId) {
             this.goToHomePage();
+            return;
         }
 
-        console.log('---------> SiteLogComponent - Load ------------------------');
-        this.isLoading = true;
-        this.submitted = false;
-
         this.route.params.subscribe(() => {
+            if (this.siteId === 'newSite') {
+                return;
+            }
+
+            this.isLoading = true;
             this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId)
                 .takeUntil(this.unsubscribe)
                 .subscribe(
@@ -185,7 +186,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 }
 
                 this.isLoading = true;
-                this.submitted = true;
                 this.siteLogService.saveSiteLog(this.siteLogModel)
                     .takeUntil(this.unsubscribe)
                     .subscribe(
