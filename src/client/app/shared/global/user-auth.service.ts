@@ -23,9 +23,9 @@ export class UserRegistration {
  */
 @Injectable()
 export class UserAuthService {
-    public userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
+    public userLoadedEvent = new EventEmitter<User | null>();
     private userManager: UserManager;
-    private currentUser: User;
+    private currentUser: User | null = null;
 
     constructor(private http: Http, private router: Router, private constantsService: ConstantsService) {
         this.userManager = new UserManager({
@@ -45,14 +45,9 @@ export class UserAuthService {
                 if (user) {
                     this.currentUser = user;
                     this.userLoadedEvent.emit(user);
-                } else {
-                    this.currentUser = null;
                 }
             })
-            .catch((err) => {
-                console.log(err);
-                this.currentUser = null;
-            });
+            .catch(console.log);
 
         this.addEventHandlers();
     }
@@ -118,8 +113,9 @@ export class UserAuthService {
     }
 
     private addEventHandlers() {
-        this.userManager.events.addUserUnloaded((e) => {
+        this.userManager.events.addUserUnloaded(() => {
             this.currentUser = null;
+            this.userLoadedEvent.emit(null);
         });
     }
 }
