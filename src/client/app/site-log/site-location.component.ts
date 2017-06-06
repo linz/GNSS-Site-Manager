@@ -68,15 +68,21 @@ export class SiteLocationComponent implements OnInit {
 
     private setupForm() {
         this.cartesianPosition = this.formBuilder.group({
-            cartesianPosition_x: [''],
-            cartesianPosition_y: [''],
-            cartesianPosition_z: ['']
+            cartesianPosition_x: ['', Validators.required],
+            cartesianPosition_y: ['', Validators.required],
+            cartesianPosition_z: ['', Validators.required]
         });
-        this.geodeticPosition =  this.formBuilder.group({
+        this.cartesianPosition.valueChanges.subscribe(
+            (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPosition)
+        );
+        this.geodeticPosition = this.formBuilder.group({
             geodeticPosition_lat: [''],
             geodeticPosition_long: [''],
             geodeticPosition_height: ['']
         });
+        this.geodeticPosition.valueChanges.subscribe(
+            (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPosition)
+        );
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],
             state: ['', [Validators.maxLength(100)]],
@@ -92,6 +98,52 @@ export class SiteLocationComponent implements OnInit {
             this.siteLocationForm.disable();
         }
         this.parentForm.addControl('siteLocation', this.siteLocationForm);
+    }
+
+    /**
+     * The groups we have here are all or nothing.  The validators.required is set on each field in Geodetic Position and
+     * cartesian Position but when no fields have a value then the group is optional.
+     *
+     * @param groupItems - the group items values that come from an OnChange subscription
+     * @param positionGroup - the FormGroup that holds the items
+     */
+    private handleLocationPositionGroupChange(groupItems: any, positionGroup: FormGroup) {
+        console.debug('location item change: ', groupItems);
+        let someFieldHasValue: boolean = false;
+        Object.keys(groupItems).forEach((key) => {
+            if (groupItems[key]) {
+                someFieldHasValue = true;
+            }
+        });
+
+        // If any group Item form field has a value then all are required
+        Object.keys(groupItems).forEach((key) => {
+            let itemControl: AbstractControl = positionGroup.controls[key];
+            if (!itemControl) {
+                throw new Error(`Control for group item: ${key} doesnt exist in positionGroup: ${positionGroup}`);
+            }
+            if (someFieldHasValue) {
+                if (! itemControl.validator) {
+                    this.addRequiredValidator(itemControl, key);
+                    itemControl.updateValueAndValidity();
+                }
+            } else {
+                if (itemControl.validator) {
+                    this.removeRequiredValidator(itemControl, key);
+                    itemControl.updateValueAndValidity();
+                }
+            }
+        });
+    }
+
+    private removeRequiredValidator(itemControl: AbstractControl, controlName: string) {
+        console.debug(`Location - remove required validator from: ${controlName}`);
+        itemControl.clearValidators();
+    }
+
+    private addRequiredValidator(itemControl: AbstractControl, controlName: string) {
+        console.debug(`Location - add required validator to: ${controlName}`);
+        itemControl.setValidators(Validators.required);
     }
 }
 

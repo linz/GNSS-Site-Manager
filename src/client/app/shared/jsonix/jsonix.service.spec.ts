@@ -1,6 +1,7 @@
 import { ReflectiveInjector } from '@angular/core';
 
 import { JsonixService } from './jsonix.service';
+import { JsonServiceSpecData } from './jsonix.service.spec.data';
 
 export function main() {
   describe('Jsonix Service', () => {
@@ -247,5 +248,28 @@ export function main() {
       expect(geodesyMl).toContain('!!!SOME INTERESTING REMARKS!!!');
     });
 
+      fdescribe('Undefining Location.cartesianPosition but not Location.geodeticPosition', () => {
+          it('should parse valid Json', () => {
+              let json: Object = modify_undefine_Location_geodeticPosition(JsonServiceSpecData.data());
+
+              let geodesyMl: string = jsonixService.jsonToGeodesyML(json);
+              expect(geodesyMl).not.toBeNull();
+              expect(geodesyMl).toContain('<geo:approximatePositionITRF>');
+              expect(geodesyMl).toContain('<geo:cartesianPosition><gml:Point><gml:pos/></gml:Point></geo:cartesianPosition>');
+              expect(geodesyMl).toContain('<geo:geodeticPosition><gml:Point><gml:pos>4 5 6</gml:pos></gml:Point></geo:geodeticPosition>');
+          });
+
+      });
   });
+
+    /**
+     * This is small and seems redundant though I'd like to rewrite above tests to do teh same thing - load the data and modify.
+     * @param json
+     * @return {any}
+     */
+    function modify_undefine_Location_geodeticPosition(json: any): any {
+        json['geo:siteLog'].siteLocation.approximatePositionITRF.cartesianPosition.point.pos = {};
+        return json;
+    }
+
 }
