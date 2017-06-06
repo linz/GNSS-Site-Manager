@@ -23,18 +23,20 @@ export class UserRegistration {
  */
 @Injectable()
 export class UserAuthService {
-    public userLoadedEvent: EventEmitter<User> = new EventEmitter<User>();
+    public userLoadedEvent = new EventEmitter<User | null>();
     private userManager: UserManager;
-    private currentUser: User;
+    private currentUser: User | null = null;
 
     constructor(private http: Http, private router: Router, private constantsService: ConstantsService) {
         this.userManager = new UserManager({
             authority: this.constantsService.getOpenAMServerURL() + '/oauth2',
             client_id: 'GnssSiteManager',
+            response_type: 'id_token token',
             redirect_uri: this.constantsService.getClientURL() + '/auth.html',
             post_logout_redirect_uri: this.constantsService.getClientURL(),
             scope: 'openid profile',
-            silent_redirect_uri: this.constantsService.getClientURL() + '/renew',
+            silent_redirect_uri: this.constantsService.getClientURL() + '/auth.html?silent',
+            accessTokenExpiringNotificationTime: 60,
             automaticSilentRenew: true,
             filterProtocolClaims: true,
             loadUserInfo: true
@@ -45,14 +47,9 @@ export class UserAuthService {
                 if (user) {
                     this.currentUser = user;
                     this.userLoadedEvent.emit(user);
-                } else {
-                    this.currentUser = null;
                 }
             })
-            .catch((err) => {
-                console.log(err);
-                this.currentUser = null;
-            });
+            .catch(console.log);
 
         this.addEventHandlers();
     }
@@ -63,22 +60,12 @@ export class UserAuthService {
     }
 
     login() {
-        this.userManager.signinRedirect().then(() => {
-            console.log('UserAuthService - signinRedirect done');
-        }).catch((err) => {
-            console.log('UserAuthService - signinRedirect error');
-            console.log(err);
-        });
+        this.userManager.signinRedirect().catch(console.log);
     }
 
     logout() {
-        this.userManager.signoutRedirect().then((res) => {
-            console.log('UserAuthService - signed out', res);
-        }).catch((err) => {
-            console.log('UserAuthService - signoutRedirect error');
-            console.log(err);
-        });
-    };
+        this.userManager.signoutRedirect().catch(console.log);
+    }
 
     getUser(): User | null {
       return this.currentUser;
@@ -128,12 +115,13 @@ export class UserAuthService {
     }
 
     private addEventHandlers() {
-        this.userManager.events.addUserUnloaded((e) => {
-            console.log('User logged out: ', e);
+        this.userManager.events.addUserUnloaded(() => {
             this.currentUser = null;
+            this.userLoadedEvent.emit(null);
         });
-        this.userManager.events.addUserLoaded((e) => {
-            console.log('User logged in: ', e);
+        this.userManager.events.addUserLoaded((user: User) => {
+            this.currentUser = user;
+            this.userLoadedEvent.emit(user);
         });
     }
 }

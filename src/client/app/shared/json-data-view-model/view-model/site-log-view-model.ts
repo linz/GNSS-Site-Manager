@@ -17,23 +17,23 @@ import { MultipathSourceViewModel } from '../../../multipath-source/multipath-so
 export class SiteLogViewModel {
     siteIdentification: any = {};
     siteLocation: any = {};
-    gnssReceivers: GnssReceiverViewModel[];
-    gnssAntennas: GnssAntennaViewModel[];
-    surveyedLocalTies: SurveyedLocalTieViewModel[];
-    frequencyStandards: FrequencyStandardViewModel[];
-    localEpisodicEffects : LocalEpisodicEffectViewModel[];
-    humiditySensors: HumiditySensorViewModel[];
-    pressureSensors: PressureSensorViewModel[];
-    temperatureSensors: TemperatureSensorViewModel[];
-    waterVaporSensors: any[];
-    siteOwner: ResponsiblePartyViewModel[];             // Array of 0..1 item
-    siteContacts: ResponsiblePartyViewModel[];
-    siteMetadataCustodian: ResponsiblePartyViewModel[]; // Array of 0..1 item
-    siteDataCenters: ResponsiblePartyViewModel[];
-    siteDataSource: ResponsiblePartyViewModel[];
-    radioInterferences: RadioInterferenceViewModel[];
-    signalObstructions: SignalObstructionViewModel[];
-    multipathSources: MultipathSourceViewModel[];
+    gnssReceivers: GnssReceiverViewModel[] = [];
+    gnssAntennas: GnssAntennaViewModel[] = [];
+    surveyedLocalTies: SurveyedLocalTieViewModel[] = [];
+    frequencyStandards: FrequencyStandardViewModel[] = [];
+    localEpisodicEffects : LocalEpisodicEffectViewModel[] = [];
+    humiditySensors: HumiditySensorViewModel[] = [];
+    pressureSensors: PressureSensorViewModel[] = [];
+    temperatureSensors: TemperatureSensorViewModel[] = [];
+    waterVaporSensors: any[] = [];
+    siteOwner: ResponsiblePartyViewModel[] = [];             // Array of 0..1 item
+    siteContacts: ResponsiblePartyViewModel[] = [];
+    siteMetadataCustodian: ResponsiblePartyViewModel[] = []; // Array of 0..1 item
+    siteDataCenters: ResponsiblePartyViewModel[] = [];
+    siteDataSource: ResponsiblePartyViewModel[] = [];
+    radioInterferences: RadioInterferenceViewModel[] = [];
+    signalObstructions: SignalObstructionViewModel[] = [];
+    multipathSources: MultipathSourceViewModel[] = [];
     moreInformation: any = {};
     dataStreams: any = {};
 }
