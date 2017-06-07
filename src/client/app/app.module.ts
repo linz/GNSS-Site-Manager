@@ -16,27 +16,27 @@ import { UserRegistrationModule } from './user-registration/user-registration.mo
 import { AutoHeightDirective } from './shared/global/auto-height.directive';
 
 @NgModule({
-  imports: [
-    AppRoutingModule,
-    BrowserModule,
-    HttpModule,
-    ReactiveFormsModule,
-    ModalModule,
-    AboutModule,
-    SiteLogModule,
-    SelectSiteModule,
-    UserRegistrationModule,
-    SharedModule.forRoot()
-  ],
-  declarations: [
-    AppComponent,
-    AutoHeightDirective
-  ],
-  providers: [{
-    provide: APP_BASE_HREF,
-    useValue: '<%= APP_BASE %>'
-  }],
-  bootstrap: [ AppComponent ]
+    imports: [
+        AppRoutingModule,
+        BrowserModule,
+        HttpModule,
+        ReactiveFormsModule,
+        ModalModule,
+        AboutModule,
+        SiteLogModule,
+        SelectSiteModule,
+        UserRegistrationModule,
+        SharedModule.forRoot()
+    ],
+    declarations: [
+        AppComponent,
+        AutoHeightDirective
+    ],
+    providers: [{
+        provide: APP_BASE_HREF,
+        useValue: '<%= APP_BASE %>'
+    }],
+    bootstrap: [ AppComponent ]
 })
 export class AppModule {
 }
