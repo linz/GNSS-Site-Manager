@@ -32,10 +32,10 @@ import { AutoHeightDirective } from './shared/global/auto-height.directive';
         AppComponent,
         AutoHeightDirective
     ],
-    providers: [{
-        provide: APP_BASE_HREF,
-        useValue: '<%= APP_BASE %>'
-    }],
+    providers: [
+        { provide: APP_BASE_HREF, useValue: '<%= APP_BASE %>' },
+        { provide: 'Window', useValue: window }
+    ],
     bootstrap: [ AppComponent ]
 })
 export class AppModule {
