@@ -32,12 +32,12 @@ import { SiteLocationViewModel } from './site-location-view-model';
 })
 export class SiteLocationComponent extends AbstractBaseComponent implements OnInit {
 
-    private miscUtils: any = MiscUtils;
-    private siteLocationForm: FormGroup;
-    private siteLocation: SiteLocationViewModel;
-    private isOpen: boolean = false;
-    private isNew: boolean = false;
-    private isDeleted: boolean = false;
+    public miscUtils: any = MiscUtils;
+    public siteLocationForm: FormGroup;
+    public siteLocation: SiteLocationViewModel;
+    public isOpen: boolean = false;
+    public isNew: boolean = false;
+    public isDeleted: boolean = false;
 
     @Input('parentForm') parentForm: FormGroup;
 

@@ -81,36 +81,38 @@ export class SiteLogService implements OnDestroy {
      * @param siteLogJson in Json (that will be translated to GeodesyML before posting to the backend service)
      */
     saveSiteLog(siteLogViewModel: SiteLogViewModel): Observable<Response> {
-        console.log('saveSiteLog - siteLogViewModel: ', siteLogViewModel);
-        let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModel(siteLogViewModel);
-
-        // wrap the JSON object in a "geo:siteLog" element before converting to GeodesyML
-        let siteLogJsonObj : any = {
-            'geo:siteLog' : siteLogDataModel
-        };
-
-        let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJsonObj);
-        // Add wrapper element
-        let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"' +
-            ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4" xmlns:gml="http://www.opengis.net/gml/3.2"' +
-            ' xmlns:ns9="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd"' +
-            ' xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:om="http://www.opengis.net/om/2.0"' +
-            ' xmlns:gco="http://www.isotc211.org/2005/gco"' +
-            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
-        geodesyMl += siteLogML + '</geo:GeodesyML>';
+        console.log('Save existing SiteLog - siteLogViewModel: ', siteLogViewModel);
 
         const headers = new Headers();
-
         const user: User = this.authService.getUser();
         if (user !== null) {
           headers.append('Authorization', 'Bearer ' + this.authService.getUser().id_token);
         }
 
         return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/upload',
-                              geodesyMl,
+                              this.getGeodesyMlFromViewModel(siteLogViewModel),
                               { headers: headers })
             .map(HttpUtilsService.handleJsonData)
             .catch(HttpUtilsService.handleError);
+    }
+
+    saveNewSiteLog(siteLogViewModel: SiteLogViewModel): Observable<Response> {
+        console.log('Save new SiteLog - siteLogViewModel: ', siteLogViewModel);
+
+        const user: User = this.authService.getUser();
+        let newSiteLogData: any = {
+            firstName: '',  // user.profile.first_name,  TODO no first_name or given_name in user's profile ?
+            lastName: user.profile.family_name,
+            organisation: '',  // user.profile.organisation, TODO no organisation in user's profile ?
+            position: '', // user.profile.position, TODO no position in user's profile ?
+            email : user.profile.email,
+            phone : user.profile.phone_number,
+            siteLogData: this.getGeodesyMlFromViewModel(siteLogViewModel)
+        };
+
+        console.log(newSiteLogData);
+
+        return this.http.post(this.constantsService.getWebServiceURL() + '/newCorsSiteRequests', newSiteLogData);
     }
 
     /**
@@ -127,6 +129,25 @@ export class SiteLogService implements OnDestroy {
      */
     sendApplicationStateMessage(applicationState: ApplicationState) {
         this.applicationStateSubject.next(applicationState);
+    }
+
+    private getGeodesyMlFromViewModel(siteLogViewModel: SiteLogViewModel): string {
+
+        let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModel(siteLogViewModel);
+
+        let siteLogJsonObj : any = {
+            'geo:siteLog' : siteLogDataModel
+        };
+console.log('before jsonToGeodesyML');
+        let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJsonObj);
+        let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"' +
+            ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4" xmlns:gml="http://www.opengis.net/gml/3.2"' +
+            ' xmlns:ns9="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd"' +
+            ' xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:om="http://www.opengis.net/om/2.0"' +
+            ' xmlns:gco="http://www.isotc211.org/2005/gco"' +
+            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
+        geodesyMl += siteLogML + '</geo:GeodesyML>';
+        return geodesyMl;
     }
 
     private handleXMLData(response: Response): string {

@@ -36,10 +36,10 @@ import { SiteIdentificationViewModel } from './site-identification-view-model';
 })
 export class SiteIdentificationComponent implements OnInit {
 
-    private isOpen: boolean = false;
-    private miscUtils: any = MiscUtils;
-    private siteIdentificationForm: FormGroup;
-    private siteIdentification: SiteIdentificationViewModel;
+    public isOpen: boolean = false;
+    public miscUtils: any = MiscUtils;
+    public siteIdentificationForm: FormGroup;
+    public siteIdentification: SiteIdentificationViewModel;
 
     @Input('parentForm') parentForm: FormGroup;
 
@@ -47,7 +47,7 @@ export class SiteIdentificationComponent implements OnInit {
     set siteLogModel(siteLogModel: any) {
         if  (!siteLogModel
              || !siteLogModel.siteIdentification
-             || Object.keys(siteLogModel.siteIdentification).length === 0){
+             || Object.keys(siteLogModel.siteIdentification).length === 0) {
             this.siteIdentification = new SiteIdentificationViewModel();
         } else {
             this.siteIdentification = siteLogModel.siteIdentification;
