@@ -248,14 +248,15 @@ export function main() {
       expect(geodesyMl).toContain('!!!SOME INTERESTING REMARKS!!!');
     });
 
-      fdescribe('Undefining Location.cartesianPosition but not Location.geodeticPosition', () => {
+      describe('Undefining Location.cartesianPosition but not Location.geodeticPosition', () => {
           it('should parse valid Json', () => {
               let json: Object = modify_undefine_Location_geodeticPosition(JsonServiceSpecData.data());
 
               let geodesyMl: string = jsonixService.jsonToGeodesyML(json);
+              // console.log('geodesyMl:\n', geodesyMl);
               expect(geodesyMl).not.toBeNull();
               expect(geodesyMl).toContain('<geo:approximatePositionITRF>');
-              expect(geodesyMl).toContain('<geo:cartesianPosition><gml:Point><gml:pos/></gml:Point></geo:cartesianPosition>');
+              expect(geodesyMl).toContain('<geo:cartesianPosition/>');
               expect(geodesyMl).toContain('<geo:geodeticPosition><gml:Point><gml:pos>4 5 6</gml:pos></gml:Point></geo:geodeticPosition>');
           });
 
@@ -263,12 +264,13 @@ export function main() {
   });
 
     /**
-     * This is small and seems redundant though I'd like to rewrite above tests to do teh same thing - load the data and modify.
-     * @param json
-     * @return {any}
+     * Rewrite the above tests using the one data file with modifications such as like that performed in this function.
+     * @param json test data
+     * @return json test data modified for the test
      */
     function modify_undefine_Location_geodeticPosition(json: any): any {
-        json['geo:siteLog'].siteLocation.approximatePositionITRF.cartesianPosition.point.pos = {};
+        // This is what we want to do in our View to Data translate when the values of the cartesianPosition or geodeticPosition are null
+        json['geo:siteLog'].siteLocation.approximatePositionITRF.cartesianPosition = {};
         return json;
     }
 

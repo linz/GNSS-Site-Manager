@@ -26,19 +26,19 @@ export class SiteLocationMappings extends AbstractViewModel {
         this.addFieldMapping('/notes', 'string',
             '/notes', 'string');
 
-        this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/0', 'string',
-            '/cartesianPositionX', 'string');
-        this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/1', 'string',
-            '/cartesianPositionY', 'string');
-        this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/2', 'string',
-            '/cartesianPositionZ', 'string');
-        this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/0', 'string',
-            '/geodeticPositionLat', 'string');
-        this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/1', 'string',
-            '/geodeticPositionLong', 'string');
-        this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/2', 'string',
-            '/geodeticPositionHeight', 'string');
+        // These mappings handled in the DataViewTranslatorService
+        // /point/pos/value/0 -> /cartesianPosition_x
+        // /point/pos/value/1 -> /cartesianPosition_y
+        // /point/pos/value/2 -> /cartesianPosition_z
+        this.addFieldMapping('/approximatePositionITRF/cartesianPosition', 'point_data', '/cartesianPosition', 'point_view');
+
+        // These mappings handled in the DataViewTranslatorService
+        // /point/pos/value/0 -> /geodeticPosition_lat
+        // /point/pos/value/1 -> /geodeticPosition_long
+        // /point/pos/value/2 -> /geodeticPosition_height
+        this.addFieldMapping('/approximatePositionITRF/geodeticPosition', 'point_data', '/geodeticPosition', 'point_view');
     };
+
 
     /**
      * Overridden parent method to return false because SiteLocation does not have an end date.

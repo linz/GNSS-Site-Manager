@@ -69,6 +69,27 @@ export class DataViewTranslatorService {
                 // TODO tidy up the logic in this block
                 // especially if/when we refactor the field mapping in the models
 
+                // Handle Point mappings
+                if (fieldMap.sourceField.type === 'point_data') {
+                    if (fieldMap.sourceField.pointer.match(/cartesianPosition/)) {
+                        return this.translateCartesianPosition(source, {viewToData: false});
+                    } else if (fieldMap.sourceField.pointer.match(/geodeticPosition/)) {
+                        return this.translateGeodeticPosition(source, {viewToData: false});
+                    } else {
+                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
+                    }
+                }
+                else if (fieldMap.sourceField.type === 'point_view') {
+                    if (fieldMap.sourceField.pointer.match(/cartesianPosition/)) {
+                        return this.translateCartesianPosition(source, {viewToData: true});
+                    } else if (fieldMap.sourceField.pointer.match(/geodeticPosition/)) {
+                        return this.translateGeodeticPosition(source, {viewToData: true});
+                    } else {
+                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
+                    }
+
+                }
+
                 // specially handle undefined, note I think this needs to be here for number types but not certain
                 if (source === undefined) {
                     return null;
@@ -95,5 +116,85 @@ export class DataViewTranslatorService {
             .substring(1)
             .replace(/\//g, '.')
             .replace(/\.([0-9]+)/g, '[$1]');
+    }
+
+    /**
+     * CartesianPosition and GeodeticPosition are Point type with 3 values, and it can be optional and due to the XML schema, we achieve
+     * this by having do data for the Positions.  Here are the mappings:
+     *
+     * /point/pos/value/0 -> /cartesianPosition_x
+     * /point/pos/value/1 -> /cartesianPosition_y
+     * /point/pos/value/2 -> /cartesianPosition_z
+     * @param source (be that data from the View or Data)
+     * @param viewToDataTranslateOptions - {viewToData: boolean} - default is {viewToData: true}
+     * @return the translated value for the top-level CartesianPosition or GeodeticPosition
+     */
+    static translateCartesianPosition(source: any, viewToDataTranslateOptions?: { viewToData: boolean }): any {
+        let mapper = createMapper({alwaysTransform: true, alwaysSet: true});
+        if (viewToDataTranslateOptions && viewToDataTranslateOptions.hasOwnProperty('viewToData') && !viewToDataTranslateOptions['viewToData']) {
+            // data to view translate
+            if (! source || (typeof source === "object" && !source.hasOwnProperty('point'))) {
+                // ! source happens when the CartesianPosition or GeodeticPosition elements dont exist
+                return {cartesianPosition_x: null, cartesianPosition_y: null, cartesianPosition_z: null}
+            } else {
+                mapper.map('point.pos.value[0]').to('cartesianPosition_x');
+                mapper.map('point.pos.value[1]').to('cartesianPosition_y');
+                mapper.map('point.pos.value[2]').to('cartesianPosition_z');
+                return mapper.execute(source);
+            }
+        }
+        // view  to data translate
+        if (!source || (source.hasOwnProperty('cartesianPosition_x') && source.cartesianPosition_x === null)
+            || !source.hasOwnProperty('cartesianPosition_x')) {
+            return {};
+        } else {
+            let value: string[] = [];
+
+            value.push(source.cartesianPosition_x);
+            value.push(source.cartesianPosition_y);
+            value.push(source.cartesianPosition_z);
+            mapper.map('value').to('point.pos.value');
+            return mapper.execute({'value': value});
+        }
+    }
+
+    /**
+     * CartesianPosition and GeodeticPosition are Point type with 3 values, and it can be optional and due to the XML schema, we achieve
+     * this by having do data for the Positions.  Here are the mappings:
+     *
+     * /point/pos/value/0 -> /geodeticPosition_lat
+     * /point/pos/value/1 -> /geodeticPosition_long
+     * /point/pos/value/2 -> /geodeticPosition_height
+     * @param source (be that data from the View or Data)
+     * @param viewToDataTranslateOptions - {viewToData: boolean} - default is {viewToData: true}
+     * @return the translated value for the top-level CartesianPosition or GeodeticPosition
+     */
+    static translateGeodeticPosition(source: any, viewToDataTranslateOptions?: { viewToData: boolean }): any {
+        let mapper = createMapper({alwaysTransform: true, alwaysSet: true});
+        if (viewToDataTranslateOptions && viewToDataTranslateOptions.hasOwnProperty('viewToData') && !viewToDataTranslateOptions['viewToData']) {
+            // data to view translate
+            if (!source || (typeof source === "object" && !source.hasOwnProperty('point'))) {
+                // ! source happens when the CartesianPosition or GeodeticPosition elements dont exist
+                return {geodeticPosition_lat: null, geodeticPosition_long: null, geodeticPosition_height: null}
+            } else {
+                mapper.map('point.pos.value[0]').to('geodeticPosition_lat');
+                mapper.map('point.pos.value[1]').to('geodeticPosition_long');
+                mapper.map('point.pos.value[2]').to('geodeticPosition_height');
+                return mapper.execute(source);
+            }
+        }
+        // view  to data translate
+        if (! source || (source.hasOwnProperty('geodeticPosition_lat') && source.geodeticPosition_lat === null)
+        || !source.hasOwnProperty('geodeticPosition_lat')) {
+            return {};
+        } else {
+            let value: string[] = [];
+
+            value.push(source.geodeticPosition_lat);
+            value.push(source.geodeticPosition_long);
+            value.push(source.geodeticPosition_height);
+            mapper.map('value').to('point.pos.value');
+            return mapper.execute({'value': value});
+        }
     }
 }

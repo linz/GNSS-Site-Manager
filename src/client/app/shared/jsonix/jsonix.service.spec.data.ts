@@ -2,7 +2,7 @@ export class JsonServiceSpecData {
     /**
      * This returns valid JSON object that can be used to modify as required.
      *
-     * @return valid JSON object for a siteLog
+     * @return valid JSON object for a siteLog data Model
      */
     public static data(): any {
         return {
@@ -23,7 +23,7 @@ export class JsonServiceSpecData {
                         humiditySensor: {
                             validTime: {
                                 abstractTimePrimitive: {
-                                    "gml:TimePeriod": {
+                                    'gml:TimePeriod': {
                                         beginPosition: {
                                             value: [
                                                 null
@@ -44,10 +44,10 @@ export class JsonServiceSpecData {
                             },
                             dataSamplingInterval: 0,
                             accuracyPercentRelativeHumidity: 0,
-                            aspiration: "(UNASPIRATED/NATURAL/FAN/etc)",
-                            notes: "(multiple lines)",
-                            manufacturer: "Vaisala",
-                            serialNumber: "P2240006",
+                            aspiration: '(UNASPIRATED/NATURAL/FAN/etc)',
+                            notes: '(multiple lines)',
+                            manufacturer: 'Vaisala',
+                            serialNumber: 'P2240006',
                             heightDiffToAntenna: 0
                         }
                     }
@@ -80,7 +80,7 @@ export class JsonServiceSpecData {
                             temperatureStabilization: null,
                             dateInstalled: {
                                 value: [
-                                    "2017-05-29T03:48:31.000Z"
+                                    '2017-05-29T03:48:31.000Z'
                                 ]
                             },
                             dateRemoved: {
@@ -105,28 +105,28 @@ export class JsonServiceSpecData {
                         deletedReason: null,
                         gnssReceiver: {
                             igsModelCode: {
-                                value: "ASHTECH Z-XII3"
+                                value: 'ASHTECH Z-XII3'
                             },
-                            manufacturerSerialNumber: "3213",
-                            firmwareVersion: "1Y07-1DY4",
+                            manufacturerSerialNumber: '3213',
+                            firmwareVersion: '1Y07-1DY4',
                             satelliteSystem: [
                                 {
-                                    value: "GPS"
+                                    value: 'GPS'
                                 }
                             ],
                             elevationCutoffSetting: 0,
                             temperatureStabilization: 0,
                             dateInstalled: {
                                 value: [
-                                    "2000-08-01T00:00:00.000Z"
+                                    '2000-08-01T00:00:00.000Z'
                                 ]
                             },
                             dateRemoved: {
                                 value: [
-                                    "2017-05-29T03:48:31.000Z"
+                                    '2017-05-29T03:48:31.000Z'
                                 ]
                             },
-                            notes: "Receiver 1"
+                            notes: 'Receiver 1'
                         }
                     },
                     {
@@ -143,28 +143,28 @@ export class JsonServiceSpecData {
                         deletedReason: null,
                         gnssReceiver: {
                             igsModelCode: {
-                                value: "ASHTECH Z-XII3"
+                                value: 'ASHTECH Z-XII3'
                             },
-                            manufacturerSerialNumber: "3213",
-                            firmwareVersion: "1Y06-1D04",
+                            manufacturerSerialNumber: '3213',
+                            firmwareVersion: '1Y06-1D04',
                             satelliteSystem: [
                                 {
-                                    value: "GPS"
+                                    value: 'GPS'
                                 }
                             ],
                             elevationCutoffSetting: 0,
                             temperatureStabilization: 0,
                             dateInstalled: {
                                 value: [
-                                    "1998-09-17T00:00:00.000Z"
+                                    '1998-09-17T00:00:00.000Z'
                                 ]
                             },
                             dateRemoved: {
                                 value: [
-                                    "2000-08-01T00:00:00.000Z"
+                                    '2000-08-01T00:00:00.000Z'
                                 ]
                             },
-                            notes: "Receiver 1"
+                            notes: 'Receiver 1'
                         }
                     },
                     {
@@ -181,28 +181,28 @@ export class JsonServiceSpecData {
                         deletedReason: null,
                         gnssReceiver: {
                             igsModelCode: {
-                                value: "ASHTECH Z-XII3"
+                                value: 'ASHTECH Z-XII3'
                             },
-                            manufacturerSerialNumber: "3213",
-                            firmwareVersion: "1Y05-1D04",
+                            manufacturerSerialNumber: '3213',
+                            firmwareVersion: '1Y05-1D04',
                             satelliteSystem: [
                                 {
-                                    value: "GPS"
+                                    value: 'GPS'
                                 }
                             ],
                             elevationCutoffSetting: 0,
                             temperatureStabilization: 0,
                             dateInstalled: {
                                 value: [
-                                    "1996-01-01T00:00:00.000Z"
+                                    '1996-01-01T00:00:00.000Z'
                                 ]
                             },
                             dateRemoved: {
                                 value: [
-                                    "1998-09-17T00:00:00.000Z"
+                                    '1998-09-17T00:00:00.000Z'
                                 ]
                             },
-                            notes: "Receiver 1"
+                            notes: 'Receiver 1'
                         }
                     },
                     {
@@ -219,28 +219,28 @@ export class JsonServiceSpecData {
                         deletedReason: null,
                         gnssReceiver: {
                             igsModelCode: {
-                                value: "ASHTECH Z-XII3"
+                                value: 'ASHTECH Z-XII3'
                             },
-                            manufacturerSerialNumber: "3213",
-                            firmwareVersion: "1Y04-1D04",
+                            manufacturerSerialNumber: '3213',
+                            firmwareVersion: '1Y04-1D04',
                             satelliteSystem: [
                                 {
-                                    value: "GPS"
+                                    value: 'GPS'
                                 }
                             ],
                             elevationCutoffSetting: 0,
                             temperatureStabilization: 0,
                             dateInstalled: {
                                 value: [
-                                    "1995-03-20T00:00:00.000Z"
+                                    '1995-03-20T00:00:00.000Z'
                                 ]
                             },
                             dateRemoved: {
                                 value: [
-                                    "1996-01-01T00:00:00.000Z"
+                                    '1996-01-01T00:00:00.000Z'
                                 ]
                             },
-                            notes: "Receiver 1"
+                            notes: 'Receiver 1'
                         }
                     }
                 ],
@@ -259,12 +259,12 @@ export class JsonServiceSpecData {
                         },
                         deletedReason: null,
                         surveyedLocalTie: {
-                            tiedMarkerName: "UNK",
-                            tiedMarkerUsage: "(SLR/VLBI/LOCAL CONTROL/FOOTPRINT/etc)",
-                            tiedMarkerCDPNumber: "(A4)",
-                            tiedMarkerDOMESNumber: "(A9)",
+                            tiedMarkerName: 'UNK',
+                            tiedMarkerUsage: '(SLR/VLBI/LOCAL CONTROL/FOOTPRINT/etc)',
+                            tiedMarkerCDPNumber: '(A4)',
+                            tiedMarkerDOMESNumber: '(A9)',
                             localSiteTiesAccuracy: 0,
-                            surveyMethod: "(GPS CAMPAIGN/TRILATERATION/TRIANGULATION/etc)",
+                            surveyMethod: '(GPS CAMPAIGN/TRILATERATION/TRIANGULATION/etc)',
                             differentialComponentsGNSSMarkerToTiedMonumentITRS: {
                                 dx: 0,
                                 dy: 0,
@@ -295,10 +295,10 @@ export class JsonServiceSpecData {
                         frequencyStandard: {
                             validTime: {
                                 abstractTimePrimitive: {
-                                    "gml:TimePeriod": {
+                                    'gml:TimePeriod': {
                                         beginPosition: {
                                             value: [
-                                                "2001-08-23T00:00:00.000Z"
+                                                '2001-08-23T00:00:00.000Z'
                                             ]
                                         },
                                         endPosition: {
@@ -310,10 +310,10 @@ export class JsonServiceSpecData {
                                 }
                             },
                             standardType: {
-                                value: "Cesium / Rcvr 1"
+                                value: 'Cesium / Rcvr 1'
                             },
                             inputFrequency: 0,
-                            notes: "HP 5071A (S/N - 3249A00660)"
+                            notes: 'HP 5071A (S/N - 3249A00660)'
                         }
                     }
                 ],
@@ -334,7 +334,7 @@ export class JsonServiceSpecData {
                         pressureSensor: {
                             validTime: {
                                 abstractTimePrimitive: {
-                                    "gml:TimePeriod": {
+                                    'gml:TimePeriod': {
                                         beginPosition: {
                                             value: [
                                                 null
@@ -356,8 +356,8 @@ export class JsonServiceSpecData {
                             dataSamplingInterval: 0,
                             accuracyHPa: 0,
                             notes: null,
-                            manufacturer: "Vaisala",
-                            serialNumber: "P2240006",
+                            manufacturer: 'Vaisala',
+                            serialNumber: 'P2240006',
                             heightDiffToAntenna: 0
                         }
                     }
@@ -378,7 +378,7 @@ export class JsonServiceSpecData {
                         temperatureSensor: {
                             validTime: {
                                 abstractTimePrimitive: {
-                                    "gml:TimePeriod": {
+                                    'gml:TimePeriod': {
                                         beginPosition: {
                                             value: [
                                                 null
@@ -400,8 +400,8 @@ export class JsonServiceSpecData {
                             dataSamplingInterval: 0,
                             accuracyDegreesCelcius: 0,
                             notes: null,
-                            manufacturer: "Vaisala",
-                            serialNumber: "P2240006",
+                            manufacturer: 'Vaisala',
+                            serialNumber: 'P2240006',
                             heightDiffToAntenna: 0,
                             aspiration: null
                         }
@@ -423,7 +423,7 @@ export class JsonServiceSpecData {
                         waterVaporSensor: {
                             validTime: {
                                 abstractTimePrimitive: {
-                                    "gml:TimePeriod": {
+                                    'gml:TimePeriod': {
                                         beginPosition: {
                                             value: [
                                                 null
@@ -465,17 +465,17 @@ export class JsonServiceSpecData {
                         ciResponsibleParty: {
                             individualName: {
                                 characterString: {
-                                    "gco:CharacterString": "fff"
+                                    'gco:CharacterString': 'fff'
                                 }
                             },
                             organisationName: {
                                 characterString: {
-                                    "gco:CharacterString": "ggg"
+                                    'gco:CharacterString': 'ggg'
                                 }
                             },
                             positionName: {
                                 characterString: {
-                                    "gco:CharacterString": null
+                                    'gco:CharacterString': null
                                 }
                             },
                             contactInfo: {
@@ -485,34 +485,34 @@ export class JsonServiceSpecData {
                                             deliveryPoint: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": null
+                                                        'gco:CharacterString': null
                                                     }
                                                 }
                                             ],
                                             city: {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 },
                                                 country: {
                                                     characterString: {
-                                                        "gco:CharacterString": null
+                                                        'gco:CharacterString': null
                                                     }
                                                 }
                                             },
                                             administrativeArea: {
                                                 characterString: {
-                                                    "gco:CharacterString": "hhh"
+                                                    'gco:CharacterString': 'hhh'
                                                 }
                                             },
                                             postalCode: {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             },
                                             electronicMailAddress: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": null
+                                                        'gco:CharacterString': null
                                                     }
                                                 }
                                             ]
@@ -523,14 +523,14 @@ export class JsonServiceSpecData {
                                             voice: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": null
+                                                        'gco:CharacterString': null
                                                     }
                                                 }
                                             ],
                                             facsimile: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": null
+                                                        'gco:CharacterString': null
                                                     }
                                                 }
                                             ]
@@ -555,17 +555,17 @@ export class JsonServiceSpecData {
                         ciResponsibleParty: {
                             individualName: {
                                 characterString: {
-                                    "gco:CharacterString": "Randall E. Taylor"
+                                    'gco:CharacterString': 'Randall E. Taylor'
                                 }
                             },
                             organisationName: {
                                 characterString: {
-                                    "gco:CharacterString": "National Geospatial-Intelligence Agency"
+                                    'gco:CharacterString': 'National Geospatial-Intelligence Agency'
                                 }
                             },
                             positionName: {
                                 characterString: {
-                                    "gco:CharacterString": null
+                                    'gco:CharacterString': null
                                 }
                             },
                             contactInfo: {
@@ -575,34 +575,34 @@ export class JsonServiceSpecData {
                                             deliveryPoint: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": "3838 Vogel Rd., Arnold, MO 63010-6238"
+                                                        'gco:CharacterString': '3838 Vogel Rd., Arnold, MO 63010-6238'
                                                     }
                                                 }
                                             ],
                                             city: {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 },
                                                 country: {
                                                     characterString: {
-                                                        "gco:CharacterString": null
+                                                        'gco:CharacterString': null
                                                     }
                                                 }
                                             },
                                             administrativeArea: {
                                                 characterString: {
-                                                    "gco:CharacterString": "sss"
+                                                    'gco:CharacterString': 'sss'
                                                 }
                                             },
                                             postalCode: {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             },
                                             electronicMailAddress: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": "Randall.E.Taylor@nga.mil"
+                                                        'gco:CharacterString': 'Randall.E.Taylor@nga.mil'
                                                     }
                                                 }
                                             ]
@@ -613,14 +613,14 @@ export class JsonServiceSpecData {
                                             voice: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": "(314) 676-1223"
+                                                        'gco:CharacterString': '(314) 676-1223'
                                                     }
                                                 }
                                             ],
                                             facsimile: [
                                                 {
                                                     characterString: {
-                                                        "gco:CharacterString": "(314) 676-3174"
+                                                        'gco:CharacterString': '(314) 676-3174'
                                                     }
                                                 }
                                             ]
@@ -643,43 +643,43 @@ export class JsonServiceSpecData {
                 atSite: {},
                 formInformation: {},
                 siteIdentification: {
-                    bedrockCondition: "(FRESH/JOINTED/WEATHERED)",
-                    bedrockType: "(IGNEOUS/METAMORPHIC/SEDIMENTARY)",
-                    cdpNumber: "n/a",
+                    bedrockCondition: '(FRESH/JOINTED/WEATHERED)',
+                    bedrockType: '(IGNEOUS/METAMORPHIC/SEDIMENTARY)',
+                    cdpNumber: 'n/a',
                     dateInstalled: {
                         value: [
-                            "1986-01-01 00:00:00"
+                            '1986-01-01 00:00:00'
                         ]
                     },
                     distanceActivity: null,
                     faultZonesNearby: {
-                        value: "(YES/NO/Name of the zone)"
+                        value: '(YES/NO/Name of the zone)'
                     },
                     foundationDepth: 0,
-                    fourCharacterID: "ADE1",
-                    fractureSpacing: "(1-10 cm/11-50 cm/51-200 cm/over 200 cm)",
+                    fourCharacterID: 'ADE1',
+                    fractureSpacing: '(1-10 cm/11-50 cm/51-200 cm/over 200 cm)',
                     geologicCharacteristic: {
-                        value: "(BEDROCK/CLAY/CONGLOMERATE/GRAVEL/SAND/etc)"
+                        value: '(BEDROCK/CLAY/CONGLOMERATE/GRAVEL/SAND/etc)'
                     },
                     heightOfTheMonument: 0,
-                    iersDOMESNumber: "50109S001",
-                    markerDescription: "None",
+                    iersDOMESNumber: '50109S001',
+                    markerDescription: 'None',
                     monumentDescription: {
-                        value: "None"
+                        value: 'None'
                     },
-                    monumentFoundation: "(STEEL RODS, CONCRETE BLOCK, ROOF, etc)",
+                    monumentFoundation: '(STEEL RODS, CONCRETE BLOCK, ROOF, etc)',
                     monumentInscription: null,
                     notes: null,
-                    siteName: "A3ee"
+                    siteName: 'A3ee'
                 },
                 siteLocation: {
-                    city: "Salisbury",
-                    state: "South Australia",
+                    city: 'Salisbury',
+                    state: 'South Australia',
                     countryCodeISO: {
-                        value: "Australia"
+                        value: 'Australia'
                     },
                     tectonicPlate: {
-                        value: "Australian"
+                        value: 'Australian'
                     },
                     notes: null,
                     approximatePositionITRF: {
@@ -722,17 +722,17 @@ export class JsonServiceSpecData {
                     ciResponsibleParty: {
                         individualName: {
                             characterString: {
-                                "gco:CharacterString": "James C Berra"
+                                'gco:CharacterString': 'James C Berra'
                             }
                         },
                         organisationName: {
                             characterString: {
-                                "gco:CharacterString": "National Geospatial-Intelligence Agency"
+                                'gco:CharacterString': 'National Geospatial-Intelligence Agency'
                             }
                         },
                         positionName: {
                             characterString: {
-                                "gco:CharacterString": null
+                                'gco:CharacterString': null
                             }
                         },
                         contactInfo: {
@@ -742,34 +742,34 @@ export class JsonServiceSpecData {
                                         deliveryPoint: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": "3838 Vogel Rd., Arnold, MO 63010-6238"
+                                                    'gco:CharacterString': '3838 Vogel Rd., Arnold, MO 63010-6238'
                                                 }
                                             }
                                         ],
                                         city: {
                                             characterString: {
-                                                "gco:CharacterString": null
+                                                'gco:CharacterString': null
                                             },
                                             country: {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             }
                                         },
                                         administrativeArea: {
                                             characterString: {
-                                                "gco:CharacterString": "ccc"
+                                                'gco:CharacterString': 'ccc'
                                             }
                                         },
                                         postalCode: {
                                             characterString: {
-                                                "gco:CharacterString": null
+                                                'gco:CharacterString': null
                                             }
                                         },
                                         electronicMailAddress: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": "James.C.Berra@nga.mil"
+                                                    'gco:CharacterString': 'James.C.Berra@nga.mil'
                                                 }
                                             }
                                         ]
@@ -780,14 +780,14 @@ export class JsonServiceSpecData {
                                         voice: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": "(314) 676-9140"
+                                                    'gco:CharacterString': '(314) 676-9140'
                                                 }
                                             }
                                         ],
                                         facsimile: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": "(314) 676-3174"
+                                                    'gco:CharacterString': '(314) 676-3174'
                                                 }
                                             }
                                         ]
@@ -812,17 +812,17 @@ export class JsonServiceSpecData {
                     ciResponsibleParty: {
                         individualName: {
                             characterString: {
-                                "gco:CharacterString": "ddd"
+                                'gco:CharacterString': 'ddd'
                             }
                         },
                         organisationName: {
                             characterString: {
-                                "gco:CharacterString": "ddd"
+                                'gco:CharacterString': 'ddd'
                             }
                         },
                         positionName: {
                             characterString: {
-                                "gco:CharacterString": null
+                                'gco:CharacterString': null
                             }
                         },
                         contactInfo: {
@@ -832,34 +832,34 @@ export class JsonServiceSpecData {
                                         deliveryPoint: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             }
                                         ],
                                         city: {
                                             characterString: {
-                                                "gco:CharacterString": null
+                                                'gco:CharacterString': null
                                             },
                                             country: {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             }
                                         },
                                         administrativeArea: {
                                             characterString: {
-                                                "gco:CharacterString": "ddd"
+                                                'gco:CharacterString': 'ddd'
                                             }
                                         },
                                         postalCode: {
                                             characterString: {
-                                                "gco:CharacterString": null
+                                                'gco:CharacterString': null
                                             }
                                         },
                                         electronicMailAddress: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             }
                                         ]
@@ -870,14 +870,14 @@ export class JsonServiceSpecData {
                                         voice: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             }
                                         ],
                                         facsimile: [
                                             {
                                                 characterString: {
-                                                    "gco:CharacterString": null
+                                                    'gco:CharacterString': null
                                                 }
                                             }
                                         ]
@@ -888,30 +888,30 @@ export class JsonServiceSpecData {
                     }
                 },
                 moreInformation: {
-                    TYPE_NAME: "GEODESYML_0_4.MoreInformationType",
+                    TYPE_NAME: 'GEODESYML_0_4.MoreInformationType',
                     dataCenter: [
-                        "CDDIS",
-                        "SIO"
+                        'CDDIS',
+                        'SIO'
                     ],
-                    urlForMoreInformation: "",
-                    siteMap: "(Y or URL)",
-                    siteDiagram: "(Y or URL)",
-                    horizonMask: "(Y or URL)",
-                    monumentDescription: "(Y or URL)",
-                    sitePictures: "(Y or URL)",
-                    notes: "",
-                    antennaGraphicsWithDimensions: "",
-                    insertTextGraphicFromAntenna: "",
+                    urlForMoreInformation: '',
+                    siteMap: '(Y or URL)',
+                    siteDiagram: '(Y or URL)',
+                    horizonMask: '(Y or URL)',
+                    monumentDescription: '(Y or URL)',
+                    sitePictures: '(Y or URL)',
+                    notes: '',
+                    antennaGraphicsWithDimensions: '',
+                    insertTextGraphicFromAntenna: '',
                     doi: {
-                        TYPE_NAME: "GML_3_2_1.CodeType",
-                        codeSpace: "eGeodesy/doi",
-                        value: "TODO"
+                        TYPE_NAME: 'GML_3_2_1.CodeType',
+                        codeSpace: 'eGeodesy/doi',
+                        value: 'TODO'
                     }
                 },
                 dataStreams: {
-                    TYPE_NAME: "GEODESYML_0_4.DataStreamPropertyType"
+                    TYPE_NAME: 'GEODESYML_0_4.DataStreamPropertyType'
                 }
             }
-        }
+        };
     }
 }
