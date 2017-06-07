@@ -136,11 +136,11 @@ export function main() {
               let view: any = DataViewTranslatorSpecData.viewObject();
               let cartesianPositionView: any = view.siteLocation.cartesianPosition;
 
-              let cartesianPositionData: any = DataViewTranslatorService.translateCartesianPosition(cartesianPositionView, {viewToData: true});
+              let cartesianPosData: any = DataViewTranslatorService.translateCartesianPosition(cartesianPositionView, {viewToData: true});
 
-              expect(cartesianPositionData.point.pos.value[0]).toBe(cartesianPositionView.cartesianPosition_x);
-              expect(cartesianPositionData.point.pos.value[1]).toBe(cartesianPositionView.cartesianPosition_y);
-              expect(cartesianPositionData.point.pos.value[2]).toBe(cartesianPositionView.cartesianPosition_z);
+              expect(cartesianPosData.point.pos.value[0]).toBe(cartesianPositionView.cartesianPosition_x);
+              expect(cartesianPosData.point.pos.value[1]).toBe(cartesianPositionView.cartesianPosition_y);
+              expect(cartesianPosData.point.pos.value[2]).toBe(cartesianPositionView.cartesianPosition_z);
           });
 
           it('should translate SiteLocations CartesianPosition View to Data - has null point values', () => {
@@ -148,29 +148,29 @@ export function main() {
               let cartesianPositionView: any = view.siteLocation.cartesianPosition;
               cartesianPositionView.cartesianPosition_x = null; // The UI forces either all to be required or none to be.  So just one is ok
 
-              let cartesianPositionData: any = DataViewTranslatorService.translateCartesianPosition(cartesianPositionView, {viewToData: true});
+              let cartesianPosData: any = DataViewTranslatorService.translateCartesianPosition(cartesianPositionView, {viewToData: true});
 
-              expect(typeof cartesianPositionData).toBe("object");
-              expect(Object.keys(cartesianPositionData).length).toBe(0);
+              expect(typeof cartesianPosData).toBe('object');
+              expect(Object.keys(cartesianPosData).length).toBe(0);
           });
 
           it('should translate SiteLocations CartesianPosition Data to View - has 3 point values (normal case)', () => {
               let data: any = DataViewTranslatorSpecData.dataObject();
-              let cartesianPositionData: any = data.siteLocation.approximatePositionITRF.cartesianPosition;
+              let cartesianPosData: any = data.siteLocation.approximatePositionITRF.cartesianPosition;
 
-              let cartesianPositionView: any = DataViewTranslatorService.translateCartesianPosition(cartesianPositionData, {viewToData: false});
+              let cartesianPositionView: any = DataViewTranslatorService.translateCartesianPosition(cartesianPosData, {viewToData: false});
 
-              expect(cartesianPositionView.cartesianPosition_x).toBe(cartesianPositionData.point.pos.value[0]);
-              expect(cartesianPositionView.cartesianPosition_y).toBe(cartesianPositionData.point.pos.value[1]);
-              expect(cartesianPositionView.cartesianPosition_z).toBe(cartesianPositionData.point.pos.value[2]);
+              expect(cartesianPositionView.cartesianPosition_x).toBe(cartesianPosData.point.pos.value[0]);
+              expect(cartesianPositionView.cartesianPosition_y).toBe(cartesianPosData.point.pos.value[1]);
+              expect(cartesianPositionView.cartesianPosition_z).toBe(cartesianPosData.point.pos.value[2]);
           });
 
           it('should translate SiteLocations CartesianPosition Data to View - has null point values', () => {
-              let cartesianPositionData = {TYPE_NAME: "GEODESYML_0_4.CartesianPosition"};
+              let cartesianPosData = {TYPE_NAME: 'GEODESYML_0_4.CartesianPosition'};
 
-              let cartesianPositionView: any = DataViewTranslatorService.translateCartesianPosition(cartesianPositionData, {viewToData: false});
+              let cartesianPositionView: any = DataViewTranslatorService.translateCartesianPosition(cartesianPosData, {viewToData: false});
 
-              expect(typeof cartesianPositionView).toBe("object");
+              expect(typeof cartesianPositionView).toBe('object');
               expect(cartesianPositionView.cartesianPosition_x).toBeNull();
               expect(cartesianPositionView.cartesianPosition_y).toBeNull();
               expect(cartesianPositionView.cartesianPosition_z).toBeNull();
@@ -180,11 +180,11 @@ export function main() {
               let view: any = DataViewTranslatorSpecData.viewObject();
               let geodeticPositionView: any = view.siteLocation.geodeticPosition;
 
-              let geodeticPositionData: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPositionView, {viewToData: true});
+              let geodeticPosData: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPositionView, {viewToData: true});
 
-              expect(geodeticPositionData.point.pos.value[0]).toBe(geodeticPositionView.geodeticPosition_lat);
-              expect(geodeticPositionData.point.pos.value[1]).toBe(geodeticPositionView.geodeticPosition_long);
-              expect(geodeticPositionData.point.pos.value[2]).toBe(geodeticPositionView.geodeticPosition_height);
+              expect(geodeticPosData.point.pos.value[0]).toBe(geodeticPositionView.geodeticPosition_lat);
+              expect(geodeticPosData.point.pos.value[1]).toBe(geodeticPositionView.geodeticPosition_long);
+              expect(geodeticPosData.point.pos.value[2]).toBe(geodeticPositionView.geodeticPosition_height);
           });
 
           it('should translate SiteLocations GeodeticPosition View to Data - has null point values', () => {
@@ -192,28 +192,28 @@ export function main() {
               let geodeticPositionView: any = view.siteLocation.geodeticPosition;
               geodeticPositionView.geodeticPosition_lat = null; // The UI forces either all to be required or none to be.  So just one is ok
 
-              let geodeticPositionData: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPositionView, {viewToData: true});
+              let geodeticPosData: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPositionView, {viewToData: true});
 
-              expect(typeof geodeticPositionData).toBe("object");
-              expect(Object.keys(geodeticPositionData).length).toBe(0);
+              expect(typeof geodeticPosData).toBe('object');
+              expect(Object.keys(geodeticPosData).length).toBe(0);
           });
 
           it('should translate SiteLocations GeodeticPosition Data to View - has 3 point values (normal case)', () => {
               let data: any = DataViewTranslatorSpecData.dataObject();
-              let geodeticPositionData: any = data.siteLocation.approximatePositionITRF.geodeticPosition;
+              let geodeticPosData: any = data.siteLocation.approximatePositionITRF.geodeticPosition;
 
-              let geodeticPositionView: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPositionData, {viewToData: false});
+              let geodeticPositionView: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPosData, {viewToData: false});
 
-              expect(geodeticPositionView.geodeticPosition_lat).toBe(geodeticPositionData.point.pos.value[0]);
-              expect(geodeticPositionView.geodeticPosition_long).toBe(geodeticPositionData.point.pos.value[1]);
-              expect(geodeticPositionView.geodeticPosition_height).toBe(geodeticPositionData.point.pos.value[2]);
+              expect(geodeticPositionView.geodeticPosition_lat).toBe(geodeticPosData.point.pos.value[0]);
+              expect(geodeticPositionView.geodeticPosition_long).toBe(geodeticPosData.point.pos.value[1]);
+              expect(geodeticPositionView.geodeticPosition_height).toBe(geodeticPosData.point.pos.value[2]);
           });
 
           it('should translate SiteLocations GeodeticPosition Data to View - has null point values', () => {
-              let geodeticPositionData = {TYPE_NAME: "GEODESYML_0_4.GeodeticPosition"};
-              let geodeticPositionView: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPositionData, {viewToData: false});
+              let geodeticPosData = {TYPE_NAME: 'GEODESYML_0_4.GeodeticPosition'};
+              let geodeticPositionView: any = DataViewTranslatorService.translateGeodeticPosition(geodeticPosData, {viewToData: false});
 
-              expect(typeof geodeticPositionView).toBe("object");
+              expect(typeof geodeticPositionView).toBe('object');
               expect(geodeticPositionView.geodeticPosition_lat).toBeNull();
               expect(geodeticPositionView.geodeticPosition_long).toBeNull();
               expect(geodeticPositionView.geodeticPosition_height).toBeNull();
@@ -227,14 +227,14 @@ export function main() {
               // The mapper will pull out no values to try and translate
               let geodeticPositionView: any = DataViewTranslatorService.translateGeodeticPosition(undefined, {viewToData: false});
 
-              expect(typeof geodeticPositionView).toBe("object");
+              expect(typeof geodeticPositionView).toBe('object');
               expect(geodeticPositionView.geodeticPosition_lat).toBeNull();
               expect(geodeticPositionView.geodeticPosition_long).toBeNull();
               expect(geodeticPositionView.geodeticPosition_height).toBeNull();
 
               let cartesianPositionView: any = DataViewTranslatorService.translateCartesianPosition(undefined, {viewToData: false});
 
-              expect(typeof cartesianPositionView).toBe("object");
+              expect(typeof cartesianPositionView).toBe('object');
               expect(cartesianPositionView.cartesianPosition_x).toBeNull();
               expect(cartesianPositionView.cartesianPosition_y).toBeNull();
               expect(cartesianPositionView.cartesianPosition_z).toBeNull();

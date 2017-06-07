@@ -274,7 +274,7 @@ export class DataViewTranslatorSpecData {
             signalObstructions: [],
             multipathSources: [],
             siteOwner: []
-        }
+        };
     }
 
     /**
@@ -286,836 +286,841 @@ export class DataViewTranslatorSpecData {
         return {
             humiditySensors: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.HumiditySensorPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.HumiditySensorPropertyType',
                     humiditySensor: {
-                        TYPE_NAME: "GEODESYML_0_4.HumiditySensorType",
+                        TYPE_NAME: 'GEODESYML_0_4.HumiditySensorType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            codeSpace: "eGeodesy/type",
-                            value: "HMP233"
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/type',
+                            value: 'HMP233'
                         },
-                        notes: "(multiple lines)",
+                        notes: '(multiple lines)',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturer: "Vaisala",
-                        serialNumber: "P2240006",
+                        manufacturer: 'Vaisala',
+                        serialNumber: 'P2240006',
                         heightDiffToAntenna: 0,
                         calibrationDate: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: []
                         },
                         validTime: {
-                            TYPE_NAME: "GML_3_2_1.TimePrimitivePropertyType"
+                            TYPE_NAME: 'GML_3_2_1.TimePrimitivePropertyType'
                         },
                         dataSamplingInterval: 900,
                         accuracyPercentRelativeHumidity: 0,
-                        aspiration: "(UNASPIRATED/NATURAL/FAN/etc)"
+                        aspiration: '(UNASPIRATED/NATURAL/FAN/etc)'
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             gnssReceivers: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.GnssReceiverPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                     gnssReceiver: {
-                        TYPE_NAME: "GEODESYML_0_4.GnssReceiverType",
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            value: ''
                         },
-                        notes: "Receiver 1",
+                        notes: 'Receiver 1',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturerName: "",
-                        manufacturerModel: "",
-                        manufacturerPartNumber: "",
-                        manufacturerDescription: "",
-                        manufacturerSerialNumber: "3213",
+                        manufacturerName: '',
+                        manufacturerModel: '',
+                        manufacturerPartNumber: '',
+                        manufacturerDescription: '',
+                        manufacturerSerialNumber: '3213',
                         igsModelCode: {
-                            TYPE_NAME: "GEODESYML_0_4.IgsReceiverModelCodeType",
-                            codeList: "http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode",
-                            codeListValue: "ASHTECH Z-XII3",
-                            codeSpace: "https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab",
-                            value: "ASHTECH Z-XII3"
+                            TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
+                            codeList:
+                                'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                            codeListValue: 'ASHTECH Z-XII3',
+                            codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
+                            value: 'ASHTECH Z-XII3'
                         },
                         satelliteSystem: [
                             {
-                                TYPE_NAME: "GML_3_2_1.CodeType",
-                                codeSpace: "eGeodesy/satelliteSystem",
-                                value: "GPS"
+                                TYPE_NAME: 'GML_3_2_1.CodeType',
+                                codeSpace: 'eGeodesy/satelliteSystem',
+                                value: 'GPS'
                             }
                         ],
-                        firmwareVersion: "1Y04-1D04",
+                        firmwareVersion: '1Y04-1D04',
                         dateInstalled: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "1995-03-20T00:00:00.000Z"
+                                '1995-03-20T00:00:00.000Z'
                             ]
                         },
                         dateRemoved: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "1996-01-01T00:00:00.000Z"
+                                '1996-01-01T00:00:00.000Z'
                             ]
                         }
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 },
                 {
-                    TYPE_NAME: "GEODESYML_0_4.GnssReceiverPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                     gnssReceiver: {
-                        TYPE_NAME: "GEODESYML_0_4.GnssReceiverType",
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            value: ''
                         },
-                        notes: "Receiver 1",
+                        notes: 'Receiver 1',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturerName: "",
-                        manufacturerModel: "",
-                        manufacturerPartNumber: "",
-                        manufacturerDescription: "",
-                        manufacturerSerialNumber: "3213",
+                        manufacturerName: '',
+                        manufacturerModel: '',
+                        manufacturerPartNumber: '',
+                        manufacturerDescription: '',
+                        manufacturerSerialNumber: '3213',
                         igsModelCode: {
-                            TYPE_NAME: "GEODESYML_0_4.IgsReceiverModelCodeType",
-                            codeList: "http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode",
-                            codeListValue: "ASHTECH Z-XII3",
-                            codeSpace: "https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab",
-                            value: "ASHTECH Z-XII3"
+                            TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
+                            codeList:
+                                'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                            codeListValue: 'ASHTECH Z-XII3',
+                            codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
+                            value: 'ASHTECH Z-XII3'
                         },
                         satelliteSystem: [
                             {
-                                TYPE_NAME: "GML_3_2_1.CodeType",
-                                codeSpace: "eGeodesy/satelliteSystem",
-                                value: "GPS"
+                                TYPE_NAME: 'GML_3_2_1.CodeType',
+                                codeSpace: 'eGeodesy/satelliteSystem',
+                                value: 'GPS'
                             }
                         ],
-                        firmwareVersion: "1Y05-1D04",
+                        firmwareVersion: '1Y05-1D04',
                         dateInstalled: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "1996-01-01T00:00:00.000Z"
+                                '1996-01-01T00:00:00.000Z'
                             ]
                         },
                         dateRemoved: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "1998-09-17T00:00:00.000Z"
+                                '1998-09-17T00:00:00.000Z'
                             ]
                         }
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 },
                 {
-                    TYPE_NAME: "GEODESYML_0_4.GnssReceiverPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                     gnssReceiver: {
-                        TYPE_NAME: "GEODESYML_0_4.GnssReceiverType",
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            value: ''
                         },
-                        notes: "Receiver 1",
+                        notes: 'Receiver 1',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturerName: "",
-                        manufacturerModel: "",
-                        manufacturerPartNumber: "",
-                        manufacturerDescription: "",
-                        manufacturerSerialNumber: "3213",
+                        manufacturerName: '',
+                        manufacturerModel: '',
+                        manufacturerPartNumber: '',
+                        manufacturerDescription: '',
+                        manufacturerSerialNumber: '3213',
                         igsModelCode: {
-                            TYPE_NAME: "GEODESYML_0_4.IgsReceiverModelCodeType",
-                            codeList: "http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode",
-                            codeListValue: "ASHTECH Z-XII3",
-                            codeSpace: "https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab",
-                            value: "ASHTECH Z-XII3"
+                            TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
+                            codeList:
+                                'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                            codeListValue: 'ASHTECH Z-XII3',
+                            codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
+                            value: 'ASHTECH Z-XII3'
                         },
                         satelliteSystem: [
                             {
-                                TYPE_NAME: "GML_3_2_1.CodeType",
-                                codeSpace: "eGeodesy/satelliteSystem",
-                                value: "GPS"
+                                TYPE_NAME: 'GML_3_2_1.CodeType',
+                                codeSpace: 'eGeodesy/satelliteSystem',
+                                value: 'GPS'
                             }
                         ],
-                        firmwareVersion: "1Y06-1D04",
+                        firmwareVersion: '1Y06-1D04',
                         dateInstalled: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "1998-09-17T00:00:00.000Z"
+                                '1998-09-17T00:00:00.000Z'
                             ]
                         },
                         dateRemoved: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "2000-08-01T00:00:00.000Z"
+                                '2000-08-01T00:00:00.000Z'
                             ]
                         }
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 },
                 {
-                    TYPE_NAME: "GEODESYML_0_4.GnssReceiverPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.GnssReceiverPropertyType',
                     gnssReceiver: {
-                        TYPE_NAME: "GEODESYML_0_4.GnssReceiverType",
+                        TYPE_NAME: 'GEODESYML_0_4.GnssReceiverType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            value: ''
                         },
-                        notes: "Receiver 1",
+                        notes: 'Receiver 1',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturerName: "",
-                        manufacturerModel: "",
-                        manufacturerPartNumber: "",
-                        manufacturerDescription: "",
-                        manufacturerSerialNumber: "3213",
+                        manufacturerName: '',
+                        manufacturerModel: '',
+                        manufacturerPartNumber: '',
+                        manufacturerDescription: '',
+                        manufacturerSerialNumber: '3213',
                         igsModelCode: {
-                            TYPE_NAME: "GEODESYML_0_4.IgsReceiverModelCodeType",
-                            codeList: "http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode",
-                            codeListValue: "ASHTECH Z-XII3",
-                            codeSpace: "https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab",
-                            value: "ASHTECH Z-XII3"
+                            TYPE_NAME: 'GEODESYML_0_4.IgsReceiverModelCodeType',
+                            codeList:
+                                'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSReceiverTypeCode',
+                            codeListValue: 'ASHTECH Z-XII3',
+                            codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
+                            value: 'ASHTECH Z-XII3'
                         },
                         satelliteSystem: [
                             {
-                                TYPE_NAME: "GML_3_2_1.CodeType",
-                                codeSpace: "eGeodesy/satelliteSystem",
-                                value: "GPS"
+                                TYPE_NAME: 'GML_3_2_1.CodeType',
+                                codeSpace: 'eGeodesy/satelliteSystem',
+                                value: 'GPS'
                             }
                         ],
-                        firmwareVersion: "1Y07-1DY4",
+                        firmwareVersion: '1Y07-1DY4',
                         dateInstalled: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "2000-08-01T00:00:00.000Z"
+                                '2000-08-01T00:00:00.000Z'
                             ]
                         },
                         dateRemoved: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: []
                         }
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             gnssAntennas: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.GnssAntennaPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.GnssAntennaPropertyType',
                     gnssAntenna: {
-                        TYPE_NAME: "GEODESYML_0_4.GnssAntennaType",
+                        TYPE_NAME: 'GEODESYML_0_4.GnssAntennaType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            value: ''
                         },
-                        notes: "",
+                        notes: '',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturerName: "",
-                        manufacturerModel: "",
-                        manufacturerPartNumber: "",
-                        manufacturerDescription: "",
-                        manufacturerSerialNumber: "1121",
+                        manufacturerName: '',
+                        manufacturerModel: '',
+                        manufacturerPartNumber: '',
+                        manufacturerDescription: '',
+                        manufacturerSerialNumber: '1121',
                         igsModelCode: {
-                            TYPE_NAME: "GEODESYML_0_4.IgsAntennaModelCodeType",
-                            codeList: "http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSAntennaTypeCode",
-                            codeListValue: "ASH700936B_M",
-                            codeSpace: "https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab",
-                            value: "ASH700936B_M"
+                            TYPE_NAME: 'GEODESYML_0_4.IgsAntennaModelCodeType',
+                            codeList:
+                                'http://xml.gov.au/icsm/geodesyml/codelists/antenna-receiver-codelists.xml#GeodesyML_GNSSAntennaTypeCode',
+                            codeListValue: 'ASH700936B_M',
+                            codeSpace: 'https://igscb.jpl.nasa.gov/igscb/station/general/rcvr_ant.tab',
+                            value: 'ASH700936B_M'
                         },
                         antennaReferencePoint: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            codeSpace: "eGeodesy/antennaReferencePoint",
-                            value: "BPA"
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/antennaReferencePoint',
+                            value: 'BPA'
                         },
                         markerArpUpEcc: 0,
                         antennaRadomeType: {
-                            TYPE_NAME: "GEODESYML_0_4.IgsRadomeModelCodeType",
-                            codeSpace: "eGeodesy/antennaRadomeType",
-                            value: "SNOW"
+                            TYPE_NAME: 'GEODESYML_0_4.IgsRadomeModelCodeType',
+                            codeSpace: 'eGeodesy/antennaRadomeType',
+                            value: 'SNOW'
                         },
-                        radomeSerialNumber: "",
-                        antennaCableType: "(vendor & type number)",
+                        radomeSerialNumber: '',
+                        antennaCableType: '(vendor & type number)',
                         dateInstalled: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: [
-                                "1995-01-01T00:00:00.000Z"
+                                '1995-01-01T00:00:00.000Z'
                             ]
                         },
                         dateRemoved: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: []
                         }
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             surveyedLocalTies: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.SurveyedLocalTiePropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.SurveyedLocalTiePropertyType',
                     surveyedLocalTie: {
-                        TYPE_NAME: "GEODESYML_0_4.SurveyedLocalTieType",
+                        TYPE_NAME: 'GEODESYML_0_4.SurveyedLocalTieType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         boundedBy: {
-                            TYPE_NAME: "GML_3_2_1.BoundingShapeType"
+                            TYPE_NAME: 'GML_3_2_1.BoundingShapeType'
                         },
-                        tiedMarkerName: "UNK",
-                        tiedMarkerUsage: "(SLR/VLBI/LOCAL CONTROL/FOOTPRINT/etc)",
-                        tiedMarkerCDPNumber: "(A4)",
-                        tiedMarkerDOMESNumber: "(A9)",
+                        tiedMarkerName: 'UNK',
+                        tiedMarkerUsage: '(SLR/VLBI/LOCAL CONTROL/FOOTPRINT/etc)',
+                        tiedMarkerCDPNumber: '(A4)',
+                        tiedMarkerDOMESNumber: '(A9)',
                         differentialComponentsGNSSMarkerToTiedMonumentITRS: {
-                            TYPE_NAME: "GEODESYML_0_4.SurveyedLocalTieType.DifferentialComponentsGNSSMarkerToTiedMonumentITRS",
+                            TYPE_NAME: 'GEODESYML_0_4.SurveyedLocalTieType.DifferentialComponentsGNSSMarkerToTiedMonumentITRS',
                             dx: 0,
                             dy: 0,
                             dz: 0
                         },
                         localSiteTiesAccuracy: 0,
-                        surveyMethod: "(GPS CAMPAIGN/TRILATERATION/TRIANGULATION/etc)",
+                        surveyMethod: '(GPS CAMPAIGN/TRILATERATION/TRIANGULATION/etc)',
                         dateMeasured: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: []
                         },
-                        notes: "",
+                        notes: '',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         }
                     },
                     tieMeasurement: {
-                        TYPE_NAME: "GEODESYML_0_4.TieMeasurementType"
+                        TYPE_NAME: 'GEODESYML_0_4.TieMeasurementType'
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             frequencyStandards: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.FrequencyStandardPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.FrequencyStandardPropertyType',
                     frequencyStandard: {
-                        TYPE_NAME: "GEODESYML_0_4.FrequencyStandardType",
+                        TYPE_NAME: 'GEODESYML_0_4.FrequencyStandardType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         standardType: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            codeSpace: "eGeodesy/frequencyStandardType",
-                            value: "Cesium / Rcvr 1"
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/frequencyStandardType',
+                            value: 'Cesium / Rcvr 1'
                         },
                         inputFrequency: 0,
                         validTime: {
-                            TYPE_NAME: "GML_3_2_1.TimePrimitivePropertyType",
+                            TYPE_NAME: 'GML_3_2_1.TimePrimitivePropertyType',
                             abstractTimePrimitive: {
-                                "gml:TimePeriod": {
-                                    TYPE_NAME: "GML_3_2_1.TimePeriodType",
+                                'gml:TimePeriod': {
+                                    TYPE_NAME: 'GML_3_2_1.TimePeriodType',
                                     description: {
-                                        TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                                        value: ""
+                                        TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                                        value: ''
                                     },
                                     descriptionReference: {
-                                        TYPE_NAME: "GML_3_2_1.ReferenceType"
+                                        TYPE_NAME: 'GML_3_2_1.ReferenceType'
                                     },
                                     identifier: {
-                                        TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                                        value: ""
+                                        TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                                        value: ''
                                     },
                                     beginPosition: {
-                                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                                         value: [
-                                            "2001-08-23T00:00:00.000Z"
+                                            '2001-08-23T00:00:00.000Z'
                                         ]
                                     },
                                     begin: {
-                                        TYPE_NAME: "GML_3_2_1.TimeInstantPropertyType"
+                                        TYPE_NAME: 'GML_3_2_1.TimeInstantPropertyType'
                                     },
                                     endPosition: {
-                                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                                         value: []
                                     },
                                     end: {
-                                        TYPE_NAME: "GML_3_2_1.TimeInstantPropertyType"
+                                        TYPE_NAME: 'GML_3_2_1.TimeInstantPropertyType'
                                     },
                                     timeInterval: {
-                                        TYPE_NAME: "GML_3_2_1.TimeIntervalLengthType",
+                                        TYPE_NAME: 'GML_3_2_1.TimeIntervalLengthType',
                                         value: 0
                                     }
                                 }
                             }
                         },
-                        notes: "HP 5071A (S/N - 3249A00660)",
+                        notes: 'HP 5071A (S/N - 3249A00660)',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         }
                     },
-                    notes: "",
+                    notes: '',
                     extension: {
-                        TYPE_NAME: "AnyType",
+                        TYPE_NAME: 'AnyType',
                         attributes: {
-                            "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                            "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                            '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                            '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                         }
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             localEpisodicEffects: [],
             pressureSensors: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.PressureSensorPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.PressureSensorPropertyType',
                     pressureSensor: {
-                        TYPE_NAME: "GEODESYML_0_4.PressureSensorType",
+                        TYPE_NAME: 'GEODESYML_0_4.PressureSensorType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            codeSpace: "eGeodesy/type",
-                            value: "PTB202A"
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/type',
+                            value: 'PTB202A'
                         },
-                        notes: "",
+                        notes: '',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturer: "Vaisala",
-                        serialNumber: "P2240006",
+                        manufacturer: 'Vaisala',
+                        serialNumber: 'P2240006',
                         heightDiffToAntenna: 0,
                         calibrationDate: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: []
                         },
                         validTime: {
-                            TYPE_NAME: "GML_3_2_1.TimePrimitivePropertyType"
+                            TYPE_NAME: 'GML_3_2_1.TimePrimitivePropertyType'
                         },
                         dataSamplingInterval: 900,
                         accuracyHPa: 0
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             temperatureSensors: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.TemperatureSensorPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.TemperatureSensorPropertyType',
                     temperatureSensor: {
-                        TYPE_NAME: "GEODESYML_0_4.TemperatureSensorType",
+                        TYPE_NAME: 'GEODESYML_0_4.TemperatureSensorType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            codeSpace: "eGeodesy/type",
-                            value: "HMP233"
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/type',
+                            value: 'HMP233'
                         },
-                        notes: "",
+                        notes: '',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturer: "Vaisala",
-                        serialNumber: "P2240006",
+                        manufacturer: 'Vaisala',
+                        serialNumber: 'P2240006',
                         heightDiffToAntenna: 0,
                         calibrationDate: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: []
                         },
                         validTime: {
-                            TYPE_NAME: "GML_3_2_1.TimePrimitivePropertyType"
+                            TYPE_NAME: 'GML_3_2_1.TimePrimitivePropertyType'
                         },
                         dataSamplingInterval: 900,
                         accuracyDegreesCelcius: 0,
-                        aspiration: "(UNASPIRATED/NATURAL/FAN/etc)"
+                        aspiration: '(UNASPIRATED/NATURAL/FAN/etc)'
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             waterVaporSensors: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.WaterVaporSensorPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.WaterVaporSensorPropertyType',
                     waterVaporSensor: {
-                        TYPE_NAME: "GEODESYML_0_4.WaterVaporSensorType",
+                        TYPE_NAME: 'GEODESYML_0_4.WaterVaporSensorType',
                         description: {
-                            TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                            value: ''
                         },
                         descriptionReference: {
-                            TYPE_NAME: "GML_3_2_1.ReferenceType"
+                            TYPE_NAME: 'GML_3_2_1.ReferenceType'
                         },
                         identifier: {
-                            TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                            value: ""
+                            TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                            value: ''
                         },
                         type: {
-                            TYPE_NAME: "GML_3_2_1.CodeType",
-                            codeSpace: "eGeodesy/type",
-                            value: "UNK"
+                            TYPE_NAME: 'GML_3_2_1.CodeType',
+                            codeSpace: 'eGeodesy/type',
+                            value: 'UNK'
                         },
-                        notes: "",
+                        notes: '',
                         extension: {
-                            TYPE_NAME: "AnyType",
+                            TYPE_NAME: 'AnyType',
                             attributes: {
-                                "{http://www.w3.org/2000/xmlns/}xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                                "{http://www.w3.org/2001/XMLSchema-instance}nil": "true"
+                                '{http://www.w3.org/2000/xmlns/}xsi': 'http://www.w3.org/2001/XMLSchema-instance',
+                                '{http://www.w3.org/2001/XMLSchema-instance}nil': 'true'
                             }
                         },
-                        manufacturer: "",
-                        serialNumber: "",
+                        manufacturer: '',
+                        serialNumber: '',
                         heightDiffToAntenna: 0,
                         calibrationDate: {
-                            TYPE_NAME: "GML_3_2_1.TimePositionType",
+                            TYPE_NAME: 'GML_3_2_1.TimePositionType',
                             value: []
                         },
                         validTime: {
-                            TYPE_NAME: "GML_3_2_1.TimePrimitivePropertyType"
+                            TYPE_NAME: 'GML_3_2_1.TimePrimitivePropertyType'
                         },
                         distanceToAntenna: 0
                     },
                     dateInserted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
                     dateDeleted: {
-                        TYPE_NAME: "GML_3_2_1.TimePositionType",
+                        TYPE_NAME: 'GML_3_2_1.TimePositionType',
                         value: []
                     },
-                    deletedReason: ""
+                    deletedReason: ''
                 }
             ],
             siteContacts: [
                 {
-                    TYPE_NAME: "GEODESYML_0_4.AgencyPropertyType",
+                    TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType',
                     description: {
-                        TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                        value: ""
+                        TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                        value: ''
                     },
                     descriptionReference: {
-                        TYPE_NAME: "GML_3_2_1.ReferenceType"
+                        TYPE_NAME: 'GML_3_2_1.ReferenceType'
                     },
                     identifier: {
-                        TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                        value: ""
+                        TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                        value: ''
                     },
                     mdSecurityConstraints: {
-                        TYPE_NAME: "ISO19139_GMD_20070417.MDSecurityConstraintsType"
+                        TYPE_NAME: 'ISO19139_GMD_20070417.MDSecurityConstraintsType'
                     },
                     ciResponsibleParty: {
-                        TYPE_NAME: "ISO19139_GMD_20070417.CIResponsiblePartyType",
+                        TYPE_NAME: 'ISO19139_GMD_20070417.CIResponsiblePartyType',
                         individualName: {
-                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                             characterString: {
-                                "gco:CharacterString": "Randall E. Taylor"
+                                'gco:CharacterString': 'Randall E. Taylor'
                             }
                         },
                         organisationName: {
-                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                             characterString: {
-                                "gco:CharacterString": "National Geospatial-Intelligence Agency"
+                                'gco:CharacterString': 'National Geospatial-Intelligence Agency'
                             }
                         },
                         positionName: {
-                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                         },
                         contactInfo: {
-                            TYPE_NAME: "ISO19139_GMD_20070417.CIContactPropertyType",
+                            TYPE_NAME: 'ISO19139_GMD_20070417.CIContactPropertyType',
                             ciContact: {
-                                TYPE_NAME: "ISO19139_GMD_20070417.CIContactType",
+                                TYPE_NAME: 'ISO19139_GMD_20070417.CIContactType',
                                 phone: {
-                                    TYPE_NAME: "ISO19139_GMD_20070417.CITelephonePropertyType",
+                                    TYPE_NAME: 'ISO19139_GMD_20070417.CITelephonePropertyType',
                                     ciTelephone: {
-                                        TYPE_NAME: "ISO19139_GMD_20070417.CITelephoneType",
+                                        TYPE_NAME: 'ISO19139_GMD_20070417.CITelephoneType',
                                         voice: [
                                             {
-                                                TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                                 characterString: {
-                                                    "gco:CharacterString": "(314) 676-1223"
+                                                    'gco:CharacterString': '(314) 676-1223'
                                                 }
                                             }
                                         ],
                                         facsimile: [
                                             {
-                                                TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                                 characterString: {
-                                                    "gco:CharacterString": "(314) 676-3174"
+                                                    'gco:CharacterString': '(314) 676-3174'
                                                 }
                                             }
                                         ]
                                     }
                                 },
                                 address: {
-                                    TYPE_NAME: "ISO19139_GMD_20070417.CIAddressPropertyType",
+                                    TYPE_NAME: 'ISO19139_GMD_20070417.CIAddressPropertyType',
                                     ciAddress: {
-                                        TYPE_NAME: "ISO19139_GMD_20070417.CIAddressType",
+                                        TYPE_NAME: 'ISO19139_GMD_20070417.CIAddressType',
                                         deliveryPoint: [
                                             {
-                                                TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                                 characterString: {
-                                                    "gco:CharacterString": "3838 Vogel Rd., Arnold, MO 63010-6238"
+                                                    'gco:CharacterString': '3838 Vogel Rd., Arnold, MO 63010-6238'
                                                 }
                                             }
                                         ],
                                         city: {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                             characterString: {
-                                                "gco:CharacterString": ""
+                                                'gco:CharacterString': ''
                                             }
                                         },
                                         administrativeArea: {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                                         },
                                         postalCode: {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                             characterString: {
-                                                "gco:CharacterString": ""
+                                                'gco:CharacterString': ''
                                             }
                                         },
                                         country: {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                             characterString: {
-                                                "gco:CharacterString": ""
+                                                'gco:CharacterString': ''
                                             }
                                         },
                                         electronicMailAddress: [
                                             {
-                                                TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                                 characterString: {
-                                                    "gco:CharacterString": "Randall.E.Taylor@nga.mil"
+                                                    'gco:CharacterString': 'Randall.E.Taylor@nga.mil'
                                                 }
                                             }
                                         ]
                                     }
                                 },
                                 onlineResource: {
-                                    TYPE_NAME: "ISO19139_GMD_20070417.CIOnlineResourcePropertyType"
+                                    TYPE_NAME: 'ISO19139_GMD_20070417.CIOnlineResourcePropertyType'
                                 },
                                 hoursOfService: {
-                                    TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                                    TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                                 },
                                 contactInstructions: {
-                                    TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                                    TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                                 }
                             }
                         },
                         role: {
-                            TYPE_NAME: "ISO19139_GMD_20070417.CIRoleCodePropertyType"
+                            TYPE_NAME: 'ISO19139_GMD_20070417.CIRoleCodePropertyType'
                         }
                     }
                 }
@@ -1124,107 +1129,107 @@ export class DataViewTranslatorSpecData {
             radioInterferences: [],
             signalObstructions: [],
             multipathSources: [],
-            TYPE_NAME: "GEODESYML_0_4.SiteLogType",
+            TYPE_NAME: 'GEODESYML_0_4.SiteLogType',
             description: {
-                TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                value: ""
+                TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                value: ''
             },
             descriptionReference: {
-                TYPE_NAME: "GML_3_2_1.ReferenceType"
+                TYPE_NAME: 'GML_3_2_1.ReferenceType'
             },
             identifier: {
-                TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                value: ""
+                TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                value: ''
             },
             boundedBy: {
-                TYPE_NAME: "GML_3_2_1.BoundingShapeType"
+                TYPE_NAME: 'GML_3_2_1.BoundingShapeType'
             },
             atSite: {
-                TYPE_NAME: "GEODESYML_0_4.SitePropertyType"
+                TYPE_NAME: 'GEODESYML_0_4.SitePropertyType'
             },
             formInformation: {
-                TYPE_NAME: "GEODESYML_0_4.FormInformationType",
-                preparedBy: "James C Berra",
+                TYPE_NAME: 'GEODESYML_0_4.FormInformationType',
+                preparedBy: 'James C Berra',
                 datePrepared: {
-                    TYPE_NAME: "GML_3_2_1.TimePositionType",
+                    TYPE_NAME: 'GML_3_2_1.TimePositionType',
                     value: [
-                        "2008-05-30T00:00:00.000Z"
+                        '2008-05-30T00:00:00.000Z'
                     ]
                 },
-                reportType: "NEW"
+                reportType: 'NEW'
             },
             siteIdentification: {
-                TYPE_NAME: "GEODESYML_0_4.SiteIdentificationType",
-                siteName: "Australia NGA collocated",
-                fourCharacterID: "ADE1",
-                monumentInscription: "",
-                iersDOMESNumber: "50109S001",
-                cdpNumber: "n/a",
+                TYPE_NAME: 'GEODESYML_0_4.SiteIdentificationType',
+                siteName: 'Australia NGA collocated',
+                fourCharacterID: 'ADE1',
+                monumentInscription: '',
+                iersDOMESNumber: '50109S001',
+                cdpNumber: 'n/a',
                 monumentDescription: {
-                    TYPE_NAME: "GML_3_2_1.CodeType",
-                    codeSpace: "eGeodesy/monumentDescription",
-                    value: "None"
+                    TYPE_NAME: 'GML_3_2_1.CodeType',
+                    codeSpace: 'eGeodesy/monumentDescription',
+                    value: 'None'
                 },
                 heightOfTheMonument: 0,
-                monumentFoundation: "(STEEL RODS, CONCRETE BLOCK, ROOF, etc)",
+                monumentFoundation: '(STEEL RODS, CONCRETE BLOCK, ROOF, etc)',
                 foundationDepth: 0,
-                markerDescription: "None",
+                markerDescription: 'None',
                 dateInstalled: {
-                    TYPE_NAME: "GML_3_2_1.TimePositionType",
+                    TYPE_NAME: 'GML_3_2_1.TimePositionType',
                     value: [
-                        "1986-01-01T00:00:00.000Z"
+                        '1986-01-01T00:00:00.000Z'
                     ]
                 },
                 geologicCharacteristic: {
-                    TYPE_NAME: "GML_3_2_1.CodeType",
-                    codeSpace: "eGeodesy/geologicCharacteristic",
-                    value: "(BEDROCK/CLAY/CONGLOMERATE/GRAVEL/SAND/etc)"
+                    TYPE_NAME: 'GML_3_2_1.CodeType',
+                    codeSpace: 'eGeodesy/geologicCharacteristic',
+                    value: '(BEDROCK/CLAY/CONGLOMERATE/GRAVEL/SAND/etc)'
                 },
-                bedrockType: "(IGNEOUS/METAMORPHIC/SEDIMENTARY)",
-                bedrockCondition: "(FRESH/JOINTED/WEATHERED)",
-                fractureSpacing: "(1-10 cm/11-50 cm/51-200 cm/over 200 cm)",
+                bedrockType: '(IGNEOUS/METAMORPHIC/SEDIMENTARY)',
+                bedrockCondition: '(FRESH/JOINTED/WEATHERED)',
+                fractureSpacing: '(1-10 cm/11-50 cm/51-200 cm/over 200 cm)',
                 faultZonesNearby: {
-                    TYPE_NAME: "GML_3_2_1.CodeType",
-                    codeSpace: "eGeodesy/faultZonesNearby",
-                    value: "(YES/NO/Name of the zone)"
+                    TYPE_NAME: 'GML_3_2_1.CodeType',
+                    codeSpace: 'eGeodesy/faultZonesNearby',
+                    value: '(YES/NO/Name of the zone)'
                 },
-                distanceActivity: "",
-                notes: ""
+                distanceActivity: '',
+                notes: ''
             },
             siteLocation: {
-                TYPE_NAME: "GEODESYML_0_4.SiteLocationType",
-                city: "Salisbury",
-                state: "South Australia",
+                TYPE_NAME: 'GEODESYML_0_4.SiteLocationType',
+                city: 'Salisbury',
+                state: 'South Australia',
                 countryCodeISO: {
-                    TYPE_NAME: "GEODESYML_0_4.CountryCodeType",
-                    codeSpace: "country",
-                    value: "Australia"
+                    TYPE_NAME: 'GEODESYML_0_4.CountryCodeType',
+                    codeSpace: 'country',
+                    value: 'Australia'
                 },
                 tectonicPlate: {
-                    TYPE_NAME: "GML_3_2_1.CodeType",
-                    codeSpace: "eGeodesy/tectonicPlate",
-                    value: "Australian"
+                    TYPE_NAME: 'GML_3_2_1.CodeType',
+                    codeSpace: 'eGeodesy/tectonicPlate',
+                    value: 'Australian'
                 },
                 approximatePositionITRF: {
-                    TYPE_NAME: "GEODESYML_0_4.SiteLocationType.ApproximatePositionITRF",
+                    TYPE_NAME: 'GEODESYML_0_4.SiteLocationType.ApproximatePositionITRF',
                     cartesianPosition: {
-                        TYPE_NAME: "GEODESYML_0_4.CartesianPosition",
+                        TYPE_NAME: 'GEODESYML_0_4.CartesianPosition',
                         point: {
-                            TYPE_NAME: "GML_3_2_1.PointType",
-                            srsName: "EPSG:7789",
+                            TYPE_NAME: 'GML_3_2_1.PointType',
+                            srsName: 'EPSG:7789',
                             description: {
-                                TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                                value: ""
+                                TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                                value: ''
                             },
                             descriptionReference: {
-                                TYPE_NAME: "GML_3_2_1.ReferenceType"
+                                TYPE_NAME: 'GML_3_2_1.ReferenceType'
                             },
                             identifier: {
-                                TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                                value: ""
+                                TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                                value: ''
                             },
                             pos: {
-                                TYPE_NAME: "GML_3_2_1.DirectPositionType",
+                                TYPE_NAME: 'GML_3_2_1.DirectPositionType',
                                 value: [
                                     -3939182.131,
                                     3467075.376,
@@ -1232,29 +1237,29 @@ export class DataViewTranslatorSpecData {
                                 ]
                             },
                             coordinates: {
-                                TYPE_NAME: "GML_3_2_1.CoordinatesType",
-                                value: ""
+                                TYPE_NAME: 'GML_3_2_1.CoordinatesType',
+                                value: ''
                             }
                         }
                     },
                     geodeticPosition: {
-                        TYPE_NAME: "GEODESYML_0_4.GeodeticPosition",
+                        TYPE_NAME: 'GEODESYML_0_4.GeodeticPosition',
                         point: {
-                            TYPE_NAME: "GML_3_2_1.PointType",
-                            srsName: "EPSG:7789",
+                            TYPE_NAME: 'GML_3_2_1.PointType',
+                            srsName: 'EPSG:7789',
                             description: {
-                                TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                                value: ""
+                                TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                                value: ''
                             },
                             descriptionReference: {
-                                TYPE_NAME: "GML_3_2_1.ReferenceType"
+                                TYPE_NAME: 'GML_3_2_1.ReferenceType'
                             },
                             identifier: {
-                                TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                                value: ""
+                                TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                                value: ''
                             },
                             pos: {
-                                TYPE_NAME: "GML_3_2_1.DirectPositionType",
+                                TYPE_NAME: 'GML_3_2_1.DirectPositionType',
                                 value: [
                                     11.66,
                                     66.99,
@@ -1262,162 +1267,162 @@ export class DataViewTranslatorSpecData {
                                 ]
                             },
                             coordinates: {
-                                TYPE_NAME: "GML_3_2_1.CoordinatesType",
-                                value: ""
+                                TYPE_NAME: 'GML_3_2_1.CoordinatesType',
+                                value: ''
                             }
                         }
                     }
                 },
-                notes: ""
+                notes: ''
             },
             siteOwner: {
-                TYPE_NAME: "GEODESYML_0_4.AgencyPropertyType"
+                TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType'
             },
             siteMetadataCustodian: {
-                TYPE_NAME: "GEODESYML_0_4.AgencyPropertyType",
+                TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType',
                 description: {
-                    TYPE_NAME: "GML_3_2_1.StringOrRefType",
-                    value: ""
+                    TYPE_NAME: 'GML_3_2_1.StringOrRefType',
+                    value: ''
                 },
                 descriptionReference: {
-                    TYPE_NAME: "GML_3_2_1.ReferenceType"
+                    TYPE_NAME: 'GML_3_2_1.ReferenceType'
                 },
                 identifier: {
-                    TYPE_NAME: "GML_3_2_1.CodeWithAuthorityType",
-                    value: ""
+                    TYPE_NAME: 'GML_3_2_1.CodeWithAuthorityType',
+                    value: ''
                 },
                 mdSecurityConstraints: {
-                    TYPE_NAME: "ISO19139_GMD_20070417.MDSecurityConstraintsType"
+                    TYPE_NAME: 'ISO19139_GMD_20070417.MDSecurityConstraintsType'
                 },
                 ciResponsibleParty: {
-                    TYPE_NAME: "ISO19139_GMD_20070417.CIResponsiblePartyType",
+                    TYPE_NAME: 'ISO19139_GMD_20070417.CIResponsiblePartyType',
                     individualName: {
-                        TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                        TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                         characterString: {
-                            "gco:CharacterString": "James C Berra"
+                            'gco:CharacterString': 'James C Berra'
                         }
                     },
                     organisationName: {
-                        TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                        TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                         characterString: {
-                            "gco:CharacterString": "National Geospatial-Intelligence Agency"
+                            'gco:CharacterString': 'National Geospatial-Intelligence Agency'
                         }
                     },
                     positionName: {
-                        TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                        TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                     },
                     contactInfo: {
-                        TYPE_NAME: "ISO19139_GMD_20070417.CIContactPropertyType",
+                        TYPE_NAME: 'ISO19139_GMD_20070417.CIContactPropertyType',
                         ciContact: {
-                            TYPE_NAME: "ISO19139_GMD_20070417.CIContactType",
+                            TYPE_NAME: 'ISO19139_GMD_20070417.CIContactType',
                             phone: {
-                                TYPE_NAME: "ISO19139_GMD_20070417.CITelephonePropertyType",
+                                TYPE_NAME: 'ISO19139_GMD_20070417.CITelephonePropertyType',
                                 ciTelephone: {
-                                    TYPE_NAME: "ISO19139_GMD_20070417.CITelephoneType",
+                                    TYPE_NAME: 'ISO19139_GMD_20070417.CITelephoneType',
                                     voice: [
                                         {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                             characterString: {
-                                                "gco:CharacterString": "(314) 676-9140"
+                                                'gco:CharacterString': '(314) 676-9140'
                                             }
                                         }
                                     ],
                                     facsimile: [
                                         {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                             characterString: {
-                                                "gco:CharacterString": "(314) 676-3174"
+                                                'gco:CharacterString': '(314) 676-3174'
                                             }
                                         }
                                     ]
                                 }
                             },
                             address: {
-                                TYPE_NAME: "ISO19139_GMD_20070417.CIAddressPropertyType",
+                                TYPE_NAME: 'ISO19139_GMD_20070417.CIAddressPropertyType',
                                 ciAddress: {
-                                    TYPE_NAME: "ISO19139_GMD_20070417.CIAddressType",
+                                    TYPE_NAME: 'ISO19139_GMD_20070417.CIAddressType',
                                     deliveryPoint: [
                                         {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                             characterString: {
-                                                "gco:CharacterString": "3838 Vogel Rd., Arnold, MO 63010-6238"
+                                                'gco:CharacterString': '3838 Vogel Rd., Arnold, MO 63010-6238'
                                             }
                                         }
                                     ],
                                     city: {
-                                        TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                        TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                         characterString: {
-                                            "gco:CharacterString": ""
+                                            'gco:CharacterString': ''
                                         }
                                     },
                                     administrativeArea: {
-                                        TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                                        TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                                     },
                                     postalCode: {
-                                        TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                        TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                         characterString: {
-                                            "gco:CharacterString": ""
+                                            'gco:CharacterString': ''
                                         }
                                     },
                                     country: {
-                                        TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                        TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                         characterString: {
-                                            "gco:CharacterString": ""
+                                            'gco:CharacterString': ''
                                         }
                                     },
                                     electronicMailAddress: [
                                         {
-                                            TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType",
+                                            TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                             characterString: {
-                                                "gco:CharacterString": "James.C.Berra@nga.mil"
+                                                'gco:CharacterString': 'James.C.Berra@nga.mil'
                                             }
                                         }
                                     ]
                                 }
                             },
                             onlineResource: {
-                                TYPE_NAME: "ISO19139_GMD_20070417.CIOnlineResourcePropertyType"
+                                TYPE_NAME: 'ISO19139_GMD_20070417.CIOnlineResourcePropertyType'
                             },
                             hoursOfService: {
-                                TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                             },
                             contactInstructions: {
-                                TYPE_NAME: "ISO19139_GCO_20070417.CharacterStringPropertyType"
+                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType'
                             }
                         }
                     },
                     role: {
-                        TYPE_NAME: "ISO19139_GMD_20070417.CIRoleCodePropertyType"
+                        TYPE_NAME: 'ISO19139_GMD_20070417.CIRoleCodePropertyType'
                     }
                 }
             },
             siteDataSource: {
-                TYPE_NAME: "GEODESYML_0_4.AgencyPropertyType"
+                TYPE_NAME: 'GEODESYML_0_4.AgencyPropertyType'
             },
             moreInformation: {
-                TYPE_NAME: "GEODESYML_0_4.MoreInformationType",
+                TYPE_NAME: 'GEODESYML_0_4.MoreInformationType',
                 dataCenter: [
-                    "CDDIS",
-                    "SIO"
+                    'CDDIS',
+                    'SIO'
                 ],
-                urlForMoreInformation: "",
-                siteMap: "(Y or URL)",
-                siteDiagram: "(Y or URL)",
-                horizonMask: "(Y or URL)",
-                monumentDescription: "(Y or URL)",
-                sitePictures: "(Y or URL)",
-                notes: "",
-                antennaGraphicsWithDimensions: "",
-                insertTextGraphicFromAntenna: "",
+                urlForMoreInformation: '',
+                siteMap: '(Y or URL)',
+                siteDiagram: '(Y or URL)',
+                horizonMask: '(Y or URL)',
+                monumentDescription: '(Y or URL)',
+                sitePictures: '(Y or URL)',
+                notes: '',
+                antennaGraphicsWithDimensions: '',
+                insertTextGraphicFromAntenna: '',
                 doi: {
-                    TYPE_NAME: "GML_3_2_1.CodeType",
-                    codeSpace: "eGeodesy/doi",
-                    value: "TODO"
+                    TYPE_NAME: 'GML_3_2_1.CodeType',
+                    codeSpace: 'eGeodesy/doi',
+                    value: 'TODO'
                 }
             },
             dataStreams: {
-                TYPE_NAME: "GEODESYML_0_4.DataStreamPropertyType"
+                TYPE_NAME: 'GEODESYML_0_4.DataStreamPropertyType'
             }
-        }
+        };
     }
 }

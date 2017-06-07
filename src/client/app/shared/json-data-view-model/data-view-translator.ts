@@ -76,16 +76,17 @@ export class DataViewTranslatorService {
                     } else if (fieldMap.sourceField.pointer.match(/geodeticPosition/)) {
                         return this.translateGeodeticPosition(source, {viewToData: false});
                     } else {
-                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
+                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: 
+                        ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
                     }
-                }
-                else if (fieldMap.sourceField.type === 'point_view') {
+                } else if (fieldMap.sourceField.type === 'point_view') {
                     if (fieldMap.sourceField.pointer.match(/cartesianPosition/)) {
                         return this.translateCartesianPosition(source, {viewToData: true});
                     } else if (fieldMap.sourceField.pointer.match(/geodeticPosition/)) {
                         return this.translateGeodeticPosition(source, {viewToData: true});
                     } else {
-                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
+                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: 
+                        ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
                     }
 
                 }
@@ -111,13 +112,6 @@ export class DataViewTranslatorService {
         _.merge(target, result);
     }
 
-    private static toDotNotation(jsonPointer: string): string {
-        return jsonPointer
-            .substring(1)
-            .replace(/\//g, '.')
-            .replace(/\.([0-9]+)/g, '[$1]');
-    }
-
     /**
      * CartesianPosition and GeodeticPosition are Point type with 3 values, and it can be optional and due to the XML schema, we achieve
      * this by having do data for the Positions.  Here are the mappings:
@@ -131,11 +125,13 @@ export class DataViewTranslatorService {
      */
     static translateCartesianPosition(source: any, viewToDataTranslateOptions?: { viewToData: boolean }): any {
         let mapper = createMapper({alwaysTransform: true, alwaysSet: true});
-        if (viewToDataTranslateOptions && viewToDataTranslateOptions.hasOwnProperty('viewToData') && !viewToDataTranslateOptions['viewToData']) {
+        if (viewToDataTranslateOptions
+            && viewToDataTranslateOptions.hasOwnProperty('viewToData')
+            && !viewToDataTranslateOptions['viewToData']) {
             // data to view translate
-            if (! source || (typeof source === "object" && !source.hasOwnProperty('point'))) {
+            if (! source || (typeof source === 'object' && !source.hasOwnProperty('point'))) {
                 // ! source happens when the CartesianPosition or GeodeticPosition elements dont exist
-                return {cartesianPosition_x: null, cartesianPosition_y: null, cartesianPosition_z: null}
+                return {cartesianPosition_x: null, cartesianPosition_y: null, cartesianPosition_z: null};
             } else {
                 mapper.map('point.pos.value[0]').to('cartesianPosition_x');
                 mapper.map('point.pos.value[1]').to('cartesianPosition_y');
@@ -171,11 +167,13 @@ export class DataViewTranslatorService {
      */
     static translateGeodeticPosition(source: any, viewToDataTranslateOptions?: { viewToData: boolean }): any {
         let mapper = createMapper({alwaysTransform: true, alwaysSet: true});
-        if (viewToDataTranslateOptions && viewToDataTranslateOptions.hasOwnProperty('viewToData') && !viewToDataTranslateOptions['viewToData']) {
+        if (viewToDataTranslateOptions
+            && viewToDataTranslateOptions.hasOwnProperty('viewToData')
+            && !viewToDataTranslateOptions['viewToData']) {
             // data to view translate
-            if (!source || (typeof source === "object" && !source.hasOwnProperty('point'))) {
+            if (!source || (typeof source === 'object' && !source.hasOwnProperty('point'))) {
                 // ! source happens when the CartesianPosition or GeodeticPosition elements dont exist
-                return {geodeticPosition_lat: null, geodeticPosition_long: null, geodeticPosition_height: null}
+                return {geodeticPosition_lat: null, geodeticPosition_long: null, geodeticPosition_height: null};
             } else {
                 mapper.map('point.pos.value[0]').to('geodeticPosition_lat');
                 mapper.map('point.pos.value[1]').to('geodeticPosition_long');
@@ -197,4 +195,12 @@ export class DataViewTranslatorService {
             return mapper.execute({'value': value});
         }
     }
+
+    private static toDotNotation(jsonPointer: string): string {
+        return jsonPointer
+            .substring(1)
+            .replace(/\//g, '.')
+            .replace(/\.([0-9]+)/g, '[$1]');
+    }
+
 }
