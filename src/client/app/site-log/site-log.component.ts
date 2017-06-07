@@ -101,6 +101,9 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
         this.route.params.subscribe(() => {
             if (this.siteId === 'newSite') {
+                setTimeout(() => {
+                    this.siteLogModel = new SiteLogViewModel();
+                });
                 return;
             }
 
@@ -220,7 +223,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     public saveNewSiteLog(formValue: any): boolean {
-        this.siteLogService.saveNewSiteLog(formValue)
+        _.merge(this.siteLogModel, formValue);
+        this.siteLogService.saveNewSiteLog(this.siteLogModel)
             .takeUntil(this.unsubscribe)
             .subscribe(
                 (responseJson: any) => {
