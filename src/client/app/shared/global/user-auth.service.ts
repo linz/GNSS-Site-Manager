@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { UserManager, MetadataService, User } from 'oidc-client';
@@ -27,7 +27,11 @@ export class UserAuthService {
     private userManager: UserManager;
     private currentUser: User | null = null;
 
-    constructor(private http: Http, private router: Router, private constantsService: ConstantsService) {
+    constructor(private http: Http, private router: Router, private constantsService: ConstantsService,
+        @Inject('Window') private window: Window) {
+
+        let left = this.window.screen.width / 2 - 500 / 2;
+        let top = this.window.screen.height / 2 - 700 / 2;
         this.userManager = new UserManager({
             authority: this.constantsService.getOpenAMServerURL() + '/oauth2',
             client_id: 'GnssSiteManager',
@@ -36,6 +40,8 @@ export class UserAuthService {
             post_logout_redirect_uri: this.constantsService.getClientURL(),
             scope: 'openid profile',
             silent_redirect_uri: this.constantsService.getClientURL() + '/auth.html?silent',
+            popup_redirect_uri: this.constantsService.getClientURL() + '/auth.html?popup',
+            popupWindowFeatures: `location=no,toolbar=no,width=500,height=700,left=${left},top=${top}`,
             accessTokenExpiringNotificationTime: 60,
             automaticSilentRenew: true,
             filterProtocolClaims: true,
@@ -64,7 +70,12 @@ export class UserAuthService {
     }
 
     logout() {
-        this.userManager.signoutRedirect().catch(console.log);
+        let id_token = this.currentUser.id_token;
+        this.userManager.removeUser().then(() => {
+            this.userManager.createSignoutRequest({ id_token_hint: id_token }).then((request: any) => {
+                this.http.get(request.url).toPromise().catch(console.log);
+            });
+        });
     }
 
     getUser(): User | null {
@@ -122,6 +133,10 @@ export class UserAuthService {
         this.userManager.events.addUserLoaded((user: User) => {
             this.currentUser = user;
             this.userLoadedEvent.emit(user);
+        });
+        this.userManager.events.addSilentRenewError(() => {
+            this.userManager.removeUser();
+            this.userManager.signinPopup().catch(console.log);
         });
     }
 }

@@ -24,6 +24,11 @@
             new UserManager().signinSilentCallback().catch(function (err) {
                 console.error('auth.html: ' + err.message);
             });
+        } else if (window.location.href.indexOf('?popup') != -1) {
+            new UserManager().signinPopupCallback()
+            .catch(function (err) {
+                console.error('auth.html: ' + err.message);
+            });
         } else {
             new UserManager().signinRedirectCallback().then(function (user) {
                 window.location = localStorage.getItem('routerUrl');
