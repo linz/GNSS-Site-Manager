@@ -123,7 +123,7 @@ export class SiteLocationComponent implements OnInit {
                 throw new Error(`Control for group item: ${key} doesnt exist in positionGroup: ${positionGroup}`);
             }
             if (someFieldHasValue) {
-                if (! itemControl.validator) {
+                if (!itemControl.validator) {
                     this.addRequiredValidator(itemControl, key);
                     itemControl.updateValueAndValidity();
                 }

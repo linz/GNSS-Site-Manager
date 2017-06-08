@@ -2,16 +2,11 @@ import { SiteLogDataModel } from './data-model/site-log-data-model';
 import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
 import { JsonViewModelServiceSpecData } from './json-view-model.service.spec.data';
 import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
-import { GnssReceiverViewModel } from '../../gnss-receiver/gnss-receiver-view-model';
-import { MiscUtils } from '../global/misc-utils';
 import { DataViewTranslatorSpecData } from './data-view-translator.spec.data';
-import { SiteLocationMappings } from '../../site-log/site-location.mapping';
-import { JsonViewModelService } from './json-view-model.service';
 
 export function main() {
   let completeValidSitelog: any = JsonViewModelServiceSpecData.data();
   let objectMap: ObjectMap = new HumiditySensorViewModel().getObjectMap();
-  let jsonViewModelService: JsonViewModelService = new JsonViewModelService();
 
   describe('Json view translator service', () => {
 

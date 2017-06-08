@@ -241,34 +241,33 @@ export function main() {
     }`;
 
     it('should parse valid Json with receiver with notes', () => {
-      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
-      expect(geodesyMl).not.toBeNull();
-      console.log(geodesyMl);
-      expect(geodesyMl).toContain('gnssReceiver');
-      expect(geodesyMl).toContain('!!!SOME INTERESTING REMARKS!!!');
+      let geodesyML: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
+      expect(geodesyML).not.toBeNull();
+      console.log(geodesyML);
+      expect(geodesyML).toContain('gnssReceiver');
+      expect(geodesyML).toContain('!!!SOME INTERESTING REMARKS!!!');
     });
 
       describe('Undefining Location.cartesianPosition but not Location.geodeticPosition', () => {
           it('should parse valid Json', () => {
-              let json: Object = modify_undefine_Location_geodeticPosition(JsonServiceSpecData.data());
+              let json: Object = modifyCartesianPosition(JsonServiceSpecData.data());
 
-              let geodesyMl: string = jsonixService.jsonToGeodesyML(json);
-              // console.log('geodesyMl:\n', geodesyMl);
-              expect(geodesyMl).not.toBeNull();
-              expect(geodesyMl).toContain('<geo:approximatePositionITRF>');
-              expect(geodesyMl).toContain('<geo:cartesianPosition/>');
-              expect(geodesyMl).toContain('<geo:geodeticPosition><gml:Point><gml:pos>4 5 6</gml:pos></gml:Point></geo:geodeticPosition>');
+              let geodesyML: string = jsonixService.jsonToGeodesyML(json);
+              expect(geodesyML).not.toBeNull();
+              expect(geodesyML).toContain('<geo:approximatePositionITRF>');
+              expect(geodesyML).toContain('<geo:cartesianPosition/>');
+              expect(geodesyML).toContain('<geo:geodeticPosition><gml:Point><gml:pos>4 5 6</gml:pos></gml:Point></geo:geodeticPosition>');
           });
 
       });
   });
 
     /**
-     * Rewrite the above tests using the one data file with modifications such as like that performed in this function.
+     * Modify the test data to create an empty cartesianPosition
      * @param json test data
      * @return json test data modified for the test
      */
-    function modify_undefine_Location_geodeticPosition(json: any): any {
+    function modifyCartesianPosition(json: any): any {
         // This is what we want to do in our View to Data translate when the values of the cartesianPosition or geodeticPosition are null
         json['geo:siteLog'].siteLocation.approximatePositionITRF.cartesianPosition = {};
         return json;
