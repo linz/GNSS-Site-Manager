@@ -117,9 +117,9 @@ export class DataViewTranslatorService {
      * the mapper and most importantly to handle an undefined CartesianPosition that occurs when all values are null (ie. optional).
      * This is a bi-directional mapping data <-> view. The mappings are:
      *
-     * /point/pos/value/0 <-> /cartesianPosition_x
-     * /point/pos/value/1 <-> /cartesianPosition_y
-     * /point/pos/value/2 <-> /cartesianPosition_z
+     * /point/pos/value/0 <-> /cartesianPositionX
+     * /point/pos/value/1 <-> /cartesianPositionY
+     * /point/pos/value/2 <-> /cartesianPositionZ
      *
      * The first part of the mapping is defined in the site-location.mapping file.
      *
@@ -135,24 +135,24 @@ export class DataViewTranslatorService {
             // data to view translate
             if (!source || (typeof source === 'object' && !source.hasOwnProperty('point'))) {
                 // !source happens when the CartesianPosition is undefined
-                return {cartesianPosition_x: null, cartesianPosition_y: null, cartesianPosition_z: null};
+                return {cartesianPositionX: null, cartesianPositionY: null, cartesianPositionZ: null};
             } else {
-                mapper.map('point.pos.value[0]').to('cartesianPosition_x');
-                mapper.map('point.pos.value[1]').to('cartesianPosition_y');
-                mapper.map('point.pos.value[2]').to('cartesianPosition_z');
+                mapper.map('point.pos.value[0]').to('cartesianPositionX');
+                mapper.map('point.pos.value[1]').to('cartesianPositionY');
+                mapper.map('point.pos.value[2]').to('cartesianPositionZ');
                 return mapper.execute(source);
             }
         }
         // view  to data translate
-        if (!source || (source.hasOwnProperty('cartesianPosition_x') && source.cartesianPosition_x === null)
-            || !source.hasOwnProperty('cartesianPosition_x')) {
+        if (!source || (source.hasOwnProperty('cartesianPositionX') && source.cartesianPositionX === null)
+            || !source.hasOwnProperty('cartesianPositionX')) {
             return {};
         } else {
             let value: string[] = [];
 
-            value.push(source.cartesianPosition_x);
-            value.push(source.cartesianPosition_y);
-            value.push(source.cartesianPosition_z);
+            value.push(source.cartesianPositionX);
+            value.push(source.cartesianPositionY);
+            value.push(source.cartesianPositionZ);
             mapper.map('value').to('point.pos.value');
             return mapper.execute({'value': value});
         }
@@ -163,9 +163,9 @@ export class DataViewTranslatorService {
      * the mapper and most importantly to handle an undefined GeodeticPosition that occurs when all values are null (ie. optional).
      * This is a bi-directional mapping data <-> view. The mappings are:
      *
-     * /point/pos/value/0 -> /geodeticPosition_lat
-     * /point/pos/value/1 -> /geodeticPosition_long
-     * /point/pos/value/2 -> /geodeticPosition_height
+     * /point/pos/value/0 -> /geodeticPositionLat
+     * /point/pos/value/1 -> /geodeticPositionLong
+     * /point/pos/value/2 -> /geodeticPositionHeight
      *
      * The first part of the mapping is defined in the site-location.mapping file.
      *
@@ -181,24 +181,24 @@ export class DataViewTranslatorService {
             // data to view translate
             if (!source || (typeof source === 'object' && !source.hasOwnProperty('point'))) {
                 // !source happens when the GeodeticPosition is undefined
-                return {geodeticPosition_lat: null, geodeticPosition_long: null, geodeticPosition_height: null};
+                return {geodeticPositionLat: null, geodeticPositionLong: null, geodeticPositionHeight: null};
             } else {
-                mapper.map('point.pos.value[0]').to('geodeticPosition_lat');
-                mapper.map('point.pos.value[1]').to('geodeticPosition_long');
-                mapper.map('point.pos.value[2]').to('geodeticPosition_height');
+                mapper.map('point.pos.value[0]').to('geodeticPositionLat');
+                mapper.map('point.pos.value[1]').to('geodeticPositionLong');
+                mapper.map('point.pos.value[2]').to('geodeticPositionHeight');
                 return mapper.execute(source);
             }
         }
         // view  to data translate
-        if (!source || (source.hasOwnProperty('geodeticPosition_lat') && source.geodeticPosition_lat === null)
-        || !source.hasOwnProperty('geodeticPosition_lat')) {
+        if (!source || (source.hasOwnProperty('geodeticPositionLat') && source.geodeticPositionLat === null)
+        || !source.hasOwnProperty('geodeticPositionLat')) {
             return {};
         } else {
             let value: string[] = [];
 
-            value.push(source.geodeticPosition_lat);
-            value.push(source.geodeticPosition_long);
-            value.push(source.geodeticPosition_height);
+            value.push(source.geodeticPositionLat);
+            value.push(source.geodeticPositionLong);
+            value.push(source.geodeticPositionHeight);
             mapper.map('value').to('point.pos.value');
             return mapper.execute({'value': value});
         }
