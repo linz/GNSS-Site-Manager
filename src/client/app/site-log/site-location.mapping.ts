@@ -27,17 +27,17 @@ export class SiteLocationMappings extends AbstractViewModel {
             '/notes', 'string');
 
         this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/0', 'string',
-            '/cartesianPosition_x', 'string');
+            '/cartesianPositionX', 'string');
         this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/1', 'string',
-            '/cartesianPosition_y', 'string');
+            '/cartesianPositionY', 'string');
         this.addFieldMapping('/approximatePositionITRF/cartesianPosition/point/pos/value/2', 'string',
-            '/cartesianPosition_z', 'string');
+            '/cartesianPositionZ', 'string');
         this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/0', 'string',
-            '/geodeticPosition_lat', 'string');
+            '/geodeticPositionLat', 'string');
         this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/1', 'string',
-            '/geodeticPosition_long', 'string');
+            '/geodeticPositionLong', 'string');
         this.addFieldMapping('/approximatePositionITRF/geodeticPosition/point/pos/value/2', 'string',
-            '/geodeticPosition_height', 'string');
+            '/geodeticPositionHeight', 'string');
     };
 
     /**
