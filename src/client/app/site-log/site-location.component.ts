@@ -107,7 +107,6 @@ export class SiteLocationComponent implements OnInit {
      * @param positionGroup - the FormGroup that holds the items
      */
     private handleLocationPositionGroupChange(groupItems: any, positionGroup: FormGroup) {
-        console.debug('location item change: ', groupItems);
         let someFieldHasValue: boolean = false;
         Object.keys(groupItems).forEach((key) => {
             if (groupItems[key]) {
@@ -136,12 +135,10 @@ export class SiteLocationComponent implements OnInit {
     }
 
     private removeRequiredValidator(itemControl: AbstractControl, controlName: string) {
-        console.debug(`Location - remove required validator from: ${controlName}`);
         itemControl.clearValidators();
     }
 
     private addRequiredValidator(itemControl: AbstractControl, controlName: string) {
-        console.debug(`Location - add required validator to: ${controlName}`);
         itemControl.setValidators(Validators.required);
     }
 }
