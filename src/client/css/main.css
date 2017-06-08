@@ -10,6 +10,7 @@ html, body {
 }
 
 body {
+  color: #222;
   display: flex;
   flex-direction: column;
   min-width: 300px;
@@ -74,7 +75,7 @@ ul {
 input[disabled],
 input[readonly],
 .form-control[disabled] {
-  color: #484848 !important;
+  color: #222 !important;
   background-color: #f0f0f0 !important;
 }
 .form-control {
@@ -183,7 +184,7 @@ input[readonly],
 }
 .panel-group .panel-level-2 > .panel-heading {
   background-color: #c9e5f4;
-  color: #2f2f2f;
+  color: #222;
   height: 34px;
 }
 .panel-group .panel-level-2,
@@ -198,7 +199,7 @@ input[readonly],
 }
 .panel-group .panel-level-3 > .panel-heading {
   background-color: #e9f5fa;
-  color: #2f2f2f;
+  color: #222;
   height: 34px;
 }
 .panel-group .panel-level-3 > .panel-heading-hidden {
@@ -235,7 +236,7 @@ input[readonly],
   margin-bottom: 0;
 }
 .panel-group .panel-level-3 .panel-title .glyphicon {
-  color: #2f2f2f;
+  color: #222;
 }
 .panel-group .panel-error {
   border: 1px solid #f2dede;
