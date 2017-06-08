@@ -216,7 +216,6 @@ export function main() {
 
           // Both GeodeticPosition and CartesianPosition
           it('should translate SiteLocations GeodeticPosition and CartesianPosition as defaults (null) due to null parents', () => {
-              let data: any = DataViewTranslatorSpecData.dataObject();
               // If GeodeticPosition and CartesianPosition are saved as null then JSonix sets the parent
               // approximatePositionITRF element to empty
               // The mapper will pull out no values to try and translate
