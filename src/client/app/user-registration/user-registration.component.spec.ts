@@ -9,7 +9,6 @@ import { UserRegistrationModule } from './user-registration.module';
 import { UserAuthService, UserRegistration } from '../shared/global/user-auth.service';
 import { DialogService } from  '../shared/global/dialog.service';
 import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs';
 import * as _ from 'lodash';
 
 export function main() {

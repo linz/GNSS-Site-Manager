@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, FormGroup, NG_VALIDATORS } from '@angular/forms';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractGnssControls } from './abstract-gnss-controls';
 
 @Component({

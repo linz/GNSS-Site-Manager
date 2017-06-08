@@ -2,8 +2,6 @@ import * as gulp from 'gulp';
 import { join } from 'path';
 import Config from '../../config';
 
-const replace = require('gulp-replace');
-
 /**
  * Executes the build task, copying all TypeScript files over to the `dist/tmp` directory.
  */
