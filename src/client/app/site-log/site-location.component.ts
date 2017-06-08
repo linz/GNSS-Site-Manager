@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { UserAuthService } from '../shared/global/user-auth.service';
 
@@ -44,12 +44,13 @@ export class SiteLocationComponent implements OnInit {
     public miscUtils: any = MiscUtils;
 
     private siteLocationForm: FormGroup;
+    private cartesianPositionForm: FormGroup;
+    private geodeticPositionForm: FormGroup;
 
     private siteLocation: any;
 
     constructor(private userAuthService: UserAuthService,
-                private formBuilder: FormBuilder,
-                private changeDetectionRef: ChangeDetectorRef) {
+                private formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -65,16 +66,28 @@ export class SiteLocationComponent implements OnInit {
     }
 
     private setupForm() {
+        this.cartesianPositionForm = this.formBuilder.group({
+            cartesianPosition_x: ['', Validators.required],
+            cartesianPosition_y: ['', Validators.required],
+            cartesianPosition_z: ['', Validators.required]
+        });
+        this.cartesianPositionForm.valueChanges.subscribe(
+            (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPositionForm)
+        );
+        this.geodeticPositionForm = this.formBuilder.group({
+            geodeticPosition_lat: [''],
+            geodeticPosition_long: [''],
+            geodeticPosition_height: ['']
+        });
+        this.geodeticPositionForm.valueChanges.subscribe(
+            (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPositionForm)
+        );
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],
             state: ['', [Validators.maxLength(100)]],
             countryCodeISO: ['', [Validators.maxLength(10)]],
-            cartesianPositionX: [''],
-            cartesianPositionY: [''],
-            cartesianPositionZ: [''],
-            geodeticPositionLat: [''],
-            geodeticPositionLong: [''],
-            geodeticPositionHeight: [''],
+            cartesianPosition: this.cartesianPositionForm,
+            geodeticPosition: this.geodeticPositionForm,
             tectonicPlate: ['', [Validators.maxLength(100)]],
             notes: ['', [Validators.maxLength(2000)]],
         });
@@ -84,6 +97,52 @@ export class SiteLocationComponent implements OnInit {
             this.siteLocationForm.disable();
         }
         this.parentForm.addControl('siteLocation', this.siteLocationForm);
+    }
+
+    /**
+     * The groups we have here are all or nothing.  The validators.required is set on each field in Geodetic Position and
+     * cartesian Position but when no fields have a value then the group is optional.
+     *
+     * @param groupItems - the group items values that come from an OnChange subscription
+     * @param positionGroup - the FormGroup that holds the items
+     */
+    private handleLocationPositionGroupChange(groupItems: any, positionGroup: FormGroup) {
+        console.debug('location item change: ', groupItems);
+        let someFieldHasValue: boolean = false;
+        Object.keys(groupItems).forEach((key) => {
+            if (groupItems[key]) {
+                someFieldHasValue = true;
+            }
+        });
+
+        // If any group Item form field has a value then all are required
+        Object.keys(groupItems).forEach((key) => {
+            let itemControl: AbstractControl = positionGroup.controls[key];
+            if (!itemControl) {
+                throw new Error(`Control for group item: ${key} doesnt exist in positionGroup: ${positionGroup}`);
+            }
+            if (someFieldHasValue) {
+                if (!itemControl.validator) {
+                    this.addRequiredValidator(itemControl, key);
+                    itemControl.updateValueAndValidity();
+                }
+            } else {
+                if (itemControl.validator) {
+                    this.removeRequiredValidator(itemControl, key);
+                    itemControl.updateValueAndValidity();
+                }
+            }
+        });
+    }
+
+    private removeRequiredValidator(itemControl: AbstractControl, controlName: string) {
+        console.debug(`Location - remove required validator from: ${controlName}`);
+        itemControl.clearValidators();
+    }
+
+    private addRequiredValidator(itemControl: AbstractControl, controlName: string) {
+        console.debug(`Location - add required validator to: ${controlName}`);
+        itemControl.setValidators(Validators.required);
     }
 }
 
