@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
@@ -33,8 +33,6 @@ import { SiteLocationViewModel } from './site-location-view-model';
 export class SiteLocationComponent extends AbstractBaseComponent implements OnInit {
 
     public miscUtils: any = MiscUtils;
-    public siteLocationForm: FormGroup;
-    public siteLocation: SiteLocationViewModel;
     public isOpen: boolean = false;
     public isNew: boolean = false;
     public isDeleted: boolean = false;
@@ -48,6 +46,11 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
             this.siteLocationForm.setValue(this.siteLocation);
         }
     }
+
+    private siteLocationForm: FormGroup;
+    private cartesianPositionForm: FormGroup;
+    private geodeticPositionForm: FormGroup;
+    private siteLocation: SiteLocationViewModel;
 
     constructor(protected userAuthService: UserAuthService,
                 protected siteLogService: SiteLogService,
