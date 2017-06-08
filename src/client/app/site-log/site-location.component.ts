@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { UserAuthService } from '../shared/global/user-auth.service';
@@ -44,14 +44,13 @@ export class SiteLocationComponent implements OnInit {
     public miscUtils: any = MiscUtils;
 
     private siteLocationForm: FormGroup;
-    private cartesianPosition: FormGroup;
-    private geodeticPosition: FormGroup;
+    private cartesianPositionForm: FormGroup;
+    private geodeticPositionForm: FormGroup;
 
     private siteLocation: any;
 
     constructor(private userAuthService: UserAuthService,
-                private formBuilder: FormBuilder,
-                private changeDetectionRef: ChangeDetectorRef) {
+                private formBuilder: FormBuilder) {
     }
 
     ngOnInit() {
@@ -67,28 +66,28 @@ export class SiteLocationComponent implements OnInit {
     }
 
     private setupForm() {
-        this.cartesianPosition = this.formBuilder.group({
+        this.cartesianPositionForm = this.formBuilder.group({
             cartesianPosition_x: ['', Validators.required],
             cartesianPosition_y: ['', Validators.required],
             cartesianPosition_z: ['', Validators.required]
         });
-        this.cartesianPosition.valueChanges.subscribe(
-            (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPosition)
+        this.cartesianPositionForm.valueChanges.subscribe(
+            (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPositionForm)
         );
-        this.geodeticPosition = this.formBuilder.group({
+        this.geodeticPositionForm = this.formBuilder.group({
             geodeticPosition_lat: [''],
             geodeticPosition_long: [''],
             geodeticPosition_height: ['']
         });
-        this.geodeticPosition.valueChanges.subscribe(
-            (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPosition)
+        this.geodeticPositionForm.valueChanges.subscribe(
+            (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPositionForm)
         );
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],
             state: ['', [Validators.maxLength(100)]],
             countryCodeISO: ['', [Validators.maxLength(10)]],
-            cartesianPosition: this.cartesianPosition,
-            geodeticPosition: this.geodeticPosition,
+            cartesianPosition: this.cartesianPositionForm,
+            geodeticPosition: this.geodeticPositionForm,
             tectonicPlate: ['', [Validators.maxLength(100)]],
             notes: ['', [Validators.maxLength(2000)]],
         });
