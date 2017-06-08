@@ -33,29 +33,27 @@
                             [form]="siteLocationForm">Tectonic Plate
                 </text-input>
 
-                <div [formGroup]="cartesianPosition">
+                <div formGroupName="cartesianPosition">
                     <number-input formControlName="cartesianPositionX" controlName="cartesianPositionX"
-                                  [form]="siteLocationForm">X Coordinate (m)
+                                  [form]="cartesianPositionForm">X Coordinate (m)
                     </number-input>
                     <number-input formControlName="cartesianPositionY" controlName="cartesianPositionY"
-                                  [form]="siteLocationForm">Y Coordinate (m)
+                                  [form]="cartesianPositionForm">Y Coordinate (m)
                     </number-input>
                     <number-input formControlName="cartesianPositionZ" controlName="cartesianPositionZ"
-                                  [form]="siteLocationForm">Z Coordinate (m)
+                                  [form]="cartesianPositionForm">Z Coordinate (m)
                     </number-input>
-
                 </div>
-                <div [formGroup]="geodeticPosition">
+                <div formGroupName="geodeticPosition">
                     <number-input formControlName="geodeticPositionLat" controlName="geodeticPositionLat"
-                                  [form]="siteLocationForm">Latitude (dd)
+                                  [form]="geodeticPositionForm">Latitude (dd)
                     </number-input>
                     <number-input formControlName="geodeticPositionLong" controlName="geodeticPositionLong"
-                                  [form]="siteLocationForm">Longitude (dd)
+                                  [form]="geodeticPositionForm">Longitude (dd)
                     </number-input>
                     <number-input formControlName="geodeticPositionHeight" controlName="geodeticPositionHeight"
-                                  [form]="siteLocationForm">Ellipsoidal Height (m)
+                                  [form]="geodeticPositionForm">Ellipsoidal Height (m)
                     </number-input>
-
                 </div>
 
                 <textarea-input formControlName="notes" controlName="notes"
