@@ -180,8 +180,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
                 if (this.siteId !== 'newSite') {
                     this.saveExistingSiteLog(formValueClone);
-                } else if (this.saveNewSiteLog(formValueClone)) {
-                    this.goToHomePage();
+                } else {
+                    this.saveNewSiteLog(formValueClone);
                 }
             },
             () => {
@@ -222,7 +222,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             );
     }
 
-    public saveNewSiteLog(formValue: any): boolean {
+    public saveNewSiteLog(formValue: any) {
+
         _.merge(this.siteLogModel, formValue);
         this.siteLogService.saveNewSiteLog(this.siteLogModel)
             .takeUntil(this.unsubscribe)
@@ -240,17 +241,15 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         applicationFormInvalid: false,
                         applicationSaveState: ApplicationSaveState.idle
                     });
+                    this.goToHomePage();
                     this.dialogService.showSuccessMessage('Done in saving new site log data');
-                    return true;
                 },
                 (error: Error) => {
                     this.isLoading = false;
                     console.error(error);
                     this.dialogService.showErrorMessage('Error in saving new site log data');
-                    return false;
                 }
             );
-        return false;
     }
 
     /**
