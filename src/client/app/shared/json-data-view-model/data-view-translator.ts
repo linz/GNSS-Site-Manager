@@ -1,7 +1,5 @@
-import { AbstractViewModel } from './view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import * as _ from 'lodash';
-import * as moment from 'moment';
 import createMapper from 'map-factory';
 
 /**

@@ -1,7 +1,7 @@
 import { Injectable, EventEmitter, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
-import { UserManager, MetadataService, User } from 'oidc-client';
+import { UserManager, User } from 'oidc-client';
 import * as lodash from 'lodash';
 import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs';

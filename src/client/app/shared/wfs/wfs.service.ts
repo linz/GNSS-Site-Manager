@@ -183,8 +183,4 @@ export class WFSService implements OnDestroy {
         return this.http.get('/assets/wfs-search-sites.xml-template')
             .map(response => _.template(response.text())(templateArgs));
     }
-
-    private convertWFSQueryToML(jsonQuery: string): string {
-        return this.jsonixService.jsonToGeodesyML(JSON.parse(jsonQuery));
-    }
 }

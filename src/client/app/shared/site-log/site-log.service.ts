@@ -5,7 +5,7 @@ import { Subject } from 'rxjs/Subject';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { JsonixService } from '../jsonix/jsonix.service';
-import { WFSService, SelectSiteSearchType } from '../wfs/wfs.service';
+import { WFSService } from '../wfs/wfs.service';
 import { HttpUtilsService } from '../global/http-utils.service';
 import { ConstantsService } from '../global/constants.service';
 import { JsonViewModelService } from '../json-data-view-model/json-view-model.service';

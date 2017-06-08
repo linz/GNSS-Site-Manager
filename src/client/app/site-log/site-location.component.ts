@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, Input, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray, AbstractControl, FormControl } from '@angular/forms';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { UserAuthService } from '../shared/global/user-auth.service';
 
@@ -41,7 +41,7 @@ export class SiteLocationComponent implements OnInit {
         }
     }
 
-    private miscUtils: any = MiscUtils;
+    public miscUtils: any = MiscUtils;
 
     private siteLocationForm: FormGroup;
 

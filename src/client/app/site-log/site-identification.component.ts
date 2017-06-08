@@ -49,7 +49,7 @@ export class SiteIdentificationComponent implements OnInit {
         }
     }
 
-    private miscUtils: any = MiscUtils;
+    public miscUtils: any = MiscUtils;
 
     private siteIdentificationForm: FormGroup;
 

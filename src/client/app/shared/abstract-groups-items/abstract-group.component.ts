@@ -4,7 +4,6 @@ import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
-import * as lodash from 'lodash';
 import { UserAuthService } from '../global/user-auth.service';
 
 export const newItemShouldBeBlank: boolean = true;
@@ -233,6 +232,16 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         return this.groupArrayForm && this.groupArrayForm.invalid;
     }
 
+    /**
+     * Toggle the group (open or close it)
+     * TODO move this up into abstract base component and consolidate naming of
+     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
+     */
+    public toggleGroup(event: UIEvent) {
+        event.preventDefault();
+        this.isGroupOpen = this.miscUtils.scrollIntoView(event, this.isGroupOpen);
+    }
+
     /* ************** Private Methods ************** */
 
     private addNewItem(): void {
@@ -298,15 +307,5 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
         geodesyEvent.name = EventNames.newItem;
         geodesyEvent.valueNumber = 0;
-    }
-
-    /**
-     * Toggle the group (open or close it)
-     * TODO move this up into abstract base component and consolidate naming of
-     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
-     */
-    private toggleGroup(event: UIEvent) {
-        event.preventDefault();
-        this.isGroupOpen = this.miscUtils.scrollIntoView(event, this.isGroupOpen);
     }
 }
