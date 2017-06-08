@@ -67,17 +67,17 @@ export class SiteLocationComponent implements OnInit {
 
     private setupForm() {
         this.cartesianPositionForm = this.formBuilder.group({
-            cartesianPosition_x: ['', Validators.required],
-            cartesianPosition_y: ['', Validators.required],
-            cartesianPosition_z: ['', Validators.required]
+            cartesianPositionX: ['', Validators.required],
+            cartesianPositionY: ['', Validators.required],
+            cartesianPositionZ: ['', Validators.required]
         });
         this.cartesianPositionForm.valueChanges.subscribe(
             (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPositionForm)
         );
         this.geodeticPositionForm = this.formBuilder.group({
-            geodeticPosition_lat: [''],
-            geodeticPosition_long: [''],
-            geodeticPosition_height: ['']
+            geodeticPositionLat: [''],
+            geodeticPositionLong: [''],
+            geodeticPositionHeight: ['']
         });
         this.geodeticPositionForm.valueChanges.subscribe(
             (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPositionForm)
