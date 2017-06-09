@@ -149,7 +149,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     /**
      * Save changes made back to siteLog XML
      */
-    public save(formValue: any) {
+    public save() {
 
         if (!this.userAuthService.hasAuthorityToEditSite()) {
             console.warn('Cannot save SiteLog - user does not have edit rights');
@@ -165,15 +165,10 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             return;
         }
 
-        // Currently the toolbar save will pass null.  Just use siteLogForm
-        if (!formValue) {
-            formValue = this.siteLogForm.value;
-        }
-
         this.dialogService.confirmSaveDialog(
             () => {
                 this.isLoading = true;
-                let formValueClone: any = _.cloneDeep(formValue);
+                let formValueClone: any = _.cloneDeep(this.siteLogForm.value);
                 this.moveSiteInformationUp(formValueClone);
                 this.sortArrays(formValueClone);
                 console.log(' formValue before merge and after reverse: ', formValueClone);

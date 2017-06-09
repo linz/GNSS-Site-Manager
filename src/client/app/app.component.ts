@@ -38,7 +38,7 @@ export class AppComponent {
    */
   onSave(event: any) {
     if (event) {
-      this.siteLogComponent.save(null);
+      this.siteLogComponent.save();
     }
   }
 
