@@ -33,14 +33,14 @@ export class DataViewTranslatorSpecData {
                 tectonicPlate: 'Australian',
                 notes: null,
                 cartesianPosition: {
-                    cartesianPositionX: 12,
-                    cartesianPositionY: 2,
-                    cartesianPositionZ: 3
+                    x: 12,
+                    y: 2,
+                    z: 3
                 },
                 geodeticPosition: {
-                    geodeticPositionLat: 4,
-                    geodeticPositionLong: 5,
-                    geodeticPositionHeight: 6
+                    lat: 4,
+                    lon: 5,
+                    height: 6
                 }
             },
             moreInformation: {
