@@ -73,11 +73,11 @@ export class SiteIdentificationComponent implements OnInit {
     }
 
     public isFormDirty(): boolean {
-        return this.siteIdentificationForm ? this.siteIdentificationForm.dirty : false;
+        return this.siteIdentificationForm && this.siteIdentificationForm.dirty;
     }
 
     public isFormInvalid(): boolean {
-        return this.siteIdentificationForm ? this.siteIdentificationForm.invalid : false;
+        return this.siteIdentificationForm && this.siteIdentificationForm.invalid;
     }
 
     private setupForm() {
