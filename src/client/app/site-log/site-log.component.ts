@@ -83,10 +83,12 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             this.siteId = id;
         });
 
-        this.setupAuthSubscription();
-        this.setupForm();
-        this.loadSiteLogData();
-        this.setupSubscriptions();
+        this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel}) => {
+            this.siteLogModel = data.siteLogModel;
+            this.setupAuthSubscription();
+            this.setupForm();
+            this.setupSubscriptions();
+        });
     }
 
     /**
