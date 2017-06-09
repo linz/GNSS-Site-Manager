@@ -82,7 +82,7 @@ export class SiteIdentificationComponent implements OnInit {
 
     private setupForm() {
         this.siteIdentificationForm = this.formBuilder.group({
-            siteName: ['', [Validators.minLength(4), Validators.maxLength(50)]],
+            siteName: ['', [Validators.maxLength(50)]],
             // '     ' prevents validation error at start
             fourCharacterID: ['     ', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
             monumentInscription: ['', [Validators.maxLength(100)]],
