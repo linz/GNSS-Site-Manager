@@ -47,7 +47,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     private siteIdentification: any = null;
     private siteLocation: any = {};
     private siteContacts: Array<any> = [];
-    private submitted: boolean = false;
 
     private unsubscribe: Subject<void> = new Subject<void>();
 
@@ -97,13 +96,18 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         // Do not allow direct access to site-log page
         if (!this.siteId) {
             this.goToHomePage();
+            return;
         }
 
-        console.log('---------> SiteLogComponent - Load ------------------------');
-        this.isLoading = true;
-        this.submitted = false;
-
         this.route.params.subscribe(() => {
+            if (this.siteId === 'newSite') {
+                setTimeout(() => {
+                    this.siteLogModel = new SiteLogViewModel();
+                });
+                return;
+            }
+
+            this.isLoading = true;
             this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId)
                 .takeUntil(this.unsubscribe)
                 .subscribe(
@@ -146,76 +150,106 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * Save changes made back to siteLog XML
      */
     public save(formValue: any) {
-        if (!formValue) {
-            // Currently the toolbar save will pass null.  Just use siteLogForm
-            if (this.siteLogForm.pristine) {
-                return;
-            }
-            formValue = this.siteLogForm.value;
-        }
-        console.log('---------> SiteLogComponent - Save ------------------------');
 
         if (!this.userAuthService.hasAuthorityToEditSite()) {
-            console.warn('Cannot save SiteLog - user deoes not have edit rights');
-            this.dialogService.showErrorMessage('Cannot save SiteLog - user deoes not have edit rights');
+            console.warn('Cannot save SiteLog - user does not have edit rights');
+            this.dialogService.showErrorMessage('Cannot save SiteLog - user does not have edit rights');
+            return;
+        } else if (!this.isFormDirty()) {
+            this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
+            this.siteLogService.sendApplicationStateMessage({
+                applicationFormModified: false,
+                applicationFormInvalid: false,
+                applicationSaveState: ApplicationSaveState.saving
+            });
             return;
         }
+
+        // Currently the toolbar save will pass null.  Just use siteLogForm
+        if (!formValue) {
+            formValue = this.siteLogForm.value;
+        }
+
         this.dialogService.confirmSaveDialog(
             () => {
-
-                this.removeDeletedItems();
-
+                this.isLoading = true;
                 let formValueClone: any = _.cloneDeep(formValue);
                 this.moveSiteInformationUp(formValueClone);
-
-                /* Get the arrays in the form in the same order as the SiteLogModel */
                 this.sortArrays(formValueClone);
                 console.log(' formValue before merge and after reverse: ', formValueClone);
 
-                _.merge(this.siteLogModel, formValueClone);
-
-                if (!this.isFormDirty()) {
-                    this.dialogService.showLogMessage('No changes have been made for ' + this.siteId + '.');
-                    this.siteLogService.sendApplicationStateMessage({
-                        applicationFormModified: false,
-                        applicationFormInvalid: false,
-                        applicationSaveState: ApplicationSaveState.saving
-                    });
-                    return;
+                if (this.siteId !== 'newSite') {
+                    this.saveExistingSiteLog(formValueClone);
+                } else {
+                    this.saveNewSiteLog(formValueClone);
                 }
-
-                this.isLoading = true;
-                this.submitted = true;
-                this.siteLogService.saveSiteLog(this.siteLogModel)
-                    .takeUntil(this.unsubscribe)
-                    .subscribe(
-                        (responseJson: any) => {
-                            this.isLoading = false;
-                            this.siteLogForm.markAsPristine();
-                            this.siteLogService.sendApplicationStateMessage({
-                                applicationFormModified: false,
-                                applicationFormInvalid: false,
-                                applicationSaveState: ApplicationSaveState.saved
-                            });
-                            this.siteLogService.sendApplicationStateMessage({
-                                applicationFormModified: false,
-                                applicationFormInvalid: false,
-                                applicationSaveState: ApplicationSaveState.idle
-                            });
-                            this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
-                        },
-                        (error: Error) => {
-                            this.isLoading = false;
-                            console.error(error);
-                            this.dialogService.showErrorMessage('Error in saving SiteLog data for ' + this.siteId);
-                        }
-                    );
             },
             () => {
                 this.dialogService.showLogMessage('Cancelled in saving SiteLog data for ' + this.siteId);
                 this.isLoading = false;
             }
         );
+    }
+
+    public saveExistingSiteLog(formValue: any) {
+
+        _.merge(this.siteLogModel, formValue);
+        this.removeDeletedItems();
+
+        this.siteLogService.saveSiteLog(this.siteLogModel)
+            .takeUntil(this.unsubscribe)
+            .subscribe(
+                (responseJson: any) => {
+                    this.isLoading = false;
+                    this.siteLogForm.markAsPristine();
+                    this.siteLogService.sendApplicationStateMessage({
+                        applicationFormModified: false,
+                        applicationFormInvalid: false,
+                        applicationSaveState: ApplicationSaveState.saved
+                    });
+                    this.siteLogService.sendApplicationStateMessage({
+                        applicationFormModified: false,
+                        applicationFormInvalid: false,
+                        applicationSaveState: ApplicationSaveState.idle
+                    });
+                    this.dialogService.showSuccessMessage('Done in saving SiteLog data for ' + this.siteId);
+                },
+                (error: Error) => {
+                    this.isLoading = false;
+                    console.error(error);
+                    this.dialogService.showErrorMessage('Error in saving SiteLog data for ' + this.siteId);
+                }
+            );
+    }
+
+    public saveNewSiteLog(formValue: any) {
+
+        _.merge(this.siteLogModel, formValue);
+        this.siteLogService.saveNewSiteLog(this.siteLogModel)
+            .takeUntil(this.unsubscribe)
+            .subscribe(
+                (responseJson: any) => {
+                    this.isLoading = false;
+                    this.siteLogForm.markAsPristine();
+                    this.siteLogService.sendApplicationStateMessage({
+                        applicationFormModified: false,
+                        applicationFormInvalid: false,
+                        applicationSaveState: ApplicationSaveState.saved
+                    });
+                    this.siteLogService.sendApplicationStateMessage({
+                        applicationFormModified: false,
+                        applicationFormInvalid: false,
+                        applicationSaveState: ApplicationSaveState.idle
+                    });
+                    this.goToHomePage();
+                    this.dialogService.showSuccessMessage('Done in saving new site log data');
+                },
+                (error: Error) => {
+                    this.isLoading = false;
+                    console.error(error);
+                    this.dialogService.showErrorMessage('Error in saving new site log data');
+                }
+            );
     }
 
     /**

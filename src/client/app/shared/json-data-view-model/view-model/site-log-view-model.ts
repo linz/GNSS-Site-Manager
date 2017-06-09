@@ -10,13 +10,14 @@ import { GnssReceiverViewModel } from '../../../gnss-receiver/gnss-receiver-view
 import { RadioInterferenceViewModel } from '../../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../../../multipath-source/multipath-source-view-model';
+import { SiteLocationViewModel } from '../../../site-log/site-location-view-model';
 
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
  */
 export class SiteLogViewModel {
     siteIdentification: any = {};
-    siteLocation: any = {};
+    siteLocation: any = new SiteLocationViewModel();
     gnssReceivers: GnssReceiverViewModel[] = [];
     gnssAntennas: GnssAntennaViewModel[] = [];
     surveyedLocalTies: SurveyedLocalTieViewModel[] = [];
