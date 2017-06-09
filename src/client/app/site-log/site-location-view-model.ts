@@ -4,16 +4,24 @@
  */
 import { AbstractViewModel, dontSetDetfaults } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
+export class CartesianPosition {
+    public x: number = null;
+    public y: number = null;
+    public z: number = null;
+}
+
+export class GeodeticPosition {
+    public lat: number = null;
+    public lon: number = null;
+    public height: number = null;
+}
+
 export class SiteLocationViewModel extends AbstractViewModel {
     public city: string = null;
     public state: string = null;
     public countryCodeISO: string = null;
-    public cartesianPositionX: number = null;
-    public cartesianPositionY: number = null;
-    public cartesianPositionZ: number = null;
-    public geodeticPositionLat: number = null;
-    public geodeticPositionLong: number = null;
-    public geodeticPositionHeight: number = null;
+    public cartesianPosition: CartesianPosition = new CartesianPosition();
+    public geodeticPosition: GeodeticPosition = new GeodeticPosition();
     public tectonicPlate: string = null;
     public notes: string = null;
     public dateDeleted: string = null;
