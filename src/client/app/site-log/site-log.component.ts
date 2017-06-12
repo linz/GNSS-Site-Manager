@@ -300,7 +300,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     public isFormDirty(): boolean {
-        return this.siteLogForm ? this.siteLogForm.dirty : false;
+        return this.siteLogForm && this.siteLogForm.dirty;
     }
 
     public isFormInvalid(): boolean {
@@ -308,7 +308,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     public isSiteInformationFormDirty(): boolean {
-        return this.siteInformationForm ? this.siteInformationForm.dirty : false;
+        return this.siteInformationForm && this.siteInformationForm.dirty;
     }
 
     public isSiteInformationFormInvalid(): boolean {

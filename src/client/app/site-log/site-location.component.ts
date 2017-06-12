@@ -79,11 +79,11 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     }
 
     public isFormDirty(): boolean {
-        return this.siteLocationForm ? this.siteLocationForm.dirty : false;
+        return this.siteLocationForm && this.siteLocationForm.dirty;
     }
 
     public isFormInvalid(): boolean {
-        return this.siteLocationForm ? this.siteLocationForm.invalid : false;
+        return this.siteLocationForm && this.siteLocationForm.invalid;
     }
 
 
