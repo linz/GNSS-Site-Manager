@@ -45,11 +45,7 @@ export class SiteIdentificationComponent implements OnInit {
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-        if  (!siteLogModel
-             || !siteLogModel.siteIdentification
-             || Object.keys(siteLogModel.siteIdentification).length === 0) {
-            this.siteIdentification = new SiteIdentificationViewModel();
-        } else {
+        if  (siteLogModel) {
             this.siteIdentification = siteLogModel.siteIdentification;
             this.siteIdentificationForm.setValue(this.siteIdentification);
         }
@@ -83,8 +79,7 @@ export class SiteIdentificationComponent implements OnInit {
     private setupForm() {
         this.siteIdentificationForm = this.formBuilder.group({
             siteName: ['', [Validators.maxLength(50)]],
-            // '     ' prevents validation error at start
-            fourCharacterID: ['     ', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
+            fourCharacterID: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
             monumentInscription: ['', [Validators.maxLength(100)]],
             iersDOMESNumber: ['', [Validators.maxLength(50)]],
             cdpNumber: ['', [Validators.maxLength(25)]],
