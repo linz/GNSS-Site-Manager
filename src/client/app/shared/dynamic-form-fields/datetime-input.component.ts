@@ -273,7 +273,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
    /**
-    * Convert a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
+    * Convert a string in format of 'YYYY-MM-DDTHH:mm:ss.sssZ' to a Date object.
     */
     private convertStringToDate(dtStr: string): Date {
         if (dtStr === null || dtStr.trim().length === 0) {
@@ -299,7 +299,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
    /**
-    * Set a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
+    * Set a string in format of 'YYYY-MM-DDTHH:mm:ss.sssZ' back to the input JSON object.
     */
     private setOutputDatetime(): void {
         if (this.datetimeModel === null) {

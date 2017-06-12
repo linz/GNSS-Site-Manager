@@ -5,10 +5,10 @@ export class MiscUtils {
     private static scrollToView: any = require('scroll-into-view');
 
     /**
-     * Get UTC date and time string in format of "yyyy-mm-dd hh:mm:ss"
+     * Get UTC date and time string in format of "yyyy-mm-dd HH:mm:ss"
      */
     public static getUTCDateTime(): string {
-        return moment().utc().format('YYYY-MM-DD hh:mm:ss');
+        return moment().utc().format('YYYY-MM-DD HH:mm:ss');
     }
 
     public static formatUTCDateTime(date: string): string {
@@ -26,7 +26,7 @@ export class MiscUtils {
     }
 
     /**
-     * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDThh:mm:ssZ)
+     * Returns the date string (YYYY-MM-DD) from the date-time string (YYYY-MM-DDTHH:mm:ssZ)
      */
     public static getDateComponent(datetime: string): string {
         if (datetime === null || typeof datetime === 'undefined') {
@@ -48,7 +48,7 @@ export class MiscUtils {
     }
 
     /**
-     * Return a date as a string in the "YYYY-MM-DD'T'hh:mm:ss.000Z" format.
+     * Return a date as a string in the "YYYY-MM-DD'T'HH:mm:ss.000Z" format.
      *
      * @param date
      * @return {string}
