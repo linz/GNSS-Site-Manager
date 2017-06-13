@@ -101,12 +101,12 @@ export class SiteLogService implements OnDestroy {
 
         const user: User = this.authService.getUser();
         let newSiteLogData: any = {
-            firstName: '',  // user.profile.first_name,  TODO no first_name or given_name in user's profile ?
-            lastName: user.profile.family_name,
-            organisation: '',  // user.profile.organisation, TODO no organisation in user's profile ?
-            position: '', // user.profile.position, TODO no position in user's profile ?
-            email : user.profile.email,
-            phone : user.profile.phone_number,
+            firstName: user.profile.first_name || '',
+            lastName: user.profile.family_name || '',
+            organisation: user.profile.organisation || '',
+            position: user.profile.position || '',
+            email : user.profile.email || '',
+            phone : user.profile.phone_number || '',
             siteLogData: this.getGeodesyMlFromViewModel(siteLogViewModel)
         };
 
