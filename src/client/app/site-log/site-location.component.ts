@@ -43,8 +43,10 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     @Input()
     set siteLogModel(siteLogModel: any) {
         if (siteLogModel && Object.keys(siteLogModel).length > 0) {
-            this.siteLocation = siteLogModel.siteLocation;
-            this.siteLocationForm.setValue(this.siteLocation);
+            setTimeout(()=>{
+                this.siteLocation = siteLogModel.siteLocation;
+                this.siteLocationForm.setValue(this.siteLocation);
+            });
         }
     }
 

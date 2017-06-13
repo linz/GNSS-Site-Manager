@@ -21,10 +21,12 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     @Input()
     set siteLogModel(siteLogModel: any) {
-       if (siteLogModel) {
-           this.setItemsCollection(this.getFormData(siteLogModel));
-           this.setupChildItems();
-       }
+        if (siteLogModel) {
+            setTimeout(()=>{
+                this.setItemsCollection(this.getFormData(siteLogModel));
+                this.setupChildItems();
+            });
+        }
     }
 
     /**

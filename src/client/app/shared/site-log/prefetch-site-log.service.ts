@@ -18,16 +18,18 @@ export class PrefetchSiteLogResolver implements Resolve<SiteLogViewModel> {
     }
 
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<SiteLogViewModel> {
+        let homeUrl: string = '';
         let fourCharacterId: string = route.params['id'];
         if (!fourCharacterId) {
-            this.router.navigate(['']);
+            this.router.navigate([homeUrl]);
             return null;
+        } else if (fourCharacterId === 'newSite') {
+            return Promise.resolve(new SiteLogViewModel());
         }
 
         return this.http.get(this.constantsService.getWebServiceURL()
                  + '/siteLogs/search/findByFourCharacterId?id=' + fourCharacterId + '&format=geodesyml')
-            .toPromise()
-            .then((result: any) => {
+            .toPromise().then((result: any) => {
                 var geodesyMl: any = result.text();
                 let json: string = this.jsonixService.geodesyMLToJson(geodesyMl);
                 let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(json);
@@ -35,7 +37,7 @@ export class PrefetchSiteLogResolver implements Resolve<SiteLogViewModel> {
             })
             .catch((error: any) => {
                 console.log(error);
-                this.router.navigate(['']);
+                this.router.navigate([homeUrl]);
                 return null;
             });
     }

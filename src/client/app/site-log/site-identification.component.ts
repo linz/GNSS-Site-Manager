@@ -46,8 +46,10 @@ export class SiteIdentificationComponent implements OnInit {
     @Input()
     set siteLogModel(siteLogModel: any) {
         if  (siteLogModel) {
-            this.siteIdentification = siteLogModel.siteIdentification;
-            this.siteIdentificationForm.setValue(this.siteIdentification);
+            setTimeout(()=>{
+                this.siteIdentification = siteLogModel.siteIdentification;
+                this.siteIdentificationForm.setValue(this.siteIdentification);
+            });
         }
     }
 
