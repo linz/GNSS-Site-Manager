@@ -35,9 +35,14 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.user = this.userAuthService.getUser();
         this.setupRouterSubscription();
         this.setupSiteLogSubscription();
         this.setupAuthSubscription();
+    }
+
+    public isUserLoggedIn(): boolean {
+        return this.userAuthService.getUser() !== null;
     }
 
     public isAuthorisedSite(): boolean {
@@ -72,6 +77,9 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
                 currentRoute.params.subscribe((param: Params) => {
                     let obj: {id: string} = <any> param.valueOf();
                     this.siteId = obj.id;
+                    if (this.siteId === 'newSite') {
+                        this.siteId = 'the new site';
+                    }
                 });
             });
     }
@@ -89,7 +97,7 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
         this.userAuthService.userLoadedEvent
             .takeUntil(this.unsubscribe)
             .subscribe((u: User) => {
-            this.user = u;
-        });
+                this.user = u;
+            });
     }
 }
