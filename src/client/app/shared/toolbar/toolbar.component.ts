@@ -76,11 +76,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * save is disabled if nothing has in the form has changed or the user is not allowed to edit this site
      */
     public isSaveDisabled(): boolean {
-        let isSaveDisabled = false;
-        if (this.siteId !== 'newSite') {
-            isSaveDisabled = !this.isFormDirty() || !this.hasAuthorityToEditSite();
-        }
-        return isSaveDisabled;
+        return !this.isFormDirty() || !this.hasAuthorityToEditSite();
     }
 
     public isRevertDisabled(): boolean {
@@ -190,9 +186,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     private hasAuthorityToEditSite(): boolean {
-        if (!this.siteId) {
-            return false;
-        }
         return this.userAuthService.hasAuthorityToEditSite(this.siteId);
     }
 }

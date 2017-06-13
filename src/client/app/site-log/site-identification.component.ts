@@ -77,7 +77,7 @@ export class SiteIdentificationComponent implements OnInit {
     }
 
     /**
-     * Gets a value for the fourCharacterID field's readonly attribute 
+     * Gets a value for the fourCharacterID field's readonly attribute
      * based on whether the user is editing a site or is making a new site.
      */
     public getFourCharacterIdReadOnlyAttribute(): string {
