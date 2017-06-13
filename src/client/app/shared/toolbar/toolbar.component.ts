@@ -70,8 +70,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         return this.isFormInvalid;
     }
 
+    /**
+     * Checks whether the save button should be disabled or not.
+     * save is always enabled for new site because everything is optional
+     * save is disabled if nothing has in the form has changed or the user is not allowed to edit this site
+     */
     public isSaveDisabled(): boolean {
-        return !(this.hasAuthorityToEditSite() && this.isFormDirty());
+        return !this.isFormDirty() || !this.hasAuthorityToEditSite();
     }
 
     public isRevertDisabled(): boolean {
@@ -181,9 +186,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     private hasAuthorityToEditSite(): boolean {
-        if (!this.siteId) {
-            return false;
-        }
         return this.userAuthService.hasAuthorityToEditSite(this.siteId);
     }
 }

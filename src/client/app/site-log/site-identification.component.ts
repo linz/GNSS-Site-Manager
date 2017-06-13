@@ -76,10 +76,18 @@ export class SiteIdentificationComponent implements OnInit {
         return this.siteIdentificationForm && this.siteIdentificationForm.invalid;
     }
 
+    /**
+     * Gets a value for the fourCharacterID field's readonly attribute
+     * based on whether the user is editing a site or is making a new site.
+     */
+    public getFourCharacterIdReadOnlyAttribute(): string {
+        return this.siteIdentification && this.siteIdentification.fourCharacterID ? 'readonly' : null;
+    }
+
     private setupForm() {
         this.siteIdentificationForm = this.formBuilder.group({
             siteName: ['', [Validators.maxLength(50)]],
-            fourCharacterID: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(25)]],
+            fourCharacterID: ['', [Validators.minLength(4), Validators.maxLength(25)]],
             monumentInscription: ['', [Validators.maxLength(100)]],
             iersDOMESNumber: ['', [Validators.maxLength(50)]],
             cdpNumber: ['', [Validators.maxLength(25)]],
