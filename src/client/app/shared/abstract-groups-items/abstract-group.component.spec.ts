@@ -41,7 +41,7 @@ export function main() {
         beforeEach(() => {
             abstractGroupImpl = new AbstractGroupImpl(null, null);
             avmi1 = new AbstractViewModelImpl('4');
-            avmi1.setDateDeleted(MiscUtils.getUTCDateTime());
+            avmi1.dateDeleted = MiscUtils.getUTCDateTime();
             avmi2 = new AbstractViewModelImpl('3');
             avmi4 = new AbstractViewModelImpl('2');
             avmi3 = new AbstractViewModelImpl('1');
