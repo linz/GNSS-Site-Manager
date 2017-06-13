@@ -1,11 +1,12 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { AbstractBaseComponent } from '../shared/abstract-groups-items/abstract-base.component';
 import { SiteLocationViewModel } from './site-location-view-model';
+import * as _ from 'lodash';
 
 /**
  * This class represents the SiteLocation sub-component under the SiteInformation Component.
@@ -51,12 +52,13 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     private cartesianPositionForm: FormGroup;
     private geodeticPositionForm: FormGroup;
     private siteLocation: SiteLocationViewModel;
+    private cartesianPositionFormValidators: ValidatorFn[];
+    private geodeticPositionFormValidators: ValidatorFn[];
 
     constructor(protected userAuthService: UserAuthService,
                 protected siteLogService: SiteLogService,
                 protected dialogService: DialogService,
-                protected formBuilder: FormBuilder,
-                protected changeDetectionRef: ChangeDetectorRef) {
+                protected formBuilder: FormBuilder) {
         super(userAuthService);
     }
 
@@ -160,20 +162,28 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
 
     private setupForm() {
         this.cartesianPositionForm = this.formBuilder.group({
-            x: ['', Validators.required],
-            y: ['', Validators.required],
-            z: ['', Validators.required]
+            x: '',
+            y: '',
+            z: ''
         });
+        // Validators are applied in handleLocationPositionGroupChange.
+        // Validators.required is added to those listed (conditionally when the group has at least one value)
+        this.cartesianPositionFormValidators = [];
         this.cartesianPositionForm.valueChanges.subscribe(
-            (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPositionForm)
+            (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPositionForm,
+                this.cartesianPositionFormValidators)
         );
         this.geodeticPositionForm = this.formBuilder.group({
-            lat: [''],
-            lon: [''],
-            height: ['']
+            lat: '',
+            lon: '',
+            height: ''
         });
+        // Validators are applied in handleLocationPositionGroupChange.
+        // Validators.required is added to those listed (conditionally when the group has at least one value)
+        this.geodeticPositionFormValidators = [];
         this.geodeticPositionForm.valueChanges.subscribe(
-            (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPositionForm)
+            (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPositionForm,
+                this.geodeticPositionFormValidators)
         );
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],
@@ -203,7 +213,7 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
      * @param groupItems - the group items values that come from an OnChange subscription
      * @param positionGroup - the FormGroup that holds the items
      */
-    private handleLocationPositionGroupChange(groupItems: any, positionGroup: FormGroup) {
+    private handleLocationPositionGroupChange(groupItems: any, positionGroup: FormGroup, permanentValidators: ValidatorFn[]) {
         let someFieldHasValue: boolean = false;
         Object.keys(groupItems).forEach((key) => {
             if (groupItems[key]) {
@@ -218,24 +228,12 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
                 throw new Error(`Control for group item: ${key} doesnt exist in positionGroup: ${positionGroup}`);
             }
             if (someFieldHasValue) {
-                if (!itemControl.validator) {
-                    this.addRequiredValidator(itemControl, key);
-                    itemControl.updateValueAndValidity();
-                }
+                    itemControl.setValidators(_.concat(permanentValidators, Validators.required));
+                    itemControl.updateValueAndValidity({emitEvent: false});
             } else {
-                if (itemControl.validator) {
-                    this.removeRequiredValidator(itemControl, key);
-                    itemControl.updateValueAndValidity();
-                }
+                    itemControl.clearValidators();
+                    itemControl.updateValueAndValidity({emitEvent: false});
             }
         });
-    }
-
-    private removeRequiredValidator(itemControl: AbstractControl, controlName: string) {
-        itemControl.clearValidators();
-    }
-
-    private addRequiredValidator(itemControl: AbstractControl, controlName: string) {
-        itemControl.setValidators(Validators.required);
     }
 }

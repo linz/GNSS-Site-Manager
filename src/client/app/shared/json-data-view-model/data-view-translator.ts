@@ -210,5 +210,4 @@ export class DataViewTranslatorService {
             .replace(/\//g, '.')
             .replace(/\.([0-9]+)/g, '[$1]');
     }
-
 }
