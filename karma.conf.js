@@ -75,8 +75,6 @@ module.exports = function (config) {
 
       { pattern: 'node_modules/ng2-bootstrap/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/moment/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/foreach/**/*.js', included: false, watched: false },
-      { pattern: 'node_modules/json-pointer/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/scroll-into-view/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/raf/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/performance-now/**/*.js', included: false, watched: false },
