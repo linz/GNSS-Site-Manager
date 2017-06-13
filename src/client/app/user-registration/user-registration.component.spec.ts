@@ -70,8 +70,14 @@ export function main() {
                         );
 
                         const setValue = (value: string, formControlName: string): void => {
-                            const input: HTMLInputElement =
-                                dom.querySelector('[formcontrolname=' + formControlName + ']') as HTMLInputElement;
+                            let input: HTMLInputElement =
+                                dom.querySelector('text-input[formcontrolname=' + formControlName + '] input') as HTMLInputElement;
+
+                            if (!input) {
+                                input = dom.querySelector('textarea-input[formcontrolname='
+                                    + formControlName + '] textarea') as HTMLInputElement;
+                            }
+                            expect(input).toBeTruthy();
 
                             input.value = value;
                             input.dispatchEvent(new Event('input'));
