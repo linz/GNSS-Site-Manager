@@ -86,11 +86,4 @@ export class SiteIdentificationViewModel extends AbstractViewModel {
 
         this.addFieldMapping('/objectMap', 'object', '/objectMap', 'object');
     };
-
-    /**
-     * Overridden parent method to return false because SiteIdentification does not have an end date.
-     */
-    hasEndDateField(): boolean {
-        return false;
-    }
 }
