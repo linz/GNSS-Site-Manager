@@ -286,12 +286,13 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         if (this.itemProperties.length > 1 && this.itemProperties[index].hasEndDateField() ) {
             if (this.itemProperties[index].endDate) {
                 this.currentItemAlreadyHasEndDate = true;
-            }
-            this.itemProperties[index].endDate = dateUtc;
-            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-            if (formGroup.controls['endDate']) {
-                formGroup.controls['endDate'].setValue(dateUtc);
-                formGroup.controls['endDate'].markAsDirty();
+            } else {
+                this.itemProperties[index].endDate = dateUtc;
+                let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+                if (formGroup.controls['endDate']) {
+                    formGroup.controls['endDate'].setValue(dateUtc);
+                    formGroup.controls['endDate'].markAsDirty();
+                }
             }
         }
     }
