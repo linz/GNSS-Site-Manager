@@ -53,11 +53,4 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
             'characterString/gco:CharacterString',
             'string', '/fax', 'string');
     };
-
-    /**
-     * Overridden parent method to return false because ResponsibleParty does not have an end date.
-     */
-    hasEndDateField(): boolean {
-        return false;
-    }
 }

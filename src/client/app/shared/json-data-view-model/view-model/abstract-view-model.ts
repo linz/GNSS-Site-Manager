@@ -56,16 +56,6 @@ export abstract class AbstractViewModel {
     }
 
     /**
-     * Returns true if this kind of objects have an end date.
-     *
-     * SiteIdentification, SiteLocation, ResponsibleParty and SurveyedLocalTie must override this method to return
-     * false as they do not have an end date.
-     */
-    hasEndDateField() : boolean {
-        return true;
-    }
-
-    /**
      * Simple way to specify the data / view model mappings.
      * @returns string[][]
      */

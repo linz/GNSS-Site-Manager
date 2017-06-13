@@ -55,11 +55,4 @@ export class SiteLocationViewModel extends AbstractViewModel {
         this.addSuperFieldMappings();
         this.addFieldMapping('/objectMap', 'object', '/objectMap', 'object');
     };
-
-    /**
-     * Overridden parent method to return false because SiteLocation does not have an end date.
-     */
-    hasEndDateField(): boolean {
-        return false;
-    }
 }

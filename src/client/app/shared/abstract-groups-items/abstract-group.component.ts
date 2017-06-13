@@ -246,6 +246,15 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         this.isGroupOpen = this.miscUtils.scrollIntoView(event, this.isGroupOpen);
     }
 
+    /**
+     * Do items in this group have end dates?
+     */
+    // TODO: Ideally, there should be different subclasses of (all of, or some of) AbstractViewModel,
+    // AbstractItemComponent, and AbstractGroupComponent to denote cases where change management applies.
+    protected hasEndDateField(): boolean {
+        return true;
+    }
+
     /* ************** Private Methods ************** */
 
     private addNewItem(): void {
@@ -283,7 +292,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     private updateEndDateForSecondItem(dateUtc: string) {
         let index: number = 1;
-        if (this.itemProperties.length > 1 && this.itemProperties[index].hasEndDateField() ) {
+        if (this.itemProperties.length > 1 && this.hasEndDateField()) {
             if (this.itemProperties[index].endDate) {
                 this.currentItemAlreadyHasEndDate = true;
             }
