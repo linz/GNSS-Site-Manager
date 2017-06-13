@@ -65,26 +65,6 @@ export abstract class AbstractViewModel {
         return true;
     }
 
-    setStartDate(date: string) {
-        this.startDate = date;
-    }
-
-    setEndDate(date: string) {
-        this.endDate = date;
-    }
-
-    setDateInserted(date: string) {
-        this.dateInserted = date;
-    }
-
-    setDateDeleted(date: string) {
-        this.dateDeleted = date;
-    }
-
-    setDeletedReason(reason: string): void {
-        this.deletedReason = reason;
-    }
-
     /**
      * Simple way to specify the data / view model mappings.
      * @returns string[][]

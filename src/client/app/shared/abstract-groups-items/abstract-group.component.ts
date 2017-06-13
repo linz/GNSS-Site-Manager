@@ -195,8 +195,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     public removeItem(index: number, reason: string) {
         let date: string = MiscUtils.getUTCDateTime();
         let item: T = this.getItemsCollection()[index];
-        item.setDateDeleted(date);
-        item.setDeletedReason(reason);
+        item.dateDeleted = date;
+        item.deletedReason= reason;
         if (this.groupArrayForm.length > index) {
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
             if (formGroup.controls['dateDeleted']) {
@@ -215,7 +215,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     public cancelNew(itemIndex: number) {
         if (this.itemProperties.length > (itemIndex + 1) && !this.currentItemAlreadyHasEndDate) {
-            this.itemProperties[itemIndex+1].setEndDate('');
+            this.itemProperties[itemIndex+1].endDate = '';
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
             if (formGroup.controls['endDate']) {
                 formGroup.controls['endDate'].setValue('');
@@ -264,13 +264,13 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let index: number = 0;
         let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
 
-        item.setStartDate(dateUtc);
+        item.startDate = dateUtc;
         if (formGroup.controls['startDate']) {
             formGroup.controls['startDate'].setValue(dateUtc);
             formGroup.controls['startDate'].markAsDirty();
         }
 
-        item.setDateInserted(dateUtc);
+        item.dateInserted = dateUtc;
         if (formGroup.controls['dateInserted']) {
             formGroup.controls['dateInserted'].setValue(dateUtc);
         }
@@ -287,7 +287,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             if (this.itemProperties[index].endDate) {
                 this.currentItemAlreadyHasEndDate = true;
             }
-            this.itemProperties[index].setEndDate(dateUtc);
+            this.itemProperties[index].endDate = dateUtc;
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
             if (formGroup.controls['endDate']) {
                 formGroup.controls['endDate'].setValue(dateUtc);
