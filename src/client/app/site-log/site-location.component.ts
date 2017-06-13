@@ -5,6 +5,7 @@ import { DialogService } from '../shared/index';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { AbstractBaseComponent } from '../shared/abstract-groups-items/abstract-base.component';
+import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { SiteLocationViewModel } from './site-location-view-model';
 import * as _ from 'lodash';
 
@@ -39,16 +40,7 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     public isDeleted: boolean = false;
 
     @Input('parentForm') parentForm: FormGroup;
-
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel && Object.keys(siteLogModel).length > 0) {
-            setTimeout(()=>{
-                this.siteLocation = siteLogModel.siteLocation;
-                this.siteLocationForm.setValue(this.siteLocation);
-            });
-        }
-    }
+    @Input('siteLogModel') siteLogModel: SiteLogViewModel;
 
     cartesianPositionForm: FormGroup;
     geodeticPositionForm: FormGroup;
@@ -200,6 +192,8 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
             dateInserted: [''],
             deletedReason: ['']
         });
+        this.siteLocation = this.siteLogModel.siteLocation;
+        this.siteLocationForm.setValue(this.siteLocation);
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteLocationForm.enable();
         } else {

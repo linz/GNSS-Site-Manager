@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MiscUtils } from '../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserAuthService } from '../shared/global/user-auth.service';
+import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
 import { SiteIdentificationViewModel } from './site-identification-view-model';
 
 /**
@@ -42,16 +43,7 @@ export class SiteIdentificationComponent implements OnInit {
     public siteIdentification: SiteIdentificationViewModel;
 
     @Input('parentForm') parentForm: FormGroup;
-
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if  (siteLogModel) {
-            setTimeout(()=>{
-                this.siteIdentification = siteLogModel.siteIdentification;
-                this.siteIdentificationForm.setValue(this.siteIdentification);
-            });
-        }
-    }
+    @Input('siteLogModel') siteLogModel: SiteLogViewModel;
 
     constructor(private userAuthService: UserAuthService,
                 private formBuilder: FormBuilder,
@@ -108,6 +100,8 @@ export class SiteIdentificationComponent implements OnInit {
             notes: ['', [Validators.maxLength(2000)]],
             objectMap: [''],
         });
+        this.siteIdentification = this.siteLogModel.siteIdentification;
+        this.siteIdentificationForm.setValue(this.siteIdentification);
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteIdentificationForm.enable();
         } else {

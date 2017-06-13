@@ -18,16 +18,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     protected groupArrayForm: FormArray;
 
     @Input() parentForm: FormGroup;
-
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-        if (siteLogModel) {
-            setTimeout(()=>{
-                this.setItemsCollection(this.getFormData(siteLogModel));
-                this.setupChildItems();
-            });
-        }
-    }
+    @Input('siteLogModel') siteLogModel: T;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -170,6 +161,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             this.parentForm.removeControl(itemsArrayName);
         }
         this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
+        this.setItemsCollection(this.getFormData(this.siteLogModel));
+        this.setupChildItems();
     }
 
     setupChildItems() {
