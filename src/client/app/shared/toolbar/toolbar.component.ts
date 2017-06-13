@@ -70,8 +70,17 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         return this.isFormInvalid;
     }
 
+    /**
+     * Checks whether the save button should be disabled or not.
+     * save is always enabled for new site because everything is optional
+     * save is disabled if nothing has in the form has changed or the user is not allowed to edit this site
+     */
     public isSaveDisabled(): boolean {
-        return !(this.hasAuthorityToEditSite() && this.isFormDirty());
+        let isSaveDisabled = false;
+        if (this.siteId !== 'newSite') {
+            isSaveDisabled = !this.isFormDirty() || !this.hasAuthorityToEditSite();
+        }
+        return isSaveDisabled;
     }
 
     public isRevertDisabled(): boolean {
