@@ -3,6 +3,7 @@ import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
+import { SiteLogViewModel }  from '../json-data-view-model/view-model/site-log-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import { UserAuthService } from '../global/user-auth.service';
 
@@ -18,7 +19,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     protected groupArrayForm: FormArray;
 
     @Input() parentForm: FormGroup;
-    @Input('siteLogModel') siteLogModel: T;
+    @Input('siteLogModel') siteLogModel: SiteLogViewModel;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
