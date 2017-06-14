@@ -94,7 +94,7 @@ export class UserAuthService {
             siteId = this.router.routerState.snapshot.root.children[0].url[1].path;
         }
         if ('newSite' === siteId) {
-            return this.currentUser != null;
+            return this.currentUser !== null;
         }
         return this.hasAuthority('edit-' + siteId.toLowerCase());
     }
