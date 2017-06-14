@@ -15,7 +15,7 @@ export function main() {
         let comp: SiteLocationComponent;
         let fixture: ComponentFixture<SiteLocationComponent>;
 
-        let fakeUserAUthService = {
+        let fakeUserAuthService = {
             hasAuthorityToEditSite() {
                 return true;
             }
@@ -49,7 +49,7 @@ export function main() {
                     RouterTestingModule,
                 ],
                 providers: [
-                    {provide: UserAuthService, useValue: fakeUserAUthService},
+                    {provide: UserAuthService, useValue: fakeUserAuthService},
                     {provide: SiteLogService, useValue: fakeSiteLogService},
                     {provide: DialogService, useValue: fakeDialogService},
                 ]
