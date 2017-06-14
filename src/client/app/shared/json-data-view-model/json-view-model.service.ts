@@ -9,15 +9,71 @@ import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-v
 import { PressureSensorViewModel } from '../../pressure-sensor/pressure-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
 import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-sensor-view-model';
-import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-party-view-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
-import { DataViewTranslatorService } from './data-view-translator';
+import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
 import { SiteIdentificationViewModel } from '../../site-log/site-identification-view-model';
 import { SiteLocationViewModel } from '../../site-log/site-location-view-model';
 import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
+import * as _ from 'lodash';
+
+/* tslint:disable:max-line-length */
+let responsiblePartyMap = new ObjectMap()
+
+    .addSourcePreMap((source: any): any => {
+        return source.ciResponsibleParty ? source : null;
+    })
+
+    .addFieldMap('ciResponsibleParty.individualName.characterString.gco:CharacterString', 'individualName')
+    .addFieldMap('ciResponsibleParty.organisationName.characterString.gco:CharacterString', 'organisationName')
+    .addFieldMap('ciResponsibleParty.positionName.characterString.gco:CharacterString', 'positionName')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.deliveryPoint[0].characterString.gco:CharacterString', 'deliveryPoint')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.city.characterString.gco:CharacterString', 'city')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.administrativeArea.characterString.gco:CharacterString', 'administrativeArea')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.postalCode.characterString.gco:CharacterString', 'postalCode')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.city.country.characterString.gco:CharacterString', 'country')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.electronicMailAddress[0].characterString.gco:CharacterString', 'email')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'phone')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
+;
+/* tslint:disable:max-line-length */
+
+function removeNullsFromArrays(obj: Object): void {
+    traverse(obj, (array: any[]): any[] => {
+        return _.filter(array, (element: any) => { return !!element; });
+    });
+}
+
+function traverse(obj: Object, mapArray: (array: any[]) => any[]): void {
+    _.forIn(obj, (value, key) => {
+        if (_.isArray(value)) {
+            (obj as any)[key] = mapArray(value);
+            value.forEach((element: any) => {
+                if (_.isObject(element)) {
+                    traverse(element, mapArray);
+                }
+            });
+        }
+        if (_.isObject(value)) {
+            traverse(value, mapArray);
+        }
+    });
+}
+
+let siteLogMap = new ObjectMap()
+    .addFieldMap('siteOwner', 'siteOwner[0]', responsiblePartyMap)
+    .addFieldMap('siteContacts', 'siteContacts', responsiblePartyMap)
+    .addFieldMap('siteMetadataCustodian', 'siteMetadataCustodian[0]', responsiblePartyMap)
+    .addFieldMap('siteDataCenters', 'siteDataCenters', responsiblePartyMap)
+    .addFieldMap('siteDataSource', 'siteDataSource[0]', responsiblePartyMap)
+
+    .addTargetPostMap((target: any): any => {
+        removeNullsFromArrays(target);
+        return target;
+    })
+;
 
 /**
  * This class provides the service to convert from 'Geodesy data model JSON' (from the XML via Jsonix) to
@@ -53,20 +109,6 @@ export class JsonViewModelService {
         DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLocation,
             new SiteLocationViewModel().getObjectMap());
 
-        if (siteLogDataModel.siteOwner.ciResponsibleParty) {
-            siteLogViewModel.siteOwner = this.dataToViewModel([siteLogDataModel.siteOwner], ResponsiblePartyViewModel);
-        }
-        siteLogViewModel.siteContacts = this.dataToViewModel(siteLogDataModel.siteContacts, ResponsiblePartyViewModel);
-
-        if (siteLogDataModel.siteMetadataCustodian.ciResponsibleParty) {
-            siteLogViewModel.siteMetadataCustodian =
-                this.dataToViewModel([siteLogDataModel.siteMetadataCustodian], ResponsiblePartyViewModel);
-        }
-        if (siteLogDataModel.siteDataSource.ciResponsibleParty) {
-            siteLogViewModel.siteDataSource = this.dataToViewModel([siteLogDataModel.siteDataSource], ResponsiblePartyViewModel);
-        }
-        siteLogViewModel.siteDataCenters = this.dataToViewModel(siteLogDataModel.siteDataCenters, ResponsiblePartyViewModel);
-
         siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
         siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
         siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
@@ -74,6 +116,8 @@ export class JsonViewModelService {
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.moreInformation = siteLogDataModel.moreInformation;
         siteLogViewModel.dataStreams = siteLogDataModel.dataStreams;
+
+        _.merge(siteLogViewModel, siteLogMap.map(siteLogDataModel));
 
         console.debug('dataModelToViewModel - siteLogViewModel: ', siteLogViewModel);
         return siteLogViewModel;
@@ -100,38 +144,10 @@ export class JsonViewModelService {
         DataViewTranslatorService.translate(viewModel.siteLocation, siteLogDataModel.siteLocation,
             new SiteLocationViewModel().getObjectMap().inverse());
 
-        siteLogDataModel.siteContacts = this.viewToDataModel(viewModel.siteContacts);
-
-        if (viewModel.siteDataSource && viewModel.siteDataSource.length !== 0) {
-            if (!siteLogDataModel.siteDataSource) {
-                siteLogDataModel.siteDataSource = {};
-            }
-            DataViewTranslatorService.translate(viewModel.siteDataSource[0], siteLogDataModel.siteDataSource,
-                new ResponsiblePartyViewModel().getObjectMap().inverse());
-        }
-
-        siteLogDataModel.siteDataCenters = this.viewToDataModel(viewModel.siteDataCenters);
-        siteLogDataModel.radioInterferences = this.viewToDataModel(viewModel.radioInterferences);
-        siteLogDataModel.signalObstructions = this.viewToDataModel(viewModel.signalObstructions);
-        siteLogDataModel.multipathSources = this.viewToDataModel(viewModel.multipathSources);
-
-        if (viewModel.siteOwner && viewModel.siteOwner.length !== 0) {
-            if (!siteLogDataModel.siteOwner) {
-                siteLogDataModel.siteOwner = {};
-            }
-            DataViewTranslatorService.translate(viewModel.siteOwner[0], siteLogDataModel.siteOwner,
-                new ResponsiblePartyViewModel().getObjectMap().inverse());
-        }
-        if (viewModel.siteMetadataCustodian && viewModel.siteMetadataCustodian.length !== 0) {
-            if (!siteLogDataModel.siteMetadataCustodian) {
-                siteLogDataModel.siteMetadataCustodian = {};
-            }
-            DataViewTranslatorService.translate(viewModel.siteMetadataCustodian[0], siteLogDataModel.siteMetadataCustodian,
-                new ResponsiblePartyViewModel().getObjectMap().inverse());
-        }
-
         siteLogDataModel.moreInformation = viewModel.moreInformation;
         siteLogDataModel.dataStreams = viewModel.dataStreams;
+
+        _.merge(siteLogDataModel, siteLogMap.inverse().map(viewModel));
 
         console.debug('viewModelToDataModel - siteLogDataModel: ', siteLogDataModel);
         return siteLogDataModel;
