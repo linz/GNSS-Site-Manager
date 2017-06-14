@@ -20,6 +20,7 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
 import { RadioInterferenceModule } from '../radio-interference/radio-interference.module';
 import { SignalObstructionModule } from '../signal-obstruction/signal-obstruction.module';
 import { MultipathSourceModule } from '../multipath-source/multipath-source.module';
+import { SiteLocationModule } from './site-location.module';
 
 @NgModule({
   imports: [
@@ -39,10 +40,11 @@ import { MultipathSourceModule } from '../multipath-source/multipath-source.modu
     DynamicFormFieldsModule,
       RadioInterferenceModule,
       SignalObstructionModule,
-      MultipathSourceModule
+      MultipathSourceModule,
+      SiteLocationModule,
   ],
-  declarations: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
-  exports: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
+  declarations: [SiteLogComponent, SiteIdentificationComponent],
+  exports: [SiteLogComponent, SiteIdentificationComponent],
   providers: [
     ConfirmDeactivateSiteLogGuard,
   ],
