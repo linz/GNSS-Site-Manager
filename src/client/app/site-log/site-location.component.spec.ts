@@ -10,7 +10,7 @@ import { ApplicationSaveState, ApplicationState, SiteLogService } from '../share
 import { DialogService } from '../shared/global/dialog.service';
 
 export function main() {
-    describe('BannerComponent (inline template x)', () => {
+    describe('SiteLocation Positions', () => {
 
         let comp: SiteLocationComponent;
         let fixture: ComponentFixture<SiteLocationComponent>;
@@ -69,38 +69,72 @@ export function main() {
             expect(comp).toBeDefined();
         });
 
-        it('should have invalid fields when 1 is changed in group', () => {
+        it('should have invalid CartesianPosition fields when 1 or 2 is changed in group', () => {
             let x: AbstractControl = comp.cartesianPositionForm.controls['x'];
             let y: AbstractControl = comp.cartesianPositionForm.controls['y'];
             let z: AbstractControl = comp.cartesianPositionForm.controls['z'];
             // Setting one or two of x,y,z should cause all to become required and others to be invalid
-            x.setValue("7");
+            x.setValue('7');
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeFalsy();
             expect(z.valid).toBeFalsy();
 
-            y.setValue("77");
+            y.setValue('77');
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeTruthy();
             expect(z.valid).toBeFalsy();
 
             // Set them all and they should now be valid
-            z.setValue("777");
+            z.setValue('777');
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeTruthy();
             expect(z.valid).toBeTruthy();
 
             // take away all the values and they should be valid also
-            x.setValue("");
-            y.setValue("");
-            z.setValue("");
+            x.setValue('');
+            y.setValue('');
+            z.setValue('');
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeTruthy();
             expect(z.valid).toBeTruthy();
-        })
+        });
+
+        fit('should have invalid GeodeticPosition fields when 1 or 2 is changed in group', () => {
+            let lat: AbstractControl = comp.geodeticPositionForm.controls['lat'];
+            let lon: AbstractControl = comp.geodeticPositionForm.controls['lon'];
+            let height: AbstractControl = comp.geodeticPositionForm.controls['height'];
+            // Setting one or two of x,y,z should cause all to become required and others to be invalid
+            lat.setValue('7');
+            fixture.detectChanges();
+            expect(lat.valid).toBeTruthy();
+            expect(lon.valid).toBeFalsy();
+            expect(height.valid).toBeFalsy();
+
+            lon.setValue('77');
+            fixture.detectChanges();
+            expect(lat.valid).toBeTruthy();
+            expect(lon.valid).toBeTruthy();
+            expect(height.valid).toBeFalsy();
+
+            // Set them all and they should now be valid
+            height.setValue('777');
+            fixture.detectChanges();
+            expect(lat.valid).toBeTruthy();
+            expect(lon.valid).toBeTruthy();
+            expect(height.valid).toBeTruthy();
+
+            // take away all the values and they should be valid also
+            lat.setValue('');
+            lon.setValue('');
+            height.setValue('');
+            fixture.detectChanges();
+            expect(lat.valid).toBeTruthy();
+            expect(lon.valid).toBeTruthy();
+            expect(height.valid).toBeTruthy();
+        });
     });
 }

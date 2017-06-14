@@ -48,12 +48,12 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
         }
     }
 
+    cartesianPositionForm: FormGroup;
+    geodeticPositionForm: FormGroup;
     private siteLocationForm: FormGroup;
     private siteLocation: SiteLocationViewModel;
     private cartesianPositionFormValidators: ValidatorFn[];
     private geodeticPositionFormValidators: ValidatorFn[];
-    cartesianPositionForm: FormGroup;
-    geodeticPositionForm: FormGroup;
 
     constructor(protected userAuthService: UserAuthService,
                 protected siteLogService: SiteLogService,

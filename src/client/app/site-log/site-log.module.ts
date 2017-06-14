@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { SiteLogComponent } from './site-log.component';
 import { SiteIdentificationComponent } from './site-identification.component';
-import { SiteLocationComponent } from './site-location.component';
 import { SiteLogRoutingModule } from './site-log-routing.module';
 import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
 import { ResponsiblePartyModule } from '../responsible-party/responsible-party.module';
