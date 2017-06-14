@@ -37,6 +37,10 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
         this.propagateTouch = fn;
     }
 
+    public getReadonlyAttribute(): string {
+    	return this.readonly ? this.readonly : null;
+    }
+    
     private checkPreConditions() {
         if (!this.controlName || this.controlName.length === 0) {
             console.error('TextInputComponent - controlName Input is required');
