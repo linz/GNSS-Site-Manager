@@ -17,7 +17,7 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
     @Input() index: string = '0';
     @Input() name: string = '';
     @Input() label: string = '';
-    @Input() public readonly: string = '';
+    @Input() public readonly: string = null;
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
@@ -35,6 +35,10 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
 
     registerOnTouched(fn: Function) {
         this.propagateTouch = fn;
+    }
+
+    public getReadonlyAttribute(): string {
+        return this.readonly;
     }
 
     private checkPreConditions() {
