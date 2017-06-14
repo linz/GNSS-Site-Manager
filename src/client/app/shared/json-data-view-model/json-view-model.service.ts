@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { GnssAntennaViewModel } from '../../gnss-antenna/gnss-antenna-view-model';
 import { GnssReceiverViewModel } from '../../gnss-receiver/gnss-receiver-view-model';
 import { SurveyedLocalTieViewModel } from '../../surveyed-local-tie/surveyed-local-tie-view-model';
 import { FrequencyStandardViewModel } from '../../frequency-standard/frequency-standard-view-model';
@@ -18,6 +17,7 @@ import { RadioInterferenceViewModel } from '../../radio-interference/radio-inter
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
 import * as _ from 'lodash';
+import { MiscUtils } from '../global/misc-utils';
 
 /* tslint:disable:max-line-length */
 let responsiblePartyMap = new ObjectMap()
@@ -39,6 +39,30 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
 ;
 /* tslint:disable:max-line-length */
+
+let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
+    return source ? MiscUtils.formatUTCDateTime(source) : null;
+});
+
+let gnssAntennaMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('gnssAntenna.dateInstalled.value[0]', 'startDate', dateMap)
+    .addFieldMap('gnssAntenna.dateRemoved.value[0]', 'endDate', dateMap)
+    .addFieldMap('gnssAntenna.igsModelCode.value', 'antennaType')
+    .addFieldMap('gnssAntenna.manufacturerSerialNumber', 'serialNumber')
+    .addFieldMap('gnssAntenna.antennaReferencePoint.value', 'antennaReferencePoint')
+    .addFieldMap('gnssAntenna.markerArpEastEcc', 'markerArpEastEcc')
+    .addFieldMap('gnssAntenna.markerArpUpEcc', 'markerArpUpEcc')
+    .addFieldMap('gnssAntenna.markerArpNorthEcc', 'markerArpNorthEcc',)
+    .addFieldMap('gnssAntenna.alignmentFromTrueNorth', 'alignmentFromTrueNorth')
+    .addFieldMap('gnssAntenna.antennaRadomeType.value', 'antennaRadomeType')
+    .addFieldMap('gnssAntenna.radomeSerialNumber', 'radomeSerialNumber')
+    .addFieldMap('gnssAntenna.antennaCableType', 'antennaCableType')
+    .addFieldMap('gnssAntenna.antennaCableLength', 'antennaCableLength')
+    .addFieldMap('gnssAntenna.notes', 'notes')
+;
 
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
@@ -69,6 +93,8 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('siteDataCenters', 'siteDataCenters', responsiblePartyMap)
     .addFieldMap('siteDataSource', 'siteDataSource[0]', responsiblePartyMap)
 
+    .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
+
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
         return target;
@@ -92,7 +118,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.gnssAntennas = this.dataToViewModel(siteLogDataModel.gnssAntennas, GnssAntennaViewModel);
         siteLogViewModel.gnssReceivers = this.dataToViewModel(siteLogDataModel.gnssReceivers, GnssReceiverViewModel);
         siteLogViewModel.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies, SurveyedLocalTieViewModel);
         siteLogViewModel.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards, FrequencyStandardViewModel);
@@ -128,7 +153,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.gnssAntennas = this.viewToDataModel(viewModel.gnssAntennas);
         siteLogDataModel.gnssReceivers = this.viewToDataModel(viewModel.gnssReceivers);
         siteLogDataModel.surveyedLocalTies = this.viewToDataModel(viewModel.surveyedLocalTies);
         siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModel.frequencyStandards);
