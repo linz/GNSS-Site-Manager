@@ -23,8 +23,7 @@ export class PrefetchSiteLogResolver implements Resolve<SiteLogViewModel> {
 
         return this.siteLogService.getSiteLogByFourCharacterId(fourCharacterId)
             .then((result: any) => {
-                let siteLogViewModel: SiteLogViewModel = result;
-                return siteLogViewModel;
+                return <SiteLogViewModel>result;
             })
             .catch((error: any): any => {
                 this.router.navigate([homeUrl]);
