@@ -45,7 +45,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
             {serialNumber: new FormControl('', [Validators.maxLength(50)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
-            {antennaReferencePoint: new FormControl(' ', [Validators.required, Validators.maxLength(50)])},
+            {antennaReferencePoint: new FormControl('', [Validators.maxLength(50)])},
             {markerArpEastEcc: new FormControl('', [Validators.maxLength(50)])},
             {markerArpUpEcc: new FormControl('', [Validators.maxLength(50)])},
             {markerArpNorthEcc: new FormControl('', [Validators.maxLength(50)])},
