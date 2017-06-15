@@ -22,9 +22,6 @@ export class PrefetchSiteLogResolver implements Resolve<SiteLogViewModel> {
         }
 
         return this.siteLogService.getSiteLogByFourCharacterId(fourCharacterId)
-            .then((result: any) => {
-                return <SiteLogViewModel>result;
-            })
             .catch((error: any): any => {
                 this.router.navigate([homeUrl]);
                 this.dialogService.showErrorMessage('No site log found for ' + fourCharacterId);
