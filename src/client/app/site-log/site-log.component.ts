@@ -168,7 +168,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.dialogService.confirmSaveDialog(
             () => {
                 this.isLoading = true;
-                let formValueClone: any = _.cloneDeep(this.siteLogForm.value);
+                let formValueClone: any = _.cloneDeep(this.siteLogForm.getRawValue());
                 this.moveSiteInformationUp(formValueClone);
                 this.sortArrays(formValueClone);
                 console.log(' formValue before merge and after reverse: ', formValueClone);
