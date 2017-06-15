@@ -66,6 +66,7 @@ export class SiteLogService implements OnDestroy {
                         (responseJson: any) => {
                             let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
                             observer.next(siteLogViewModel);
+                            observer.complete();
                         },
                         (error: Error) => HttpUtilsService.handleError
                     );
