@@ -136,7 +136,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
         this.addFields(this.itemGroup, this.getFormControls());
-        this.itemGroup.setValue(this.getItem());
+        this.itemGroup.patchValue(this.getItem());
     }
 
     /**
