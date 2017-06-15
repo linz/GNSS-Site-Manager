@@ -51,6 +51,35 @@ export class SiteLogService implements OnDestroy {
         this.unsubscribe.next();
         this.unsubscribe.complete();
     }
+
+    /**
+     * Returns one site log defined by the fourCharacterId in ViewModel JSON format.
+     *
+     * @param {string} fourCharacterId - The Four Character Id of the site.
+     * @return {object} - The Promise for the HTTP request in JSON ViewModel format
+     */
+    getSiteLogByFourCharacterId(fourCharacterId: string): Promise<SiteLogViewModel> {
+        return new Promise((resolve: Function, reject: Function) => {
+            try {
+                this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
+                    .takeUntil(this.unsubscribe)
+                    .subscribe(
+                        (responseJson: any) => {
+                            let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
+                            resolve(siteLogViewModel);
+                        },
+                        (error: Error) => {
+                            console.error('SiteLogService - Failed in fetching siteLog by FourCharacterId: ', error);
+                            reject(null);
+                        }
+                    );
+            } catch (error) {
+                console.error('SiteLogService - Error in fetching siteLog by FourCharacterId: ', error);
+                reject(null);
+            }
+        });
+    }
+
     /**
      * Returns one site log defined by the fourCharacterId in ViewModel JSON format.
      *
@@ -139,7 +168,7 @@ export class SiteLogService implements OnDestroy {
         let siteLogJsonObj : any = {
             'geo:siteLog' : siteLogDataModel
         };
-console.log('before jsonToGeodesyML');
+
         let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJsonObj);
         let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"' +
             ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4" xmlns:gml="http://www.opengis.net/gml/3.2"' +

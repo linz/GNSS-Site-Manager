@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 import { SiteLogComponent } from './site-log.component';
 import { SiteIdentificationComponent } from './site-identification.component';
 import { SiteLogRoutingModule } from './site-log-routing.module';
+import { PrefetchSiteLogResolver } from '../shared/site-log/prefetch-site-log.service';
 import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
 import { ResponsiblePartyModule } from '../responsible-party/responsible-party.module';
 import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
@@ -45,6 +46,7 @@ import { SiteLocationModule } from './site-location.module';
   declarations: [SiteLogComponent, SiteIdentificationComponent],
   exports: [SiteLogComponent, SiteIdentificationComponent],
   providers: [
+    PrefetchSiteLogResolver,
     ConfirmDeactivateSiteLogGuard,
   ],
 })

@@ -11,7 +11,7 @@ import { CorsSiteService } from './cors-site/index';
 import { SiteLogService } from './site-log/index';
 import { JsonixService } from './jsonix/index';
 import { WFSService } from './wfs/index';
-import { MiscUtils, UserAuthService  } from './global/index';
+import { DialogService, MiscUtils, UserAuthService  } from './global/index';
 import { ConstantsService, HttpUtilsService } from './global/index';
 import { JsonViewModelService } from './json-data-view-model/index';
 
@@ -45,7 +45,7 @@ export class SharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SharedModule,
-      providers: [MiscUtils, JsonixService, SiteLogService,
+      providers: [MiscUtils, JsonixService, SiteLogService, DialogService,
                   CorsSiteService, WFSService, ConstantsService, HttpUtilsService, JsonViewModelService,
                   UserAuthService,
                  ]

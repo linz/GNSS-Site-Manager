@@ -83,52 +83,21 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             this.siteId = id;
         });
 
-        this.setupAuthSubscription();
-        this.setupForm();
-        this.loadSiteLogData();
-        this.setupSubscriptions();
-    }
-
-    /**
-     * Retrieve relevant site/setup/log information from DB based on given Site Id
-     */
-    public loadSiteLogData() {
-        // Do not allow direct access to site-log page
-        if (!this.siteId) {
-            this.goToHomePage();
-            return;
-        }
-
-        this.route.params.subscribe(() => {
-            if (this.siteId === 'newSite') {
-                setTimeout(() => {
-                    this.siteLogModel = new SiteLogViewModel();
-                });
-                return;
-            }
-
-            this.isLoading = true;
-            this.siteLogService.getSiteLogByFourCharacterIdUsingGeodesyML(this.siteId)
-                .takeUntil(this.unsubscribe)
-                .subscribe(
-                    (response: SiteLogViewModel) => {
-                        this.siteLogModel = response;
-                        console.debug('loadSiteLogData - siteLogModel: ', this.siteLogModel);
-
-                        this.isLoading = false;
-                        this.siteLogService.sendApplicationStateMessage({
-                            applicationFormModified: false,
-                            applicationFormInvalid: false,
-                            applicationSaveState: ApplicationSaveState.idle
-                        });
-                        this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
-                    },
-                    (error: Error) => {
-                        this.isLoading = false;
-                        this.dialogService.showErrorMessage('No site log found for ' + this.siteId);
-                    }
-                );
+        this.isLoading = true;
+        this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel}) => {
+            this.siteLogModel = data.siteLogModel;
+            this.setupAuthSubscription();
+            this.setupForm();
+            this.setupSubscriptions();
+            this.siteLogService.sendApplicationStateMessage({
+                applicationFormModified: false,
+                applicationFormInvalid: false,
+                applicationSaveState: ApplicationSaveState.idle
+            });
+            this.isLoading = false;
+            this.dialogService.showSuccessMessage('Site log loaded successfully for ' + this.siteId);
         });
+        this.isLoading = false;
     }
 
     /**

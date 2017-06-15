@@ -8,6 +8,7 @@ import { SiteLocationModule } from './site-location.module';
 import { UserAuthService } from '../shared/global/user-auth.service';
 import { ApplicationSaveState, ApplicationState, SiteLogService } from '../shared/site-log/site-log.service';
 import { DialogService } from '../shared/global/dialog.service';
+import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site-log-view-model';
 
 export function main() {
     describe('SiteLocation Positions', () => {
@@ -62,6 +63,7 @@ export function main() {
             dom = fixture.debugElement.children[0].nativeElement as HTMLElement;
 
             comp = fixture.componentInstance; // BannerComponent test instance
+            comp.siteLogModel = new SiteLogViewModel();
             comp.parentForm = new FormGroup({});
             fixture.detectChanges();
         });
