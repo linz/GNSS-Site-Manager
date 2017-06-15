@@ -89,7 +89,14 @@ export class ObjectMap {
 
     public map(source: any): any {
         source = this.sourcePreMap(source);
-        let mapped = source ? this.getObjectMapper().execute(source) : null;
+        let mapped: any;
+        if (!source) {
+            mapped = null;
+        } else if (this.fieldMaps.length === 0) {
+            mapped = source;
+        } else {
+            mapped = this.getObjectMapper().execute(source);
+        }
         return this.targetPostMap(mapped);
     }
 
