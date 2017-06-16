@@ -20,7 +20,7 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
     @Input() name: string = '';
     @Input() public label: string = '';
     @Input() public required: boolean = false;
-    @Input() public rows: string = '';
+    @Input() public rows: string = '2';
     @Input() public maxlength: string = '';
 
     propagateChange: Function = (_: any) => { };
