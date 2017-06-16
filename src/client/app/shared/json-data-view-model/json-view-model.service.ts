@@ -10,12 +10,12 @@ import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
-import { SiteLocationViewModel } from '../../site-log/site-location-view-model';
 import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
 import * as _ from 'lodash';
 import { MiscUtils } from '../global/misc-utils';
+import { CartesianPosition, GeodeticPosition } from '../../site-log/site-location-view-model';
 
 /* tslint:disable:max-line-length */
 
@@ -41,6 +41,40 @@ let siteIdentificationMap = new ObjectMap()
     .addFieldMap('monumentDescription.value', 'monumentDescription')
     .addFieldMap('monumentFoundation', 'monumentFoundation')
     .addFieldMap('monumentInscription', 'monumentInscription')
+    .addFieldMap('notes', 'notes')
+;
+
+export let cartesianPositionMap = new ObjectMap()
+    .addTargetPreMap((p: CartesianPosition): CartesianPosition | null => {
+        return p.x && p.y && p.z ? p : null;
+    })
+    .addFieldMap('point.pos.value[0]', 'x')
+    .addFieldMap('point.pos.value[1]', 'y')
+    .addFieldMap('point.pos.value[2]', 'z')
+    .addTargetPostMap((p: CartesianPosition | null | undefined): CartesianPosition => {
+        return p || new CartesianPosition();
+    })
+;
+
+export let geodeticPositionMap = new ObjectMap()
+    .addTargetPreMap((p: GeodeticPosition): GeodeticPosition | null => {
+        return p.lat && p.lon && p.height ? p : null;
+    })
+    .addFieldMap('point.pos.value[0]', 'lat')
+    .addFieldMap('point.pos.value[1]', 'lon')
+    .addFieldMap('point.pos.value[2]', 'height')
+    .addTargetPostMap((p: GeodeticPosition | null | undefined): GeodeticPosition => {
+        return p || new GeodeticPosition();
+    })
+;
+
+let siteLocationMap = new ObjectMap()
+    .addFieldMap('city', 'city')
+    .addFieldMap('state', 'state')
+    .addFieldMap('countryCodeISO.value', 'countryCodeISO')
+    .addFieldMap('tectonicPlate.value', 'tectonicPlate')
+    .addFieldMap('approximatePositionITRF.cartesianPosition', 'cartesianPosition', cartesianPositionMap)
+    .addFieldMap('approximatePositionITRF.geodeticPosition', 'geodeticPosition', geodeticPositionMap)
     .addFieldMap('notes', 'notes')
 ;
 
@@ -123,6 +157,7 @@ function traverse(obj: Object, mapArray: (array: any[]) => any[]): void {
 
 let siteLogMap = new ObjectMap()
     .addFieldMap('siteIdentification', 'siteInformation.siteIdentification', siteIdentificationMap)
+    .addFieldMap('siteLocation', 'siteInformation.siteLocation', siteLocationMap)
 
     .addFieldMap('siteOwner', 'siteOwner[0]', responsiblePartyMap)
     .addFieldMap('siteContacts', 'siteContacts', responsiblePartyMap)
@@ -164,9 +199,6 @@ export class JsonViewModelService {
         siteLogViewModel.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
         siteLogViewModel.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
 
-        DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLocation,
-            new SiteLocationViewModel().getObjectMap());
-
         siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
         siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
         siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
@@ -193,9 +225,6 @@ export class JsonViewModelService {
         siteLogDataModel.pressureSensors = this.viewToDataModel(viewModel.pressureSensors);
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModel.temperatureSensors);
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
-
-        DataViewTranslatorService.translate(viewModel.siteLocation, siteLogDataModel.siteLocation,
-            new SiteLocationViewModel().getObjectMap().inverse());
 
         siteLogDataModel.moreInformation = viewModel.moreInformation;
         siteLogDataModel.dataStreams = viewModel.dataStreams;

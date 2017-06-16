@@ -14,7 +14,8 @@ import { SiteLocationViewModel } from '../../../site-log/site-location-view-mode
 import { SiteIdentificationViewModel } from '../../../site-log/site-identification-view-model';
 
 export class SiteInformationViewModel {
-    siteIdentification: any = new SiteIdentificationViewModel();
+    siteIdentification = new SiteIdentificationViewModel();
+    siteLocation = new SiteLocationViewModel();
 }
 
 /**
@@ -22,7 +23,6 @@ export class SiteInformationViewModel {
  */
 export class SiteLogViewModel {
     siteInformation = new SiteInformationViewModel();
-    siteLocation: any = new SiteLocationViewModel();
     gnssReceivers: GnssReceiverViewModel[] = [];
     gnssAntennas: GnssAntennaViewModel[] = [];
     surveyedLocalTies: SurveyedLocalTieViewModel[] = [];
