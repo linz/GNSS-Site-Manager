@@ -10,7 +10,6 @@ import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
-import { SiteIdentificationViewModel } from '../../site-log/site-identification-view-model';
 import { SiteLocationViewModel } from '../../site-log/site-location-view-model';
 import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
@@ -19,6 +18,32 @@ import * as _ from 'lodash';
 import { MiscUtils } from '../global/misc-utils';
 
 /* tslint:disable:max-line-length */
+
+let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
+    return source ? MiscUtils.formatUTCDateTime(source) : null;
+});
+
+let siteIdentificationMap = new ObjectMap()
+    .addFieldMap('fourCharacterID', 'fourCharacterID')
+    .addFieldMap('siteName', 'siteName')
+    .addFieldMap('bedrockCondition', 'bedrockCondition')
+    .addFieldMap('bedrockType', 'bedrockType')
+    .addFieldMap('cdpNumber', 'cdpNumber')
+    .addFieldMap('dateInstalled.value[0]', 'dateInstalled', dateMap)
+    .addFieldMap('distanceActivity', 'distanceActivity')
+    .addFieldMap('faultZonesNearby.value', 'faultZonesNearby')
+    .addFieldMap('foundationDepth', 'foundationDepth')
+    .addFieldMap('fractureSpacing', 'fractureSpacing')
+    .addFieldMap('geologicCharacteristic.value', 'geologicCharacteristic')
+    .addFieldMap('heightOfTheMonument', 'heightOfTheMonument')
+    .addFieldMap('iersDOMESNumber', 'iersDOMESNumber')
+    .addFieldMap('markerDescription', 'markerDescription')
+    .addFieldMap('monumentDescription.value', 'monumentDescription')
+    .addFieldMap('monumentFoundation', 'monumentFoundation')
+    .addFieldMap('monumentInscription', 'monumentInscription')
+    .addFieldMap('notes', 'notes')
+;
+
 let responsiblePartyMap = new ObjectMap()
 
     .addSourcePreMap((source: any): any => {
@@ -38,10 +63,6 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
 ;
 /* tslint:disable:max-line-length */
-
-let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
-    return source ? MiscUtils.formatUTCDateTime(source) : null;
-});
 
 let gnssReceiverMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
@@ -101,6 +122,8 @@ function traverse(obj: Object, mapArray: (array: any[]) => any[]): void {
 }
 
 let siteLogMap = new ObjectMap()
+    .addFieldMap('siteIdentification', 'siteIdentification', siteIdentificationMap)
+
     .addFieldMap('siteOwner', 'siteOwner[0]', responsiblePartyMap)
     .addFieldMap('siteContacts', 'siteContacts', responsiblePartyMap)
     .addFieldMap('siteMetadataCustodian', 'siteMetadataCustodian[0]', responsiblePartyMap)
@@ -141,10 +164,6 @@ export class JsonViewModelService {
         siteLogViewModel.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
         siteLogViewModel.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
 
-        // Form (View) Model approach
-        DataViewTranslatorService.translate(siteLogDataModel.siteIdentification, siteLogViewModel.siteIdentification,
-            new SiteIdentificationViewModel().getObjectMap());
-
         DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLocation,
             new SiteLocationViewModel().getObjectMap());
 
@@ -174,9 +193,6 @@ export class JsonViewModelService {
         siteLogDataModel.pressureSensors = this.viewToDataModel(viewModel.pressureSensors);
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModel.temperatureSensors);
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
-
-        DataViewTranslatorService.translate(viewModel.siteIdentification, siteLogDataModel.siteIdentification,
-            new SiteIdentificationViewModel().getObjectMap().inverse());
 
         DataViewTranslatorService.translate(viewModel.siteLocation, siteLogDataModel.siteLocation,
             new SiteLocationViewModel().getObjectMap().inverse());
