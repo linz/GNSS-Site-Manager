@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { GnssReceiverViewModel } from '../../gnss-receiver/gnss-receiver-view-model';
 import { SurveyedLocalTieViewModel } from '../../surveyed-local-tie/surveyed-local-tie-view-model';
 import { FrequencyStandardViewModel } from '../../frequency-standard/frequency-standard-view-model';
 import { LocalEpisodicEffectViewModel } from '../../local-episodic-effect/local-episodic-effect-view-model';
@@ -43,6 +42,21 @@ let responsiblePartyMap = new ObjectMap()
 let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
     return source ? MiscUtils.formatUTCDateTime(source) : null;
 });
+
+let gnssReceiverMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('gnssReceiver.dateInstalled.value[0]', 'startDate', dateMap)
+    .addFieldMap('gnssReceiver.dateRemoved.value[0]', 'endDate', dateMap)
+    .addFieldMap('gnssReceiver.igsModelCode.value', 'receiverType')
+    .addFieldMap('gnssReceiver.manufacturerSerialNumber', 'manufacturerSerialNumber')
+    .addFieldMap('gnssReceiver.firmwareVersion', 'firmwareVersion')
+    .addFieldMap('gnssReceiver.satelliteSystem[0].value', 'satelliteSystem')
+    .addFieldMap('gnssReceiver.elevationCutoffSetting', 'elevationCutoffSetting')
+    .addFieldMap('gnssReceiver.temperatureStabilization', 'temperatureStabilization')
+    .addFieldMap('gnssReceiver.notes', 'notes')
+;
 
 let gnssAntennaMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
@@ -93,6 +107,7 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('siteDataCenters', 'siteDataCenters', responsiblePartyMap)
     .addFieldMap('siteDataSource', 'siteDataSource[0]', responsiblePartyMap)
 
+    .addFieldMap('gnssReceivers', 'gnssReceivers', gnssReceiverMap)
     .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
 
     .addTargetPostMap((target: any): any => {
@@ -118,7 +133,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.gnssReceivers = this.dataToViewModel(siteLogDataModel.gnssReceivers, GnssReceiverViewModel);
         siteLogViewModel.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies, SurveyedLocalTieViewModel);
         siteLogViewModel.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards, FrequencyStandardViewModel);
         siteLogViewModel.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects, LocalEpisodicEffectViewModel);
@@ -153,7 +167,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.gnssReceivers = this.viewToDataModel(viewModel.gnssReceivers);
         siteLogDataModel.surveyedLocalTies = this.viewToDataModel(viewModel.surveyedLocalTies);
         siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModel.frequencyStandards);
         siteLogDataModel.localEpisodicEffects = this.viewToDataModel(viewModel.localEpisodicEffects);
