@@ -46,7 +46,8 @@
 .btn-calendar[disabled],
 .btn-calendar[disabled]:focus,
 .btn-calendar[disabled]:hover {
-  background-color: #eee;
+  color: #222 !important;
+  background-color: #f0f0f0 !important;
   opacity: 1;
 }
 .calendar-popup .center-btns {

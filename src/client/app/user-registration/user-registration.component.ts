@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { DialogService } from '../shared/index';
 import { UserAuthService } from '../shared/global/user-auth.service';
@@ -13,13 +13,13 @@ import { UserAuthService } from '../shared/global/user-auth.service';
 export class UserRegistrationComponent implements OnDestroy {
 
     userRegistrationForm = this.formBuilder.group({
-        firstName: [''],
-        lastName: [''],
-        organisation: [''],
-        position: [''],
-        email: [''],
-        phone: [''],
-        remarks: [''],
+        firstName: ['', [Validators.required, Validators.maxLength(200)]],
+        lastName: ['', [Validators.required, Validators.maxLength(200)]],
+        organisation: ['', [Validators.required, Validators.maxLength(200)]],
+        position: ['', [Validators.required, Validators.maxLength(200)]],
+        email: ['', [Validators.required, Validators.maxLength(200)]],
+        phone: ['', [Validators.required, Validators.maxLength(20)]],
+        remarks: ['', [Validators.required, Validators.maxLength(10000)]]
     });
 
     private unsubscribe: Subject<void> = new Subject<void>();
@@ -51,5 +51,9 @@ export class UserRegistrationComponent implements OnDestroy {
                     () => this.location.back()
                 )
             );
+    }
+
+    public isFormInvalid(): boolean {
+        return this.userRegistrationForm.invalid;
     }
 }

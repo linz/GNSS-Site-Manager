@@ -32,12 +32,17 @@ export function main() {
     let config: Route[] = [
       { path: 'about', component: AboutComponent }
     ];
+    let mockWindow: any = {
+        screen: {
+        }
+    };
     beforeEach(() => {
       TestBed.configureTestingModule({
         imports: [FormsModule, ReactiveFormsModule, HttpModule, CollapseModule.forRoot(), RouterTestingModule.withRoutes(config)],
         declarations: [TestComponent, ToolbarComponent, FooterComponent, AppComponent, AboutComponent],
         providers: [
           {provide: APP_BASE_HREF, useValue: '/'},
+          {provide: 'Window', useValue: mockWindow},
           MockBackend,
           WFSService,
           JsonixService,

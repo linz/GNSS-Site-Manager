@@ -2,6 +2,8 @@
   "extends": "./tools/config/seed.tslint.json",
   "rules": {
     "no-access-missing-member": false,
-    "templates-use-public": false
+    "templates-use-public": false,
+    "no-unused-variable": true,
+    "triple-equals": [true, "allow-null-check"]
   }
 }

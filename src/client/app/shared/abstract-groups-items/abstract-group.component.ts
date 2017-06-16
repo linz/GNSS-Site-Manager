@@ -3,8 +3,8 @@ import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
+import { SiteLogViewModel }  from '../json-data-view-model/view-model/site-log-view-model';
 import { MiscUtils } from '../global/misc-utils';
-import * as lodash from 'lodash';
 import { UserAuthService } from '../global/user-auth.service';
 
 export const newItemShouldBeBlank: boolean = true;
@@ -19,14 +19,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     protected groupArrayForm: FormArray;
 
     @Input() parentForm: FormGroup;
-
-    @Input()
-    set siteLogModel(siteLogModel: any) {
-       if (siteLogModel) {
-           this.setItemsCollection(this.getFormData(siteLogModel));
-           this.setupChildItems();
-       }
-    }
+    @Input('siteLogModel') siteLogModel: SiteLogViewModel;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -127,6 +120,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @return index in itemProperties (and FormArray) where item is inserted
      */
     addToItemsCollection(item: T) {
+        if (!this.itemProperties) {
+            this.itemProperties = [];
+        }
+
         this.itemProperties.splice(0, 0, item);
         this.addChildItemToForm();
     }
@@ -165,6 +162,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             this.parentForm.removeControl(itemsArrayName);
         }
         this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
+        this.setItemsCollection(this.getFormData(this.siteLogModel));
+        this.setupChildItems();
     }
 
     setupChildItems() {
@@ -192,8 +191,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     public removeItem(index: number, reason: string) {
         let date: string = MiscUtils.getUTCDateTime();
         let item: T = this.getItemsCollection()[index];
-        item.setDateDeleted(date);
-        item.setDeletedReason(reason);
+        item.dateDeleted = date;
+        item.deletedReason= reason;
         if (this.groupArrayForm.length > index) {
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
             if (formGroup.controls['dateDeleted']) {
@@ -212,7 +211,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     public cancelNew(itemIndex: number) {
         if (this.itemProperties.length > (itemIndex + 1) && !this.currentItemAlreadyHasEndDate) {
-            this.itemProperties[itemIndex+1].setEndDate('');
+            this.itemProperties[itemIndex+1].endDate = '';
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
             if (formGroup.controls['endDate']) {
                 formGroup.controls['endDate'].setValue('');
@@ -233,6 +232,25 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         return this.groupArrayForm && this.groupArrayForm.invalid;
     }
 
+    /**
+     * Toggle the group (open or close it)
+     * TODO move this up into abstract base component and consolidate naming of
+     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
+     */
+    public toggleGroup(event: UIEvent) {
+        event.preventDefault();
+        this.isGroupOpen = this.miscUtils.scrollIntoView(event, this.isGroupOpen);
+    }
+
+    /**
+     * Do items in this group have end dates?
+     */
+    // TODO: Ideally, there should be different subclasses of (all of, or some of) AbstractViewModel,
+    // AbstractItemComponent, and AbstractGroupComponent to denote cases where change management applies.
+    protected hasEndDateField(): boolean {
+        return true;
+    }
+
     /* ************** Private Methods ************** */
 
     private addNewItem(): void {
@@ -251,12 +269,13 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let index: number = 0;
         let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
 
-        item.setStartDate(dateUtc);
+        item.startDate = dateUtc;
         if (formGroup.controls['startDate']) {
             formGroup.controls['startDate'].setValue(dateUtc);
+            formGroup.controls['startDate'].markAsDirty();
         }
 
-        item.setDateInserted(dateUtc);
+        item.dateInserted = dateUtc;
         if (formGroup.controls['dateInserted']) {
             formGroup.controls['dateInserted'].setValue(dateUtc);
         }
@@ -269,15 +288,16 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     private updateEndDateForSecondItem(dateUtc: string) {
         let index: number = 1;
-        if (this.itemProperties.length > 1 && this.itemProperties[index].hasEndDateField() ) {
+        if (this.itemProperties.length > 1 && this.hasEndDateField()) {
             if (this.itemProperties[index].endDate) {
                 this.currentItemAlreadyHasEndDate = true;
-            }
-            this.itemProperties[index].setEndDate(dateUtc);
-            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-            if (formGroup.controls['endDate']) {
-                formGroup.controls['endDate'].setValue(dateUtc);
-                formGroup.controls['endDate'].markAsDirty();
+            } else {
+                this.itemProperties[index].endDate = dateUtc;
+                let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+                if (formGroup.controls['endDate']) {
+                    formGroup.controls['endDate'].setValue(dateUtc);
+                    formGroup.controls['endDate'].markAsDirty();
+                }
             }
         }
     }
@@ -298,15 +318,5 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let geodesyEvent: GeodesyEvent = this.getGeodesyEvent();
         geodesyEvent.name = EventNames.newItem;
         geodesyEvent.valueNumber = 0;
-    }
-
-    /**
-     * Toggle the group (open or close it)
-     * TODO move this up into abstract base component and consolidate naming of
-     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
-     */
-    private toggleGroup(event: UIEvent) {
-        event.preventDefault();
-        this.isGroupOpen = this.miscUtils.scrollIntoView(event, this.isGroupOpen);
     }
 }

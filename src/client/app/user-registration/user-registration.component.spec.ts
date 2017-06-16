@@ -9,7 +9,6 @@ import { UserRegistrationModule } from './user-registration.module';
 import { UserAuthService, UserRegistration } from '../shared/global/user-auth.service';
 import { DialogService } from  '../shared/global/dialog.service';
 import { Observable } from 'rxjs/Observable';
-import { Subscriber } from 'rxjs';
 import * as _ from 'lodash';
 
 export function main() {
@@ -71,8 +70,14 @@ export function main() {
                         );
 
                         const setValue = (value: string, formControlName: string): void => {
-                            const input: HTMLInputElement =
-                                dom.querySelector('[formcontrolname=' + formControlName + ']') as HTMLInputElement;
+                            let input: HTMLInputElement =
+                                dom.querySelector('text-input[formcontrolname=' + formControlName + '] input') as HTMLInputElement;
+
+                            if (!input) {
+                                input = dom.querySelector('textarea-input[formcontrolname='
+                                    + formControlName + '] textarea') as HTMLInputElement;
+                            }
+                            expect(input).toBeTruthy();
 
                             input.value = value;
                             input.dispatchEvent(new Event('input'));

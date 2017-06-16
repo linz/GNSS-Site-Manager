@@ -56,36 +56,6 @@ export abstract class AbstractViewModel {
     }
 
     /**
-     * Returns true if this kind of objects have an end date.
-     *
-     * SiteIdentification, SiteLocation, ResponsibleParty and SurveyedLocalTie must override this method to return
-     * false as they do not have an end date.
-     */
-    hasEndDateField() : boolean {
-        return true;
-    }
-
-    setStartDate(date: string) {
-        this.startDate = date;
-    }
-
-    setEndDate(date: string) {
-        this.endDate = date;
-    }
-
-    setDateInserted(date: string) {
-        this.dateInserted = date;
-    }
-
-    setDateDeleted(date: string) {
-        this.dateDeleted = date;
-    }
-
-    setDeletedReason(reason: string): void {
-        this.deletedReason = reason;
-    }
-
-    /**
      * Simple way to specify the data / view model mappings.
      * @returns string[][]
      */

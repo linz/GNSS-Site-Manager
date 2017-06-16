@@ -93,10 +93,10 @@ export function main() {
             expect(siteLogDataModel.temperatureSensors.length).not.toBe(0);
             expect(siteLogDataModel.waterVaporSensors).toBeDefined();
             expect(siteLogDataModel.waterVaporSensors.length).not.toBe(0);
-            expect(siteLogDataModel.siteOwner).toBeUndefined();
+            expect(siteLogDataModel.siteOwner).toBeNull();
             expect(siteLogDataModel.siteContacts).toBeDefined();
             expect(siteLogDataModel.siteMetadataCustodian).toBeDefined();
-            expect(siteLogDataModel.siteDataSource).toBeUndefined();
+            expect(siteLogDataModel.siteDataSource).toBeNull();
             expect(siteLogDataModel.moreInformation).toBeDefined();
             expect(siteLogDataModel.dataStreams).toBeDefined();
 

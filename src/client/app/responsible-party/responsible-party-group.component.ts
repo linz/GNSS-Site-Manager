@@ -51,6 +51,10 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
         return 0;
     }
 
+    protected hasEndDateField(): boolean {
+        return false;
+    }
+
     @Input()
     set partyType(partyType: ResponsiblePartyType) {
         this._partyType = partyType;
@@ -75,5 +79,4 @@ export class ResponsiblePartyGroupComponent extends AbstractGroupComponent<Respo
     newItemViewModel(): ResponsiblePartyViewModel {
         return new ResponsiblePartyViewModel();
     }
-
 }

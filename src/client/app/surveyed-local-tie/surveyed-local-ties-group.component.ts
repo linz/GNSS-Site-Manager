@@ -32,4 +32,8 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroupComponent<Surv
     newItemViewModel(): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
     }
+
+    protected hasEndDateField(): boolean {
+        return false;
+    }
 }

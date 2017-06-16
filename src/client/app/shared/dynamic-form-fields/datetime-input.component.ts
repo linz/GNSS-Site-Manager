@@ -46,7 +46,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
         super.setForm(this.form);
         this.formControl = <FormControl>this.form.controls[this.controlName];
         this.updateCalendar();
-        this.formControl.setValue(this.datetime);
         this.datetimeLast = '';
         this.addValidatorsToFormControl();
     }
@@ -58,11 +57,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     */
     ngDoCheck(): void {
         if(this.datetime !== this.formControl.value && this.formControl.value) {
-            this.datetime = this.formControl.value;
             this.updateCalendar();
-            setTimeout(() => {
-                this.formControl.markAsDirty({onlySelf: false});
-            });
         }
 
         if (this.datetimeLast !== this.datetime) {
@@ -148,6 +143,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     */
     public updateCalendar(): void {
         this.datetime = this.formatDatetimeToDisplay(this.formControl.value);
+        this.formControl.setValue(this.datetime);
         let newDate: Date = this.convertStringToDate(this.datetime);
         if (newDate === null) {
             this.datetimeModel = new Date(MiscUtils.getUTCDateTime());
@@ -277,7 +273,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
    /**
-    * Convert a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' to a Date object.
+    * Convert a string in format of 'YYYY-MM-DDTHH:mm:ss.sssZ' to a Date object.
     */
     private convertStringToDate(dtStr: string): Date {
         if (dtStr === null || dtStr.trim().length === 0) {
@@ -303,7 +299,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     }
 
    /**
-    * Set a string in format of 'YYYY-MM-DDThh:mm:ss.sssZ' back to the input JSON object.
+    * Set a string in format of 'YYYY-MM-DDTHH:mm:ss.sssZ' back to the input JSON object.
     */
     private setOutputDatetime(): void {
         if (this.datetimeModel === null) {

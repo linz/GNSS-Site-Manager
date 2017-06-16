@@ -1,6 +1,7 @@
 import { ReflectiveInjector } from '@angular/core';
 
 import { JsonixService } from './jsonix.service';
+import { JsonServiceSpecData } from './jsonix.service.spec.data';
 
 export function main() {
   describe('Jsonix Service', () => {
@@ -115,46 +116,6 @@ export function main() {
       console.log('wfs xml marshalled from unmarshalled json (length): ', wfsBackAgain.length);
       expect(wfsBackAgain).not.toBeNull();
     });
-
-    let validJsonWithNullInAnArray = `
-    {
-      "geo:siteLog": {
-        "gnssAntennas": [
-          {
-            "gnssAntenna": {
-              "dateInstalled": {
-                "value": [
-                  "1995-01-01T00:00:00.000Z"
-                ]
-              },
-              "dateRemoved": {
-                "value": [
-                     null
-                ]
-              },
-              "antennaType": {
-                "codeListValue": ""
-              },
-              "serialNumber": "1121",
-              "antennaReferencePoint": {
-                "value": "BPA"
-              },
-              "markerArpEastEcc": 8,
-              "markerArpUpEcc": 0,
-              "markerArpNorthEcc": 8,
-              "alignmentFromTrueNorth": 0,
-              "antennaRadomeType": {
-                "value": "SNOW"
-              },
-              "radomeSerialNumber": "",
-              "antennaCableType": "(vendor & type number)",
-              "antennaCableLength": 0,
-              "notes": ""
-            }
-          }
-        ]
-      }
-    }`;
 
     let validJsonWithLocalEpisodicEffects = `
     {
@@ -280,12 +241,36 @@ export function main() {
     }`;
 
     it('should parse valid Json with receiver with notes', () => {
-      let geodesyMl: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
-      expect(geodesyMl).not.toBeNull();
-      console.log(geodesyMl);
-      expect(geodesyMl).toContain('gnssReceiver');
-      expect(geodesyMl).toContain('!!!SOME INTERESTING REMARKS!!!');
+      let geodesyML: string = jsonixService.jsonToGeodesyML(JSON.parse(validJsonWithReceiverWithNotes));
+      expect(geodesyML).not.toBeNull();
+      console.log(geodesyML);
+      expect(geodesyML).toContain('gnssReceiver');
+      expect(geodesyML).toContain('!!!SOME INTERESTING REMARKS!!!');
     });
 
+      describe('Undefining Location.cartesianPosition but not Location.geodeticPosition', () => {
+          it('should parse valid Json', () => {
+              let json: Object = modifyCartesianPosition(JsonServiceSpecData.data());
+
+              let geodesyML: string = jsonixService.jsonToGeodesyML(json);
+              expect(geodesyML).not.toBeNull();
+              expect(geodesyML).toContain('<geo:approximatePositionITRF>');
+              expect(geodesyML).toContain('<geo:cartesianPosition/>');
+              expect(geodesyML).toContain('<geo:geodeticPosition><gml:Point><gml:pos>4 5 6</gml:pos></gml:Point></geo:geodeticPosition>');
+          });
+
+      });
   });
+
+    /**
+     * Modify the test data to create an empty cartesianPosition
+     * @param json test data
+     * @return json test data modified for the test
+     */
+    function modifyCartesianPosition(json: any): any {
+        // This is what we want to do in our View to Data translate when the values of the cartesianPosition or geodeticPosition are null
+        json['geo:siteLog'].siteLocation.approximatePositionITRF.cartesianPosition = {};
+        return json;
+    }
+
 }

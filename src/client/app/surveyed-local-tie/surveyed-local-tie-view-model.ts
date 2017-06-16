@@ -47,11 +47,4 @@ export class SurveyedLocalTieViewModel extends AbstractViewModel {
         this.addFieldMapping('/surveyedLocalTie/notes', 'string',
             '/notes', 'date');
     };
-
-    /**
-     * Overridden parent method to return false because SurveyedLocalTie does not have an end date.
-     */
-    hasEndDateField(): boolean {
-        return false;
-    }
 }

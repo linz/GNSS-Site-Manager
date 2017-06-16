@@ -70,8 +70,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         return this.isFormInvalid;
     }
 
+    /**
+     * Checks whether the save button should be disabled or not.
+     * save is always enabled for new site because everything is optional
+     * save is disabled if nothing has in the form has changed or the user is not allowed to edit this site
+     */
     public isSaveDisabled(): boolean {
-        return !(this.hasAuthorityToEditSite() && this.isFormDirty());
+        return !this.isFormDirty() || !this.hasAuthorityToEditSite();
     }
 
     public isRevertDisabled(): boolean {
@@ -107,12 +112,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.userAuthService.logout();
     }
 
-    showUserProfile(): void {
+    showUserProfile(): void {console.log(this.user.profile);
         let userProfile: string = '<div class="title">User Profile</div>'
             + '<div class="profile-table"><table>'
             + '<tr><td class="name">User Name</td><td class="value">' + this.user.profile.sub + '</td></tr>'
-            + '<tr><td class="name">Full Name</td><td class="value">' + this.user.profile.name + '</td></tr>'
-            + '<tr><td class="name">Last Name</td><td class="value">' + this.user.profile.family_name + '</td></tr>'
+            + '<tr><td class="name">First Name</td><td class="value">' + (this.user.profile.first_name || '') + '</td></tr>'
+            + '<tr><td class="name">Last Name</td><td class="value">' + (this.user.profile.family_name || '') + '</td></tr>'
+            + '<tr><td class="name">Organisation</td><td class="value">' + (this.user.profile.organisation || '') + '</td></tr>'
+            + '<tr><td class="name">Position</td><td class="value">' + (this.user.profile.position || '') + '</td></tr>'
+            + '<tr><td class="name">Email Address</td><td class="value">' + (this.user.profile.email || '') + '</td></tr>'
+            + '<tr><td class="name">Phone Number</td><td class="value">' + (this.user.profile.phone_number || '') + '</td></tr>'
             + '<tr><td class="name">Authorised Sites</td><td class="value">' + this.getAuthorisedSites() + '</td></tr>'
             +'</table></div>';
         this.dialogService.showAlertDialog(userProfile);
@@ -177,9 +186,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     private hasAuthorityToEditSite(): boolean {
-        if (!this.siteId) {
-            return false;
-        }
         return this.userAuthService.hasAuthorityToEditSite(this.siteId);
     }
 }

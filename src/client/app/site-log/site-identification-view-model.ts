@@ -1,22 +1,39 @@
 /**
- * This is the 'View Model' for Site Identification, though it is just the mapping for the dataModel to/from the form Model.
+ * This is the 'View Model' for Site Identification.
  *
  */
 import { AbstractViewModel, dontSetDetfaults } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
-export class SiteIdentificationMappings extends AbstractViewModel {
+export class SiteIdentificationViewModel extends AbstractViewModel {
+    public siteName: string = null;
+    public fourCharacterID: string = null;
+    public monumentInscription: string = null;
+    public iersDOMESNumber: string = null;
+    public cdpNumber: string = null;
+    public monumentDescription: string = null;
+    public heightOfTheMonument: number = null;
+    public monumentFoundation: string = null;
+    public foundationDepth: number = null;
+    public markerDescription: string = null;
+    public dateInstalled: string = null;
+    public geologicCharacteristic: string = null;
+    public bedrockType: string = null;
+    public bedrockCondition: string = null;
+    public fractureSpacing: string = null;
+    public faultZonesNearby: string = null;
+    public distanceActivity: string = null;
+    public notes: string = null;
+
     constructor() {
         super(dontSetDetfaults);
     }
 
     createFieldMappings(): void {
 
-        this.addFieldMapping('/bedrockCondition',
-            'string',
+        this.addFieldMapping('/bedrockCondition', 'string',
             '/bedrockCondition', 'string');
 
-        this.addFieldMapping('/bedrockType',
-            'string',
+        this.addFieldMapping('/bedrockType', 'string',
             '/bedrockType', 'string');
 
         this.addFieldMapping('/cdpNumber', 'string',
@@ -64,15 +81,9 @@ export class SiteIdentificationMappings extends AbstractViewModel {
         this.addFieldMapping('/notes', 'string',
             '/notes', 'string');
 
-
         this.addFieldMapping('/siteName', 'string',
             '/siteName', 'string');
-    };
 
-    /**
-     * Overridden parent method to return false because SiteIdentification does not have an end date.
-     */
-    hasEndDateField(): boolean {
-        return false;
-    }
+        this.addFieldMapping('/objectMap', 'object', '/objectMap', 'object');
+    };
 }

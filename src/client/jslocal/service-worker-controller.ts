@@ -27,21 +27,22 @@ const cacheName = cacheBase + version;
  * @param event
  * @param cacheName is cache to clean.  Or if undefined then clean ALL but the current cache
  */
-function deleteOtherCaches(event: any): void {
-  debugMsg('  deleteOtherCaches function - dont clean cache: ' + cacheName);
-  event.waitUntil(
-    self.caches.keys().then((cacheNames: string[]) => {
-      // WARNING - Intellij says there is a syntax error here but AFIACT there isn't.  Don't spent time looking at this.
-      return Promise.all(cacheNames.filter((cacheToTest: string) => {
-          return cacheToTest !== cacheName;
-        }).map((cacheToDelete: string) => {
-          debugMsg('    delete cache: ' + cacheToDelete);
-          self.caches.delete(cacheToDelete);
-        })
-      );
-    })
-  );
-}
+// TODO - what calls this is marked as broken and needs fixing
+// function deleteOtherCaches(event: any): void {
+//   debugMsg('  deleteOtherCaches function - dont clean cache: ' + cacheName);
+//   event.waitUntil(
+//     self.caches.keys().then((cacheNames: string[]) => {
+//       // WARNING - Intellij says there is a syntax error here but AFIACT there isn't.  Don't spent time looking at this.
+//       return Promise.all(cacheNames.filter((cacheToTest: string) => {
+//           return cacheToTest !== cacheName;
+//         }).map((cacheToDelete: string) => {
+//           debugMsg('    delete cache: ' + cacheToDelete);
+//           self.caches.delete(cacheToDelete);
+//         })
+//       );
+//     })
+//   );
+// }
 
 /**
  * Delete the named cache

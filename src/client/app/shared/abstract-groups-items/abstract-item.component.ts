@@ -136,7 +136,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
         this.itemGroup = <FormGroup> this.groupArray.at(this.index);
         this.addFields(this.itemGroup, this.getFormControls());
-        this.itemGroup.setValue(this.getItem());
+        this.itemGroup.patchValue(this.getItem());
     }
 
     /**
@@ -144,7 +144,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      * @param changes sent by the NG Framework
      */
     ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-        let log: string[] = [];
         for (let propName in changes) {
             let changedProp = changes[propName];
             if (changedProp.isFirstChange()) {
@@ -240,6 +239,15 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         return headerHtml;
     }
 
+    /**
+     * Toggle the item (open or close it)
+     * TODO move this up into abstract base component and consolidate naming of
+     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
+     */
+    public toggleGroup(event: UIEvent) {
+        event.preventDefault();
+        this.isOpen = this.miscUtils.scrollIntoView(event, this.isOpen);
+    }
 
     /**
      *  Mark an item for deletion using the specified reason.
@@ -299,15 +307,5 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
                 itemGroup.addControl(key, value);
             }
         }
-    }
-
-    /**
-     * Toggle the item (open or close it)
-     * TODO move this up into abstract base component and consolidate naming of
-     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
-     */
-    private toggleGroup(event: UIEvent) {
-        event.preventDefault();
-        this.isOpen = this.miscUtils.scrollIntoView(event, this.isOpen);
     }
 }

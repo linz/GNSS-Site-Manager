@@ -16,7 +16,7 @@
         <span class="dropdown-menu-panel" id="dropdown-menu-panel">
             <span dropdown *ngIf="siteId" class="pull-left" id="site-id-dropdown-menu">
                 <nav dropdownToggle class="site-id-menu">
-                    <span class="site-id-menu-label">{{siteId}}</span>
+                    <span class="site-id-menu-label">{{siteId == 'newSite' ? 'New Site' : siteId}}</span>
                     <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
                 </nav>
                 <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
@@ -63,10 +63,13 @@
                     <i class="glyphicon glyphicon-menu-hamburger"></i>
                 </nav>
                 <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
-                    <li role="menuitem">
+                    <li role="menuitem" title="Navigate to the Search and Select Sites page">
                         <a [routerLink]="['/']">Select Site</a>
                     </li>
-                    <li role="menuitem">
+                    <li role="menuitem" title="Create a new site log">
+                        <a [routerLink]="['siteLog/newSite']" [ngClass]="{'disabled': !user}">New Site</a>
+                    </li>
+                    <li role="menuitem" title="Navigate to the About GNSS Site Manager page">
                         <a [routerLink]="['/about']">About</a>
                     </li>
                     <!-- TODO: Disable service worker for now -->

@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, forwardRef, OnInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, AbstractControl, FormGroup, NG_VALIDATORS } from '@angular/forms';
+import { Component, Input, forwardRef, OnInit } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { AbstractGnssControls } from './abstract-gnss-controls';
 
 @Component({
@@ -17,6 +17,7 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
     @Input() index: string = '0';
     @Input() name: string = '';
     @Input() label: string = '';
+    @Input() public readonly: string = null;
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
@@ -36,6 +37,10 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
         this.propagateTouch = fn;
     }
 
+    public getReadonlyAttribute(): string {
+        return this.readonly;
+    }
+
     private checkPreConditions() {
         if (!this.controlName || this.controlName.length === 0) {
             console.error('TextInputComponent - controlName Input is required');
@@ -44,4 +49,5 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
             console.error('TextInputComponent - form Input is required');
         }
     }
+
 }

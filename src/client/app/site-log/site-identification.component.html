@@ -2,11 +2,11 @@
      [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
     <div class="panel-heading">
         <span class="panel-title cursor-ptr" tabindex="0"
-            (keyup.space)="status.isSiteIdentificationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteIdentificationGroupOpen)"
-            (keyup.enter)="status.isSiteIdentificationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteIdentificationGroupOpen)"
-            (click)="status.isSiteIdentificationGroupOpen = miscUtils.scrollIntoView($event, status.isSiteIdentificationGroupOpen)">
+            (keyup.space)="isOpen = miscUtils.scrollIntoView($event, isOpen)"
+            (keyup.enter)="isOpen = miscUtils.scrollIntoView($event, isOpen)"
+            (click)="isOpen = miscUtils.scrollIntoView($event, isOpen)">
             <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': status.isSiteIdentificationGroupOpen, 'glyphicon-plus-sign': !status.isSiteIdentificationGroupOpen}">
+               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
             Site Identification
         </span>
@@ -14,13 +14,13 @@
             <img src="../../assets/ajax-loader.gif" class="ajax-loader-img">
         </span>
     </div>
-    <div class="panel-body" [hidden]="! status.isSiteIdentificationGroupOpen">
-        <div class="margin-bottom15" *ngIf=" siteIdentification == null ">
-            No information available for the GNSS site: {{siteId}}
+    <div class="panel-body" [hidden]="!isOpen">
+        <div class="margin-bottom15" [hidden]="siteIdentification != null">
+            No information available for {{getItemName()}}
         </div>
-        <div class="margin-bottom15" *ngIf=" siteIdentification != null ">
+        <div class="margin-bottom15" [hidden]="siteIdentification == null">
             <div class="form-group">
-                <text-input formControlName="fourCharacterID" controlName="fourCharacterID"
+                <text-input [readonly]="getFourCharacterIdReadOnlyAttribute()" formControlName="fourCharacterID" controlName="fourCharacterID"
                             [form]="siteIdentificationForm">Four Character Id
                 </text-input>
                 <text-input formControlName="siteName" controlName="siteName"

@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../shared/shared.module';
 import { SiteLogComponent } from './site-log.component';
 import { SiteIdentificationComponent } from './site-identification.component';
-import { SiteLocationComponent } from './site-location.component';
 import { SiteLogRoutingModule } from './site-log-routing.module';
+import { PrefetchSiteLogResolver } from '../shared/site-log/prefetch-site-log.service';
 import { ConfirmDeactivateSiteLogGuard } from './site-log-deactivate.module';
 import { ResponsiblePartyModule } from '../responsible-party/responsible-party.module';
 import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
@@ -20,6 +20,7 @@ import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-f
 import { RadioInterferenceModule } from '../radio-interference/radio-interference.module';
 import { SignalObstructionModule } from '../signal-obstruction/signal-obstruction.module';
 import { MultipathSourceModule } from '../multipath-source/multipath-source.module';
+import { SiteLocationModule } from './site-location.module';
 
 @NgModule({
   imports: [
@@ -39,11 +40,13 @@ import { MultipathSourceModule } from '../multipath-source/multipath-source.modu
     DynamicFormFieldsModule,
       RadioInterferenceModule,
       SignalObstructionModule,
-      MultipathSourceModule
+      MultipathSourceModule,
+      SiteLocationModule,
   ],
-  declarations: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
-  exports: [SiteLogComponent, SiteIdentificationComponent, SiteLocationComponent],
+  declarations: [SiteLogComponent, SiteIdentificationComponent],
+  exports: [SiteLogComponent, SiteIdentificationComponent],
   providers: [
+    PrefetchSiteLogResolver,
     ConfirmDeactivateSiteLogGuard,
   ],
 })
