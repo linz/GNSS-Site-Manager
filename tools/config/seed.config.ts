@@ -562,6 +562,7 @@ export class SeedConfig {
           index: `${this.APP_BASE}index.html`
         }), ...this.PROXY_MIDDLEWARE],
         port: this.PORT,
+        browser: 'chromium-browser',
         startPath: this.APP_BASE,
         open: argv['b'] ? false : true,
         injectChanges: false,
