@@ -13,11 +13,15 @@ import { MultipathSourceViewModel } from '../../../multipath-source/multipath-so
 import { SiteLocationViewModel } from '../../../site-log/site-location-view-model';
 import { SiteIdentificationViewModel } from '../../../site-log/site-identification-view-model';
 
+export class SiteInformationViewModel {
+    siteIdentification: any = new SiteIdentificationViewModel();
+}
+
 /**
  * View Model equivalent of ../data-model/SiteLogDataModel
  */
 export class SiteLogViewModel {
-    siteIdentification: any = new SiteIdentificationViewModel();
+    siteInformation = new SiteInformationViewModel();
     siteLocation: any = new SiteLocationViewModel();
     gnssReceivers: GnssReceiverViewModel[] = [];
     gnssAntennas: GnssAntennaViewModel[] = [];

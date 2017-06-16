@@ -122,7 +122,7 @@ function traverse(obj: Object, mapArray: (array: any[]) => any[]): void {
 }
 
 let siteLogMap = new ObjectMap()
-    .addFieldMap('siteIdentification', 'siteIdentification', siteIdentificationMap)
+    .addFieldMap('siteIdentification', 'siteInformation.siteIdentification', siteIdentificationMap)
 
     .addFieldMap('siteOwner', 'siteOwner[0]', responsiblePartyMap)
     .addFieldMap('siteContacts', 'siteContacts', responsiblePartyMap)

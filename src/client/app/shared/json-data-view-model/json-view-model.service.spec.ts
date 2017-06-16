@@ -41,9 +41,11 @@ export function main() {
         it('should translate parts - data to view', () => {
             let siteLog: SiteLogViewModel = jsonViewModelService.dataModelToViewModel(completeValidSitelog);
             expect(siteLog).toBeDefined();
-            console.debug('should translate parts - view model: ', siteLog.siteIdentification);
-            expect(siteLog.siteIdentification).toBeDefined();
-            expect(siteLog.siteIdentification.fourCharacterID).toEqual('ADE1');
+
+            let siteIdentification = siteLog.siteInformation.siteIdentification;
+            expect(siteIdentification).toBeDefined();
+            expect(siteIdentification.fourCharacterID).toEqual('ADE1');
+
             expect(siteLog.siteLocation).toBeDefined();
             expect(siteLog.siteLocation.city).toEqual('Salisbury');
             expect(siteLog.gnssReceivers).toBeDefined();
