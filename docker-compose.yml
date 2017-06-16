@@ -22,6 +22,7 @@ services:
         - http_proxy
         - https_proxy
     image: e2e-tests
+    network_mode: "host"
     volumes:
         - .:/home/tester/gnss-site-manager
         - /tmp/.X11-unix:/tmp/.X11-unix
