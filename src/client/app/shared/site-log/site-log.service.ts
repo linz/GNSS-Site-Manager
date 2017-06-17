@@ -58,29 +58,13 @@ export class SiteLogService implements OnDestroy {
      * @param {string} fourCharacterId - The Four Character Id of the site.
      * @return {object} - The Promise for the HTTP request in JSON ViewModel format
      */
-    getSiteLogByFourCharacterId(fourCharacterId: string): Promise<SiteLogViewModel> {
-        return new Promise((resolve: Function, reject: Function) => {
-            try {
-                this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
-                    .takeUntil(this.unsubscribe)
-                    .map((response: any) => {
-                        return response['geo:GeodesyML'].elements[0];
-                    })
-                    .subscribe(
-                        (responseJson: any) => {
-                            let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
-                            resolve(siteLogViewModel);
-                        },
-                        (error: Error) => {
-                            console.error('SiteLogService - Failed in fetching siteLog by FourCharacterId: ', error);
-                            reject(null);
-                        }
-                    );
-            } catch (error) {
-                console.error('SiteLogService - Error in fetching siteLog by FourCharacterId: ', error);
-                reject(null);
-            }
-        });
+    getSiteLogByFourCharacterId(fourCharacterId: string): Observable<SiteLogViewModel> {
+        return this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
+            .takeUntil(this.unsubscribe)
+            .map((response: any) => {
+                let siteLog: any  = response['geo:GeodesyML'].elements[0];
+                return this.jsonViewModelService.dataModelToViewModel(siteLog);
+            });
     }
 
     /**
