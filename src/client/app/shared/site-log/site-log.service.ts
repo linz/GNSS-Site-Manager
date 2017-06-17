@@ -63,6 +63,9 @@ export class SiteLogService implements OnDestroy {
             try {
                 this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
                     .takeUntil(this.unsubscribe)
+                    .map((response: any) => {
+                        return response['geo:GeodesyML'].elements[0];
+                    })
                     .subscribe(
                         (responseJson: any) => {
                             let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
