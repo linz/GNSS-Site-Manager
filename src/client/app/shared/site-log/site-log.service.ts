@@ -165,22 +165,15 @@ export class SiteLogService implements OnDestroy {
     }
 
     private getGeodesyMlFromViewModel(siteLogViewModel: SiteLogViewModel): string {
-
         let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModel(siteLogViewModel);
 
-        let siteLogJsonObj : any = {
-            'geo:siteLog' : siteLogDataModel
-        };
-
-        let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJsonObj);
-        let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"' +
-            ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4" xmlns:gml="http://www.opengis.net/gml/3.2"' +
-            ' xmlns:ns9="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd"' +
-            ' xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:om="http://www.opengis.net/om/2.0"' +
-            ' xmlns:gco="http://www.isotc211.org/2005/gco"' +
-            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
-        geodesyMl += siteLogML + '</geo:GeodesyML>';
-        return geodesyMl;
+        return this.jsonixService.jsonToGeodesyML({
+            'geo:GeodesyML': {
+                elements: [
+                    { 'geo:siteLog': siteLogDataModel },
+                ],
+            }
+        });
     }
 
     private handleXMLData(response: Response): string {
