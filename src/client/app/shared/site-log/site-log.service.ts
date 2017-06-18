@@ -81,31 +81,6 @@ export class SiteLogService implements OnDestroy {
     }
 
     /**
-     * Returns one site log defined by the fourCharacterId in ViewModel JSON format.
-     *
-     * @param {string} fourCharacterId - The Four Character Id of the site.
-     * @return {object[]} The Observable for the HTTP request in JSON ViewModel format
-     */
-    getSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
-        return new Observable((observer: any) => {
-            try {
-                this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
-                    .takeUntil(this.unsubscribe)
-                    .subscribe(
-                        (responseJson: any) => {
-                            let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
-                            observer.next(siteLogViewModel);
-                            observer.complete();
-                        },
-                        (error: Error) => HttpUtilsService.handleError
-                    );
-            } catch (error) {
-                observer.error(new Error(error));
-            }
-        });
-    }
-
-    /**
      * Take JSON input as handled by the client-side, convert to GeodesyML and post to backend service.
      *
      * @param siteLogJson in Json (that will be translated to GeodesyML before posting to the backend service)
