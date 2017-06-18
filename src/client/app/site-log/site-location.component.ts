@@ -58,7 +58,7 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
 
     ngOnInit() {
         this.setupForm();
-        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
+        this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
             if (applicationState.applicationSaveState === ApplicationSaveState.saved) {
                 this.isNew = false;
                 this.isDeleted = false;

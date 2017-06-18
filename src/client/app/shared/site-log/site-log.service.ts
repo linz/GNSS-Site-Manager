@@ -149,7 +149,7 @@ export class SiteLogService implements OnDestroy {
      * Method to allow clients to subscribe to know about application state changes.
      * @return {Observable<ApplicationStateSubject>}
      */
-    getApplicationStateSubscription(): Observable<ApplicationState> {
+    getApplicationState(): Observable<ApplicationState> {
         return this.applicationStateSubject.asObservable();
     }
 
