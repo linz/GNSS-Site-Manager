@@ -1,3 +1,4 @@
+import { ObjectMap } from '../shared/json-data-view-model/data-view-translator';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class GnssReceiverViewModel extends AbstractViewModel {
@@ -13,15 +14,10 @@ export class GnssReceiverViewModel extends AbstractViewModel {
         super();
     }
 
+    public getObjectMap(): ObjectMap {
+        throw new Error('Not supported');
+    }
+
     createFieldMappings(): void {
-        this.addFieldMapping('/gnssReceiver/igsModelCode/value', 'string', '/receiverType', 'string');
-        this.addFieldMapping('/gnssReceiver/manufacturerSerialNumber', 'string', '/manufacturerSerialNumber', 'string');
-        this.addFieldMapping('/gnssReceiver/firmwareVersion', 'string', '/firmwareVersion', 'string');
-        this.addFieldMapping('/gnssReceiver/satelliteSystem/0/value', 'string', '/satelliteSystem', 'string');
-        this.addFieldMapping('/gnssReceiver/elevationCutoffSetting', 'string', '/elevationCutoffSetting', 'number');
-        this.addFieldMapping('/gnssReceiver/temperatureStabilization', 'string', '/temperatureStabilization', 'number');
-        this.addFieldMapping('/gnssReceiver/dateInstalled/value/0', 'string', '/startDate', 'date');
-        this.addFieldMapping('/gnssReceiver/dateRemoved/value/0', 'string', '/endDate', 'date');
-        this.addFieldMapping('/gnssReceiver/notes', 'string', '/notes', 'string');
-    };
+    }
 }
