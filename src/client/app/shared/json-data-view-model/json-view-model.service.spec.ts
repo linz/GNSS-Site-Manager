@@ -17,8 +17,6 @@ export function main() {
 
             let injector = ReflectiveInjector.resolveAndCreate([
                 JsonViewModelService,
-                // JsonixService,
-                // ConstantsService,
                 BaseRequestOptions,
                 MockBackend,
                 {
