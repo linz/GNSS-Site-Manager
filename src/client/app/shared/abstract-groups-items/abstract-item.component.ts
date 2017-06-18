@@ -125,7 +125,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     ngOnInit() {
-        this.siteLogService.getApplicationStateSubscription().subscribe((applicationState: ApplicationState) => {
+        this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
             if (! applicationState.applicationFormModified) {
                 this.itemGroup.markAsPristine();
             }

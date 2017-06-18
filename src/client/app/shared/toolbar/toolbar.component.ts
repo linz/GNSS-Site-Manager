@@ -165,7 +165,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     private setupSiteLogSubscription(): void {
-        this.siteLogService.getApplicationStateSubscription()
+        this.siteLogService.getApplicationState()
             .takeUntil(this.unsubscribe)
             .subscribe((applicationState: ApplicationState) => {
                 this.isFormModified = applicationState.applicationFormModified;
