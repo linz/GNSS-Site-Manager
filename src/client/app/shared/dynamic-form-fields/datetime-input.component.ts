@@ -32,6 +32,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
 
     constructor(private elemRef: ElementRef) {
         super();
+        this.required = true;  // default is true for datetime inputs if not specified
     }
 
    /**

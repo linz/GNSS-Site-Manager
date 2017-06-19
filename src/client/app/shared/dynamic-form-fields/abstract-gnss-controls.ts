@@ -1,5 +1,5 @@
 import { Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 
 export abstract class AbstractGnssControls implements OnInit {
     @Input() form: FormGroup;
@@ -8,8 +8,6 @@ export abstract class AbstractGnssControls implements OnInit {
     @Input() label: string = '';
 
     public formControl: FormControl;
-
-    constructor() { }
 
    /**
     * Initialize relevant variables when the directive is instantiated
@@ -30,21 +28,22 @@ export abstract class AbstractGnssControls implements OnInit {
                 if (errString.length > 0) {
                     errString += ', ';
                 }
+                let error: any = this.formControl.errors[e];
                 if (e === 'maxlength') {
-                    errString += 'Maximum length exceeded: ' + this.formControl.errors[e].requiredLength;
+                    errString += 'Maximum length exceeded: ' + error.requiredLength;
                 } else if (e === 'minlength') {
-                    errString += 'Minimum length not reached: ' + this.formControl.errors[e].requiredLength;
+                    errString += 'Minimum length not reached: ' + error.requiredLength;
                 } else if (e === 'pattern') {
-                    errString += 'pattern required: ' + this.formControl.errors[e].requiredPattern.toString();
+                    errString += 'pattern required: ' + error.requiredPattern.toString();
                 } else if (e === 'required') {
                     errString += 'Field required';
                 } else if (e === 'outside_range') {
-                    errString += 'Outside range: '+this.formControl.errors[e];
+                    errString += 'Outside range: '+error;
                 } else if (e === 'invalid_datetime_format') {
-                    errString += this.formControl.errors[e];
+                    errString += error;
                 } else {
                     errString += e;
-                    errString += JSON.stringify(this.formControl.errors[e]);
+                    errString += JSON.stringify(error);
                 }
             }
         }
