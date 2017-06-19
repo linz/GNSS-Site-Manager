@@ -145,26 +145,6 @@ export class DataViewTranslatorService {
                 // TODO tidy up the logic in this block
                 // especially if/when we refactor the field mapping in the models
 
-                // Handle Point mappings
-                if (fieldMap.sourceField.type === 'point_data') {
-                    if (fieldMap.sourceField.pointer.match(/cartesianPosition/)) {
-                        return this.translateCartesianPosition(source, {viewToData: false});
-                    } else if (fieldMap.sourceField.pointer.match(/geodeticPosition/)) {
-                        return this.translateGeodeticPosition(source, {viewToData: false});
-                    } else {
-                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: 
-                        ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
-                    }
-                } else if (fieldMap.sourceField.type === 'point_view') {
-                    if (fieldMap.sourceField.pointer.match(/cartesianPosition/)) {
-                        return this.translateCartesianPosition(source, {viewToData: true});
-                    } else if (fieldMap.sourceField.pointer.match(/geodeticPosition/)) {
-                        return this.translateGeodeticPosition(source, {viewToData: true});
-                    } else {
-                        throw new Error(`DataViewTranslatorService - unknown sourceField.pointer: 
-                        ${fieldMap.sourceField.pointer} for sourceField.type: ${fieldMap.sourceField.type}`);
-                    }
-                }
                 if (fieldMap.objectMap) {
                     return fieldMap.objectMap.map(source);
                 }
@@ -188,98 +168,6 @@ export class DataViewTranslatorService {
 
         let result = mapper.execute(source, target);
         _.merge(target, result);
-    }
-
-    /**
-     * CartesianPosition and GeodeticPosition is a Point type with 3 values, and it as a whole can be optional.  This translator implements
-     * the mapper and most importantly to handle an undefined CartesianPosition that occurs when all values are null (ie. optional).
-     * This is a bi-directional mapping data <-> view. The mappings are:
-     *
-     * /point/pos/value/0 <-> /x
-     * /point/pos/value/1 <-> /y
-     * /point/pos/value/2 <-> /z
-     *
-     * The first part of the mapping is defined in the site-location.mapping file.
-     *
-     * @param source (be that data from the View or Data)
-     * @param viewToDataTranslateOptions - {viewToData: boolean} - default is {viewToData: true}
-     * @return the translated value for the CartesianPosition or GeodeticPosition
-     */
-    static translateCartesianPosition(source: any, viewToDataTranslateOptions?: { viewToData: boolean }): any {
-        let mapper = createMapper({alwaysTransform: true, alwaysSet: true});
-        if (viewToDataTranslateOptions
-            && viewToDataTranslateOptions.hasOwnProperty('viewToData')
-            && !viewToDataTranslateOptions['viewToData']) {
-            // data to view translate
-            if (!source || (typeof source === 'object' && !source.hasOwnProperty('point'))) {
-                // !source happens when the CartesianPosition is undefined
-                return {x: null, y: null, z: null};
-            } else {
-                mapper.map('point.pos.value[0]').to('x');
-                mapper.map('point.pos.value[1]').to('y');
-                mapper.map('point.pos.value[2]').to('z');
-                return mapper.execute(source);
-            }
-        }
-        // view  to data translate
-        if (!source || (source.hasOwnProperty('x') && source.x === null)
-            || !source.hasOwnProperty('x')) {
-            return {};
-        } else {
-            let value: string[] = [];
-
-            value.push(source.x);
-            value.push(source.y);
-            value.push(source.z);
-            mapper.map('value').to('point.pos.value');
-            return mapper.execute({'value': value});
-        }
-    }
-
-    /**
-     * GeodeticPosition is a Point type with 3 values, and it as a whole can be optional.  This translator implements
-     * the mapper and most importantly to handle an undefined GeodeticPosition that occurs when all values are null (ie. optional).
-     * This is a bi-directional mapping data <-> view. The mappings are:
-     *
-     * /point/pos/value/0 -> /lat
-     * /point/pos/value/1 -> /lon
-     * /point/pos/value/2 -> /height
-     *
-     * The first part of the mapping is defined in the site-location.mapping file.
-     *
-     * @param source (be that data from the View or Data)
-     * @param viewToDataTranslateOptions - {viewToData: boolean} - default is {viewToData: true}
-     * @return the translated value for the GeodeticPosition
-     */
-    static translateGeodeticPosition(source: any, viewToDataTranslateOptions?: { viewToData: boolean }): any {
-        let mapper = createMapper({alwaysTransform: true, alwaysSet: true});
-        if (viewToDataTranslateOptions
-            && viewToDataTranslateOptions.hasOwnProperty('viewToData')
-            && !viewToDataTranslateOptions['viewToData']) {
-            // data to view translate
-            if (!source || (typeof source === 'object' && !source.hasOwnProperty('point'))) {
-                // !source happens when the GeodeticPosition is undefined
-                return {lat: null, lon: null, height: null};
-            } else {
-                mapper.map('point.pos.value[0]').to('lat');
-                mapper.map('point.pos.value[1]').to('lon');
-                mapper.map('point.pos.value[2]').to('height');
-                return mapper.execute(source);
-            }
-        }
-        // view  to data translate
-        if (!source || (source.hasOwnProperty('lat') && source.lat === null)
-        || !source.hasOwnProperty('lat')) {
-            return {};
-        } else {
-            let value: string[] = [];
-
-            value.push(source.lat);
-            value.push(source.lon);
-            value.push(source.height);
-            mapper.map('value').to('point.pos.value');
-            return mapper.execute({'value': value});
-        }
     }
 
     private static toDotNotation(jsonPointer: string): string {
