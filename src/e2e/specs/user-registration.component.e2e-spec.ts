@@ -3,15 +3,12 @@ import { browser, element, by } from 'protractor';
 describe('User Registration', () => {
 
     let loadRoot = () => {
-        browser.get('/');
+        browser.get('/userRegistration');
     };
 
     beforeEach(loadRoot);
 
     it('should disable the save button until all fields have values', () => {
-
-        element(by.id('profile-dropdown-menu')).click();
-        element(by.cssContainingText('a', 'Register')).click();
 
         let okButton = element(by.cssContainingText('button', 'OK'));
         expect(okButton.isEnabled()).toBe(false);
