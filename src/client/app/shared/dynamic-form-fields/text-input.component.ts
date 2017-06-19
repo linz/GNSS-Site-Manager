@@ -14,17 +14,14 @@ import { AbstractGnssControls } from './abstract-gnss-controls';
     }]
 })
 export class TextInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
-    @Input() index: string = '0';
-    @Input() name: string = '';
-    @Input() label: string = '';
-    @Input() public readonly: string = null;
+    @Input() readonly: string = null;
+    @Input() maxlength: number = 10000;
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
 
-    ngOnInit() {
-        this.checkPreConditions();
-        super.setForm(this.form);
+    constructor() {
+        super();
     }
 
     writeValue(value: string) {}
@@ -40,14 +37,4 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
     public getReadonlyAttribute(): string {
         return this.readonly;
     }
-
-    private checkPreConditions() {
-        if (!this.controlName || this.controlName.length === 0) {
-            console.error('TextInputComponent - controlName Input is required');
-        }
-        if (!this.form) {
-            console.error('TextInputComponent - form Input is required');
-        }
-    }
-
 }

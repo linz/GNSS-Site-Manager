@@ -16,19 +16,14 @@ import { AbstractGnssControls } from './abstract-gnss-controls';
     ]
 })
 export class TextAreaInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
-    @Input() index: string = '0';
-    @Input() name: string = '';
-    @Input() public label: string = '';
-    @Input() public required: boolean = false;
-    @Input() public rows: string = '2';
-    @Input() public maxlength: string = '';
+    @Input() rows: number = 2;
+    @Input() maxlength: number = 10000;
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
 
-    ngOnInit() {
-        this.checkPreConditions();
-        super.setForm(this.form);
+    constructor() {
+        super();
     }
 
     writeValue(value: string) {}
@@ -40,15 +35,4 @@ export class TextAreaInputComponent extends AbstractGnssControls implements Cont
     registerOnTouched(fn: Function) {
         this.propagateTouch = fn;
     }
-
-    private checkPreConditions() {
-        if (!this.controlName || this.controlName.length === 0) {
-            console.error('TextAreaInputComponent - controlName Input is required');
-        }
-        if (!this.form) {
-            console.error('TextAreaInputComponent - form Input is required');
-        }
-    }
-
-
 }

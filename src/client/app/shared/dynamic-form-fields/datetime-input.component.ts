@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostListener, Input, OnInit, DoCheck } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, ElementRef, HostListener, OnInit, DoCheck } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { AbstractGnssControls } from './abstract-gnss-controls';
 import { DatetimeValidator } from '../form-input-validators/datetime-validator';
 import { MiscUtils } from '../index';
@@ -15,6 +15,7 @@ import { MiscUtils } from '../index';
 })
 export class DatetimeInputComponent extends AbstractGnssControls implements OnInit, DoCheck {
     public miscUtils: any = MiscUtils;
+    public datetime: string = '';
     public datetimeModel: Date;
     public hoursString: string = '00';
     public minutesString: string = '00';
@@ -23,12 +24,6 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     public invalidMinutes: boolean = false;
     public invalidSeconds: boolean = false;
     public showDatetimePicker: boolean = false;
-
-    public datetime: string = '';
-    public formControl: FormControl;
-    @Input() public form: FormGroup;
-    @Input() public required: boolean = true;
-    @Input() public label: string = '';
 
     private hours: number = 0;
     private minutes: number = 0;
@@ -43,8 +38,7 @@ export class DatetimeInputComponent extends AbstractGnssControls implements OnIn
     * Initialize relevant variables when the directive is instantiated
     */
     ngOnInit() {
-        super.setForm(this.form);
-        this.formControl = <FormControl>this.form.controls[this.controlName];
+        super.ngOnInit();
         this.updateCalendar();
         this.datetimeLast = '';
         this.addValidatorsToFormControl();

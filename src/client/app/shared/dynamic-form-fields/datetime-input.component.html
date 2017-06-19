@@ -1,5 +1,6 @@
 <div class="form-group" [formGroup]="form">
-    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label" [ngClass]="{'required': required}">
+    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label"
+           [ngClass]="{'required': required}">
         <ng-content></ng-content>
     </label>
     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
@@ -22,7 +23,7 @@
                 </span>
             </div>
             <small [hidden]="!formControl.errors" class="alert alert-danger">
-                {{getErrorReport(controlName)}}
+                {{getErrorReport()}}
             </small>
 
             <div class="calendar-popup" *ngIf="showDatetimePicker">
