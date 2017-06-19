@@ -1,5 +1,23 @@
 import { browser, element, by } from 'protractor';
 
+/**
+ * Call this function when going from an angular page to a non-angular page
+ * to instruct protractor to stop waiting for anuglar zone tasks to complete.
+ */
+function disableWaitingForAngular(): void {
+    browser.ignoreSynchronization = true;
+    browser.driver.manage().timeouts().implicitlyWait(12000);
+}
+
+/**
+ * Call this function when re-entering an angular page to instruct protractor to
+ * wait for angular zone tasks to complete, which is protractor's default behaviour.
+ */
+function enableWaitingForAngular(): void {
+    browser.ignoreSynchronization = false;
+    browser.driver.manage().timeouts().implicitlyWait(0);
+}
+
 describe('Authorization/Authentication', () => {
 
     let loadRoot = () => {
@@ -18,27 +36,21 @@ describe('Authorization/Authentication', () => {
         element(by.cssContainingText('span', 'Site Information')).click();
         element(by.cssContainingText('span', 'Site Identification')).click();
 
-        let siteName = element(by.xpath('//text-input[@controlname="siteName"]//input'));
-        expect(siteName.isEnabled()).toBe(false);
+        let siteNameElement = element(by.xpath('//text-input[@controlname="siteName"]//input'));
+        expect(siteNameElement.isEnabled()).toBe(false);
     });
 
-    // this test logs in using OpenAM, a non-angular page and then returns to our app
-    // we could just do all of this in webdriver-land but it's a good example of testing
-    // a hybrid angular/non-angular app so I'm using a switching approach
-    xit('should allow edits when a user is logged in', () => {
+    it('should allow edits when a user is logged in', () => {
 
         // click the login button
-        element(by.buttonText('Login')).click();
+        element(by.xpath('//nav[contains(@class, "profile-menu")]')).click();
+        element(by.xpath('//a[text() = "Login"]')).click();
 
-        // okay we are now in a non-angular environment
-        browser.ignoreSynchronization = true;
-        browser.driver.manage().timeouts().implicitlyWait(12000);
+        disableWaitingForAngular();
 
-        // wait maximum of 20 secs for the login page
-        // TODO - check this non-functional requirement as I just made it up
-        browser.driver.wait(function() {
+        browser.driver.wait(() => {
             return browser.driver.findElement(by.id('loginButton_0'))
-                .then(function(loginButton) {
+                .then((loginButton) => {
                     let userNameField = browser.driver.findElement(by.id('idToken1'));
                     userNameField.clear();
                     userNameField.sendKeys('user.a');
@@ -47,34 +59,28 @@ describe('Authorization/Authentication', () => {
                     passwordField.sendKeys('gumby123A');
                     loginButton.click();
                     return true;
-                }
-                );
-        }, 20000);
-
-        // wait maximum of 20 secs to return to the search page
-        // TODO - check this non-functional requirement as I just made it up
-        browser.driver.wait(function() {
-            return browser.driver.findElement(by.name('searchText'))
-                .then(function(loginButton) {
-                    return true;
                 });
         }, 20000);
 
-        // okay we are back in our app and good old AngularJS
-        browser.ignoreSynchronization = false;
-        browser.driver.manage().timeouts().implicitlyWait(0);
+        browser.driver.wait(() => {
+            return browser.driver.findElement(by.name('searchText'))
+                .then(function(element) {
+                    return true;
+                });
+
+        });
+        enableWaitingForAngular();
 
         let searchText = element(by.name('searchText'));
         searchText.sendKeys('ADE1');
 
-        // find the element of interest in the search results and click it
-        element(by.cssContainingText('table tr td', 'ADE1')).click();
+        browser.waitForAngular();
 
-        // find the site identification group header and click it
+        element(by.cssContainingText('table tr td', 'ADE1')).click();
+        element(by.cssContainingText('span', 'Site Information')).click();
         element(by.cssContainingText('span', 'Site Identification')).click();
 
-        // find the fourCharacterID input field and check if it is editable (it should be)
-        let fourCharacterId = element(by.xpath('//text-input[@controlname="fourCharacterID"]//input'));
-        expect(fourCharacterId.isEnabled()).toBe(true);
+        let siteNameElement = element(by.xpath('//text-input[@controlname="siteName"]//input'));
+        expect(siteNameElement.isEnabled()).toBe(true);
     });
 });
