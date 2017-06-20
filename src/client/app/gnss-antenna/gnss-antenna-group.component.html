@@ -24,7 +24,7 @@
       No information available for {{getItemName()}}
     </div>
       <div formArrayName="gnssAntennas">
-          <div *ngFor="let antenna of getItemsCollection(); let i = index">
+          <div *ngFor="let antenna of getItems(); let i = index">
       <gnss-antenna-item [groupArray]="groupArrayForm"
                          [antenna]="antenna"
                          [formGroupName]="i"

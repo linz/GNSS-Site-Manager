@@ -32,7 +32,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * The sorting field is determined through the abstract method compare(left, right)).
      *
      * The display order on the form is in reverse with the oldest items at the bottom.  This is achieved with the method
-     * getItemsCollection().
+     * getItems().
      *
      */
     private items: T[] = [];
@@ -98,7 +98,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * Return collection.
      * @return {T[]}
      */
-    getItemsCollection(): T[] {
+    getItems(): T[] {
         return this.items;
     }
 
@@ -106,7 +106,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         return (!this.items || this.items.length === 0);
     }
 
-    setItemsCollection(items: T[]) {
+    setItems(items: T[]) {
         if (items) {
             this.items = items;
             this.sortUsingComparator(this.items);
@@ -119,7 +119,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @return index in items (and FormArray) where item is inserted
      */
-    addToItemsCollection(item: T) {
+    addToItems(item: T) {
         if (!this.items) {
             this.items = [];
         }
@@ -162,12 +162,12 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             this.parentForm.removeControl(itemsArrayName);
         }
         this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
-        this.setItemsCollection(this.getFormData(this.siteLogModel));
+        this.setItems(this.getFormData(this.siteLogModel));
         this.setupChildItems();
     }
 
     setupChildItems() {
-        this.getItemsCollection().forEach(() => {
+        this.getItems().forEach(() => {
             this.addChildItemToForm();
         });
     }
@@ -190,7 +190,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     public removeItem(index: number, reason: string) {
         let date: string = MiscUtils.getUTCDateTime();
-        let item: T = this.getItemsCollection()[index];
+        let item: T = this.getItems()[index];
         item.dateDeleted = date;
         item.deletedReason= reason;
         if (this.groupArrayForm.length > index) {
@@ -257,7 +257,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         this.isGroupOpen = true;
 
         let newItem: T = <T> this.newItemViewModel();
-        this.addToItemsCollection(newItem);
+        this.addToItems(newItem);
         setTimeout(() => {
             let dateUtc: string = MiscUtils.getUTCDateTime();
             this.updateDatesForNewItem(newItem, dateUtc);

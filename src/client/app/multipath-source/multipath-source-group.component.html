@@ -23,7 +23,7 @@
             No information available for {{getItemName()}}s
         </div>
         <div formArrayName="multipathSources">
-            <div *ngFor="let multipathSource of getItemsCollection(); let i = index">
+            <div *ngFor="let multipathSource of getItems(); let i = index">
                 <multipath-source-item [groupArray]="groupArrayForm"
                                        [multipathSource]="multipathSource"
                                        [formGroupName]="i"

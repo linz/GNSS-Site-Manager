@@ -22,7 +22,7 @@
             No information available for GNSS Receivers
         </div>
         <div formArrayName="gnssReceivers">
-            <div *ngFor="let gnssReceiver of getItemsCollection(); let i = index">
+            <div *ngFor="let gnssReceiver of getItems(); let i = index">
                     <!-- [geodesyEvent] - send event to child components -->
                     <!-- (open/close Above/Below Event) - receive events from child components -->
                     <!-- (returnEvents) - single point to call events on parent -->
