@@ -66,7 +66,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     ngOnInit() {
-        this.setupForm(this.getControlName());
+        this.setupForm();
     }
 
     /**
@@ -156,7 +156,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @param itemsArrayName that is set on the parentForm
      */
-    setupForm(controlName: string) {
+    setupForm() {
+        const controlName = this.getControlName();
         this.groupArrayForm = this.formBuilder.array([]);
         if (this.parentForm.controls[controlName]) {
             this.parentForm.removeControl(controlName);
