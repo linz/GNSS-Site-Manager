@@ -122,7 +122,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     addToItems(item: T) {
         this.items.splice(0, 0, item);
-        this.addChildItemToForm();
+        this.groupArrayForm.insert(0, new FormGroup({}));
     }
 
     /**
@@ -165,18 +165,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     setupChildItems() {
         this.getItems().forEach(() => {
-            this.addChildItemToForm();
+            this.groupArrayForm.insert(0, new FormGroup({}));
         });
-    }
-
-    /**
-     * The form data model needs to be updated when new items are added.
-     *
-     * @param isItDirty if to mark it dirty or not.
-     */
-    addChildItemToForm() {
-        let itemGroup: FormGroup = this.formBuilder.group({});
-        this.groupArrayForm.insert(0, itemGroup);
     }
 
     /* ************** Methods called from the template ************** */
