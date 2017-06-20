@@ -153,13 +153,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this.router.events
             .filter(event => event instanceof NavigationEnd)
             .subscribe(event => {
-                let currentRoute: ActivatedRoute = this.route.root;
-                while (currentRoute.children[0] !== undefined) {
-                    currentRoute = currentRoute.children[0];
+                // find the site log component route and extract the site id
+                let route: ActivatedRoute = this.route.root;
+                while ((route.snapshot.url[0] && route.snapshot.url[0].path !== 'siteLog') || route.firstChild) {
+                   route = route.firstChild;
                 }
-                currentRoute.params.subscribe((param: Params) => {
-                    let obj: {id: string} = <any> param.valueOf();
-                    this.siteId = obj.id;
+                route.params.subscribe((params: Params) => {
+                    this.siteId = params['id'];
                 });
             });
     }
