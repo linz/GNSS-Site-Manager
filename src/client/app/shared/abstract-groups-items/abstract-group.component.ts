@@ -156,12 +156,12 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @param itemsArrayName that is set on the parentForm
      */
-    setupForm(itemsArrayName: string) {
+    setupForm(controlName: string) {
         this.groupArrayForm = this.formBuilder.array([]);
-        if (this.parentForm.controls[itemsArrayName]) {
-            this.parentForm.removeControl(itemsArrayName);
+        if (this.parentForm.controls[controlName]) {
+            this.parentForm.removeControl(controlName);
         }
-        this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
+        this.parentForm.addControl(controlName, this.groupArrayForm);
         this.setItems(this.getFormData(this.siteLogModel));
     }
 
