@@ -28,14 +28,32 @@
         </div>
         <div *ngIf="responsibleParty != null" [ngClass]="{'container-dirty': responsibleParty.dateDeleted}">
             <div class="form-group">
-                <text-input formControlName="individualName" controlName="individualName" [form]="itemGroup">Individual Name</text-input>
-                <text-input formControlName="organisationName" controlName="organisationName" [form]="itemGroup">Organisation Name</text-input>
-                <text-input formControlName="positionName" controlName="positionName" [form]="itemGroup">Position Name</text-input>
+                <text-input *ngIf="!isDataType"
+                            required="!isDataType"
+                            formControlName="individualName"
+                            controlName="individualName"
+                            [form]="itemGroup">Individual Name</text-input>
+                <text-input [required]="isDataType"
+                            formControlName="organisationName"
+                            controlName="organisationName"
+                            [form]="itemGroup">Organisation Name</text-input>
+                <text-input *ngIf="!isDataType"
+                            formControlName="positionName"
+                            controlName="positionName"
+                            [form]="itemGroup">Position Name</text-input>
                 <text-input formControlName="deliveryPoint" controlName="deliveryPoint" [form]="itemGroup">Address</text-input>
                 <text-input formControlName="city" controlName="city" [form]="itemGroup">City</text-input>
                 <text-input formControlName="administrativeArea" controlName="administrativeArea" [form]="itemGroup">State / Province</text-input>
                 <text-input formControlName="postalCode" controlName="postalCode" [form]="itemGroup">Postal Code</text-input>
                 <text-input formControlName="country" controlName="country" [form]="itemGroup">Country</text-input>
+                <text-input *ngIf="isDataType"
+                            formControlName="individualName"
+                            controlName="individualName"
+                            [form]="itemGroup">Contact Person</text-input>
+                <text-input *ngIf="isDataType"
+                            formControlName="positionName"
+                            controlName="positionName"
+                            [form]="itemGroup">Position Name</text-input>
                 <text-input formControlName="email" controlName="email" [form]="itemGroup">Email</text-input>
                 <text-input formControlName="phone" controlName="phone" [form]="itemGroup">Phone Number</text-input>
                 <text-input formControlName="fax" controlName="fax" [form]="itemGroup">Fax Number</text-input>

@@ -31,6 +31,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() responsibleParty: ResponsiblePartyViewModel;
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
+    protected isDataType: boolean;
 
     constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
@@ -40,6 +41,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     ngOnInit() {
         super.ngOnInit();
         this.isOpen = (this.index === 0);
+        this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
+                       || this.partyType.getObjectName() === 'siteDataSource';
     }
 
     getItem(): AbstractViewModel {
@@ -49,6 +52,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     getItemName(): string {
         return this.partyType.getTitle();
     }
+
 
     /**
      * Return the item header label in HTML format, including individual name and organisation name.
@@ -85,12 +89,13 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      * @return array of AbstractControl objects
      */
     getFormControls(): ItemControls {
-        // let itemGroup: FormGroup = formBuilder.group({
-        // turn off all Validators until work out solution to 'was false now true' problem
-        // TODO Fix Validators
+        let individualNameValidators: any[] = this.isDataType ? [Validators.maxLength(100)]
+                                                              : [Validators.required, Validators.maxLength(100)];
+        let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(100)]
+                                                            : [Validators.maxLength(100)];
         return new ItemControls([
-            {individualName: new FormControl('',[Validators.required, Validators.maxLength(100)])},
-            {organisationName: new FormControl('',[Validators.maxLength(100)])},
+            {individualName: new FormControl('', individualNameValidators)},
+            {organisationName: new FormControl('', organisationValidators)},
             {positionName: new FormControl('', [Validators.maxLength(50)])},
             {deliveryPoint: new FormControl('', [Validators.maxLength(50)])},
             {city: new FormControl('', [Validators.maxLength(50)])},
