@@ -158,9 +158,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 while ((route.snapshot.url[0] && route.snapshot.url[0].path !== 'siteLog') || route.firstChild) {
                    route = route.firstChild;
                 }
-                currentRoute.params.subscribe((param: Params) => {
-                    let obj: {id: string} = <any> param.valueOf();
-                    this.siteId = obj.id;
+                route.params.subscribe((params: Params) => {
+                    this.siteId = params['id'];
                 });
             });
     }
