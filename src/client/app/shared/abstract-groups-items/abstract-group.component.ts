@@ -111,6 +111,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         if (items) {
             this.items = items;
             this.items.sort(AbstractGroupComponent.compare);
+            this.items.forEach(() => {
+                this.groupArrayForm.insert(0, new FormGroup({}));
+            });
         }
     }
 
@@ -160,13 +163,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         }
         this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
         this.setItems(this.getFormData(this.siteLogModel));
-        this.setupChildItems();
-    }
-
-    setupChildItems() {
-        this.getItems().forEach(() => {
-            this.groupArrayForm.insert(0, new FormGroup({}));
-        });
     }
 
     /* ************** Methods called from the template ************** */
