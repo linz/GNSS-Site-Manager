@@ -17,7 +17,7 @@ describe('User Registration', () => {
         userRegistrationPage.lastName.sendKeys('Bourne');
         userRegistrationPage.organisation.sendKeys('Tha Real CIA');
         userRegistrationPage.position.sendKeys('Asset');
-        userRegistrationPage.phone.sendKeys('12341234 5');
+        userRegistrationPage.phone.sendKeys('1234123456');
         userRegistrationPage.email.sendKeys('bourne@tharealcia.com');
         userRegistrationPage.remarks.sendKeys('Can haz register?');
 
