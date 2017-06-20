@@ -1,17 +1,16 @@
 <div class="form-group" [formGroup]="form">
-
-    <label *ngIf="required" class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label required"><ng-content></ng-content></label>
-    <label *ngIf="!required" class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label"><ng-content></ng-content></label>
-
+    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label"
+           [ngClass]="{'required': required}">
+        <ng-content></ng-content>
+    </label>
     <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
-
-         <textarea
+        <textarea
              [formControlName]="controlName"
              class="form-control"
              required="{{required}}"
-             rows="{{rows}}">
-         </textarea>
-
-        <small>{{getErrorReport(controlName)}}</small>
+             rows="{{rows}}"
+             maxlength="{{maxlength}}">
+        </textarea>
+        <small [hidden]="!formControl.errors" class="alert alert-danger">{{getErrorReport()}}</small>
     </div>
 </div>
