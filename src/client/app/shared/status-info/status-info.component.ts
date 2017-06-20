@@ -1,5 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavigationEnd, Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
@@ -16,15 +15,15 @@ import { Subject } from 'rxjs/Subject';
     styleUrls: ['status-info.component.css']
 })
 export class StatusInfoComponent implements OnInit, OnDestroy {
-    public siteId: string;
+
+    @Input() public siteId: string;
+
     public user: User | null = null;
     public isFormModified: boolean = false;
     public isFormInvalid: boolean = false;
     private unsubscribe: Subject<void> = new Subject<void>();
 
     constructor(
-        private route: ActivatedRoute,
-        private router: Router,
         private userAuthService: UserAuthService,
         private siteLogService: SiteLogService) {
     }
@@ -36,7 +35,6 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.user = this.userAuthService.getUser();
-        this.setupRouterSubscription();
         this.setupSiteLogSubscription();
         this.setupAuthSubscription();
     }
@@ -63,25 +61,6 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
 
     public getAuthorisedSites(): string {
         return this.userAuthService.getAuthorisedSites();
-    }
-
-    private setupRouterSubscription(): void {
-        this.router.events
-            .filter(event => event instanceof NavigationEnd)
-            .takeUntil(this.unsubscribe)
-            .subscribe(event => {
-                let currentRoute: ActivatedRoute = this.route.root;
-                while (currentRoute.children[0] !== undefined) {
-                    currentRoute = currentRoute.children[0];
-                }
-                currentRoute.params.subscribe((param: Params) => {
-                    let obj: {id: string} = <any> param.valueOf();
-                    this.siteId = obj.id;
-                    if (this.siteId === 'newSite') {
-                        this.siteId = 'the new site';
-                    }
-                });
-            });
     }
 
     private setupSiteLogSubscription(): void {
