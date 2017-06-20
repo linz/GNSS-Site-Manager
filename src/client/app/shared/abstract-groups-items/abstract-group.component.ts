@@ -110,7 +110,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     setItems(items: T[]) {
         if (items) {
             this.items = items;
-            this.sortUsingComparator(this.items);
+            this.items.sort(AbstractGroupComponent.compare);
         }
     }
 
@@ -301,15 +301,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
                 }
             }
         }
-    }
-
-    /**
-     * Use the Geodesy object defined comparator in compare() to sort the given collection inline.
-     *
-     * @param collection
-     */
-    private sortUsingComparator(collection: any[]) {
-        collection.sort(AbstractGroupComponent.compare);
     }
 
     /**
