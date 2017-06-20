@@ -29,7 +29,7 @@
         <div *ngIf="responsibleParty != null" [ngClass]="{'container-dirty': responsibleParty.dateDeleted}">
             <div class="form-group">
                 <text-input *ngIf="!isDataType"
-                            required="!isDataType"
+                            [required]="true"
                             formControlName="individualName"
                             controlName="individualName"
                             [form]="itemGroup">Individual Name</text-input>
@@ -47,9 +47,10 @@
                 <text-input formControlName="postalCode" controlName="postalCode" [form]="itemGroup">Postal Code</text-input>
                 <text-input formControlName="country" controlName="country" [form]="itemGroup">Country</text-input>
                 <text-input *ngIf="isDataType"
+                            [required]="false"
                             formControlName="individualName"
                             controlName="individualName"
-                            [form]="itemGroup">Contact Person</text-input>
+                            [form]="itemGroup">Individual Name</text-input>
                 <text-input *ngIf="isDataType"
                             formControlName="positionName"
                             controlName="positionName"
