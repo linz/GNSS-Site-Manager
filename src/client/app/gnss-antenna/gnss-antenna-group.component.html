@@ -20,7 +20,7 @@
 	</span>
   </div>
   <div class="panel-body" [hidden]="! isGroupOpen">
-    <div class="margin-bottom15" *ngIf="isEmptyCollection()">
+    <div class="margin-bottom15" *ngIf="!hasItems()">
       No information available for {{getItemName()}}
     </div>
       <div formArrayName="gnssAntennas">

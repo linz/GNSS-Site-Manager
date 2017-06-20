@@ -6,6 +6,7 @@ import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-v
 import { SiteLogViewModel }  from '../json-data-view-model/view-model/site-log-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import { UserAuthService } from '../global/user-auth.service';
+import * as _ from 'lodash';
 
 export const newItemShouldBeBlank: boolean = true;
 
@@ -102,8 +103,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         return this.items;
     }
 
-    isEmptyCollection(): boolean {
-        return (!this.items || this.items.length === 0);
+    hasItems(): boolean {
+        return !_.isEmpty(this.items);
     }
 
     setItems(items: T[]) {

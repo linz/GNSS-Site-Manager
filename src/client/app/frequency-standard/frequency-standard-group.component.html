@@ -20,7 +20,7 @@
     </span>
   </div>
   <div class="panel-body" [hidden]="! isGroupOpen">
-    <div *ngIf="isEmptyCollection()" class="margin-bottom15">
+    <div *ngIf="!hasItems()" class="margin-bottom15">
       No information available for {{getItemName()}}s
     </div>
       <div formArrayName="frequencyStandards">

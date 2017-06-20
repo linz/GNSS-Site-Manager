@@ -19,7 +19,7 @@
         </span>
   </div>
     <div class="panel-body" [hidden]="! isGroupOpen">
-        <div *ngIf="isEmptyCollection()">
+        <div *ngIf="!hasItems()">
             No information available for {{getItemName()}}s
         </div>
         <div formArrayName="signalObstructions">
