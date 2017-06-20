@@ -121,10 +121,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @return index in items (and FormArray) where item is inserted
      */
     addToItems(item: T) {
-        if (!this.items) {
-            this.items = [];
-        }
-
         this.items.splice(0, 0, item);
         this.addChildItemToForm();
     }
