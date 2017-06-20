@@ -1,5 +1,5 @@
 import { Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 export abstract class AbstractGnssControls implements OnInit {
     @Input() form: FormGroup;

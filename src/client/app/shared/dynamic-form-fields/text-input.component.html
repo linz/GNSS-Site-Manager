@@ -10,8 +10,6 @@
             [formControlName]="controlName"
             class="form-control"
             maxlength="{{maxlength}}"/>
-        <small [hidden]="!formControl.errors" class="alert alert-danger">
-            {{getErrorReport()}}
-        </small>
+        <small [hidden]="!formControl.errors" class="alert alert-danger">{{getErrorReport()}}</small>
     </div>
 </div>
