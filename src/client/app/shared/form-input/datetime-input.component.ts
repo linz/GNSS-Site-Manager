@@ -1,6 +1,6 @@
 import { Component, ElementRef, HostListener, OnInit, DoCheck } from '@angular/core';
 import { Validators } from '@angular/forms';
-import { AbstractGnssControls } from './abstract-gnss-controls';
+import { AbstractInput } from './abstract-input.component';
 import { DatetimeValidator } from '../form-input-validators/datetime-validator';
 import { MiscUtils } from '../index';
 
@@ -13,7 +13,7 @@ import { MiscUtils } from '../index';
     templateUrl: 'datetime-input.component.html',
     styleUrls: ['datetime-input.component.css']
 })
-export class DatetimeInputComponent extends AbstractGnssControls implements OnInit, DoCheck {
+export class DatetimeInputComponent extends AbstractInput implements OnInit, DoCheck {
     public miscUtils: any = MiscUtils;
     public datetime: string = '';
     public datetimeModel: Date;

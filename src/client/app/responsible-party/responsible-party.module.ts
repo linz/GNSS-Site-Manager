@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ResponsiblePartyGroupComponent } from './responsible-party-group.component';
 import { ResponsiblePartyItemComponent } from './responsible-party-item.component';
-import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
+import { FormInputModule } from '../shared/form-input/form-input.module';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, FormInputModule],
     declarations: [ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent],
-    exports: [ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent, DynamicFormFieldsModule]
+    exports: [ResponsiblePartyGroupComponent, ResponsiblePartyItemComponent, FormInputModule]
 })
 export class ResponsiblePartyModule {
 }

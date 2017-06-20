@@ -1,7 +1,7 @@
 import { Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-export abstract class AbstractGnssControls implements OnInit {
+export abstract class AbstractInput implements OnInit {
     @Input() form: FormGroup;
     @Input() controlName: string;
     @Input() required: boolean = false;

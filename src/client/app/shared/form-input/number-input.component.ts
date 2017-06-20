@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, ValidatorFn } from '@angular/forms';
-import { AbstractGnssControls } from './abstract-gnss-controls';
+import { AbstractInput } from './abstract-input.component';
 import { MiscUtils } from '../global/misc-utils';
 
 const CHILD_FORM_VALUE_ACCESSOR = {
@@ -40,7 +40,7 @@ function validatorFnFactory(min: number, max: number) {
     styleUrls: ['form-input.component.css'],
     providers: [CHILD_FORM_VALUE_ACCESSOR, CHILD_FORM_VALIDATORS]
 })
-export class NumberInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
+export class NumberInputComponent extends AbstractInput implements ControlValueAccessor, OnInit {
     @Input() public step: string = '1';
     @Input() public min: string = '';
     @Input() public max: string = '';

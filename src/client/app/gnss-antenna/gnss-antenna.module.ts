@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GnssAntennaItemComponent } from './gnss-antenna-item.component';
 import { GnssAntennaGroupComponent } from './gnss-antenna-group.component';
-import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
+import { FormInputModule } from '../shared/form-input/form-input.module';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, FormInputModule],
     declarations: [GnssAntennaItemComponent, GnssAntennaGroupComponent],
     exports: [GnssAntennaItemComponent, GnssAntennaGroupComponent],
 })
