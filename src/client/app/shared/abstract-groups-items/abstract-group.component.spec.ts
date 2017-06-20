@@ -50,7 +50,7 @@ export function main() {
             abstractGroupImpl.setItems(list); // This will perform an ascending sort
         });
 
-        it('test getItemsCollection()', () => {
+        it('test getItems()', () => {
             expect(abstractGroupImpl).toBeDefined();
 
             // 4,3,2,1 -> avmi1,2,4,3
