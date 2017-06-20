@@ -1,20 +1,22 @@
 import { Component, Input, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AbstractGnssControls } from './abstract-gnss-controls';
+import { AbstractInput } from './abstract-input.component';
 
 @Component({
     moduleId: module.id,
-    selector: 'text-input',
-    templateUrl: 'text-input.component.html',
+    selector: 'textarea-input',
+    templateUrl: 'textarea-input.component.html',
     styleUrls: ['form-input.component.css'],
-    providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => TextInputComponent),
-        multi: true
-    }]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => TextAreaInputComponent),
+            multi: true
+        }
+    ]
 })
-export class TextInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
-    @Input() readonly: string = null;
+export class TextAreaInputComponent extends AbstractInput implements ControlValueAccessor, OnInit {
+    @Input() rows: number = 2;
     @Input() maxlength: number = 10000;
 
     propagateChange: Function = (_: any) => { };
@@ -32,9 +34,5 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
 
     registerOnTouched(fn: Function) {
         this.propagateTouch = fn;
-    }
-
-    public getReadonlyAttribute(): string {
-        return this.readonly;
     }
 }
