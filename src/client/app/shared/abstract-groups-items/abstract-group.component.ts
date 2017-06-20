@@ -91,10 +91,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         return this.geodesyEvent;
     }
 
-    getIsGroupOpen(): boolean {
-        return this.isGroupOpen;
-    }
-
     /**
      * Return collection.
      * @return {T[]}
