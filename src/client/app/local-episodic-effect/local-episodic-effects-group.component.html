@@ -19,18 +19,18 @@
         </span>
     </div>
     <div class="panel-body" [hidden]="! isGroupOpen">
-        <div *ngIf="isEmptyCollection()">
+        <div *ngIf="!hasItems()">
             No information available for Local Episodic Effects
         </div>
         <div formArrayName="localEpisodicEffects">
-        <div *ngFor="let localEpisodicEffect of getItemsCollection(); let i = index">
+        <div *ngFor="let localEpisodicEffect of getItems(); let i = index">
             <!-- [geodesyEvent] - send event to child components -->
             <!-- (open/close Above/Below Event) - receive events from child components -->
             <!-- (returnEvents) - single point to call events on parent -->
             <local-episodic-effect-item [groupArray]="groupArrayForm"
                                   [localEpisodicEffect]="localEpisodicEffect"
                                         [formGroupName]="i"
-                                  [total]="itemProperties.length"
+                                  [total]="items.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
                                   (returnEvents)="returnEvents($event)"></local-episodic-effect-item>

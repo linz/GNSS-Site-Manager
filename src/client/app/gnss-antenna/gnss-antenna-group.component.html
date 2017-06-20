@@ -20,15 +20,15 @@
 	</span>
   </div>
   <div class="panel-body" [hidden]="! isGroupOpen">
-    <div class="margin-bottom15" *ngIf="isEmptyCollection()">
+    <div class="margin-bottom15" *ngIf="!hasItems()">
       No information available for {{getItemName()}}
     </div>
       <div formArrayName="gnssAntennas">
-          <div *ngFor="let antenna of getItemsCollection(); let i = index">
+          <div *ngFor="let antenna of getItems(); let i = index">
       <gnss-antenna-item [groupArray]="groupArrayForm"
                          [antenna]="antenna"
                          [formGroupName]="i"
-                         [total]="itemProperties.length"
+                         [total]="items.length"
                          [index]="i"
                          [geodesyEvent]="geodesyEvent"
                          (returnEvents)="returnEvents($event)">

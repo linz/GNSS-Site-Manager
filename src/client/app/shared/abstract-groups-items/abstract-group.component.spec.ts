@@ -47,14 +47,14 @@ export function main() {
             avmi3 = new AbstractViewModelImpl('1');
             let list: AbstractViewModelImpl[] = [];
             list.push(avmi1, avmi2, avmi3, avmi4);
-            abstractGroupImpl.setItemsCollection(list); // This will perform an ascending sort
+            abstractGroupImpl.setItems(list); // This will perform an ascending sort
         });
 
         it('test getItemsCollection()', () => {
             expect(abstractGroupImpl).toBeDefined();
 
             // 4,3,2,1 -> avmi1,2,4,3
-            let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+            let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItems();
             expect(showDeleted).toBeDefined();
             expect(showDeleted.length).toEqual(4);
             expect(showDeleted).toContain(avmi1);
@@ -77,20 +77,20 @@ export function main() {
             avmi3 = new AbstractViewModelImpl('1');
             let list: AbstractViewModelImpl[] = [];
             list.push(avmi1, avmi2, avmi3, avmi4);
-            abstractGroupImpl.setItemsCollection(list);
+            abstractGroupImpl.setItems(list);
 
             isSet = false;
             countNotSet = 0;
         });
 
         it('test when item has value changed it is reflected in original data', () => {
-            let items: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+            let items: AbstractViewModel[] = abstractGroupImpl.getItems();
             let first: AbstractViewModelImpl = <AbstractViewModelImpl> items[0];
             expect(first.startDate).toEqual('4');
             first.startDate = '99';
             expect(first.startDate).toEqual('99');
 
-            let theDefault: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+            let theDefault: AbstractViewModel[] = abstractGroupImpl.getItems();
 
             for (let item of theDefault) {
                 let itemImpl = <AbstractViewModelImpl>item;

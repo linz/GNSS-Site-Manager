@@ -19,15 +19,15 @@
         </span>
   </div>
     <div class="panel-body" [hidden]="! isGroupOpen">
-        <div *ngIf="isEmptyCollection()">
+        <div *ngIf="!hasItems()">
             No information available for {{getItemName()}}s
         </div>
         <div formArrayName="radioInterferences">
-            <div *ngFor="let radioInterference of getItemsCollection(); let i = index">
+            <div *ngFor="let radioInterference of getItems(); let i = index">
                 <radio-interference-item [groupArray]="groupArrayForm"
                                          [radioInterference]="radioInterference"
                                          [formGroupName]="i"
-                                         [total]="itemProperties.length"
+                                         [total]="items.length"
                                          [index]="i"
                                          [geodesyEvent]="geodesyEvent"
                                          (returnEvents)="returnEvents($event)"></radio-interference-item>
