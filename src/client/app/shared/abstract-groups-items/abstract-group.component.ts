@@ -158,10 +158,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     setupForm() {
         const controlName = this.getControlName();
-        this.groupArrayForm = this.formBuilder.array([]);
         if (this.parentForm.controls[controlName]) {
             this.parentForm.removeControl(controlName);
         }
+        this.groupArrayForm = this.formBuilder.array([]);
         this.parentForm.addControl(controlName, this.groupArrayForm);
         this.setItems(this.getFormData(this.siteLogModel));
     }
