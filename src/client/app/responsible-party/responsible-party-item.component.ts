@@ -32,6 +32,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
     protected isDataType: boolean;
+    protected isMetadataCustodian: boolean;
 
     constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
@@ -43,6 +44,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         this.isOpen = (this.index === 0);
         this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
                        || this.partyType.getObjectName() === 'siteDataSource';
+        this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
     }
 
     getItem(): AbstractViewModel {
