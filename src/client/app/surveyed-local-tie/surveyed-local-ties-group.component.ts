@@ -29,7 +29,7 @@ export class SurveyedLocalTiesGroupComponent extends AbstractGroupComponent<Surv
     /* **************************************************
      * Other methods
      */
-    newItemViewModel(): SurveyedLocalTieViewModel {
+    getNewItemViewModel(): SurveyedLocalTieViewModel {
         return new SurveyedLocalTieViewModel();
     }
 

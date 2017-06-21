@@ -66,7 +66,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     ngOnInit() {
-        this.setupForm(this.getControlName());
+        this.setupForm();
     }
 
     /**
@@ -76,7 +76,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     abstract getControlName(): string;
 
-    abstract newItemViewModel(): T;
+    abstract getNewItemViewModel(): T;
 
     getFormData(siteLog: any): any {
         return siteLog[this.getControlName()];
@@ -89,10 +89,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     getGeodesyEvent(): GeodesyEvent {
         return this.geodesyEvent;
-    }
-
-    getIsGroupOpen(): boolean {
-        return this.isGroupOpen;
     }
 
     /**
@@ -110,7 +106,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     setItems(items: T[]) {
         if (items) {
             this.items = items;
-            this.sortUsingComparator(this.items);
+            this.items.sort(AbstractGroupComponent.compare);
+            this.items.forEach(() => {
+                this.groupArrayForm.insert(0, new FormGroup({}));
+            });
         }
     }
 
@@ -121,12 +120,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @return index in items (and FormArray) where item is inserted
      */
     addToItems(item: T) {
-        if (!this.items) {
-            this.items = [];
-        }
-
         this.items.splice(0, 0, item);
-        this.addChildItemToForm();
+        this.groupArrayForm.insert(0, new FormGroup({}));
     }
 
     /**
@@ -157,30 +152,14 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @param itemsArrayName that is set on the parentForm
      */
-    setupForm(itemsArrayName: string) {
-        this.groupArrayForm = this.formBuilder.array([]);
-        if (this.parentForm.controls[itemsArrayName]) {
-            this.parentForm.removeControl(itemsArrayName);
+    setupForm() {
+        const controlName = this.getControlName();
+        if (this.parentForm.controls[controlName]) {
+            this.parentForm.removeControl(controlName);
         }
-        this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
+        this.groupArrayForm = this.formBuilder.array([]);
+        this.parentForm.addControl(controlName, this.groupArrayForm);
         this.setItems(this.getFormData(this.siteLogModel));
-        this.setupChildItems();
-    }
-
-    setupChildItems() {
-        this.getItems().forEach(() => {
-            this.addChildItemToForm();
-        });
-    }
-
-    /**
-     * The form data model needs to be updated when new items are added.
-     *
-     * @param isItDirty if to mark it dirty or not.
-     */
-    addChildItemToForm() {
-        let itemGroup: FormGroup = this.formBuilder.group({});
-        this.groupArrayForm.insert(0, itemGroup);
     }
 
     /* ************** Methods called from the template ************** */
@@ -257,7 +236,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     private addNewItem(): void {
         this.isGroupOpen = true;
 
-        let newItem: T = <T> this.newItemViewModel();
+        let newItem: T = <T> this.getNewItemViewModel();
         this.addToItems(newItem);
         setTimeout(() => {
             let dateUtc: string = MiscUtils.getUTCDateTime();
@@ -301,15 +280,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
                 }
             }
         }
-    }
-
-    /**
-     * Use the Geodesy object defined comparator in compare() to sort the given collection inline.
-     *
-     * @param collection
-     */
-    private sortUsingComparator(collection: any[]) {
-        collection.sort(AbstractGroupComponent.compare);
     }
 
     /**

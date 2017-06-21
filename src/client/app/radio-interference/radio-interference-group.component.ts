@@ -26,7 +26,7 @@ export class RadioInterferenceGroupComponent extends AbstractGroupComponent<Radi
         return 'radioInterferences';
     }
 
-    newItemViewModel(): RadioInterferenceViewModel {
+    getNewItemViewModel(): RadioInterferenceViewModel {
         return new RadioInterferenceViewModel();
     }
 }

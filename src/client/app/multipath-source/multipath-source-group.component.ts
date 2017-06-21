@@ -26,7 +26,7 @@ export class MultipathSourceGroupComponent extends AbstractGroupComponent<Multip
         return 'multipathSources';
     }
 
-    newItemViewModel(): MultipathSourceViewModel {
+    getNewItemViewModel(): MultipathSourceViewModel {
         return new MultipathSourceViewModel();
     }
 }

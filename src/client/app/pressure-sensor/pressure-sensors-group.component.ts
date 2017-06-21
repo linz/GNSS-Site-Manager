@@ -26,7 +26,7 @@ export class PressureSensorsGroupComponent extends AbstractGroupComponent<Pressu
         return 'pressureSensors';
     }
 
-    newItemViewModel(): PressureSensorViewModel {
+    getNewItemViewModel(): PressureSensorViewModel {
         return new PressureSensorViewModel();
     }
 }
