@@ -99,6 +99,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {email: new FormControl('', [Validators.maxLength(50)])},
             {phone: new FormControl('', [Validators.maxLength(25)])},
             {fax: new FormControl('', [Validators.maxLength(25)])},
+            {url: new FormControl('', [Validators.maxLength(200)])},
         ]);
     }
 
