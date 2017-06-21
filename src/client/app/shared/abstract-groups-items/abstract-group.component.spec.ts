@@ -23,7 +23,7 @@ class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
         this.parentForm = new FormGroup({});
     }
 
-    newItemViewModel(): AbstractViewModelImpl {
+    getNewItemViewModel(): AbstractViewModelImpl {
         return new AbstractViewModelImpl('new item');
     }
 

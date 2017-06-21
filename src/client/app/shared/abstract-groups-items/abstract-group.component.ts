@@ -76,7 +76,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     abstract getControlName(): string;
 
-    abstract newItemViewModel(): T;
+    abstract getNewItemViewModel(): T;
 
     getFormData(siteLog: any): any {
         return siteLog[this.getControlName()];
@@ -236,7 +236,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     private addNewItem(): void {
         this.isGroupOpen = true;
 
-        let newItem: T = <T> this.newItemViewModel();
+        let newItem: T = <T> this.getNewItemViewModel();
         this.addToItems(newItem);
         setTimeout(() => {
             let dateUtc: string = MiscUtils.getUTCDateTime();

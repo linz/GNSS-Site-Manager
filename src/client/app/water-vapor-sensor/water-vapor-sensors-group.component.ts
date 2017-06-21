@@ -26,7 +26,7 @@ export class WaterVaporSensorsGroupComponent extends AbstractGroupComponent<Wate
         return 'waterVaporSensors';
     }
 
-    newItemViewModel(): WaterVaporSensorViewModel {
+    getNewItemViewModel(): WaterVaporSensorViewModel {
         return new WaterVaporSensorViewModel();
     }
 }
