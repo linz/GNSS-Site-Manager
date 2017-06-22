@@ -33,6 +33,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() isMandatory: boolean;
     protected isDataType: boolean;
     protected isMetadataCustodian: boolean;
+    protected isDataCenter: boolean;
 
     constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
@@ -45,6 +46,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
                        || this.partyType.getObjectName() === 'siteDataSource';
         this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
+        this.isDataCenter = this.partyType.getObjectName() === 'siteDataCenters';
     }
 
     getItem(): AbstractViewModel {
@@ -99,6 +101,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {email: new FormControl('', [Validators.maxLength(50)])},
             {phone: new FormControl('', [Validators.maxLength(25)])},
             {fax: new FormControl('', [Validators.maxLength(25)])},
+            {url: new FormControl('', [Validators.maxLength(200)])},
         ]);
     }
 

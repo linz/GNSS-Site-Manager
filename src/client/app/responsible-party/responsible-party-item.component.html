@@ -58,6 +58,7 @@
                 <text-input formControlName="email" controlName="email" [form]="itemGroup">Email</text-input>
                 <text-input formControlName="phone" controlName="phone" [form]="itemGroup">Phone Number</text-input>
                 <text-input formControlName="fax" controlName="fax" [form]="itemGroup">Fax Number</text-input>
+                <text-input *ngIf="isDataCenter" formControlName="url" controlName="url" [form]="itemGroup">URL</text-input>
             </div>
         </div>
     </div>
