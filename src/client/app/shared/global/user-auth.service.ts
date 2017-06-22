@@ -44,7 +44,7 @@ export class UserAuthService {
                 popup_redirect_uri: this.constantsService.getClientURL() + '/auth.html?popup',
                 popupWindowFeatures: `location=no,toolbar=no,width=500,height=700,left=${left},top=${top}`,
                 accessTokenExpiringNotificationTime: 60,
-                automaticSilentRenew: false,
+                automaticSilentRenew: true,
                 monitorSession: false,
                 filterProtocolClaims: true,
                 loadUserInfo: true
