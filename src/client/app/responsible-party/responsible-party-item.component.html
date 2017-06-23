@@ -55,10 +55,10 @@
                             formControlName="positionName"
                             controlName="positionName"
                             [form]="itemGroup">Position Name</text-input>
-                <text-input formControlName="email" controlName="email" [form]="itemGroup">Email</text-input>
+                <email-input formControlName="email" controlName="email" [form]="itemGroup">Email</email-input>
                 <text-input formControlName="phone" controlName="phone" [form]="itemGroup">Phone Number</text-input>
                 <text-input formControlName="fax" controlName="fax" [form]="itemGroup">Fax Number</text-input>
-                <text-input *ngIf="isDataCenter" formControlName="url" controlName="url" [form]="itemGroup">URL</text-input>
+                <url-input *ngIf="isDataCenter" formControlName="url" controlName="url" [form]="itemGroup">URL</url-input>
             </div>
         </div>
     </div>
