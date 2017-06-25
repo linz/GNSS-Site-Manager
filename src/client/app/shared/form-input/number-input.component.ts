@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, ValidatorFn } from '@angular/forms';
-import { AbstractGnssControls } from './abstract-gnss-controls';
+import { AbstractInput } from './abstract-input.component';
 import { MiscUtils } from '../global/misc-utils';
 
 const CHILD_FORM_VALUE_ACCESSOR = {
@@ -22,6 +22,7 @@ function validatorFnFactory(min: number, max: number) {
     if (max === null) {
         max = Number.MAX_SAFE_INTEGER;
     }
+
     return (control: FormControl): any => {
         let value: number = MiscUtils.stringToNumber(control.value);
         if (value && (value < min || value > max)) {
@@ -39,10 +40,8 @@ function validatorFnFactory(min: number, max: number) {
     styleUrls: ['form-input.component.css'],
     providers: [CHILD_FORM_VALUE_ACCESSOR, CHILD_FORM_VALIDATORS]
 })
-export class NumberInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
-    @Input() public label: string = '';
-    @Input() public required: boolean = false;
-    @Input() public step: string = '';
+export class NumberInputComponent extends AbstractInput implements ControlValueAccessor, OnInit {
+    @Input() public step: string = '1';
     @Input() public min: string = '';
     @Input() public max: string = '';
 
@@ -51,14 +50,15 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
 
-    ngOnInit() {
-        this.checkPreConditions();
+    constructor() {
+        super();
+    }
 
+    ngOnInit() {
+        super.ngOnInit();
         let maxNumber: number = MiscUtils.stringToNumber(this.max);
         let minNumber: number = MiscUtils.stringToNumber(this.min);
         this.validator = validatorFnFactory(minNumber, maxNumber);
-
-        super.setForm(this.form);
     }
 
     writeValue(value: string) {}
@@ -73,14 +73,5 @@ export class NumberInputComponent extends AbstractGnssControls implements Contro
 
     validate(c: FormControl) {
         return this.validator(c);
-    }
-
-    private checkPreConditions() {
-        if (!this.controlName || this.controlName.length === 0) {
-            console.error('NumberInputComponent - controlName Input is required');
-        }
-        if (!this.form) {
-            console.error('NumberInputComponent - form Input is required');
-        }
     }
 }

@@ -31,6 +31,9 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     @Input() responsibleParty: ResponsiblePartyViewModel;
     @Input() partyType: ResponsiblePartyType;
     @Input() isMandatory: boolean;
+    protected isDataType: boolean;
+    protected isMetadataCustodian: boolean;
+    protected isDataCenter: boolean;
 
     constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
@@ -40,6 +43,10 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     ngOnInit() {
         super.ngOnInit();
         this.isOpen = (this.index === 0);
+        this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
+                       || this.partyType.getObjectName() === 'siteDataSource';
+        this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
+        this.isDataCenter = this.partyType.getObjectName() === 'siteDataCenters';
     }
 
     getItem(): AbstractViewModel {
@@ -58,16 +65,11 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      */
     public getItemHeaderHtml(): string {
         let headerHtml: string = '';
-        if (this.responsibleParty.individualName) {
-            headerHtml = this.responsibleParty.individualName;
-        } else if (this.itemGroup.controls['individualName']) {
+        if (!this.isDataType && this.itemGroup.controls['individualName']) {
             headerHtml = this.itemGroup.controls['individualName'].value;
         }
-
-        let organisationName: string = this.responsibleParty.organisationName ?
-                                       this.responsibleParty.organisationName :
-                                       (this.itemGroup.controls['organisationName'] ?
-                                       this.itemGroup.controls['organisationName'].value : '');
+        let organisationName: string = (this.itemGroup.controls['organisationName'] ?
+                                        this.itemGroup.controls['organisationName'].value : '');
         if (organisationName) {
             if (headerHtml) {
                 headerHtml += ' <span class="hidden-xsm">(' + organisationName + ')</span>';
@@ -85,12 +87,11 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      * @return array of AbstractControl objects
      */
     getFormControls(): ItemControls {
-        // let itemGroup: FormGroup = formBuilder.group({
-        // turn off all Validators until work out solution to 'was false now true' problem
-        // TODO Fix Validators
+        let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(100)]
+                                                            : [Validators.maxLength(100)];
         return new ItemControls([
-            {individualName: new FormControl('',[Validators.required, Validators.maxLength(100)])},
-            {organisationName: new FormControl('',[Validators.maxLength(100)])},
+            {individualName: new FormControl('', [Validators.maxLength(100)])},
+            {organisationName: new FormControl('', organisationValidators)},
             {positionName: new FormControl('', [Validators.maxLength(50)])},
             {deliveryPoint: new FormControl('', [Validators.maxLength(50)])},
             {city: new FormControl('', [Validators.maxLength(50)])},
@@ -100,6 +101,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {email: new FormControl('', [Validators.maxLength(50)])},
             {phone: new FormControl('', [Validators.maxLength(25)])},
             {fax: new FormControl('', [Validators.maxLength(25)])},
+            {url: new FormControl('', [Validators.maxLength(200)])},
         ]);
     }
 

@@ -22,6 +22,7 @@ let
       xvfb_run
       pythonPackages.docker_compose
       xorg.xhost
+      chromedriver
     ];
   };
 in
@@ -31,7 +32,8 @@ in
     ];
     shellHook = ''
       export PATH=./node_modules/.bin:$PATH
-      export CHROME_BIN=chromium
+      export CHROME_BIN=$(which chromium)
+      export CHROMEDRIVER_BIN=$(which chromedriver)
       xhost +
     '';
   } ""

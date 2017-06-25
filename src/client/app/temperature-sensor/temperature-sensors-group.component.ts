@@ -26,7 +26,7 @@ export class TemperatureSensorsGroupComponent extends AbstractGroupComponent<Tem
         return 'temperatureSensors';
     }
 
-    newItemViewModel(): TemperatureSensorViewModel {
+    getNewItemViewModel(): TemperatureSensorViewModel {
         return new TemperatureSensorViewModel();
     }
 }

@@ -20,15 +20,15 @@
     </span>
   </div>
   <div class="panel-body" [hidden]="! isGroupOpen">
-    <div *ngIf="isEmptyCollection()" class="margin-bottom15">
+    <div *ngIf="!hasItems()" class="margin-bottom15">
       No information available for {{getItemName()}}s
     </div>
       <div formArrayName="frequencyStandards">
-          <div *ngFor="let frequencyStandard of getItemsCollection(); let i = index">
+          <div *ngFor="let frequencyStandard of getItems(); let i = index">
               <frequency-standard-item [groupArray]="groupArrayForm"
                                        [frequencyStandard]="frequencyStandard"
                                        [formGroupName]="i"
-                                  [total]="itemProperties.length"
+                                  [total]="items.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
                                   (returnEvents)="returnEvents($event)">

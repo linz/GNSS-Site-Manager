@@ -9,6 +9,7 @@ const config = {
 
   // 'jasmine' by default will use the latest jasmine framework
   framework: 'jasmine',
+  chromeDriver: process.env.CHROMEDRIVER_BIN ? process.env.CHROMEDRIVER_BIN : undefined,
 
   // allScriptsTimeout: 110000,
 
@@ -23,7 +24,10 @@ const config = {
   directConnect: true,
 
   capabilities: {
-    browserName: 'chrome'
+    browserName: 'chrome',
+    chromeOptions: {
+        binary: process.env.CHROME_BIN,
+    },
   },
 
   onPrepare: function() {
@@ -42,7 +46,7 @@ const config = {
 
 if (process.env.TRAVIS) {
   config.capabilities = {
-    browserName: 'firefox'
+    browserName: 'chrome'
   };
 }
 

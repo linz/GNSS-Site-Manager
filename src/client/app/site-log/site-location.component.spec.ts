@@ -24,7 +24,7 @@ export function main() {
         };
 
         let fakeSiteLogService = {
-            getApplicationStateSubscription(): Observable<any> {
+            getApplicationState(): Observable<any> {
                 return new Observable((observer: Subscriber<any>) => {
                     let applicationState: ApplicationState = {
                         applicationFormModified: false,

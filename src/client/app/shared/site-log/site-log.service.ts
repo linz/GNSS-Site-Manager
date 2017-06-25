@@ -58,51 +58,13 @@ export class SiteLogService implements OnDestroy {
      * @param {string} fourCharacterId - The Four Character Id of the site.
      * @return {object} - The Promise for the HTTP request in JSON ViewModel format
      */
-    getSiteLogByFourCharacterId(fourCharacterId: string): Promise<SiteLogViewModel> {
-        return new Promise((resolve: Function, reject: Function) => {
-            try {
-                this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
-                    .takeUntil(this.unsubscribe)
-                    .subscribe(
-                        (responseJson: any) => {
-                            let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
-                            resolve(siteLogViewModel);
-                        },
-                        (error: Error) => {
-                            console.error('SiteLogService - Failed in fetching siteLog by FourCharacterId: ', error);
-                            reject(null);
-                        }
-                    );
-            } catch (error) {
-                console.error('SiteLogService - Error in fetching siteLog by FourCharacterId: ', error);
-                reject(null);
-            }
-        });
-    }
-
-    /**
-     * Returns one site log defined by the fourCharacterId in ViewModel JSON format.
-     *
-     * @param {string} fourCharacterId - The Four Character Id of the site.
-     * @return {object[]} The Observable for the HTTP request in JSON ViewModel format
-     */
-    getSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId: string): Observable<any> {
-        return new Observable((observer: any) => {
-            try {
-                this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
-                    .takeUntil(this.unsubscribe)
-                    .subscribe(
-                        (responseJson: any) => {
-                            let siteLogViewModel: SiteLogViewModel = this.jsonViewModelService.dataModelToViewModel(responseJson);
-                            observer.next(siteLogViewModel);
-                            observer.complete();
-                        },
-                        (error: Error) => HttpUtilsService.handleError
-                    );
-            } catch (error) {
-                observer.error(new Error(error));
-            }
-        });
+    getSiteLogByFourCharacterId(fourCharacterId: string): Observable<SiteLogViewModel> {
+        return this.doGetSiteLogByFourCharacterIdUsingGeodesyML(fourCharacterId)
+            .takeUntil(this.unsubscribe)
+            .map((response: any) => {
+                let siteLog: any  = response['geo:GeodesyML'].elements[0];
+                return this.jsonViewModelService.dataModelToViewModel(siteLog);
+            });
     }
 
     /**
@@ -149,7 +111,7 @@ export class SiteLogService implements OnDestroy {
      * Method to allow clients to subscribe to know about application state changes.
      * @return {Observable<ApplicationStateSubject>}
      */
-    getApplicationStateSubscription(): Observable<ApplicationState> {
+    getApplicationState(): Observable<ApplicationState> {
         return this.applicationStateSubject.asObservable();
     }
 
@@ -162,22 +124,15 @@ export class SiteLogService implements OnDestroy {
     }
 
     private getGeodesyMlFromViewModel(siteLogViewModel: SiteLogViewModel): string {
-
         let siteLogDataModel: SiteLogDataModel = this.jsonViewModelService.viewModelToDataModel(siteLogViewModel);
 
-        let siteLogJsonObj : any = {
-            'geo:siteLog' : siteLogDataModel
-        };
-
-        let siteLogML: string = this.jsonixService.jsonToGeodesyML(siteLogJsonObj);
-        let geodesyMl: string = '<geo:GeodesyML xsi:schemaLocation="urn:xml-gov-au:icsm:egeodesy:0.4"' +
-            ' xmlns:geo="urn:xml-gov-au:icsm:egeodesy:0.4" xmlns:gml="http://www.opengis.net/gml/3.2"' +
-            ' xmlns:ns9="http://www.w3.org/1999/xlink" xmlns:gmd="http://www.isotc211.org/2005/gmd"' +
-            ' xmlns:gmx="http://www.isotc211.org/2005/gmx" xmlns:om="http://www.opengis.net/om/2.0"' +
-            ' xmlns:gco="http://www.isotc211.org/2005/gco"' +
-            ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" gml:id="GeodesyMLType_20">';
-        geodesyMl += siteLogML + '</geo:GeodesyML>';
-        return geodesyMl;
+        return this.jsonixService.jsonToGeodesyML({
+            'geo:GeodesyML': {
+                elements: [
+                    { 'geo:siteLog': siteLogDataModel },
+                ],
+            }
+        });
     }
 
     private handleXMLData(response: Response): string {

@@ -16,7 +16,7 @@ import { HumiditySensorModule } from '../humidity-sensor/humidity-sensor.module'
 import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module';
 import { TemperatureSensorModule } from '../temperature-sensor/temperature-sensor.module';
 import { WaterVaporSensorModule } from '../water-vapor-sensor/water-vapor-sensor.module';
-import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
+import { FormInputModule } from '../shared/form-input/form-input.module';
 import { RadioInterferenceModule } from '../radio-interference/radio-interference.module';
 import { SignalObstructionModule } from '../signal-obstruction/signal-obstruction.module';
 import { MultipathSourceModule } from '../multipath-source/multipath-source.module';
@@ -37,7 +37,7 @@ import { SiteLocationModule } from './site-location.module';
     PressureSensorModule,
     TemperatureSensorModule,
     WaterVaporSensorModule,
-    DynamicFormFieldsModule,
+    FormInputModule,
       RadioInterferenceModule,
       SignalObstructionModule,
       MultipathSourceModule,

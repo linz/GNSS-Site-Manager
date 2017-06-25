@@ -26,7 +26,7 @@ export class SignalObstructionGroupComponent extends AbstractGroupComponent<Sign
         return 'signalObstructions';
     }
 
-    newItemViewModel(): SignalObstructionViewModel {
+    getNewItemViewModel(): SignalObstructionViewModel {
         return new SignalObstructionViewModel();
     }
 }

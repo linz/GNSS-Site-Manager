@@ -9,4 +9,4 @@ export * from './service-worker/index';
 export * from './config/env.config';
 export * from './jsonix/index';
 export * from './json-data-view-model/index';
-export * from './dynamic-form-fields/index';
+export * from './form-input/index';

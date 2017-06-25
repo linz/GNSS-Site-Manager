@@ -19,18 +19,18 @@
         </span>
   </div>
   <div class="panel-body" [hidden]="! isGroupOpen">
-    <div *ngIf="isEmptyCollection()">
+    <div *ngIf="!hasItems()">
       No information available for Water Vapor Sensors
     </div>
       <div formArrayName="waterVaporSensors">
-    <div *ngFor="let waterVaporSensor of getItemsCollection(); let i = index">
+    <div *ngFor="let waterVaporSensor of getItems(); let i = index">
       <!-- [geodesyEvent] - send event to child components -->
       <!-- (open/close Above/Below Event) - receive events from child components -->
       <!-- (returnEvents) - single point to call events on parent -->
       <water-vapor-sensor-item [groupArray]="groupArrayForm"
                                  [waterVaporSensor]="waterVaporSensor"
                                [formGroupName]="i"
-                                 [total]="itemProperties.length"
+                                 [total]="items.length"
                                  [index]="i"
                                  [geodesyEvent]="geodesyEvent"
                                  (returnEvents)="returnEvents($event)"></water-vapor-sensor-item>

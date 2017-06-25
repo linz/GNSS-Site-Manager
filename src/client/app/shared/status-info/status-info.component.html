@@ -11,10 +11,10 @@
     <span *ngIf="isUserLoggedIn()">
         <span>You have logged in as "{{user.profile.sub}}"</span>
         <span *ngIf="siteId == null">
-            and are authorised to edit {{getAuthorisedSites()}}).
+            and are authorised to edit {{getAuthorisedSites()}}.
         </span>
         <span *ngIf="siteId != null">
-            and are {{isAuthorisedSite() ? '' : 'not'}} authorised to edit {{siteId}}. {{getFormStatus()}}
+            and are {{isAuthorisedSite() ? '' : 'not'}} authorised to edit {{siteId === 'newSite' ? 'the new site' : siteId}}. {{getFormStatus()}}
         </span>
     </span>
 </div>

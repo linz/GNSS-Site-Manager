@@ -28,7 +28,7 @@ export class GnssReceiversGroupComponent extends AbstractGroupComponent<GnssRece
     /* **************************************************
      * Other methods
      */
-    newItemViewModel(): GnssReceiverViewModel {
+    getNewItemViewModel(): GnssReceiverViewModel {
         return new GnssReceiverViewModel();
     }
 }

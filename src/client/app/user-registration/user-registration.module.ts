@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { UserRegistrationComponent } from './user-registration.component';
 import { UserRegistrationRoutingModule } from './user-registration-routing.module';
-import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
+import { FormInputModule } from '../shared/form-input/form-input.module';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, UserRegistrationRoutingModule, DynamicFormFieldsModule],
+  imports: [CommonModule, ReactiveFormsModule, UserRegistrationRoutingModule, FormInputModule],
   declarations: [UserRegistrationComponent],
   exports: [UserRegistrationComponent],
 })

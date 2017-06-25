@@ -394,14 +394,11 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * @param formValue
      */
     private moveSiteInformationUp(formValue: any) {
-        this.moveSiteInformationUpSpecifically(formValue, 'siteIdentification');
-        this.moveSiteInformationUpSpecifically(formValue, 'siteLocation');
         this.moveSiteInformationUpSpecifically(formValue, 'siteOwner');
         this.moveSiteInformationUpSpecifically(formValue, 'siteContacts');
         this.moveSiteInformationUpSpecifically(formValue, 'siteMetadataCustodian');
         this.moveSiteInformationUpSpecifically(formValue, 'siteDataCenters');
         this.moveSiteInformationUpSpecifically(formValue, 'siteDataSource');
-        delete formValue.siteInformation;
     }
 
     private moveSiteInformationUpSpecifically(formValue: any, subObject: string) {

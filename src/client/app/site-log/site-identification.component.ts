@@ -100,7 +100,7 @@ export class SiteIdentificationComponent implements OnInit {
             notes: ['', [Validators.maxLength(2000)]],
             objectMap: [''],
         });
-        this.siteIdentification = this.siteLogModel.siteIdentification;
+        this.siteIdentification = this.siteLogModel.siteInformation.siteIdentification;
         this.siteIdentificationForm.setValue(this.siteIdentification);
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteIdentificationForm.enable();

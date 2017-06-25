@@ -1,4 +1,4 @@
-import { Injectable, EventEmitter, Inject } from '@angular/core';
+import { Injectable, EventEmitter, Inject, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { UserManager, User } from 'oidc-client';
@@ -27,37 +27,40 @@ export class UserAuthService {
     private userManager: UserManager;
     private currentUser: User | null = null;
 
-    constructor(private http: Http, private router: Router, private constantsService: ConstantsService,
+    constructor(private ngZone: NgZone, private http: Http, private router: Router, private constantsService: ConstantsService,
         @Inject('Window') private window: Window) {
 
         let left = this.window.screen.width / 2 - 500 / 2;
         let top = this.window.screen.height / 2 - 700 / 2;
-        this.userManager = new UserManager({
-            authority: this.constantsService.getOpenAMServerURL() + '/oauth2',
-            client_id: 'GnssSiteManager',
-            response_type: 'id_token token',
-            redirect_uri: this.constantsService.getClientURL() + '/auth.html',
-            post_logout_redirect_uri: this.constantsService.getClientURL(),
-            scope: 'openid profile',
-            silent_redirect_uri: this.constantsService.getClientURL() + '/auth.html?silent',
-            popup_redirect_uri: this.constantsService.getClientURL() + '/auth.html?popup',
-            popupWindowFeatures: `location=no,toolbar=no,width=500,height=700,left=${left},top=${top}`,
-            accessTokenExpiringNotificationTime: 60,
-            automaticSilentRenew: true,
-            filterProtocolClaims: true,
-            loadUserInfo: true
+        this.ngZone.runOutsideAngular(() => {
+            this.userManager = new UserManager({
+                authority: this.constantsService.getOpenAMServerURL() + '/oauth2',
+                client_id: 'GnssSiteManager',
+                response_type: 'id_token token',
+                redirect_uri: this.constantsService.getClientURL() + '/auth.html',
+                post_logout_redirect_uri: this.constantsService.getClientURL(),
+                scope: 'openid profile',
+                silent_redirect_uri: this.constantsService.getClientURL() + '/auth.html?silent',
+                popup_redirect_uri: this.constantsService.getClientURL() + '/auth.html?popup',
+                popupWindowFeatures: `location=no,toolbar=no,width=500,height=700,left=${left},top=${top}`,
+                accessTokenExpiringNotificationTime: 60,
+                automaticSilentRenew: true,
+                monitorSession: false,
+                filterProtocolClaims: true,
+                loadUserInfo: true
+            });
+
+            this.userManager.getUser()
+                .then((user) => {
+                    if (user) {
+                        this.currentUser = user;
+                        this.userLoadedEvent.emit(user);
+                    }
+                })
+                .catch(console.log);
+
+            this.addEventHandlers();
         });
-
-        this.userManager.getUser()
-            .then((user) => {
-                if (user) {
-                    this.currentUser = user;
-                    this.userLoadedEvent.emit(user);
-                }
-            })
-            .catch(console.log);
-
-        this.addEventHandlers();
     }
 
   requestNewUser(registration: UserRegistration): Observable<void> {

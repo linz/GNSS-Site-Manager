@@ -29,7 +29,7 @@ export class LocalEpisodicEffectsGroupComponent extends AbstractGroupComponent<L
     /* **************************************************
      * Other methods
      */
-    newItemViewModel(): LocalEpisodicEffectViewModel {
+    getNewItemViewModel(): LocalEpisodicEffectViewModel {
         return new LocalEpisodicEffectViewModel();
     }
 }

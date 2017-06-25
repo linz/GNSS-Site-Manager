@@ -19,15 +19,15 @@
         </span>
   </div>
     <div class="panel-body" [hidden]="! isGroupOpen">
-        <div *ngIf="isEmptyCollection()">
+        <div *ngIf="!hasItems()">
             No information available for {{getItemName()}}s
         </div>
         <div formArrayName="signalObstructions">
-            <div *ngFor="let signalObstruction of getItemsCollection(); let i = index">
+            <div *ngFor="let signalObstruction of getItems(); let i = index">
                 <signal-obstruction-item [groupArray]="groupArrayForm"
                                          [signalObstruction]="signalObstruction"
                                          [formGroupName]="i"
-                                         [total]="itemProperties.length"
+                                         [total]="items.length"
                                          [index]="i"
                                          [geodesyEvent]="geodesyEvent"
                                          (returnEvents)="returnEvents($event)"></signal-obstruction-item>

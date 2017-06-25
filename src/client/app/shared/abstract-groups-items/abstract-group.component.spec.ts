@@ -1,6 +1,8 @@
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from './abstract-group.component';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
+import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
 
 class AbstractViewModelImpl extends AbstractViewModel {
     public startDate: string;
@@ -11,12 +13,17 @@ class AbstractViewModelImpl extends AbstractViewModel {
     }
 
     createFieldMappings(): void {
-        // comment
     }
 }
 
 class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
-    newItemViewModel(): AbstractViewModelImpl {
+    constructor() {
+        super(null, new FormBuilder());
+        this.siteLogModel = new SiteLogViewModel();
+        this.parentForm = new FormGroup({});
+    }
+
+    getNewItemViewModel(): AbstractViewModelImpl {
         return new AbstractViewModelImpl('new item');
     }
 
@@ -39,7 +46,8 @@ export function main() {
     describe('AbstractGroup test', () => {
 
         beforeEach(() => {
-            abstractGroupImpl = new AbstractGroupImpl(null, null);
+            abstractGroupImpl = new AbstractGroupImpl();
+            abstractGroupImpl.ngOnInit();
             avmi1 = new AbstractViewModelImpl('4');
             avmi1.dateDeleted = MiscUtils.getUTCDateTime();
             avmi2 = new AbstractViewModelImpl('3');
@@ -47,14 +55,14 @@ export function main() {
             avmi3 = new AbstractViewModelImpl('1');
             let list: AbstractViewModelImpl[] = [];
             list.push(avmi1, avmi2, avmi3, avmi4);
-            abstractGroupImpl.setItemsCollection(list); // This will perform an ascending sort
+            abstractGroupImpl.setItems(list); // This will perform an ascending sort
         });
 
-        it('test getItemsCollection()', () => {
+        it('test getItems()', () => {
             expect(abstractGroupImpl).toBeDefined();
 
             // 4,3,2,1 -> avmi1,2,4,3
-            let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+            let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItems();
             expect(showDeleted).toBeDefined();
             expect(showDeleted.length).toEqual(4);
             expect(showDeleted).toContain(avmi1);
@@ -70,27 +78,28 @@ export function main() {
         let countNotSet: number = 0;
 
         beforeEach(() => {
-            abstractGroupImpl = new AbstractGroupImpl(null, null);
+            abstractGroupImpl = new AbstractGroupImpl();
+            abstractGroupImpl.ngOnInit();
             avmi1 = new AbstractViewModelImpl('4');
             avmi2 = new AbstractViewModelImpl('3');
             avmi4 = new AbstractViewModelImpl('2');
             avmi3 = new AbstractViewModelImpl('1');
             let list: AbstractViewModelImpl[] = [];
             list.push(avmi1, avmi2, avmi3, avmi4);
-            abstractGroupImpl.setItemsCollection(list);
+            abstractGroupImpl.setItems(list);
 
             isSet = false;
             countNotSet = 0;
         });
 
         it('test when item has value changed it is reflected in original data', () => {
-            let items: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+            let items: AbstractViewModel[] = abstractGroupImpl.getItems();
             let first: AbstractViewModelImpl = <AbstractViewModelImpl> items[0];
             expect(first.startDate).toEqual('4');
             first.startDate = '99';
             expect(first.startDate).toEqual('99');
 
-            let theDefault: AbstractViewModel[] = abstractGroupImpl.getItemsCollection();
+            let theDefault: AbstractViewModel[] = abstractGroupImpl.getItems();
 
             for (let item of theDefault) {
                 let itemImpl = <AbstractViewModelImpl>item;

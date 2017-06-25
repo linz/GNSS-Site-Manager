@@ -38,7 +38,7 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
             {firmwareVersion: new FormControl('', [Validators.maxLength(25)])},
-            {satelliteSystem: new FormControl('', [Validators.maxLength(25)])},
+            {satelliteSystem: new FormControl('', [Validators.maxLength(200)])},
             {elevationCutoffSetting: new FormControl('', [Validators.maxLength(25)])},
             {temperatureStabilization: new FormControl('', [Validators.maxLength(25)])}, // Validators.pattern(/^\d{1,3}$/) - works!
             {notes: new FormControl('', [Validators.maxLength(2000)])},

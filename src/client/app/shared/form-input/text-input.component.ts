@@ -1,6 +1,6 @@
 import { Component, Input, forwardRef, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { AbstractGnssControls } from './abstract-gnss-controls';
+import { AbstractInput } from './abstract-input.component';
 
 @Component({
     moduleId: module.id,
@@ -13,18 +13,15 @@ import { AbstractGnssControls } from './abstract-gnss-controls';
         multi: true
     }]
 })
-export class TextInputComponent extends AbstractGnssControls implements ControlValueAccessor, OnInit {
-    @Input() index: string = '0';
-    @Input() name: string = '';
-    @Input() label: string = '';
-    @Input() public readonly: string = null;
+export class TextInputComponent extends AbstractInput implements ControlValueAccessor, OnInit {
+    @Input() readonly: string = null;
+    @Input() maxlength: number = 10000;
 
     propagateChange: Function = (_: any) => { };
     propagateTouch: Function = () => { };
 
-    ngOnInit() {
-        this.checkPreConditions();
-        super.setForm(this.form);
+    constructor() {
+        super();
     }
 
     writeValue(value: string) {}
@@ -40,14 +37,4 @@ export class TextInputComponent extends AbstractGnssControls implements ControlV
     public getReadonlyAttribute(): string {
         return this.readonly;
     }
-
-    private checkPreConditions() {
-        if (!this.controlName || this.controlName.length === 0) {
-            console.error('TextInputComponent - controlName Input is required');
-        }
-        if (!this.form) {
-            console.error('TextInputComponent - form Input is required');
-        }
-    }
-
 }

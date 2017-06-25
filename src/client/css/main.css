@@ -509,29 +509,16 @@ textarea.ng-dirty.ng-valid {
   border-color: #00b300;
   background-color: #ebffeb;
 }
-label.ng-dirty.ng-invalid,
-input.ng-dirty.ng-invalid,
-input.ng-dirty.ng-invalid + .input-group-btn > .btn-calendar,
-select.ng-dirty.ng-invalid,
-textarea.ng-dirty.ng-invalid {
+label.ng-invalid,
+input.ng-invalid,
+input.ng-invalid + .input-group-btn > .btn-calendar,
+select.ng-invalid,
+textarea.ng-invalid {
   border-color: #ca1200;
   background-color: #ffefff;
 }
-input.christine.ng-invalid,
-input.ng-christine.ng-invalid + .input-group-btn > .btn-calendar,
-select.ng-christine.ng-invalid,
-textarea.christine.ng-invalid {
-  border-color: #ff1700;
-}
-
-label.ng-invalid, input.ng-invalid, textarea.ng-invalid {
-    border-color: #ff1700 !important;
-}
-text-input.ng-invalid {
-    border-color: #ff1700 !important;
-}
-text-input.ng-invalid {
-    border-color: #ff1700 !important;
+.alert-danger {
+  background-color: transparent !important;
 }
 
 .col-lg-1,

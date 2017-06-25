@@ -1,10 +1,11 @@
 import { ReflectiveInjector } from '@angular/core';
 import { BaseRequestOptions, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
-import { JsonViewModelService } from './json-view-model.service';
+import { JsonViewModelService, cartesianPositionMap, geodeticPositionMap } from './json-view-model.service';
 import { JsonViewModelServiceSpecData } from './json-view-model.service.spec.data';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
+import { CartesianPosition, GeodeticPosition } from '../../site-log/site-location-view-model';
 
 export function main() {
     let backend: MockBackend = null;
@@ -17,8 +18,6 @@ export function main() {
 
             let injector = ReflectiveInjector.resolveAndCreate([
                 JsonViewModelService,
-                // JsonixService,
-                // ConstantsService,
                 BaseRequestOptions,
                 MockBackend,
                 {
@@ -41,11 +40,13 @@ export function main() {
         it('should translate parts - data to view', () => {
             let siteLog: SiteLogViewModel = jsonViewModelService.dataModelToViewModel(completeValidSitelog);
             expect(siteLog).toBeDefined();
-            console.debug('should translate parts - view model: ', siteLog.siteIdentification);
-            expect(siteLog.siteIdentification).toBeDefined();
-            expect(siteLog.siteIdentification.fourCharacterID).toEqual('ADE1');
-            expect(siteLog.siteLocation).toBeDefined();
-            expect(siteLog.siteLocation.city).toEqual('Salisbury');
+
+            let siteIdentification = siteLog.siteInformation.siteIdentification;
+            expect(siteIdentification).toBeDefined();
+            expect(siteIdentification.fourCharacterID).toEqual('ADE1');
+
+            expect(siteLog.siteInformation.siteLocation).toBeDefined();
+            expect(siteLog.siteInformation.siteLocation.city).toEqual('Salisbury');
             expect(siteLog.gnssReceivers).toBeDefined();
             expect(siteLog.gnssReceivers.length).not.toBe(0);
             expect(siteLog.gnssAntennas).toBeDefined();
@@ -76,7 +77,6 @@ export function main() {
         });
 
         it('should translate parts - view to data', () => {
-
             let siteLogViewModel: SiteLogViewModel = jsonViewModelService.dataModelToViewModel(completeValidSitelog);
             let siteLogDataModel: SiteLogDataModel = jsonViewModelService.viewModelToDataModel(siteLogViewModel);
 
@@ -99,7 +99,87 @@ export function main() {
             expect(siteLogDataModel.siteDataSource).toBeNull();
             expect(siteLogDataModel.moreInformation).toBeDefined();
             expect(siteLogDataModel.dataStreams).toBeDefined();
+        });
 
+        describe('Cartesian position object map', () => {
+            it('should map data to view', () => {
+                let cartesianPositionData = {
+                    point: {
+                        pos: {
+                            value: [ 1, 2, 3 ]
+                        }
+                    }
+                };
+                let cartesianPositionView: CartesianPosition = cartesianPositionMap.map(cartesianPositionData);
+                expect(cartesianPositionView.x).toBe(cartesianPositionData.point.pos.value[0]);
+                expect(cartesianPositionView.y).toBe(cartesianPositionData.point.pos.value[1]);
+                expect(cartesianPositionView.z).toBe(cartesianPositionData.point.pos.value[2]);
+            });
+            it('should map empty data to null coordinates', () => {
+                let cartesianPositionData = {};
+                let cartesianPositionView: CartesianPosition = cartesianPositionMap.map(cartesianPositionData);
+                expect(cartesianPositionView.x).toBeNull();
+                expect(cartesianPositionView.y).toBeNull();
+                expect(cartesianPositionView.z).toBeNull();
+            });
+            it('should map undefined data to null coordinates', () => {
+                let cartesianPositionView: any = cartesianPositionMap.map(undefined);
+                expect(cartesianPositionView.x).toBeNull();
+                expect(cartesianPositionView.y).toBeNull();
+                expect(cartesianPositionView.z).toBeNull();
+            });
+            it('should map view to data', () => {
+                let cartesianPositionView = new CartesianPosition(4, 5, 6);
+                let cartesianPositionData: any = cartesianPositionMap.inverse().map(cartesianPositionView);
+                expect(cartesianPositionData.point.pos.value[0]).toBe(cartesianPositionView.x);
+                expect(cartesianPositionData.point.pos.value[1]).toBe(cartesianPositionView.y);
+                expect(cartesianPositionData.point.pos.value[2]).toBe(cartesianPositionView.z);
+            });
+            it('should map incomplete view to null data', () => {
+                let cartesianPositionView = new CartesianPosition(4, null, 6);
+                let cartesianPositionData: any = cartesianPositionMap.inverse().map(cartesianPositionView);
+                expect(cartesianPositionData).toBeNull();
+            });
+        });
+        describe('Geodetic position object map', () => {
+            it('should map data to view', () => {
+                let geodeticPositionData = {
+                    point: {
+                        pos: {
+                            value: [ 1, 2, 3 ]
+                        }
+                    }
+                };
+                let geodeticPositionView: GeodeticPosition = geodeticPositionMap.map(geodeticPositionData);
+                expect(geodeticPositionView.lat).toBe(geodeticPositionData.point.pos.value[0]);
+                expect(geodeticPositionView.lon).toBe(geodeticPositionData.point.pos.value[1]);
+                expect(geodeticPositionView.height).toBe(geodeticPositionData.point.pos.value[2]);
+            });
+            it('should map empty data to null coordinates', () => {
+                let geodeticPositionData = {};
+                let geodeticPositionView: GeodeticPosition = geodeticPositionMap.map(geodeticPositionData);
+                expect(geodeticPositionView.lat).toBeNull();
+                expect(geodeticPositionView.lon).toBeNull();
+                expect(geodeticPositionView.height).toBeNull();
+            });
+            it('should map undefined data to null coordinates', () => {
+                let geodeticPositionView: any = geodeticPositionMap.map(undefined);
+                expect(geodeticPositionView.lat).toBeNull();
+                expect(geodeticPositionView.lon).toBeNull();
+                expect(geodeticPositionView.height).toBeNull();
+            });
+            it('should map view to data', () => {
+                let geodeticPositionView = new GeodeticPosition(4, 5, 6);
+                let geodeticPositionData: any = geodeticPositionMap.inverse().map(geodeticPositionView);
+                expect(geodeticPositionData.point.pos.value[0]).toBe(geodeticPositionView.lat);
+                expect(geodeticPositionData.point.pos.value[1]).toBe(geodeticPositionView.lon);
+                expect(geodeticPositionData.point.pos.value[2]).toBe(geodeticPositionView.height);
+            });
+            it('should map incomplete view to null data', () => {
+                let geodeticPositionView = new GeodeticPosition(4, null, 6);
+                let geodeticPositionData: any = geodeticPositionMap.inverse().map(geodeticPositionView);
+                expect(geodeticPositionData).toBeNull();
+            });
         });
     });
 }

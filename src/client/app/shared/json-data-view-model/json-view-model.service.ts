@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { GnssReceiverViewModel } from '../../gnss-receiver/gnss-receiver-view-model';
 import { SurveyedLocalTieViewModel } from '../../surveyed-local-tie/surveyed-local-tie-view-model';
 import { FrequencyStandardViewModel } from '../../frequency-standard/frequency-standard-view-model';
 import { LocalEpisodicEffectViewModel } from '../../local-episodic-effect/local-episodic-effect-view-model';
@@ -11,15 +10,74 @@ import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
-import { SiteIdentificationViewModel } from '../../site-log/site-identification-view-model';
-import { SiteLocationViewModel } from '../../site-log/site-location-view-model';
 import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
 import * as _ from 'lodash';
 import { MiscUtils } from '../global/misc-utils';
+import { CartesianPosition, GeodeticPosition } from '../../site-log/site-location-view-model';
 
 /* tslint:disable:max-line-length */
+
+let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
+    return source ? MiscUtils.formatUTCDateTime(source) : null;
+});
+
+let siteIdentificationMap = new ObjectMap()
+    .addFieldMap('fourCharacterID', 'fourCharacterID')
+    .addFieldMap('siteName', 'siteName')
+    .addFieldMap('bedrockCondition', 'bedrockCondition')
+    .addFieldMap('bedrockType', 'bedrockType')
+    .addFieldMap('cdpNumber', 'cdpNumber')
+    .addFieldMap('dateInstalled.value[0]', 'dateInstalled', dateMap)
+    .addFieldMap('distanceActivity', 'distanceActivity')
+    .addFieldMap('faultZonesNearby.value', 'faultZonesNearby')
+    .addFieldMap('foundationDepth', 'foundationDepth')
+    .addFieldMap('fractureSpacing', 'fractureSpacing')
+    .addFieldMap('geologicCharacteristic.value', 'geologicCharacteristic')
+    .addFieldMap('heightOfTheMonument', 'heightOfTheMonument')
+    .addFieldMap('iersDOMESNumber', 'iersDOMESNumber')
+    .addFieldMap('markerDescription', 'markerDescription')
+    .addFieldMap('monumentDescription.value', 'monumentDescription')
+    .addFieldMap('monumentFoundation', 'monumentFoundation')
+    .addFieldMap('monumentInscription', 'monumentInscription')
+    .addFieldMap('notes', 'notes')
+;
+
+export let cartesianPositionMap = new ObjectMap()
+    .addTargetPreMap((p: CartesianPosition): CartesianPosition | null => {
+        return p.x && p.y && p.z ? p : null;
+    })
+    .addFieldMap('point.pos.value[0]', 'x')
+    .addFieldMap('point.pos.value[1]', 'y')
+    .addFieldMap('point.pos.value[2]', 'z')
+    .addTargetPostMap((p: CartesianPosition | null | undefined): CartesianPosition => {
+        return p || new CartesianPosition();
+    })
+;
+
+export let geodeticPositionMap = new ObjectMap()
+    .addTargetPreMap((p: GeodeticPosition): GeodeticPosition | null => {
+        return p.lat && p.lon && p.height ? p : null;
+    })
+    .addFieldMap('point.pos.value[0]', 'lat')
+    .addFieldMap('point.pos.value[1]', 'lon')
+    .addFieldMap('point.pos.value[2]', 'height')
+    .addTargetPostMap((p: GeodeticPosition | null | undefined): GeodeticPosition => {
+        return p || new GeodeticPosition();
+    })
+;
+
+let siteLocationMap = new ObjectMap()
+    .addFieldMap('city', 'city')
+    .addFieldMap('state', 'state')
+    .addFieldMap('countryCodeISO.value', 'countryCodeISO')
+    .addFieldMap('tectonicPlate.value', 'tectonicPlate')
+    .addFieldMap('approximatePositionITRF.cartesianPosition', 'cartesianPosition', cartesianPositionMap)
+    .addFieldMap('approximatePositionITRF.geodeticPosition', 'geodeticPosition', geodeticPositionMap)
+    .addFieldMap('notes', 'notes')
+;
+
 let responsiblePartyMap = new ObjectMap()
 
     .addSourcePreMap((source: any): any => {
@@ -37,12 +95,24 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.electronicMailAddress[0].characterString.gco:CharacterString', 'email')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'phone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource.ciOnlineResource.linkage.url', 'url')
 ;
 /* tslint:disable:max-line-length */
 
-let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
-    return source ? MiscUtils.formatUTCDateTime(source) : null;
-});
+let gnssReceiverMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('gnssReceiver.dateInstalled.value[0]', 'startDate', dateMap)
+    .addFieldMap('gnssReceiver.dateRemoved.value[0]', 'endDate', dateMap)
+    .addFieldMap('gnssReceiver.igsModelCode.value', 'receiverType')
+    .addFieldMap('gnssReceiver.manufacturerSerialNumber', 'manufacturerSerialNumber')
+    .addFieldMap('gnssReceiver.firmwareVersion', 'firmwareVersion')
+    .addFieldMap('gnssReceiver.satelliteSystem[0].value', 'satelliteSystem')
+    .addFieldMap('gnssReceiver.elevationCutoffSetting', 'elevationCutoffSetting')
+    .addFieldMap('gnssReceiver.temperatureStabilization', 'temperatureStabilization')
+    .addFieldMap('gnssReceiver.notes', 'notes')
+;
 
 let gnssAntennaMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
@@ -87,12 +157,16 @@ function traverse(obj: Object, mapArray: (array: any[]) => any[]): void {
 }
 
 let siteLogMap = new ObjectMap()
+    .addFieldMap('siteIdentification', 'siteInformation.siteIdentification', siteIdentificationMap)
+    .addFieldMap('siteLocation', 'siteInformation.siteLocation', siteLocationMap)
+
     .addFieldMap('siteOwner', 'siteOwner[0]', responsiblePartyMap)
     .addFieldMap('siteContacts', 'siteContacts', responsiblePartyMap)
     .addFieldMap('siteMetadataCustodian', 'siteMetadataCustodian[0]', responsiblePartyMap)
     .addFieldMap('siteDataCenters', 'siteDataCenters', responsiblePartyMap)
     .addFieldMap('siteDataSource', 'siteDataSource[0]', responsiblePartyMap)
 
+    .addFieldMap('gnssReceivers', 'gnssReceivers', gnssReceiverMap)
     .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
 
     .addTargetPostMap((target: any): any => {
@@ -118,7 +192,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.gnssReceivers = this.dataToViewModel(siteLogDataModel.gnssReceivers, GnssReceiverViewModel);
         siteLogViewModel.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies, SurveyedLocalTieViewModel);
         siteLogViewModel.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards, FrequencyStandardViewModel);
         siteLogViewModel.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects, LocalEpisodicEffectViewModel);
@@ -126,13 +199,6 @@ export class JsonViewModelService {
         siteLogViewModel.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors, PressureSensorViewModel);
         siteLogViewModel.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
         siteLogViewModel.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
-
-        // Form (View) Model approach
-        DataViewTranslatorService.translate(siteLogDataModel.siteIdentification, siteLogViewModel.siteIdentification,
-            new SiteIdentificationViewModel().getObjectMap());
-
-        DataViewTranslatorService.translate(siteLogDataModel.siteLocation, siteLogViewModel.siteLocation,
-            new SiteLocationViewModel().getObjectMap());
 
         siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
         siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
@@ -153,7 +219,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.gnssReceivers = this.viewToDataModel(viewModel.gnssReceivers);
         siteLogDataModel.surveyedLocalTies = this.viewToDataModel(viewModel.surveyedLocalTies);
         siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModel.frequencyStandards);
         siteLogDataModel.localEpisodicEffects = this.viewToDataModel(viewModel.localEpisodicEffects);
@@ -161,12 +226,6 @@ export class JsonViewModelService {
         siteLogDataModel.pressureSensors = this.viewToDataModel(viewModel.pressureSensors);
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModel.temperatureSensors);
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
-
-        DataViewTranslatorService.translate(viewModel.siteIdentification, siteLogDataModel.siteIdentification,
-            new SiteIdentificationViewModel().getObjectMap().inverse());
-
-        DataViewTranslatorService.translate(viewModel.siteLocation, siteLogDataModel.siteLocation,
-            new SiteLocationViewModel().getObjectMap().inverse());
 
         siteLogDataModel.moreInformation = viewModel.moreInformation;
         siteLogDataModel.dataStreams = viewModel.dataStreams;

@@ -26,7 +26,7 @@ export class FrequencyStandardGroupComponent extends AbstractGroupComponent<Freq
         return 'frequencyStandards';
     }
 
-    newItemViewModel(): FrequencyStandardViewModel {
+    getNewItemViewModel(): FrequencyStandardViewModel {
         return new FrequencyStandardViewModel();
     }
 }

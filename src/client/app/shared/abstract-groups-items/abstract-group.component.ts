@@ -6,6 +6,7 @@ import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-v
 import { SiteLogViewModel }  from '../json-data-view-model/view-model/site-log-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import { UserAuthService } from '../global/user-auth.service';
+import * as _ from 'lodash';
 
 export const newItemShouldBeBlank: boolean = true;
 
@@ -32,10 +33,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * The sorting field is determined through the abstract method compare(left, right)).
      *
      * The display order on the form is in reverse with the oldest items at the bottom.  This is achieved with the method
-     * getItemsCollection().
+     * getItems().
      *
      */
-    private itemProperties: T[] = [];
+    private items: T[] = [];
 
     public static compare(obj1: AbstractViewModel, obj2: AbstractViewModel): number {
         return AbstractGroupComponent.compareDates(obj1.startDate, obj2.startDate);
@@ -65,7 +66,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     }
 
     ngOnInit() {
-        this.setupForm(this.getControlName());
+        this.setupForm();
     }
 
     /**
@@ -75,7 +76,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     abstract getControlName(): string;
 
-    abstract newItemViewModel(): T;
+    abstract getNewItemViewModel(): T;
 
     getFormData(siteLog: any): any {
         return siteLog[this.getControlName()];
@@ -90,26 +91,25 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         return this.geodesyEvent;
     }
 
-    getIsGroupOpen(): boolean {
-        return this.isGroupOpen;
-    }
-
     /**
      * Return collection.
      * @return {T[]}
      */
-    getItemsCollection(): T[] {
-        return this.itemProperties;
+    getItems(): T[] {
+        return this.items;
     }
 
-    isEmptyCollection(): boolean {
-        return (!this.itemProperties || this.itemProperties.length === 0);
+    hasItems(): boolean {
+        return !_.isEmpty(this.items);
     }
 
-    setItemsCollection(itemProperties: T[]) {
-        if (itemProperties) {
-            this.itemProperties = itemProperties;
-            this.sortUsingComparator(this.itemProperties);
+    setItems(items: T[]) {
+        if (items) {
+            this.items = items;
+            this.items.sort(AbstractGroupComponent.compare);
+            this.items.forEach(() => {
+                this.groupArrayForm.insert(0, new FormGroup({}));
+            });
         }
     }
 
@@ -117,15 +117,11 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @param item
      * @param origItem
      *
-     * @return index in itemProperties (and FormArray) where item is inserted
+     * @return index in items (and FormArray) where item is inserted
      */
-    addToItemsCollection(item: T) {
-        if (!this.itemProperties) {
-            this.itemProperties = [];
-        }
-
-        this.itemProperties.splice(0, 0, item);
-        this.addChildItemToForm();
+    addToItems(item: T) {
+        this.items.splice(0, 0, item);
+        this.groupArrayForm.insert(0, new FormGroup({}));
     }
 
     /**
@@ -156,30 +152,14 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @param itemsArrayName that is set on the parentForm
      */
-    setupForm(itemsArrayName: string) {
-        this.groupArrayForm = this.formBuilder.array([]);
-        if (this.parentForm.controls[itemsArrayName]) {
-            this.parentForm.removeControl(itemsArrayName);
+    setupForm() {
+        const controlName = this.getControlName();
+        if (this.parentForm.controls[controlName]) {
+            this.parentForm.removeControl(controlName);
         }
-        this.parentForm.addControl(itemsArrayName, this.groupArrayForm);
-        this.setItemsCollection(this.getFormData(this.siteLogModel));
-        this.setupChildItems();
-    }
-
-    setupChildItems() {
-        this.getItemsCollection().forEach(() => {
-            this.addChildItemToForm();
-        });
-    }
-
-    /**
-     * The form data model needs to be updated when new items are added.
-     *
-     * @param isItDirty if to mark it dirty or not.
-     */
-    addChildItemToForm() {
-        let itemGroup: FormGroup = this.formBuilder.group({});
-        this.groupArrayForm.insert(0, itemGroup);
+        this.groupArrayForm = this.formBuilder.array([]);
+        this.parentForm.addControl(controlName, this.groupArrayForm);
+        this.setItems(this.getFormData(this.siteLogModel));
     }
 
     /* ************** Methods called from the template ************** */
@@ -190,7 +170,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     public removeItem(index: number, reason: string) {
         let date: string = MiscUtils.getUTCDateTime();
-        let item: T = this.getItemsCollection()[index];
+        let item: T = this.getItems()[index];
         item.dateDeleted = date;
         item.deletedReason= reason;
         if (this.groupArrayForm.length > index) {
@@ -210,8 +190,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @param {string} itemIndex - the index of the new item to be cancelled.
      */
     public cancelNew(itemIndex: number) {
-        if (this.itemProperties.length > (itemIndex + 1) && !this.currentItemAlreadyHasEndDate) {
-            this.itemProperties[itemIndex+1].endDate = '';
+        if (this.items.length > (itemIndex + 1) && !this.currentItemAlreadyHasEndDate) {
+            this.items[itemIndex+1].endDate = '';
             let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
             if (formGroup.controls['endDate']) {
                 formGroup.controls['endDate'].setValue('');
@@ -220,7 +200,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         }
 
         (<FormGroup>this.groupArrayForm.at(itemIndex)).markAsPristine();
-        this.itemProperties.splice(itemIndex, 1);
+        this.items.splice(itemIndex, 1);
         this.groupArrayForm.removeAt(itemIndex);
     }
 
@@ -256,8 +236,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     private addNewItem(): void {
         this.isGroupOpen = true;
 
-        let newItem: T = <T> this.newItemViewModel();
-        this.addToItemsCollection(newItem);
+        let newItem: T = <T> this.getNewItemViewModel();
+        this.addToItems(newItem);
         setTimeout(() => {
             let dateUtc: string = MiscUtils.getUTCDateTime();
             this.updateDatesForNewItem(newItem, dateUtc);
@@ -288,11 +268,11 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     private updateEndDateForSecondItem(dateUtc: string) {
         let index: number = 1;
-        if (this.itemProperties.length > 1 && this.hasEndDateField()) {
-            if (this.itemProperties[index].endDate) {
+        if (this.items.length > 1 && this.hasEndDateField()) {
+            if (this.items[index].endDate) {
                 this.currentItemAlreadyHasEndDate = true;
             } else {
-                this.itemProperties[index].endDate = dateUtc;
+                this.items[index].endDate = dateUtc;
                 let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
                 if (formGroup.controls['endDate']) {
                     formGroup.controls['endDate'].setValue(dateUtc);
@@ -300,15 +280,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
                 }
             }
         }
-    }
-
-    /**
-     * Use the Geodesy object defined comparator in compare() to sort the given collection inline.
-     *
-     * @param collection
-     */
-    private sortUsingComparator(collection: any[]) {
-        collection.sort(AbstractGroupComponent.compare);
     }
 
     /**

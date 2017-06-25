@@ -12,4 +12,4 @@ import { DatetimeInputComponent } from './datetime-input.component';
   declarations: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent],
   exports: [TextInputComponent, TextAreaInputComponent, NumberInputComponent, DatetimeInputComponent]
 })
-export class DynamicFormFieldsModule {}
+export class FormInputModule {}

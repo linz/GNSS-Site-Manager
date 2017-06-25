@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WaterVaporSensorsGroupComponent } from './water-vapor-sensors-group.component';
 import { WaterVaporSensorItemComponent } from './water-vapor-sensor-item.component';
-import { DynamicFormFieldsModule } from '../shared/dynamic-form-fields/dynamic-form-fields.module';
+import { FormInputModule } from '../shared/form-input/form-input.module';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, DynamicFormFieldsModule],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, FormInputModule],
     declarations: [WaterVaporSensorsGroupComponent, WaterVaporSensorItemComponent],
-    exports: [WaterVaporSensorsGroupComponent, WaterVaporSensorItemComponent, DynamicFormFieldsModule]
+    exports: [WaterVaporSensorsGroupComponent, WaterVaporSensorItemComponent, FormInputModule]
 })
 export class WaterVaporSensorModule {
 }
