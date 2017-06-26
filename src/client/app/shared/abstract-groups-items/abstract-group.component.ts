@@ -173,6 +173,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let item: T = this.getItems()[index];
         item.dateDeleted = date;
         item.deletedReason = reason;
+        item.isDeleted = true;
     }
 
     /**

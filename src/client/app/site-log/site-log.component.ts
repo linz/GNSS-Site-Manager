@@ -424,9 +424,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     private removeDeletedGroupItems(siteLogModelGroupItems: any[]) {
         let i: number;
         for (i = siteLogModelGroupItems.length - 1; i >= 0; i--) {
-            if (siteLogModelGroupItems[i].hasOwnProperty('dateDeleted')
-                && siteLogModelGroupItems[i]['dateDeleted']
-                && siteLogModelGroupItems[i]['dateDeleted'].length > 0) {
+            if (siteLogModelGroupItems[i].isDeleted) {
                 siteLogModelGroupItems.splice(i, 1);
             }
         }
