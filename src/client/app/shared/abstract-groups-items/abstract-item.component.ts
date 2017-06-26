@@ -68,6 +68,12 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         setTimeout(() => {
             if (this.isEditable()) {
                 this.itemGroup.enable();
+                // add a listener for changes to the start date field
+                if (this.itemGroup.controls.startDate) {
+                    this.itemGroup.controls.startDate.valueChanges.subscribe(
+                        updatedStartDate => this.updateEndDateOnPreviousItem(updatedStartDate)
+                    );
+                }
             } else {
                 this.itemGroup.disable();
             }
@@ -291,6 +297,19 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         }
     }
 
+    /**
+     * Updates the end date on the previous item.
+     */
+    private updateEndDateOnPreviousItem(updatedStartDate: string): void {
+        let previousItem = <FormGroup> this.groupArray.at(this.index+1);
+        if (previousItem && previousItem.controls.hasOwnProperty('endDate')) {
+            let endDateControl = previousItem.controls.endDate;
+            if (endDateControl) {
+                endDateControl.setValue(updatedStartDate);
+                endDateControl.markAsDirty();
+            }
+        }
+    }
 
     /**
      * When the group is setup, blank FormGroups for the contained Items are created (no controsl).  This method populates the
