@@ -172,16 +172,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let date: string = MiscUtils.getUTCDateTime();
         let item: T = this.getItems()[index];
         item.dateDeleted = date;
-        item.deletedReason= reason;
-        if (this.groupArrayForm.length > index) {
-            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-            if (formGroup.controls['dateDeleted']) {
-                formGroup.controls['dateDeleted'].setValue(date);
-            }
-            if (formGroup.controls['deletedReason']) {
-                formGroup.controls['deletedReason'].setValue(reason);
-            }
-        }
+        item.deletedReason = reason;
     }
 
     /**
@@ -254,11 +245,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             formGroup.controls['startDate'].setValue(dateUtc);
             formGroup.controls['startDate'].markAsDirty();
         }
-
         item.dateInserted = dateUtc;
-        if (formGroup.controls['dateInserted']) {
-            formGroup.controls['dateInserted'].setValue(dateUtc);
-        }
     }
 
     /**

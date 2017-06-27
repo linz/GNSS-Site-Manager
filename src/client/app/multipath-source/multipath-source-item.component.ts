@@ -46,9 +46,6 @@ export class MultipathSourceItemComponent extends AbstractItemComponent {
             {endDate: new FormControl('')},
             {notes: new FormControl('', [Validators.maxLength(2000)])},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 

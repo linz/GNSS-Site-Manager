@@ -43,9 +43,6 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
             {temperatureStabilization: new FormControl('', [Validators.maxLength(25)])}, // Validators.pattern(/^\d{1,3}$/) - works!
             {notes: new FormControl('', [Validators.maxLength(2000)])},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 

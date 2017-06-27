@@ -144,12 +144,6 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
         let date: string = MiscUtils.getUTCDateTime();
         this.siteLocation.dateDeleted = date;
         this.siteLocation.deletedReason = deleteReason;
-        if (this.siteLocationForm.controls['dateDeleted']) {
-            this.siteLocationForm.controls['dateDeleted'].setValue(date);
-        }
-        if (this.siteLocationForm.controls['deletedReason']) {
-            this.siteLocationForm.controls['deletedReason'].setValue(deleteReason);
-        }
         this.siteLocationForm.markAsDirty();
         this.siteLocationForm.disable();
     }
@@ -188,12 +182,9 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
             tectonicPlate: ['', [Validators.maxLength(100)]],
             notes: ['', [Validators.maxLength(2000)]],
             objectMap: [''],
-            dateDeleted: [''],
-            dateInserted: [''],
-            deletedReason: ['']
         });
         this.siteLocation = this.siteLogModel.siteInformation.siteLocation;
-        this.siteLocationForm.setValue(this.siteLocation);
+        this.siteLocationForm.patchValue(this.siteLocation);
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteLocationForm.enable();
         } else {

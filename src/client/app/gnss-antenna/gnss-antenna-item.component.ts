@@ -56,9 +56,6 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
             {antennaCableLength: new FormControl('', [Validators.maxLength(25)])},
             {notes: new FormControl('', [Validators.maxLength(2000)])},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 }

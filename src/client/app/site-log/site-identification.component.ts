@@ -101,7 +101,7 @@ export class SiteIdentificationComponent implements OnInit {
             objectMap: [''],
         });
         this.siteIdentification = this.siteLogModel.siteInformation.siteIdentification;
-        this.siteIdentificationForm.setValue(this.siteIdentification);
+        this.siteIdentificationForm.patchValue(this.siteIdentification);
         if (this.userAuthService.hasAuthorityToEditSite()) {
             this.siteIdentificationForm.enable();
         } else {
