@@ -334,21 +334,4 @@ export class JsonViewModelService {
         }
         return viewModels;
     }
-
-    /**
-     * Translate view model to data model
-     * @param viewModels - array of view model items to convert
-     * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
-     * @returns {any[]} - translated data model
-     */
-    private viewToDataModel<T extends AbstractViewModel>(viewModels: T[]): any[] {
-        let dataModels: any[] = [];
-        for (let viewModel of viewModels) {
-            let objectMap = (<T> viewModel).getObjectMap();
-            let dataModel: any = {};
-            DataViewTranslatorService.translate(viewModel, dataModel, objectMap.inverse());
-            dataModels.push(dataModel);
-        }
-        return dataModels;
-    }
 }
