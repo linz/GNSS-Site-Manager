@@ -305,7 +305,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
             let previousItem = <FormGroup> this.groupArray.at(this.index+1);
             if (previousItem && previousItem.controls['endDate']) {
                 let endDateControl = previousItem.controls.endDate;
-                if (endDateControl) {
+                if (endDateControl && endDateControl.value !== updatedStartDate) {
                     endDateControl.setValue(updatedStartDate);
                     endDateControl.markAsDirty();
                 }
