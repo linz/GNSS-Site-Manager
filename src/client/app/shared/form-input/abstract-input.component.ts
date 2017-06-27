@@ -29,6 +29,7 @@ export abstract class AbstractInput implements OnInit {
                     errString += ', ';
                 }
                 let error: any = this.formControl.errors[e];
+                console.log('~~~~~ key='+e+'; error='+error);
                 if (e === 'maxlength') {
                     errString += 'Maximum length exceeded: ' + error.requiredLength;
                 } else if (e === 'minlength') {
@@ -41,6 +42,10 @@ export abstract class AbstractInput implements OnInit {
                     errString += 'Outside range: '+error;
                 } else if (e === 'invalid_datetime_format') {
                     errString += error;
+                } else if (e === 'url' && error) {
+                    errString += 'Invalid URL (must start with "http://" or "https://")';
+                } else if (e === 'email' && error) {
+                    errString += 'Invalid email address';
                 } else {
                     errString += e;
                     errString += JSON.stringify(error);
