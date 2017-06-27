@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { SurveyedLocalTieViewModel } from '../../surveyed-local-tie/surveyed-local-tie-view-model';
 import { FrequencyStandardViewModel } from '../../frequency-standard/frequency-standard-view-model';
 import { LocalEpisodicEffectViewModel } from '../../local-episodic-effect/local-episodic-effect-view-model';
 import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
@@ -134,6 +133,23 @@ let gnssAntennaMap = new ObjectMap()
     .addFieldMap('gnssAntenna.notes', 'notes')
 ;
 
+let surveyedLocalTieMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('surveyedLocalTie.tiedMarkerName', 'tiedMarkerName')
+    .addFieldMap('surveyedLocalTie.tiedMarkerUsage', 'tiedMarkerUsage')
+    .addFieldMap('surveyedLocalTie.tiedMarkerCDPNumber', 'tiedMarkerCDPNumber')
+    .addFieldMap('surveyedLocalTie.tiedMarkerDOMESNumber', 'tiedMarkerDOMESNumber')
+    .addFieldMap('surveyedLocalTie.localSiteTiesAccuracy', 'localSiteTiesAccuracy')
+    .addFieldMap('surveyedLocalTie.surveyMethod', 'surveyMethod')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dx', 'dx')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dy', 'dy')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dz', 'dz')
+    .addFieldMap('surveyedLocalTie.dateMeasured.value[0]', 'startDate', dateMap)
+    .addFieldMap('surveyedLocalTie.notes', 'notes')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -168,6 +184,7 @@ let siteLogMap = new ObjectMap()
 
     .addFieldMap('gnssReceivers', 'gnssReceivers', gnssReceiverMap)
     .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
+    .addFieldMap('surveyedLocalTies', 'surveyedLocalTies', surveyedLocalTieMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -192,7 +209,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies, SurveyedLocalTieViewModel);
         siteLogViewModel.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards, FrequencyStandardViewModel);
         siteLogViewModel.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects, LocalEpisodicEffectViewModel);
         siteLogViewModel.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors, HumiditySensorViewModel);
@@ -219,7 +235,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.surveyedLocalTies = this.viewToDataModel(viewModel.surveyedLocalTies);
         siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModel.frequencyStandards);
         siteLogDataModel.localEpisodicEffects = this.viewToDataModel(viewModel.localEpisodicEffects);
         siteLogDataModel.humiditySensors = this.viewToDataModel(viewModel.humiditySensors);
