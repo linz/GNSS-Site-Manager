@@ -164,8 +164,8 @@ let localEpisodicEffectMap = new ObjectMap()
     .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
     .addFieldMap('deletedReason', 'deletedReason')
     .addFieldMap('localEpisodicEffect.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
-    .addFieldMap('localEpisodicEeffect.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
-    .addFieldMap('localEpisodicEeffect.event', 'event')
+    .addFieldMap('localEpisodicEffect.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('localEpisodicEffect.event', 'event')
 ;
 
 function removeNullsFromArrays(obj: Object): void {
