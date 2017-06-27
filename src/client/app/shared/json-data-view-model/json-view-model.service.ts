@@ -3,7 +3,6 @@ import { SiteLogDataModel } from './data-model/site-log-data-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
-import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
 import * as _ from 'lodash';
@@ -224,6 +223,17 @@ let waterVaporSensorMap = new ObjectMap()
     .addFieldMap('waterVaporSensor.notes', 'notes')
 ;
 
+let radioInterferenceMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('radioInterference.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('radioInterference.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('radioInterference.possibleProblemSource', 'possibleProblemSource')
+    .addFieldMap('radioInterference.observedDegradation', 'observedDegradation')
+    .addFieldMap('radioInterference.notes', 'notes')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -258,13 +268,18 @@ let siteLogMap = new ObjectMap()
 
     .addFieldMap('gnssReceivers', 'gnssReceivers', gnssReceiverMap)
     .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
-    .addFieldMap('surveyedLocalTies', 'surveyedLocalTies', surveyedLocalTieMap)
     .addFieldMap('frequencyStandards', 'frequencyStandards', frequencyStandardMap)
+
+    .addFieldMap('surveyedLocalTies', 'surveyedLocalTies', surveyedLocalTieMap)
     .addFieldMap('localEpisodicEffects', 'localEpisodicEffects', localEpisodicEffectMap)
+
     .addFieldMap('humiditySensors', 'humiditySensors', humiditySensorMap)
     .addFieldMap('pressureSensors', 'pressureSensors', pressureSensorMap)
     .addFieldMap('temperatureSensors', 'temperatureSensors', temperatureSensorMap)
     .addFieldMap('waterVaporSensors', 'waterVaporSensors', waterVaporSensorMap)
+
+    .addFieldMap('radioInterferences', 'radioInterferences', radioInterferenceMap)
+
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -289,7 +304,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
         siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
         siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
 
