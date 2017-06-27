@@ -20,7 +20,7 @@ describe('Authorization/Authentication', () => {
     });
 
     it('should not allow edits when a user is not logged in', () => {
-        loginActions.logOut();
+        loginActions.logout();
         selectSitePage.openSite('ADE1');
 
         siteLogPage.siteInformationHeader.click();
@@ -30,7 +30,7 @@ describe('Authorization/Authentication', () => {
     });
 
     it('should allow edits when a user is logged in', () => {
-        loginActions.logIn('user.a', 'gumby123A');
+        loginActions.login('user.a', 'gumby123A');
 
         selectSitePage.openSite('ADE1');
 

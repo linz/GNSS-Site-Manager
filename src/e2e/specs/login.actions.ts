@@ -14,7 +14,7 @@ export class LoginActions {
     /**
      * Log in if are not already
      */
-    public logIn(username: string, password: string) {
+    public login(username: string, password: string) {
         console.log('Is the login link present ...');
         this.caller.loginMenu.click();
         this.caller.loginLink.isPresent().then((isPresent: boolean) => {
@@ -45,7 +45,7 @@ export class LoginActions {
                 });
                 this.enableWaitingForAngular();
             } else {
-                console.log('LoginActions / logIn - already logged in');
+                console.log('LoginActions / login - already logged in');
             }
         });
     }
@@ -53,7 +53,7 @@ export class LoginActions {
     /**
      * Log out if are not already
      */
-    public logOut() {
+    public logout() {
         console.log('Is the logout link present ...');
         this.caller.logoutLink.isPresent().then((isPresent: boolean) => {
             if (isPresent) {
