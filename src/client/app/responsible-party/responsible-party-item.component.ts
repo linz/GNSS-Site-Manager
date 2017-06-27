@@ -98,10 +98,10 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {administrativeArea: new FormControl('', [Validators.maxLength(50)])},
             {postalCode: new FormControl('', [Validators.maxLength(25)])},
             {country: new FormControl('')}, //, [Validators.maxLength(2000)]],
-            {email: new FormControl('', [Validators.maxLength(50)])},
+            {email: new FormControl('')},
             {phone: new FormControl('', [Validators.maxLength(25)])},
             {fax: new FormControl('', [Validators.maxLength(25)])},
-            {url: new FormControl('', [Validators.maxLength(200)])},
+            {url: new FormControl('')},
         ]);
     }
 
