@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
 import { PressureSensorViewModel } from '../../pressure-sensor/pressure-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
 import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-sensor-view-model';
@@ -168,6 +167,22 @@ let localEpisodicEffectMap = new ObjectMap()
     .addFieldMap('localEpisodicEeffect.event', 'event')
 ;
 
+let humiditySensorMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('humiditySensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('humiditySensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('humiditySensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
+    .addFieldMap('humiditySensor.dataSamplingInterval', 'dataSamplingInterval')
+    .addFieldMap('humiditySensor.accuracyPercentRelativeHumidity', 'accuracyPercentRelativeHumidity')
+    .addFieldMap('humiditySensor.aspiration', 'aspiration')
+    .addFieldMap('humiditySensor.manufacturer', 'manufacturer')
+    .addFieldMap('humiditySensor.serialNumber', 'serialNumber')
+    .addFieldMap('humiditySensor.heightDiffToAntenna', 'heightDiffToAntenna')
+    .addFieldMap('humiditySensor.notes', 'notes')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -205,6 +220,7 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('surveyedLocalTies', 'surveyedLocalTies', surveyedLocalTieMap)
     .addFieldMap('frequencyStandards', 'frequencyStandards', frequencyStandardMap)
     .addFieldMap('localEpisodicEffects', 'localEpisodicEffects', localEpisodicEffectMap)
+    .addFieldMap('humiditySensors', 'humiditySensors', humiditySensorMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -229,7 +245,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors, HumiditySensorViewModel);
         siteLogViewModel.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors, PressureSensorViewModel);
         siteLogViewModel.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
         siteLogViewModel.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
@@ -253,7 +268,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.humiditySensors = this.viewToDataModel(viewModel.humiditySensors);
         siteLogDataModel.pressureSensors = this.viewToDataModel(viewModel.pressureSensors);
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModel.temperatureSensors);
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
