@@ -21,7 +21,7 @@ describe('Authorization/Authentication', () => {
 
     it('should not allow edits when a user is not logged in', () => {
         loginActions.logOut();
-        selectSitePage.searchForClickOnSiteName('ADE1');
+        selectSitePage.openSite('ADE1');
 
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
@@ -32,7 +32,7 @@ describe('Authorization/Authentication', () => {
     it('should allow edits when a user is logged in', () => {
         loginActions.logIn('user.a', 'gumby123A');
 
-        selectSitePage.searchForClickOnSiteName('ADE1');
+        selectSitePage.openSite('ADE1');
 
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
