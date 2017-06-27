@@ -39,7 +39,7 @@ export class SelectSitePage extends BasePage {
      * Search for and then click on the given siteName
      * @param siteName
      */
-    public searchForClickOnSiteName(siteName: string) {
+    public openSite(siteName: string) {
         this.searchFor(siteName);
         this.clickOnSite(siteName);
     }

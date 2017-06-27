@@ -36,7 +36,7 @@ describe('SelectSite', () => {
     });
 
     it('selecting a specific site from the list should display the siteLog', () => {
-        selectSitePage.searchForClickOnSiteName('ADE1');
+        selectSitePage.openSite('ADE1');
         expect(siteLogPage.siteInformationHeader.isPresent()).toEqual(true, 'ADE1\'s siteLogPage.siteInformationHeader should exist');
     });
 
