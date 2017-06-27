@@ -2,18 +2,18 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 
 export class SurveyedLocalTieViewModel extends AbstractViewModel {
 
-    public tiedMarkerName: string = '';
-    public tiedMarkerUsage: string = '';
-    public tiedMarkerCDPNumber: string = '';
-    public tiedMarkerDOMESNumber: string = '';
+    public tiedMarkerName: string = null;
+    public tiedMarkerUsage: string = null;
+    public tiedMarkerCDPNumber: string = null;
+    public tiedMarkerDOMESNumber: string = null;
 
-    public dx: number = 0;
-    public dy: number = 0;
-    public dz: number = 0;
+    public dx: number = null;
+    public dy: number = null;
+    public dz: number = null;
 
-    public localSiteTiesAccuracy: string = '';
-    public surveyMethod: string = '';
-    public notes: string = '';
+    public localSiteTiesAccuracy: string = null;
+    public surveyMethod: string = null;
+    public notes: string = null;
 
     constructor() {
         super();
