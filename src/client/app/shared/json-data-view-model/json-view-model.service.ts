@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
 import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-sensor-view-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
@@ -197,6 +196,22 @@ let pressureSensorMap = new ObjectMap()
     .addFieldMap('pressureSensor.notes', 'notes')
 ;
 
+let temperatureSensorMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('temperatureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('temperatureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('temperatureSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
+    .addFieldMap('temperatureSensor.dataSamplingInterval', 'dataSamplingInterval')
+    .addFieldMap('temperatureSensor.accuracyDegreesCelcius', 'accuracyDegreesCelcius')
+    .addFieldMap('temperatureSensor.manufacturer', 'manufacturer')
+    .addFieldMap('temperatureSensor.serialNumber', 'serialNumber')
+    .addFieldMap('temperatureSensor.heightDiffToAntenna', 'heightDiffToAntenna')
+    .addFieldMap('temperatureSensor.aspiration', 'aspiration')
+    .addFieldMap('temperatureSensor.notes', 'notes')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -236,6 +251,7 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('localEpisodicEffects', 'localEpisodicEffects', localEpisodicEffectMap)
     .addFieldMap('humiditySensors', 'humiditySensors', humiditySensorMap)
     .addFieldMap('pressureSensors', 'pressureSensors', pressureSensorMap)
+    .addFieldMap('temperatureSensors', 'temperatureSensors', temperatureSensorMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -260,7 +276,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
         siteLogViewModel.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
 
         siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
@@ -282,7 +297,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModel.temperatureSensors);
         siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
 
         siteLogDataModel.moreInformation = viewModel.moreInformation;
