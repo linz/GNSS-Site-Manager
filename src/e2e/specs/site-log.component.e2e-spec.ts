@@ -5,7 +5,7 @@ describe('SiteLog', () => {
     let siteLogPage: SiteLogPage = new SiteLogPage();
 
     beforeEach(async () => {
-        return await browser.get(siteLogPage.url_ade1);
+        return await browser.get(siteLogPage.urlAde1);
     });
 
     it('expect ade1 sitelog to exist', () => {
