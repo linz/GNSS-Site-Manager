@@ -3,7 +3,6 @@ import { SiteLogDataModel } from './data-model/site-log-data-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
-import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
 import * as _ from 'lodash';
 import { MiscUtils } from '../global/misc-utils';
 import { CartesianPosition, GeodeticPosition } from '../../site-log/site-location-view-model';
@@ -243,6 +242,16 @@ let signalObstructionMap = new ObjectMap()
     .addFieldMap('signalObstruction.notes', 'notes')
 ;
 
+let multipathSourceMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('multipathSource.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('multipathSource.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('multipathSource.possibleProblemSource', 'possibleProblemSource')
+    .addFieldMap('multipathSource.notes', 'notes')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -289,7 +298,7 @@ let siteLogMap = new ObjectMap()
 
     .addFieldMap('radioInterferences', 'radioInterferences', radioInterferenceMap)
     .addFieldMap('signalObstruction', 'signalObstruction', signalObstructionMap)
-
+    .addFieldMap('multipathSource', 'multipathSource', multipathSourceMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -313,8 +322,6 @@ export class JsonViewModelService {
         console.debug('dataModelToViewModel - siteLogDataModel: ', siteLogDataModel);
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
-
-        siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
 
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.moreInformation = siteLogDataModel.moreInformation;
