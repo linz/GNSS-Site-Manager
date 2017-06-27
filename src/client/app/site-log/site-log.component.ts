@@ -85,6 +85,13 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
         this.isLoading = true;
         this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel}) => {
+
+            // if we already have a siteLogForm then this looks like a good place to reload the page
+            // TODO possibly work out a way to clear out all the data instead
+            if (this.siteLogForm) {
+                window.location.reload();
+            }
+
             this.siteLogModel = data.siteLogModel;
             this.setupAuthSubscription();
             this.setupForm();
