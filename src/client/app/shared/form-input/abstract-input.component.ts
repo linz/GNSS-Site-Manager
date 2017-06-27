@@ -29,7 +29,6 @@ export abstract class AbstractInput implements OnInit {
                     errString += ', ';
                 }
                 let error: any = this.formControl.errors[e];
-                console.log('~~~~~ key='+e+'; error='+error);
                 if (e === 'maxlength') {
                     errString += 'Maximum length exceeded: ' + error.requiredLength;
                 } else if (e === 'minlength') {
