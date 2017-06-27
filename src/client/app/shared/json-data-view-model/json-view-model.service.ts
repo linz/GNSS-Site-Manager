@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { LocalEpisodicEffectViewModel } from '../../local-episodic-effect/local-episodic-effect-view-model';
 import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
 import { PressureSensorViewModel } from '../../pressure-sensor/pressure-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
@@ -160,6 +159,15 @@ let frequencyStandardMap = new ObjectMap()
     .addFieldMap('frequencyStandard.notes', 'notes')
 ;
 
+let localEpisodicEffectMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('localEpisodicEffect.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('localEpisodicEeffect.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('localEpisodicEeffect.event', 'event')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -196,6 +204,7 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
     .addFieldMap('surveyedLocalTies', 'surveyedLocalTies', surveyedLocalTieMap)
     .addFieldMap('frequencyStandards', 'frequencyStandards', frequencyStandardMap)
+    .addFieldMap('localEpisodicEffects', 'localEpisodicEffects', localEpisodicEffectMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -220,7 +229,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects, LocalEpisodicEffectViewModel);
         siteLogViewModel.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors, HumiditySensorViewModel);
         siteLogViewModel.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors, PressureSensorViewModel);
         siteLogViewModel.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
@@ -245,7 +253,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.localEpisodicEffects = this.viewToDataModel(viewModel.localEpisodicEffects);
         siteLogDataModel.humiditySensors = this.viewToDataModel(viewModel.humiditySensors);
         siteLogDataModel.pressureSensors = this.viewToDataModel(viewModel.pressureSensors);
         siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModel.temperatureSensors);
