@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-sensor-view-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
 import { AbstractViewModel } from './view-model/abstract-view-model';
 import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
@@ -212,6 +211,19 @@ let temperatureSensorMap = new ObjectMap()
     .addFieldMap('temperatureSensor.notes', 'notes')
 ;
 
+let waterVaporSensorMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('waterVaporSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('waterVaporSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('waterVaporSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
+    .addFieldMap('waterVaporSensor.manufacturer', 'manufacturer')
+    .addFieldMap('waterVaporSensor.serialNumber', 'serialNumber')
+    .addFieldMap('waterVaporSensor.heightDiffToAntenna', 'heightDiffToAntenna')
+    .addFieldMap('waterVaporSensor.notes', 'notes')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -252,6 +264,7 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('humiditySensors', 'humiditySensors', humiditySensorMap)
     .addFieldMap('pressureSensors', 'pressureSensors', pressureSensorMap)
     .addFieldMap('temperatureSensors', 'temperatureSensors', temperatureSensorMap)
+    .addFieldMap('waterVaporSensors', 'waterVaporSensors', waterVaporSensorMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -276,8 +289,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
-
         siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
         siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
         siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
@@ -297,7 +308,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
 
         siteLogDataModel.moreInformation = viewModel.moreInformation;
         siteLogDataModel.dataStreams = viewModel.dataStreams;
@@ -323,22 +333,5 @@ export class JsonViewModelService {
             viewModels.push(newViewModel);
         }
         return viewModels;
-    }
-
-    /**
-     * Translate view model to data model
-     * @param viewModels - array of view model items to convert
-     * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
-     * @returns {any[]} - translated data model
-     */
-    private viewToDataModel<T extends AbstractViewModel>(viewModels: T[]): any[] {
-        let dataModels: any[] = [];
-        for (let viewModel of viewModels) {
-            let objectMap = (<T> viewModel).getObjectMap();
-            let dataModel: any = {};
-            DataViewTranslatorService.translate(viewModel, dataModel, objectMap.inverse());
-            dataModels.push(dataModel);
-        }
-        return dataModels;
     }
 }
