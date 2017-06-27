@@ -8,6 +8,7 @@ export abstract class AbstractViewModel {
     public dateInserted: string;
     public dateDeleted: string;
     public deletedReason: string;
+    public isDeleted: boolean = false;
 
     /**
      * Mapping to/from Data and View model fields.  See createFieldMappings().
