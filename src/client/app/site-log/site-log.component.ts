@@ -164,8 +164,28 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
     public saveExistingSiteLog(formValue: any) {
 
-        _.merge(this.siteLogModel, formValue);
-        this.removeDeletedItems();
+        _.mergeWith(this.siteLogModel, formValue,
+            (objectValue: any, sourceValue: any, key: string, _object: any, _source: any, stack: any) => {
+                if (stack.size === 0 && _.isArray(objectValue)) {
+                    let existingItems: any[] = [];
+                    let newItems: any[] = [];
+                    objectValue.concat(sourceValue).forEach((item: any) => {
+                        if (item.id != null) {
+                            existingItems[item.id] = Object.assign(existingItems[item.id] || {}, item);
+                        } else {
+                            newItems.push(item);
+                        }
+                    });
+                    return existingItems.concat(newItems);
+                } else {
+                    return undefined;
+                }
+            }
+        );
+        this.removeDeletedResponsibleParties();
+
+        // TODO: what's a good way to force `@Input siteLogModel` in child components?
+        this.siteLogModel = _.clone(this.siteLogModel);
 
         this.siteLogService.saveSiteLog(this.siteLogModel)
             .takeUntil(this.unsubscribe)
@@ -196,6 +216,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     public saveNewSiteLog(formValue: any) {
 
         _.merge(this.siteLogModel, formValue);
+        this.removeDeletedItems();
+
         this.siteLogService.saveNewSiteLog(this.siteLogModel)
             .takeUntil(this.unsubscribe)
             .subscribe(
@@ -413,6 +435,14 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             formValue[subObject] = formValue.siteInformation[subObject];
             delete formValue.siteInformation[subObject];
         }
+    }
+
+    private removeDeletedResponsibleParties() {
+        this.removeDeletedGroupItems(this.siteLogModel.siteOwner);
+        this.removeDeletedGroupItems(this.siteLogModel.siteContacts);
+        this.removeDeletedGroupItems(this.siteLogModel.siteMetadataCustodian);
+        this.removeDeletedGroupItems(this.siteLogModel.siteDataCenters);
+        this.removeDeletedGroupItems(this.siteLogModel.siteDataSource);
     }
 
     /**

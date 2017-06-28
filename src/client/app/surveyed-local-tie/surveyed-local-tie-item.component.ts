@@ -41,6 +41,7 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
+            {id: new FormControl(null)},
             {tiedMarkerName: new FormControl('', [Validators.maxLength(50)])},
             {tiedMarkerUsage: new FormControl('', [Validators.maxLength(50)])},
             {tiedMarkerCDPNumber: new FormControl('', [Validators.maxLength(25)])},

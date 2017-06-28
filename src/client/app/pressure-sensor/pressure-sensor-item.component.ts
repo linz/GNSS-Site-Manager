@@ -41,6 +41,7 @@ export class PressureSensorItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
+            {id: new FormControl(null)},
             {manufacturer: new FormControl('', [Validators.required, Validators.maxLength(100)])},
             {serialNumber: new FormControl('', [Validators.required, Validators.maxLength(100)])},
             {dataSamplingInterval: new FormControl('', [Validators.maxLength(25)])},

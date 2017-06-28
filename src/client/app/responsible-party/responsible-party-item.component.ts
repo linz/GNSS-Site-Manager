@@ -90,6 +90,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(100)]
                                                             : [Validators.maxLength(100)];
         return new ItemControls([
+            {id: new FormControl(null)},
             {individualName: new FormControl('', [Validators.maxLength(100)])},
             {organisationName: new FormControl('', organisationValidators)},
             {positionName: new FormControl('', [Validators.maxLength(50)])},

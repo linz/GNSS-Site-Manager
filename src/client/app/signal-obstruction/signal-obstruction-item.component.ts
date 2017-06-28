@@ -41,6 +41,7 @@ export class SignalObstructionItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
+            {id: new FormControl(null)},
             {possibleProblemSource: new FormControl('', [Validators.maxLength(100)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
