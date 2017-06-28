@@ -1,4 +1,3 @@
-import { ObjectMap } from '../shared/json-data-view-model/data-view-translator';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class GnssReceiverViewModel extends AbstractViewModel {
@@ -9,15 +8,4 @@ export class GnssReceiverViewModel extends AbstractViewModel {
     public elevationCutoffSetting: number = null;
     public temperatureStabilization: number = null;
     public notes: string = null;
-
-    constructor() {
-        super();
-    }
-
-    public getObjectMap(): ObjectMap {
-        throw new Error('Not supported');
-    }
-
-    createFieldMappings(): void {
-    }
 }

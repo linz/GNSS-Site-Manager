@@ -2,7 +2,7 @@
  * This is the 'View Model' for Site Location.
  *
  */
-import { AbstractViewModel, dontSetDetfaults } from '../shared/json-data-view-model/view-model/abstract-view-model';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class CartesianPosition {
     constructor(
@@ -33,11 +33,4 @@ export class SiteLocationViewModel extends AbstractViewModel {
     public dateDeleted: string = null;
     public dateInserted: string = null;
     public deletedReason: string = null;
-
-    constructor() {
-        super(dontSetDetfaults);
-    }
-
-    createFieldMappings(): void {
-    };
 }

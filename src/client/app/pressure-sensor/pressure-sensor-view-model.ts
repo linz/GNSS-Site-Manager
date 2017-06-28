@@ -1,4 +1,3 @@
-import { ObjectMap } from '../shared/json-data-view-model/data-view-translator';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class PressureSensorViewModel extends AbstractViewModel {
@@ -9,15 +8,4 @@ export class PressureSensorViewModel extends AbstractViewModel {
     public manufacturer: string = null;
     public serialNumber: string = null;
     public heightDiffToAntenna: number = null;
-
-    constructor() {
-        super();
-    }
-
-    public getObjectMap(): ObjectMap {
-        throw new Error('Not supported');
-    }
-
-    createFieldMappings(): void {
-    };
 }
