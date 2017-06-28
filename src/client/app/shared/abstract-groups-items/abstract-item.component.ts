@@ -217,9 +217,8 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      */
     public getItemHeaderHtml(): string {
 
-        // TODO - change view model to be exclusively Date and fix this
-        let startDatetime: any = this.getItem().startDate;
-        let endDatetime: any = this.getItem().endDate;
+        let startDatetime: any = this.itemGroup.controls.startDate.value;
+        let endDatetime: any = this.itemGroup.controls.endDate.value;
 
         let headerHtml: string = '<span class="hidden-xsm">'
                                + (this.getIndex() === 0 ? 'Current' : 'Previous')
