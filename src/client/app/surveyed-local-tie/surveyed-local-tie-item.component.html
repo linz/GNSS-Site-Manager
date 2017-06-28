@@ -7,7 +7,7 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(surveyedLocalTie.startDate)"></span>
+            <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
         <span *ngIf="surveyedLocalTie.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">
