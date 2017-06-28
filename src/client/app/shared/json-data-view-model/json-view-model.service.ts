@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
-import { AbstractViewModel } from './view-model/abstract-view-model';
-import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
-import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
+import { ObjectMap } from './data-view-translator';
 import * as _ from 'lodash';
 import { MiscUtils } from '../global/misc-utils';
 import { CartesianPosition, GeodeticPosition } from '../../site-log/site-location-view-model';
@@ -243,6 +241,16 @@ let signalObstructionMap = new ObjectMap()
     .addFieldMap('signalObstruction.notes', 'notes')
 ;
 
+let multipathSourceMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('multipathSource.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('multipathSource.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('multipathSource.possibleProblemSource', 'possibleProblemSource')
+    .addFieldMap('multipathSource.notes', 'notes')
+;
+
 function removeNullsFromArrays(obj: Object): void {
     traverse(obj, (array: any[]): any[] => {
         return _.filter(array, (element: any) => { return !!element; });
@@ -289,7 +297,7 @@ let siteLogMap = new ObjectMap()
 
     .addFieldMap('radioInterferences', 'radioInterferences', radioInterferenceMap)
     .addFieldMap('signalObstruction', 'signalObstruction', signalObstructionMap)
-
+    .addFieldMap('multipathSource', 'multipathSource', multipathSourceMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -314,8 +322,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
-
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.moreInformation = siteLogDataModel.moreInformation;
         siteLogViewModel.dataStreams = siteLogDataModel.dataStreams;
@@ -339,22 +345,5 @@ export class JsonViewModelService {
 
         console.debug('viewModelToDataModel - siteLogDataModel: ', siteLogDataModel);
         return siteLogDataModel;
-    }
-
-    /* ***************************** Helper functions ***************************** */
-    /**
-     * Translate data model to view model
-     * @param dataModels - array of data model items to convert
-     * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
-     * @returns {AbstractViewModel[]} that is the super type of all view model types
-     */
-    private dataToViewModel<T extends AbstractViewModel>(dataModels: any[], type: {new(): T ;}): T[] {
-        let viewModels: T[] = [];
-        for (let dataModel of dataModels) {
-            let newViewModel: T = new type();
-            DataViewTranslatorService.translate(dataModel, newViewModel, newViewModel.getObjectMap());
-            viewModels.push(newViewModel);
-        }
-        return viewModels;
     }
 }
