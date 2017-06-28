@@ -6,13 +6,13 @@ import { LoginActions } from './login.actions';
 describe('Authorization/Authentication', () => {
     let selectSitePage: SelectSitePage = new SelectSitePage();
     let siteLogPage: SiteLogPage = new SiteLogPage();
-    let loginActions: LoginActions  = new LoginActions(selectSitePage);
+    let loginActions: LoginActions = new LoginActions(selectSitePage);
 
-    let loadRoot = () => {
-        browser.get('/');
-    };
-
-    beforeEach(loadRoot);
+    beforeEach(async () => {
+            jasmine.DEFAULT_TIMEOUT_INTERVAL = 200000;
+            return await browser.get('/');
+        }
+    );
 
     it('login menu and link should exist', () => {
         expect(siteLogPage.loginMenu.isPresent()).toBe(true);
