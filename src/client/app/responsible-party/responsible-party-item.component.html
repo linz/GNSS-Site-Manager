@@ -1,6 +1,6 @@
 <div [formGroup]="itemGroup" class="panel panel-level-3"
      [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid(), 'no-borders': total == 1}">
-    <div [ngClass]="{'panel-heading': total > 1, 'panel-heading-hidden': total == 1}">
+    <div class="item-header" [ngClass]="{'panel-heading': total > 1, 'panel-heading-hidden': total == 1}">
         <span [hidden]="total <= 1" class="panel-title cursor-ptr" tabindex="0"
               (keyup.enter)="toggleGroup($event)"
               (keyup.space)="toggleGroup($event)"
@@ -22,7 +22,7 @@
             </button>
         </span>
     </div>
-    <div class="panel-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isOpen">
         <div *ngIf=" responsibleParty == null ">
             No information available for {{getItemName()}}
         </div>

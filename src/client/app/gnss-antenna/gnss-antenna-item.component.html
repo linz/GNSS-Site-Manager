@@ -1,5 +1,5 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" id="antenna_{{index}}" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-  <div class="panel-heading">
+  <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
 	        (keyup.space)="toggleGroup($event)"
 	        (keyup.enter)="toggleGroup($event)"
@@ -22,7 +22,7 @@
         </button>
         </span>
     </div>
-    <div class="panel-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isOpen">
         <div class="margin-bottom15" *ngIf=" antenna == null ">
             No information available for current GNSS Antenna
         </div>
