@@ -1,6 +1,6 @@
 <div [formGroup]="siteIdentificationForm" class="panel panel-level-2"
      [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-    <div class="panel-heading">
+    <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="isOpen = miscUtils.scrollIntoView($event, isOpen)"
             (keyup.enter)="isOpen = miscUtils.scrollIntoView($event, isOpen)"
@@ -14,7 +14,7 @@
             <img src="../../assets/ajax-loader.gif" class="ajax-loader-img">
         </span>
     </div>
-    <div class="panel-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isOpen">
         <div class="margin-bottom15" [hidden]="siteIdentification != null">
             No information available for {{getItemName()}}
         </div>
