@@ -7,7 +7,7 @@
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(pressureSensor.startDate, pressureSensor.endDate)"></span>
+            <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
         <span *ngIf="pressureSensor.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">

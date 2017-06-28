@@ -6,7 +6,7 @@
             (click)="toggleGroup($event)">
             <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(humiditySensor.startDate, humiditySensor.endDate)"></span>
+            <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
         <span *ngIf="humiditySensor.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">
