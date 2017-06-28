@@ -42,12 +42,16 @@ export class TestUtils {
     public static getElementArrayAsList(array: ElementArrayFinder): promise.Promise<string[]> {
         let deferred = promise.defer();
         let out: string[] = new Array<string>();
-        array.each((element: ElementFinder) => {
-            element.getText().then(
-                (text: string) => {
-                    out.push(text);
-                }
-            );
+        array.then((elements) => {
+            elements.forEach((element: ElementFinder) => {
+                element.getText().then(
+                    (text: string) => {
+                        if (text.length > 0) {
+                            out.push(text);
+                        }
+                    }
+                );
+            });
         });
         deferred.fulfill(out);
         return deferred.promise;
