@@ -1,4 +1,4 @@
-import { browser } from 'protractor';
+import { browser, ElementFinder } from 'protractor';
 import { SiteLogPage } from '../page-objects/site-log.pageobject';
 import { TestUtils } from '../utils/test.utils';
 import * as _ from 'lodash';
@@ -59,7 +59,7 @@ describe('SiteLog', () => {
                         element.isPresent().then((isPresent) => {
                             if (isPresent) {
                                 element.getText().then((text) => {
-                                    console.log('    click item header: "'+ text+'"');
+                                    console.log('    click item header: ' + text);
                                     element.click();
                                     browser.waitForAngular();
                                     element.click();
@@ -70,6 +70,39 @@ describe('SiteLog', () => {
                     });
                 });
                 element.click();    // close the Group
+                // No error must have occurred
+            });
+        });
+        expect(true).toBeTruthy('If this statement was reached then it should succeed.  If failed then something weird happened.');
+    });
+
+    it('walk and compare all values to what is expected', () => {
+        siteLogPage.siteGroupHeaders.then((elements) => {
+            elements.forEach((element) => {
+                element.getText().then((text) => {
+                    console.log('click group header: ', text);
+                });
+                element.click();
+                browser.waitForAngular();
+                // siteItems will get the Items under the Group at the top level - need to drill down to header and body
+                siteLogPage.siteItems.then((elements) => {
+                    elements.forEach((theElement) => {
+                        // Navigate to the header and click
+                        let itemHeader: ElementFinder = theElement.$('div.item-header>span.panel-title');
+                        itemHeader.getText().then((text) => {
+                            console.log('    click item header: ', text);
+                        });
+                        itemHeader.click();
+                        browser.waitForAngular();
+
+                        // TODO - Now open the body and do the inspections
+
+                        itemHeader.click();
+                        browser.waitForAngular();
+                    });
+                });
+                element.click();    // close the Group
+                browser.waitForAngular();
                 // No error must have occurred
             });
         });
