@@ -9,7 +9,7 @@ import { AbstractInput } from './abstract-input.component';
     styleUrls: ['form-input.component.css']
 })
 export class CheckboxesInputComponent extends AbstractInput implements OnInit {
-    @Input() options: string[] = ['GPS', 'GLO', 'GAL', 'BDS', 'QZSS', 'SBAS', 'IRNSS'];
+    @Input() options: string[] = [];
     @Input() separator: string = '+';
     public selections: string[] = [];
     public errors: string = '';
@@ -56,6 +56,11 @@ export class CheckboxesInputComponent extends AbstractInput implements OnInit {
     }
 
     private parseInputOptions(): void {
+        if (!this.options || this.options.length === 0) {
+            this.errors = 'Error: must provide a full list of satellite systems supported.';
+            return;
+        }
+
         let unknownValues: string[] = [];
         this.selections = this.formControl.value ? this.formControl.value.split(this.separator) : [];
         this.selections.forEach((item: string) => {
