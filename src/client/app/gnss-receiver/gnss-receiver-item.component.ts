@@ -33,6 +33,7 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
+            {id: new FormControl(null)},
             {receiverType: new FormControl(' ', [Validators.maxLength(25)])},
             {manufacturerSerialNumber: new FormControl('', [Validators.maxLength(25)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
