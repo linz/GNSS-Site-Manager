@@ -1,7 +1,7 @@
 import { browser } from 'protractor';
-import { SelectSitePage } from './select-site.pageobject';
-import { SiteLogPage } from './site-log.pageobject';
-import { TestUtils } from './test.utils';
+import { SelectSitePage } from '../page-objects/select-site.pageobject';
+import { SiteLogPage } from '../page-objects/site-log.pageobject';
+import { TestUtils } from '../utils/test.utils';
 
 describe('SelectSite', () => {
     let selectSitePage: SelectSitePage = new SelectSitePage();

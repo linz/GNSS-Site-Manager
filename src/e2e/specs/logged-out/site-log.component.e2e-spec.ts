@@ -1,6 +1,6 @@
 import { browser } from 'protractor';
-import { SiteLogPage } from './site-log.pageobject';
-import { TestUtils } from './test.utils';
+import { SiteLogPage } from '../page-objects/site-log.pageobject';
+import { TestUtils } from '../utils/test.utils';
 import * as _ from 'lodash';
 
 describe('SiteLog', () => {

@@ -1,5 +1,5 @@
 import { browser } from 'protractor';
-import { UserRegistrationPage } from './user-registration.pageobject';
+import { UserRegistrationPage } from '../page-objects/user-registration.pageobject';
 
 describe('User Registration', () => {
 

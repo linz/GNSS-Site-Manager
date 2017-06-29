@@ -1,14 +1,14 @@
 import { element, by, ElementFinder, ElementArrayFinder, browser } from 'protractor';
 
-import { BasePage } from './base.pageobject';
-import { TestUtils } from './test.utils';
+import { BasePage } from '../page-objects/base.pageobject';
+import { TestUtils } from '../utils/test.utils';
 
 export class SelectSitePage extends BasePage {
     readonly url: string = '/';
     readonly selectSiteList: ElementFinder = element(by.id('select-site-sites-table'));
     readonly selectSiteListItems: ElementArrayFinder = element.all(by.css('td[name="siteId"'));
     public readonly searchBox: ElementFinder = element(by.css('sd-select-site input[name="searchText"]'));
-    public readonly searchButton: ElementFinder = element(by.css('sd-select-site button'));
+    public readonly searchButton: ElementFinder = element(by.cssContainingText('button', 'Search'));
 
     public identifyingElement(): ElementFinder {
         return this.searchBox;

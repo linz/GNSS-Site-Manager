@@ -1,10 +1,15 @@
 const config = {
   baseUrl: 'http://localhost:5555/',
 
-  specs: [
-    './dist/e2e/**/*.e2e-spec.js'
-  ],
-
+  suites: {
+    loggedOut: [
+      './dist/e2e/specs/logged-out/**/*.e2e-spec.js'
+    ],
+    loggedIn: [
+      './dist/e2e/specs/logged-in/**/*.e2e-spec.js'
+    ],
+  },
+  
   exclude: [],
 
   // 'jasmine' by default will use the latest jasmine framework
@@ -18,7 +23,7 @@ const config = {
     showColors: true,
     isVerbose: false,
     includeStackTrace: false,
-    // defaultTimeoutInterval: 400000
+    defaultTimeoutInterval: 200000
   },
 
   directConnect: true,
@@ -26,14 +31,19 @@ const config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
-        binary: process.env.CHROME_BIN,
+      binary: process.env.CHROME_BIN,
+      prefs: {
+        credentials_enable_service: false,
+        profile: {
+          password_manager_enabled: false
+        }
+      },
     },
   },
 
   onPrepare: function() {
     browser.ignoreSynchronization = false;
   },
-
 
   /**
    * Angular 2 configuration

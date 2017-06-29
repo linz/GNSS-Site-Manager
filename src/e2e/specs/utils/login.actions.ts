@@ -1,6 +1,6 @@
 import { browser, protractor } from 'protractor';
-import { BasePage } from './base.pageobject';
-import { OpenAmLoginPage } from './openam.pageobject';
+import { BasePage } from '../page-objects/base.pageobject';
+import { OpenAmLoginPage } from '../page-objects/openam.pageobject';
 
 /**
  * Login and Logout actions that tests can use.
@@ -16,9 +16,12 @@ export class LoginActions {
      */
     public login(username: string, password: string) {
         console.log('Is the login link present ...');
-        this.caller.loginMenu.click();
-        this.caller.loginLink.isPresent().then((isPresent: boolean) => {
-            if (isPresent) {
+
+        this.caller.loginLink.isPresent().then((loginLinkIsPresent: boolean) => {
+            if (loginLinkIsPresent) {
+
+                this.caller.loginMenu.click();
+
                 console.log('Login link is present');
                 this.caller.loginLink.click().then(() => {
                     console.log('Login link clicked');
@@ -55,8 +58,11 @@ export class LoginActions {
      */
     public logout() {
         console.log('Is the logout link present ...');
-        this.caller.logoutLink.isPresent().then((isPresent: boolean) => {
-            if (isPresent) {
+        this.caller.logoutLink.isPresent().then((logoutLinkIsPresent: boolean) => {
+            if (logoutLinkIsPresent) {
+
+                this.caller.loginMenu.click();
+
                 console.log('Logout link is present');
                 this.caller.logoutLink.click();
                 this.disableWaitingForAngular();
@@ -75,7 +81,7 @@ export class LoginActions {
 
     /**
      * Call this function when going from an angular page to a non-angular page
-     * to instruct protractor to stop waiting for anuglar zone tasks to complete.
+     * to instruct protractor to stop waiting for angular zone tasks to complete.
      */
     private disableWaitingForAngular(): void {
         browser.ignoreSynchronization = true;
