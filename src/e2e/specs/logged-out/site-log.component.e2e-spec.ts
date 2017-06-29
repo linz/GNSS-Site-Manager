@@ -1,4 +1,4 @@
-import { browser, ElementFinder } from 'protractor';
+import { browser, ElementArrayFinder, ElementFinder } from 'protractor';
 import { SiteLogPage } from '../page-objects/site-log.pageobject';
 import { TestUtils } from '../utils/test.utils';
 import * as _ from 'lodash';
@@ -91,13 +91,22 @@ describe('SiteLog', () => {
                         let itemHeader: ElementFinder = theElement.$('div.item-header>span.panel-title');
                         itemHeader.getText().then((text) => {
                             console.log('    click item header: ', text);
+                            itemHeader.click();
+                            browser.waitForAngular();
                         });
-                        itemHeader.click();
-                        browser.waitForAngular();
 
-                        // TODO - Now open the body and do the inspections
+                        // TODO - Now open the body and do the inspections - the code below finds
+                        // TODO - each input - just need to compare its value() against the expected data
+                        let itemBodyInputs: ElementArrayFinder = theElement.$$('div.item-body div.form-group>*');
+                        itemBodyInputs.then((inputElements) => {
+                            inputElements.forEach((theInput) => {
+                                theInput.getText().then((text) => {
+                                    console.log('input text: ', text);
+                                });
+                            });
+                        });
 
-                        itemHeader.click();
+                        itemHeader.click(); // to close
                         browser.waitForAngular();
                     });
                 });
