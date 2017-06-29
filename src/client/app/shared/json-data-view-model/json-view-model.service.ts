@@ -97,7 +97,12 @@ let gnssReceiverMap = new ObjectMap()
     .addFieldMap('gnssReceiver.igsModelCode.value', 'receiverType')
     .addFieldMap('gnssReceiver.manufacturerSerialNumber', 'manufacturerSerialNumber')
     .addFieldMap('gnssReceiver.firmwareVersion', 'firmwareVersion')
-    .addFieldMap('gnssReceiver.satelliteSystem[0].value', 'satelliteSystem')
+
+    .addFieldMap('gnssReceiver.satelliteSystem', 'satelliteSystems', new ObjectMap()
+        .addSourcePreMap((satelliteSystem: { value: string }) => satelliteSystem.value)
+        .addSourcePostMap((satelliteSystem: string) => { return { value: satelliteSystem }; })
+    )
+
     .addFieldMap('gnssReceiver.elevationCutoffSetting', 'elevationCutoffSetting')
     .addFieldMap('gnssReceiver.temperatureStabilization', 'temperatureStabilization')
     .addFieldMap('gnssReceiver.notes', 'notes')
