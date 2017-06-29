@@ -1,5 +1,5 @@
 import { element, by, ElementFinder, ElementArrayFinder } from 'protractor';
-import { BasePage } from './base.pageobject';
+import { BasePage } from '../page-objects/base.pageobject';
 
 export class SiteLogPage extends BasePage {
     readonly urlAde1: string = '/siteLog/ADE1';
