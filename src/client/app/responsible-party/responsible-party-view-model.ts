@@ -14,6 +14,7 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
     public country: string = null;
     public email: string = null;
     public phone: string = null;
+    public secondaryPhone: string = null;
     public fax: string = null;
     public url: string = null;
 }
