@@ -234,8 +234,13 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         applicationFormInvalid: false,
                         applicationSaveState: ApplicationSaveState.idle
                     });
-                    this.goToHomePage();
+
                     this.dialogService.showSuccessMessage('Done in saving new site log data');
+                    this.dialogService.showNotificationDialog(
+                        `Thank you for requesting a new site. You will be contacted by a member
+                         from the GNSS Operations Team at Geoscience Australia regarding your request.`,
+                        () => this.goToHomePage()
+                    );
                 },
                 (error: Error) => {
                     this.isLoading = false;
