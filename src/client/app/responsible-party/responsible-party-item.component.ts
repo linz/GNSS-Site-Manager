@@ -100,7 +100,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {postalCode: new FormControl('', [Validators.maxLength(25)])},
             {country: new FormControl('')}, //, [Validators.maxLength(2000)]],
             {email: new FormControl('')},
-            {phone: new FormControl('', [Validators.maxLength(25)])},
+            {primaryPhone: new FormControl('', [Validators.maxLength(25)])},
             {secondaryPhone: new FormControl('', [Validators.maxLength(25)])},
             {fax: new FormControl('', [Validators.maxLength(25)])},
             {url: new FormControl('')},
