@@ -48,9 +48,10 @@ export class UserRegistrationComponent implements OnDestroy {
                 this.dialogs.showNotificationDialog(
                     `Thank you for registering. You will be contacted by a member from the GNSS Operations
                     Team at Geoscience Australia regarding your login details.`,
-                    () => this.location.back()
+                    () => window.location.assign('/')
                 )
             );
+
     }
 
     public isFormInvalid(): boolean {
