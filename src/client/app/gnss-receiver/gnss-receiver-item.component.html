@@ -31,7 +31,7 @@
             <text-input formControlName="receiverType" controlName="receiverType" [form]="itemGroup">Receiver Type</text-input>
             <text-input formControlName="manufacturerSerialNumber" controlName="manufacturerSerialNumber" [form]="itemGroup">Serial Number</text-input>
             <text-input formControlName="firmwareVersion" controlName="firmwareVersion" [form]="itemGroup">Firmware Version</text-input>
-            <checkboxes-input controlName="satelliteSystem" [form]="itemGroup" [options]="satelliteSystems">Satellite System</checkboxes-input>
+            <checkboxes-input controlName="satelliteSystems" [form]="itemGroup" [options]="satelliteSystemList">Satellite Systems</checkboxes-input>
             <number-input formControlName="elevationCutoffSetting" controlName="elevationCutoffSetting" [form]="itemGroup"
                 [step]="1" min="-359" max="359">Elevation Cutoff Setting (degrees)</number-input>
             <number-input formControlName="temperatureStabilization" controlName="temperatureStabilization" [form]="itemGroup"
