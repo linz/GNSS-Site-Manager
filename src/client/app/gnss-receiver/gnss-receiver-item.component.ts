@@ -21,7 +21,7 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
      */
     @Input() gnssReceiver: GnssReceiverViewModel;
 
-    public satelliteSystems: string[] = ['GPS', 'GLO', 'GAL', 'BDS', 'QZSS', 'SBAS', 'IRNSS'];
+    public satelliteSystemList: string[] = ['GPS', 'GLO', 'GAL', 'BDS', 'QZSS', 'SBAS', 'IRNSS'];
 
     constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {

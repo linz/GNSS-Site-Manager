@@ -62,7 +62,7 @@ export class CheckboxesInputComponent extends AbstractInput implements OnInit {
         }
 
         let unknownValues: string[] = [];
-        this.selections = this.formControl.value ? this.formControl.value : [];
+        this.selections = this.formControl.value || [];
         this.selections.forEach((item: string) => {
             if (this.options.indexOf(item) === -1) {
                 unknownValues.push(item);
