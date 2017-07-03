@@ -1,0 +1,23 @@
+<div class="form-group" [formGroup]="form">
+    <label class="col-md-4 col-sm-4 col-xs-5 col-xxs-12 control-label"
+           [ngClass]="{'required': required}">
+        <ng-content></ng-content>
+    </label>
+    <div class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+        <div class="checkbox-group" [ngClass]="{'disabled': form.disabled, 'ng-dirty': formControl.dirty}">
+            <span *ngFor="let option of options; let i = index" class="col-md-3 col-sm-4 col-xs-6 col-xxs-6 small-padding">
+                <label [ngClass]="{'disabled': form.disabled}">
+                    <input type="checkbox"
+                           value="{{option}}"
+                           [disabled]="form.disabled"
+                           [checked]="isChecked(option)"
+                           (change)="updateCheckedOptions(option, $event)">&nbsp;{{option}}
+                </label>
+            </span>
+        </div>
+    </div>
+    <div *ngIf="errors" class="col-md-4 col-sm-4 col-xs-5 col-xxs-12"></div>
+    <div *ngIf="errors" class="col-md-5 col-sm-6 col-xs-6 col-xxs-12">
+        <small class="alert alert-danger">{{errors}}</small>
+    </div>
+</div>

@@ -41,15 +41,13 @@ export class FrequencyStandardItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
-            {standardType: new FormControl('', [Validators.minLength(4)])},
+            {id: new FormControl(null)},
+            {standardType: new FormControl('', [Validators.maxLength(200)])},
             {inputFrequency: new FormControl('', [Validators.maxLength(25)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
             {notes: new FormControl('', [Validators.maxLength(2000)])},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 

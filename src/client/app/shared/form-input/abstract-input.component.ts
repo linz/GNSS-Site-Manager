@@ -41,6 +41,10 @@ export abstract class AbstractInput implements OnInit {
                     errString += 'Outside range: '+error;
                 } else if (e === 'invalid_datetime_format') {
                     errString += error;
+                } else if (e === 'url' && error) {
+                    errString += 'Invalid URL (must start with "http://" or "https://")';
+                } else if (e === 'email' && error) {
+                    errString += 'Invalid email address';
                 } else {
                     errString += e;
                     errString += JSON.stringify(error);

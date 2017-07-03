@@ -41,13 +41,11 @@ export class LocalEpisodicEffectItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
+            {id: new FormControl(null)},
             {event: new FormControl('', [Validators.required, Validators.maxLength(100)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 

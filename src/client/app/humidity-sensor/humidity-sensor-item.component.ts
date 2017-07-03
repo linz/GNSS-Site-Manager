@@ -44,6 +44,7 @@ export class HumiditySensorItemComponent extends AbstractItemComponent {
         // turn off all Validators until work out solution to 'was false now true' problem
         // TODO Fix Validators
         return new ItemControls([
+            {id: new FormControl(null)},
             {manufacturer: new FormControl('', [Validators.required, Validators.maxLength(50)])},
             {serialNumber: new FormControl('', [Validators.required, Validators.maxLength(50)])},
             {dataSamplingInterval: new FormControl('', [Validators.maxLength(25)])},
@@ -55,9 +56,6 @@ export class HumiditySensorItemComponent extends AbstractItemComponent {
             {endDate: new FormControl('')},
             {notes: new FormControl('', [Validators.maxLength(2000)])},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 

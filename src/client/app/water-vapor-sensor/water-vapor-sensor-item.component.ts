@@ -41,6 +41,7 @@ export class WaterVaporSensorItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
+            {id: new FormControl(null)},
             {manufacturer: new FormControl('', [Validators.maxLength(25)])},
             {serialNumber: new FormControl('', [Validators.maxLength(25)])},
             {heightDiffToAntenna: new FormControl('', [Validators.maxLength(25)])},
@@ -49,9 +50,6 @@ export class WaterVaporSensorItemComponent extends AbstractItemComponent {
             {endDate: new FormControl('')},
             {notes: new FormControl(['', [Validators.maxLength(2000)]])},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 

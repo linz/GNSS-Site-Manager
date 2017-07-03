@@ -3,16 +3,11 @@ import { AbstractGroupComponent } from './abstract-group.component';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
 import { SiteLogViewModel } from '../json-data-view-model/view-model/site-log-view-model';
+import * as _ from 'lodash';
 
 class AbstractViewModelImpl extends AbstractViewModel {
-    public startDate: string;
-
-    constructor(startDate: string) {
+    constructor(public startDate: string) {
         super();
-        this.startDate = startDate;
-    }
-
-    createFieldMappings(): void {
     }
 }
 
@@ -21,10 +16,11 @@ class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
         super(null, new FormBuilder());
         this.siteLogModel = new SiteLogViewModel();
         this.parentForm = new FormGroup({});
+        super.setupForm();
     }
 
     getNewItemViewModel(): AbstractViewModelImpl {
-        return new AbstractViewModelImpl('new item');
+        return new AbstractViewModelImpl(null);
     }
 
     getItemName(): string {
@@ -37,80 +33,30 @@ class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
 }
 
 export function main() {
-    let abstractGroupImpl: AbstractGroupImpl;
-    let avmi1: AbstractViewModelImpl;
-    let avmi2: AbstractViewModelImpl;
-    let avmi3: AbstractViewModelImpl;
-    let avmi4: AbstractViewModelImpl;
+    let group: AbstractGroupImpl;
+    let items: AbstractViewModelImpl[] = null;
 
-    describe('AbstractGroup test', () => {
+    describe('AbstractGroup.setItems', () => {
 
         beforeEach(() => {
-            abstractGroupImpl = new AbstractGroupImpl();
-            abstractGroupImpl.ngOnInit();
-            avmi1 = new AbstractViewModelImpl('4');
-            avmi1.dateDeleted = MiscUtils.getUTCDateTime();
-            avmi2 = new AbstractViewModelImpl('3');
-            avmi4 = new AbstractViewModelImpl('2');
-            avmi3 = new AbstractViewModelImpl('1');
-            let list: AbstractViewModelImpl[] = [];
-            list.push(avmi1, avmi2, avmi3, avmi4);
-            abstractGroupImpl.setItems(list); // This will perform an ascending sort
+            group = new AbstractGroupImpl();
+            items = [
+                new AbstractViewModelImpl('2003-01-01T01:02:03.000Z'),
+                new AbstractViewModelImpl('2004-01-01T01:02:03.000Z'),
+                new AbstractViewModelImpl('2002-01-01T01:02:03.000Z'),
+                new AbstractViewModelImpl('2000-01-01T01:02:03.000Z'),
+            ];
+            items[0].dateDeleted = MiscUtils.getUTCDateTime();
+            group.setItems(items);
         });
 
-        it('test getItems()', () => {
-            expect(abstractGroupImpl).toBeDefined();
-
-            // 4,3,2,1 -> avmi1,2,4,3
-            let showDeleted: AbstractViewModel[] = abstractGroupImpl.getItems();
-            expect(showDeleted).toBeDefined();
-            expect(showDeleted.length).toEqual(4);
-            expect(showDeleted).toContain(avmi1);
-            expect(showDeleted[0]).toEqual(avmi1);
-            expect(showDeleted[1]).toEqual(avmi2);
-            expect(showDeleted[2]).toEqual(avmi4);
-            expect(showDeleted[3]).toEqual(avmi3);
-        });
-    });
-
-    describe('AbstractGroup test - test value changed it is reflected in original data', () => {
-        let isSet: boolean = false;
-        let countNotSet: number = 0;
-
-        beforeEach(() => {
-            abstractGroupImpl = new AbstractGroupImpl();
-            abstractGroupImpl.ngOnInit();
-            avmi1 = new AbstractViewModelImpl('4');
-            avmi2 = new AbstractViewModelImpl('3');
-            avmi4 = new AbstractViewModelImpl('2');
-            avmi3 = new AbstractViewModelImpl('1');
-            let list: AbstractViewModelImpl[] = [];
-            list.push(avmi1, avmi2, avmi3, avmi4);
-            abstractGroupImpl.setItems(list);
-
-            isSet = false;
-            countNotSet = 0;
+        it('should remove deleted items', () => {
+            expect(group.getItems().length).toEqual(3);
+            expect(_(group.getItems()).map(item => item.startDate).includes('2003-01-01T01:02:03.000Z')).toBeFalsy();
         });
 
-        it('test when item has value changed it is reflected in original data', () => {
-            let items: AbstractViewModel[] = abstractGroupImpl.getItems();
-            let first: AbstractViewModelImpl = <AbstractViewModelImpl> items[0];
-            expect(first.startDate).toEqual('4');
-            first.startDate = '99';
-            expect(first.startDate).toEqual('99');
-
-            let theDefault: AbstractViewModel[] = abstractGroupImpl.getItems();
-
-            for (let item of theDefault) {
-                let itemImpl = <AbstractViewModelImpl>item;
-                if (itemImpl.startDate && itemImpl.startDate === '99') {
-                    isSet = true;
-                } else {
-                    countNotSet++;
-                }
-            }
-            expect(isSet).toEqual(true);
-            expect(countNotSet).toBeGreaterThan(1);
+        it('should sort items by start date', () => {
+            expect(_.isEqual(group.getItems(), _.sortBy(items, item => item.startDate)));
         });
     });
 }

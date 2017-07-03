@@ -41,15 +41,13 @@ export class RadioInterferenceItemComponent extends AbstractItemComponent {
      */
     getFormControls(): ItemControls {
         return new ItemControls([
+            {id: new FormControl(null)},
             {observedDegradation: new FormControl('', [Validators.maxLength(100)])},
             {possibleProblemSource: new FormControl('', [Validators.maxLength(100)])},
             {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
             {endDate: new FormControl('')},
             {notes: new FormControl('', [Validators.maxLength(2000)])},
             {objectMap: new FormControl('')},
-            {dateDeleted: new FormControl('')},
-            {dateInserted: new FormControl('')},
-            {deletedReason: new FormControl('')}
         ]);
     }
 

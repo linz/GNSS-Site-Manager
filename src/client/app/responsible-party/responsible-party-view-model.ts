@@ -1,5 +1,4 @@
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { ObjectMap } from '../shared/json-data-view-model/data-view-translator';
 
 export class ResponsiblePartyViewModel extends AbstractViewModel {
     /**
@@ -14,18 +13,8 @@ export class ResponsiblePartyViewModel extends AbstractViewModel {
     public postalCode: string = null;
     public country: string = null;
     public email: string = null;
-    public phone: string = null;
+    public primaryPhone: string = null;
+    public secondaryPhone: string = null;
     public fax: string = null;
     public url: string = null;
-
-    constructor() {
-        super();
-    }
-
-    public getObjectMap(): ObjectMap {
-        throw new Error('Not supported');
-    }
-
-    createFieldMappings(): void {
-    }
 }

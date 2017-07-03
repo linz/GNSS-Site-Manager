@@ -121,6 +121,14 @@ export class ProjectConfig extends SeedConfig {
         name: 'map-factory',
         path: 'node_modules/map-factory/dist/lib/map-factory.js'
       },
+      {
+        name: 'ng2-validation',
+        path: 'node_modules/ng2-validation/bundles/ng2-validation.umd.js'
+      },
+      {
+        name: 'libphonenumber-js',
+        path: 'node_modules/libphonenumber-js/bundle/libphonenumber-js.min.js'
+      },
     ];
 
     this.addPackagesBundles(additionalPackages);

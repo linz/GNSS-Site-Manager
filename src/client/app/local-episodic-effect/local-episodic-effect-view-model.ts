@@ -2,21 +2,4 @@ import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abs
 
 export class LocalEpisodicEffectViewModel extends AbstractViewModel {
     public event: string = null;
-
-    constructor() {
-        super();
-    }
-
-    createFieldMappings(): void {
-        this.addFieldMapping('/localEpisodicEffect/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
-            'string',
-            '/startDate', 'date');
-
-        this.addFieldMapping('/localEpisodicEffect/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
-            'string',
-            '/endDate', 'date');
-
-        this.addFieldMapping('/localEpisodicEffect/event', 'string',
-            '/event', 'string');
-    };
 }

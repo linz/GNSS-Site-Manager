@@ -1,13 +1,13 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-    <div class="panel-heading">
-        <span class="panel-title cursor-ptr" tabindex="0"                                                
+    <div class="panel-heading item-header">
+        <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
             (keyup.enter)="toggleGroup($event)"
             (click)="toggleGroup($event)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(localEpisodicEffect.startDate, localEpisodicEffect.endDate)"></span>
+            <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
         <span *ngIf="localEpisodicEffect.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">
@@ -23,7 +23,7 @@
           </button>
         </span>
     </div>
-    <div class="panel-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isOpen">
         <div *ngIf=" localEpisodicEffect == null ">
             No information available for current Local Episodic Effect
         </div>

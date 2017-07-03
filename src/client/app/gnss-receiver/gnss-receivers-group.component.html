@@ -1,6 +1,6 @@
 <div [formGroup]="parentForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-    <div class="panel-heading">
-        <span class="panel-title cursor-ptr" tabindex="0"                                                
+    <div class="panel-heading group-header">
+        <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
             (keyup.enter)="toggleGroup($event)"
             (click)="toggleGroup($event)">
@@ -17,7 +17,7 @@
             </button>
         </span>
     </div>
-    <div class="panel-body" [hidden]="! isGroupOpen">
+    <div class="panel-body group-body" [hidden]="! isGroupOpen">
         <div *ngIf="!hasItems()">
             No information available for GNSS Receivers
         </div>

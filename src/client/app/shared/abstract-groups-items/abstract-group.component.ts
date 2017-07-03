@@ -1,4 +1,4 @@
-import { Input, OnInit } from '@angular/core';
+import { Input, OnChanges, SimpleChange } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 
 export const newItemShouldBeBlank: boolean = true;
 
-export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent implements OnInit {
+export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent implements OnChanges {
     isGroupOpen: boolean = false;
 
     // flag to indicate that the current or latest item in a group has an end date set
@@ -65,8 +65,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         super(userAuthService);
     }
 
-    ngOnInit() {
-        this.setupForm();
+    ngOnChanges(changes: { [property: string]: SimpleChange }) {
+        if (changes['siteLogModel']) {
+            this.setupForm();
+        }
     }
 
     /**
@@ -105,7 +107,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     setItems(items: T[]) {
         if (items) {
-            this.items = items;
+            items.forEach((element: T, i: number) => {
+                element.id = i;
+            });
+            this.items = _.filter(items, item => !item.dateDeleted);
             this.items.sort(AbstractGroupComponent.compare);
             this.items.forEach(() => {
                 this.groupArrayForm.insert(0, new FormGroup({}));
@@ -172,16 +177,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         let date: string = MiscUtils.getUTCDateTime();
         let item: T = this.getItems()[index];
         item.dateDeleted = date;
-        item.deletedReason= reason;
-        if (this.groupArrayForm.length > index) {
-            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
-            if (formGroup.controls['dateDeleted']) {
-                formGroup.controls['dateDeleted'].setValue(date);
-            }
-            if (formGroup.controls['deletedReason']) {
-                formGroup.controls['deletedReason'].setValue(reason);
-            }
-        }
+        item.deletedReason = reason;
+        item.isDeleted = true;
     }
 
     /**
@@ -254,11 +251,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             formGroup.controls['startDate'].setValue(dateUtc);
             formGroup.controls['startDate'].markAsDirty();
         }
-
         item.dateInserted = dateUtc;
-        if (formGroup.controls['dateInserted']) {
-            formGroup.controls['dateInserted'].setValue(dateUtc);
-        }
     }
 
     /**

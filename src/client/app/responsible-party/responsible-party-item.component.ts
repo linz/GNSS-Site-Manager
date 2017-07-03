@@ -90,6 +90,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
         let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(100)]
                                                             : [Validators.maxLength(100)];
         return new ItemControls([
+            {id: new FormControl(null)},
             {individualName: new FormControl('', [Validators.maxLength(100)])},
             {organisationName: new FormControl('', organisationValidators)},
             {positionName: new FormControl('', [Validators.maxLength(50)])},
@@ -98,10 +99,11 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             {administrativeArea: new FormControl('', [Validators.maxLength(50)])},
             {postalCode: new FormControl('', [Validators.maxLength(25)])},
             {country: new FormControl('')}, //, [Validators.maxLength(2000)]],
-            {email: new FormControl('', [Validators.maxLength(50)])},
-            {phone: new FormControl('', [Validators.maxLength(25)])},
+            {email: new FormControl('')},
+            {primaryPhone: new FormControl('', [Validators.maxLength(25)])},
+            {secondaryPhone: new FormControl('', [Validators.maxLength(25)])},
             {fax: new FormControl('', [Validators.maxLength(25)])},
-            {url: new FormControl('', [Validators.maxLength(200)])},
+            {url: new FormControl('')},
         ]);
     }
 

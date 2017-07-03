@@ -68,6 +68,12 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         setTimeout(() => {
             if (this.isEditable()) {
                 this.itemGroup.enable();
+                // add a listener for changes to the start date field
+                if (this.itemGroup.controls.startDate) {
+                    this.itemGroup.controls.startDate.valueChanges.subscribe(
+                        updatedStartDate => this.updateEndDateOnPreviousItem(updatedStartDate)
+                    );
+                }
             } else {
                 this.itemGroup.disable();
             }
@@ -211,9 +217,8 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      */
     public getItemHeaderHtml(): string {
 
-        // TODO - change view model to be exclusively Date and fix this
-        let startDatetime: any = this.getItem().startDate;
-        let endDatetime: any = this.getItem().endDate;
+        let startDatetime: any = this.itemGroup.controls.startDate.value;
+        let endDatetime: any = this.itemGroup.controls.endDate.value;
 
         let headerHtml: string = '<span class="hidden-xsm">'
                                + (this.getIndex() === 0 ? 'Current' : 'Previous')
@@ -291,6 +296,21 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         }
     }
 
+    /**
+     * Updates the end date on the previous item.
+     */
+    private updateEndDateOnPreviousItem(updatedStartDate: string): void {
+        if (this.groupArray.length > this.index) {
+            let previousItem = <FormGroup> this.groupArray.at(this.index+1);
+            if (previousItem && previousItem.controls['endDate']) {
+                let endDateControl = previousItem.controls.endDate;
+                if (endDateControl && endDateControl.value !== updatedStartDate) {
+                    endDateControl.setValue(updatedStartDate);
+                    endDateControl.markAsDirty();
+                }
+            }
+        }
+    }
 
     /**
      * When the group is setup, blank FormGroups for the contained Items are created (no controsl).  This method populates the

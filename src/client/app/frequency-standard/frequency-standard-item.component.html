@@ -1,12 +1,12 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" id="frequencyStandard_{{index}}" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-  <div class="panel-heading">
-    <span class="panel-title cursor-ptr" tabindex="0"                                                
+  <div class="panel-heading item-header">
+    <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
             (keyup.enter)="toggleGroup($event)"
             (click)="toggleGroup($event)">
         <i class="glyphicon"[ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
         </i>
-        <span [innerHTML]="getItemHeaderHtml(frequencyStandard.startDate, frequencyStandard.endDate)"></span>
+        <span [innerHTML]="getItemHeaderHtml()"></span>
     </span>
     <span *ngIf="frequencyStandard.dateDeleted" class="delete-marker"
         title="It will be deleted when saving all changes for the site">
@@ -22,7 +22,7 @@
         </button>
         </span>
     </div>
-    <div class="panel-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isOpen">
         <div *ngIf=" frequencyStandard == null " class="margin-bottom15">
             No information available for current frequency standard
         </div>

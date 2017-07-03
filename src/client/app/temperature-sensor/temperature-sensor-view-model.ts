@@ -9,42 +9,4 @@ export class TemperatureSensorViewModel extends AbstractViewModel {
     public serialNumber: string = null;
     public heightDiffToAntenna: number = null;
     public aspiration: string = null;
-
-    constructor() {
-        super();
-    }
-
-    createFieldMappings(): void {
-        this.addFieldMapping('/temperatureSensor/validTime/abstractTimePrimitive/gml:TimePeriod/beginPosition/value/0',
-            'string',
-            '/startDate', 'date');
-
-        this.addFieldMapping('/temperatureSensor/validTime/abstractTimePrimitive/gml:TimePeriod/endPosition/value/0',
-            'string',
-            '/endDate', 'date');
-
-        this.addFieldMapping('/temperatureSensor/calibrationDate/value/0', 'string',
-            '/calibrationDate', 'date');
-
-        this.addFieldMapping('/temperatureSensor/dataSamplingInterval', 'string',
-            '/dataSamplingInterval', 'number');
-
-        this.addFieldMapping('/temperatureSensor/accuracyDegreesCelcius', 'string',
-            '/accuracyDegreesCelcius', 'number');
-
-        this.addFieldMapping('/temperatureSensor/notes', 'string',
-            '/notes', 'string');
-
-        this.addFieldMapping('/temperatureSensor/manufacturer', 'string',
-            '/manufacturer', 'string');
-
-        this.addFieldMapping('/temperatureSensor/serialNumber', 'string',
-            '/serialNumber', 'string');
-
-        this.addFieldMapping('/temperatureSensor/heightDiffToAntenna', 'string',
-            '/heightDiffToAntenna', 'number');
-
-        this.addFieldMapping('/temperatureSensor/aspiration', 'string',
-            '/aspiration', 'number');
-    };
 }

@@ -85,6 +85,13 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
         this.isLoading = true;
         this.route.data.subscribe((data: {siteLogModel: SiteLogViewModel}) => {
+
+            // if we already have a siteLogForm then this looks like a good place to reload the page
+            // TODO possibly work out a way to clear out all the data instead
+            if (this.siteLogForm) {
+                window.location.reload();
+            }
+
             this.siteLogModel = data.siteLogModel;
             this.setupAuthSubscription();
             this.setupForm();
@@ -157,8 +164,28 @@ export class SiteLogComponent implements OnInit, OnDestroy {
 
     public saveExistingSiteLog(formValue: any) {
 
-        _.merge(this.siteLogModel, formValue);
-        this.removeDeletedItems();
+        _.mergeWith(this.siteLogModel, formValue,
+            (objectValue: any, sourceValue: any, key: string, _object: any, _source: any, stack: any) => {
+                if (stack.size === 0 && _.isArray(objectValue)) {
+                    let existingItems: any[] = [];
+                    let newItems: any[] = [];
+                    objectValue.concat(sourceValue).forEach((item: any) => {
+                        if (item.id != null) {
+                            existingItems[item.id] = Object.assign(existingItems[item.id] || {}, item);
+                        } else {
+                            newItems.push(item);
+                        }
+                    });
+                    return existingItems.concat(newItems);
+                } else {
+                    return undefined;
+                }
+            }
+        );
+        this.removeDeletedResponsibleParties();
+
+        // TODO: what's a good way to force `@Input siteLogModel` in child components?
+        this.siteLogModel = _.clone(this.siteLogModel);
 
         this.siteLogService.saveSiteLog(this.siteLogModel)
             .takeUntil(this.unsubscribe)
@@ -189,6 +216,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     public saveNewSiteLog(formValue: any) {
 
         _.merge(this.siteLogModel, formValue);
+        this.removeDeletedItems();
+
         this.siteLogService.saveNewSiteLog(this.siteLogModel)
             .takeUntil(this.unsubscribe)
             .subscribe(
@@ -205,8 +234,13 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                         applicationFormInvalid: false,
                         applicationSaveState: ApplicationSaveState.idle
                     });
-                    this.goToHomePage();
+
                     this.dialogService.showSuccessMessage('Done in saving new site log data');
+                    this.dialogService.showNotificationDialog(
+                        `Thank you for requesting a new site. You will be contacted by a member
+                         from the GNSS Operations Team at Geoscience Australia regarding your request.`,
+                        () => this.goToHomePage()
+                    );
                 },
                 (error: Error) => {
                     this.isLoading = false;
@@ -408,6 +442,14 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         }
     }
 
+    private removeDeletedResponsibleParties() {
+        this.removeDeletedGroupItems(this.siteLogModel.siteOwner);
+        this.removeDeletedGroupItems(this.siteLogModel.siteContacts);
+        this.removeDeletedGroupItems(this.siteLogModel.siteMetadataCustodian);
+        this.removeDeletedGroupItems(this.siteLogModel.siteDataCenters);
+        this.removeDeletedGroupItems(this.siteLogModel.siteDataSource);
+    }
+
     /**
      * When items are deleted they are given a dateRemoved, but aren't deleted until now (so they show up in the diff).
      */
@@ -424,9 +466,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     private removeDeletedGroupItems(siteLogModelGroupItems: any[]) {
         let i: number;
         for (i = siteLogModelGroupItems.length - 1; i >= 0; i--) {
-            if (siteLogModelGroupItems[i].hasOwnProperty('dateDeleted')
-                && siteLogModelGroupItems[i]['dateDeleted']
-                && siteLogModelGroupItems[i]['dateDeleted'].length > 0) {
+            if (siteLogModelGroupItems[i].isDeleted) {
                 siteLogModelGroupItems.splice(i, 1);
             }
         }

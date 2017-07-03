@@ -1,13 +1,13 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
-    <div class="panel-heading">
-        <span class="panel-title cursor-ptr" tabindex="0"                                                
+    <div class="panel-heading item-header">
+        <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
             (keyup.enter)="toggleGroup($event)"
             (click)="toggleGroup($event)">
             <i class="glyphicon"
                [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
             </i>
-            <span [innerHTML]="getItemHeaderHtml(surveyedLocalTie.startDate)"></span>
+            <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
         <span *ngIf="surveyedLocalTie.dateDeleted" class="delete-marker"
             title="It will be deleted when saving all changes for the site">
@@ -23,7 +23,7 @@
         </button>
         </span>
     </div>
-    <div class="panel-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isOpen">
         <div *ngIf=" surveyedLocalTie == null ">
             No information available for Surveyed Local Ties
         </div>
@@ -33,10 +33,10 @@
                 <text-input formControlName="tiedMarkerUsage" controlName="tiedMarkerUsage" [form]="itemGroup">Tied Marker Usage</text-input>
                 <text-input formControlName="tiedMarkerCDPNumber" controlName="tiedMarkerCDPNumber" [form]="itemGroup">Tied Marker CDP Number</text-input>
                 <text-input formControlName="tiedMarkerDOMESNumber" controlName="tiedMarkerDOMESNumber" [form]="itemGroup">Tied Marker DOMES Number</text-input>
-                <text-input formControlName="dx" controlName="dx" [form]="itemGroup">dx (m)</text-input>
-                <text-input formControlName="dy" controlName="dy" [form]="itemGroup">dy (m)</text-input>
-                <text-input formControlName="dz" controlName="dz" [form]="itemGroup">dz (m)</text-input>
-                <text-input formControlName="localSiteTiesAccuracy" controlName="localSiteTiesAccuracy" [form]="itemGroup">Local Site Ties Accuracy (mm)</text-input>
+                <number-input formControlName="dx" controlName="dx" [form]="itemGroup">dx (m)</number-input>
+                <number-input formControlName="dy" controlName="dy" [form]="itemGroup">dy (m)</number-input>
+                <number-input formControlName="dz" controlName="dz" [form]="itemGroup">dz (m)</number-input>
+                <number-input formControlName="localSiteTiesAccuracy" controlName="localSiteTiesAccuracy" [form]="itemGroup">Local Site Ties Accuracy (mm)</number-input>
                 <text-input formControlName="surveyMethod" controlName="surveyMethod" [form]="itemGroup">Survey Method</text-input>
                 <datetime-input [form]="itemGroup" controlName="startDate" [required]="false">Date Measured (UTC)</datetime-input>
                 <textarea-input rows="2" formControlName="notes" controlName="notes" [form]="itemGroup">Notes</textarea-input>

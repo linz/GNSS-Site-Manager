@@ -1,18 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
-import { SurveyedLocalTieViewModel } from '../../surveyed-local-tie/surveyed-local-tie-view-model';
-import { FrequencyStandardViewModel } from '../../frequency-standard/frequency-standard-view-model';
-import { LocalEpisodicEffectViewModel } from '../../local-episodic-effect/local-episodic-effect-view-model';
-import { HumiditySensorViewModel } from '../../humidity-sensor/humidity-sensor-view-model';
-import { PressureSensorViewModel } from '../../pressure-sensor/pressure-sensor-view-model';
-import { TemperatureSensorViewModel } from '../../temperature-sensor/temperature-sensor-view-model';
-import { WaterVaporSensorViewModel } from '../../water-vapor-sensor/water-vapor-sensor-view-model';
 import { SiteLogViewModel } from './view-model/site-log-view-model';
-import { AbstractViewModel } from './view-model/abstract-view-model';
-import { DataViewTranslatorService, ObjectMap } from './data-view-translator';
-import { RadioInterferenceViewModel } from '../../radio-interference/radio-interference-view-model';
-import { SignalObstructionViewModel } from '../../signal-obstruction/signal-obstruction-view-model';
-import { MultipathSourceViewModel } from '../../multipath-source/multipath-source-view-model';
+import { ObjectMap } from './object-map';
 import * as _ from 'lodash';
 import { MiscUtils } from '../global/misc-utils';
 import { CartesianPosition, GeodeticPosition } from '../../site-log/site-location-view-model';
@@ -93,7 +82,8 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.postalCode.characterString.gco:CharacterString', 'postalCode')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.city.country.characterString.gco:CharacterString', 'country')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.electronicMailAddress[0].characterString.gco:CharacterString', 'email')
-    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'phone')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'primaryPhone')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[1].characterString.gco:CharacterString', 'secondaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource.ciOnlineResource.linkage.url', 'url')
 ;
@@ -108,7 +98,12 @@ let gnssReceiverMap = new ObjectMap()
     .addFieldMap('gnssReceiver.igsModelCode.value', 'receiverType')
     .addFieldMap('gnssReceiver.manufacturerSerialNumber', 'manufacturerSerialNumber')
     .addFieldMap('gnssReceiver.firmwareVersion', 'firmwareVersion')
-    .addFieldMap('gnssReceiver.satelliteSystem[0].value', 'satelliteSystem')
+
+    .addFieldMap('gnssReceiver.satelliteSystem', 'satelliteSystems', new ObjectMap()
+        .addSourcePreMap((satelliteSystem: { value: string }) => satelliteSystem.value)
+        .addSourcePostMap((satelliteSystem: string) => { return { value: satelliteSystem }; })
+    )
+
     .addFieldMap('gnssReceiver.elevationCutoffSetting', 'elevationCutoffSetting')
     .addFieldMap('gnssReceiver.temperatureStabilization', 'temperatureStabilization')
     .addFieldMap('gnssReceiver.notes', 'notes')
@@ -132,6 +127,134 @@ let gnssAntennaMap = new ObjectMap()
     .addFieldMap('gnssAntenna.antennaCableType', 'antennaCableType')
     .addFieldMap('gnssAntenna.antennaCableLength', 'antennaCableLength')
     .addFieldMap('gnssAntenna.notes', 'notes')
+;
+
+let surveyedLocalTieMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('surveyedLocalTie.tiedMarkerName', 'tiedMarkerName')
+    .addFieldMap('surveyedLocalTie.tiedMarkerUsage', 'tiedMarkerUsage')
+    .addFieldMap('surveyedLocalTie.tiedMarkerCDPNumber', 'tiedMarkerCDPNumber')
+    .addFieldMap('surveyedLocalTie.tiedMarkerDOMESNumber', 'tiedMarkerDOMESNumber')
+    .addFieldMap('surveyedLocalTie.localSiteTiesAccuracy', 'localSiteTiesAccuracy')
+    .addFieldMap('surveyedLocalTie.surveyMethod', 'surveyMethod')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dx', 'dx')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dy', 'dy')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dz', 'dz')
+    .addFieldMap('surveyedLocalTie.dateMeasured.value[0]', 'startDate', dateMap)
+    .addFieldMap('surveyedLocalTie.notes', 'notes')
+;
+
+let frequencyStandardMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('frequencyStandard.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('frequencyStandard.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('frequencyStandard.standardType.value', 'standardType')
+    .addFieldMap('frequencyStandard.inputFrequency', 'inputFrequency')
+    .addFieldMap('frequencyStandard.notes', 'notes')
+;
+
+let localEpisodicEffectMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('localEpisodicEffect.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('localEpisodicEffect.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('localEpisodicEffect.event', 'event')
+;
+
+let humiditySensorMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('humiditySensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('humiditySensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('humiditySensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
+    .addFieldMap('humiditySensor.dataSamplingInterval', 'dataSamplingInterval')
+    .addFieldMap('humiditySensor.accuracyPercentRelativeHumidity', 'accuracyPercentRelativeHumidity')
+    .addFieldMap('humiditySensor.aspiration', 'aspiration')
+    .addFieldMap('humiditySensor.manufacturer', 'manufacturer')
+    .addFieldMap('humiditySensor.serialNumber', 'serialNumber')
+    .addFieldMap('humiditySensor.heightDiffToAntenna', 'heightDiffToAntenna')
+    .addFieldMap('humiditySensor.notes', 'notes')
+;
+
+let pressureSensorMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('pressureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('pressureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('pressureSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
+    .addFieldMap('pressureSensor.dataSamplingInterval', 'dataSamplingInterval')
+    .addFieldMap('pressureSensor.accuracyHPa', 'accuracyHPa')
+    .addFieldMap('pressureSensor.manufacturer', 'manufacturer')
+    .addFieldMap('pressureSensor.serialNumber', 'serialNumber')
+    .addFieldMap('pressureSensor.heightDiffToAntenna', 'heightDiffToAntenna')
+    .addFieldMap('pressureSensor.notes', 'notes')
+;
+
+let temperatureSensorMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('temperatureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('temperatureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('temperatureSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
+    .addFieldMap('temperatureSensor.dataSamplingInterval', 'dataSamplingInterval')
+    .addFieldMap('temperatureSensor.accuracyDegreesCelcius', 'accuracyDegreesCelcius')
+    .addFieldMap('temperatureSensor.manufacturer', 'manufacturer')
+    .addFieldMap('temperatureSensor.serialNumber', 'serialNumber')
+    .addFieldMap('temperatureSensor.heightDiffToAntenna', 'heightDiffToAntenna')
+    .addFieldMap('temperatureSensor.aspiration', 'aspiration')
+    .addFieldMap('temperatureSensor.notes', 'notes')
+;
+
+let waterVaporSensorMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('waterVaporSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('waterVaporSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('waterVaporSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
+    .addFieldMap('waterVaporSensor.manufacturer', 'manufacturer')
+    .addFieldMap('waterVaporSensor.serialNumber', 'serialNumber')
+    .addFieldMap('waterVaporSensor.heightDiffToAntenna', 'heightDiffToAntenna')
+    .addFieldMap('waterVaporSensor.notes', 'notes')
+;
+
+let radioInterferenceMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('radioInterference.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('radioInterference.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('radioInterference.possibleProblemSource', 'possibleProblemSource')
+    .addFieldMap('radioInterference.observedDegradation', 'observedDegradation')
+    .addFieldMap('radioInterference.notes', 'notes')
+;
+
+let signalObstructionMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('signalObstruction.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('signalObstruction.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('signalObstruction.possibleProblemSource', 'possibleProblemSource')
+    .addFieldMap('signalObstruction.notes', 'notes')
+;
+
+let multipathSourceMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('multipathSource.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('multipathSource.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('multipathSource.possibleProblemSource', 'possibleProblemSource')
+    .addFieldMap('multipathSource.notes', 'notes')
 ;
 
 function removeNullsFromArrays(obj: Object): void {
@@ -168,6 +291,19 @@ let siteLogMap = new ObjectMap()
 
     .addFieldMap('gnssReceivers', 'gnssReceivers', gnssReceiverMap)
     .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
+    .addFieldMap('frequencyStandards', 'frequencyStandards', frequencyStandardMap)
+
+    .addFieldMap('surveyedLocalTies', 'surveyedLocalTies', surveyedLocalTieMap)
+    .addFieldMap('localEpisodicEffects', 'localEpisodicEffects', localEpisodicEffectMap)
+
+    .addFieldMap('humiditySensors', 'humiditySensors', humiditySensorMap)
+    .addFieldMap('pressureSensors', 'pressureSensors', pressureSensorMap)
+    .addFieldMap('temperatureSensors', 'temperatureSensors', temperatureSensorMap)
+    .addFieldMap('waterVaporSensors', 'waterVaporSensors', waterVaporSensorMap)
+
+    .addFieldMap('radioInterferences', 'radioInterferences', radioInterferenceMap)
+    .addFieldMap('signalObstruction', 'signalObstruction', signalObstructionMap)
+    .addFieldMap('multipathSource', 'multipathSource', multipathSourceMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);
@@ -192,18 +328,6 @@ export class JsonViewModelService {
 
         let siteLogViewModel: SiteLogViewModel = new SiteLogViewModel();
 
-        siteLogViewModel.surveyedLocalTies = this.dataToViewModel(siteLogDataModel.surveyedLocalTies, SurveyedLocalTieViewModel);
-        siteLogViewModel.frequencyStandards = this.dataToViewModel(siteLogDataModel.frequencyStandards, FrequencyStandardViewModel);
-        siteLogViewModel.localEpisodicEffects = this.dataToViewModel(siteLogDataModel.localEpisodicEffects, LocalEpisodicEffectViewModel);
-        siteLogViewModel.humiditySensors = this.dataToViewModel(siteLogDataModel.humiditySensors, HumiditySensorViewModel);
-        siteLogViewModel.pressureSensors = this.dataToViewModel(siteLogDataModel.pressureSensors, PressureSensorViewModel);
-        siteLogViewModel.temperatureSensors = this.dataToViewModel(siteLogDataModel.temperatureSensors, TemperatureSensorViewModel);
-        siteLogViewModel.waterVaporSensors = this.dataToViewModel(siteLogDataModel.waterVaporSensors, WaterVaporSensorViewModel);
-
-        siteLogViewModel.radioInterferences = this.dataToViewModel(siteLogDataModel.radioInterferences, RadioInterferenceViewModel);
-        siteLogViewModel.signalObstructions = this.dataToViewModel(siteLogDataModel.signalObstructions, SignalObstructionViewModel);
-        siteLogViewModel.multipathSources = this.dataToViewModel(siteLogDataModel.multipathSources, MultipathSourceViewModel);
-
         // For now just copy the DataModel parts over that haven't had translate to view written yet
         siteLogViewModel.moreInformation = siteLogDataModel.moreInformation;
         siteLogViewModel.dataStreams = siteLogDataModel.dataStreams;
@@ -219,13 +343,6 @@ export class JsonViewModelService {
 
         let siteLogDataModel: SiteLogDataModel = new SiteLogDataModel({'geo:siteLog':{}});
 
-        siteLogDataModel.surveyedLocalTies = this.viewToDataModel(viewModel.surveyedLocalTies);
-        siteLogDataModel.frequencyStandards = this.viewToDataModel(viewModel.frequencyStandards);
-        siteLogDataModel.localEpisodicEffects = this.viewToDataModel(viewModel.localEpisodicEffects);
-        siteLogDataModel.humiditySensors = this.viewToDataModel(viewModel.humiditySensors);
-        siteLogDataModel.pressureSensors = this.viewToDataModel(viewModel.pressureSensors);
-        siteLogDataModel.temperatureSensors = this.viewToDataModel(viewModel.temperatureSensors);
-        siteLogDataModel.waterVaporSensors = this.viewToDataModel(viewModel.waterVaporSensors);
 
         siteLogDataModel.moreInformation = viewModel.moreInformation;
         siteLogDataModel.dataStreams = viewModel.dataStreams;
@@ -234,39 +351,5 @@ export class JsonViewModelService {
 
         console.debug('viewModelToDataModel - siteLogDataModel: ', siteLogDataModel);
         return siteLogDataModel;
-    }
-
-    /* ***************************** Helper functions ***************************** */
-    /**
-     * Translate data model to view model
-     * @param dataModels - array of data model items to convert
-     * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
-     * @returns {AbstractViewModel[]} that is the super type of all view model types
-     */
-    private dataToViewModel<T extends AbstractViewModel>(dataModels: any[], type: {new(): T ;}): T[] {
-        let viewModels: T[] = [];
-        for (let dataModel of dataModels) {
-            let newViewModel: T = new type();
-            DataViewTranslatorService.translate(dataModel, newViewModel, newViewModel.getObjectMap());
-            viewModels.push(newViewModel);
-        }
-        return viewModels;
-    }
-
-    /**
-     * Translate view model to data model
-     * @param viewModels - array of view model items to convert
-     * @param viewModelInstance - used as a template to copy and populate.  And has methods used.
-     * @returns {any[]} - translated data model
-     */
-    private viewToDataModel<T extends AbstractViewModel>(viewModels: T[]): any[] {
-        let dataModels: any[] = [];
-        for (let viewModel of viewModels) {
-            let objectMap = (<T> viewModel).getObjectMap();
-            let dataModel: any = {};
-            DataViewTranslatorService.translate(viewModel, dataModel, objectMap.inverse());
-            dataModels.push(dataModel);
-        }
-        return dataModels;
     }
 }

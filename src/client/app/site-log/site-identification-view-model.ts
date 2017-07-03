@@ -2,8 +2,7 @@
  * This is the 'View Model' for Site Identification.
  *
  */
-import { AbstractViewModel, dontSetDetfaults } from '../shared/json-data-view-model/view-model/abstract-view-model';
-import { ObjectMap } from '../shared/json-data-view-model/data-view-translator';
+import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
 
 export class SiteIdentificationViewModel extends AbstractViewModel {
     public siteName: string = null;
@@ -24,15 +23,4 @@ export class SiteIdentificationViewModel extends AbstractViewModel {
     public faultZonesNearby: string = null;
     public distanceActivity: string = null;
     public notes: string = null;
-
-    constructor() {
-        super(dontSetDetfaults);
-    }
-
-    public getObjectMap(): ObjectMap {
-        throw new Error('Not supported');
-    }
-
-    createFieldMappings(): void {
-    };
 }

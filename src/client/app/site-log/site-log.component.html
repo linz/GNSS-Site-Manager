@@ -8,7 +8,7 @@
             <div class="panel-group">
                 <div [formGroup]="siteInformationForm" class="panel panel-level-1"
                      [ngClass]="{'gnss-dirty': isSiteInformationFormDirty(), 'gnss-invalid': isSiteInformationFormInvalid()}">
-                    <div class="panel-heading">
+                    <div class="panel-heading group-header">
                         <span class="panel-title cursor-ptr" tabindex="0"
                             (keyup.space)="isSiteInfoFormOpen = miscUtils.scrollIntoView($event, isSiteInfoFormOpen)"
                             (keyup.enter)="isSiteInfoFormOpen = miscUtils.scrollIntoView($event, isSiteInfoFormOpen)"
@@ -18,7 +18,7 @@
                             Site Information
                         </span>
                     </div>
-                    <div class="panel-body" [hidden]="!isSiteInfoFormOpen">
+                    <div class="panel-body group-body" [hidden]="!isSiteInfoFormOpen">
                         <site-identification [parentForm]="siteInformationForm"
                                              [siteLogModel]="siteLogModel">
                         </site-identification>
