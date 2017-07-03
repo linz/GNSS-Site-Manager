@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-item.component';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -35,8 +35,10 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     protected isMetadataCustodian: boolean;
     protected isDataCenter: boolean;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
-                protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService,
+                protected dialogService: DialogService,
+                protected siteLogService: SiteLogService,
+                protected formBuilder: FormBuilder) {
         super(userAuthService, dialogService, siteLogService);
     }
 
@@ -82,29 +84,27 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     }
 
     /**
-     * Return the controls to become the form.
-     *
-     * @return array of AbstractControl objects
+     * Return the item form with default values and form controls.
      */
-    getFormControls(): ItemControls {
+    getItemForm(): FormGroup {
         let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(100)]
                                                             : [Validators.maxLength(100)];
-        return new ItemControls([
-            {id: new FormControl(null)},
-            {individualName: new FormControl('', [Validators.maxLength(100)])},
-            {organisationName: new FormControl('', organisationValidators)},
-            {positionName: new FormControl('', [Validators.maxLength(50)])},
-            {deliveryPoint: new FormControl('', [Validators.maxLength(50)])},
-            {city: new FormControl('', [Validators.maxLength(50)])},
-            {administrativeArea: new FormControl('', [Validators.maxLength(50)])},
-            {postalCode: new FormControl('', [Validators.maxLength(25)])},
-            {country: new FormControl('')}, //, [Validators.maxLength(2000)]],
-            {email: new FormControl('')},
-            {primaryPhone: new FormControl('', [Validators.maxLength(25)])},
-            {secondaryPhone: new FormControl('', [Validators.maxLength(25)])},
-            {fax: new FormControl('', [Validators.maxLength(25)])},
-            {url: new FormControl('')},
-        ]);
+        return this.formBuilder.group({
+            id: [null],
+            individualName: ['', [Validators.maxLength(100)]],
+            organisationName: ['', organisationValidators],
+            positionName: ['', [Validators.maxLength(50)]],
+            deliveryPoint: ['', [Validators.maxLength(50)]],
+            city: ['', [Validators.maxLength(50)]],
+            administrativeArea: ['', [Validators.maxLength(50)]],
+            postalCode: ['', [Validators.maxLength(25)]],
+            country: [''],
+            email: [''],
+            primaryPhone: ['', [Validators.maxLength(25)]],
+            secondaryPhone: ['', [Validators.maxLength(25)]],
+            fax: ['', [Validators.maxLength(25)]],
+            url: [''],
+        });
     }
 
     /**

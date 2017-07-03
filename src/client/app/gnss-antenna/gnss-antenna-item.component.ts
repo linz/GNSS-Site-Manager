@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-item.component';
 import { GnssAntennaViewModel } from './gnss-antenna-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -21,8 +21,10 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
      */
     @Input() antenna: GnssAntennaViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
-                protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService,
+                protected dialogService: DialogService,
+                protected siteLogService: SiteLogService,
+                protected formBuilder: FormBuilder) {
         super(userAuthService, dialogService, siteLogService);
     }
 
@@ -35,28 +37,26 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
     }
 
     /**
-     * Return the controls to become the form.
-     *
-     * @return array of AbstractControl objects
+     * Return the item form with default values and form controls.
      */
-    getFormControls(): ItemControls {
-        return new ItemControls([
-            {id: new FormControl(null)},
-            {antennaType: new FormControl('', [Validators.maxLength(100)])},
-            {serialNumber: new FormControl('', [Validators.maxLength(50)])},
-            {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
-            {endDate: new FormControl('')},
-            {antennaReferencePoint: new FormControl('', [Validators.maxLength(50)])},
-            {markerArpEastEcc: new FormControl('', [Validators.maxLength(50)])},
-            {markerArpUpEcc: new FormControl('', [Validators.maxLength(50)])},
-            {markerArpNorthEcc: new FormControl('', [Validators.maxLength(50)])},
-            {alignmentFromTrueNorth: new FormControl('', [Validators.maxLength(50)])},
-            {antennaRadomeType: new FormControl('', [Validators.maxLength(50)])},
-            {radomeSerialNumber: new FormControl('', [Validators.maxLength(50)])},
-            {antennaCableType: new FormControl('', [Validators.maxLength(25)])},
-            {antennaCableLength: new FormControl('', [Validators.maxLength(25)])},
-            {notes: new FormControl('', [Validators.maxLength(2000)])},
-            {objectMap: new FormControl('')},
-        ]);
+    getItemForm(): FormGroup {
+        return this.formBuilder.group({
+            id: [null],
+            antennaType: ['', [Validators.maxLength(100)]],
+            serialNumber: ['', [Validators.maxLength(50)]],
+            startDate: [''],
+            endDate: [''],
+            antennaReferencePoint: ['', [Validators.maxLength(50)]],
+            markerArpEastEcc: ['', [Validators.maxLength(50)]],
+            markerArpUpEcc: ['', [Validators.maxLength(50)]],
+            markerArpNorthEcc: ['', [Validators.maxLength(50)]],
+            alignmentFromTrueNorth: ['', [Validators.maxLength(50)]],
+            antennaRadomeType: ['', [Validators.maxLength(50)]],
+            radomeSerialNumber: ['', [Validators.maxLength(50)]],
+            antennaCableType: ['', [Validators.maxLength(25)]],
+            antennaCableLength: ['', [Validators.maxLength(25)]],
+            notes: ['', [Validators.maxLength(2000)]],
+            objectMap: [''],
+        });
     }
 }

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-item.component';
 import { TemperatureSensorViewModel } from './temperature-sensor-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -21,8 +21,10 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
      */
     @Input() temperatureSensor: TemperatureSensorViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
-                protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService,
+                protected dialogService: DialogService,
+                protected siteLogService: SiteLogService,
+                protected formBuilder: FormBuilder) {
         super(userAuthService, dialogService, siteLogService);
     }
 
@@ -35,25 +37,22 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
     }
 
     /**
-     * Return the controls to become the form.
-     *
-     * @return array of AbstractControl objects
+     * Return the item form with default values and form controls.
      */
-    getFormControls(): ItemControls {
-        return new ItemControls([
-            {id: new FormControl(null)},
-            {manufacturer: new FormControl(' ', [Validators.required, Validators.maxLength(50)])},
-            {serialNumber: new FormControl(' ', [Validators.required, Validators.maxLength(25)])},
-            {dataSamplingInterval: new FormControl('', [Validators.maxLength(25)])},
-            {accuracyDegreesCelcius: new FormControl('', [Validators.maxLength(25)])},
-            {heightDiffToAntenna: new FormControl('', [Validators.maxLength(25)])},
-            {aspiration: new FormControl('', [Validators.maxLength(50)])},
-            {calibrationDate: new FormControl('')},
-            {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
-            {endDate: new FormControl('')},
-            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
-            {objectMap: new FormControl('')},
-        ]);
+    getItemForm(): FormGroup {
+        return this.formBuilder.group({
+            id: [null],
+            manufacturer: [' ', [Validators.required, Validators.maxLength(50)]],
+            serialNumber: [' ', [Validators.required, Validators.maxLength(25)]],
+            dataSamplingInterval: ['', [Validators.maxLength(25)]],
+            accuracyDegreesCelcius: ['', [Validators.maxLength(25)]],
+            heightDiffToAntenna: ['', [Validators.maxLength(25)]],
+            aspiration: ['', [Validators.maxLength(50)]],
+            calibrationDate: [''],
+            startDate: [''],
+            endDate: [''],
+            notes: [['', [Validators.maxLength(2000)]]],
+            objectMap: [''],
+        });
     }
-
 }
