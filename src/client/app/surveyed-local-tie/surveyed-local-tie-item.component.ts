@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-item.component';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -21,8 +21,10 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
      */
     @Input() surveyedLocalTie: SurveyedLocalTieViewModel;
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
-                protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService,
+                protected dialogService: DialogService,
+                protected siteLogService: SiteLogService,
+                protected formBuilder: FormBuilder) {
         super(userAuthService, dialogService, siteLogService);
     }
 
@@ -35,27 +37,25 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent {
     }
 
     /**
-     * Return the controls to become the form.
-     *
-     * @return array of AbstractControl objects
+     * Return the item form with default values and form controls.
      */
-    getFormControls(): ItemControls {
-        return new ItemControls([
-            {id: new FormControl(null)},
-            {tiedMarkerName: new FormControl('', [Validators.maxLength(50)])},
-            {tiedMarkerUsage: new FormControl('', [Validators.maxLength(50)])},
-            {tiedMarkerCDPNumber: new FormControl('', [Validators.maxLength(25)])},
-            {tiedMarkerDOMESNumber: new FormControl('', [Validators.maxLength(25)])},
-            {dx: new FormControl('', [Validators.maxLength(25)])},
-            {dy: new FormControl('', [Validators.maxLength(25)])},
-            {dz: new FormControl('', [Validators.maxLength(25)])},
-            {surveyMethod: new FormControl('', [Validators.maxLength(50)])},
-            {localSiteTiesAccuracy: new FormControl('', [Validators.maxLength(50)])},
-            {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
+    getItemForm(): FormGroup {
+        return this.formBuilder.group({
+            id: [null],
+            tiedMarkerName: ['', [Validators.maxLength(50)]],
+            tiedMarkerUsage: ['', [Validators.maxLength(50)]],
+            tiedMarkerCDPNumber: ['', [Validators.maxLength(25)]],
+            tiedMarkerDOMESNumber: ['', [Validators.maxLength(25)]],
+            dx: ['', [Validators.maxLength(25)]],
+            dy: ['', [Validators.maxLength(25)]],
+            dz: ['', [Validators.maxLength(25)]],
+            surveyMethod: ['', [Validators.maxLength(50)]],
+            localSiteTiesAccuracy: ['', [Validators.maxLength(50)]],
+            startDate: [''],
             // TODO see GEOD-454 endDate not needed by this component but the value exists in the model
-            {endDate: new FormControl('')},
-            {notes: new FormControl(['', [Validators.maxLength(2000)]])},
-            {objectMap: new FormControl('')},
-        ]);
+            endDate: [''],
+            notes: [['', [Validators.maxLength(2000)]]],
+            objectMap: [''],
+        });
     }
 }
