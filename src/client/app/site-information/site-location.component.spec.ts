@@ -77,9 +77,9 @@ export function main() {
             let x: AbstractControl = comp.cartesianPositionForm.controls['x'];
             let y: AbstractControl = comp.cartesianPositionForm.controls['y'];
             let z: AbstractControl = comp.cartesianPositionForm.controls['z'];
-            let xInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="x"] small') as HTMLInputElement;
-            let yInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="y"] small') as HTMLInputElement;
-            let zInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="z"] small') as HTMLInputElement;
+            let xInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="x"] small') as HTMLInputElement;
+            let yInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="y"] small') as HTMLInputElement;
+            let zInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="z"] small') as HTMLInputElement;
 
             // Setting one or two of x,y,z should cause all to become required and others to be invalid
             x.setValue('7');
@@ -127,9 +127,9 @@ export function main() {
             let lat: AbstractControl = comp.geodeticPositionForm.controls['lat'];
             let lon: AbstractControl = comp.geodeticPositionForm.controls['lon'];
             let height: AbstractControl = comp.geodeticPositionForm.controls['height'];
-            let latInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="lat"] small') as HTMLInputElement;
-            let lonInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="lon"] small') as HTMLInputElement;
-            let heightInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="height"] small') as HTMLInputElement;
+            let latInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="lat"] small') as HTMLInputElement;
+            let lonInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="lon"] small') as HTMLInputElement;
+            let heightInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="height"] small') as HTMLInputElement;
 
             // Setting one or two of x,y,z should cause all to become required and others to be invalid
             lat.setValue('7');
