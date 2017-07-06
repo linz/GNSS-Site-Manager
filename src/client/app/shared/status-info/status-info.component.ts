@@ -34,13 +34,12 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.user = this.userAuthService.getUser();
         this.setupSiteLogSubscription();
         this.setupAuthSubscription();
     }
 
     public isUserLoggedIn(): boolean {
-        return this.userAuthService.getUser() !== null;
+        return !!this.user;
     }
 
     public isAuthorisedSite(): boolean {
@@ -73,7 +72,7 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
     }
 
     private setupAuthSubscription(): void {
-        this.userAuthService.userLoadedEvent
+        this.userAuthService.user
             .takeUntil(this.unsubscribe)
             .subscribe((u: User) => {
                 this.user = u;

@@ -76,9 +76,9 @@ export class SiteLogService implements OnDestroy {
         console.log('Save existing SiteLog - siteLogViewModel: ', siteLogViewModel);
 
         const headers = new Headers();
-        const user: User = this.authService.getUser();
-        if (user !== null) {
-          headers.append('Authorization', 'Bearer ' + this.authService.getUser().id_token);
+        const user: User = this.authService.user.value;
+        if (!user) {
+          headers.append('Authorization', 'Bearer ' + user.id_token);
         }
 
         return this.http.post(this.constantsService.getWebServiceURL() + '/siteLogs/upload',
@@ -91,7 +91,7 @@ export class SiteLogService implements OnDestroy {
     saveNewSiteLog(siteLogViewModel: SiteLogViewModel): Observable<Response> {
         console.log('Save new SiteLog - siteLogViewModel: ', siteLogViewModel);
 
-        const user: User = this.authService.getUser();
+        const user: User = this.authService.user.value;
         let newSiteLogData: any = {
             firstName: user.profile.first_name || '',
             lastName: user.profile.family_name || '',

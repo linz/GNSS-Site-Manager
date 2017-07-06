@@ -83,7 +83,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             }
 
             this.siteLogModel = data.siteLogModel;
-            this.setupAuthSubscription();
             this.setupForm();
             this.setupSubscriptions();
             this.siteLogService.sendApplicationStateMessage({
@@ -296,18 +295,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.siteLogForm = this.formBuilder.group({});
     }
 
-    private setupAuthSubscription() {
-        this.userAuthService.userLoadedEvent
-            .takeUntil(this.unsubscribe)
-            .subscribe((_: User) => {
-                if (this.userAuthService.hasAuthorityToEditSite()) {
-                    this.siteLogForm.enable();
-                } else {
-                    this.siteLogForm.disable();
-                }
-            });
-    }
-
     /**
      * Template and Model driven forms are handled differently and separately
      */
@@ -330,6 +317,16 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     applicationFormInvalid: this.siteLogForm.invalid,
                     applicationSaveState: ApplicationSaveState.idle
                 });
+            });
+
+        this.userAuthService.user
+            .takeUntil(this.unsubscribe)
+            .subscribe((_: User) => {
+                if (this.userAuthService.hasAuthorityToEditSite()) {
+                    this.siteLogForm.enable();
+                } else {
+                    this.siteLogForm.disable();
+                }
             });
     }
 

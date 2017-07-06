@@ -1,10 +1,11 @@
-import { Injectable, EventEmitter, Inject, NgZone } from '@angular/core';
+import { Injectable, Inject, NgZone } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { UserManager, User } from 'oidc-client';
 import * as lodash from 'lodash';
 import { ConstantsService } from './constants.service';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export class UserRegistration {
     constructor(
@@ -23,9 +24,8 @@ export class UserRegistration {
  */
 @Injectable()
 export class UserAuthService {
-    public userLoadedEvent = new EventEmitter<User | null>();
+    public user = new BehaviorSubject<User | null>(null);
     private userManager: UserManager;
-    private currentUser: User | null = null;
 
     constructor(private ngZone: NgZone, private http: Http, private router: Router, private constantsService: ConstantsService,
         @Inject('Window') private window: Window) {
@@ -53,8 +53,7 @@ export class UserAuthService {
             this.userManager.getUser()
                 .then((user) => {
                     if (user) {
-                        this.currentUser = user;
-                        this.userLoadedEvent.emit(user);
+                        this.user.next(user);
                     }
                 })
                 .catch(console.log);
@@ -73,7 +72,7 @@ export class UserAuthService {
     }
 
     logout() {
-        let id_token = this.currentUser.id_token;
+        let id_token = this.user.value.id_token;
         this.userManager.removeUser().then(() => {
             this.userManager.createSignoutRequest({ id_token_hint: id_token }).then((request: any) => {
                 this.http.get(request.url).toPromise().catch(console.log);
@@ -81,12 +80,8 @@ export class UserAuthService {
         });
     }
 
-    getUser(): User | null {
-      return this.currentUser;
-    }
-
     changePassword() {
-        if(this.currentUser) {
+        if(this.user.value) {
             let url: string = this.constantsService.getOpenAMServerURL() + '/XUI/#profile/password';
             window.open(url);
         }
@@ -97,30 +92,30 @@ export class UserAuthService {
             siteId = this.router.routerState.snapshot.root.children[0].url[1].path;
         }
         if ('newSite' === siteId) {
-            return this.currentUser !== null;
+            return this.user.value !== null;
         }
         return this.hasAuthority('edit-' + siteId.toLowerCase());
     }
 
     public hasAuthority(authority: string): boolean {
-        if (!this.currentUser || !authority) {
+        if (!this.user.value || !authority) {
             return false;
-        } else if (!this.currentUser.profile || !this.currentUser.profile.authorities) {
+        } else if (!this.user.value.profile || !this.user.value.profile.authorities) {
             return false;
         } else {
-            return lodash.some(this.currentUser.profile.authorities, function(myAuthority) {
+            return lodash.some(this.user.value.profile.authorities, function(myAuthority) {
                 return myAuthority === 'superuser' || myAuthority === authority;
             });
         }
     }
 
     public getAuthorisedSites(): string {
-        if (!this.currentUser || !this.currentUser.profile || !this.currentUser.profile.authorities) {
+        if (!this.user.value || !this.user.value.profile || !this.user.value.profile.authorities) {
             return '';
         }
 
         let authorizedSites: any = [];
-        for (let auth of this.currentUser.profile.authorities) {
+        for (let auth of this.user.value.profile.authorities) {
             auth = auth.toLowerCase();
             if (auth === 'superuser') {
                 return 'All sites';
@@ -133,12 +128,10 @@ export class UserAuthService {
 
     private addEventHandlers() {
         this.userManager.events.addUserUnloaded(() => {
-            this.currentUser = null;
-            this.userLoadedEvent.emit(null);
+            this.user.next(null);
         });
         this.userManager.events.addUserLoaded((user: User) => {
-            this.currentUser = user;
-            this.userLoadedEvent.emit(user);
+            this.user.next(user);
         });
         this.userManager.events.addSilentRenewError(() => {
             this.userManager.removeUser();
