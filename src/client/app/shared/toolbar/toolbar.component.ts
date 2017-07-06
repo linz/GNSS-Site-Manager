@@ -26,7 +26,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private serviceWorkerSubscription: Subscription;
     private cacheItems: Array<string> = [];
 
-    private loadedUserSub: any;
     private isFormModified: boolean;
     private isFormInvalid: boolean;
 
@@ -178,7 +177,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     private setupAuthSubscription(): void {
-        this.loadedUserSub = this.userAuthService.userLoadedEvent
+        this.userAuthService.userLoadedEvent
             .takeUntil(this.unsubscribe)
             .subscribe((u: User) => {
                 this.user = u;
