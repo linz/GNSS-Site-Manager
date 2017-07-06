@@ -34,7 +34,6 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.user = this.userAuthService.getUser();
         this.setupSiteLogSubscription();
         this.setupAuthSubscription();
     }

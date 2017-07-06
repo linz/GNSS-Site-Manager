@@ -80,10 +80,6 @@ export class UserAuthService {
         });
     }
 
-    getUser(): User | null {
-      return this.user.value;
-    }
-
     changePassword() {
         if(this.user.value) {
             let url: string = this.constantsService.getOpenAMServerURL() + '/XUI/#profile/password';
