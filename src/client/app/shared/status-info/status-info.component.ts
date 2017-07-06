@@ -73,7 +73,7 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
     }
 
     private setupAuthSubscription(): void {
-        this.userAuthService.userLoadedEvent
+        this.userAuthService.user
             .takeUntil(this.unsubscribe)
             .subscribe((u: User) => {
                 this.user = u;
