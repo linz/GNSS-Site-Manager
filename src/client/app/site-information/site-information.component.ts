@@ -45,7 +45,13 @@ export class SiteInformationComponent implements OnInit {
     }
 
     private setupForm() {
-        this.siteInformationForm = this.formBuilder.group({});
+        this.siteInformationForm = this.formBuilder.group({
+            siteOwnerGroupForm: this.formBuilder.group({}),
+            siteContactGroupForm: this.formBuilder.group({}),
+            siteMetadataCustodianGroupForm: this.formBuilder.group({}),
+            siteDataCenterGroupForm: this.formBuilder.group({}),
+            siteDataSourceGroupForm: this.formBuilder.group({}),
+        });
         this.parentForm.addControl('siteInformation', this.siteInformationForm);
     }
 }

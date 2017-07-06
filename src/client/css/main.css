@@ -458,47 +458,47 @@ input[readonly],
   background-color: #008369;
   padding: 3px 5px;
 }
-.site-id-menu-label.gnss-dirty {
+.site-id-menu-label.ng-dirty {
     background-color: #d9f7e3 !important;
 }
-.panel-level-1.gnss-dirty {
+.panel-level-1.ng-dirty {
   border-color: #006a55 !important;
 }
-.panel-level-1.gnss-dirty > .panel-heading {
+.panel-level-1.ng-dirty > .panel-heading {
   background-color: #008369 !important;
 }
-.panel-level-2.gnss-dirty {
+.panel-level-2.ng-dirty {
   border-color: #afeec4 !important;
 }
-.panel-level-2.gnss-dirty > .panel-heading {
+.panel-level-2.ng-dirty > .panel-heading {
   background-color: #d9f7e3 !important;
 }
-.panel-level-3.gnss-dirty {
+.panel-level-3.ng-dirty {
   border-color: #eefbf3 !important;
 }
-.panel-level-3.gnss-dirty > .panel-heading {
+.panel-level-3.ng-dirty > .panel-heading {
   background-color: #e9faef !important;
 }
-.site-id-menu-label.gnss-invalid {
+.site-id-menu-label.ng-invalid {
     background-color: #a33f1f !important;
     color: #ffffff !important;
 }
-.panel-level-1.gnss-invalid {
+.panel-level-1.ng-invalid {
     border-color: #a33f1f !important;
 }
-.panel-level-1.gnss-invalid > .panel-heading {
+.panel-level-1.ng-invalid > .panel-heading {
   background-color: #a33f1f !important;
 }
-.panel-level-2.gnss-invalid {
+.panel-level-2.ng-invalid {
   border-color: #ffd497 !important;
 }
-.panel-level-2.gnss-invalid > .panel-heading {
+.panel-level-2.ng-invalid > .panel-heading {
   background-color: #ffe9ca !important;
 }
-.panel-level-3.gnss-invalid {
+.panel-level-3.ng-invalid {
   border-color: #ffe4be !important;
 }
-.panel-level-3.gnss-invalid > .panel-heading {
+.panel-level-3.ng-invalid > .panel-heading {
   background-color: #fff1de !important;
 }
 label.ng-dirty,label.ng-dirty.ng-valid,

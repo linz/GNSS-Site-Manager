@@ -291,7 +291,20 @@ export class SiteLogComponent implements OnInit, OnDestroy {
     }
 
     private setupForm() {
-        this.siteLogForm = this.formBuilder.group({});
+        this.siteLogForm = this.formBuilder.group({
+            gnssAntennaGroupForm: this.formBuilder.group({}),
+            gnssReceiverGroupForm: this.formBuilder.group({}),
+            frequencyStandardGroupForm: this.formBuilder.group({}),
+            humiditySensorGroupForm: this.formBuilder.group({}),
+            localEpisodicEffectGroupForm: this.formBuilder.group({}),
+            multipathSourceGroupForm: this.formBuilder.group({}),
+            pressureSensorGroupForm: this.formBuilder.group({}),
+            radioInterferenceGroupForm: this.formBuilder.group({}),
+            signalObstructionGroupForm: this.formBuilder.group({}),
+            surveyedLocalTieGroupForm: this.formBuilder.group({}),
+            temperatureSensorGroupForm: this.formBuilder.group({}),
+            waterVaporSensorGroupForm: this.formBuilder.group({}),
+        });
     }
 
     /**
