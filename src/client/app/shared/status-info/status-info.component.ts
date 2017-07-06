@@ -39,7 +39,7 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
     }
 
     public isUserLoggedIn(): boolean {
-        return this.userAuthService.getUser() !== null;
+        return !!this.user;
     }
 
     public isAuthorisedSite(): boolean {

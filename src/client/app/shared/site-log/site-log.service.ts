@@ -77,7 +77,7 @@ export class SiteLogService implements OnDestroy {
 
         const headers = new Headers();
         const user: User = this.authService.user.value;
-        if (user !== null) {
+        if (!user) {
           headers.append('Authorization', 'Bearer ' + user.id_token);
         }
 
