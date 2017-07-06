@@ -9,6 +9,6 @@ export class UserRegistrationPage {
     readonly organisation: ElementFinder = element(by.css('text-input[controlname="organisation"] input'));
     readonly position: ElementFinder = element(by.css('text-input[controlname="position"] input'));
     readonly phone: ElementFinder = element(by.css('text-input[controlname="phone"] input'));
-    readonly email: ElementFinder = element(by.css('text-input[controlname="email"] input'));
+    readonly email: ElementFinder = element(by.css('email-input[controlname="email"] input'));
     readonly remarks: ElementFinder = element(by.css('textarea-input[controlname="remarks"] textarea'));
 };
