@@ -13,6 +13,7 @@ import { SiteLogViewModel } from '../../site-log/site-log-view-model';
 import { SiteLogDataModel } from '../json-data-view-model/data-model/site-log-data-model';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 export enum ApplicationSaveState {
     idle, saving, saved
@@ -29,6 +30,8 @@ export interface ApplicationState {
  */
 @Injectable()
 export class SiteLogService implements OnDestroy {
+
+    public isUserAuthorisedToEditSite: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
     private applicationStateSubject: Subject<ApplicationState> = new Subject();
     private unsubscribe: Subject<void> = new Subject<void>();
@@ -77,7 +80,7 @@ export class SiteLogService implements OnDestroy {
 
         const headers = new Headers();
         const user: User = this.authService.user.value;
-        if (!user) {
+        if (user) {
           headers.append('Authorization', 'Bearer ' + user.id_token);
         }
 

@@ -50,12 +50,12 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     constructor(protected userAuthService: UserAuthService,
                 protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
-        super(userAuthService);
+        super(siteLogService);
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            if (this.isEditable()) {
+            if (this.isEditable) {
                 this.itemGroup.enable();
                 // add a listener for changes to the start date field
                 if (this.itemGroup.controls.startDate) {
@@ -70,7 +70,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     isDeleteDisabled(): boolean {
-        return !super.isEditable() || this.isDeleted;
+        return !this.isEditable || this.isDeleted;
     }
 
     set isDeleted(f: boolean) {

@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -5,7 +6,6 @@ import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { SiteLocationComponent } from './site-location.component';
 import { SiteLocationModule } from './site-location.module';
-import { UserAuthService } from '../shared/global/user-auth.service';
 import { ApplicationSaveState, ApplicationState, SiteLogService } from '../shared/site-log/site-log.service';
 import { DialogService } from '../shared/global/dialog.service';
 import { SiteLogViewModel } from '../site-log/site-log-view-model';
@@ -17,13 +17,8 @@ export function main() {
         let fixture: ComponentFixture<SiteLocationComponent>;
         let dom: HTMLElement;
 
-        let fakeUserAuthService = {
-            hasAuthorityToEditSite() {
-                return true;
-            }
-        };
-
         let fakeSiteLogService = {
+            isUserAuthorisedToEditSite: new BehaviorSubject(true),
             getApplicationState(): Observable<any> {
                 return new Observable((observer: Subscriber<any>) => {
                     let applicationState: ApplicationState = {
@@ -51,7 +46,6 @@ export function main() {
                     RouterTestingModule,
                 ],
                 providers: [
-                    {provide: UserAuthService, useValue: fakeUserAuthService},
                     {provide: SiteLogService, useValue: fakeSiteLogService},
                     {provide: DialogService, useValue: fakeDialogService},
                 ]

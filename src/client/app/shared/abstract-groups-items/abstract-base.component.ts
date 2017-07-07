@@ -1,11 +1,12 @@
-import { UserAuthService } from '../global/user-auth.service';
+import { SiteLogService } from '../site-log/site-log.service';
 
 export abstract class AbstractBaseComponent {
 
-    constructor(protected userAuthService: UserAuthService) {
-    }
+    public isEditable: boolean;
 
-    protected isEditable(): boolean {
-        return this.userAuthService.hasAuthorityToEditSite();
+    constructor(siteLogService: SiteLogService) {
+        siteLogService.isUserAuthorisedToEditSite.subscribe(f => {
+            this.isEditable = f;
+        });
     }
 }
