@@ -20,7 +20,7 @@
         <span [hidden]="siteLocation != null" class="pull-right">
             <button class="btn btn-similar btn-xs"
                     title="Add a new {{getItemName()}}"
-                    [disabled]="!isEditable()"
+                    [disabled]="!isEditable"
                     (click)="addNew($event); miscUtils.showFullView($event);">
                 <i class="glyphicon glyphicon-plus-sign"></i>
                 New <span class="hidden-xxs">{{getItemName()}}</span>

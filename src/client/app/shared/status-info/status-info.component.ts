@@ -3,6 +3,7 @@ import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 import { Subject } from 'rxjs/Subject';
+import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.component';
 
 /**
  * This class represents the status information component which shows the status of user login and roles, selected site,
@@ -14,7 +15,7 @@ import { Subject } from 'rxjs/Subject';
     templateUrl: 'status-info.component.html',
     styleUrls: ['status-info.component.css']
 })
-export class StatusInfoComponent implements OnInit, OnDestroy {
+export class StatusInfoComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
 
     @Input() public siteId: string;
 
@@ -26,6 +27,8 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
     constructor(
         private userAuthService: UserAuthService,
         private siteLogService: SiteLogService) {
+
+        super(siteLogService);
     }
 
     ngOnDestroy() {
@@ -40,10 +43,6 @@ export class StatusInfoComponent implements OnInit, OnDestroy {
 
     public isUserLoggedIn(): boolean {
         return !!this.user;
-    }
-
-    public isAuthorisedSite(): boolean {
-        return this.userAuthService.hasAuthorityToEditSite(this.siteId);
     }
 
     public getFormStatus(): string {

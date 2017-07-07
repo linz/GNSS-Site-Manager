@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from '../shared/abstract-groups-items/abstract-group.component';
-import { UserAuthService } from '../shared/global/user-auth.service';
 import { SignalObstructionViewModel } from './signal-obstruction-view-model';
+import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
  * This class represents a group of Pressure Sensors.
@@ -14,8 +14,8 @@ import { SignalObstructionViewModel } from './signal-obstruction-view-model';
 })
 export class SignalObstructionGroupComponent extends AbstractGroupComponent<SignalObstructionViewModel> {
 
-    constructor(protected userAuthService: UserAuthService, formBuilder: FormBuilder) {
-        super(userAuthService, formBuilder);
+    constructor(protected siteLogService: SiteLogService, formBuilder: FormBuilder) {
+        super(siteLogService, formBuilder);
     }
 
     getItemName(): string {

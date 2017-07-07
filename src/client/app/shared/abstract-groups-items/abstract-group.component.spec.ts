@@ -4,6 +4,8 @@ import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-v
 import { MiscUtils } from '../global/misc-utils';
 import { SiteLogViewModel } from '../../site-log/site-log-view-model';
 import * as _ from 'lodash';
+import { SiteLogService } from '../site-log/site-log.service';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 class AbstractViewModelImpl extends AbstractViewModel {
     constructor(public startDate: string) {
@@ -11,9 +13,13 @@ class AbstractViewModelImpl extends AbstractViewModel {
     }
 }
 
+class MockSiteLogService {
+    public isUserAuthorisedToEditSite: BehaviorSubject<boolean> = new BehaviorSubject(false);
+}
+
 class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
     constructor() {
-        super(null, new FormBuilder());
+        super(new MockSiteLogService() as SiteLogService, new FormBuilder());
         this.siteLogModel = new SiteLogViewModel();
         this.parentForm = new FormGroup({});
         super.setupForm();

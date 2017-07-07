@@ -1,8 +1,7 @@
 import { Injectable, Inject, NgZone } from '@angular/core';
-import { Http } from '@angular/http';
+import { Headers, Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { UserManager, User } from 'oidc-client';
-import * as lodash from 'lodash';
 import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
@@ -87,26 +86,26 @@ export class UserAuthService {
         }
     }
 
-    public hasAuthorityToEditSite(siteId?: string): boolean {
-        if (!siteId) {
-            siteId = this.router.routerState.snapshot.root.children[0].url[1].path;
+    public hasAuthorityToEditSite(siteId: string): Observable<boolean> {
+        if (!this.user.value || !siteId) {
+            return Observable.of(false);
         }
         if ('newSite' === siteId) {
-            return this.user.value !== null;
+            return Observable.of(true);
         }
-        return this.hasAuthority('edit-' + siteId.toLowerCase());
-    }
+        const headers = new Headers();
+        headers.append('Authorization', 'Bearer ' + this.user.value.id_token);
 
-    public hasAuthority(authority: string): boolean {
-        if (!this.user.value || !authority) {
-            return false;
-        } else if (!this.user.value.profile || !this.user.value.profile.authorities) {
-            return false;
-        } else {
-            return lodash.some(this.user.value.profile.authorities, function(myAuthority) {
-                return myAuthority === 'superuser' || myAuthority === authority;
+        return this.http.get(this.constantsService.getWebServiceURL() + '/siteLogs/isAuthorisedToUpload?fourCharacterId=' + siteId,
+            { headers: headers })
+            .map((_response: any) => true)
+            .catch((error: any) => {
+                if (error.status === 401 || error.status === 403) {
+                    return Observable.of(false);
+                } else {
+                    return Observable.throw(error);
+                }
             });
-        }
     }
 
     public getAuthorisedSites(): string {

@@ -112,8 +112,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * Save changes made back to siteLog XML
      */
     public save() {
-
-        if (!this.userAuthService.hasAuthorityToEditSite()) {
+        if (!this.siteLogService.isUserAuthorisedToEditSite.value) {
             console.warn('Cannot save SiteLog - user does not have edit rights');
             this.dialogService.showErrorMessage('Cannot save SiteLog - user does not have edit rights');
             return;
@@ -322,12 +321,16 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.userAuthService.user
             .takeUntil(this.unsubscribe)
             .subscribe((_: User) => {
-                if (this.userAuthService.hasAuthorityToEditSite()) {
-                    this.siteLogForm.enable();
-                } else {
-                    this.siteLogForm.disable();
-                }
-            });
+                this.userAuthService.hasAuthorityToEditSite(this.siteId).subscribe(authorised => {
+                    if (authorised) {
+                        this.siteLogService.isUserAuthorisedToEditSite.next(true);
+                        this.siteLogForm.enable();
+                    } else {
+                        this.siteLogService.isUserAuthorisedToEditSite.next(false);
+                        this.siteLogForm.disable();
+                    }
+                });
+        });
     }
 
     private  returnAssociatedComparator(itemName: string): any {
