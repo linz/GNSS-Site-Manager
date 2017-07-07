@@ -104,10 +104,14 @@ export class SiteLogService implements OnDestroy {
             phone : user.profile.phone_number || '',
             siteLogData: this.getGeodesyMlFromViewModel(siteLogViewModel)
         };
-
-        console.log(newSiteLogData);
-
-        return this.http.post(this.constantsService.getWebServiceURL() + '/newCorsSiteRequests', newSiteLogData);
+        const headers = new Headers();
+        if (user) {
+          headers.append('Authorization', 'Bearer ' + user.id_token);
+        }
+        return this.http.post(this.constantsService.getWebServiceURL() + '/newCorsSiteRequests', newSiteLogData,
+                              { headers: headers })
+            .map(HttpUtilsService.handleJsonData)
+            .catch(HttpUtilsService.handleError);
     }
 
     /**
