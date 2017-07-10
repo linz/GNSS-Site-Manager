@@ -1,4 +1,4 @@
-<div [formGroup]="parentForm" class="panel panel-level-2" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+<div [formGroup]="parentForm" class="panel panel-level-2">
     <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
@@ -28,7 +28,6 @@
                                              [partyType]="partyType"
                                              [responsibleParty]="responsibleParty"
                                              [index]="i"
-                                             [formGroupName]="i"
                                              [total]="getItems().length"
                                              [isMandatory]="isMandatory"
                                              [geodesyEvent]="geodesyEvent"

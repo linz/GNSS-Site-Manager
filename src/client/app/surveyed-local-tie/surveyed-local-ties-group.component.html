@@ -1,4 +1,4 @@
-<div [formGroup]="parentForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+<div [formGroup]="parentForm" class="panel panel-level-1">
     <div class="panel-heading group-header">
         <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
@@ -24,12 +24,8 @@
         </div>
         <div formArrayName="surveyedLocalTies">
         <div *ngFor="let surveyedLocalTie of getItems(); let i = index">
-            <!-- [geodesyEvent] - send event to child components -->
-            <!-- (open/close Above/Below Event) - receive events from child components -->
-            <!-- (returnEvents) - single point to call events on parent -->
             <surveyed-local-tie-item [groupArray]="groupArrayForm"
                                   [surveyedLocalTie]="surveyedLocalTie"
-                                     [formGroupName]="i"
                                   [total]="items.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"

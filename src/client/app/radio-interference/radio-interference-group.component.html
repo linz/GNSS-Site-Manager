@@ -1,4 +1,4 @@
-<div [formGroup]="parentForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+<div [formGroup]="parentForm" class="panel panel-level-1">
   <div class="panel-heading group-header">
       <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
@@ -26,7 +26,6 @@
             <div *ngFor="let radioInterference of getItems(); let i = index">
                 <radio-interference-item [groupArray]="groupArrayForm"
                                          [radioInterference]="radioInterference"
-                                         [formGroupName]="i"
                                          [total]="items.length"
                                          [index]="i"
                                          [geodesyEvent]="geodesyEvent"
