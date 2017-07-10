@@ -2,10 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
-import { UserAuthService } from '../shared/global/user-auth.service';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { AbstractBaseComponent } from '../shared/abstract-groups-items/abstract-base.component';
-import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel }  from '../site-log/site-log-view-model';
 import { SiteLocationViewModel } from './site-location-view-model';
 import * as _ from 'lodash';
 
@@ -39,8 +38,8 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     public isNew: boolean = false;
     public isDeleted: boolean = false;
 
-    @Input('parentForm') parentForm: FormGroup;
-    @Input('siteLogModel') siteLogModel: SiteLogViewModel;
+    @Input() parentForm: FormGroup;
+    @Input() siteLogModel: SiteLogViewModel;
 
     cartesianPositionForm: FormGroup;
     geodeticPositionForm: FormGroup;
@@ -49,11 +48,10 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     private cartesianPositionFormValidators: ValidatorFn[];
     private geodeticPositionFormValidators: ValidatorFn[];
 
-    constructor(protected userAuthService: UserAuthService,
-                protected siteLogService: SiteLogService,
+    constructor(protected siteLogService: SiteLogService,
                 protected dialogService: DialogService,
                 protected formBuilder: FormBuilder) {
-        super(userAuthService);
+        super(siteLogService);
     }
 
     ngOnInit() {
@@ -87,7 +85,7 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
         if (this.isNew) {
             return false;
         }
-        return !super.isEditable() || this.isDeleted;
+        return !this.isEditable || this.isDeleted;
     }
 
     public getRemoveOrDeletedText(): string {
@@ -185,11 +183,13 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
         });
         this.siteLocation = this.siteLogModel.siteInformation.siteLocation;
         this.siteLocationForm.patchValue(this.siteLocation);
-        if (this.userAuthService.hasAuthorityToEditSite()) {
-            this.siteLocationForm.enable();
-        } else {
-            this.siteLocationForm.disable();
-        }
+        this.siteLogService.isUserAuthorisedToEditSite.subscribe(authorised => {
+            if (authorised) {
+                this.siteLocationForm.enable();
+            } else {
+                this.siteLocationForm.disable();
+            }
+        });
         this.parentForm.addControl('siteLocation', this.siteLocationForm);
     }
 

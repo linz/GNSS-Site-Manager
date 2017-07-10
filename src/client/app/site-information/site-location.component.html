@@ -1,5 +1,4 @@
-<div [formGroup]="siteLocationForm" class="panel panel-level-2"
-     [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+<div [formGroup]="siteLocationForm" class="panel panel-level-2">
     <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
               (keyup.space)="isOpen = miscUtils.scrollIntoView($event, isOpen)"
@@ -20,7 +19,7 @@
         <span [hidden]="siteLocation != null" class="pull-right">
             <button class="btn btn-similar btn-xs"
                     title="Add a new {{getItemName()}}"
-                    [disabled]="!isEditable()"
+                    [disabled]="!isEditable"
                     (click)="addNew($event); miscUtils.showFullView($event);">
                 <i class="glyphicon glyphicon-plus-sign"></i>
                 New <span class="hidden-xxs">{{getItemName()}}</span>
@@ -43,44 +42,33 @@
         </div>
         <div class="margin-bottom15" [hidden]="siteLocation == null">
             <div class="form-group">
-                <text-input formControlName="city" controlName="city"
-                            [form]="siteLocationForm">City / Town
+                <text-input [form]="siteLocationForm" controlName="city">City / Town
                 </text-input>
-                <text-input formControlName="state" controlName="state"
-                            [form]="siteLocationForm">State / Province
+                <text-input [form]="siteLocationForm" controlName="state">State / Province
                 </text-input>
-                <text-input formControlName="countryCodeISO" controlName="countryCodeISO"
-                            [form]="siteLocationForm">Country Code ISO
+                <text-input [form]="siteLocationForm" controlName="countryCodeISO">Country Code ISO
                 </text-input>
-                <text-input formControlName="tectonicPlate" controlName="tectonicPlate"
-                            [form]="siteLocationForm">Tectonic Plate
+                <text-input [form]="siteLocationForm" controlName="tectonicPlate">Tectonic Plate
                 </text-input>
 
                 <div formGroupName="cartesianPosition">
-                    <number-input formControlName="x" controlName="x"
-                                  [form]="cartesianPositionForm">X Coordinate (m)
+                    <number-input [form]="cartesianPositionForm" controlName="x">X Coordinate (m)
                     </number-input>
-                    <number-input formControlName="y" controlName="y"
-                                  [form]="cartesianPositionForm">Y Coordinate (m)
+                    <number-input [form]="cartesianPositionForm" controlName="y">Y Coordinate (m)
                     </number-input>
-                    <number-input formControlName="z" controlName="z"
-                                  [form]="cartesianPositionForm">Z Coordinate (m)
+                    <number-input [form]="cartesianPositionForm" controlName="z">Z Coordinate (m)
                     </number-input>
                 </div>
                 <div formGroupName="geodeticPosition">
-                    <number-input formControlName="lat" controlName="lat"
-                                  [form]="geodeticPositionForm">Latitude (dd)
+                    <number-input [form]="geodeticPositionForm" controlName="lat">Latitude (dd)
                     </number-input>
-                    <number-input formControlName="lon" controlName="lon"
-                                  [form]="geodeticPositionForm">Longitude (dd)
+                    <number-input [form]="geodeticPositionForm" controlName="lon">Longitude (dd)
                     </number-input>
-                    <number-input formControlName="height" controlName="height"
-                                  [form]="geodeticPositionForm">Ellipsoidal Height (m)
+                    <number-input [form]="geodeticPositionForm" controlName="height">Ellipsoidal Height (m)
                     </number-input>
                 </div>
 
-                <textarea-input formControlName="notes" controlName="notes"
-                                [form]="siteLocationForm">Notes
+                <textarea-input [form]="siteLocationForm" controlName="notes">Notes
                 </textarea-input>
             </div>
         </div>

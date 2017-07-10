@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { Validators, FormControl } from '@angular/forms';
-import { AbstractItemComponent, ItemControls } from '../shared/abstract-groups-items/abstract-item.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-item.component';
 import { GnssReceiverViewModel } from './gnss-receiver-view-model';
 import { DialogService } from '../shared/index';
 import { AbstractViewModel } from '../shared/json-data-view-model/view-model/abstract-view-model';
@@ -23,30 +23,30 @@ export class GnssReceiverItemComponent extends AbstractItemComponent {
 
     public satelliteSystemList: string[] = ['GPS', 'GLO', 'GAL', 'BDS', 'QZSS', 'SBAS', 'IRNSS'];
 
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
-                protected siteLogService: SiteLogService) {
+    constructor(protected userAuthService: UserAuthService,
+                protected dialogService: DialogService,
+                protected siteLogService: SiteLogService,
+                protected formBuilder: FormBuilder) {
         super(userAuthService, dialogService, siteLogService);
     }
 
     /**
-     * Return the controls to become the form.
-     *
-     * @return array of AbstractControl objects
+     * Return the item form with default values and form controls.
      */
-    getFormControls(): ItemControls {
-        return new ItemControls([
-            {id: new FormControl(null)},
-            {receiverType: new FormControl(' ', [Validators.maxLength(25)])},
-            {manufacturerSerialNumber: new FormControl('', [Validators.maxLength(25)])},
-            {startDate: new FormControl('')},   // Validators wont work in the DateTime custom component
-            {endDate: new FormControl('')},
-            {firmwareVersion: new FormControl('', [Validators.maxLength(25)])},
-            {satelliteSystems: new FormControl('', [Validators.maxLength(200)])},
-            {elevationCutoffSetting: new FormControl('', [Validators.maxLength(25)])},
-            {temperatureStabilization: new FormControl('', [Validators.maxLength(25)])}, // Validators.pattern(/^\d{1,3}$/) - works!
-            {notes: new FormControl('', [Validators.maxLength(2000)])},
-            {objectMap: new FormControl('')},
-        ]);
+    getItemForm(): FormGroup {
+        return this.formBuilder.group({
+            id: [null],
+            receiverType: [' ', [Validators.maxLength(25)]],
+            manufacturerSerialNumber: ['', [Validators.maxLength(25)]],
+            startDate: [''],
+            endDate: [''],
+            firmwareVersion: ['', [Validators.maxLength(25)]],
+            satelliteSystems: ['', [Validators.maxLength(200)]],
+            elevationCutoffSetting: ['', [Validators.maxLength(25)]],
+            temperatureStabilization: ['', [Validators.maxLength(25)]],
+            notes: ['', [Validators.maxLength(2000)]],
+            objectMap: [''],
+        });
     }
 
     getItem(): AbstractViewModel {

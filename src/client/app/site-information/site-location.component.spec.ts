@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -5,10 +6,9 @@ import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { SiteLocationComponent } from './site-location.component';
 import { SiteLocationModule } from './site-location.module';
-import { UserAuthService } from '../shared/global/user-auth.service';
 import { ApplicationSaveState, ApplicationState, SiteLogService } from '../shared/site-log/site-log.service';
 import { DialogService } from '../shared/global/dialog.service';
-import { SiteLogViewModel } from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel } from '../site-log/site-log-view-model';
 
 export function main() {
     describe('SiteLocation Positions', () => {
@@ -17,13 +17,8 @@ export function main() {
         let fixture: ComponentFixture<SiteLocationComponent>;
         let dom: HTMLElement;
 
-        let fakeUserAuthService = {
-            hasAuthorityToEditSite() {
-                return true;
-            }
-        };
-
         let fakeSiteLogService = {
+            isUserAuthorisedToEditSite: new BehaviorSubject(true),
             getApplicationState(): Observable<any> {
                 return new Observable((observer: Subscriber<any>) => {
                     let applicationState: ApplicationState = {
@@ -51,7 +46,6 @@ export function main() {
                     RouterTestingModule,
                 ],
                 providers: [
-                    {provide: UserAuthService, useValue: fakeUserAuthService},
                     {provide: SiteLogService, useValue: fakeSiteLogService},
                     {provide: DialogService, useValue: fakeDialogService},
                 ]
@@ -77,9 +71,9 @@ export function main() {
             let x: AbstractControl = comp.cartesianPositionForm.controls['x'];
             let y: AbstractControl = comp.cartesianPositionForm.controls['y'];
             let z: AbstractControl = comp.cartesianPositionForm.controls['z'];
-            let xInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="x"] small') as HTMLInputElement;
-            let yInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="y"] small') as HTMLInputElement;
-            let zInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="z"] small') as HTMLInputElement;
+            let xInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="x"] small') as HTMLInputElement;
+            let yInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="y"] small') as HTMLInputElement;
+            let zInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="z"] small') as HTMLInputElement;
 
             // Setting one or two of x,y,z should cause all to become required and others to be invalid
             x.setValue('7');
@@ -127,9 +121,9 @@ export function main() {
             let lat: AbstractControl = comp.geodeticPositionForm.controls['lat'];
             let lon: AbstractControl = comp.geodeticPositionForm.controls['lon'];
             let height: AbstractControl = comp.geodeticPositionForm.controls['height'];
-            let latInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="lat"] small') as HTMLInputElement;
-            let lonInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="lon"] small') as HTMLInputElement;
-            let heightInvalid: HTMLInputElement = dom.querySelector('number-input[formcontrolname="height"] small') as HTMLInputElement;
+            let latInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="lat"] small') as HTMLInputElement;
+            let lonInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="lon"] small') as HTMLInputElement;
+            let heightInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="height"] small') as HTMLInputElement;
 
             // Setting one or two of x,y,z should cause all to become required and others to be invalid
             lat.setValue('7');

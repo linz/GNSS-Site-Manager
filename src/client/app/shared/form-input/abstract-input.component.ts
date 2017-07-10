@@ -24,6 +24,8 @@ export abstract class AbstractInput implements OnInit {
             return errString;
         }
         if (this.formControl.errors) {
+            let numberRange: string = null;
+            let numberError: string = null;
             for (let e of Object.keys(this.formControl.errors)) {
                 if (errString.length > 0) {
                     errString += ', ';
@@ -37,18 +39,30 @@ export abstract class AbstractInput implements OnInit {
                     errString += 'pattern required: ' + error.requiredPattern.toString();
                 } else if (e === 'required') {
                     errString += 'Field required';
-                } else if (e === 'outside_range') {
-                    errString += 'Outside range: '+error;
                 } else if (e === 'invalid_datetime_format') {
                     errString += error;
                 } else if (e === 'url' && error) {
                     errString += 'Invalid URL (must start with "http://" or "https://")';
                 } else if (e === 'email' && error) {
                     errString += 'Invalid email address';
+                } else if (e === 'requiredValue') {
+                    numberRange = error;
+                } else if (e === 'actualValue') {
+                    continue;
+                } else if (e === 'range') {
+                    numberError = 'Out of range';
+                } else if (e === 'min') {
+                    numberError = 'Minimum value';
+                }  else if (e === 'max') {
+                    numberError = 'Maximum value';
                 } else {
                     errString += e;
                     errString += JSON.stringify(error);
                 }
+            }
+
+            if (numberError !== null && numberRange !== null) {
+                errString += numberError + ' [' + numberRange + ']';
             }
         }
         return errString;

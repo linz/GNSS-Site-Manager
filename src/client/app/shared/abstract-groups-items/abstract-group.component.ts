@@ -3,10 +3,10 @@ import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
-import { SiteLogViewModel }  from '../json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel }  from '../../site-log/site-log-view-model';
 import { MiscUtils } from '../global/misc-utils';
-import { UserAuthService } from '../global/user-auth.service';
 import * as _ from 'lodash';
+import { SiteLogService } from '../site-log/site-log.service';
 
 export const newItemShouldBeBlank: boolean = true;
 
@@ -61,8 +61,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         }
     }
 
-    constructor(protected userAuthService: UserAuthService, protected formBuilder: FormBuilder) {
-        super(userAuthService);
+    constructor(protected siteLogService: SiteLogService,  protected formBuilder: FormBuilder) {
+        super(siteLogService);
     }
 
     ngOnChanges(changes: { [property: string]: SimpleChange }) {

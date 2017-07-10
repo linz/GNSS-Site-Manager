@@ -1,9 +1,10 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { MiscUtils } from '../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserAuthService } from '../shared/global/user-auth.service';
-import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel }  from '../site-log/site-log-view-model';
 import { SiteIdentificationViewModel } from './site-identification-view-model';
+import { AbstractBaseComponent } from '../shared/abstract-groups-items/abstract-base.component';
+import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
  * This class represents the SiteIdentification sub-component under the SiteInformation Component.
@@ -35,19 +36,20 @@ import { SiteIdentificationViewModel } from './site-identification-view-model';
     selector: 'site-identification',
     templateUrl: 'site-identification.component.html'
 })
-export class SiteIdentificationComponent implements OnInit {
+export class SiteIdentificationComponent extends AbstractBaseComponent implements OnInit {
 
     public isOpen: boolean = false;
     public miscUtils: any = MiscUtils;
     public siteIdentificationForm: FormGroup;
     public siteIdentification: SiteIdentificationViewModel;
 
-    @Input('parentForm') parentForm: FormGroup;
-    @Input('siteLogModel') siteLogModel: SiteLogViewModel;
+    @Input() parentForm: FormGroup;
+    @Input() siteLogModel: SiteLogViewModel;
 
-    constructor(private userAuthService: UserAuthService,
+    constructor(private siteLogService: SiteLogService,
                 private formBuilder: FormBuilder,
                 private changeDetectionRef: ChangeDetectorRef) {
+        super(siteLogService);
     }
 
     ngOnInit() {
@@ -102,11 +104,13 @@ export class SiteIdentificationComponent implements OnInit {
         });
         this.siteIdentification = this.siteLogModel.siteInformation.siteIdentification;
         this.siteIdentificationForm.patchValue(this.siteIdentification);
-        if (this.userAuthService.hasAuthorityToEditSite()) {
-            this.siteIdentificationForm.enable();
-        } else {
-            this.siteIdentificationForm.disable();
-        }
+        this.siteLogService.isUserAuthorisedToEditSite.subscribe(authorised => {
+            if (authorised) {
+                this.siteIdentificationForm.enable();
+            } else {
+                this.siteIdentificationForm.disable();
+            }
+        });
         this.parentForm.addControl('siteIdentification', this.siteIdentificationForm);
     }
 }

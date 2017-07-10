@@ -1,14 +1,15 @@
 import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs/Subject';
 import { User } from 'oidc-client';
 import * as _ from 'lodash';
 
 import { DialogService, MiscUtils, SiteLogService } from '../shared/index';
-import { SiteLogViewModel }  from '../shared/json-data-view-model/view-model/site-log-view-model';
+import { SiteLogViewModel }  from '../site-log/site-log-view-model';
 import { UserAuthService } from '../shared/global/user-auth.service';
-import { ResponsiblePartyType, ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ApplicationSaveState } from '../shared/site-log/site-log.service';
+import { ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
 import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
 import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
 import { GnssAntennaGroupComponent } from '../gnss-antenna/gnss-antenna-group.component';
@@ -18,7 +19,6 @@ import { LocalEpisodicEffectsGroupComponent } from '../local-episodic-effect/loc
 import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-local-ties-group.component';
 import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
-import { ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { RadioInterferenceGroupComponent } from '../radio-interference/radio-interference-group.component';
 import { SignalObstructionGroupComponent } from '../signal-obstruction/signal-obstruction-group.component';
 import { MultipathSourceGroupComponent } from '../multipath-source/multipath-source-group.component';
@@ -33,21 +33,12 @@ import { MultipathSourceGroupComponent } from '../multipath-source/multipath-sou
 })
 export class SiteLogComponent implements OnInit, OnDestroy {
     public miscUtils: any = MiscUtils;
-
-    // the master form that contains all the other forms
     public siteLogForm: FormGroup;
-
-    public siteInformationForm: FormGroup;
-    public responsiblePartyType: any = ResponsiblePartyType;    // Used in template
     public siteLogModel: SiteLogViewModel;
 
     private siteId: string;
     private isLoading: boolean = false;
     private reverting: boolean = false;
-    private siteIdentification: any = null;
-    private siteLocation: any = {};
-    private siteContacts: Array<any> = [];
-
     private unsubscribe: Subject<void> = new Subject<void>();
 
     /**
@@ -57,7 +48,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
      * @param {ActivatedRoute} route - The injected ActivatedRoute.
      * @param {DialogService} dialogService - The injected DialogService.
      * @param {SiteLogService} siteLogService - The injected SiteLogService.
-     * @param {JsonDiffService} jsonDiffService - The injected JsonDiffService.
      */
     constructor(private router: Router,
                 private route: ActivatedRoute,
@@ -93,7 +83,6 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             }
 
             this.siteLogModel = data.siteLogModel;
-            this.setupAuthSubscription();
             this.setupForm();
             this.setupSubscriptions();
             this.siteLogService.sendApplicationStateMessage({
@@ -117,17 +106,13 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         this.isLoading = false;
         this.siteId = null;
         this.siteLogModel = null;
-        this.siteIdentification = null;
-        this.siteLocation = null;
-        this.siteContacts.length = 0;
     }
 
     /**
      * Save changes made back to siteLog XML
      */
     public save() {
-
-        if (!this.userAuthService.hasAuthorityToEditSite()) {
+        if (!this.siteLogService.isUserAuthorisedToEditSite.value) {
             console.warn('Cannot save SiteLog - user does not have edit rights');
             this.dialogService.showErrorMessage('Cannot save SiteLog - user does not have edit rights');
             return;
@@ -305,30 +290,21 @@ export class SiteLogComponent implements OnInit, OnDestroy {
         return this.siteLogForm.invalid;
     }
 
-    public isSiteInformationFormDirty(): boolean {
-        return this.siteInformationForm && this.siteInformationForm.dirty;
-    }
-
-    public isSiteInformationFormInvalid(): boolean {
-        return this.siteInformationForm.invalid;
-    }
-
     private setupForm() {
-        this.siteInformationForm = this.formBuilder.group({});
-        this.siteLogForm = this.formBuilder.group({});
-        this.siteLogForm.addControl('siteInformation', this.siteInformationForm);
-    }
-
-    private setupAuthSubscription() {
-        this.userAuthService.userLoadedEvent
-            .takeUntil(this.unsubscribe)
-            .subscribe((_: User) => {
-                if (this.userAuthService.hasAuthorityToEditSite()) {
-                    this.siteLogForm.enable();
-                } else {
-                    this.siteLogForm.disable();
-                }
-            });
+        this.siteLogForm = this.formBuilder.group({
+            gnssAntennaGroupForm: this.formBuilder.group({}),
+            gnssReceiverGroupForm: this.formBuilder.group({}),
+            frequencyStandardGroupForm: this.formBuilder.group({}),
+            humiditySensorGroupForm: this.formBuilder.group({}),
+            localEpisodicEffectGroupForm: this.formBuilder.group({}),
+            multipathSourceGroupForm: this.formBuilder.group({}),
+            pressureSensorGroupForm: this.formBuilder.group({}),
+            radioInterferenceGroupForm: this.formBuilder.group({}),
+            signalObstructionGroupForm: this.formBuilder.group({}),
+            surveyedLocalTieGroupForm: this.formBuilder.group({}),
+            temperatureSensorGroupForm: this.formBuilder.group({}),
+            waterVaporSensorGroupForm: this.formBuilder.group({}),
+        });
     }
 
     /**
@@ -354,6 +330,20 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     applicationSaveState: ApplicationSaveState.idle
                 });
             });
+
+        this.userAuthService.user
+            .takeUntil(this.unsubscribe)
+            .subscribe((_: User) => {
+                this.userAuthService.hasAuthorityToEditSite(this.siteId).subscribe(authorised => {
+                    if (authorised) {
+                        this.siteLogService.isUserAuthorisedToEditSite.next(true);
+                        this.siteLogForm.enable();
+                    } else {
+                        this.siteLogService.isUserAuthorisedToEditSite.next(false);
+                        this.siteLogForm.disable();
+                    }
+                });
+        });
     }
 
     private  returnAssociatedComparator(itemName: string): any {

@@ -6,6 +6,7 @@ import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
+import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.component';
 
 /**
  * This class represents the toolbar component which is the header of all UI pages.
@@ -16,7 +17,7 @@ import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
     templateUrl: 'toolbar.component.html',
     styleUrls: ['toolbar.component.css']
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
     public siteId: string;
     public user: User | null = null;
     @Output() onSave: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -26,7 +27,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private serviceWorkerSubscription: Subscription;
     private cacheItems: Array<string> = [];
 
-    private loadedUserSub: any;
     private isFormModified: boolean;
     private isFormInvalid: boolean;
 
@@ -38,6 +38,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private userAuthService: UserAuthService,
         private siteLogService: SiteLogService,
         private dialogService: DialogService) {
+
+        super(siteLogService);
     }
 
     ngOnDestroy() {
@@ -76,7 +78,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * save is disabled if nothing has in the form has changed or the user is not allowed to edit this site
      */
     public isSaveDisabled(): boolean {
-        return !this.isFormDirty() || !this.hasAuthorityToEditSite();
+        return !this.isFormDirty() || !this.isEditable;
     }
 
     public isRevertDisabled(): boolean {
@@ -178,7 +180,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     private setupAuthSubscription(): void {
-        this.loadedUserSub = this.userAuthService.userLoadedEvent
+        this.userAuthService.user
             .takeUntil(this.unsubscribe)
             .subscribe((u: User) => {
                 this.user = u;
@@ -187,9 +189,5 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     private getAuthorisedSites(): string {
         return this.userAuthService.getAuthorisedSites();
-    }
-
-    private hasAuthorityToEditSite(): boolean {
-        return this.userAuthService.hasAuthorityToEditSite(this.siteId);
     }
 }

@@ -1,54 +1,18 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormControl, ValidatorFn } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { CustomValidators } from 'ng2-validation';
 import { AbstractInput } from './abstract-input.component';
-import { MiscUtils } from '../global/misc-utils';
-
-const CHILD_FORM_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => NumberInputComponent),
-    multi: true
-};
-
-const CHILD_FORM_VALIDATORS = {
-    provide: NG_VALIDATORS,
-    useExisting: forwardRef(() => NumberInputComponent),
-    multi: true
-};
-
-function validatorFnFactory(min: number, max: number) {
-    if (min === null) {
-        min = Number.MIN_SAFE_INTEGER ;
-    }
-    if (max === null) {
-        max = Number.MAX_SAFE_INTEGER;
-    }
-
-    return (control: FormControl): any => {
-        let value: number = MiscUtils.stringToNumber(control.value);
-        if (value && (value < min || value > max)) {
-            let arg: string = min+'..'+max;
-            return {outside_range: arg};
-        }
-        return null;
-    };
-}
 
 @Component({
     moduleId: module.id,
     selector: 'number-input',
     templateUrl: 'number-input.component.html',
-    styleUrls: ['form-input.component.css'],
-    providers: [CHILD_FORM_VALUE_ACCESSOR, CHILD_FORM_VALIDATORS]
+    styleUrls: ['form-input.component.css']
 })
-export class NumberInputComponent extends AbstractInput implements ControlValueAccessor, OnInit {
-    @Input() public step: string = '1';
-    @Input() public min: string = '';
-    @Input() public max: string = '';
-
-    private validator: ValidatorFn;
-
-    propagateChange: Function = (_: any) => { };
-    propagateTouch: Function = () => { };
+export class NumberInputComponent extends AbstractInput implements OnInit {
+    @Input() public step: number = 1;
+    @Input() public min: number = null;
+    @Input() public max: number = null;
 
     constructor() {
         super();
@@ -56,22 +20,26 @@ export class NumberInputComponent extends AbstractInput implements ControlValueA
 
     ngOnInit() {
         super.ngOnInit();
-        let maxNumber: number = MiscUtils.stringToNumber(this.max);
-        let minNumber: number = MiscUtils.stringToNumber(this.min);
-        this.validator = validatorFnFactory(minNumber, maxNumber);
+        this.addValidatorsToFormControl();
     }
 
-    writeValue(value: string) {}
+    public addValidatorsToFormControl() {
+        let validators: any = [];
+        if (this.required) {
+            validators.push(Validators.required);
+        }
+        validators.push(CustomValidators.number);
 
-    registerOnChange(fn: Function) {
-        this.propagateChange = fn;
-    }
+        if (this.min && this.max) {
+            validators.push(CustomValidators.range([this.min, this.max]));
+        } else if (this.min) {
+            validators.push(CustomValidators.min(this.min));
+        } else if (this.max) {
+            validators.push(CustomValidators.max(this.max));
+        }
 
-    registerOnTouched(fn: Function) {
-        this.propagateTouch = fn;
-    }
-
-    validate(c: FormControl) {
-        return this.validator(c);
+        setTimeout( () => {
+            this.formControl.setValidators(validators);
+        });
     }
 }

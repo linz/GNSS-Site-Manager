@@ -69,13 +69,17 @@ export function main() {
                             'ADE1',
                         );
 
-                        const setValue = (value: string, formControlName: string): void => {
+                        const setValue = (value: string, controlName: string): void => {
                             let input: HTMLInputElement =
-                                dom.querySelector('text-input[formcontrolname=' + formControlName + '] input') as HTMLInputElement;
+                                dom.querySelector('text-input[controlname=' + controlName + '] input') as HTMLInputElement;
 
                             if (!input) {
-                                input = dom.querySelector('textarea-input[formcontrolname='
-                                    + formControlName + '] textarea') as HTMLInputElement;
+                                input = dom.querySelector('email-input[controlname='
+                                    + controlName + '] input') as HTMLInputElement;
+                            }
+                            if (!input) {
+                                input = dom.querySelector('textarea-input[controlname='
+                                    + controlName + '] textarea') as HTMLInputElement;
                             }
                             expect(input).toBeTruthy();
 

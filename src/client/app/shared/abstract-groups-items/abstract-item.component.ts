@@ -1,5 +1,5 @@
 import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange } from '@angular/core';
-import { FormGroup, FormArray, AbstractControl } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
@@ -7,18 +7,6 @@ import { MiscUtils } from '../global/misc-utils';
 import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../site-log/site-log.service';
-
-export class ItemControls {
-    itemControls: [ItemControl];
-
-    constructor(itemControls: [ItemControl]) {
-        this.itemControls = itemControls;
-    }
-}
-
-export interface ItemControl {
-    [name: string]: AbstractControl;
-}
 
 export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnInit, OnChanges, AfterViewInit {
     protected miscUtils: any = MiscUtils;
@@ -59,14 +47,15 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
      *
      * @param {DialogService} dialogService - The injected DialogService.
      */
-    constructor(protected userAuthService: UserAuthService, protected dialogService: DialogService,
+    constructor(protected userAuthService: UserAuthService,
+                protected dialogService: DialogService,
                 protected siteLogService: SiteLogService) {
-        super(userAuthService);
+        super(siteLogService);
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            if (this.isEditable()) {
+            if (this.isEditable) {
                 this.itemGroup.enable();
                 // add a listener for changes to the start date field
                 if (this.itemGroup.controls.startDate) {
@@ -81,7 +70,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     isDeleteDisabled(): boolean {
-        return !super.isEditable() || this.isDeleted;
+        return !this.isEditable || this.isDeleted;
     }
 
     set isDeleted(f: boolean) {
@@ -118,11 +107,10 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     abstract getItem(): AbstractViewModel;
 
     /**
-     * Return the controls to become the form.
+     * Return the item form with default values and form controls.
      *
-     * @return array of AbstractControl objects
      */
-    abstract getFormControls(): ItemControls;
+    abstract getItemForm(): FormGroup;
 
     /**
      * Allow items to deal with total number of items change
@@ -140,9 +128,17 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
             }
         });
 
-        this.itemGroup = <FormGroup> this.groupArray.at(this.index);
-        this.addFields(this.itemGroup, this.getFormControls());
+        this.setupForm();
+    }
+
+    /**
+     * set up the item form, insert it into the form array and populate with initial values if any.
+     *
+     */
+    setupForm() {
+        this.itemGroup = this.getItemForm();
         this.itemGroup.patchValue(this.getItem());
+        this.groupArray.setControl(this.index, this.itemGroup);
     }
 
     /**
@@ -312,20 +308,4 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         }
     }
 
-    /**
-     * When the group is setup, blank FormGroups for the contained Items are created (no controsl).  This method populates the
-     * Item's FormGroup with the controls (typically before patching in values).
-     *
-     * @param itemGroup is the container for the Item's form controls.  It may or may not already contain Form AbstractControls.
-     * @param formControls is an array of objects containing the forms AbstractControls to add to the itemGroup.
-     */
-    private addFields(itemGroup: FormGroup, formControls: ItemControls): void {
-        if (Object.keys(this.itemGroup.controls).length === 0) {
-            for (let control of formControls.itemControls) {
-                let key: any = Object.keys(control)[0];
-                let value: AbstractControl = control[key];
-                itemGroup.addControl(key, value);
-            }
-        }
-    }
 }

@@ -1,4 +1,4 @@
-<div [formGroup]="parentForm" class="panel panel-level-1" [ngClass]="{'gnss-dirty': isFormDirty(), 'gnss-invalid': isFormInvalid()}">
+<div [formGroup]="parentForm" class="panel panel-level-1">
   <div class="panel-heading group-header">
     <span class="panel-title cursor-ptr" tabindex="0"
       (keyup.space)="toggleGroup($event)"
@@ -11,7 +11,7 @@
     </span>
 	<span class="pull-right">
 	  <button type="button" class="btn btn-similar btn-xs"
-	          [disabled]="!isEditable()"
+	          [disabled]="!isEditable"
 	          title="Add a new {{getItemName()}}"
 	          (click)="addNew($event); miscUtils.showFullView($event);">
 	    <i class="glyphicon glyphicon-plus-sign"></i>
@@ -27,7 +27,6 @@
           <div *ngFor="let antenna of getItems(); let i = index">
       <gnss-antenna-item [groupArray]="groupArrayForm"
                          [antenna]="antenna"
-                         [formGroupName]="i"
                          [total]="items.length"
                          [index]="i"
                          [geodesyEvent]="geodesyEvent"
