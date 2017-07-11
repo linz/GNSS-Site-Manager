@@ -1,15 +1,26 @@
 [![Build Status](https://travis-ci.org/GeoscienceAustralia/GNSS-Site-Manager.svg?branch=master)](https://travis-ci.org/GeoscienceAustralia/GNSS-Site-Manager)
 
-To run the application use npm.
+# GNSS Site Manager 
 
-For example, I run NixOS and all I had to do was open up a nix-shell and run npm install and npm start as follows:
+## About
 
-    [sh:]$ nix-shell
-    [nix-shell:$ npm install
-    [nix-shell:]$ npm start
+GNSS Site Manager is an Angular web application written in TypeScript for
+managing GNSS CORS site metadata. It is based on
+[mgechev/angular-seed](https://github.com/mgechev/angular-seed).
 
-This installs the application at (by default) http://localhost:5555/siteInfo and should launch a browser to that address.
+## Deployment
 
-# GNSS Site Manager web addresses
+| Environment | Branch | Trigger | URL |
+| ----------- | ------ | :-----: | --- |
+| integration | `next`   | on commit | https://dev.gnss-site-manager.geodesy.ga.gov.au |
+| testing     | `master` | on commit | https://test.gnss-site-manager.geodesy.ga.gov.au |
+| production  | `master` | manual    | https://gnss-site-manager.geodesy.ga.gov.au |
 
-DEV: http://dev.gnss-site-manager.geodesy.ga.gov.au
+## Access
+
+If you require a login account, which is required for write access, please complete 
+the online registration form in
+[integration](https://dev.gnss-site-manager.geodesy.ga.gov.au/userRegistration),
+[testing](https://test.gnss-site-manager.geodesy.ga.gov.au/userRegistration), or
+[production](https://gnss-site-manager.geodesy.ga.gov.au/userRegistration) environments.
+
