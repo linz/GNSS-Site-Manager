@@ -100,7 +100,7 @@ let gnssReceiverMap = new ObjectMap()
     .addFieldMap('gnssReceiver.firmwareVersion', 'firmwareVersion')
 
     .addFieldMap('gnssReceiver.satelliteSystem', 'satelliteSystems', new ObjectMap()
-        .addSourcePreMap((satelliteSystem: { value: string }) => satelliteSystem.value)
+        .addSourcePreMap((satelliteSystem: { value: string }) => { return satelliteSystem ? satelliteSystem.value : []; })
         .addSourcePostMap((satelliteSystem: string) => { return { value: satelliteSystem }; })
     )
 
