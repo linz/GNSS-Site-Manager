@@ -302,8 +302,8 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('waterVaporSensors', 'waterVaporSensors', waterVaporSensorMap)
 
     .addFieldMap('radioInterferences', 'radioInterferences', radioInterferenceMap)
-    .addFieldMap('signalObstruction', 'signalObstruction', signalObstructionMap)
-    .addFieldMap('multipathSource', 'multipathSource', multipathSourceMap)
+    .addFieldMap('signalObstructions', 'signalObstructions', signalObstructionMap)
+    .addFieldMap('multipathSources', 'multipathSources', multipathSourceMap)
 
     .addTargetPostMap((target: any): any => {
         removeNullsFromArrays(target);

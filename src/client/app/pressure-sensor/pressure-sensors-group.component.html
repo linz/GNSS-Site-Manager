@@ -22,15 +22,13 @@
     <div *ngIf="!hasItems()">
       No information available for Pressure Sensors
     </div>
-      <div formArrayName="pressureSensors">
       <div *ngFor="let pressureSensor of getItems(); let i = index">
-      <pressure-sensor-item [groupArray]="groupArrayForm"
-                                 [pressureSensor]="pressureSensor"
-                                 [total]="items.length"
-                                 [index]="i"
-                                 [geodesyEvent]="geodesyEvent"
-                                 (returnEvents)="returnEvents($event)"></pressure-sensor-item>
-    </div>
+          <pressure-sensor-item [groupArray]="parentForm"
+                                     [pressureSensor]="pressureSensor"
+                                     [total]="items.length"
+                                     [index]="i"
+                                     [geodesyEvent]="geodesyEvent"
+                                     (returnEvents)="returnEvents($event)"></pressure-sensor-item>
       </div>
   </div>
 </div>

@@ -23,16 +23,14 @@
     <div class="margin-bottom15" *ngIf="!hasItems()">
       No information available for {{getItemName()}}
     </div>
-      <div formArrayName="gnssAntennas">
-          <div *ngFor="let antenna of getItems(); let i = index">
-      <gnss-antenna-item [groupArray]="groupArrayForm"
-                         [antenna]="antenna"
-                         [total]="items.length"
-                         [index]="i"
-                         [geodesyEvent]="geodesyEvent"
-                         (returnEvents)="returnEvents($event)">
-      </gnss-antenna-item>
-    </div>
+      <div *ngFor="let antenna of getItems(); let i = index">
+          <gnss-antenna-item [groupArray]="parentForm"
+                             [antenna]="antenna"
+                             [total]="items.length"
+                             [index]="i"
+                             [geodesyEvent]="geodesyEvent"
+                             (returnEvents)="returnEvents($event)">
+          </gnss-antenna-item>
       </div>
   </div>
 </div>
