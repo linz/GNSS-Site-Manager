@@ -22,15 +22,13 @@
         <div *ngIf="!hasItems()">
             No information available for {{getItemName()}}s
         </div>
-        <div formArrayName="multipathSources">
-            <div *ngFor="let multipathSource of getItems(); let i = index">
-                <multipath-source-item [groupArray]="groupArrayForm"
-                                       [multipathSource]="multipathSource"
-                                       [total]="items.length"
-                                       [index]="i"
-                                       [geodesyEvent]="geodesyEvent"
-                                       (returnEvents)="returnEvents($event)"></multipath-source-item>
-            </div>
+        <div *ngFor="let multipathSource of getItems(); let i = index">
+            <multipath-source-item [groupArray]="parentForm"
+                                   [multipathSource]="multipathSource"
+                                   [total]="items.length"
+                                   [index]="i"
+                                   [geodesyEvent]="geodesyEvent"
+                                   (returnEvents)="returnEvents($event)"></multipath-source-item>
         </div>
     </div>
 </div>

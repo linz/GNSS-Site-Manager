@@ -22,15 +22,13 @@
     <div *ngIf="!hasItems()">
       No information available for Water Vapor Sensors
     </div>
-      <div formArrayName="waterVaporSensors">
     <div *ngFor="let waterVaporSensor of getItems(); let i = index">
-      <water-vapor-sensor-item [groupArray]="groupArrayForm"
+      <water-vapor-sensor-item [groupArray]="parentForm"
                                  [waterVaporSensor]="waterVaporSensor"
                                  [total]="items.length"
                                  [index]="i"
                                  [geodesyEvent]="geodesyEvent"
                                  (returnEvents)="returnEvents($event)"></water-vapor-sensor-item>
     </div>
-      </div>
   </div>
 </div>

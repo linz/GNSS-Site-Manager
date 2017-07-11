@@ -17,9 +17,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     currentItemAlreadyHasEndDate: boolean = false;
 
     miscUtils: any = MiscUtils;
-    protected groupArrayForm: FormArray;
 
-    @Input() parentForm: FormGroup;
+    @Input() parentForm: FormArray;
     @Input('siteLogModel') siteLogModel: SiteLogViewModel;
 
     /**
@@ -113,7 +112,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
             this.items = _.filter(items, item => !item.dateDeleted);
             this.items.sort(AbstractGroupComponent.compare);
             this.items.forEach(() => {
-                this.groupArrayForm.insert(0, new FormGroup({}));
+                this.parentForm.insert(0, new FormGroup({}));
             });
         }
     }
@@ -126,7 +125,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      */
     addToItems(item: T) {
         this.items.splice(0, 0, item);
-        this.groupArrayForm.insert(0, new FormGroup({}));
+        this.parentForm.insert(0, new FormGroup({}));
     }
 
     /**
@@ -158,12 +157,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      * @param itemsArrayName that is set on the parentForm
      */
     setupForm() {
-        const controlName = this.getControlName();
-        if (this.parentForm.controls[controlName]) {
-            this.parentForm.removeControl(controlName);
+        while (this.parentForm.length) {
+            this.parentForm.removeAt(0);
         }
-        this.groupArrayForm = this.formBuilder.array([]);
-        this.parentForm.addControl(controlName, this.groupArrayForm);
         this.setItems(this.getFormData(this.siteLogModel));
     }
 
@@ -189,24 +185,24 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     public cancelNew(itemIndex: number) {
         if (this.items.length > (itemIndex + 1) && !this.currentItemAlreadyHasEndDate) {
             this.items[itemIndex+1].endDate = '';
-            let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(itemIndex+1);
+            let formGroup: FormGroup = <FormGroup>this.parentForm.at(itemIndex+1);
             if (formGroup.controls['endDate']) {
                 formGroup.controls['endDate'].setValue('');
                 formGroup.controls['endDate'].markAsPristine();
             }
         }
 
-        (<FormGroup>this.groupArrayForm.at(itemIndex)).markAsPristine();
+        (<FormGroup>this.parentForm.at(itemIndex)).markAsPristine();
         this.items.splice(itemIndex, 1);
-        this.groupArrayForm.removeAt(itemIndex);
+        this.parentForm.removeAt(itemIndex);
     }
 
     public isFormDirty(): boolean {
-        return this.groupArrayForm && this.groupArrayForm.dirty;
+        return this.parentForm && this.parentForm.dirty;
     }
 
     public isFormInvalid(): boolean {
-        return this.groupArrayForm && this.groupArrayForm.invalid;
+        return this.parentForm && this.parentForm.invalid;
     }
 
     /**
@@ -244,7 +240,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     private updateDatesForNewItem(item: T, dateUtc: string) {
         let index: number = 0;
-        let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+        let formGroup: FormGroup = <FormGroup>this.parentForm.at(index);
 
         item.startDate = dateUtc;
         if (formGroup.controls['startDate']) {
@@ -266,7 +262,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
                 this.currentItemAlreadyHasEndDate = true;
             } else {
                 this.items[index].endDate = dateUtc;
-                let formGroup: FormGroup = <FormGroup>this.groupArrayForm.at(index);
+                let formGroup: FormGroup = <FormGroup>this.parentForm.at(index);
                 if (formGroup.controls['endDate']) {
                     formGroup.controls['endDate'].setValue(dateUtc);
                     formGroup.controls['endDate'].markAsDirty();

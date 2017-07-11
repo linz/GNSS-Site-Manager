@@ -22,15 +22,13 @@
     <div *ngIf="!hasItems()">
       No information available for Temperature Sensors
     </div>
-      <div formArrayName="temperatureSensors">
-          <div *ngFor="let temperatureSensor of getItems(); let i = index">
-      <temperature-sensor-item [groupArray]="groupArrayForm"
+    <div *ngFor="let temperatureSensor of getItems(); let i = index">
+      <temperature-sensor-item [groupArray]="parentForm"
                                  [temperatureSensor]="temperatureSensor"
                                  [total]="items.length"
                                  [index]="i"
                                  [geodesyEvent]="geodesyEvent"
                                  (returnEvents)="returnEvents($event)"></temperature-sensor-item>
     </div>
-      </div>
   </div>
 </div>

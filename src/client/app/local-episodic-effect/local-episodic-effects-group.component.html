@@ -22,15 +22,13 @@
         <div *ngIf="!hasItems()">
             No information available for Local Episodic Effects
         </div>
-        <div formArrayName="localEpisodicEffects">
         <div *ngFor="let localEpisodicEffect of getItems(); let i = index">
-            <local-episodic-effect-item [groupArray]="groupArrayForm"
+            <local-episodic-effect-item [groupArray]="parentForm"
                                   [localEpisodicEffect]="localEpisodicEffect"
                                   [total]="items.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
                                   (returnEvents)="returnEvents($event)"></local-episodic-effect-item>
-        </div>
         </div>
     </div>
 </div>
