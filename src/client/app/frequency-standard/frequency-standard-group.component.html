@@ -23,16 +23,14 @@
     <div *ngIf="!hasItems()" class="margin-bottom15">
       No information available for {{getItemName()}}s
     </div>
-      <div formArrayName="frequencyStandards">
-          <div *ngFor="let frequencyStandard of getItems(); let i = index">
-              <frequency-standard-item [groupArray]="groupArrayForm"
-                                       [frequencyStandard]="frequencyStandard"
-                                  [total]="items.length"
-                                  [index]="i"
-                                  [geodesyEvent]="geodesyEvent"
-                                  (returnEvents)="returnEvents($event)">
-              </frequency-standard-item>
-          </div>
+      <div *ngFor="let frequencyStandard of getItems(); let i = index">
+          <frequency-standard-item [groupArray]="parentForm"
+                                   [frequencyStandard]="frequencyStandard"
+                              [total]="items.length"
+                              [index]="i"
+                              [geodesyEvent]="geodesyEvent"
+                              (returnEvents)="returnEvents($event)">
+          </frequency-standard-item>
       </div>
   </div>
 </div>

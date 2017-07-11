@@ -18,35 +18,35 @@
                        [siteLogModel]="siteLogModel">
         </site-location>
 
-        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteOwnerGroupForm"
+        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteOwner"
                                       [partyType]="responsiblePartyType.siteOwner"
                                       [isMandatory]="false"
                                       [isMultiple]="false"
                                       [siteLogModel]="siteLogModel">
         </gnss-responsible-party-group>
 
-        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteContactGroupForm"
+        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteContacts"
                                       [partyType]="responsiblePartyType.siteContact"
                                       [isMandatory]="false"
                                       [isMultiple]="true"
                                       [siteLogModel]="siteLogModel">
         </gnss-responsible-party-group>
 
-        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteMetadataCustodianGroupForm"
+        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteMetadataCustodian"
                                       [partyType]="responsiblePartyType.siteMetadataCustodian"
                                       [isMandatory]="true"
                                       [isMultiple]="false"
                                       [siteLogModel]="siteLogModel">
         </gnss-responsible-party-group>
 
-        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteDataCenterGroupForm"
+        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteDataCenters"
                                       [partyType]="responsiblePartyType.siteDataCenter"
                                       [isMandatory]="false"
                                       [isMultiple]="true"
                                       [siteLogModel]="siteLogModel">
         </gnss-responsible-party-group>
 
-        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteDataSourceGroupForm"
+        <gnss-responsible-party-group [parentForm]="siteInformationForm.controls.siteDataSource"
                                       [partyType]="responsiblePartyType.siteDataSource"
                                       [isMandatory]="false"
                                       [isMultiple]="false"

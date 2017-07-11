@@ -22,15 +22,13 @@
         <div *ngIf="!hasItems()">
             No information available for {{getItemName()}}s
         </div>
-        <div formArrayName="radioInterferences">
-            <div *ngFor="let radioInterference of getItems(); let i = index">
-                <radio-interference-item [groupArray]="groupArrayForm"
-                                         [radioInterference]="radioInterference"
-                                         [total]="items.length"
-                                         [index]="i"
-                                         [geodesyEvent]="geodesyEvent"
-                                         (returnEvents)="returnEvents($event)"></radio-interference-item>
-            </div>
+        <div *ngFor="let radioInterference of getItems(); let i = index">
+            <radio-interference-item [groupArray]="parentForm"
+                                     [radioInterference]="radioInterference"
+                                     [total]="items.length"
+                                     [index]="i"
+                                     [geodesyEvent]="geodesyEvent"
+                                     (returnEvents)="returnEvents($event)"></radio-interference-item>
         </div>
     </div>
 </div>

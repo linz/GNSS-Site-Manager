@@ -22,18 +22,16 @@
         <div *ngIf="!hasItems()">
             No information available for {{getItemName()}}
         </div>
-        <div [formArrayName]="getControlName()">
-            <div *ngFor="let responsibleParty of getItems(); let i = index">
-                <gnss-responsible-party-item [groupArray]="groupArrayForm"
-                                             [partyType]="partyType"
-                                             [responsibleParty]="responsibleParty"
-                                             [index]="i"
-                                             [total]="getItems().length"
-                                             [isMandatory]="isMandatory"
-                                             [geodesyEvent]="geodesyEvent"
-                                             (returnEvents)="returnEvents($event)">
-                </gnss-responsible-party-item>
-            </div>
+        <div *ngFor="let responsibleParty of getItems(); let i = index">
+            <gnss-responsible-party-item [groupArray]="parentForm"
+                                         [partyType]="partyType"
+                                         [responsibleParty]="responsibleParty"
+                                         [index]="i"
+                                         [total]="getItems().length"
+                                         [isMandatory]="isMandatory"
+                                         [geodesyEvent]="geodesyEvent"
+                                         (returnEvents)="returnEvents($event)">
+            </gnss-responsible-party-item>
         </div>
     </div>
 </div>

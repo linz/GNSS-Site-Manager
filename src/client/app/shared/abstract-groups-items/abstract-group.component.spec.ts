@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormArray, FormBuilder } from '@angular/forms';
 import { AbstractGroupComponent } from './abstract-group.component';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { MiscUtils } from '../global/misc-utils';
@@ -21,7 +21,7 @@ class AbstractGroupImpl extends AbstractGroupComponent<AbstractViewModelImpl> {
     constructor() {
         super(new MockSiteLogService() as SiteLogService, new FormBuilder());
         this.siteLogModel = new SiteLogViewModel();
-        this.parentForm = new FormGroup({});
+        this.parentForm = new FormArray([]);
         super.setupForm();
     }
 

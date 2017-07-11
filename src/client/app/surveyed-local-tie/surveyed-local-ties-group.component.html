@@ -22,15 +22,13 @@
         <div *ngIf="!hasItems()">
             No information available for Surveyed Local Ties
         </div>
-        <div formArrayName="surveyedLocalTies">
         <div *ngFor="let surveyedLocalTie of getItems(); let i = index">
-            <surveyed-local-tie-item [groupArray]="groupArrayForm"
+            <surveyed-local-tie-item [groupArray]="parentForm"
                                   [surveyedLocalTie]="surveyedLocalTie"
                                   [total]="items.length"
                                   [index]="i"
                                   [geodesyEvent]="geodesyEvent"
                                   (returnEvents)="returnEvents($event)"></surveyed-local-tie-item>
-        </div>
         </div>
     </div>
 </div>
