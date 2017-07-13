@@ -70,7 +70,7 @@ let siteLocationMap = new ObjectMap()
 let responsiblePartyMap = new ObjectMap()
 
     .addSourcePreMap((source: any): any => {
-        return source.ciResponsibleParty ? source : null;
+        return source && source.ciResponsibleParty ? source : null;
     })
 
     .addFieldMap('ciResponsibleParty.individualName.characterString.gco:CharacterString', 'individualName')
