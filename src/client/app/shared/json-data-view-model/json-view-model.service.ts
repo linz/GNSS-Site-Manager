@@ -12,6 +12,12 @@ let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
     return source ? MiscUtils.formatUTCDateTime(source) : null;
 });
 
+let formInformationMap = new ObjectMap()
+    .addFieldMap('preparedBy', 'preparedBy')
+    .addFieldMap('datePrepared.value[0]', 'datePrepared', dateMap)
+    .addFieldMap('reportType', 'reportType')
+;
+
 let siteIdentificationMap = new ObjectMap()
     .addFieldMap('fourCharacterID', 'fourCharacterID')
     .addFieldMap('siteName', 'siteName')
@@ -280,6 +286,7 @@ function traverse(obj: Object, mapArray: (array: any[]) => any[]): void {
 }
 
 let siteLogMap = new ObjectMap()
+    .addFieldMap('formInformation', 'formInformation', formInformationMap)
     .addFieldMap('siteIdentification', 'siteInformation.siteIdentification', siteIdentificationMap)
     .addFieldMap('siteLocation', 'siteInformation.siteLocation', siteLocationMap)
 
