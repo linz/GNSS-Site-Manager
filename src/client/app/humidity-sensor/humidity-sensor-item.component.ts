@@ -42,6 +42,7 @@ export class HumiditySensorItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
+            type: ['', [Validators.required]],
             manufacturer: ['', [Validators.required, Validators.maxLength(50)]],
             serialNumber: ['', [Validators.required, Validators.maxLength(50)]],
             dataSamplingInterval: ['', [Validators.maxLength(25)]],
