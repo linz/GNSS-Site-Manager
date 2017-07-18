@@ -13,6 +13,12 @@ import { MultipathSourceViewModel } from '../multipath-source/multipath-source-v
 import { SiteLocationViewModel } from '../site-information/site-location-view-model';
 import { SiteIdentificationViewModel } from '../site-information/site-identification-view-model';
 
+export class FormInformationViewModel {
+    preparedBy: string = null;
+    datePrepared: string = null;
+    reportType: string = null;
+}
+
 export class SiteInformationViewModel {
     siteIdentification = new SiteIdentificationViewModel();
     siteLocation = new SiteLocationViewModel();
@@ -22,6 +28,7 @@ export class SiteInformationViewModel {
  * View Model equivalent of ../data-model/SiteLogDataModel
  */
 export class SiteLogViewModel {
+    formInformation = new FormInformationViewModel();
     siteInformation = new SiteInformationViewModel();
     gnssReceivers: GnssReceiverViewModel[] = [];
     gnssAntennas: GnssAntennaViewModel[] = [];
