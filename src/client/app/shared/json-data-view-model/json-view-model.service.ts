@@ -91,7 +91,22 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'primaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[1].characterString.gco:CharacterString', 'secondaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
-    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource.ciOnlineResource.linkage.url', 'url')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource', 'url', new ObjectMap()
+        .addSourcePreMap((onlineResource: any): string => {
+            return onlineResource ? onlineResource.ciOnlineResource.linkage.url : null;
+        })
+        .addSourcePostMap((onlineResource: string): any => {
+            return onlineResource
+                ? {
+                      ciOnlineResource: {
+                          linkage: {
+                              url: onlineResource
+                          }
+                      }
+                  }
+                : null;
+        })
+    )
 ;
 /* tslint:disable:max-line-length */
 
