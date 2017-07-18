@@ -41,6 +41,7 @@ export class TemperatureSensorItemComponent extends AbstractItemComponent {
      */
     getItemForm(): FormGroup {
         return this.formBuilder.group({
+            type: ['', [Validators.required]],
             id: [null],
             manufacturer: [' ', [Validators.required, Validators.maxLength(50)]],
             serialNumber: [' ', [Validators.required, Validators.maxLength(25)]],
