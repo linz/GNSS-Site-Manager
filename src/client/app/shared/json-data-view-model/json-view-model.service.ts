@@ -91,6 +91,7 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'primaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[1].characterString.gco:CharacterString', 'secondaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
+
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource', 'url', new ObjectMap()
         .addSourcePreMap((onlineResource: any): string => {
             return onlineResource ? onlineResource.ciOnlineResource.linkage.url : null;
@@ -107,6 +108,20 @@ let responsiblePartyMap = new ObjectMap()
                 : null;
         })
     )
+
+    .addSourcePostMap((source: any): any => {
+        if (source && source.ciResponsibleParty) {
+            source.ciResponsibleParty.role = {
+                ciRoleCode : {
+                    codeSpace: 'ISOTC211/19115',
+                    codeList: 'http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode',
+                    codeListValue: 'pointOfContact',
+                    value: 'pointOfContact'
+                }
+            };
+        }
+        return source;
+    })
 ;
 /* tslint:disable:max-line-length */
 
