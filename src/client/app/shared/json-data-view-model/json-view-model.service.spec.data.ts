@@ -1244,9 +1244,6 @@ export class JsonViewModelServiceSpecData {
                                         ]
                                     }
                                 },
-                                onlineResource: {
-                                    TYPE_NAME: 'ISO19139_GMD_20070417.CIOnlineResourcePropertyType'
-                                },
                                 hoursOfService: {
                                     TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                     characterString: {

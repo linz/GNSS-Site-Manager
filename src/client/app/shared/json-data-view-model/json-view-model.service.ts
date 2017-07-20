@@ -12,6 +12,12 @@ let dateMap = new ObjectMap().addSourcePostMap((source: string): string => {
     return source ? MiscUtils.formatUTCDateTime(source) : null;
 });
 
+let formInformationMap = new ObjectMap()
+    .addFieldMap('preparedBy', 'preparedBy')
+    .addFieldMap('datePrepared.value[0]', 'datePrepared', dateMap)
+    .addFieldMap('reportType', 'reportType')
+;
+
 let siteIdentificationMap = new ObjectMap()
     .addFieldMap('fourCharacterID', 'fourCharacterID')
     .addFieldMap('siteName', 'siteName')
@@ -85,7 +91,37 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'primaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[1].characterString.gco:CharacterString', 'secondaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
-    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource.ciOnlineResource.linkage.url', 'url')
+
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource', 'url', new ObjectMap()
+        .addSourcePreMap((onlineResource: any): string => {
+            return onlineResource ? onlineResource.ciOnlineResource.linkage.url : null;
+        })
+        .addSourcePostMap((onlineResource: string): any => {
+            return onlineResource
+                ? {
+                      ciOnlineResource: {
+                          linkage: {
+                              url: onlineResource
+                          }
+                      }
+                  }
+                : null;
+        })
+    )
+
+    .addSourcePostMap((source: any): any => {
+        if (source && source.ciResponsibleParty) {
+            source.ciResponsibleParty.role = {
+                ciRoleCode : {
+                    codeSpace: 'ISOTC211/19115',
+                    codeList: 'http://www.isotc211.org/2005/resources/Codelist/gmxCodelists.xml#CI_RoleCode',
+                    codeListValue: 'pointOfContact',
+                    value: 'pointOfContact'
+                }
+            };
+        }
+        return source;
+    })
 ;
 /* tslint:disable:max-line-length */
 
@@ -170,6 +206,7 @@ let humiditySensorMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
     .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
     .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('humiditySensor.type.value', 'type')
     .addFieldMap('humiditySensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
     .addFieldMap('humiditySensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
     .addFieldMap('humiditySensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
@@ -186,6 +223,7 @@ let pressureSensorMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
     .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
     .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('pressureSensor.type.value', 'type')
     .addFieldMap('pressureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
     .addFieldMap('pressureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
     .addFieldMap('pressureSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
@@ -201,6 +239,7 @@ let temperatureSensorMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
     .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
     .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('temperatureSensor.type.value', 'type')
     .addFieldMap('temperatureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
     .addFieldMap('temperatureSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
     .addFieldMap('temperatureSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
@@ -217,6 +256,7 @@ let waterVaporSensorMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
     .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
     .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('waterVaporSensor.type.value', 'type')
     .addFieldMap('waterVaporSensor.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
     .addFieldMap('waterVaporSensor.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
     .addFieldMap('waterVaporSensor.calibrationDate.value[0]', 'calibrationDate', dateMap)
@@ -280,6 +320,7 @@ function traverse(obj: Object, mapArray: (array: any[]) => any[]): void {
 }
 
 let siteLogMap = new ObjectMap()
+    .addFieldMap('formInformation', 'formInformation', formInformationMap)
     .addFieldMap('siteIdentification', 'siteInformation.siteIdentification', siteIdentificationMap)
     .addFieldMap('siteLocation', 'siteInformation.siteLocation', siteLocationMap)
 

@@ -14,6 +14,7 @@ import { SiteLogDataModel } from '../json-data-view-model/data-model/site-log-da
 import { UserAuthService } from '../global/user-auth.service';
 import { User } from 'oidc-client';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { MiscUtils } from '../global/misc-utils';
 
 export enum ApplicationSaveState {
     idle, saving, saved
@@ -78,8 +79,14 @@ export class SiteLogService implements OnDestroy {
     saveSiteLog(siteLogViewModel: SiteLogViewModel): Observable<Response> {
         console.log('Save existing SiteLog - siteLogViewModel: ', siteLogViewModel);
 
-        const headers = new Headers();
         const user: User = this.authService.user.value;
+        siteLogViewModel.formInformation.preparedBy = user.profile.sub;
+        siteLogViewModel.formInformation.datePrepared = MiscUtils.getUTCDateTime();
+
+        // TODO: update to typescript 2.4.1, then change to string enum
+        siteLogViewModel.formInformation.reportType = 'UPDATE';
+
+        const headers = new Headers();
         if (user) {
           headers.append('Authorization', 'Bearer ' + user.id_token);
         }
@@ -95,6 +102,12 @@ export class SiteLogService implements OnDestroy {
         console.log('Save new SiteLog - siteLogViewModel: ', siteLogViewModel);
 
         const user: User = this.authService.user.value;
+        siteLogViewModel.formInformation.preparedBy = user.profile.sub;
+        siteLogViewModel.formInformation.datePrepared = MiscUtils.getUTCDateTime();
+
+        // TODO: update to typescript 2.4.1, then change to string enum
+        siteLogViewModel.formInformation.reportType = 'NEW';
+
         let newSiteLogData: any = {
             firstName: user.profile.first_name || '',
             lastName: user.profile.family_name || '',

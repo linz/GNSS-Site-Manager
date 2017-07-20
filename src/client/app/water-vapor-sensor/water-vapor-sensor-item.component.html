@@ -30,6 +30,7 @@
         <div *ngIf="waterVaporSensor != null" [ngClass]="{'container-dirty': waterVaporSensor.dateDeleted}">
             <div class="form-group">
                 <text-input [form]="itemGroup" controlName="manufacturer">Manufacturer</text-input>
+                <text-input [form]="itemGroup" controlName="type" [required]="true">Type</text-input>
                 <text-input [form]="itemGroup" controlName="serialNumber">Serial Number</text-input>
                 <number-input [form]="itemGroup" controlName="heightDiffToAntenna">Height Diff to Antenna (m)</number-input>
                 <datetime-input [form]="itemGroup" controlName="calibrationDate" [required]="false">Calibration Date</datetime-input>
