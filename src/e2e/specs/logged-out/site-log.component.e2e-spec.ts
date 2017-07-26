@@ -4,11 +4,12 @@ import { TestUtils } from '../utils/test.utils';
 import * as _ from 'lodash';
 
 describe('SiteLog', () => {
+    let siteUrl: string = '/siteLog/ADE1';
     let siteLogPage: SiteLogPage = new SiteLogPage();
 
     beforeEach(async () => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
-        return await browser.get(siteLogPage.urlAde1);
+        return await browser.get(siteUrl);
     });
 
     it('expect ade1 sitelog to exist', () => {

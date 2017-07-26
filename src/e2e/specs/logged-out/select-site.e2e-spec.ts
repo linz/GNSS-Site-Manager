@@ -5,7 +5,6 @@ import { TestUtils } from '../utils/test.utils';
 
 describe('SelectSite', () => {
     let selectSitePage: SelectSitePage = new SelectSitePage();
-    let siteLogPage: SiteLogPage = new SiteLogPage();
 
     beforeEach(async () => {
         return await browser.get(selectSitePage.url);
@@ -36,13 +35,13 @@ describe('SelectSite', () => {
     });
 
     it('selecting a specific site from the list should display the siteLog', () => {
-        selectSitePage.openSite('ADE1');
+        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
         expect(siteLogPage.siteInformationHeader.isPresent()).toEqual(true, 'ADE1\'s siteLogPage.siteInformationHeader should exist');
     });
 
     it('selecting a general site string from the list should display the siteLog', () => {
         selectSitePage.searchFor('ade');
-        selectSitePage.clickOnSite('ade1');
+        let siteLogPage: SiteLogPage = selectSitePage.clickOnSite('ade1');
         expect(siteLogPage.siteInformationHeader.isPresent()).toEqual(true, 'ADE1\'s siteLogPage.siteInformationHeader should exist');
     });
 });

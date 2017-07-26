@@ -1,5 +1,6 @@
 import { ElementArrayFinder, ElementFinder } from 'protractor';
 import { promise } from 'selenium-webdriver';
+import * as moment from 'moment';
 
 export class TestUtils {
     /**
@@ -55,5 +56,30 @@ export class TestUtils {
         });
         deferred.fulfill(out);
         return deferred.promise;
+    }
+
+    public static getTimeStamp(): string {
+        return moment().utc().format('YYYY-MM-DD HH:mm:ss');
+    }
+
+    public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
+            expect(value).toEqual(expectValue);
+        });
+    }
+
+    public static checkInputValueNotNull(elemFinder: ElementFinder, elemName: string) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            console.log('Check if ' + elemName + ' is not null (value=' + value + ')');
+            expect(value).not.toBe(null);
+        });
+    }
+
+    public static checkItemCount(elemArrayFinder: ElementArrayFinder, action: string, expectCount: number) {
+        elemArrayFinder.count().then((count: number) => {
+            console.log('Number of items after ' + action + ': ' + count);
+            expect(count).toBe(expectCount);
+        });
     }
 }

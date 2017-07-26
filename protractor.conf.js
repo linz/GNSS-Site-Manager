@@ -8,8 +8,11 @@ const config = {
     loggedIn: [
       './dist/e2e/specs/logged-in/**/*.e2e-spec.js'
     ],
+    siteLogComponents: [
+      './dist/e2e/specs/log-groups/**/*.e2e-spec.js'
+    ],
   },
-  
+
   exclude: [],
 
   // 'jasmine' by default will use the latest jasmine framework
