@@ -193,6 +193,17 @@ let frequencyStandardMap = new ObjectMap()
     .addFieldMap('frequencyStandard.notes', 'notes')
 ;
 
+let collocationInformationMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('collocationInformation.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('collocationInformation.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('collocationInformation.instrumentationType.value', 'instrumentationType')
+    .addFieldMap('collocationInformation.status.value', 'status')
+    .addFieldMap('collocationInformation.notes', 'notes')
+;
+
 let localEpisodicEffectMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
     .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
@@ -333,6 +344,8 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('gnssReceivers', 'gnssReceivers', gnssReceiverMap)
     .addFieldMap('gnssAntennas', 'gnssAntennas', gnssAntennaMap)
     .addFieldMap('frequencyStandards', 'frequencyStandards', frequencyStandardMap)
+
+    .addFieldMap('collocationInformation', 'collocationInformation', collocationInformationMap)
 
     .addFieldMap('surveyedLocalTies', 'surveyedLocalTies', surveyedLocalTieMap)
     .addFieldMap('localEpisodicEffects', 'localEpisodicEffects', localEpisodicEffectMap)

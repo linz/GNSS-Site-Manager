@@ -10,6 +10,7 @@ import { GnssReceiverModule } from '../gnss-receiver/gnss-receiver.module';
 import { GnssAntennaModule } from '../gnss-antenna/gnss-antenna.module';
 import { SurveyedLocalTieModule } from '../surveyed-local-tie/surveyed-local-tie.module';
 import { FrequencyStandardModule } from '../frequency-standard/frequency-standard.module';
+import { CollocationInformationModule } from '../collocation-information/collocation-information.module';
 import { LocalEpisodicEffectModule } from '../local-episodic-effect/local-episodic-effect.module';
 import { HumiditySensorModule } from '../humidity-sensor/humidity-sensor.module';
 import { PressureSensorModule } from '../pressure-sensor/pressure-sensor.module';
@@ -31,6 +32,7 @@ import { MultipathSourceModule } from '../multipath-source/multipath-source.modu
         GnssAntennaModule,
         SurveyedLocalTieModule,
         FrequencyStandardModule,
+        CollocationInformationModule,
         LocalEpisodicEffectModule,
         HumiditySensorModule,
         PressureSensorModule,
