@@ -21,7 +21,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     @Input() index: number;
 
     /**
-     * Total number of Frequency Standards
+     * Total number of items
      */
     @Input() total: number;
 
