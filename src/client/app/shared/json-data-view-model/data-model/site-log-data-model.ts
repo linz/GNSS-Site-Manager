@@ -16,6 +16,7 @@ export class SiteLogDataModel {
     gnssAntennas: any[];
     surveyedLocalTies: any[];
     frequencyStandards: any[];
+    collocationInformation: any[];
     localEpisodicEffects: any[];
     humiditySensors: any[] = [];
     pressureSensors: any[];
@@ -43,6 +44,7 @@ export class SiteLogDataModel {
             this.gnssAntennas = this.getSuppliedValueOrEmptyValue(siteLogModel.gnssAntennas, true);
             this.surveyedLocalTies = this.getSuppliedValueOrEmptyValue(siteLogModel.surveyedLocalTies, true);
             this.frequencyStandards = this.getSuppliedValueOrEmptyValue(siteLogModel.frequencyStandards, true);
+            this.collocationInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.collocationInformation, true);
             this.localEpisodicEffects = this.getSuppliedValueOrEmptyValue(siteLogModel.localEpisodicEffects, true);
             this.humiditySensors = this.getSuppliedValueOrEmptyValue(siteLogModel.humiditySensors, true);
             this.pressureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.pressureSensors, true);

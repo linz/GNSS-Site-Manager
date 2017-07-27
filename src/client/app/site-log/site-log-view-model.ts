@@ -1,6 +1,7 @@
 import { GnssAntennaViewModel } from '../gnss-antenna/gnss-antenna-view-model';
 import { SurveyedLocalTieViewModel } from '../surveyed-local-tie/surveyed-local-tie-view-model';
 import { FrequencyStandardViewModel } from '../frequency-standard/frequency-standard-view-model';
+import { CollocationInformationViewModel } from '../collocation-information/collocation-information-view-model';
 import { LocalEpisodicEffectViewModel } from '../local-episodic-effect/local-episodic-effect-view-model';
 import { HumiditySensorViewModel } from '../humidity-sensor/humidity-sensor-view-model';
 import { PressureSensorViewModel } from '../pressure-sensor/pressure-sensor-view-model';
@@ -34,6 +35,7 @@ export class SiteLogViewModel {
     gnssAntennas: GnssAntennaViewModel[] = [];
     surveyedLocalTies: SurveyedLocalTieViewModel[] = [];
     frequencyStandards: FrequencyStandardViewModel[] = [];
+    collocationInformation: CollocationInformationViewModel[] = [];
     localEpisodicEffects : LocalEpisodicEffectViewModel[] = [];
     humiditySensors: HumiditySensorViewModel[] = [];
     pressureSensors: PressureSensorViewModel[] = [];
