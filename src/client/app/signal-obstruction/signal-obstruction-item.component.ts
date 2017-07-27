@@ -8,7 +8,7 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
 import { SignalObstructionViewModel } from './signal-obstruction-view-model';
 
 /**
- * This component represents a single Pressure Sensor.
+ * This component represents a single signal obstruction log item.
  */
 @Component({
     moduleId: module.id,
@@ -16,9 +16,7 @@ import { SignalObstructionViewModel } from './signal-obstruction-view-model';
     templateUrl: 'signal-obstruction-item.component.html',
 })
 export class SignalObstructionItemComponent extends AbstractItemComponent {
-    /**
-     * The RadioInterference in question.
-     */
+
     @Input() signalObstruction: SignalObstructionViewModel;
 
     constructor(protected userAuthService: UserAuthService,

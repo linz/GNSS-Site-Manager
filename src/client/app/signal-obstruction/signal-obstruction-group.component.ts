@@ -5,7 +5,7 @@ import { SignalObstructionViewModel } from './signal-obstruction-view-model';
 import { SiteLogService } from '../shared/site-log/site-log.service';
 
 /**
- * This class represents a group of Pressure Sensors.
+ * This class represents a group of signal obstruction items.
  */
 @Component({
     moduleId: module.id,
