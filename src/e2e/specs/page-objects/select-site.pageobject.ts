@@ -25,6 +25,11 @@ export class SelectSitePage extends BasePage {
         browser.waitForAngular();
     }
 
+    public searchAll() {
+        this.searchButton.click();
+        browser.waitForAngular();
+    }
+
     /**
      * Click on the site name in the list.  Run this after searchFor(siteName) - @see searchForSiteNameClick();
      * @param siteName
@@ -37,11 +42,13 @@ export class SelectSitePage extends BasePage {
     }
 
     /**
-     * Search for and then click on the given siteName
-     * @param siteName
+     * Enter a site Id for quick search and click on the selected site to open its site log page
+     *
+     * @param siteId - the Id of a site log
+     * @return the page object of the site log with given siteId
      */
-    public openSite(siteName: string): SiteLogPage {
-        this.searchFor(siteName);
-        return this.clickOnSite(siteName);
+    public openSite(siteId: string): SiteLogPage {
+        this.enterSearchText(siteId);
+        return this.clickOnSite(siteId);
     }
 }
