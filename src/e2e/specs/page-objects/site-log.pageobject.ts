@@ -2,6 +2,7 @@ import { browser, by, element, ElementFinder, ElementArrayFinder } from 'protrac
 import { BasePage } from './base.pageobject';
 import { GnssReceiverGroup } from './gnss-receiver-group.pageobject';
 import { GnssAntennaGroup } from './gnss-antenna-group.pageobject';
+import { SurveyedLocalTieGroup } from './surveyed-local-tie-group.pageobject';
 import { FrequencyStandardGroup } from './frequency-standard-group.pageobject';
 
 export class SiteLogPage extends BasePage {
@@ -14,6 +15,7 @@ export class SiteLogPage extends BasePage {
 
     readonly gnssReceiverGroup = new GnssReceiverGroup();
     readonly gnssAntennaGroup = new GnssAntennaGroup();
+    readonly surveyedLocalTieGroup = new SurveyedLocalTieGroup();
     readonly frequencyStandardGroup = new FrequencyStandardGroup();
 
     public identifyingElement(): ElementFinder {
