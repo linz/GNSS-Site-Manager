@@ -1,6 +1,7 @@
 import { browser, by, element, ElementFinder, ElementArrayFinder } from 'protractor';
 import { BasePage } from './base.pageobject';
 import { GnssReceiverGroup } from './gnss-receiver-group.pageobject';
+import { GnssAntennaGroup } from './gnss-antenna-group.pageobject';
 import { FrequencyStandardGroup } from './frequency-standard-group.pageobject';
 
 export class SiteLogPage extends BasePage {
@@ -12,6 +13,7 @@ export class SiteLogPage extends BasePage {
     readonly confirmYesButton: ElementFinder = element(by.buttonText('Yes'));
 
     readonly gnssReceiverGroup = new GnssReceiverGroup();
+    readonly gnssAntennaGroup = new GnssAntennaGroup();
     readonly frequencyStandardGroup = new FrequencyStandardGroup();
 
     public identifyingElement(): ElementFinder {
