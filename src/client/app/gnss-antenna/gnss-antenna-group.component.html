@@ -15,13 +15,13 @@
 	          title="Add a new {{getItemName()}}"
 	          (click)="addNew($event); miscUtils.showFullView($event);">
 	    <i class="glyphicon glyphicon-plus-sign"></i>
-	    New <span class="hidden-xxs">Antenna</span>
+	    New <span class="hidden-xxs">{{getItemName()}}</span>
 	  </button>
 	</span>
   </div>
   <div class="panel-body group-body" [hidden]="! isGroupOpen">
     <div class="margin-bottom15" *ngIf="!hasItems()">
-      No information available for {{getItemName()}}
+      No information available for {{getItemName()}}s
     </div>
       <div *ngFor="let antenna of getItems(); let i = index">
           <gnss-antenna-item [groupArray]="parentForm"
