@@ -71,20 +71,22 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     }
 
     ngAfterViewInit() {
-        setTimeout(() => {
-            const components = this.itemComponents.toArray();
+        if (this.allowOneCurrentItem()) {
+            setTimeout(() => {
+                const components = this.itemComponents.toArray();
 
-            for (let i = 0; i < components.length - 1; i++) {
-                let current = components[i];
-                let next = components[i + 1];
+                for (let i = 0; i < components.length - 1; i++) {
+                    let current = components[i];
+                    let next = components[i + 1];
 
-                if (current.itemGroup.controls.startDate) {
-                    current.itemGroup.controls.startDate.valueChanges.subscribe(date => {
-                        this.updateEndDate(next, date, { overwrite: true });
-                    });
-                }
-            };
-        });
+                    if (current.itemGroup.controls.startDate) {
+                        current.itemGroup.controls.startDate.valueChanges.subscribe(date => {
+                            this.updateEndDate(next, date, { overwrite: true });
+                        });
+                    }
+                };
+            });
+        }
     }
 
     ngOnChanges(changes: { [property: string]: SimpleChange }) {
@@ -101,6 +103,13 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     abstract getControlName(): string;
 
     abstract getNewItemViewModel(): T;
+
+    /**
+     * Can this group contain only one current item or multiple current itmes?
+     */
+    protected allowOneCurrentItem(): boolean {
+        return true;
+    }
 
     getFormData(siteLog: any): any {
         return siteLog[this.getControlName()];
@@ -257,7 +266,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         setTimeout(() => {
             let dateUtc: string = MiscUtils.getUTCDateTime();
             this.updateDatesForNewItem(newItem, dateUtc);
-            this.updateEndDateForSecondItem(dateUtc);
+            if (this.allowOneCurrentItem()) {
+                this.updateEndDateForSecondItem(dateUtc);
+            }
         });
     }
 

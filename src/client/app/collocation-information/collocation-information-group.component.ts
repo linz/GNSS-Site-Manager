@@ -29,4 +29,8 @@ export class CollocationInformationGroupComponent extends AbstractGroupComponent
     getNewItemViewModel(): CollocationInformationViewModel {
         return new CollocationInformationViewModel();
     }
+
+    allowOneCurrentItem(): boolean {
+        return false;
+    }
 }
