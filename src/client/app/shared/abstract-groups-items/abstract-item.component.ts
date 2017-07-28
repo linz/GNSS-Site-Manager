@@ -211,7 +211,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         let endDatetime: any = this.itemGroup.controls.endDate.value;
 
         let headerHtml: string = '<span class="hidden-xsm">'
-                               + (this.getIndex() === 0 ? 'Current' : 'Previous')
+                               + (this.itemGroup.controls['endDate'].value ? 'Previous' : 'Current')
                                + ' </span>';
 
         if (startDatetime) {
