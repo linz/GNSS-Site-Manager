@@ -23,7 +23,7 @@
             No information available for Surveyed Local Ties
         </div>
         <div *ngFor="let surveyedLocalTie of getItems(); let i = index">
-            <surveyed-local-tie-item [groupArray]="parentForm"
+            <surveyed-local-tie-item #item [groupArray]="parentForm"
                                   [surveyedLocalTie]="surveyedLocalTie"
                                   [total]="items.length"
                                   [index]="i"

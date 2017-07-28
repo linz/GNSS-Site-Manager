@@ -23,7 +23,7 @@
       No information available for Pressure Sensors
     </div>
       <div *ngFor="let pressureSensor of getItems(); let i = index">
-          <pressure-sensor-item [groupArray]="parentForm"
+          <pressure-sensor-item #item [groupArray]="parentForm"
                                      [pressureSensor]="pressureSensor"
                                      [total]="items.length"
                                      [index]="i"

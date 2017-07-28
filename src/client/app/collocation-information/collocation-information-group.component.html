@@ -23,7 +23,7 @@
             No information available for {{getItemName()}}
         </div>
         <div *ngFor="let collocationInformation of getItems(); let i = index">
-            <collocation-information-item [groupArray]="parentForm"
+            <collocation-information-item #item [groupArray]="parentForm"
                                      [collocationInformation]="collocationInformation"
                                      [total]="items.length"
                                      [index]="i"

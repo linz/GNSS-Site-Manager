@@ -23,7 +23,8 @@
             No information available for {{getItemName()}}s
         </div>
         <div *ngFor="let signalObstruction of getItems(); let i = index">
-            <signal-obstruction-item [groupArray]="parentForm"
+            <signal-obstruction-item #item
+                                     [groupArray]="parentForm"
                                      [signalObstruction]="signalObstruction"
                                      [total]="items.length"
                                      [index]="i"

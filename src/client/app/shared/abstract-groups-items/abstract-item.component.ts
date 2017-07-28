@@ -11,7 +11,7 @@ import { SiteLogService, ApplicationState, ApplicationSaveState } from '../site-
 export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnInit, OnChanges, AfterViewInit {
     protected miscUtils: any = MiscUtils;
 
-    protected itemGroup: FormGroup;
+    public itemGroup: FormGroup;
 
     @Input('groupArray') groupArray: FormArray;
 
@@ -57,12 +57,6 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         setTimeout(() => {
             if (this.isEditable) {
                 this.itemGroup.enable();
-                // add a listener for changes to the start date field
-                if (this.itemGroup.controls.startDate) {
-                    this.itemGroup.controls.startDate.valueChanges.subscribe(
-                        updatedStartDate => this.updateEndDateOnPreviousItem(updatedStartDate)
-                    );
-                }
             } else {
                 this.itemGroup.disable();
             }
@@ -291,21 +285,4 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
             this.isOpen = false;
         }
     }
-
-    /**
-     * Updates the end date on the previous item.
-     */
-    private updateEndDateOnPreviousItem(updatedStartDate: string): void {
-        if (this.groupArray.length > this.index) {
-            let previousItem = <FormGroup> this.groupArray.at(this.index+1);
-            if (previousItem && previousItem.controls['endDate']) {
-                let endDateControl = previousItem.controls.endDate;
-                if (endDateControl && endDateControl.value !== updatedStartDate) {
-                    endDateControl.setValue(updatedStartDate);
-                    endDateControl.markAsDirty();
-                }
-            }
-        }
-    }
-
 }
