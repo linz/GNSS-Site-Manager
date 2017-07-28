@@ -23,7 +23,7 @@
       No information available for Water Vapor Sensors
     </div>
     <div *ngFor="let waterVaporSensor of getItems(); let i = index">
-      <water-vapor-sensor-item [groupArray]="parentForm"
+      <water-vapor-sensor-item #item [groupArray]="parentForm"
                                  [waterVaporSensor]="waterVaporSensor"
                                  [total]="items.length"
                                  [index]="i"

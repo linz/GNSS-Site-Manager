@@ -23,7 +23,7 @@
       No information available for Temperature Sensors
     </div>
     <div *ngFor="let temperatureSensor of getItems(); let i = index">
-      <temperature-sensor-item [groupArray]="parentForm"
+      <temperature-sensor-item #item [groupArray]="parentForm"
                                  [temperatureSensor]="temperatureSensor"
                                  [total]="items.length"
                                  [index]="i"
