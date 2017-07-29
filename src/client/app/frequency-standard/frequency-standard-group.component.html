@@ -24,7 +24,7 @@
       No information available for {{getItemName()}}s
     </div>
       <div *ngFor="let frequencyStandard of getItems(); let i = index">
-          <frequency-standard-item [groupArray]="parentForm"
+          <frequency-standard-item #item [groupArray]="parentForm"
                                    [frequencyStandard]="frequencyStandard"
                               [total]="items.length"
                               [index]="i"

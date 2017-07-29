@@ -1,4 +1,4 @@
-<div [formGroup]="itemGroup" class="panel panel-level-2">
+<div [formGroup]="itemGroup" class="panel panel-level-2" id="gnss-receiver-{{index}}">
     <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
             (keyup.space)="toggleGroup($event)"
@@ -25,7 +25,7 @@
     </div>
     <div class="panel-body item-body" [hidden]="!isOpen">
         <div *ngIf=" gnssReceiver == null ">
-            No information available for GNSS Receivers
+            No information available for current {{getItemName()}}
         </div>
         <div *ngIf="gnssReceiver != null" [ngClass]="{'container-dirty': gnssReceiver.dateDeleted}">
             <text-input [form]="itemGroup" controlName="receiverType">Receiver Type</text-input>

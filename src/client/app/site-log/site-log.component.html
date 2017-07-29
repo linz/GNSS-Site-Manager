@@ -26,6 +26,10 @@
                                           [siteLogModel]="siteLogModel">
                 </frequency-standard-group>
 
+                <collocation-information-group [parentForm]="siteLogForm.controls.collocationInformation"
+                                          [siteLogModel]="siteLogModel">
+                </collocation-information-group>
+
                 <local-episodic-effects-group [parentForm]="siteLogForm.controls.localEpisodicEffects"
                                               [siteLogModel]="siteLogModel">
                 </local-episodic-effects-group>
@@ -45,6 +49,10 @@
                 <water-vapor-sensors-group [parentForm]="siteLogForm.controls.waterVaporSensors"
                                            [siteLogModel]="siteLogModel">
                 </water-vapor-sensors-group>
+
+                <other-instrumentation-group [parentForm]="siteLogForm.controls.otherInstrumentation"
+                                           [siteLogModel]="siteLogModel">
+                </other-instrumentation-group>
 
                 <radio-interferences-group [parentForm]="siteLogForm.controls.radioInterferences"
                                            [siteLogModel]="siteLogModel">

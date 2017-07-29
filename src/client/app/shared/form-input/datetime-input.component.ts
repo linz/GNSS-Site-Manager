@@ -32,6 +32,7 @@ export class DatetimeInputComponent extends AbstractInput implements OnInit, DoC
 
     constructor(private elemRef: ElementRef) {
         super();
+        // TODO: change default to false
         this.required = true;
     }
 

@@ -23,7 +23,8 @@
             No information available for Humidity Sensors
         </div>
         <div *ngFor="let humiditySensor of getItems(); let i = index">
-            <humidity-sensor-item [groupArray]="parentForm"
+            <humidity-sensor-item #item
+                                  [groupArray]="parentForm"
                                   [humiditySensor]="humiditySensor"
                                   [total]="items.length"
                                   [index]="i"

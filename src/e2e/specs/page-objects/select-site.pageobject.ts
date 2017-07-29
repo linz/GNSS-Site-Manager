@@ -1,7 +1,7 @@
 import { element, by, ElementFinder, ElementArrayFinder, browser } from 'protractor';
-
-import { BasePage } from '../page-objects/base.pageobject';
 import { TestUtils } from '../utils/test.utils';
+import { BasePage } from './base.pageobject';
+import { SiteLogPage } from './site-log.pageobject';
 
 export class SelectSitePage extends BasePage {
     readonly url: string = '/';
@@ -25,22 +25,30 @@ export class SelectSitePage extends BasePage {
         browser.waitForAngular();
     }
 
-    /**
-     * Click on the site name in the list.  Run this after searchFor(siteName) - @see searchForSiteNameClick();
-     * @param siteName
-     */
-    public clickOnSite(siteName: string) {
-        expect(TestUtils.elementArrayContaining(this.selectSiteListItems, siteName).count()).toBe(1);
-        this.selectSiteListItems.get(0).click();
+    public searchAll() {
+        this.searchButton.click();
         browser.waitForAngular();
     }
 
     /**
-     * Search for and then click on the given siteName
+     * Click on the site name in the list.  Run this after searchFor(siteName) - @see searchForSiteNameClick();
      * @param siteName
      */
-    public openSite(siteName: string) {
-        this.searchFor(siteName);
-        this.clickOnSite(siteName);
+    public clickOnSite(siteName: string): SiteLogPage {
+        expect(TestUtils.elementArrayContaining(this.selectSiteListItems, siteName).count()).toBe(1);
+        this.selectSiteListItems.get(0).click();
+        browser.waitForAngular();
+        return new SiteLogPage();
+    }
+
+    /**
+     * Enter a site Id for quick search and click on the selected site to open its site log page
+     *
+     * @param siteId - the Id of a site log
+     * @return the page object of the site log with given siteId
+     */
+    public openSite(siteId: string): SiteLogPage {
+        this.enterSearchText(siteId);
+        return this.clickOnSite(siteId);
     }
 }

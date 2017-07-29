@@ -23,7 +23,8 @@
             No information available for {{getItemName()}}s
         </div>
         <div *ngFor="let radioInterference of getItems(); let i = index">
-            <radio-interference-item [groupArray]="parentForm"
+            <radio-interference-item #item
+                                     [groupArray]="parentForm"
                                      [radioInterference]="radioInterference"
                                      [total]="items.length"
                                      [index]="i"

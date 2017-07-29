@@ -11,6 +11,7 @@ import { UserAuthService } from '../shared/global/user-auth.service';
 import { ApplicationSaveState } from '../shared/site-log/site-log.service';
 import { ResponsiblePartyGroupComponent } from '../responsible-party/responsible-party-group.component';
 import { GnssReceiversGroupComponent } from '../gnss-receiver/gnss-receivers-group.component';
+import { CollocationInformationGroupComponent } from '../collocation-information/collocation-information-group.component';
 import { FrequencyStandardGroupComponent } from '../frequency-standard/frequency-standard-group.component';
 import { GnssAntennaGroupComponent } from '../gnss-antenna/gnss-antenna-group.component';
 import { HumiditySensorsGroupComponent } from '../humidity-sensor/humidity-sensors-group.component';
@@ -19,6 +20,7 @@ import { LocalEpisodicEffectsGroupComponent } from '../local-episodic-effect/loc
 import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-local-ties-group.component';
 import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
+import { OtherInstrumentationGroupComponent } from '../other-instrumentation/other-instrumentation-group.component';
 import { RadioInterferenceGroupComponent } from '../radio-interference/radio-interference-group.component';
 import { SignalObstructionGroupComponent } from '../signal-obstruction/signal-obstruction-group.component';
 import { MultipathSourceGroupComponent } from '../multipath-source/multipath-source-group.component';
@@ -295,6 +297,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             gnssAntennas: this.formBuilder.array([]),
             gnssReceivers: this.formBuilder.array([]),
             frequencyStandards: this.formBuilder.array([]),
+            collocationInformation: this.formBuilder.array([]),
             humiditySensors: this.formBuilder.array([]),
             localEpisodicEffects: this.formBuilder.array([]),
             multipathSources: this.formBuilder.array([]),
@@ -304,6 +307,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             surveyedLocalTies: this.formBuilder.array([]),
             temperatureSensors: this.formBuilder.array([]),
             waterVaporSensors: this.formBuilder.array([]),
+            otherInstrumentation: this.formBuilder.array([]),
         });
     }
 
@@ -372,6 +376,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 return GnssAntennaGroupComponent.compare;
             case 'frequencyStandards':
                 return FrequencyStandardGroupComponent.compare;
+            case 'collocationInformation':
+                return CollocationInformationGroupComponent.compare;
             case 'humiditySensors':
                 return HumiditySensorsGroupComponent.compare;
             case 'pressureSensors':
@@ -384,6 +390,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 return TemperatureSensorsGroupComponent.compare;
             case 'waterVaporSensors':
                 return WaterVaporSensorsGroupComponent.compare;
+            case 'otherInstrumentation':
+                return OtherInstrumentationGroupComponent.compare;
             case 'radioInterferences':
                 return RadioInterferenceGroupComponent.compare;
             case 'signalObstructions':

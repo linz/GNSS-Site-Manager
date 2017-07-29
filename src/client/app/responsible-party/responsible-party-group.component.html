@@ -23,7 +23,8 @@
             No information available for {{getItemName()}}
         </div>
         <div *ngFor="let responsibleParty of getItems(); let i = index">
-            <gnss-responsible-party-item [groupArray]="parentForm"
+            <gnss-responsible-party-item #item
+                                         [groupArray]="parentForm"
                                          [partyType]="partyType"
                                          [responsibleParty]="responsibleParty"
                                          [index]="i"

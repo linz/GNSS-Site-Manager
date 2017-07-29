@@ -16,11 +16,13 @@ export class SiteLogDataModel {
     gnssAntennas: any[];
     surveyedLocalTies: any[];
     frequencyStandards: any[];
+    collocationInformation: any[];
     localEpisodicEffects: any[];
     humiditySensors: any[] = [];
     pressureSensors: any[];
     temperatureSensors: any[];
     waterVaporSensors: any[];
+    otherInstrumentation: any[];
     siteOwner: any;
     siteContacts: any[];
     siteMetadataCustodian: any;
@@ -43,11 +45,13 @@ export class SiteLogDataModel {
             this.gnssAntennas = this.getSuppliedValueOrEmptyValue(siteLogModel.gnssAntennas, true);
             this.surveyedLocalTies = this.getSuppliedValueOrEmptyValue(siteLogModel.surveyedLocalTies, true);
             this.frequencyStandards = this.getSuppliedValueOrEmptyValue(siteLogModel.frequencyStandards, true);
+            this.collocationInformation = this.getSuppliedValueOrEmptyValue(siteLogModel.collocationInformation, true);
             this.localEpisodicEffects = this.getSuppliedValueOrEmptyValue(siteLogModel.localEpisodicEffects, true);
             this.humiditySensors = this.getSuppliedValueOrEmptyValue(siteLogModel.humiditySensors, true);
             this.pressureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.pressureSensors, true);
             this.temperatureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.temperatureSensors, true);
             this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.waterVaporSensors, true);
+            this.otherInstrumentation = this.getSuppliedValueOrEmptyValue(siteLogModel.otherInstrumentation, true);
             this.siteContacts = this.getSuppliedValueOrEmptyValue(siteLogModel.siteContacts, true);
             this.siteDataCenters = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataCenters, true);
             this.radioInterferences = this.getSuppliedValueOrEmptyValue(siteLogModel.radioInterferences, true);

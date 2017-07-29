@@ -23,7 +23,7 @@
             No information available for Local Episodic Effects
         </div>
         <div *ngFor="let localEpisodicEffect of getItems(); let i = index">
-            <local-episodic-effect-item [groupArray]="parentForm"
+            <local-episodic-effect-item #item [groupArray]="parentForm"
                                   [localEpisodicEffect]="localEpisodicEffect"
                                   [total]="items.length"
                                   [index]="i"

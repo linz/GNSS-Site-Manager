@@ -1,6 +1,7 @@
-import { Input, OnChanges, SimpleChange } from '@angular/core';
+import { Input, AfterViewInit, OnChanges, SimpleChange, ViewChildren, QueryList } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
+import { AbstractItemComponent } from './abstract-item.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { SiteLogViewModel }  from '../../site-log/site-log-view-model';
@@ -10,7 +11,10 @@ import { SiteLogService } from '../site-log/site-log.service';
 
 export const newItemShouldBeBlank: boolean = true;
 
-export abstract class AbstractGroupComponent<T extends AbstractViewModel> extends AbstractBaseComponent implements OnChanges {
+export abstract class AbstractGroupComponent<T extends AbstractViewModel>
+    extends AbstractBaseComponent
+    implements AfterViewInit, OnChanges {
+
     isGroupOpen: boolean = false;
 
     // flag to indicate that the current or latest item in a group has an end date set
@@ -20,6 +24,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
 
     @Input() parentForm: FormArray;
     @Input('siteLogModel') siteLogModel: SiteLogViewModel;
+
+    @ViewChildren('item') itemComponents: QueryList<AbstractItemComponent>;
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -64,6 +70,25 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         super(siteLogService);
     }
 
+    ngAfterViewInit() {
+        if (this.allowOneCurrentItem()) {
+            setTimeout(() => {
+                const components = this.itemComponents.toArray();
+
+                for (let i = 0; i < components.length - 1; i++) {
+                    let current = components[i];
+                    let next = components[i + 1];
+
+                    if (current.itemGroup.controls.startDate) {
+                        current.itemGroup.controls.startDate.valueChanges.subscribe(date => {
+                            this.updateEndDate(next, date, { overwrite: true });
+                        });
+                    }
+                };
+            });
+        }
+    }
+
     ngOnChanges(changes: { [property: string]: SimpleChange }) {
         if (changes['siteLogModel']) {
             this.setupForm();
@@ -78,6 +103,13 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
     abstract getControlName(): string;
 
     abstract getNewItemViewModel(): T;
+
+    /**
+     * Can this group contain only one current item or multiple current itmes?
+     */
+    protected allowOneCurrentItem(): boolean {
+        return true;
+    }
 
     getFormData(siteLog: any): any {
         return siteLog[this.getControlName()];
@@ -234,7 +266,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
         setTimeout(() => {
             let dateUtc: string = MiscUtils.getUTCDateTime();
             this.updateDatesForNewItem(newItem, dateUtc);
-            this.updateEndDateForSecondItem(dateUtc);
+            if (this.allowOneCurrentItem()) {
+                this.updateEndDateForSecondItem(dateUtc);
+            }
         });
     }
 
@@ -255,18 +289,28 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel> extend
      *
      * @param dateUtc: the UTC datetime string to be set to EndDate
      */
-    private updateEndDateForSecondItem(dateUtc: string) {
-        let index: number = 1;
+    private updateEndDateForSecondItem(date: string) {
+        let components = this.itemComponents.toArray();
+
         if (this.items.length > 1 && this.hasEndDateField()) {
-            if (this.items[index].endDate) {
+            if (components[1].itemGroup.controls['endDate'].value) {
                 this.currentItemAlreadyHasEndDate = true;
             } else {
-                this.items[index].endDate = dateUtc;
-                let formGroup: FormGroup = <FormGroup>this.parentForm.at(index);
-                if (formGroup.controls['endDate']) {
-                    formGroup.controls['endDate'].setValue(dateUtc);
-                    formGroup.controls['endDate'].markAsDirty();
-                }
+                this.updateEndDate(components[1], date, { overwrite: false });
+                components[0].itemGroup.controls.startDate.valueChanges.subscribe((date: string) => {
+                    this.updateEndDate(components[1], date, { overwrite: true });
+                });
+            }
+        }
+    }
+
+    private updateEndDate(itemComponent: AbstractItemComponent, date: string, flags: { overwrite: boolean }): void {
+        let item = itemComponent.itemGroup;
+        if (item.controls['endDate']) {
+            let endDateControl = item.controls.endDate;
+            if (!endDateControl.value || flags.overwrite) {
+                endDateControl.setValue(date);
+                endDateControl.markAsDirty();
             }
         }
     }

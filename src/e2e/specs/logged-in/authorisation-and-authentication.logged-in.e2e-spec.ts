@@ -5,7 +5,6 @@ import { LoginActions } from '../utils/login.actions';
 
 describe('Authorization/Authentication', () => {
     let selectSitePage: SelectSitePage = new SelectSitePage();
-    let siteLogPage: SiteLogPage = new SiteLogPage();
     let loginActions: LoginActions  = new LoginActions(selectSitePage);
 
     beforeEach(async () => {
@@ -14,7 +13,7 @@ describe('Authorization/Authentication', () => {
 
     it('should allow edits when a user is logged in', () => {
         loginActions.login('user.a', 'gumby123A');
-        selectSitePage.openSite('ADE1');
+        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
         expect(siteLogPage.siteNameInput.isEnabled()).toBe(true, 'siteNameInput should be enabled');

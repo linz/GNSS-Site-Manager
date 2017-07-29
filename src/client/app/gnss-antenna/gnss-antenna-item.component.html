@@ -1,4 +1,4 @@
-<div [formGroup]="itemGroup" class="panel panel-level-2" id="antenna_{{index}}">
+<div [formGroup]="itemGroup" class="panel panel-level-2" id="gnss-antenna-{{index}}">
   <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
 	        (keyup.space)="toggleGroup($event)"
@@ -24,7 +24,7 @@
     </div>
     <div class="panel-body item-body" [hidden]="!isOpen">
         <div class="margin-bottom15" *ngIf=" antenna == null ">
-            No information available for current GNSS Antenna
+            No information available for current {{getItemName()}}
         </div>
         <div *ngIf="antenna != null" [ngClass]="{'container-dirty': antenna.dateDeleted}">
             <div class="form-group">

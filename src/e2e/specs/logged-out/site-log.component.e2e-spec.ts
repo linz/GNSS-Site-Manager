@@ -4,11 +4,12 @@ import { TestUtils } from '../utils/test.utils';
 import * as _ from 'lodash';
 
 describe('SiteLog', () => {
+    let siteUrl: string = '/siteLog/ADE1';
     let siteLogPage: SiteLogPage = new SiteLogPage();
 
     beforeEach(async () => {
         jasmine.DEFAULT_TIMEOUT_INTERVAL = 100000;
-        return await browser.get(siteLogPage.urlAde1);
+        return await browser.get(siteUrl);
     });
 
     it('expect ade1 sitelog to exist', () => {
@@ -18,13 +19,14 @@ describe('SiteLog', () => {
     it('expect all level 1 headers to be present', () => {
         let allHeaders: string[] = null;
         let expectedHeaders: string[] = ['Site Information', 'GNSS Receivers', 'GNSS Antennas', 'Surveyed Local Ties',
-            'Frequency Standards', 'Local Episodic Effects', 'Humidity Sensors', 'Pressure Sensors', 'Temperature Sensors',
-            'Water Vapor Sensors', 'Radio Interferences', 'Signal Obstructions', 'Multipath Sources'];
+            'Frequency Standards', 'Collocation Information', 'Local Episodic Effects', 'Humidity Sensors', 'Pressure Sensors',
+            'Temperature Sensors', 'Water Vapor Sensors', 'Other Instrumentation', 'Radio Interferences', 'Signal Obstructions',
+            'Multipath Sources'];
 
         TestUtils.getElementArrayAsList(siteLogPage.siteGroupHeaders).then((groupHeaders: string[]) => {
             allHeaders = groupHeaders;
             console.log('SiteLog / expect all level 1 headers to be present - headers: ', allHeaders);
-            expect(allHeaders.length).toBe(13);
+            expect(allHeaders.length).toBe(expectedHeaders.length);
             expect(_.difference(allHeaders, expectedHeaders).length).toBe(0, 'SiteLog / expect all level 1 headers to be present');
         });
     });
