@@ -277,6 +277,15 @@ let waterVaporSensorMap = new ObjectMap()
     .addFieldMap('waterVaporSensor.notes', 'notes')
 ;
 
+let otherInstrumentationMap = new ObjectMap()
+    .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
+    .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
+    .addFieldMap('deletedReason', 'deletedReason')
+    .addFieldMap('otherInstrumentation.validTime.abstractTimePrimitive.gml:TimePeriod.beginPosition.value[0]', 'startDate', dateMap)
+    .addFieldMap('otherInstrumentation.validTime.abstractTimePrimitive.gml:TimePeriod.endPosition.value[0]', 'endDate', dateMap)
+    .addFieldMap('otherInstrumentation.instrumentation', 'instrumentation')
+;
+
 let radioInterferenceMap = new ObjectMap()
     .addFieldMap('dateDeleted.value[0]', 'dateDeleted', dateMap)
     .addFieldMap('dateInserted.value[0]', 'dateInserted', dateMap)
@@ -354,6 +363,7 @@ let siteLogMap = new ObjectMap()
     .addFieldMap('pressureSensors', 'pressureSensors', pressureSensorMap)
     .addFieldMap('temperatureSensors', 'temperatureSensors', temperatureSensorMap)
     .addFieldMap('waterVaporSensors', 'waterVaporSensors', waterVaporSensorMap)
+    .addFieldMap('otherInstrumentation', 'otherInstrumentation', otherInstrumentationMap)
 
     .addFieldMap('radioInterferences', 'radioInterferences', radioInterferenceMap)
     .addFieldMap('signalObstructions', 'signalObstructions', signalObstructionMap)

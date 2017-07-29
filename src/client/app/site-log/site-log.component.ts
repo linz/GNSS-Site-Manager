@@ -20,6 +20,7 @@ import { LocalEpisodicEffectsGroupComponent } from '../local-episodic-effect/loc
 import { SurveyedLocalTiesGroupComponent } from '../surveyed-local-tie/surveyed-local-ties-group.component';
 import { TemperatureSensorsGroupComponent } from '../temperature-sensor/temperature-sensors-group.component';
 import { WaterVaporSensorsGroupComponent } from '../water-vapor-sensor/water-vapor-sensors-group.component';
+import { OtherInstrumentationGroupComponent } from '../other-instrumentation/other-instrumentation-group.component';
 import { RadioInterferenceGroupComponent } from '../radio-interference/radio-interference-group.component';
 import { SignalObstructionGroupComponent } from '../signal-obstruction/signal-obstruction-group.component';
 import { MultipathSourceGroupComponent } from '../multipath-source/multipath-source-group.component';
@@ -306,6 +307,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
             surveyedLocalTies: this.formBuilder.array([]),
             temperatureSensors: this.formBuilder.array([]),
             waterVaporSensors: this.formBuilder.array([]),
+            otherInstrumentation: this.formBuilder.array([]),
         });
     }
 
@@ -388,6 +390,8 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                 return TemperatureSensorsGroupComponent.compare;
             case 'waterVaporSensors':
                 return WaterVaporSensorsGroupComponent.compare;
+            case 'otherInstrumentation':
+                return OtherInstrumentationGroupComponent.compare;
             case 'radioInterferences':
                 return RadioInterferenceGroupComponent.compare;
             case 'signalObstructions':

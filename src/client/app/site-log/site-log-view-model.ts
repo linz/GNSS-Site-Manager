@@ -8,6 +8,7 @@ import { PressureSensorViewModel } from '../pressure-sensor/pressure-sensor-view
 import { TemperatureSensorViewModel } from '../temperature-sensor/temperature-sensor-view-model';
 import { ResponsiblePartyViewModel } from '../responsible-party/responsible-party-view-model';
 import { GnssReceiverViewModel } from '../gnss-receiver/gnss-receiver-view-model';
+import { OtherInstrumentationViewModel } from '../other-instrumentation/other-instrumentation-view-model';
 import { RadioInterferenceViewModel } from '../radio-interference/radio-interference-view-model';
 import { SignalObstructionViewModel } from '../signal-obstruction/signal-obstruction-view-model';
 import { MultipathSourceViewModel } from '../multipath-source/multipath-source-view-model';
@@ -41,6 +42,7 @@ export class SiteLogViewModel {
     pressureSensors: PressureSensorViewModel[] = [];
     temperatureSensors: TemperatureSensorViewModel[] = [];
     waterVaporSensors: any[] = [];
+    otherInstrumentation: OtherInstrumentationViewModel[] = [];
     siteOwner: ResponsiblePartyViewModel[] = [];             // Array of 0..1 item
     siteContacts: ResponsiblePartyViewModel[] = [];
     siteMetadataCustodian: ResponsiblePartyViewModel[] = []; // Array of 0..1 item

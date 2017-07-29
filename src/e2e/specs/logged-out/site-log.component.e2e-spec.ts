@@ -20,7 +20,8 @@ describe('SiteLog', () => {
         let allHeaders: string[] = null;
         let expectedHeaders: string[] = ['Site Information', 'GNSS Receivers', 'GNSS Antennas', 'Surveyed Local Ties',
             'Frequency Standards', 'Collocation Information', 'Local Episodic Effects', 'Humidity Sensors', 'Pressure Sensors',
-            'Temperature Sensors', 'Water Vapor Sensors', 'Radio Interferences', 'Signal Obstructions', 'Multipath Sources'];
+            'Temperature Sensors', 'Water Vapor Sensors', 'Other Instrumentation', 'Radio Interferences', 'Signal Obstructions',
+            'Multipath Sources'];
 
         TestUtils.getElementArrayAsList(siteLogPage.siteGroupHeaders).then((groupHeaders: string[]) => {
             allHeaders = groupHeaders;
