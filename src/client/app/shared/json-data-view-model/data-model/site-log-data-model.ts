@@ -22,6 +22,7 @@ export class SiteLogDataModel {
     pressureSensors: any[];
     temperatureSensors: any[];
     waterVaporSensors: any[];
+    otherInstrumentation: any[];
     siteOwner: any;
     siteContacts: any[];
     siteMetadataCustodian: any;
@@ -50,6 +51,7 @@ export class SiteLogDataModel {
             this.pressureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.pressureSensors, true);
             this.temperatureSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.temperatureSensors, true);
             this.waterVaporSensors = this.getSuppliedValueOrEmptyValue(siteLogModel.waterVaporSensors, true);
+            this.otherInstrumentation = this.getSuppliedValueOrEmptyValue(siteLogModel.otherInstrumentation, true);
             this.siteContacts = this.getSuppliedValueOrEmptyValue(siteLogModel.siteContacts, true);
             this.siteDataCenters = this.getSuppliedValueOrEmptyValue(siteLogModel.siteDataCenters, true);
             this.radioInterferences = this.getSuppliedValueOrEmptyValue(siteLogModel.radioInterferences, true);
