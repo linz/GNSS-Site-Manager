@@ -101,21 +101,21 @@ export class TestUtils {
         });
     }
 
-    public static cacheInputValue(elemFinder: ElementFinder, fieldName: string, newValues: any) {
+    public static cacheInputValue(elemFinder: ElementFinder, fieldName: string, viewModel: any) {
         elemFinder.getAttribute('value').then((value: string) => {
-            newValues[fieldName] = value;
+            viewModel[fieldName] = value;
             console.log('Cache value for ' + fieldName + ': ' + value);
         });
     }
 
-    public static changeInputValue(elemFinder: ElementFinder, fieldName: string, newValues: any, backupValues?: any) {
+    public static changeInputValue(elemFinder: ElementFinder, fieldName: string, viewModel: any, backupModel?: any) {
         elemFinder.getAttribute('value').then((value: string) => {
-            if (backupValues) {
-                backupValues[fieldName] = value;
+            if (backupModel) {
+                backupModel[fieldName] = value;
             }
             elemFinder.clear();
-            elemFinder.sendKeys(newValues[fieldName]);
-            console.log('Change value for ' + fieldName + ' from "' + value + '" to "' + newValues[fieldName] + '"');
+            elemFinder.sendKeys(viewModel[fieldName]);
+            console.log('Change value for ' + fieldName + ' from "' + value + '" to "' + viewModel[fieldName] + '"');
         });
     }
 }
