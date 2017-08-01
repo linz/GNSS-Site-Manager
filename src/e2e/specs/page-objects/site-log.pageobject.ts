@@ -24,24 +24,18 @@ export class SiteLogPage extends BasePage {
 
     public save() {
         this.siteIdMenu.click();
-        this.saveSiteLink.click().then(() => {
-            console.log('Clicked "Save" button');
-        });
-
+        this.saveSiteLink.click();
         this.confirmYesButton.click().then(() => {
-            console.log('Clicked "Yes" button to save all changes made');
+            console.log('Clicked "Yes" button to confirm saving all changes made.');
         });
         browser.waitForAngular();
     }
 
     public revert() {
         this.siteIdMenu.click();
-        this.revertSiteLink.click().then(() => {
-            console.log('Clicked "Revert" button to reload the site log page');
-        });
-
+        this.revertSiteLink.click();
         this.confirmYesButton.click().then(() => {
-            console.log('Clicked "Yes" button to conduct the reload of the site log page');
+            console.log('Clicked "Yes" button to confirm reverting the site log page');
         });
     }
 
@@ -52,14 +46,15 @@ export class SiteLogPage extends BasePage {
      */
     public reload(siteId: string) {
         browser.get('/siteLog/' + siteId);
-        console.log('Loaded ' + siteId + ' sitelog page.');
+        console.log('Loaded ' + siteId + ' site log page.');
         browser.waitForAngular();
     }
 
-    public close() {
+    public close(message?: string) {
         this.siteIdMenu.click();
         this.closeSiteLink.click().then(() => {
-            console.log('Close site-log page');
+            console.log(message + ' Closed the site log page.');
         });
+        browser.waitForAngular();
     }
 }
