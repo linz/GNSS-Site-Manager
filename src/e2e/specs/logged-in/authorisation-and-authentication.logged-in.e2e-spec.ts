@@ -11,11 +11,33 @@ describe('Authorization/Authentication', () => {
         return await browser.get(selectSitePage.url);
     });
 
+    afterAll(() => {
+        loginActions.logout();
+        browser.waitForAngular();
+    });
+
     it('should allow edits when a user is logged in', () => {
         loginActions.login('user.a', 'gumby123A');
         let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
         siteLogPage.siteInformationHeader.click();
         siteLogPage.siteIdentificationHeader.click();
         expect(siteLogPage.siteNameInput.isEnabled()).toBe(true, 'siteNameInput should be enabled');
+    });
+
+    it('should be able to login as a different user with different authorization', () => {
+        loginActions.loginAs('user.a', 'gumby123A');
+        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE2');
+        siteLogPage.siteInformationHeader.click();
+        siteLogPage.siteIdentificationHeader.click();
+        expect(siteLogPage.siteNameInput.isEnabled()).toBe(false, 'SiteName Input should not be enabled');
+        siteLogPage.close();
+
+        browser.waitForAngular();
+        loginActions.loginAs('user.b', 'gumby123B');
+        siteLogPage = selectSitePage.openSite('ADE2');
+        siteLogPage.siteInformationHeader.click();
+        siteLogPage.siteIdentificationHeader.click();
+        expect(siteLogPage.siteNameInput.isEnabled()).toBe(true, 'SiteName Input should be enabled');
+        siteLogPage.close();
     });
 });
