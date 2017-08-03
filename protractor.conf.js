@@ -11,9 +11,9 @@ const config = {
     siteLogComponents: [
       './dist/e2e/specs/log-groups/**/*.e2e-spec.js'
     ],
-    allSites: [
-      './dist/e2e/specs/all-sites/**/*.e2e-spec.js'
-    ],
+//    allSites: [
+//      './dist/e2e/specs/all-sites/**/*.e2e-spec.js'
+//    ],
   },
 
   exclude: [],
