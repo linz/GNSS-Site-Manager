@@ -12,8 +12,8 @@ describe('Frequency Standard Group Component', () => {
     let siteId: string = 'ADE1';
     let standardType: string = 'Cesium - Rcvr 3';
     let inputFrequency: string = '1080';
-    let notes: string = 'e2e testing - add a new item on ' + timestamp;
-    let deleteReason: string = 'e2e testing - delete an item on ' + timestamp;
+    let notes: string = 'e2e testing - add a new item ' + timestamp;
+    let deleteReason: string = 'e2e testing - delete an item ' + timestamp;
     let noOfItems: number = 0;
 
     let selectSitePage: SelectSitePage = new SelectSitePage();

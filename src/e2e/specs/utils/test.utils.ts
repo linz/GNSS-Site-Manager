@@ -59,7 +59,7 @@ export class TestUtils {
     }
 
     public static getTimeStamp(): string {
-        return moment().utc().format('YYYY-MM-DD HH:mm:ss');
+        return moment().utc().format('@YYYYMMDDTHHmmss');
     }
 
     public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string) {
@@ -69,10 +69,17 @@ export class TestUtils {
         });
     }
 
+    public static checkInputValueContain(elemFinder: ElementFinder, elemName: string, expectValue: string) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            console.log('Check if ' + elemName + ' "' + value + '" contains "' + expectValue + '": ' + (value.indexOf(expectValue) !== -1));
+            expect(value).toContain(expectValue);
+        });
+    }
+
     public static checkInputValueNotNull(elemFinder: ElementFinder, elemName: string) {
         elemFinder.getAttribute('value').then((value: string) => {
             console.log('Check if ' + elemName + ' is not null (value=' + value + ')');
-            expect(value).not.toBe(null);
+            expect(value).not.toBeNull();
         });
     }
 
@@ -80,6 +87,17 @@ export class TestUtils {
         elemArrayFinder.count().then((count: number) => {
             console.log('Number of items after ' + action + ': ' + count);
             expect(count).toBe(expectCount);
+        });
+    }
+
+    public static appendTimestamp(elemFinder: ElementFinder, timestamp: string) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            let index: number = value.indexOf('@');
+            if(index > 0) {
+                value = value.substring(0, index);
+            }
+            elemFinder.clear();
+            elemFinder.sendKeys(value + timestamp);
         });
     }
 }

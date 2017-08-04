@@ -21,8 +21,8 @@ describe('GNSS Antenna Group Component', () => {
     let radomeSerialNumber: string = 'SNOW_Test';
     let antennaCableType: string = 'SNOW_2';
     let antennaCableLength: string = '100';
-    let notes: string = 'e2e testing - add a new item on ' + timestamp;
-    let deleteReason: string = 'e2e testing - delete an item on ' + timestamp;
+    let notes: string = 'e2e testing - add a new item ' + timestamp;
+    let deleteReason: string = 'e2e testing - delete an item ' + timestamp;
     let noOfItems: number = 0;
 
     let selectSitePage: SelectSitePage = new SelectSitePage();

@@ -19,8 +19,8 @@ describe('Surveyed Local Tie Group Component', () => {
     let dz: string = '4';
     let localSiteTiesAccuracy: string = '0';
     let surveyMethod: string = 'TRIANGULATION';
-    let notes: string = 'e2e testing - add a new item on ' + timestamp;
-    let deleteReason: string = 'e2e testing - delete an item on ' + timestamp;
+    let notes: string = 'e2e testing - add a new item ' + timestamp;
+    let deleteReason: string = 'e2e testing - delete an item ' + timestamp;
     let noOfItems: number = 0;
 
     let selectSitePage: SelectSitePage = new SelectSitePage();

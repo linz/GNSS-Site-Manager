@@ -15,8 +15,8 @@ describe('GNSS Receiver Group Component', () => {
     let firmwareVersion: string = '8Y08-8D08';
     let elevationCutoffSetting: string = '5';
     let temperatureStabilization: string = '10';
-    let notes: string = 'e2e testing - add a new item on ' + timestamp;
-    let deleteReason: string = 'e2e testing - delete an item on ' + timestamp;
+    let notes: string = 'e2e testing - add a new item ' + timestamp;
+    let deleteReason: string = 'e2e testing - delete an item ' + timestamp;
     let noOfItems: number = 0;
 
     let selectSitePage: SelectSitePage = new SelectSitePage();

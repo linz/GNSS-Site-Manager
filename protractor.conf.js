@@ -11,6 +11,11 @@ const config = {
     siteLogComponents: [
       './dist/e2e/specs/log-groups/**/*.e2e-spec.js'
     ],
+// TODO: This test takes a really long time, so we don't want CI to run it.
+// Work out how to selectively run test suites.
+//    allSites: [
+//      './dist/e2e/specs/all-sites/**/*.e2e-spec.js'
+//    ],
   },
 
   exclude: [],
