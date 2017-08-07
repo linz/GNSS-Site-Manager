@@ -100,4 +100,22 @@ export class TestUtils {
             elemFinder.sendKeys(value + timestamp);
         });
     }
+
+    public static cacheInputValue(elemFinder: ElementFinder, fieldName: string, newValues: any) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            newValues[fieldName] = value;
+            console.log('Cache value for ' + fieldName + ': ' + value);
+        });
+    }
+
+    public static changeInputValue(elemFinder: ElementFinder, fieldName: string, newValues: any, backupValues?: any) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            if (backupValues) {
+                backupValues[fieldName] = value;
+            }
+            elemFinder.clear();
+            elemFinder.sendKeys(newValues[fieldName]);
+            console.log('Change value for ' + fieldName + ' from "' + value + '" to "' + newValues[fieldName] + '"');
+        });
+    }
 }
