@@ -15,7 +15,7 @@ import { mockResponsibleParty } from './view-model';
 describe('Responsible Party - Site Contact Group Component', () => {
 
     let viewModel: ResponsiblePartyViewModel = mockResponsibleParty;
-    let backupModel: ResponsiblePartyViewModel = {};
+    let backupModel: any = {};
     let itemName: string = 'Site Contact';
     let siteId: string = 'ADE1';
     let noOfItems: number = 0;
