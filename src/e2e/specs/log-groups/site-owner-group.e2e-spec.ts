@@ -8,7 +8,7 @@ import { ResponsiblePartyViewModel } from '../../../client/app/responsible-party
 import { mockResponsibleParty } from './view-model';
 
 /**
- * Two conditional tests base on the requirements (0 - 1 optional Site Owner):
+ * Two conditional tests based on the requirements (0 - 1 optional Site Owner):
  * 1) If there is a SiteOwner item, cache all values and delete it, and then add a new one and fill with all values cached;
  * 2) Otherwise, add a new SiteOwner item and fill it with new values provided, and delete the newly-created item at the end
  */
