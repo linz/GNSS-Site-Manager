@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import { TestUtils } from '../utils/test.utils';
 import { ResponsiblePartyViewModel } from '../../../client/app/responsible-party/responsible-party-view-model';
 import { PressureSensorViewModel } from '../../../client/app/pressure-sensor/pressure-sensor-view-model';
+import { HumiditySensorViewModel } from '../../../client/app/humidity-sensor/humidity-sensor-view-model';
 
 const timestamp: string = TestUtils.getTimeStamp();
 
@@ -40,3 +41,6 @@ export const meteorologicalSensorCommonProperties: any = {
 
 export const mockPressureSensor: PressureSensorViewModel = <PressureSensorViewModel>_.extend(meteorologicalSensorCommonProperties,
         { dataSamplingInterval: 600, accuracyHPa: 0.3 });
+
+export const mockHumiditySensor: HumiditySensorViewModel = <HumiditySensorViewModel>_.extend(meteorologicalSensorCommonProperties,
+        { dataSamplingInterval: 600, accuracyPercentRelativeHumidity: 0, aspiration: 'Natural' });

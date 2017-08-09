@@ -25,6 +25,7 @@ export class SiteLogPage extends BasePage {
     readonly surveyedLocalTieGroup = new SurveyedLocalTieGroup();
     readonly frequencyStandardGroup = new FrequencyStandardGroup();
     readonly pressureSensorGroup = new MeteorologicalSensorGroup('Pressure Sensor');
+    readonly humiditySensorGroup = new MeteorologicalSensorGroup('Humidity Sensor');
 
     public identifyingElement(): ElementFinder {
         return this.siteInformationHeader;
