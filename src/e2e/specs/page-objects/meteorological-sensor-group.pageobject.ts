@@ -18,6 +18,8 @@ export class MeteorologicalSensorGroup extends LogItemGroup {
                     .element(by.css('number-input[controlName="accuracyHPa"] input'));
     readonly accuracyPercentRelativeHumidityInput: ElementFinder = this.currentItemContainer
                     .element(by.css('number-input[controlName="accuracyPercentRelativeHumidity"] input'));
+    readonly accuracyDegreesCelciusInput: ElementFinder = this.currentItemContainer
+                    .element(by.css('number-input[controlName="accuracyDegreesCelcius"] input'));
     readonly heightDiffToAntennaInput: ElementFinder = this.currentItemContainer
                     .element(by.css('number-input[controlName="heightDiffToAntenna"] input'));
     readonly aspirationInput: ElementFinder = this.currentItemContainer
