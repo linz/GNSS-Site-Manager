@@ -62,10 +62,14 @@ export class TestUtils {
         return moment().utc().format('@YYYYMMDDTHHmmss');
     }
 
-    public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string) {
+    public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string | number) {
         elemFinder.getAttribute('value').then((value: string) => {
             console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
-            expect(value).toEqual(expectValue);
+            if(typeof expectValue === 'number') {
+                expect(value).toEqual(expectValue.toString());
+            } else {
+                expect(value).toEqual(expectValue);
+            }
         });
     }
 
