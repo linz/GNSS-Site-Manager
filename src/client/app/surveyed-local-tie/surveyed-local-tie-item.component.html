@@ -33,9 +33,11 @@
                 <text-input [form]="itemGroup" controlName="tiedMarkerUsage">Tied Marker Usage</text-input>
                 <text-input [form]="itemGroup" controlName="tiedMarkerCDPNumber">Tied Marker CDP Number</text-input>
                 <text-input [form]="itemGroup" controlName="tiedMarkerDOMESNumber">Tied Marker DOMES Number</text-input>
-                <number-input [form]="itemGroup" controlName="dx">dx (m)</number-input>
-                <number-input [form]="itemGroup" controlName="dy">dy (m)</number-input>
-                <number-input [form]="itemGroup" controlName="dz">dz (m)</number-input>
+                <div formGroupName="differentialComponent">
+                    <number-input [form]="differentialComponentForm" controlName="dx">dx (m)</number-input>
+                    <number-input [form]="differentialComponentForm" controlName="dy">dy (m)</number-input>
+                    <number-input [form]="differentialComponentForm" controlName="dz">dz (m)</number-input>
+                </div>
                 <number-input [form]="itemGroup" controlName="localSiteTiesAccuracy">Local Site Ties Accuracy (mm)</number-input>
                 <text-input [form]="itemGroup" controlName="surveyMethod">Survey Method</text-input>
                 <datetime-input [form]="itemGroup" controlName="startDate" [required]="false">Date Measured (UTC)</datetime-input>
