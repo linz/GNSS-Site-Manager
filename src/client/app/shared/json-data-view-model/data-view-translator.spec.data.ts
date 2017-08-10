@@ -133,9 +133,11 @@ export class DataViewTranslatorSpecData {
                     tiedMarkerUsage: '(SLR/VLBI/LOCAL CONTROL/FOOTPRINT/etc)',
                     tiedMarkerCDPNumber: '(A4)',
                     tiedMarkerDOMESNumber: '(A9)',
-                    dx: 0,
-                    dy: 0,
-                    dz: 0,
+                    differentialComponent: {
+                        dx: 0,
+                        dy: 0,
+                        dz: 0
+                    },
                     localSiteTiesAccuracy: 0,
                     surveyMethod: '(GPS CAMPAIGN/TRILATERATION/TRIANGULATION/etc)',
                     notes: null
