@@ -27,6 +27,7 @@ export class SiteLogPage extends BasePage {
     readonly pressureSensorGroup = new MeteorologicalSensorGroup('Pressure Sensor');
     readonly humiditySensorGroup = new MeteorologicalSensorGroup('Humidity Sensor');
     readonly temperatureSensorGroup = new MeteorologicalSensorGroup('Temperature Sensor');
+    readonly waterVaporSensorGroup = new MeteorologicalSensorGroup('Water Vapor Sensor');
 
     public identifyingElement(): ElementFinder {
         return this.siteInformationHeader;

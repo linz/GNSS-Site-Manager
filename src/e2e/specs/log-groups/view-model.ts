@@ -4,6 +4,7 @@ import { ResponsiblePartyViewModel } from '../../../client/app/responsible-party
 import { PressureSensorViewModel } from '../../../client/app/pressure-sensor/pressure-sensor-view-model';
 import { HumiditySensorViewModel } from '../../../client/app/humidity-sensor/humidity-sensor-view-model';
 import { TemperatureSensorViewModel } from '../../../client/app/temperature-sensor/temperature-sensor-view-model';
+import { WaterVaporSensorViewModel } from '../../../client/app/water-vapor-sensor/water-vapor-sensor-view-model';
 
 const timestamp: string = TestUtils.getTimeStamp();
 
@@ -42,8 +43,8 @@ export const meteorologicalSensorCommonProperties: any = {
 
 export const mockPressureSensor: PressureSensorViewModel = <PressureSensorViewModel>_.extend(meteorologicalSensorCommonProperties,
         { dataSamplingInterval: 600, accuracyHPa: 0.3 });
-
 export const mockHumiditySensor: HumiditySensorViewModel = <HumiditySensorViewModel>_.extend(meteorologicalSensorCommonProperties,
         { dataSamplingInterval: 600, accuracyPercentRelativeHumidity: 0, aspiration: 'Natural' });
 export const mockTemperatureSensor: TemperatureSensorViewModel = <TemperatureSensorViewModel>_.extend(meteorologicalSensorCommonProperties,
         { dataSamplingInterval: 600, accuracyDegreesCelcius: 0, aspiration: 'Natural' });
+export const mockWaterVaporSensor: WaterVaporSensorViewModel = <WaterVaporSensorViewModel>meteorologicalSensorCommonProperties;
