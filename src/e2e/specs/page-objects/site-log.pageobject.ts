@@ -5,6 +5,7 @@ import { GnssReceiverGroup } from './gnss-receiver-group.pageobject';
 import { GnssAntennaGroup } from './gnss-antenna-group.pageobject';
 import { SurveyedLocalTieGroup } from './surveyed-local-tie-group.pageobject';
 import { FrequencyStandardGroup } from './frequency-standard-group.pageobject';
+import { CollocationInformationGroup } from './collocation-information-group.pageobject';
 import { MeteorologicalSensorGroup } from './meteorological-sensor-group.pageobject';
 import { RadioInterferenceGroup } from './radio-interference-group.pageobject';
 import { SignalObstructionGroup } from './signal-obstruction-group.pageobject';
@@ -26,8 +27,9 @@ export class SiteLogPage extends BasePage {
     readonly gnssAntennaGroup = new GnssAntennaGroup();
     readonly surveyedLocalTieGroup = new SurveyedLocalTieGroup();
     readonly frequencyStandardGroup = new FrequencyStandardGroup();
-    readonly pressureSensorGroup = new MeteorologicalSensorGroup('Pressure Sensor');
+    readonly collocationInformationGroup = new CollocationInformationGroup();
     readonly humiditySensorGroup = new MeteorologicalSensorGroup('Humidity Sensor');
+    readonly pressureSensorGroup = new MeteorologicalSensorGroup('Pressure Sensor');
     readonly temperatureSensorGroup = new MeteorologicalSensorGroup('Temperature Sensor');
     readonly waterVaporSensorGroup = new MeteorologicalSensorGroup('Water Vapor Sensor');
     readonly radioInterferenceGroup = new RadioInterferenceGroup();
