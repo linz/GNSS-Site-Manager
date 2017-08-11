@@ -39,6 +39,7 @@ const config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
+      args: ['--window-size=600,800'],
       binary: process.env.CHROME_BIN,
       prefs: {
         credentials_enable_service: false,
