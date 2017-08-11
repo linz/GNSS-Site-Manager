@@ -5,6 +5,7 @@ import { GnssReceiverGroup } from './gnss-receiver-group.pageobject';
 import { GnssAntennaGroup } from './gnss-antenna-group.pageobject';
 import { SurveyedLocalTieGroup } from './surveyed-local-tie-group.pageobject';
 import { FrequencyStandardGroup } from './frequency-standard-group.pageobject';
+import { MeteorologicalSensorGroup } from './meteorological-sensor-group.pageobject';
 
 export class SiteLogPage extends BasePage {
     readonly siteInformationHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Site Information'));
@@ -23,6 +24,7 @@ export class SiteLogPage extends BasePage {
     readonly gnssAntennaGroup = new GnssAntennaGroup();
     readonly surveyedLocalTieGroup = new SurveyedLocalTieGroup();
     readonly frequencyStandardGroup = new FrequencyStandardGroup();
+    readonly pressureSensorGroup = new MeteorologicalSensorGroup('Pressure Sensor');
 
     public identifyingElement(): ElementFinder {
         return this.siteInformationHeader;

@@ -1,5 +1,7 @@
-import { ResponsiblePartyViewModel } from '../../../client/app/responsible-party/responsible-party-view-model';
+import * as _ from 'lodash';
 import { TestUtils } from '../utils/test.utils';
+import { ResponsiblePartyViewModel } from '../../../client/app/responsible-party/responsible-party-view-model';
+import { PressureSensorViewModel } from '../../../client/app/pressure-sensor/pressure-sensor-view-model';
 
 const timestamp: string = TestUtils.getTimeStamp();
 
@@ -26,3 +28,15 @@ export const mockResponsibleParty: ResponsiblePartyViewModel = {
     deletedReason: null,
     isDeleted: false
 };
+
+export const meteorologicalSensorCommonProperties: any = {
+    manufacturer: 'Vaisala',
+    type: 'PTB110',
+    serialNumber: 'P1110001',
+    heightDiffToAntenna: 10,
+    calibrationDate: '2017-08-08 10:20:30',
+    notes: 'e2e testing - add a new item ' + timestamp
+};
+
+export const mockPressureSensor: PressureSensorViewModel = <PressureSensorViewModel>_.extend(meteorologicalSensorCommonProperties,
+        { dataSamplingInterval: 600, accuracyHPa: 0.3 });
