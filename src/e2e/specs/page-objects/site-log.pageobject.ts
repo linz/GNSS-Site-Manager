@@ -7,6 +7,7 @@ import { SurveyedLocalTieGroup } from './surveyed-local-tie-group.pageobject';
 import { FrequencyStandardGroup } from './frequency-standard-group.pageobject';
 import { CollocationInformationGroup } from './collocation-information-group.pageobject';
 import { MeteorologicalSensorGroup } from './meteorological-sensor-group.pageobject';
+import { LocalEpisodicEffectGroup } from './local-episodic-effect-group.pageobject';
 import { RadioInterferenceGroup } from './radio-interference-group.pageobject';
 import { SignalObstructionGroup } from './signal-obstruction-group.pageobject';
 
@@ -32,6 +33,7 @@ export class SiteLogPage extends BasePage {
     readonly pressureSensorGroup = new MeteorologicalSensorGroup('Pressure Sensor');
     readonly temperatureSensorGroup = new MeteorologicalSensorGroup('Temperature Sensor');
     readonly waterVaporSensorGroup = new MeteorologicalSensorGroup('Water Vapor Sensor');
+    readonly localEpisodicEffectGroup = new LocalEpisodicEffectGroup();
     readonly radioInterferenceGroup = new RadioInterferenceGroup();
     readonly signalObstructionGroup = new SignalObstructionGroup();
 
