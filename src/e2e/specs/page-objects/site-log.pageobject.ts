@@ -6,6 +6,7 @@ import { GnssAntennaGroup } from './gnss-antenna-group.pageobject';
 import { SurveyedLocalTieGroup } from './surveyed-local-tie-group.pageobject';
 import { FrequencyStandardGroup } from './frequency-standard-group.pageobject';
 import { MeteorologicalSensorGroup } from './meteorological-sensor-group.pageobject';
+import { RadioInterferenceGroup } from './radio-interference-group.pageobject';
 
 export class SiteLogPage extends BasePage {
     readonly siteInformationHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Site Information'));
@@ -28,6 +29,7 @@ export class SiteLogPage extends BasePage {
     readonly humiditySensorGroup = new MeteorologicalSensorGroup('Humidity Sensor');
     readonly temperatureSensorGroup = new MeteorologicalSensorGroup('Temperature Sensor');
     readonly waterVaporSensorGroup = new MeteorologicalSensorGroup('Water Vapor Sensor');
+    readonly radioInterferenceGroup = new RadioInterferenceGroup();
 
     public identifyingElement(): ElementFinder {
         return this.siteInformationHeader;
