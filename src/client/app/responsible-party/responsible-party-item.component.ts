@@ -35,7 +35,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     protected isDataType: boolean;
     protected isMetadataCustodian: boolean;
     protected isDataCenter: boolean;
-    protected itemId: string;
+    protected itemIdName: string;
 
     constructor(protected userAuthService: UserAuthService,
                 protected dialogService: DialogService,
@@ -51,7 +51,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
                        || this.partyType.getObjectName() === 'siteDataSource';
         this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
         this.isDataCenter = this.partyType.getObjectName() === 'siteDataCenters';
-        this.itemId = _.kebabCase(this.getItemName()) + '-' + this.index;
+        this.itemIdName = _.kebabCase(this.getItemName());
     }
 
     getItem(): AbstractViewModel {
