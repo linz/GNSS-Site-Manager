@@ -11,6 +11,7 @@ import { MeteorologicalSensorGroup } from './meteorological-sensor-group.pageobj
 import { OtherInstrumentationGroup } from './other-instrumentation-group.pageobject';
 import { RadioInterferenceGroup } from './radio-interference-group.pageobject';
 import { SignalObstructionGroup } from './signal-obstruction-group.pageobject';
+import { MultipathSourceGroup } from './multipath-source-group.pageobject';
 
 export class SiteLogPage extends BasePage {
     readonly siteInformationHeader: ElementFinder = element(by.cssContainingText('span.panel-title', 'Site Information'));
@@ -38,6 +39,7 @@ export class SiteLogPage extends BasePage {
     readonly otherInstrumentationGroup = new OtherInstrumentationGroup();
     readonly radioInterferenceGroup = new RadioInterferenceGroup();
     readonly signalObstructionGroup = new SignalObstructionGroup();
+    readonly multipathSourceGroup = new MultipathSourceGroup();
 
     public identifyingElement(): ElementFinder {
         return this.siteInformationHeader;
