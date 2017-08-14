@@ -14,7 +14,6 @@ describe('SelectSite', () => {
         selectSitePage.searchButton.click();
         expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
         expect(selectSitePage.selectSiteListItems.count()).toBeGreaterThan(1);
-        TestUtils.debugArray(selectSitePage.selectSiteList);
     });
 
     it('entering partial search text without clicking on button should return multiple sites', () => {
@@ -22,7 +21,6 @@ describe('SelectSite', () => {
         expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
         expect(selectSitePage.selectSiteListItems.count()).toBeGreaterThan(1);
         expect(TestUtils.elementArrayContaining(selectSitePage.selectSiteListItems, 'ADE1').count()).toBe(1);
-        TestUtils.debugArray(selectSitePage.selectSiteListItems);
     });
 
     it('entering a valid site Id as search text without clicking on button should return one site', () => {
@@ -30,7 +28,6 @@ describe('SelectSite', () => {
         expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
         expect(selectSitePage.selectSiteListItems.count()).toEqual(1);
         expect(selectSitePage.selectSiteListItems.first().getText()).toBe('ADE1');
-        TestUtils.debug(selectSitePage.selectSiteList);
     });
 
     it('selecting a site from a list should display the siteLog', () => {

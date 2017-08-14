@@ -2,14 +2,17 @@ const config = {
   baseUrl: 'http://localhost:5555/',
 
   suites: {
-    loggedOut: [
-      './dist/e2e/specs/logged-out/**/*.e2e-spec.js'
+    login: [
+      './dist/e2e/specs/login/**/*.e2e-spec.js'
     ],
-    loggedIn: [
-      './dist/e2e/specs/logged-in/**/*.e2e-spec.js'
+    toolbar: [
+      './dist/e2e/specs/toolbar/**/*.e2e-spec.js'
     ],
-    siteLogComponents: [
-      './dist/e2e/specs/log-groups/**/*.e2e-spec.js'
+    selectSite: [
+      './dist/e2e/specs/select-site/**/*.e2e-spec.js'
+    ],
+    siteLogGroups: [
+      './dist/e2e/specs/site-log-groups/**/*.e2e-spec.js'
     ],
 // TODO: This test takes a really long time, so we don't want CI to run it.
 // Work out how to selectively run test suites.
