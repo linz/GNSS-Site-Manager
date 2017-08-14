@@ -11,12 +11,7 @@ describe('Authorization/Authentication', () => {
         return await browser.get(selectSitePage.url);
     });
 
-    afterAll(() => {
-        loginActions.logout();
-        browser.waitForAngular();
-    });
-
-    it('should allow edits when a user is logged in', () => {
+    it('should allow edits when a user is logged in with right roles', () => {
         loginActions.login('user.a', 'gumby123A');
         let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
         siteLogPage.siteInformationHeader.click();
@@ -39,5 +34,13 @@ describe('Authorization/Authentication', () => {
         siteLogPage.siteIdentificationHeader.click();
         expect(siteLogPage.siteNameInput.isEnabled()).toBe(true, 'SiteName Input should be enabled');
         siteLogPage.close();
+    });
+
+    it('should not allow edits when a user is not logged in', () => {
+        loginActions.logout();
+        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
+        siteLogPage.siteInformationHeader.click();
+        siteLogPage.siteIdentificationHeader.click();
+        expect(siteLogPage.siteNameInput.isEnabled()).toBe(false, 'siteNameInput should not be enabled');
     });
 });
