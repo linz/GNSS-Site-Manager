@@ -10,15 +10,22 @@ describe('SelectSite', () => {
         return await browser.get(selectSitePage.url);
     });
 
-    it('entering search text should return list of sites - one site', () => {
-        selectSitePage.searchFor('ade1');
+    it('clicking on search button without search text should return all sites', () => {
+        selectSitePage.searchButton.click();
         expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
-        expect(selectSitePage.selectSiteListItems.count()).toEqual(1);
-        expect(selectSitePage.selectSiteListItems.first().getText()).toBe('ADE1');
-        TestUtils.debug(selectSitePage.selectSiteList);
+        expect(selectSitePage.selectSiteListItems.count()).toBeGreaterThan(1);
+        TestUtils.debugArray(selectSitePage.selectSiteList);
     });
 
-    it('entering search text but do not click on button should return list of sites - one site', () => {
+    it('entering partial search text without clicking on button should return multiple sites', () => {
+        selectSitePage.enterSearchText('ad');
+        expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
+        expect(selectSitePage.selectSiteListItems.count()).toBeGreaterThan(1);
+        expect(TestUtils.elementArrayContaining(selectSitePage.selectSiteListItems, 'ADE1').count()).toBe(1);
+        TestUtils.debugArray(selectSitePage.selectSiteListItems);
+    });
+
+    it('entering a valid site Id as search text without clicking on button should return one site', () => {
         selectSitePage.enterSearchText('ade1');
         expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
         expect(selectSitePage.selectSiteListItems.count()).toEqual(1);
@@ -26,20 +33,7 @@ describe('SelectSite', () => {
         TestUtils.debug(selectSitePage.selectSiteList);
     });
 
-    it('entering search text should return the specific sites - multiple sites', () => {
-        selectSitePage.searchFor('ade');
-        expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
-        expect(selectSitePage.selectSiteListItems.count()).not.toBe(0);
-        expect(TestUtils.elementArrayContaining(selectSitePage.selectSiteListItems, 'ADE1').count()).toBe(1);
-        TestUtils.debugArray(selectSitePage.selectSiteListItems);
-    });
-
-    it('selecting a specific site from the list should display the siteLog', () => {
-        let siteLogPage: SiteLogPage = selectSitePage.openSite('ADE1');
-        expect(siteLogPage.siteInformationHeader.isPresent()).toEqual(true, 'ADE1\'s siteLogPage.siteInformationHeader should exist');
-    });
-
-    it('selecting a general site string from the list should display the siteLog', () => {
+    it('selecting a site from a list should display the siteLog', () => {
         selectSitePage.searchFor('ade');
         let siteLogPage: SiteLogPage = selectSitePage.clickOnSite('ade1');
         expect(siteLogPage.siteInformationHeader.isPresent()).toEqual(true, 'ADE1\'s siteLogPage.siteInformationHeader should exist');

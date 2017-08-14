@@ -10,11 +10,6 @@ describe('Authorization/Authentication', () => {
     beforeEach(async () => {
         return await browser.get(selectSitePage.url);
     });
-//
-//    afterAll(() => {
-//        loginActions.logout();
-//        browser.waitForAngular();
-//    });
 
     it('should allow edits when a user is logged in with right roles', () => {
         loginActions.login('user.a', 'gumby123A');
