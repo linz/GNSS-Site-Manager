@@ -111,8 +111,7 @@ describe('Responsible Party - Site Data Source Group Component', () => {
             TestUtils.checkInputValueEqual(itemGroup.cityInput, 'City', viewModel.city);
             TestUtils.checkInputValueEqual(itemGroup.administrativeAreaInput, 'State / Province', viewModel.administrativeArea);
             TestUtils.checkInputValueEqual(itemGroup.postalCodeInput, 'Postal Code', viewModel.postalCode);
-            // TODO: country is missing from both data and view models, so its value won't be saved
-            //TestUtils.checkInputValueEqual(itemGroup.countryInput, 'Country', viewModel.country);
+            TestUtils.checkInputValueEqual(itemGroup.countryInput, 'Country', viewModel.country);
             TestUtils.checkInputValueEqual(itemGroup.emailInput, 'Email', viewModel.email);
             TestUtils.checkInputValueEqual(itemGroup.primaryPhoneInput, 'Primary Phone Number', viewModel.primaryPhone);
             TestUtils.checkInputValueEqual(itemGroup.secondaryPhoneInput, 'Secondary Phone Number', viewModel.secondaryPhone);
