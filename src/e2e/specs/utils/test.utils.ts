@@ -64,11 +64,12 @@ export class TestUtils {
 
     public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string | number) {
         elemFinder.getAttribute('value').then((value: string) => {
-            console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
             if(typeof expectValue === 'number') {
                 expect(value).toEqual(expectValue.toString());
+                console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue.toString() === value));
             } else {
                 expect(value).toEqual(expectValue);
+                console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
             }
         });
     }
