@@ -31,10 +31,18 @@
                 <text-input [form]="itemGroup" controlName="antennaType">Antenna Type</text-input>
                 <text-input [form]="itemGroup" controlName="serialNumber">Serial Number</text-input>
                 <text-input [form]="itemGroup" controlName="antennaReferencePoint">Antenna Reference Point</text-input>
-                <number-input [form]="itemGroup" controlName="markerArpUpEcc" step="0.0001" min="0.0000">Marker ARP Up Eccentricity (m)</number-input>
-                <number-input [form]="itemGroup" controlName="markerArpNorthEcc" step="0.0001" min="0.0000">Marker ARP North Eccentricity (m)</number-input>
-                <number-input [form]="itemGroup" controlName="markerArpEastEcc" step="0.0001" min="0.0000">Marker ARP East Eccentricity (m)</number-input>
-                <number-input [form]="itemGroup" controlName="alignmentFromTrueNorth" step="1" min="-359" max="359">Alignment From True North (degrees)</number-input>
+                <number-input [form]="itemGroup" controlName="markerArpUpEcc" [required]="true" step="0.0001" min="0.0000">
+                    Marker ARP Up Eccentricity (m)
+                </number-input>
+                <number-input [form]="itemGroup" controlName="markerArpNorthEcc" [required]="true" step="0.0001" min="0.0000">
+                    Marker ARP North Eccentricity (m)
+                </number-input>
+                <number-input [form]="itemGroup" controlName="markerArpEastEcc" [required]="true" step="0.0001" min="0.0000">
+                    Marker ARP East Eccentricity (m)
+                </number-input>
+                <number-input [form]="itemGroup" controlName="alignmentFromTrueNorth" step="1" min="-359" max="359">
+                    Alignment From True North (degrees)
+                </number-input>
                 <text-input [form]="itemGroup" controlName="antennaRadomeType">Radome Type</text-input>
                 <text-input [form]="itemGroup" controlName="radomeSerialNumber">Radome Serial Number</text-input>
                 <text-input [form]="itemGroup" controlName="antennaCableType">Antenna Cable Type</text-input>
