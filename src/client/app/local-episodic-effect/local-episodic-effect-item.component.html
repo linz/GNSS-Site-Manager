@@ -28,7 +28,7 @@
             No information available for current Local Episodic Effect
         </div>
         <div *ngIf=" localEpisodicEffect != null" [ngClass]="{'container-dirty': localEpisodicEffect.dateDeleted}">
-            <textarea [form]="itemGroup" controlName="event" [required]="true">Event</textarea>
+            <textarea-input [form]="itemGroup" controlName="event" [required]="true">Event</textarea-input>
             <datetime-input [form]="itemGroup" controlName="startDate">Start Date (UTC)</datetime-input>
             <datetime-input [form]="itemGroup" controlName="endDate" [required]="index != 0">End Date (UTC)</datetime-input>
         </div>

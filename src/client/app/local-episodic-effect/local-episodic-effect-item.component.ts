@@ -42,7 +42,7 @@ export class LocalEpisodicEffectItemComponent extends AbstractItemComponent {
     getItemForm(): FormGroup {
         return this.formBuilder.group({
             id: [null],
-            event: ['', [Validators.required, Validators.maxLength(100)]],
+            event: ['', [Validators.required]],
             startDate: [''],
             endDate: [''],
             objectMap: [''],

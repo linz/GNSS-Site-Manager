@@ -53,7 +53,7 @@ export class GnssAntennaItemComponent extends AbstractItemComponent {
             alignmentFromTrueNorth: ['', [Validators.maxLength(50)]],
             antennaRadomeType: ['', [Validators.maxLength(50)]],
             radomeSerialNumber: ['', [Validators.maxLength(50)]],
-            antennaCableType: ['', [Validators.maxLength(25)]],
+            antennaCableType: ['', [Validators.maxLength(100)]],
             antennaCableLength: ['', [Validators.maxLength(25)]],
             notes: ['', [Validators.maxLength(2000)]],
             objectMap: [''],
