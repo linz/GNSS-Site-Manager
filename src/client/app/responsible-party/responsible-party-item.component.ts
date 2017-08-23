@@ -90,16 +90,16 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      * Return the item form with default values and form controls.
      */
     getItemForm(): FormGroup {
-        let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(100)]
-                                                            : [Validators.maxLength(100)];
+        let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(500)]
+                                                            : [Validators.maxLength(500)];
         return this.formBuilder.group({
             id: [null],
             individualName: ['', [Validators.maxLength(100)]],
             organisationName: ['', organisationValidators],
-            positionName: ['', [Validators.maxLength(50)]],
-            deliveryPoint: ['', [Validators.maxLength(50)]],
-            city: ['', [Validators.maxLength(50)]],
-            administrativeArea: ['', [Validators.maxLength(50)]],
+            positionName: ['', [Validators.maxLength(100)]],
+            deliveryPoint: ['', [Validators.maxLength(500)]],
+            city: ['', [Validators.maxLength(100)]],
+            administrativeArea: ['', [Validators.maxLength(100)]],
             postalCode: ['', [Validators.maxLength(25)]],
             country: [''],
             email: [''],
