@@ -33,8 +33,8 @@
                 <text-input [form]="itemGroup" controlName="type" [required]="true">Type</text-input>
                 <text-input [form]="itemGroup" controlName="serialNumber">Serial Number</text-input>
                 <number-input [form]="itemGroup" controlName="heightDiffToAntenna">Height Diff to Antenna (m)</number-input>
-                <datetime-input [form]="itemGroup" controlName="calibrationDate" [required]="false">Calibration Date</datetime-input>
-                <datetime-input [form]="itemGroup" controlName="startDate">Date Installed (UTC)</datetime-input>
+                <datetime-input [form]="itemGroup" controlName="calibrationDate">Calibration Date</datetime-input>
+                <datetime-input [form]="itemGroup" controlName="startDate" [required]="true">Date Installed (UTC)</datetime-input>
                 <datetime-input [form]="itemGroup" controlName="endDate" [required]="index != 0">Date Removed (UTC)</datetime-input>
                 <textarea-input [form]="itemGroup" controlName="notes" rows="2">Notes</textarea-input>
             </div>

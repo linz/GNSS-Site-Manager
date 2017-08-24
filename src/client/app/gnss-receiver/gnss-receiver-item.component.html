@@ -36,7 +36,7 @@
                 step="1" min="-359" max="359">Elevation Cutoff Setting (degrees)</number-input>
             <number-input [form]="itemGroup" controlName="temperatureStabilization"
                 step="1">Temperature Stabilization (&deg;C)</number-input>
-            <datetime-input [form]="itemGroup" controlName="startDate">Date Installed (UTC)</datetime-input>
+            <datetime-input [form]="itemGroup" controlName="startDate" [required]="true">Date Installed (UTC)</datetime-input>
             <datetime-input [form]="itemGroup" controlName="endDate" [required]="index != 0">Date Removed (UTC)</datetime-input>
             <textarea-input [form]="itemGroup" controlName="notes" rows="2">Notes</textarea-input>
         </div>

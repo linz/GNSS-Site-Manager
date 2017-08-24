@@ -30,7 +30,7 @@
         <div *ngIf="getItem() != null" [ngClass]="{'container-dirty': getItem().dateDeleted}">
             <div class="form-group">
                 <textarea-input [form]="itemGroup" controlName="instrumentation" rows="2">Instrumentation</textarea-input>
-                <datetime-input [form]="itemGroup" controlName="startDate">Date Installed (UTC)</datetime-input>
+                <datetime-input [form]="itemGroup" controlName="startDate" [required]="true">Date Installed (UTC)</datetime-input>
                 <datetime-input [form]="itemGroup" controlName="endDate" [required]="false">Date Removed (UTC)</datetime-input>
             </div>
        </div>
