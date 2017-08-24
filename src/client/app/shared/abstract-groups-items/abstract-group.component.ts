@@ -138,8 +138,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         return true;
     }
 
-    getFormData(siteLog: any): any {
-        return siteLog[this.getControlName()];
+    getFormData(): any {
+        return this.siteLogModel[this.getControlName()];
     }
 
     /**
@@ -219,7 +219,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         while (this.parentForm.length) {
             this.parentForm.removeAt(0);
         }
-        this.setItems(this.getFormData(this.siteLogModel));
+        this.setItems(this.getFormData());
     }
 
     /* ************** Methods called from the template ************** */
