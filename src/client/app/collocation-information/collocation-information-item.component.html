@@ -31,8 +31,8 @@
             <div class="form-group">
                 <text-input [form]="itemGroup" controlName="instrumentationType">Instrumentation Type</text-input>
                 <text-input [form]="itemGroup" controlName="status">Status</text-input>
-                <datetime-input [form]="itemGroup" controlName="startDate">Date Installed (UTC)</datetime-input>
-                <datetime-input [form]="itemGroup" controlName="endDate" [required]="false">Date Removed (UTC)</datetime-input>
+                <datetime-input [form]="itemGroup" controlName="startDate" [required]="true">Date Installed (UTC)</datetime-input>
+                <datetime-input [form]="itemGroup" controlName="endDate">Date Removed (UTC)</datetime-input>
                 <textarea-input [form]="itemGroup" controlName="notes" rows="2">Notes</textarea-input>
             </div>
        </div>
