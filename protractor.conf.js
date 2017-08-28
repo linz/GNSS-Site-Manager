@@ -15,13 +15,17 @@ const config = {
       './dist/e2e/specs/site-log-groups/**/*.e2e-spec.js'
     ],
     allSites: [
-      './dist/e2e/specs/all-sites/**/all-sites-save.e2e-spec.js'
+      './dist/e2e/specs/all-sites/**/all-sites-save.e2e-spec.js',
+      './dist/e2e/specs/all-sites/**/all-sites-initial-status.e2e-spec.js',
     ],
   },
 
   // TODO: work out how to selectively run test suites.
-  // This test takes more than 25 minutes, so we don't want CI to run it.
-  exclude: [ './dist/e2e/specs/all-sites/all-sites-save.e2e-spec.js' ],
+  // These tests take more than 30 minutes, so we don't want CI to run it.
+  exclude: [
+    './dist/e2e/specs/all-sites/all-sites-save.e2e-spec.js',
+    './dist/e2e/specs/all-sites/all-sites-initial-status.e2e-spec.js',
+  ],
 
   // 'jasmine' by default will use the latest jasmine framework
   framework: 'jasmine',
