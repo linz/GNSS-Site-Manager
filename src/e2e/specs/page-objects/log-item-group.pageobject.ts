@@ -23,7 +23,7 @@ export class LogItemGroup {
         let elementName: string = _.kebabCase(itemName);
         this.items = element.all(by.css(elementName + '-item'));
         this.newItemButton = element(by.buttonText('New ' + this.itemName));
-        this.itemGroupHeader = element(by.cssContainingText('span.panel-title', this.getGroupName()));
+        this.itemGroupHeader = element(by.cssContainingText('div.group-header>span.panel-title', this.getGroupName()));
         this.currentItemContainer = element(by.id(elementName + '-0'));
         this.currentItemHeader = this.currentItemContainer.element(by.css('span.panel-title'));
         this.firstDeleteButton = this.currentItemContainer.element(by.buttonText('Delete'));
