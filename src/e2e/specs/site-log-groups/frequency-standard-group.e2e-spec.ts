@@ -8,7 +8,6 @@ import { FrequencyStandardGroup } from '../page-objects/frequency-standard-group
 describe('Frequency Standard Group Component', () => {
 
     let timestamp: string = TestUtils.getTimeStamp();
-    let itemName: string = 'Frequency Standard';
     let siteId: string = 'ADE1';
     let standardType: string = 'Cesium - Rcvr 3';
     let inputFrequency: string = '1080';
@@ -30,7 +29,7 @@ describe('Frequency Standard Group Component', () => {
         itemGroup = siteLogPage.frequencyStandardGroup;
     });
 
-    it('expect should be able to add and save new ' + itemName + ' item', () => {
+    it('expect should be able to add and save new item', () => {
         expect(siteLogPage.saveSiteLink.isPresent()).toBe(true);
         expect(siteLogPage.saveSiteLink.getAttribute('class')).toContain('disabled', 'Save button is not enabled as no changes made');
         itemGroup.items.count().then((value: number) => {
@@ -53,7 +52,7 @@ describe('Frequency Standard Group Component', () => {
         });
     });
 
-    it('expect should have all input values for the new ' + itemName + ' item created previously', () => {
+    it('expect should have all input values for the new item created previously', () => {
         siteLogPage.reload(siteId);
         itemGroup.itemGroupHeader.click().then(() => {
             console.log('Open ' + itemGroup.itemName + 's group');
@@ -70,7 +69,7 @@ describe('Frequency Standard Group Component', () => {
         });
     });
 
-    it('expect should be able to delete a ' + itemName + ' item', () => {
+    it('expect should be able to delete a item', () => {
         siteLogPage.reload(siteId);
         itemGroup.deleteItem(deleteReason);
         siteLogPage.save();
