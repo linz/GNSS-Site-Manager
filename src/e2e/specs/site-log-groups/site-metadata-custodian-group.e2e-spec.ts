@@ -15,7 +15,6 @@ describe('Responsible Party - Site Metadata Custodian Group Component', () => {
 
     let viewModel: ResponsiblePartyViewModel = mockResponsibleParty;
     let backupModel: any = {};
-    let itemName: string = 'Site Metadata Custodian';
     let siteId: string = 'ADE1';
 
     let selectSitePage: SelectSitePage = new SelectSitePage();
@@ -33,14 +32,14 @@ describe('Responsible Party - Site Metadata Custodian Group Component', () => {
         browser.waitForAngular();
     });
 
-    it('expect should have only one ' + itemName + ' item', () => {
+    it('expect should have only one item', () => {
         itemGroup.partyItems.count().then((value: number) => {
             console.log('Number of ' + itemGroup.itemName + ' items: ' + value);
             expect(value).toBe(1);
         });
     });
 
-    it('expect should have all values changed for the ' + itemName + ' item', () => {
+    it('expect should have all values changed for the item', () => {
         siteLogPage.siteInformationHeader.click().then(() => {
             console.log('Open Site Information Header');
         });
@@ -65,7 +64,7 @@ describe('Responsible Party - Site Metadata Custodian Group Component', () => {
         browser.waitForAngular();
     });
 
-    it('expect should have all new values saved for the ' + itemName + ' item', () => {
+    it('expect should have all new values saved for the item', () => {
         siteLogPage.reload(siteId);
         siteLogPage.siteInformationHeader.click();
         itemGroup.itemGroupHeader.click().then(() => {
@@ -87,7 +86,7 @@ describe('Responsible Party - Site Metadata Custodian Group Component', () => {
         });
     });
 
-    it('expect should have all values changed back to original ones for the first ' + itemName + ' item', () => {
+    it('expect should have all values changed back to original ones for the first item', () => {
         TestUtils.changeInputValue(itemGroup.individualNameInput, 'individualName', backupModel);
         TestUtils.changeInputValue(itemGroup.organisationNameInput, 'organisationName', backupModel);
         TestUtils.changeInputValue(itemGroup.positionNameInput, 'positionName', backupModel);
@@ -103,10 +102,10 @@ describe('Responsible Party - Site Metadata Custodian Group Component', () => {
 
         siteLogPage.save();
         browser.waitForAngular();
-        console.log('Changed all values back to original ones for the ' + itemName + ' item');
+        console.log('Changed all values back to original ones for the ' + itemGroup.itemName + ' item');
     });
 
-    it('expect should have all original values saved for the ' + itemName + ' item', () => {
+    it('expect should have all original values saved for the item', () => {
         siteLogPage.reload(siteId);
         siteLogPage.siteInformationHeader.click();
         itemGroup.itemGroupHeader.click().then(() => {

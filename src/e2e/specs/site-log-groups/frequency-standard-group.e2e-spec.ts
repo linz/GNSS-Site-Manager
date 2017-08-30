@@ -72,7 +72,7 @@ describe('Frequency Standard Group Component', () => {
 
     it('expect should be able to delete a ' + itemName + ' item', () => {
         siteLogPage.reload(siteId);
-        itemGroup.deleteItem(0, deleteReason);
+        itemGroup.deleteItem(deleteReason);
         siteLogPage.save();
         siteLogPage.reload(siteId);
         TestUtils.checkItemCount(itemGroup.items, 'deleting an item', noOfItems);

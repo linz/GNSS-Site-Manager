@@ -15,7 +15,6 @@ import { mockResponsibleParty } from './view-model';
 describe('Responsible Party - Site Owner Group Component', () => {
 
     let viewModel: ResponsiblePartyViewModel = mockResponsibleParty;
-    let itemName: string = 'Site Owner';
     let siteId: string = 'ADE1';
     let noOfItems: number = 0;
     let canAddNewItem: boolean = false;
@@ -42,7 +41,7 @@ describe('Responsible Party - Site Owner Group Component', () => {
         browser.waitForAngular();
     });
 
-    it('expect should be able to delete an existing ' + itemName + ' item', () => {
+    it('expect should be able to delete an existing item', () => {
         if(!canAddNewItem) {
             siteLogPage.siteInformationHeader.click().then(() => {
                 console.log('Open Site Information Header');
@@ -70,7 +69,7 @@ describe('Responsible Party - Site Owner Group Component', () => {
             });
 
             browser.waitForAngular();
-            itemGroup.deleteItem(0);
+            itemGroup.deleteItem();
             siteLogPage.save();
             noOfItems -= 1;
             browser.waitForAngular();
@@ -79,7 +78,7 @@ describe('Responsible Party - Site Owner Group Component', () => {
         }
     });
 
-    it('expect should be able to add and save new ' + itemName + ' item', () => {
+    it('expect should be able to add and save new item', () => {
         siteLogPage.siteInformationHeader.click();
         itemGroup.addNewItem();
         TestUtils.checkItemCount(itemGroup.partyItems, 'adding new item', noOfItems + 1);
@@ -99,7 +98,7 @@ describe('Responsible Party - Site Owner Group Component', () => {
         siteLogPage.save();
     });
 
-    it('expect should have all input values for the new ' + itemName + ' item', () => {
+    it('expect should have all input values for the new item', () => {
         siteLogPage.reload(siteId);
         siteLogPage.siteInformationHeader.click();
         itemGroup.itemGroupHeader.click().then(() => {
@@ -120,11 +119,11 @@ describe('Responsible Party - Site Owner Group Component', () => {
         });
     });
 
-    it('expect should be able to delete a ' + itemName + ' item added previously', () => {
+    it('expect should be able to delete the item added previously', () => {
         if(canAddNewItem) {
             siteLogPage.reload(siteId);
             siteLogPage.siteInformationHeader.click();
-            itemGroup.deleteItem(0);
+            itemGroup.deleteItem();
             siteLogPage.save();
             siteLogPage.reload(siteId);
             TestUtils.checkItemCount(itemGroup.partyItems, 'deleting an item', noOfItems);
