@@ -1,4 +1,4 @@
-import { Input, AfterViewInit, OnChanges, SimpleChange, ViewChildren, QueryList } from '@angular/core';
+import { Input, OnInit, AfterViewInit, OnChanges, SimpleChange, ViewChildren, QueryList } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { AbstractItemComponent } from './abstract-item.component';
@@ -13,7 +13,7 @@ export const newItemShouldBeBlank: boolean = true;
 
 export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     extends AbstractBaseComponent
-    implements AfterViewInit, OnChanges {
+    implements OnInit, AfterViewInit, OnChanges {
 
     isGroupOpen: boolean = false;
 
@@ -70,6 +70,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         super(siteLogService);
     }
 
+    ngOnInit() {
+        this.setupForm();
+    }
+
     ngAfterViewInit() {
         if (this.allowOneCurrentItem()) {
             setTimeout(() => {
@@ -90,7 +94,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     }
 
     ngOnChanges(changes: { [property: string]: SimpleChange }) {
-        if (changes['siteLogModel']) {
+        if (changes['siteLogModel'] && !changes['siteLogModel'].isFirstChange()) {
             this.setupForm();
         }
     }
