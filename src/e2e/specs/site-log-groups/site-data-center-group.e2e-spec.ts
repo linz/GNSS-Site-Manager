@@ -56,6 +56,7 @@ describe('Responsible Party - Site Data Center Group Component', () => {
         itemGroup.urlInput.sendKeys(viewModel.url);
         browser.waitForAngular();
         siteLogPage.save();
+        itemGroup.updateItemElements(noOfItems);  // the new item is the last one after saving
     });
 
     it('expect should have all new values saved for the new item', () => {
@@ -64,7 +65,6 @@ describe('Responsible Party - Site Data Center Group Component', () => {
         siteLogPage.siteInformationHeader.click();
         itemGroup.itemGroupHeader.click().then(() => {
             console.log('Open ' + itemGroup.itemName + ' group');
-            browser.waitForAngular();
             TestUtils.checkInputValueEqual(itemGroup.individualNameInput, 'Individual Name', viewModel.individualName);
             TestUtils.checkInputValueEqual(itemGroup.organisationNameInput, 'Organisation Name', viewModel.organisationName);
             TestUtils.checkInputValueEqual(itemGroup.positionNameInput, 'Position Name', viewModel.positionName);
@@ -86,7 +86,7 @@ describe('Responsible Party - Site Data Center Group Component', () => {
     it('expect should be able to delete the new item added previously', () => {
         siteLogPage.reload(siteId);
         siteLogPage.siteInformationHeader.click();
-        itemGroup.deleteItem(0);
+        itemGroup.deleteItem();
         siteLogPage.save();
         siteLogPage.reload(siteId);
         TestUtils.checkItemCount(itemGroup.partyItems, 'deleting an item', noOfItems);

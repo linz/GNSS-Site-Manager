@@ -16,7 +16,6 @@ describe('Responsible Party - Site Contact Group Component', () => {
 
     let viewModel: ResponsiblePartyViewModel = mockResponsibleParty;
     let backupModel: any = {};
-    let itemName: string = 'Site Contact';
     let siteId: string = 'ADE1';
     let noOfItems: number = 0;
     let canAddNewItem: boolean = false;
@@ -43,7 +42,7 @@ describe('Responsible Party - Site Contact Group Component', () => {
         browser.waitForAngular();
     });
 
-    it('expect should be able to add and save new ' + itemName + ' item', () => {
+    it('expect should be able to add and save new item', () => {
         if(canAddNewItem) {
             siteLogPage.siteInformationHeader.click();
             itemGroup.addNewItem();
@@ -62,10 +61,11 @@ describe('Responsible Party - Site Contact Group Component', () => {
             itemGroup.faxInput.sendKeys(viewModel.fax);
             browser.waitForAngular();
             siteLogPage.save();
+            itemGroup.updateItemElements(noOfItems);  // the new item is the last one after saving
         }
     });
 
-    it('expect should have all values changed for the first ' + itemName + ' item', () => {
+    it('expect should have all values changed for the first item', () => {
         if(!canAddNewItem) {
             siteLogPage.siteInformationHeader.click().then(() => {
                 console.log('Open Site Information Header');
@@ -92,7 +92,7 @@ describe('Responsible Party - Site Contact Group Component', () => {
         }
     });
 
-    it('expect should have all new values saved for the new ' + itemName + ' item', () => {
+    it('expect should have all new values saved for the new item', () => {
         siteLogPage.reload(siteId);
         siteLogPage.siteInformationHeader.click();
         itemGroup.itemGroupHeader.click().then(() => {
@@ -114,7 +114,7 @@ describe('Responsible Party - Site Contact Group Component', () => {
         });
     });
 
-    it('expect should have all values changed back to original ones for the first ' + itemName + ' item', () => {
+    it('expect should have all values changed back to original ones for the first item', () => {
         if(!canAddNewItem) {
             TestUtils.changeInputValue(itemGroup.individualNameInput, 'individualName', backupModel);
             TestUtils.changeInputValue(itemGroup.organisationNameInput, 'organisationName', backupModel);
@@ -131,11 +131,11 @@ describe('Responsible Party - Site Contact Group Component', () => {
 
             siteLogPage.save();
             browser.waitForAngular();
-            console.log('Changed all values back to original ones for the first ' + itemName + ' item');
+            console.log('Changed all values back to original ones for the first ' + itemGroup.itemName + ' item');
         }
     });
 
-    it('expect should have all original values saved for the new ' + itemName + ' item', () => {
+    it('expect should have all original values saved for the new item', () => {
         if(!canAddNewItem) {
             siteLogPage.reload(siteId);
             siteLogPage.siteInformationHeader.click();
@@ -159,11 +159,11 @@ describe('Responsible Party - Site Contact Group Component', () => {
         }
     });
 
-    it('expect should be able to delete a ' + itemName + ' item added previously', () => {
+    it('expect should be able to delete the item added previously', () => {
         if(canAddNewItem) {
             siteLogPage.reload(siteId);
             siteLogPage.siteInformationHeader.click();
-            itemGroup.deleteItem(0);
+            itemGroup.deleteItem();
             siteLogPage.save();
             siteLogPage.reload(siteId);
             TestUtils.checkItemCount(itemGroup.partyItems, 'deleting an item', noOfItems);

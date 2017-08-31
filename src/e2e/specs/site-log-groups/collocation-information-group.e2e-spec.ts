@@ -67,7 +67,7 @@ describe('Collocation Information Group Component', () => {
 
     it('expect should be able to delete an item', () => {
         siteLogPage.reload(siteId);
-        itemGroup.deleteItem(0, deleteReason);
+        itemGroup.deleteItem(deleteReason);
         siteLogPage.save();
         siteLogPage.reload(siteId);
         TestUtils.checkItemCount(itemGroup.items, 'deleting an item', noOfItems);

@@ -69,7 +69,7 @@ describe('Responsible Party - Site Data Source Group Component', () => {
             });
 
             browser.waitForAngular();
-            itemGroup.deleteItem(0);
+            itemGroup.deleteItem();
             siteLogPage.save();
             noOfItems -= 1;
             browser.waitForAngular();
@@ -123,7 +123,7 @@ describe('Responsible Party - Site Data Source Group Component', () => {
         if(canAddNewItem) {
             siteLogPage.reload(siteId);
             siteLogPage.siteInformationHeader.click();
-            itemGroup.deleteItem(0);
+            itemGroup.deleteItem();
             siteLogPage.save();
             siteLogPage.reload(siteId);
             TestUtils.checkItemCount(itemGroup.partyItems, 'deleting an item', noOfItems);

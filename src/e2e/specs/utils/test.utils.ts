@@ -123,4 +123,16 @@ export class TestUtils {
             console.log('Change value for ' + fieldName + ' from "' + value + '" to "' + viewModel[fieldName] + '"');
         });
     }
+
+    public static getOrdinalNumber(index: number): string {
+        if (index % 10 === 1 && index !== 11) {
+            return index + 'st';
+        } else if (index % 10 === 2 && index !== 12) {
+            return index + 'nd';
+        } else if (index % 10 === 3 && index !== 13) {
+            return index + 'rd';
+        } else {
+            return index + 'th';
+        }
+    }
 }

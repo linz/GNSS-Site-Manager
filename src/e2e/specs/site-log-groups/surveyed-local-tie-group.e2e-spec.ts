@@ -8,7 +8,6 @@ import { SurveyedLocalTieGroup } from '../page-objects/surveyed-local-tie-group.
 describe('Surveyed Local Tie Group Component', () => {
 
     let timestamp: string = TestUtils.getTimeStamp();
-    let itemName: string = 'Surveyed Local Tie';
     let siteId: string = 'ADE1';
     let tiedMarkerName: string = 'UNK-Test';
     let tiedMarkerUsage: string = 'FOOTPRINT';
@@ -37,7 +36,7 @@ describe('Surveyed Local Tie Group Component', () => {
         itemGroup = siteLogPage.surveyedLocalTieGroup;
     });
 
-    it('expect should be able to add and save new ' + itemName + ' item', () => {
+    it('expect should be able to add and save new  item', () => {
         expect(siteLogPage.saveSiteLink.isPresent()).toBe(true);
         expect(siteLogPage.saveSiteLink.getAttribute('class')).toContain('disabled', 'Save button is not enabled as no changes made');
         itemGroup.items.count().then((value: number) => {
@@ -64,7 +63,7 @@ describe('Surveyed Local Tie Group Component', () => {
         });
     });
 
-    it('expect should have all input values for the new ' + itemName + ' item created previously', () => {
+    it('expect should have all input values for the new  item created previously', () => {
         siteLogPage.reload(siteId);
         itemGroup.itemGroupHeader.click().then(() => {
             console.log('Open ' + itemGroup.itemName + 's group');
@@ -88,9 +87,9 @@ describe('Surveyed Local Tie Group Component', () => {
         });
     });
 
-    it('expect should be able to delete a ' + itemName + ' item', () => {
+    it('expect should be able to delete a  item', () => {
         siteLogPage.reload(siteId);
-        itemGroup.deleteItem(0, deleteReason);
+        itemGroup.deleteItem(deleteReason);
         siteLogPage.save();
         siteLogPage.reload(siteId);
         TestUtils.checkItemCount(itemGroup.items, 'deleting an item', noOfItems);
