@@ -1,5 +1,6 @@
-import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange } from '@angular/core';
+import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
@@ -8,7 +9,7 @@ import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../site-log/site-log.service';
 
-export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnInit, OnChanges, AfterViewInit {
+export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
     protected miscUtils: any = MiscUtils;
 
     public itemGroup: FormGroup;
@@ -41,6 +42,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     protected isItemOpen: boolean = false;
 
     private _isDeleted: boolean = false;
+    private subscription: Subscription;
 
     /**
      * Creates an instance of the AbstractItem with the injected Services.
@@ -113,7 +115,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     ngOnInit() {
-        this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
+        this.subscription = this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
             if (! applicationState.applicationFormModified) {
                 this.itemGroup.markAsPristine();
             }
@@ -151,6 +153,10 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
                 this.handleTotalChange(changedProp.currentValue, changedProp.previousValue);
             }
         }
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     handleGeodesyEvents() {
