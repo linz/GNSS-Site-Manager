@@ -106,6 +106,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.subscriptions.forEach((subscription: Subscription) => {
             subscription.unsubscribe();
         });
