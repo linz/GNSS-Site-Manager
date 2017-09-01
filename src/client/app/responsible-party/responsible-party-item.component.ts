@@ -46,7 +46,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
 
     ngOnInit() {
         super.ngOnInit();
-        this.isOpen = (this.index === 0);
+        this.isItemOpen = (this.index === 0);
         this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
                        || this.partyType.getObjectName() === 'siteDataSource';
         this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
@@ -136,7 +136,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      */
     protected handleTotalChange(currentValue: number, previousValue: number): void {
         if (currentValue === 1) {
-            this.isOpen = true;
+            this.isItemOpen = true;
         }
     }
 }

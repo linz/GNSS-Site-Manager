@@ -38,7 +38,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
     protected isNew: boolean = false;
-    protected isOpen: boolean = false;
+    protected isItemOpen: boolean = false;
 
     private _isDeleted: boolean = false;
 
@@ -236,12 +236,10 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     /**
      * Toggle the item (open or close it)
-     * TODO move this up into abstract base component and consolidate naming of
-     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
      */
-    public toggleGroup(event: UIEvent) {
+    public toggleItem(event: UIEvent) {
         event.preventDefault();
-        this.isOpen = this.miscUtils.scrollIntoView(event, this.isOpen);
+        this.isItemOpen = this.miscUtils.scrollIntoView(event, this.isItemOpen);
     }
 
     /**
@@ -278,11 +276,11 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         });
         if (this.getIndex() === indexOfNew) {
             this.isNew = true;
-            this.isOpen = true;
+            this.isItemOpen = true;
         } else {
             // close all others
             this.isNew = false;
-            this.isOpen = false;
+            this.isItemOpen = false;
         }
     }
 }

@@ -243,8 +243,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
 
     /**
      * Toggle the group (open or close it)
-     * TODO move this up into abstract base component and consolidate naming of
-     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
      */
     public toggleGroup(event: UIEvent) {
         event.preventDefault();
