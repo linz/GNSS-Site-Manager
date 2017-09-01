@@ -156,6 +156,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.subscription.unsubscribe();
     }
 

@@ -60,6 +60,7 @@ export class SiteIdentificationComponent extends AbstractBaseComponent implement
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.subscription.unsubscribe();
     }
 

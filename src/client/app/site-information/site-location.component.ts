@@ -69,6 +69,7 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     }
 
     ngOnDestroy() {
+        super.ngOnDestroy();
         this.stateSubscription.unsubscribe();
         this.cartesianSubscription.unsubscribe();
         this.geodeticSubscription.unsubscribe();
