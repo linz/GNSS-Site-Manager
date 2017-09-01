@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
 import { MiscUtils } from '../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SiteLogViewModel }  from '../site-log/site-log-view-model';
@@ -36,7 +37,7 @@ import { SiteLogService } from '../shared/site-log/site-log.service';
     selector: 'site-identification',
     templateUrl: 'site-identification.component.html'
 })
-export class SiteIdentificationComponent extends AbstractBaseComponent implements OnInit {
+export class SiteIdentificationComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
 
     public isOpen: boolean = false;
     public miscUtils: any = MiscUtils;
@@ -46,6 +47,8 @@ export class SiteIdentificationComponent extends AbstractBaseComponent implement
     @Input() parentForm: FormGroup;
     @Input() siteLogModel: SiteLogViewModel;
 
+    private subscription: Subscription;
+
     constructor(private siteLogService: SiteLogService,
                 private formBuilder: FormBuilder,
                 private changeDetectionRef: ChangeDetectorRef) {
@@ -54,6 +57,10 @@ export class SiteIdentificationComponent extends AbstractBaseComponent implement
 
     ngOnInit() {
         this.setupForm();
+    }
+
+    ngOnDestroy() {
+        this.subscription.unsubscribe();
     }
 
     public getItemName(): string {
@@ -104,7 +111,7 @@ export class SiteIdentificationComponent extends AbstractBaseComponent implement
         });
         this.siteIdentification = this.siteLogModel.siteInformation.siteIdentification;
         this.siteIdentificationForm.patchValue(this.siteIdentification);
-        this.siteLogService.isUserAuthorisedToEditSite.subscribe(authorised => {
+        this.subscription = this.siteLogService.isUserAuthorisedToEditSite.subscribe(authorised => {
             if (authorised) {
                 this.siteIdentificationForm.enable();
             } else {
