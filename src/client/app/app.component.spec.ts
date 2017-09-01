@@ -1,24 +1,16 @@
 import { Component } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TestBed } from '@angular/core/testing';
 import { APP_BASE_HREF } from '@angular/common';
-
-import {
-  async
-} from '@angular/core/testing';
-import {
-  Route
-} from '@angular/router';
-import {
-  RouterTestingModule
-} from '@angular/router/testing';
+import { Route } from '@angular/router';
+import { Http, BaseRequestOptions, ConnectionBackend, HttpModule } from '@angular/http';
+import { async, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MockBackend } from '@angular/http/testing';
 import { CollapseModule } from 'ng2-bootstrap';
 import { AppComponent } from './app.component';
 import { AboutComponent } from './about/about.component';
 import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
-import { Http, BaseRequestOptions, ConnectionBackend, HttpModule } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { WFSService } from './shared/wfs/wfs.service';
 import { JsonixService } from './shared/jsonix/jsonix.service';
 import { ConstantsService } from './shared/global/constants.service';

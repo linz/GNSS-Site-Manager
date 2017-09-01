@@ -4,6 +4,7 @@ import { MiscUtils } from '../shared/index';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SiteLogViewModel }  from '../site-log/site-log-view-model';
 import { SiteIdentificationViewModel } from './site-identification-view-model';
+import { MiscUtils } from '../shared/index';
 import { AbstractBaseComponent } from '../shared/abstract-groups-items/abstract-base.component';
 import { SiteLogService } from '../shared/site-log/site-log.service';
 

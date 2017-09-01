@@ -1,7 +1,7 @@
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { AbstractControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ComponentFixture, TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subscriber } from 'rxjs/Subscriber';
 import { SiteLocationComponent } from './site-location.component';
