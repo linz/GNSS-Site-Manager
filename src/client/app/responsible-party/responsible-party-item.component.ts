@@ -97,7 +97,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
             individualName: ['', [Validators.maxLength(100)]],
             organisationName: ['', organisationValidators],
             positionName: ['', [Validators.maxLength(100)]],
-            deliveryPoint: ['', [Validators.maxLength(500)]],
+            deliveryPoint: ['', [Validators.maxLength(2000)]],
             city: ['', [Validators.maxLength(100)]],
             administrativeArea: ['', [Validators.maxLength(100)]],
             postalCode: ['', [Validators.maxLength(25)]],
