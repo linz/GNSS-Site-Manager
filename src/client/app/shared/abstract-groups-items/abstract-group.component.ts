@@ -85,7 +85,9 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
 
                     if (current.itemGroup.controls.startDate) {
                         current.itemGroup.controls.startDate.valueChanges.subscribe(date => {
-                            this.updateEndDate(next, date, { overwrite: true });
+                            if (date !== current.itemGroup.value['startDate']) {
+                                this.updateEndDate(next, date, { overwrite: true });
+                            }
                         });
                     }
                 };
