@@ -37,7 +37,7 @@
                 <text-input *ngIf="!isDataType"
                             [form]="itemGroup"
                             controlName="positionName">Position Name</text-input>
-                <text-input [form]="itemGroup" controlName="deliveryPoint">Address</text-input>
+                <textarea-input [form]="itemGroup" controlName="deliveryPoint" rows="3">Address</textarea-input>
                 <text-input [form]="itemGroup" controlName="city">City</text-input>
                 <text-input [form]="itemGroup" controlName="administrativeArea">State / Province</text-input>
                 <text-input [form]="itemGroup" controlName="postalCode">Postal Code</text-input>

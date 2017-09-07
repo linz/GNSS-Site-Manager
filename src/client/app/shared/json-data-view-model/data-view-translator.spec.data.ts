@@ -1075,7 +1075,13 @@ export class DataViewTranslatorSpecData {
                                             {
                                                 TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                                 characterString: {
-                                                    'gco:CharacterString': '3838 Vogel Rd., Arnold, MO 63010-6238'
+                                                    'gco:CharacterString': '3838 Vogel Rd., Arnold'
+                                                }
+                                            },
+                                            {
+                                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
+                                                characterString: {
+                                                    'gco:CharacterString': 'MO 63010-6238, USA'
                                                 }
                                             }
                                         ],

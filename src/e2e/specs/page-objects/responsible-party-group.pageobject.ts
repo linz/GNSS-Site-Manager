@@ -42,7 +42,7 @@ export class ResponsiblePartyGroup extends LogItemGroup {
         this.individualNameInput = itemContainer.element(by.css('text-input[controlName="individualName"] input'));
         this.organisationNameInput = itemContainer.element(by.css('text-input[controlName="organisationName"] input'));
         this.positionNameInput = itemContainer.element(by.css('text-input[controlName="positionName"] input'));
-        this.deliveryPointInput = itemContainer.element(by.css('text-input[controlName="deliveryPoint"] input'));
+        this.deliveryPointInput = itemContainer.element(by.css('textarea-input[controlName="deliveryPoint"] textarea'));
         this.cityInput = itemContainer.element(by.css('text-input[controlName="city"] input'));
         this.administrativeAreaInput = itemContainer.element(by.css('text-input[controlName="administrativeArea"] input'));
         this.postalCodeInput = itemContainer.element(by.css('text-input[controlName="postalCode"] input'));
