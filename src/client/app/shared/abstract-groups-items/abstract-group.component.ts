@@ -111,6 +111,16 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     abstract getNewItemViewModel(): T;
 
     /**
+     * Returns the element name in kebab case converted from item name.
+     *
+     * Eg., "Site Owner" -> "site-owner"
+     */
+    getElementName(): string {
+        let itemName: string = this.getItemName();
+        return !itemName ? '' : _.kebabCase(itemName);
+    }
+
+    /**
      * Can this group contain only one current item or multiple current itmes?
      */
     protected allowOneCurrentItem(): boolean {
