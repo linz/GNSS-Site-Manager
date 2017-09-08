@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-item.component';
 import { SurveyedLocalTieViewModel } from './surveyed-local-tie-view-model';
 import { DialogService } from '../shared/index';
@@ -16,12 +17,14 @@ import { DatetimeValidator } from '../shared/form-input-validators/datetime-vali
     selector: 'surveyed-local-tie-item',
     templateUrl: 'surveyed-local-tie-item.component.html',
 })
-export class SurveyedLocalTieItemComponent extends AbstractItemComponent implements OnInit {
+export class SurveyedLocalTieItemComponent extends AbstractItemComponent implements OnInit, OnDestroy {
     /**
      * The SurveyedLocalTie in question.
      */
     @Input() surveyedLocalTie: SurveyedLocalTieViewModel;
     differentialComponentForm: FormGroup;
+
+    private formSubscription: Subscription;
 
     constructor(protected userAuthService: UserAuthService,
                 protected dialogService: DialogService,
@@ -42,6 +45,11 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
         });
     }
 
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this.formSubscription.unsubscribe();
+    }
+
     getItemName(): string {
         return 'Surveyed Local Tie';
     }
@@ -60,7 +68,7 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
             dy: null,
             dz: null
         });
-        this.differentialComponentForm.valueChanges.subscribe((change: any) => {
+        this.formSubscription = this.differentialComponentForm.valueChanges.subscribe((change: any) => {
             this.handleGroupFieldsChange(change, this.differentialComponentForm);
         });
 
