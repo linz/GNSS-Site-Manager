@@ -130,9 +130,10 @@ export class MiscUtils {
     /**
      * Scroll the element defined by Id into full-view on the page.
      */
-    public static showElemById(id: string) {
+    public static scrollToElementById(event: UIEvent, id: string) {
+        event.preventDefault();
         let elem: any = document.getElementById(id);
-        if (elem !== null) {
+        if (elem) {
             this.smoothScrollTo(elem);
         }
     }
@@ -142,7 +143,7 @@ export class MiscUtils {
      * work in IE at all, so we have to use scrollIntoView() function instead (not smooth).
      */
     public static smoothScrollTo(elem: any): void {
-        if (elem === null) {
+        if (!elem) {
             return;
         } else if (navigator.userAgent.indexOf('MSIE') !== -1 || !!navigator.userAgent.match(/Trident\/7\./)) {
             setTimeout(function () {
