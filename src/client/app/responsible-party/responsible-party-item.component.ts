@@ -47,10 +47,6 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     ngOnInit() {
         super.ngOnInit();
         this.isItemOpen = (this.index === 0);
-        this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
-                       || this.partyType.getObjectName() === 'siteDataSource';
-        this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
-        this.isDataCenter = this.partyType.getObjectName() === 'siteDataCenters';
         this.itemIdName = _.kebabCase(this.getItemName());
     }
 
@@ -90,11 +86,20 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      * Return the item form with default values and form controls.
      */
     getItemForm(): FormGroup {
-        let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(500)]
-                                                            : [Validators.maxLength(500)];
+        this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
+                       || this.partyType.getObjectName() === 'siteDataSource';
+        this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
+        this.isDataCenter = this.partyType.getObjectName() === 'siteDataCenters';
+
+        let individualNameValidators: any[] = !this.isDataType ? [Validators.required] : [];
+        individualNameValidators.push(Validators.maxLength(200));
+
+        let organisationValidators: any[] = (this.isDataType || this.isMetadataCustodian) ? [Validators.required] : [];
+        organisationValidators.push(Validators.maxLength(200));
+
         return this.formBuilder.group({
             id: [null],
-            individualName: ['', [Validators.maxLength(100)]],
+            individualName: ['', individualNameValidators],
             organisationName: ['', organisationValidators],
             positionName: ['', [Validators.maxLength(100)]],
             deliveryPoint: ['', [Validators.maxLength(2000)]],
