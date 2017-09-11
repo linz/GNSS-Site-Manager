@@ -34,13 +34,13 @@
                 <text-input [form]="itemGroup" controlName="tiedMarkerCDPNumber">Tied Marker CDP Number</text-input>
                 <text-input [form]="itemGroup" controlName="tiedMarkerDOMESNumber">Tied Marker DOMES Number</text-input>
                 <div formGroupName="differentialComponent">
-                    <number-input [form]="differentialComponentForm" controlName="dx">dx (m)</number-input>
-                    <number-input [form]="differentialComponentForm" controlName="dy">dy (m)</number-input>
-                    <number-input [form]="differentialComponentForm" controlName="dz">dz (m)</number-input>
+                    <number-input [form]="differentialComponentForm" controlName="dx" [required]="isDifferentialComponentRequired">dx (m)</number-input>
+                    <number-input [form]="differentialComponentForm" controlName="dy" [required]="isDifferentialComponentRequired">dy (m)</number-input>
+                    <number-input [form]="differentialComponentForm" controlName="dz" [required]="isDifferentialComponentRequired">dz (m)</number-input>
                 </div>
                 <number-input [form]="itemGroup" controlName="localSiteTiesAccuracy">Local Site Ties Accuracy (mm)</number-input>
                 <text-input [form]="itemGroup" controlName="surveyMethod">Survey Method</text-input>
-                <datetime-input [form]="itemGroup" controlName="startDate" [required]="true">Date Measured (UTC)</datetime-input>
+                <datetime-input [form]="itemGroup" controlName="startDate" [required]="isDifferentialComponentRequired">Date Measured (UTC)</datetime-input>
                 <textarea-input [form]="itemGroup" controlName="notes" rows="2">Notes</textarea-input>
             </div>
         </div>

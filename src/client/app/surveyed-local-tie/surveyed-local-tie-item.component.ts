@@ -23,6 +23,7 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
      */
     @Input() surveyedLocalTie: SurveyedLocalTieViewModel;
     differentialComponentForm: FormGroup;
+    isDifferentialComponentRequired: boolean = false;
 
     private formSubscription: Subscription;
 
@@ -69,7 +70,7 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
             dz: null
         });
         this.formSubscription = this.differentialComponentForm.valueChanges.subscribe((change: any) => {
-            this.handleGroupFieldsChange(change, this.differentialComponentForm);
+            this.isDifferentialComponentRequired = this.handleGroupFieldsChange(change, this.differentialComponentForm);
         });
 
         return this.formBuilder.group({
@@ -96,11 +97,12 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
      *
      * @param fields - a group of input fields in the groupForm
      * @param form - the FormGroup that holds the group of input fields
+     * @returns {boolean} a flag indicating whether any fields have valid values
      */
-    private handleGroupFieldsChange(fields: any, form: FormGroup) {
+    private handleGroupFieldsChange(fields: any, form: FormGroup): boolean {
         let hasValue: boolean = false;
         Object.keys(fields).forEach((key: string) => {
-            if (fields[key]) {
+            if (fields[key] != null) {
                 hasValue = true;
             }
         });
@@ -126,5 +128,7 @@ export class SurveyedLocalTieItemComponent extends AbstractItemComponent impleme
             }
             formControl.updateValueAndValidity({emitEvent: false});
        });
+
+       return hasValue;
     }
 }
