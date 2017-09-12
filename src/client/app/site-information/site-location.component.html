@@ -52,19 +52,19 @@
                 </text-input>
 
                 <div formGroupName="cartesianPosition">
-                    <number-input [form]="cartesianPositionForm" controlName="x">X Coordinate (m)
+                    <number-input [form]="cartesianPositionForm" controlName="x" [required]="isCartesianPositionRequired">X Coordinate (m)
                     </number-input>
-                    <number-input [form]="cartesianPositionForm" controlName="y">Y Coordinate (m)
+                    <number-input [form]="cartesianPositionForm" controlName="y" [required]="isCartesianPositionRequired">Y Coordinate (m)
                     </number-input>
-                    <number-input [form]="cartesianPositionForm" controlName="z">Z Coordinate (m)
+                    <number-input [form]="cartesianPositionForm" controlName="z" [required]="isCartesianPositionRequired">Z Coordinate (m)
                     </number-input>
                 </div>
                 <div formGroupName="geodeticPosition">
-                    <number-input [form]="geodeticPositionForm" controlName="lat">Latitude (dd)
+                    <number-input [form]="geodeticPositionForm" controlName="lat" [required]="isGeodeticPositionRequired">Latitude (dd)
                     </number-input>
-                    <number-input [form]="geodeticPositionForm" controlName="lon">Longitude (dd)
+                    <number-input [form]="geodeticPositionForm" controlName="lon" [required]="isGeodeticPositionRequired">Longitude (dd)
                     </number-input>
-                    <number-input [form]="geodeticPositionForm" controlName="height">Ellipsoidal Height (m)
+                    <number-input [form]="geodeticPositionForm" controlName="height" [required]="isGeodeticPositionRequired">Ellipsoidal Height (m)
                     </number-input>
                 </div>
 

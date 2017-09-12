@@ -76,7 +76,7 @@ export function main() {
             let zInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="z"] small') as HTMLInputElement;
 
             // Setting one or two of x,y,z should cause all to become required and others to be invalid
-            x.setValue('7');
+            x.setValue(7);
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeFalsy();
@@ -85,7 +85,7 @@ export function main() {
             expect(yInvalid.textContent).toContain('Field required');
             expect(zInvalid.textContent).toContain('Field required');
 
-            y.setValue('77');
+            y.setValue(77);
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeTruthy();
@@ -95,7 +95,7 @@ export function main() {
             expect(zInvalid.textContent).toContain('Field required');
 
             // Set them all and they should now be valid
-            z.setValue('777');
+            z.setValue(777);
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeTruthy();
@@ -105,9 +105,9 @@ export function main() {
             expect(zInvalid.textContent).toEqual('');
 
             // take away all the values and they should be valid also
-            x.setValue('');
-            y.setValue('');
-            z.setValue('');
+            x.setValue(null);
+            y.setValue(null);
+            z.setValue(null);
             fixture.detectChanges();
             expect(x.valid).toBeTruthy();
             expect(y.valid).toBeTruthy();
@@ -126,7 +126,7 @@ export function main() {
             let heightInvalid: HTMLInputElement = dom.querySelector('number-input[controlname="height"] small') as HTMLInputElement;
 
             // Setting one or two of x,y,z should cause all to become required and others to be invalid
-            lat.setValue('7');
+            lat.setValue(7);
             fixture.detectChanges();
             expect(lat.valid).toBeTruthy();
             expect(lon.valid).toBeFalsy();
@@ -135,7 +135,7 @@ export function main() {
             expect(lonInvalid.textContent).toContain('Field required');
             expect(heightInvalid.textContent).toContain('Field required');
 
-            lon.setValue('77');
+            lon.setValue(77);
             fixture.detectChanges();
             expect(lat.valid).toBeTruthy();
             expect(lon.valid).toBeTruthy();
@@ -145,7 +145,7 @@ export function main() {
             expect(heightInvalid.textContent).toContain('Field required');
 
             // Set them all and they should now be valid
-            height.setValue('777');
+            height.setValue(777);
             fixture.detectChanges();
             expect(lat.valid).toBeTruthy();
             expect(lon.valid).toBeTruthy();
@@ -155,9 +155,9 @@ export function main() {
             expect(heightInvalid.textContent).toEqual('');
 
             // take away all the values and they should be valid also
-            lat.setValue('');
-            lon.setValue('');
-            height.setValue('');
+            lat.setValue(null);
+            lon.setValue(null);
+            height.setValue(null);
             fixture.detectChanges();
             expect(lat.valid).toBeTruthy();
             expect(lon.valid).toBeTruthy();
