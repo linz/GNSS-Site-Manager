@@ -4,7 +4,7 @@
             (keyup.space)="toggleItem($event)"
             (keyup.enter)="toggleItem($event)"
             (click)="toggleItem($event)">
-        <i class="glyphicon"[ngClass]="{'glyphicon-minus-sign': isItemOpen, 'glyphicon-plus-sign': !isItemOpen}">
+        <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isItemOpen, 'glyphicon-plus-sign': !isItemOpen}">
         </i>
         <span [innerHTML]="getItemHeaderHtml()"></span>
     </span>
