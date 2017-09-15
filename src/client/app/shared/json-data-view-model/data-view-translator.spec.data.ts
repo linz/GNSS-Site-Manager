@@ -133,9 +133,11 @@ export class DataViewTranslatorSpecData {
                     tiedMarkerUsage: '(SLR/VLBI/LOCAL CONTROL/FOOTPRINT/etc)',
                     tiedMarkerCDPNumber: '(A4)',
                     tiedMarkerDOMESNumber: '(A9)',
-                    dx: 0,
-                    dy: 0,
-                    dz: 0,
+                    differentialComponent: {
+                        dx: 0,
+                        dy: 0,
+                        dz: 0
+                    },
                     localSiteTiesAccuracy: 0,
                     surveyMethod: '(GPS CAMPAIGN/TRILATERATION/TRIANGULATION/etc)',
                     notes: null
@@ -1073,7 +1075,13 @@ export class DataViewTranslatorSpecData {
                                             {
                                                 TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                                 characterString: {
-                                                    'gco:CharacterString': '3838 Vogel Rd., Arnold, MO 63010-6238'
+                                                    'gco:CharacterString': '3838 Vogel Rd., Arnold'
+                                                }
+                                            },
+                                            {
+                                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
+                                                characterString: {
+                                                    'gco:CharacterString': 'MO 63010-6238, USA'
                                                 }
                                             }
                                         ],

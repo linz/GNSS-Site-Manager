@@ -2,18 +2,30 @@ const config = {
   baseUrl: 'http://localhost:5555/',
 
   suites: {
-    loggedOut: [
-      './dist/e2e/specs/logged-out/**/*.e2e-spec.js'
+    login: [
+      './dist/e2e/specs/login/**/*.e2e-spec.js'
     ],
-    loggedIn: [
-      './dist/e2e/specs/logged-in/**/*.e2e-spec.js'
+    toolbar: [
+      './dist/e2e/specs/toolbar/**/*.e2e-spec.js'
     ],
-    siteLogComponents: [
-      './dist/e2e/specs/log-groups/**/*.e2e-spec.js'
+    selectSite: [
+      './dist/e2e/specs/select-site/**/*.e2e-spec.js'
+    ],
+    siteLogGroups: [
+      './dist/e2e/specs/site-log-groups/**/*.e2e-spec.js'
+    ],
+    allSites: [
+      './dist/e2e/specs/all-sites/**/all-sites-save.e2e-spec.js',
+      './dist/e2e/specs/all-sites/**/all-sites-initial-status.e2e-spec.js',
     ],
   },
 
-  exclude: [],
+  // TODO: work out how to selectively run test suites.
+  // These tests take more than 30 minutes, so we don't want CI to run it.
+  exclude: [
+    './dist/e2e/specs/all-sites/all-sites-save.e2e-spec.js',
+    './dist/e2e/specs/all-sites/all-sites-initial-status.e2e-spec.js',
+  ],
 
   // 'jasmine' by default will use the latest jasmine framework
   framework: 'jasmine',
@@ -34,6 +46,7 @@ const config = {
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {
+      args: ['--window-size=600,800'],
       binary: process.env.CHROME_BIN,
       prefs: {
         credentials_enable_service: false,

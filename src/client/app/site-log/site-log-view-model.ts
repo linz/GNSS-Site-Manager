@@ -30,6 +30,7 @@ export class SiteInformationViewModel {
  * View Model equivalent of ../data-model/SiteLogDataModel
  */
 export class SiteLogViewModel {
+    [key: string]: any;
     formInformation = new FormInformationViewModel();
     siteInformation = new SiteInformationViewModel();
     gnssReceivers: GnssReceiverViewModel[] = [];

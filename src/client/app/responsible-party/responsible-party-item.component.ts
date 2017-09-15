@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as _ from 'lodash';
 import { AbstractItemComponent } from '../shared/abstract-groups-items/abstract-item.component';
 import { ResponsiblePartyViewModel } from './responsible-party-view-model';
 import { ResponsiblePartyType } from './responsible-party-group.component';
@@ -34,6 +35,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
     protected isDataType: boolean;
     protected isMetadataCustodian: boolean;
     protected isDataCenter: boolean;
+    protected itemIdName: string;
 
     constructor(protected userAuthService: UserAuthService,
                 protected dialogService: DialogService,
@@ -44,11 +46,8 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
 
     ngOnInit() {
         super.ngOnInit();
-        this.isOpen = (this.index === 0);
-        this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
-                       || this.partyType.getObjectName() === 'siteDataSource';
-        this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
-        this.isDataCenter = this.partyType.getObjectName() === 'siteDataCenters';
+        this.isItemOpen = (this.index === 0);
+        this.itemIdName = _.kebabCase(this.getItemName());
     }
 
     getItem(): AbstractViewModel {
@@ -87,16 +86,25 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      * Return the item form with default values and form controls.
      */
     getItemForm(): FormGroup {
-        let organisationValidators: any[] = this.isDataType ? [Validators.required, Validators.maxLength(100)]
-                                                            : [Validators.maxLength(100)];
+        this.isDataType = this.partyType.getObjectName() === 'siteDataCenters'
+                       || this.partyType.getObjectName() === 'siteDataSource';
+        this.isMetadataCustodian = this.partyType.getObjectName() === 'siteMetadataCustodian';
+        this.isDataCenter = this.partyType.getObjectName() === 'siteDataCenters';
+
+        let individualNameValidators: any[] = !this.isDataType ? [Validators.required] : [];
+        individualNameValidators.push(Validators.maxLength(200));
+
+        let organisationValidators: any[] = (this.isDataType || this.isMetadataCustodian) ? [Validators.required] : [];
+        organisationValidators.push(Validators.maxLength(200));
+
         return this.formBuilder.group({
             id: [null],
-            individualName: ['', [Validators.maxLength(100)]],
+            individualName: ['', individualNameValidators],
             organisationName: ['', organisationValidators],
-            positionName: ['', [Validators.maxLength(50)]],
-            deliveryPoint: ['', [Validators.maxLength(50)]],
-            city: ['', [Validators.maxLength(50)]],
-            administrativeArea: ['', [Validators.maxLength(50)]],
+            positionName: ['', [Validators.maxLength(100)]],
+            deliveryPoint: ['', [Validators.maxLength(2000)]],
+            city: ['', [Validators.maxLength(100)]],
+            administrativeArea: ['', [Validators.maxLength(100)]],
             postalCode: ['', [Validators.maxLength(25)]],
             country: [''],
             email: [''],
@@ -133,7 +141,7 @@ export class ResponsiblePartyItemComponent extends AbstractItemComponent impleme
      */
     protected handleTotalChange(currentValue: number, previousValue: number): void {
         if (currentValue === 1) {
-            this.isOpen = true;
+            this.isItemOpen = true;
         }
     }
 }

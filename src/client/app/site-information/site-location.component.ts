@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { MiscUtils } from '../shared/global/misc-utils';
 import { DialogService } from '../shared/index';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../shared/site-log/site-log.service';
@@ -31,12 +32,14 @@ import * as _ from 'lodash';
     selector: 'site-location',
     templateUrl: 'site-location.component.html'
 })
-export class SiteLocationComponent extends AbstractBaseComponent implements OnInit {
+export class SiteLocationComponent extends AbstractBaseComponent implements OnInit, OnDestroy {
 
     public miscUtils: any = MiscUtils;
     public isOpen: boolean = false;
     public isNew: boolean = false;
     public isDeleted: boolean = false;
+    public isCartesianPositionRequired: boolean = false;
+    public isGeodeticPositionRequired: boolean = false;
 
     @Input() parentForm: FormGroup;
     @Input() siteLogModel: SiteLogViewModel;
@@ -47,6 +50,9 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
     private siteLocation: SiteLocationViewModel;
     private cartesianPositionFormValidators: ValidatorFn[];
     private geodeticPositionFormValidators: ValidatorFn[];
+    private stateSubscription: Subscription;
+    private cartesianSubscription: Subscription;
+    private geodeticSubscription: Subscription;
 
     constructor(protected siteLogService: SiteLogService,
                 protected dialogService: DialogService,
@@ -56,12 +62,19 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
 
     ngOnInit() {
         this.setupForm();
-        this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
+        this.stateSubscription = this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
             if (applicationState.applicationSaveState === ApplicationSaveState.saved) {
                 this.isNew = false;
                 this.isDeleted = false;
             }
         });
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this.stateSubscription.unsubscribe();
+        this.cartesianSubscription.unsubscribe();
+        this.geodeticSubscription.unsubscribe();
     }
 
     getItemName(): string {
@@ -155,9 +168,11 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
         // Validators are applied in handleLocationPositionGroupChange.
         // Validators.required is added to those listed (conditionally when the group has at least one value)
         this.cartesianPositionFormValidators = [];
-        this.cartesianPositionForm.valueChanges.subscribe(
-            (change: any) => this.handleLocationPositionGroupChange(change, this.cartesianPositionForm,
-                this.cartesianPositionFormValidators)
+        this.cartesianSubscription = this.cartesianPositionForm.valueChanges.subscribe(
+            (change: any) => {
+            this.isCartesianPositionRequired = this.handleLocationPositionGroupChange(change,
+                                    this.cartesianPositionForm, this.cartesianPositionFormValidators);
+            }
         );
         this.geodeticPositionForm = this.formBuilder.group({
             lat: '',
@@ -167,9 +182,11 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
         // Validators are applied in handleLocationPositionGroupChange.
         // Validators.required is added to those listed (conditionally when the group has at least one value)
         this.geodeticPositionFormValidators = [];
-        this.geodeticPositionForm.valueChanges.subscribe(
-            (change: any) => this.handleLocationPositionGroupChange(change, this.geodeticPositionForm,
-                this.geodeticPositionFormValidators)
+        this.geodeticSubscription = this.geodeticPositionForm.valueChanges.subscribe(
+            (change: any) => {
+                this.isGeodeticPositionRequired = this.handleLocationPositionGroupChange(change,
+                                    this.geodeticPositionForm, this.geodeticPositionFormValidators);
+            }
         );
         this.siteLocationForm = this.formBuilder.group({
             city: ['', [Validators.maxLength(100)]],
@@ -199,11 +216,12 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
      *
      * @param groupItems - the group items values that come from an OnChange subscription
      * @param positionGroup - the FormGroup that holds the items
+     * @returns {boolean} a flag indicating whether any fields have valid values
      */
-    private handleLocationPositionGroupChange(groupItems: any, positionGroup: FormGroup, permanentValidators: ValidatorFn[]) {
+    private handleLocationPositionGroupChange(groupItems: any, positionGroup: FormGroup, permanentValidators: ValidatorFn[]): boolean {
         let someFieldHasValue: boolean = false;
         Object.keys(groupItems).forEach((key) => {
-            if (groupItems[key]) {
+            if (groupItems[key] != null) {
                 someFieldHasValue = true;
             }
         });
@@ -222,5 +240,7 @@ export class SiteLocationComponent extends AbstractBaseComponent implements OnIn
                     itemControl.updateValueAndValidity({emitEvent: false});
             }
         });
+
+        return someFieldHasValue;
     }
 }

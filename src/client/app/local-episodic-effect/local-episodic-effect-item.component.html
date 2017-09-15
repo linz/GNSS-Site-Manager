@@ -1,11 +1,11 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" id="local-episodic-effect-{{index}}">
     <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
-            (keyup.space)="toggleGroup($event)"
-            (keyup.enter)="toggleGroup($event)"
-            (click)="toggleGroup($event)">
+            (keyup.space)="toggleItem($event)"
+            (keyup.enter)="toggleItem($event)"
+            (click)="toggleItem($event)">
             <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+               [ngClass]="{'glyphicon-minus-sign': isItemOpen, 'glyphicon-plus-sign': !isItemOpen}">
             </i>
             <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
@@ -23,13 +23,13 @@
           </button>
         </span>
     </div>
-    <div class="panel-body item-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" localEpisodicEffect == null ">
             No information available for current Local Episodic Effect
         </div>
         <div *ngIf=" localEpisodicEffect != null" [ngClass]="{'container-dirty': localEpisodicEffect.dateDeleted}">
-            <text-input [form]="itemGroup" controlName="event">Event</text-input>
-            <datetime-input [form]="itemGroup" controlName="startDate">Start Date (UTC)</datetime-input>
+            <textarea-input [form]="itemGroup" controlName="event" [required]="true">Event</textarea-input>
+            <datetime-input [form]="itemGroup" controlName="startDate" [required]="true">Start Date (UTC)</datetime-input>
             <datetime-input [form]="itemGroup" controlName="endDate" [required]="index != 0">End Date (UTC)</datetime-input>
         </div>
     </div>

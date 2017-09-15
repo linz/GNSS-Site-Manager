@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SiteLogDataModel } from './data-model/site-log-data-model';
 import { SiteLogViewModel } from '../../site-log/site-log-view-model';
+import { ResponsiblePartyViewModel } from '../../responsible-party/responsible-party-view-model';
 import { ObjectMap } from './object-map';
 import * as _ from 'lodash';
 import { MiscUtils } from '../global/misc-utils';
@@ -82,16 +83,15 @@ let responsiblePartyMap = new ObjectMap()
     .addFieldMap('ciResponsibleParty.individualName.characterString.gco:CharacterString', 'individualName')
     .addFieldMap('ciResponsibleParty.organisationName.characterString.gco:CharacterString', 'organisationName')
     .addFieldMap('ciResponsibleParty.positionName.characterString.gco:CharacterString', 'positionName')
-    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.deliveryPoint[0].characterString.gco:CharacterString', 'deliveryPoint')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.deliveryPoint[].characterString.gco:CharacterString', 'deliveryPoint')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.city.characterString.gco:CharacterString', 'city')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.administrativeArea.characterString.gco:CharacterString', 'administrativeArea')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.postalCode.characterString.gco:CharacterString', 'postalCode')
-    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.city.country.characterString.gco:CharacterString', 'country')
+    .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.country.characterString.gco:CharacterString', 'country')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.address.ciAddress.electronicMailAddress[0].characterString.gco:CharacterString', 'email')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[0].characterString.gco:CharacterString', 'primaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.voice[1].characterString.gco:CharacterString', 'secondaryPhone')
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.phone.ciTelephone.facsimile[0].characterString.gco:CharacterString', 'fax')
-
     .addFieldMap('ciResponsibleParty.contactInfo.ciContact.onlineResource', 'url', new ObjectMap()
         .addSourcePreMap((onlineResource: any): string => {
             return onlineResource ? onlineResource.ciOnlineResource.linkage.url : null;
@@ -108,7 +108,6 @@ let responsiblePartyMap = new ObjectMap()
                 : null;
         })
     )
-
     .addSourcePostMap((source: any): any => {
         if (source && source.ciResponsibleParty) {
             source.ciResponsibleParty.role = {
@@ -119,6 +118,27 @@ let responsiblePartyMap = new ObjectMap()
                     value: 'pointOfContact'
                 }
             };
+        }
+        return source;
+    })
+    .addTargetPostMap((target: ResponsiblePartyViewModel): any => {
+        if (target) {
+            target.deliveryPoint = _.join(target.deliveryPoint, '\n');
+        }
+        return target;
+    })
+    .addSourcePostMap((source: any): any => {
+        let address: any = _.get(source, 'ciResponsibleParty.contactInfo.ciContact.address.ciAddress');
+        if (address && address.deliveryPoint) {
+            let deliveryPointLine: string = address.deliveryPoint[0].characterString['gco:CharacterString'];
+            let lines: string[] = _.split(deliveryPointLine, '\n');
+            address.deliveryPoint = _.map(lines, (line: string): any => {
+                 return {
+                     characterString: {
+                         'gco:CharacterString' : line
+                     }
+                 };
+            });
         }
         return source;
     })
@@ -175,9 +195,9 @@ let surveyedLocalTieMap = new ObjectMap()
     .addFieldMap('surveyedLocalTie.tiedMarkerDOMESNumber', 'tiedMarkerDOMESNumber')
     .addFieldMap('surveyedLocalTie.localSiteTiesAccuracy', 'localSiteTiesAccuracy')
     .addFieldMap('surveyedLocalTie.surveyMethod', 'surveyMethod')
-    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dx', 'dx')
-    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dy', 'dy')
-    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dz', 'dz')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dx', 'differentialComponent.dx')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dy', 'differentialComponent.dy')
+    .addFieldMap('surveyedLocalTie.differentialComponentsGNSSMarkerToTiedMonumentITRS.dz', 'differentialComponent.dz')
     .addFieldMap('surveyedLocalTie.dateMeasured.value[0]', 'startDate', dateMap)
     .addFieldMap('surveyedLocalTie.notes', 'notes')
 ;

@@ -1,5 +1,6 @@
-import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange } from '@angular/core';
+import { EventEmitter, Input, Output, OnInit, OnChanges, AfterViewInit, SimpleChange, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
 import { DialogService } from '../index';
@@ -8,7 +9,7 @@ import { UserAuthService } from '../global/user-auth.service';
 import { AbstractViewModel } from '../json-data-view-model/view-model/abstract-view-model';
 import { SiteLogService, ApplicationState, ApplicationSaveState } from '../site-log/site-log.service';
 
-export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnInit, OnChanges, AfterViewInit {
+export abstract class AbstractItemComponent extends AbstractBaseComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
     protected miscUtils: any = MiscUtils;
 
     public itemGroup: FormGroup;
@@ -38,9 +39,10 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     @Output() returnEvents = new EventEmitter<GeodesyEvent>();
 
     protected isNew: boolean = false;
-    protected isOpen: boolean = false;
+    protected isItemOpen: boolean = false;
 
     private _isDeleted: boolean = false;
+    private subscription: Subscription;
 
     /**
      * Creates an instance of the AbstractItem with the injected Services.
@@ -113,7 +115,7 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
     }
 
     ngOnInit() {
-        this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
+        this.subscription = this.siteLogService.getApplicationState().subscribe((applicationState: ApplicationState) => {
             if (! applicationState.applicationFormModified) {
                 this.itemGroup.markAsPristine();
             }
@@ -151,6 +153,11 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
                 this.handleTotalChange(changedProp.currentValue, changedProp.previousValue);
             }
         }
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this.subscription.unsubscribe();
     }
 
     handleGeodesyEvents() {
@@ -236,12 +243,10 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
 
     /**
      * Toggle the item (open or close it)
-     * TODO move this up into abstract base component and consolidate naming of
-     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
      */
-    public toggleGroup(event: UIEvent) {
+    public toggleItem(event: UIEvent) {
         event.preventDefault();
-        this.isOpen = this.miscUtils.scrollIntoView(event, this.isOpen);
+        this.isItemOpen = this.miscUtils.scrollIntoView(event, this.isItemOpen);
     }
 
     /**
@@ -278,11 +283,11 @@ export abstract class AbstractItemComponent extends AbstractBaseComponent implem
         });
         if (this.getIndex() === indexOfNew) {
             this.isNew = true;
-            this.isOpen = true;
+            this.isItemOpen = true;
         } else {
             // close all others
             this.isNew = false;
-            this.isOpen = false;
+            this.isItemOpen = false;
         }
     }
 }

@@ -3,26 +3,22 @@ import { TestUtils } from '../utils/test.utils';
 import { SelectSitePage } from '../page-objects/select-site.pageobject';
 import { LoginActions } from '../utils/login.actions';
 import { SiteLogPage } from '../page-objects/site-log.pageobject';
-import { GnssReceiverGroup } from '../page-objects/gnss-receiver-group.pageobject';
+import { FrequencyStandardGroup } from '../page-objects/frequency-standard-group.pageobject';
 
-describe('GNSS Receiver Group Component', () => {
+describe('Frequency Standard Group Component', () => {
 
     let timestamp: string = TestUtils.getTimeStamp();
-    let itemName: string = 'GNSS Receiver';
     let siteId: string = 'ADE1';
-    let receiverType: string = 'ASHTECH Z-XII3';
-    let serialNumber: string = '8888';
-    let firmwareVersion: string = '8Y08-8D08';
-    let elevationCutoffSetting: string = '5';
-    let temperatureStabilization: string = '10';
-    let notes: string = 'e2e testing - add a new item on ' + timestamp;
-    let deleteReason: string = 'e2e testing - delete an item on ' + timestamp;
+    let standardType: string = 'Cesium - Rcvr 3';
+    let inputFrequency: string = '1080';
+    let notes: string = 'e2e testing - add a new item ' + timestamp;
+    let deleteReason: string = 'e2e testing - delete an item ' + timestamp;
     let noOfItems: number = 0;
 
     let selectSitePage: SelectSitePage = new SelectSitePage();
     let loginActions: LoginActions = new LoginActions(selectSitePage);
     let siteLogPage: SiteLogPage;
-    let itemGroup: GnssReceiverGroup;
+    let itemGroup: FrequencyStandardGroup;
 
     beforeAll(() => {
         browser.get(selectSitePage.url);
@@ -30,10 +26,10 @@ describe('GNSS Receiver Group Component', () => {
         loginActions.login('user.a', 'gumby123A');
         browser.waitForAngular();
         siteLogPage = selectSitePage.openSite(siteId);
-        itemGroup = siteLogPage.gnssReceiverGroup;
+        itemGroup = siteLogPage.frequencyStandardGroup;
     });
 
-    it('expect should be able to add and save new ' + itemName + ' item', () => {
+    it('expect should be able to add and save new item', () => {
         expect(siteLogPage.saveSiteLink.isPresent()).toBe(true);
         expect(siteLogPage.saveSiteLink.getAttribute('class')).toContain('disabled', 'Save button is not enabled as no changes made');
         itemGroup.items.count().then((value: number) => {
@@ -48,18 +44,15 @@ describe('GNSS Receiver Group Component', () => {
                 TestUtils.checkInputValueNotNull(itemGroup.prevDateRemovedInput, 'previous DateRemoved');
             }
 
-            itemGroup.receiverTypeInput.sendKeys(receiverType);
-            itemGroup.serialNumberInput.sendKeys(serialNumber);
-            itemGroup.firmwareVersionInput.sendKeys(firmwareVersion);
-            itemGroup.elevationCutoffSettingInput.sendKeys(elevationCutoffSetting);
-            itemGroup.temperatureStabilizationInput.sendKeys(temperatureStabilization);
+            itemGroup.standardTypeInput.sendKeys(standardType);
+            itemGroup.inputFrequencyInput.sendKeys(inputFrequency);
             itemGroup.notesInput.sendKeys(notes);
             browser.waitForAngular();
             siteLogPage.save();
         });
     });
 
-    it('expect should have all input values for the new ' + itemName + ' item created previously', () => {
+    it('expect should have all input values for the new item created previously', () => {
         siteLogPage.reload(siteId);
         itemGroup.itemGroupHeader.click().then(() => {
             console.log('Open ' + itemGroup.itemName + 's group');
@@ -70,18 +63,15 @@ describe('GNSS Receiver Group Component', () => {
             });
             browser.waitForAngular();
 
-            TestUtils.checkInputValueEqual(itemGroup.receiverTypeInput, 'ReceiverType', receiverType);
-            TestUtils.checkInputValueEqual(itemGroup.serialNumberInput, 'SerialNumber', serialNumber);
-            TestUtils.checkInputValueEqual(itemGroup.firmwareVersionInput, 'FirmwareVersion', firmwareVersion);
-            TestUtils.checkInputValueEqual(itemGroup.elevationCutoffSettingInput, 'ElevationCutoffSetting', elevationCutoffSetting);
-            TestUtils.checkInputValueEqual(itemGroup.temperatureStabilizationInput, 'TemperatureStabilization', temperatureStabilization);
+            TestUtils.checkInputValueEqual(itemGroup.standardTypeInput, 'StandardType', standardType);
+            TestUtils.checkInputValueEqual(itemGroup.inputFrequencyInput, 'InputFrequency', inputFrequency);
             TestUtils.checkInputValueEqual(itemGroup.notesInput, 'Notes', notes);
         });
     });
 
-    it('expect should be able to delete a ' + itemName + ' item', () => {
+    it('expect should be able to delete a item', () => {
         siteLogPage.reload(siteId);
-        itemGroup.deleteItem(0, deleteReason);
+        itemGroup.deleteItem(deleteReason);
         siteLogPage.save();
         siteLogPage.reload(siteId);
         TestUtils.checkItemCount(itemGroup.items, 'deleting an item', noOfItems);

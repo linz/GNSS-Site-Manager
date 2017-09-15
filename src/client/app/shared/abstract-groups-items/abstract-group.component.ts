@@ -1,5 +1,6 @@
-import { Input, AfterViewInit, OnChanges, SimpleChange, ViewChildren, QueryList } from '@angular/core';
+import { Input, OnInit, AfterViewInit, OnChanges, SimpleChange, ViewChildren, QueryList, OnDestroy } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { Subscription } from 'rxjs/Subscription';
 import { AbstractBaseComponent } from './abstract-base.component';
 import { AbstractItemComponent } from './abstract-item.component';
 import { GeodesyEvent, EventNames } from '../events-messages/Event';
@@ -13,7 +14,7 @@ export const newItemShouldBeBlank: boolean = true;
 
 export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     extends AbstractBaseComponent
-    implements AfterViewInit, OnChanges {
+    implements OnInit, AfterViewInit, OnChanges, OnDestroy {
 
     isGroupOpen: boolean = false;
 
@@ -26,6 +27,8 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     @Input('siteLogModel') siteLogModel: SiteLogViewModel;
 
     @ViewChildren('item') itemComponents: QueryList<AbstractItemComponent>;
+
+    private subscriptions: Subscription[] = [];
 
     /**
      * Event mechanism to communicate with children.  Simply change the value of this and the children detect the change.
@@ -70,6 +73,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         super(siteLogService);
     }
 
+    ngOnInit() {
+        this.setupForm();
+    }
+
     ngAfterViewInit() {
         if (this.allowOneCurrentItem()) {
             setTimeout(() => {
@@ -80,9 +87,12 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
                     let next = components[i + 1];
 
                     if (current.itemGroup.controls.startDate) {
-                        current.itemGroup.controls.startDate.valueChanges.subscribe(date => {
-                            this.updateEndDate(next, date, { overwrite: true });
+                        let subscription: Subscription = current.itemGroup.controls.startDate.valueChanges.subscribe(date => {
+                            if (date !== current.itemGroup.value['startDate']) {
+                                this.updateEndDate(next, date, { overwrite: true });
+                            }
                         });
+                        this.subscriptions.push(subscription);
                     }
                 };
             });
@@ -90,9 +100,16 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     }
 
     ngOnChanges(changes: { [property: string]: SimpleChange }) {
-        if (changes['siteLogModel']) {
+        if (changes['siteLogModel'] && !changes['siteLogModel'].isFirstChange()) {
             this.setupForm();
         }
+    }
+
+    ngOnDestroy() {
+        super.ngOnDestroy();
+        this.subscriptions.forEach((subscription: Subscription) => {
+            subscription.unsubscribe();
+        });
     }
 
     /**
@@ -105,14 +122,24 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
     abstract getNewItemViewModel(): T;
 
     /**
+     * Returns the element name in kebab case converted from item name.
+     *
+     * Eg., "Site Owner" -> "site-owner"
+     */
+    getElementName(): string {
+        let itemName: string = this.getItemName();
+        return !itemName ? '' : _.kebabCase(itemName);
+    }
+
+    /**
      * Can this group contain only one current item or multiple current itmes?
      */
     protected allowOneCurrentItem(): boolean {
         return true;
     }
 
-    getFormData(siteLog: any): any {
-        return siteLog[this.getControlName()];
+    getFormData(): any {
+        return this.siteLogModel[this.getControlName()];
     }
 
     /**
@@ -192,7 +219,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
         while (this.parentForm.length) {
             this.parentForm.removeAt(0);
         }
-        this.setItems(this.getFormData(this.siteLogModel));
+        this.setItems(this.getFormData());
     }
 
     /* ************** Methods called from the template ************** */
@@ -239,8 +266,6 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
 
     /**
      * Toggle the group (open or close it)
-     * TODO move this up into abstract base component and consolidate naming of
-     * the group "isGroupOpen" and the item "isOpen" which mean the same thing
      */
     public toggleGroup(event: UIEvent) {
         event.preventDefault();
@@ -297,9 +322,10 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
                 this.currentItemAlreadyHasEndDate = true;
             } else {
                 this.updateEndDate(components[1], date, { overwrite: false });
-                components[0].itemGroup.controls.startDate.valueChanges.subscribe((date: string) => {
+                let subscription: Subscription = components[0].itemGroup.controls.startDate.valueChanges.subscribe((date: string) => {
                     this.updateEndDate(components[1], date, { overwrite: true });
                 });
+                this.subscriptions.push(subscription);
             }
         }
     }

@@ -1,10 +1,10 @@
-<div [formGroup]="itemGroup" class="panel panel-level-3" [ngClass]="{'no-borders': total == 1}">
-    <div class="responsibleparty-header" [ngClass]="{'panel-heading': total > 1, 'panel-heading-hidden': total == 1}">
+<div [formGroup]="itemGroup" class="panel panel-level-3" [ngClass]="{'no-borders': total == 1}" id="{{itemIdName}}-{{index}}">
+    <div [ngClass]="{'panel-heading': total > 1, 'panel-heading-hidden': total == 1}">
         <span [hidden]="total <= 1" class="panel-title cursor-ptr" tabindex="0"
-              (keyup.enter)="toggleGroup($event)"
-              (keyup.space)="toggleGroup($event)"
-              (click)="toggleGroup($event)">
-            <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}"> </i>
+              (keyup.enter)="toggleItem($event)"
+              (keyup.space)="toggleItem($event)"
+              (click)="toggleItem($event)">
+            <i class="glyphicon" [ngClass]="{'glyphicon-minus-sign': isItemOpen, 'glyphicon-plus-sign': !isItemOpen}"> </i>
             <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
         <span *ngIf="responsibleParty.dateDeleted" class="delete-marker"
@@ -21,7 +21,7 @@
             </button>
         </span>
     </div>
-    <div class="panel-body responsibleparty-body" [hidden]="!isOpen">
+    <div class="panel-body" [hidden]="!isItemOpen">
         <div *ngIf=" responsibleParty == null ">
             No information available for {{getItemName()}}
         </div>
@@ -37,7 +37,7 @@
                 <text-input *ngIf="!isDataType"
                             [form]="itemGroup"
                             controlName="positionName">Position Name</text-input>
-                <text-input [form]="itemGroup" controlName="deliveryPoint">Address</text-input>
+                <textarea-input [form]="itemGroup" controlName="deliveryPoint" rows="3">Address</textarea-input>
                 <text-input [form]="itemGroup" controlName="city">City</text-input>
                 <text-input [form]="itemGroup" controlName="administrativeArea">State / Province</text-input>
                 <text-input [form]="itemGroup" controlName="postalCode">Postal Code</text-input>

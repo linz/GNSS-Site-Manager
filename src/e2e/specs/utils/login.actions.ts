@@ -15,14 +15,9 @@ export class LoginActions {
      * Log in if are not already
      */
     public login(username: string, password: string) {
-        console.log('Is the login link present ...');
-
         this.caller.loginLink.isPresent().then((loginLinkIsPresent: boolean) => {
             if (loginLinkIsPresent) {
-
                 this.caller.loginMenu.click();
-
-                console.log('Login link is present');
                 this.caller.loginLink.click().then(() => {
                     console.log('Login link clicked');
                 });
@@ -30,9 +25,8 @@ export class LoginActions {
                 this.disableWaitingForAngular();
                 let EC = protractor.ExpectedConditions;
                 let loginButtonExpected = EC.presenceOf(this.openAmPage.loginButton);
-                console.log('Wait for login button ...');
                 browser.driver.wait(loginButtonExpected, 2000000).then(() => {
-                    console.log('login button present');
+                    console.log('Switched to OpenAM login interface ...');
                 });
                 this.openAmPage.userNameField.clear();
                 this.openAmPage.userNameField.sendKeys(username);
@@ -40,15 +34,15 @@ export class LoginActions {
                 this.openAmPage.passwordField.sendKeys(password);
                 this.openAmPage.loginButton.click().then(() => {
                     console.log('Login button clicked');
-                    console.log('Wait for identifyingElement ...');
+                    console.log('Wait for switching back to GNSS site manager ...');
                 });
                 let identifyingElementExpected = EC.presenceOf(this.caller.identifyingElement());
                 browser.driver.wait(identifyingElementExpected(), 20000).then(() => {
-                    console.log('identifyingElement present');
+                    console.log('Logged in as "' + username + '" successfully');
                 });
                 this.enableWaitingForAngular();
             } else {
-                console.log('LoginActions / login - already logged in');
+                console.log('Skip login - already logged in');
             }
         });
     }
@@ -57,25 +51,72 @@ export class LoginActions {
      * Log out if are not already
      */
     public logout() {
-        console.log('Is the logout link present ...');
         this.caller.logoutLink.isPresent().then((logoutLinkIsPresent: boolean) => {
             if (logoutLinkIsPresent) {
-
                 this.caller.loginMenu.click();
-
-                console.log('Logout link is present');
                 this.caller.logoutLink.click();
                 this.disableWaitingForAngular();
-
                 var EC = protractor.ExpectedConditions;
                 let identifyingElementExpected = EC.presenceOf(this.caller.identifyingElement());
                 browser.driver.wait(identifyingElementExpected(), 20000).then(() => {
-                    console.log('identifyingElement present');
+                    console.log('Logged out successfully');
                 });
                 this.enableWaitingForAngular();
             } else {
-                console.log('LoginActions / logout - already logged out');
+                console.log('Skip logout - already logged out');
             }
+        });
+    }
+
+    /**
+     * Login with given user name and password. Skip login if already signed in with the same credential, otherwise,
+     * log out first if already signed in as a different user.
+     *
+     */
+    public loginAs(username: string, password: string): void {
+        this.caller.profileLink.isPresent().then((isLoggedIn: boolean) => {
+            if (isLoggedIn) {
+                this.caller.loginMenu.click();
+                this.caller.profileLink.getText().then((value: string) => {
+                    let oldUsername: string = value.replace(' Profile', '');
+                    if (oldUsername !== username) {
+                        this.caller.logoutLink.click().then(() => {
+                            console.log('Logged out - previously signed in as a different user "' + oldUsername + '"');
+                        });
+                    } else {
+                        this.caller.loginMenu.click();
+                    }
+                });
+            }
+
+            browser.waitForAngular();
+            this.caller.loginLink.isPresent().then((loginLinkIsPresent: boolean) => {
+                if (loginLinkIsPresent) {
+                    this.caller.loginMenu.click();
+                    this.caller.loginLink.click();
+
+                    this.disableWaitingForAngular();
+                    let EC = protractor.ExpectedConditions;
+                    let loginButtonExpected = EC.presenceOf(this.openAmPage.loginButton);
+                    browser.driver.wait(loginButtonExpected(), 2000000).then(() => { // It differs from login() function
+                        console.log('Switched to OpenAM login interface ...');
+                    });
+                    this.openAmPage.userNameField.clear();
+                    this.openAmPage.userNameField.sendKeys(username);
+                    this.openAmPage.passwordField.clear();
+                    this.openAmPage.passwordField.sendKeys(password);
+                    this.openAmPage.loginButton.click().then(() => {
+                        console.log('Wait for switching back to GNSS site manager ...');
+                    });
+                    let identifyingElementExpected = EC.presenceOf(this.caller.identifyingElement());
+                    browser.driver.wait(identifyingElementExpected(), 20000).then(() => {
+                        console.log('Logged in as "' + username + '" successfully');
+                    });
+                    this.enableWaitingForAngular();
+                } else {
+                    console.log('Skip login - already logged in as "' + username + '"');
+                }
+            });
         });
     }
 

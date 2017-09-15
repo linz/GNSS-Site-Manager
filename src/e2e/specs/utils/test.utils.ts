@@ -59,20 +59,32 @@ export class TestUtils {
     }
 
     public static getTimeStamp(): string {
-        return moment().utc().format('YYYY-MM-DD HH:mm:ss');
+        return moment().utc().format('@YYYYMMDDTHHmmss');
     }
 
-    public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string) {
+    public static checkInputValueEqual(elemFinder: ElementFinder, elemName: string, expectValue: string | number) {
         elemFinder.getAttribute('value').then((value: string) => {
-            console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
-            expect(value).toEqual(expectValue);
+            if(typeof expectValue === 'number') {
+                expect(value).toEqual(expectValue.toString());
+                console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue.toString() === value));
+            } else {
+                expect(value).toEqual(expectValue);
+                console.log('Check if ' + elemName + ' is "' + value + '": ' + (expectValue === value));
+            }
+        });
+    }
+
+    public static checkInputValueContain(elemFinder: ElementFinder, elemName: string, expectValue: string) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            console.log('Check if ' + elemName + ' "' + value + '" contains "' + expectValue + '": ' + (value.indexOf(expectValue) !== -1));
+            expect(value).toContain(expectValue);
         });
     }
 
     public static checkInputValueNotNull(elemFinder: ElementFinder, elemName: string) {
         elemFinder.getAttribute('value').then((value: string) => {
             console.log('Check if ' + elemName + ' is not null (value=' + value + ')');
-            expect(value).not.toBe(null);
+            expect(value).not.toBeNull();
         });
     }
 
@@ -81,5 +93,46 @@ export class TestUtils {
             console.log('Number of items after ' + action + ': ' + count);
             expect(count).toBe(expectCount);
         });
+    }
+
+    public static appendTimestamp(elemFinder: ElementFinder, timestamp: string) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            let index: number = value.indexOf('@');
+            if(index > 0) {
+                value = value.substring(0, index);
+            }
+            elemFinder.clear();
+            elemFinder.sendKeys(value + timestamp);
+        });
+    }
+
+    public static cacheInputValue(elemFinder: ElementFinder, fieldName: string, viewModel: any) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            viewModel[fieldName] = value;
+            console.log('Cache value for ' + fieldName + ': ' + value);
+        });
+    }
+
+    public static changeInputValue(elemFinder: ElementFinder, fieldName: string, viewModel: any, backupModel?: any) {
+        elemFinder.getAttribute('value').then((value: string) => {
+            if (backupModel) {
+                backupModel[fieldName] = value;
+            }
+            elemFinder.clear();
+            elemFinder.sendKeys(viewModel[fieldName]);
+            console.log('Change value for ' + fieldName + ' from "' + value + '" to "' + viewModel[fieldName] + '"');
+        });
+    }
+
+    public static getOrdinalNumber(index: number): string {
+        if (index % 10 === 1 && index !== 11) {
+            return index + 'st';
+        } else if (index % 10 === 2 && index !== 12) {
+            return index + 'nd';
+        } else if (index % 10 === 3 && index !== 13) {
+            return index + 'rd';
+        } else {
+            return index + 'th';
+        }
     }
 }

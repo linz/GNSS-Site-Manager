@@ -1,11 +1,11 @@
 <div [formGroup]="itemGroup" class="panel panel-level-2" id="surveyed-local-tie-{{index}}">
     <div class="panel-heading item-header">
         <span class="panel-title cursor-ptr" tabindex="0"
-            (keyup.space)="toggleGroup($event)"
-            (keyup.enter)="toggleGroup($event)"
-            (click)="toggleGroup($event)">
+            (keyup.space)="toggleItem($event)"
+            (keyup.enter)="toggleItem($event)"
+            (click)="toggleItem($event)">
             <i class="glyphicon"
-               [ngClass]="{'glyphicon-minus-sign': isOpen, 'glyphicon-plus-sign': !isOpen}">
+               [ngClass]="{'glyphicon-minus-sign': isItemOpen, 'glyphicon-plus-sign': !isItemOpen}">
             </i>
             <span [innerHTML]="getItemHeaderHtml()"></span>
         </span>
@@ -23,7 +23,7 @@
         </button>
         </span>
     </div>
-    <div class="panel-body item-body" [hidden]="!isOpen">
+    <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" surveyedLocalTie == null ">
             No information available for Surveyed Local Ties
         </div>
@@ -33,12 +33,14 @@
                 <text-input [form]="itemGroup" controlName="tiedMarkerUsage">Tied Marker Usage</text-input>
                 <text-input [form]="itemGroup" controlName="tiedMarkerCDPNumber">Tied Marker CDP Number</text-input>
                 <text-input [form]="itemGroup" controlName="tiedMarkerDOMESNumber">Tied Marker DOMES Number</text-input>
-                <number-input [form]="itemGroup" controlName="dx">dx (m)</number-input>
-                <number-input [form]="itemGroup" controlName="dy">dy (m)</number-input>
-                <number-input [form]="itemGroup" controlName="dz">dz (m)</number-input>
+                <div formGroupName="differentialComponent">
+                    <number-input [form]="differentialComponentForm" controlName="dx" [required]="isDifferentialComponentRequired">dx (m)</number-input>
+                    <number-input [form]="differentialComponentForm" controlName="dy" [required]="isDifferentialComponentRequired">dy (m)</number-input>
+                    <number-input [form]="differentialComponentForm" controlName="dz" [required]="isDifferentialComponentRequired">dz (m)</number-input>
+                </div>
                 <number-input [form]="itemGroup" controlName="localSiteTiesAccuracy">Local Site Ties Accuracy (mm)</number-input>
                 <text-input [form]="itemGroup" controlName="surveyMethod">Survey Method</text-input>
-                <datetime-input [form]="itemGroup" controlName="startDate" [required]="false">Date Measured (UTC)</datetime-input>
+                <datetime-input [form]="itemGroup" controlName="startDate" [required]="isDifferentialComponentRequired">Date Measured (UTC)</datetime-input>
                 <textarea-input [form]="itemGroup" controlName="notes" rows="2">Notes</textarea-input>
             </div>
         </div>

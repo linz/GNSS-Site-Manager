@@ -1069,7 +1069,13 @@ export class JsonViewModelServiceSpecData {
                                                 {
                                                     TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
                                                     characterString: {
-                                                        'gco:CharacterString': ''
+                                                        'gco:CharacterString': '7500 GEOINT Drive'
+                                                    }
+                                                },
+                                                {
+                                                    TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
+                                                    characterString: {
+                                                        'gco:CharacterString': 'Springfield, VA 22150, USA'
                                                     }
                                                 }
                                             ],
@@ -1203,12 +1209,25 @@ export class JsonViewModelServiceSpecData {
                                     ciAddress: {
                                         TYPE_NAME: 'ISO19139_GMD_20070417.CIAddressType',
                                         deliveryPoint: [
-                                            {
-                                                TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
-                                                characterString: {
-                                                    'gco:CharacterString': ''
+                                                {
+                                                    TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
+                                                    characterString: {
+                                                        'gco:CharacterString': 'National Geospatial-Intelligence Agency'
+                                                    }
+                                                },
+                                                {
+                                                    TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
+                                                    characterString: {
+                                                        'gco:CharacterString': '7500 GEOINT Drive'
+                                                    }
+                                                },
+                                                {
+                                                    TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
+                                                    characterString: {
+                                                        'gco:CharacterString': 'Springfield, VA 22150, USA'
+                                                    }
                                                 }
-                                            }
+
                                         ],
                                         city: {
                                             TYPE_NAME: 'ISO19139_GCO_20070417.CharacterStringPropertyType',
