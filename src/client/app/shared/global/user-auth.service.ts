@@ -2,9 +2,9 @@ import { Injectable, Inject, NgZone } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { UserManager, User } from 'oidc-client';
-import { ConstantsService } from './constants.service';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { ConstantsService } from './constants.service';
 
 export class UserRegistration {
     constructor(
