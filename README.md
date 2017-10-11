@@ -23,4 +23,3 @@ the online registration form in
 [integration](https://dev.gnss-site-manager.geodesy.ga.gov.au/userRegistration),
 [testing](https://test.gnss-site-manager.geodesy.ga.gov.au/userRegistration), or
 [production](https://gnss-site-manager.geodesy.ga.gov.au/userRegistration) environments.
-
