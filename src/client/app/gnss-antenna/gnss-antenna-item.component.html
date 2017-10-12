@@ -18,13 +18,13 @@
               title="{{getRemoveOrDeletedText()}} the GNSS antenna"
               (click)="removeItem(index)">
         <i class="glyphicon glyphicon-remove"></i>
-        <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+        <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
         </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div class="margin-bottom15" *ngIf=" antenna == null ">
-            No information available for current {{getItemName()}}
+            No information available for current {{ getItemName() }}
         </div>
         <div *ngIf="antenna != null" [ngClass]="{'container-dirty': antenna.dateDeleted}">
             <div class="form-group">

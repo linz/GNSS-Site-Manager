@@ -41,14 +41,10 @@
     "build.bundles.app",
     "minify.bundles",
     "build.index.prod",
-<<<<<<< HEAD
     "copy.oidc-client.prod",
     "build.auth.prod",
-    "sw.manifest.static"
-=======
     "sw.manifest.static",
     "minify.index"
->>>>>>> 2a2ffd33eecc18bc0b05761101dbf12a5f70a470
   ],
 
   "build.prod.aot": [
@@ -129,7 +125,7 @@
     "build.prod.rollup.aot",
     "server.prod"
   ],
-  
+
   "sme.prod": [
     "build.prod",
     "build.sme.prod"

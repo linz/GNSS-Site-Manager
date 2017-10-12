@@ -11,7 +11,7 @@ describe('Water Vapor Sensor Group Component', () => {
 
     let siteId: string = 'ADE1';
     let viewModel: WaterVaporSensorViewModel = mockWaterVaporSensor;
-    let deleteReason: string = 'e2e testing - delete an item ' + TestUtils.getTimeStamp();;
+    let deleteReason: string = 'e2e testing - delete an item ' + TestUtils.getTimeStamp();
     let noOfItems: number = 0;
 
     let selectSitePage: SelectSitePage = new SelectSitePage();

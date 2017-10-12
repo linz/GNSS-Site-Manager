@@ -75,7 +75,7 @@ module.exports = function (config) {
       // suppress annoying 404 warnings for resources, images, etc.
       { pattern: 'dist/dev/assets/**/*', watched: false, included: false, served: true },
 
-      { pattern: 'node_modules/ng2-bootstrap/**/*.js', included: false, watched: false },
+      { pattern: 'node_modules/ngx-bootstrap/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/ng2-validation/bundles/ng2-validation.umd.js', included: false, watched: false },
       { pattern: 'node_modules/libphonenumber-js/bundle/libphonenumber-js.min.js', included: false, watched: false },
       { pattern: 'node_modules/moment/**/*.js', included: false, watched: false },
@@ -85,8 +85,6 @@ module.exports = function (config) {
       { pattern: 'node_modules/oidc-client/**/*.js', included: false, watched: false },
       { pattern: 'node_modules/map-factory/dist/lib/**/*.js', included: false, watched: false },
 
-      'test-config.js',
-      'dist/dev/app/system-config.js',
       'test-main.js'
     ],
 

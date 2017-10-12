@@ -43,5 +43,6 @@
     "dist",
     "src"
   ],
+  "noUnusedVariable": true,
   "compileOnSave": false
 }

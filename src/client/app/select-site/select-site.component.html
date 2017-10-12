@@ -19,7 +19,7 @@
                      placeholder="Search by Site Id or Site Name"/>
             </div>
             <div class="col-md-2 col-sm-2 col-xs-12 col-xxs-12 extra-v-margin">
-              <button class="btn btn-primary btn-long-xxs" (click)="searchSites()" 
+              <button class="btn btn-primary btn-long-xxs" (click)="searchSites()"
                 title="Search desired CORS sites">
                 <i class="glyphicon glyphicon-search"></i>
                 Search
@@ -35,7 +35,7 @@
       </span>
         <br><br>
       <span class="alert-warning">
-        {{errorMessage}}
+        {{ errorMessage }}
       </span>
         <br><br>
       <span>
@@ -52,7 +52,7 @@
         </div>
         <div class="panel-body margin-bottom15">
           <div *ngIf="sites.length == 0" class="hint">
-            <div>{{searchMsg}}
+            <div>{{ searchMsg }}
             </div>
           </div>
           <div *ngIf="sites.length != 0">
@@ -77,8 +77,8 @@
                 </thead>
                 <tbody>
                 <tr role="row" *ngFor="let site of sites" (click)="selectSite(site)">
-                  <td name="siteId">{{site.fourCharacterId}}</td>
-                  <td name="sitename">{{site.name}}</td>
+                  <td name="siteId">{{ site.fourCharacterId }}</td>
+                  <td name="sitename">{{ site.name }}</td>
                 </tr>
                 </tbody>
               </table>

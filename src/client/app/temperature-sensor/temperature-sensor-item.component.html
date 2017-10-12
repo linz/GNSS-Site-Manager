@@ -19,13 +19,13 @@
                   title="{{getRemoveOrDeletedText()}} the temperature sensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+            <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
         </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" temperatureSensor == null ">
-            No information available for current GNSS temperature sensor
+            No information available for current {{ getItemName() }}
         </div>
         <div *ngIf="temperatureSensor != null" [ngClass]="{'container-dirty': temperatureSensor.dateDeleted}">
             <div class="form-group">

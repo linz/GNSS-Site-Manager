@@ -19,13 +19,13 @@
                   title="{{getRemoveOrDeletedText()}} the {{getItemName()}}"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+            <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
           </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" getItem() == null ">
-            No information available for current {{getItemName()}}
+            No information available for current {{ getItemName() }}
         </div>
         <div *ngIf="getItem() != null" [ngClass]="{'container-dirty': getItem().dateDeleted}">
             <div class="form-group">

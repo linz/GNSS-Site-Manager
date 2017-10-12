@@ -5,16 +5,17 @@
             any sites
         </span>
         <span *ngIf="siteId != null">
-            {{siteId}}. {{getFormStatus()}}
+            {{ siteId }}. {{ getFormStatus() }}
         </span>
     </span>
     <span *ngIf="isUserLoggedIn()">
-        <span>You have logged in as "{{user.profile.sub}}"</span>
+        <span>You have logged in as "{{ user.profile.sub }}"</span>
         <span *ngIf="siteId == null">
-            and are authorised to edit {{getAuthorisedSites()}}.
+            and are authorised to edit {{ getAuthorisedSites() }}.
         </span>
         <span *ngIf="siteId != null">
-            and are {{isEditable ? '' : 'not'}} authorised to edit {{siteId === 'newSite' ? 'the new site' : siteId}}. {{getFormStatus()}}
+            and are {{ isEditable ? '' : 'not' }} authorised to edit {{ siteId === 'newSite' ? 'the new site' : siteId }}.
+            {{ getFormStatus() }}
         </span>
     </span>
 </div>

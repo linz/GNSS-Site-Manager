@@ -19,13 +19,13 @@
                   title="{{getRemoveOrDeletedText()}} the GNSS receiver"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+            <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
         </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" gnssReceiver == null ">
-            No information available for current {{getItemName()}}
+            No information available for current {{ getItemName() }}
         </div>
         <div *ngIf="gnssReceiver != null" [ngClass]="{'container-dirty': gnssReceiver.dateDeleted}">
             <text-input [form]="itemGroup" controlName="receiverType">Receiver Type</text-input>

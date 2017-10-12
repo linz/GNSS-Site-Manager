@@ -22,7 +22,7 @@
                     [disabled]="!isEditable"
                     (click)="addNew($event); miscUtils.showFullView($event);">
                 <i class="glyphicon glyphicon-plus-sign"></i>
-                New <span class="hidden-xxs">{{getItemName()}}</span>
+                New <span class="hidden-xxs">{{ getItemName() }}</span>
             </button>
         </span>
         <span [hidden]="!isNew || siteLocation == null" class="pull-right">
@@ -32,13 +32,13 @@
                     title="{{getRemoveOrDeletedText()}} the {{getItemName()}}"
                     (click)="removeItem()">
                 <i class="glyphicon glyphicon-remove"></i>
-                <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+                <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
             </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isOpen">
         <div class="margin-bottom15" [hidden]="siteLocation != null">
-            No information available for {{getItemName()}}
+            No information available for {{ getItemName() }}
         </div>
         <div class="margin-bottom15" [hidden]="siteLocation == null">
             <div class="form-group">

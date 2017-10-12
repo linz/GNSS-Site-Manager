@@ -17,13 +17,13 @@
                   class="btn btn-danger btn-xs"
                   title="{{getRemoveOrDeletedText()}} the humidity sensor"
                   (click)="removeItem(index)">
-                <i class="glyphicon glyphicon-remove"></i> <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+                <i class="glyphicon glyphicon-remove"></i> <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
             </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" humiditySensor == null ">
-            No information available for current GNSS humidity sensor
+            No information available for current {{ getItemName() }}
         </div>
         <div *ngIf="humiditySensor != null" [ngClass]="{'container-dirty': humiditySensor.dateDeleted}">
             <div class="form-group">

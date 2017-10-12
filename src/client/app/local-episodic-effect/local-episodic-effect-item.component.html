@@ -19,13 +19,13 @@
                   title="{{getRemoveOrDeletedText()}} the local episodic effect"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+            <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
           </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" localEpisodicEffect == null ">
-            No information available for current Local Episodic Effect
+            No information available for current {{ getItemName() }}
         </div>
         <div *ngIf=" localEpisodicEffect != null" [ngClass]="{'container-dirty': localEpisodicEffect.dateDeleted}">
             <textarea-input [form]="itemGroup" controlName="event" [required]="true">Event</textarea-input>

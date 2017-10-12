@@ -88,7 +88,7 @@ export class SiteLogPage extends BasePage {
         await this.siteIdMenu.click();
         await this.saveSiteLink.click();
         await this.confirmYesButton.click();
-        console.log('Clicked "Yes" button to confirm saving all changes made.');;
+        console.log('Clicked "Yes" button to confirm saving all changes made.');
     }
 
     public saveNewSite() {

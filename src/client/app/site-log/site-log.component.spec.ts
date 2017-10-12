@@ -103,7 +103,7 @@ export function main() {
                     {provide: UserAuthService, useValue: fakeUserAuthService},
                     {provide: FormBuilder, useValue: new FormBuilder()},
                 ]
-            }).compileComponents();;
+            }).compileComponents();
         }));
 
         beforeEach(() => {

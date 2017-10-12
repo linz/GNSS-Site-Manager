@@ -19,13 +19,13 @@
                   title="{{getRemoveOrDeletedText()}} the surveyed local tie"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+            <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
         </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" surveyedLocalTie == null ">
-            No information available for Surveyed Local Ties
+            No information available for {{ getItemName() }}
         </div>
         <div *ngIf="surveyedLocalTie != null" [ngClass]="{'container-dirty': surveyedLocalTie.dateDeleted}">
             <div class="form-group">

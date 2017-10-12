@@ -5,14 +5,14 @@ import { SiteLogViewModel } from '../../site-log/site-log-view-model';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class PrefetchSiteLogResolver implements Resolve<SiteLogViewModel> {
+export class PrefetchSiteLogResolver implements Resolve<{} | SiteLogViewModel> {
 
     constructor(private router: Router,
                 private dialogService: DialogService,
                 private siteLogService: SiteLogService) {
     }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<SiteLogViewModel> {
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{} | SiteLogViewModel> {
         let homeUrl: string = '/';
         let fourCharacterId: string = route.params['id'];
         if (fourCharacterId === 'newSite') {
