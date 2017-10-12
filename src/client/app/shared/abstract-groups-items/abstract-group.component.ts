@@ -94,7 +94,7 @@ export abstract class AbstractGroupComponent<T extends AbstractViewModel>
                         });
                         this.subscriptions.push(subscription);
                     }
-                };
+                }
             });
         }
     }

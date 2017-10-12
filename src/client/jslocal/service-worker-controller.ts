@@ -8,7 +8,7 @@ declare var self: any;
 
 function debugEvent(event: Event): void {
   console.debug('Event: ', event.type, event);
-};
+}
 
 function debugMsg(...args: any[]): void {
   var msg = '';
@@ -16,7 +16,7 @@ function debugMsg(...args: any[]): void {
     msg += args[i];
   }
   console.debug(msg);
-};
+}
 
 const version = '1';
 const cacheBase = 'cache-v.';

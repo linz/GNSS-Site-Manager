@@ -19,13 +19,13 @@
                   title="{{getRemoveOrDeletedText()}} the water vapor sensor"
                   (click)="removeItem(index)">
             <i class="glyphicon glyphicon-remove"></i>
-            <span class="hidden-xs">{{getRemoveOrDeletedText()}}</span>
+            <span class="hidden-xs">{{ getRemoveOrDeletedText() }}</span>
           </button>
         </span>
     </div>
     <div class="panel-body item-body" [hidden]="!isItemOpen">
         <div *ngIf=" waterVaporSensor == null ">
-            No information available for current Water Vapor Sensor
+            No information available for current {{ getItemName() }}
         </div>
         <div *ngIf="waterVaporSensor != null" [ngClass]="{'container-dirty': waterVaporSensor.dateDeleted}">
             <div class="form-group">

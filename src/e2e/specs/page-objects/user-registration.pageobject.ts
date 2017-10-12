@@ -11,4 +11,4 @@ export class UserRegistrationPage {
     readonly phone: ElementFinder = element(by.css('text-input[controlname="phone"] input'));
     readonly email: ElementFinder = element(by.css('email-input[controlname="email"] input'));
     readonly remarks: ElementFinder = element(by.css('textarea-input[controlname="remarks"] textarea'));
-};
+}

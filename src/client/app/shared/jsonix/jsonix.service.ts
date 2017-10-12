@@ -60,7 +60,7 @@ export class JsonixService {
         // console.debug('JsonixService - geodesyMLToJson - translated JSON: ', json);
         console.debug('JsonixService - geodesyMLToJson - translated JSON (length): ', JSON.stringify(json).length);
         return json;
-    };
+    }
 
     /**
      * Given 'valid' JSON insance, translate to valid GeodesyMl.

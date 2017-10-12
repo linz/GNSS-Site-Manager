@@ -16,7 +16,7 @@
         <span class="dropdown-menu-panel" id="dropdown-menu-panel">
             <span dropdown *ngIf="siteId" class="pull-left" id="site-id-dropdown-menu">
                 <nav dropdownToggle class="site-id-menu">
-                    <span class="site-id-menu-label">{{siteId == 'newSite' ? 'New Site' : siteId}}</span>
+                    <span class="site-id-menu-label">{{ siteId == 'newSite' ? 'New Site' : siteId }}</span>
                     <i class="glyphicon glyphicon-triangle-bottom dropdown-icon"></i>
                 </nav>
                 <ul dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
@@ -47,7 +47,7 @@
                 </ul>
                 <ul *ngIf="user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
                     <li role="menuitem">
-                        <a (click)="showUserProfile()">{{user.profile.sub}} Profile</a>
+                        <a (click)="showUserProfile()">{{ user.profile.sub }} Profile</a>
                     </li>
                     <li role="menuitem">
                         <a (click)="changePassword()">Change Password</a>

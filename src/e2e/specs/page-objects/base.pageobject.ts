@@ -24,5 +24,5 @@ export class BasePage {
      */
     public identifyingElement(): ElementFinder {
         return null;
-    };
+    }
 }
