@@ -23,6 +23,7 @@ let
       pythonPackages.docker_compose
       xorg.xhost
       chromedriver
+      python2
     ];
   };
 in

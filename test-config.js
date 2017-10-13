@@ -2,16 +2,16 @@
 System.config({
   baseURL: '/base/',
   map: {
-      'moment': 'moment/moment',
-      'ngx-bootstrap': 'ngx-bootstrap/ngx-bootstrap',
-      'lodash': 'lodash/lodash',
-      'alertify.js': 'alertify.js/dist/js/alertify.js',
-      'scroll-into-view': 'scroll-into-view/scrollIntoView.js',
-      'foreach': 'foreach/index',
-      'raf': 'raf/index',
-      'performance-now': 'performance-now/lib/performance-now',
-      'oidc-client': 'oidc-client/lib/oidc-client',
-      'map-factory': 'map-factory/dist/lib/map-factory.js'
+      'moment': 'node_modules/moment/moment',
+      'ngx-bootstrap': 'node_modules/ngx-bootstrap/bundles/ngx-bootstrap.umd',
+      'lodash': 'node_modules/lodash/lodash.js',
+      'alertify.js': 'node_modules/alertify.js/dist/js/alertify.js',
+      'scroll-into-view': 'node_modules/scroll-into-view/scrollIntoView.js',
+      'foreach': 'node_modules/foreach/index',
+      //'raf': 'node_modules/raf/index',
+      'performance-now': 'node_modules/performance-now/lib/performance-now',
+      'oidc-client': 'node_modules/oidc-client/lib/oidc-client',
+      'map-factory': 'node_modules/map-factory/dist/lib/map-factory.js'
   },
   paths: {
     rxjs: 'node_modules/rxjs',

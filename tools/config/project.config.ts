@@ -97,10 +97,10 @@ export class ProjectConfig extends SeedConfig {
         name: 'foreach',
         path: 'node_modules/foreach/index.js'
       },
-      {
+      /*{
         name: 'raf',
         path: 'node_modules/raf/index.js'
-      },
+      },*/
       {
         name: 'performance-now',
         path: 'node_modules/performance-now/lib/performance-now.js'
