@@ -40,11 +40,11 @@ export class TestUtils {
      * @param array
      * @return
      */
-    public static getElementArrayAsList(array: ElementArrayFinder): promise.Promise<string[]> {
+    public static getElementArrayAsList(array: ElementArrayFinder): promise.Promise<{} | string[]> {
         let deferred = promise.defer();
         let out: string[] = new Array<string>();
         array.then((elements) => {
-            elements.forEach((element: ElementFinder) => {
+            for (let element of elements) {
                 element.getText().then(
                     (text: string) => {
                         if (text.length > 0) {
@@ -52,7 +52,7 @@ export class TestUtils {
                         }
                     }
                 );
-            });
+            }
         });
         deferred.fulfill(out);
         return deferred.promise;
