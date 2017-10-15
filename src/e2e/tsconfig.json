@@ -22,6 +22,7 @@
     "types": [
       "express",
       "jasmine",
+      "jasminewd2",
       "node",
       "protractor",
       "systemjs"
