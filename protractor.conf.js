@@ -47,7 +47,7 @@ const config = {
 
   directConnect: true,
 
-  capabilities: {
+  multicapabilities: {
     browserName: 'chrome',
     chromeOptions: {
       args: ['--window-size=600,800'],
@@ -61,7 +61,7 @@ const config = {
     },
   },
 
-  onPrepare: function() {
+  onPrepare: function () {
     browser.ignoreSynchronization = false;
   },
 
@@ -74,10 +74,12 @@ const config = {
   useAllAngular2AppRoots: true
 };
 
+// Frank: browserName: 'chrome' ?
 if (process.env.TRAVIS) {
-  config.capabilities = {
-    browserName: 'chrome'
-  };
+  config.multicapabilities.push({
+    browserName: 'firefox'
+  });
+  // https://github.com/angular/protractor/issues/4253
 }
 
 exports.config = config;

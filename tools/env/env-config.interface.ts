@@ -7,4 +7,5 @@ export interface EnvConfig {
   WFS_GEOSERVER_URL?: string;
   OPENAM_SERVER_URL?: string;
   CLIENT_URL?: string;
+  VERSION?: string;
 }

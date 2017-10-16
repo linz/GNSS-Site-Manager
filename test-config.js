@@ -12,7 +12,16 @@ System.config({
       'performance-now': 'performance-now/lib/performance-now',
       'oidc-client': 'oidc-client/lib/oidc-client',
       'map-factory': 'map-factory/dist/lib/map-factory.js'
+  },
+  paths: {
+    rxjs: 'node_modules/rxjs',
+  },
+  packages: {
+    '': {
+      defaultExtension: 'js'
+    },
+    rxjs: {
+      defaultExtension: 'js'
+    }
   }
 });
-
-
