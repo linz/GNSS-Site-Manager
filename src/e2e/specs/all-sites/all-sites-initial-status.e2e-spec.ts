@@ -34,11 +34,11 @@ describe('All GNSS sites', () => {
         selectSitePage.searchAll();
         expect(selectSitePage.selectSiteList.isPresent()).toEqual(true);
         selectSitePage.selectSiteListItems.then((allSiteRows) => {
-            allSiteRows.forEach((siteRow) => {
+            for (let siteRow of allSiteRows) {
                  siteRow.getText().then((siteId: string) => {
                     allSiteIds.push(siteId);
                 });
-            });
+            }
         });
     });
 
