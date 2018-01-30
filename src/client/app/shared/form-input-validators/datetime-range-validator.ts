@@ -4,19 +4,31 @@ import * as moment from 'moment';
 export const datetimeFormat: string = 'YYYY-MM-DD HH:mm:ss';
 
 /**
- * Validate if EndDate is after StartDate. This validation class is only applied to DateRemoved / EndDate input component.
- *
- * @otherDateControl: the FormControl of other datetime
- * @isValidatingEndDate: boolean flag on whether it is validating on the End Datetime.
- *                       If true, then the thisDate is End Datetime and the otherDate is Start Datetime;
- *                       If false, then the thisDate is Start Datetime and the otherDate is End Datetime.
+ * A Validator class for checking if DateRemoved/EndDate is after DateInstalled/StartDate.
  */
 export class DatetimeRangeValidator implements Validator {
 
+    private dateFieldName1: string = '\"Date Installed\"';
+    private dateFieldName2: string = '\"Date Removed\"';
     private otherDateControl: FormControl;
-    private isValidatingEndDate: boolean = true;
+    private isValidatingEndDate: boolean;
 
-    constructor(otherDateControl: FormControl, isEndDate: boolean) {
+    /**
+     * Constructor
+     *
+     * @dateType: the type of datetime input component. Currently it supports two types:
+     *            a) Installed-Removed for DateInstalled and DateRemoved pair;
+     *            b) Start-End for StartDate and EndDate pair.
+     * @otherDateControl: the Form Control of the other datetime input component
+     * @isEndDate: boolean flag on whether it is validating on the End Date.
+     *             If true, then the thisDate is DateRemoved/EndDate and the otherDate is DateInstalled/StartDate;
+     *             If false, then the thisDate is DateInstalled/StartDate and the otherDate is DateRemoved/EndDate.
+     */
+    constructor(dateType: string, otherDateControl: FormControl, isEndDate: boolean) {
+        if (dateType === 'Start-End') {
+            this.dateFieldName1 = '\"Start Date\"';
+            this.dateFieldName2 = '\"End Date\"';
+        }
         this.otherDateControl = otherDateControl;
         this.isValidatingEndDate = isEndDate;
     }
@@ -40,11 +52,11 @@ export class DatetimeRangeValidator implements Validator {
             this.otherDateControl.setErrors(null);
             if (this.isValidatingEndDate) {
                 if (thisDate.isSameOrBefore(otherDate)) {
-                    return {invalid_datetime_format: 'Date Removed/End must be after Date Installed/Start'};
+                    return {invalid_datetime_format: this.dateFieldName2 + ' must be after ' + this.dateFieldName1};
                 }
             } else {
                 if (thisDate.isSameOrAfter(otherDate)) {
-                    return {invalid_datetime_format: 'Date Installed/Start must be before Date Removed/End'};
+                    return {invalid_datetime_format: this.dateFieldName1 + ' must be before ' + this.dateFieldName2};
                 }
             }
         }
