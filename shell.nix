@@ -3,8 +3,8 @@ let
   pinnedPkgs = import (defaultPkgs.fetchFromGitHub {
     owner = "NixOS";
     repo = "nixpkgs-channels";
-    rev = "f0fac3b578086066b47360de17618448d066b30e"; # 17 April 2017
-    sha256 = "1mpwdminwk1wzycwmgi2c2kwpbcfjwmxiakn7bmvvsaxb30gwyyb";
+    rev = "e860b651d6e"; # 14 Feb 2018
+    sha256 = "0bsnarxm8g1r9qhk388as78cajidd5sqmmyvhmpsqqlzb3bn7ryv";
   }) {};
 
 in
@@ -18,7 +18,7 @@ let
     paths = [
       awscli
       chromium
-      nodejs-7_x
+      nodejs-8_x # 8.9.4, given the above pinned version of nixpkgs
       xvfb_run
       pythonPackages.docker_compose
       xorg.xhost
