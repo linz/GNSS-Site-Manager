@@ -560,12 +560,14 @@ export class SeedConfig {
       'browser-sync': {
         middleware: [require('connect-history-api-fallback')({
           index: `${this.APP_BASE}index.html`
-        }), ...this.PROXY_MIDDLEWARE],
+        }), 
+        ...this.PROXY_MIDDLEWARE],
         port: this.PORT,
         browser: 'chromium-browser',
         startPath: this.APP_BASE,
         open: argv['b'] ? false : true,
         injectChanges: false,
+        cors: true,
         server: {
           baseDir: `${this.DIST_DIR}/empty/`,
           routes: {

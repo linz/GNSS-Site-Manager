@@ -16,10 +16,13 @@ export class ProjectConfig extends SeedConfig {
     'node_modules/bootstrap/dist/fonts/*'
   ];
 
+
+
   constructor() {
     super();
 
     this.APP_TITLE = 'GNSS Site Manager';
+
     // this.GOOGLE_ANALYTICS_ID = 'Your site's ID';
 
     /* Enable typeless compiler runs (faster) between typed compiler runs. */
@@ -38,6 +41,12 @@ export class ProjectConfig extends SeedConfig {
       {src: 'ogc-schemas/lib/ISO19139_GSR_20070417.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/ISO19139_GTS_20070417.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/ISO19139_GSS_20070417.js', inject: 'libs'},
+      {src: 'aws-sdk/dist/aws-sdk.min.js', inject: 'libs' },
+      {src: 'amazon-cognito-identity-js/dist/aws-cognito-sdk.min.js', inject: 'libs' },
+      {src: 'amazon-cognito-identity-js/dist/amazon-cognito-identity.js', inject: 'libs' },
+
+
+      {src: 'w3c-schemas/lib/XLink_1_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/OM_2_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/Filter_2_0.js', inject: 'libs'},
       {src: 'ogc-schemas/lib/OWS_1_1_0.js', inject: 'libs'},
@@ -72,11 +81,23 @@ export class ProjectConfig extends SeedConfig {
         name: 'ng2-bootstrap/*',
         path: 'node_modules/ng2-bootstrap/bundles/ng2-bootstrap.umd.min.js'
       },
-        {
-            name: 'moment-timezone',
-            path: 'node_modules/moment-timezone/moment-timezone.js'
-            //builds/moment-timezone-with-data.js'
-        },
+      {
+        name: 'amazon-cognito-identity-js',
+        path: 'node_modules/amazon-cognito-identity-js/dist/amazon-cognito-identity.js'
+      },
+      {
+        name: 'aws-sdk',
+        path: 'node_modules/aws-sdk/dist/aws-sdk.min.js'
+      },  
+      {
+        name: 'aws-sdk/*',
+        path: 'node_modules/aws-sdk/dist/aws-sdk.min.js'
+      },
+      {
+        name: 'moment-timezone',
+        path: 'node_modules/moment-timezone/moment-timezone.js'
+        //builds/moment-timezone-with-data.js'
+      },
       {
         name: 'lodash',
         path: 'node_modules/lodash/lodash.js'
@@ -111,7 +132,7 @@ export class ProjectConfig extends SeedConfig {
       },
       {
         name: 'oidc-client',
-        path: 'node_modules/oidc-client/lib/oidc-client.min.js'
+        path: 'node_modules/oidc-client/lib/oidc-client.js'
       },
       {
         name: 'moment',

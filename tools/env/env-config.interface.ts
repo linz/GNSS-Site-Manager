@@ -7,4 +7,7 @@ export interface EnvConfig {
   WFS_GEOSERVER_URL?: string;
   OPENAM_SERVER_URL?: string;
   CLIENT_URL?: string;
+  AWS_REGION?: string;
+  CGN_POOL_ID?: string;
+  CGN_CLIENT_ID?: string;
 }

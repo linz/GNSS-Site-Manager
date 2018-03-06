@@ -36,6 +36,7 @@ export let changeFileManager = new ChangeFileManager();
  */
 let runServer = () => {
   browserSync.init(Config.getPluginConfig('browser-sync'));
+
 };
 
 /**

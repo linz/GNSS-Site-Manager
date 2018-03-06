@@ -110,6 +110,12 @@ img.logo-stacked {
 #profile-dropdown-menu > ul {
   margin: 15px 5px 0 0;
 }
+/*#profile-dropdown-menu-x {
+  margin: 15px 5px 0 0;
+}
+#profile-dropdown-menu-x > ul > li {
+  background-color: yellow;
+}*/
 .dim-icon {
   color: #a2a2a2;
 }

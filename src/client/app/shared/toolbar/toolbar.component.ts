@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
+import { CognitoCallback } from '../global/cognito.service';
 import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.component';
@@ -115,16 +116,16 @@ export class ToolbarComponent extends AbstractBaseComponent implements OnInit, O
     }
 
     showUserProfile(): void {console.log(this.user.profile);
+
         let userProfile: string = '<div class="title">User Profile</div>'
             + '<div class="profile-table"><table>'
             + '<tr><td class="name">User Name</td><td class="value">' + this.user.profile.sub + '</td></tr>'
-            + '<tr><td class="name">First Name</td><td class="value">' + (this.user.profile.first_name || '') + '</td></tr>'
+            + '<tr><td class="name">First Name</td><td class="value">' + (this.user.profile.given_name || '') + '</td></tr>'
             + '<tr><td class="name">Last Name</td><td class="value">' + (this.user.profile.family_name || '') + '</td></tr>'
-            + '<tr><td class="name">Organisation</td><td class="value">' + (this.user.profile.organisation || '') + '</td></tr>'
-            + '<tr><td class="name">Position</td><td class="value">' + (this.user.profile.position || '') + '</td></tr>'
+            + '<tr><td class="name">OrganisationN</td><td class="value">' + (this.user.profile['custom:orgname'] || '') + '</td></tr>'
             + '<tr><td class="name">Email Address</td><td class="value">' + (this.user.profile.email || '') + '</td></tr>'
-            + '<tr><td class="name">Phone Number</td><td class="value">' + (this.user.profile.phone_number || '') + '</td></tr>'
             + '<tr><td class="name">Authorised Sites</td><td class="value">' + this.getAuthorisedSites() + '</td></tr>'
+            // + '<tr><td class="name">Authorised Networks</td><td class="value">' + this.getAuthorisedNetworks() + '</td></tr>'
             +'</table></div>';
         this.dialogService.showAlertDialog(userProfile);
     }
