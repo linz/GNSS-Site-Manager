@@ -27,11 +27,11 @@
 }
 #ga-logo {
   display: inline-block;
-  margin: 0;
+  margin: 0.3em 0;
   padding: 0;
 }
 img.logo-inline {
-  height: 69px;
+  /*height: 69px;*/
   width: 235px;
 }
 img.logo-stacked {

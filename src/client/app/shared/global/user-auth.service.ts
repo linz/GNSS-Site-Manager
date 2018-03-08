@@ -43,8 +43,8 @@ export class UserAuthService {
                 authority: cognito_service_url,
                 client_id: client_id,
                 response_type: 'id_token',
-                redirect_uri: 'https://localhost:9555/auth.html',
-                post_logout_redirect_uri: 'https://localhost:9555/',
+                redirect_uri: this.constantsService.getClientURL() + '/auth.html',
+                post_logout_redirect_uri: this.constantsService.getClientURL(),
                 // scope: 'openid profile',
                 scope: 'openid profile aws.cognito.signin.user.admin',
                 silent_redirect_uri: this.constantsService.getClientURL() + '/auth.html?silent',
@@ -94,7 +94,7 @@ export class UserAuthService {
                     // debugger;
                 this.deleteAllCookies();
                 this.userManager.clearStaleState();                  
-                window.location.href = 'https://reactgem.auth.ap-southeast-2.amazoncognito.com/logout?response_type=token&redirect_uri=https://localhost:9555/auth.html&state=STATE&clienth.html&state=STATE&client_id=4hpg5n34kduiedr7taqipdo77h';
+                window.location.href = 'https://reactgem.auth.ap-southeast-2.amazoncognito.com/logout?response_type=token&redirect_uri='+ this.constantsService.getClientURL() +'/auth.html&state=STATE&clienth.html&state=STATE&client_id=4hpg5n34kduiedr7taqipdo77h';
                 // this.http.get(request.url).toPromise().catch(console.log);
                 // window.location.href = 'https://reactgem.auth.ap-southeast-2.amazoncognito.com/logout?redirect_uri=https://localhost:9555/auth.html&state=STATE&clienth.html&state=STATE&client_id=4hpg5n34kduiedr7taqipdo77h';
             })

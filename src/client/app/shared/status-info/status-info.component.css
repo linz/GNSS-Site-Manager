@@ -10,6 +10,12 @@
   padding: 5px 10px;
   width: 100%;
 }
+
+.status-info-bar>span {
+    background-color: #e0efffba;
+    opacity: 0.9;
+}
+
 @media (max-width: 500px) {
   .status-info-bar {
     font-size: 14px;
