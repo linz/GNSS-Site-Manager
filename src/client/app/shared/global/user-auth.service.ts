@@ -6,8 +6,8 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConstantsService } from './constants.service';
 
-Log.logger = console;
-Log.level = Log.DEBUG;
+// Log.logger = console;
+// Log.level = Log.DEBUG;
 
 export class UserRegistration {
     constructor(
@@ -34,15 +34,13 @@ export class UserAuthService {
 
         let left = this.window.screen.width / 2 - 500 / 2;
         let top = this.window.screen.height / 2 - 700 / 2;
-
-        let cognito_service_url = 'https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_q0oHPJ0N5/';
-        let client_id = '4hpg5n34kduiedr7taqipdo77h'
+        // debugger;
 
         this.ngZone.runOutsideAngular(() => {
             this.userManager = new UserManager({
-                authority: cognito_service_url,
-                client_id: client_id,
-                response_type: 'id_token',
+                authority: this.constantsService.getAuthorizerURL(),
+                client_id: this.constantsService.getClientId(),
+                response_type: 'token id_token',
                 redirect_uri: this.constantsService.getClientURL() + '/auth.html',
                 post_logout_redirect_uri: this.constantsService.getClientURL(),
                 // scope: 'openid profile',
@@ -81,8 +79,6 @@ export class UserAuthService {
 
     logout() {
         let id_token = this.user.value.access_token;
-        let cognito_service_url = 'https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_q0oHPJ0N5/';
-        let client_id = '4hpg5n34kduiedr7taqipdo77h';
 
         this.userManager.removeUser().then(() => {
             this.userManager.createSignoutRequest(
@@ -93,26 +89,26 @@ export class UserAuthService {
                 ).then((request: any) => {
                     // debugger;
                 this.deleteAllCookies();
-                this.userManager.clearStaleState();                  
-                window.location.href = 'https://reactgem.auth.ap-southeast-2.amazoncognito.com/logout?response_type=token&redirect_uri='+ this.constantsService.getClientURL() +'/auth.html&state=STATE&clienth.html&state=STATE&client_id=4hpg5n34kduiedr7taqipdo77h';
-                // this.http.get(request.url).toPromise().catch(console.log);
-                // window.location.href = 'https://reactgem.auth.ap-southeast-2.amazoncognito.com/logout?redirect_uri=https://localhost:9555/auth.html&state=STATE&clienth.html&state=STATE&client_id=4hpg5n34kduiedr7taqipdo77h';
-            })
+                this.clearState();
+                console.log(this.constantsService.getHostedURL() +'/logout?response_type=token&logout_uri='
+                          + this.constantsService.getClientURL() +'&state=STATE&client_id='
+                          + this.constantsService.getClientId());
 
-        //     // this.deleteAllCookies();
-        //     // this.userManager.revokeAccessToken();
-   
+                window.location.href = this.constantsService.getHostedURL() +'/logout?response_type=token&logout_uri='
+                                      + this.constantsService.getClientURL() +'&state=STATE&client_id='
+                                      + this.constantsService.getClientId();
+            })
         });
-        // this.deleteAllCookies();
-        // this.userManager.clearStaleState();
     }
 
     clearState(){
         this.userManager.clearStaleState().then(function(){
             console.log("clearStateState success");
+            localStorage.clear();
         }).catch(function(e){
             console.log("clearStateState error", e.message);
         });
+
     }
 
     deleteAllCookies() {
@@ -128,8 +124,11 @@ export class UserAuthService {
 
     changePassword() {
         if(this.user.value) {
-            let url: string = this.constantsService.getOpenAMServerURL() + '/XUI/#profile/password';
-            window.open(url);
+            // let url: string = this.constantsService.getLogoutURL();
+            // window.open(url);
+            window.location.href = this.constantsService.getHostedURL() +'/changePassword?response_type=token&logout_uri='
+                                 + this.constantsService.getClientURL() +'&state=STATE&client_id='
+                                 + this.constantsService.getClientId();         
         }
     }
 

@@ -10,24 +10,24 @@
 //     ClientId: _CLIENT_ID
 // };
 
-import { Injectable } from '@angular/core';
-import { Config } from '../config/env.config';
+// import { Injectable } from '@angular/core';
+// import { Config } from '../config/env.config';
 
-@Injectable()
-export class AuthConstantsConfig {
-    private region: string = Config.WEB_SERVICE_URL;
-    private userPoolId: string = Config.WFS_GEOSERVER_URL;
-    private clientId: string = Config.OPENAM_SERVER_URL;
+// @Injectable()
+// export class AuthConstantsConfig {
+//     private region: string = Config.WEB_SERVICE_URL;
+//     private userPoolId: string = Config.WFS_GEOSERVER_URL;
+//     private clientId: string = Config.OPENAM_SERVER_URL;
 
-    public getRegion(): string {
-        return this.region;
-    }
+//     public getRegion(): string {
+//         return this.region;
+//     }
 
-    public getUserPoolId(): string {
-        return this.userPoolId;
-    }
+//     public getUserPoolId(): string {
+//         return this.userPoolId;
+//     }
 
-    public getClientId(): string {
-        return this.clientId;
-    }    
-}	
+//     public getClientId(): string {
+//         return this.clientId;
+//     }    
+// }	

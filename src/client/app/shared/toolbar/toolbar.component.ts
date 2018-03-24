@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
 import { ServiceWorkerService, DialogService } from '../index';
 import { UserAuthService } from '../global/user-auth.service';
-import { CognitoCallback } from '../global/cognito.service';
 import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.component';

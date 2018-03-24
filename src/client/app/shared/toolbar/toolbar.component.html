@@ -40,9 +40,6 @@
                 </nav>
                 <ul *ngIf="!user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
                     <li role="menuitem">
-                        <a href="https://devgeodesy-openam.gnss.linz.io/openam/XUI/#login/">Original login</a>
-                    </li>
-                    <li role="menuitem">
                         <a (click)="login()">Login</a>
                     </li>
                     <li role="menuitem">

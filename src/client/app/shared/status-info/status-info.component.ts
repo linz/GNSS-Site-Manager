@@ -4,7 +4,7 @@ import { User } from 'oidc-client';
 import { SiteLogService, ApplicationState } from '../site-log/site-log.service';
 import { Subject } from 'rxjs/Subject';
 import { AbstractBaseComponent } from '../abstract-groups-items/abstract-base.component';
-
+import { ConstantsService } from '../global/constants.service';
 /**
  * This class represents the status information component which shows the status of user login and roles, selected site,
  * and validity / modification of the input form.
@@ -26,6 +26,7 @@ export class StatusInfoComponent extends AbstractBaseComponent implements OnInit
 
     constructor(
         private userAuthService: UserAuthService,
+        private constantsService: ConstantsService,
         private siteLogService: SiteLogService) {
 
         super(siteLogService);
@@ -59,6 +60,11 @@ export class StatusInfoComponent extends AbstractBaseComponent implements OnInit
 
     public getAuthorisedSites(): string {
         return this.userAuthService.getAuthorisedSites();
+    }
+
+    public getSiteLogXmlLink(): string {
+        return this.constantsService.getWebServiceURL()+
+        `/siteLogs/search/findByFourCharacterId?id=${this.siteId}&format=geodesyml`;
     }
 
     private setupSiteLogSubscription(): void {
