@@ -12,15 +12,15 @@ managing GNSS CORS site metadata. It is based on
 
 | Environment | Branch | Trigger | URL |
 | ----------- | ------ | :-----: | --- |
-| integration | `next`   | on commit | https://dev.gnss-site-manager.geodesy.ga.gov.au |
-| testing     | `master` | on commit | https://test.gnss-site-manager.geodesy.ga.gov.au |
-| production  | `master` | manual    | https://gnss-site-manager.geodesy.ga.gov.au |
+| integration | `next`   | on commit | https://gnss-site-manager.geodesy.linz.io |
+| testing     | `master` | on commit | https://test.gnss-site-manager.geodesy.linz.io (working on that) |
+| production  | `master` | manual    | https://gnss-site-manager.geodesy.linz.govt.nz (working on that) |
 
 ## Access
 
 If you require a login account, which is required for write access, please complete 
 the online registration form in
-[integration](https://dev.gnss-site-manager.geodesy.ga.gov.au/userRegistration),
-[testing](https://test.gnss-site-manager.geodesy.ga.gov.au/userRegistration), or
-[production](https://gnss-site-manager.geodesy.ga.gov.au/userRegistration) environments.
+[integration](),
+[testing](), or
+[production]() environments.
 
