@@ -88,7 +88,7 @@ export class ProjectConfig extends SeedConfig {
       {
         name: 'aws-sdk',
         path: 'node_modules/aws-sdk/dist/aws-sdk.min.js'
-      },  
+      },
       {
         name: 'aws-sdk/*',
         path: 'node_modules/aws-sdk/dist/aws-sdk.min.js'

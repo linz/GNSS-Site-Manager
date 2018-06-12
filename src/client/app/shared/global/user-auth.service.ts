@@ -1,11 +1,12 @@
 import { Injectable, Inject, NgZone } from '@angular/core';
 import { Headers, Http } from '@angular/http';
 import { Router } from '@angular/router';
-import { UserManager, User, Log } from 'oidc-client';
+import { UserManager, User } from 'oidc-client';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { ConstantsService } from './constants.service';
 
+// import { Log } from 'oidc-client';
 // Log.logger = console;
 // Log.level = Log.DEBUG;
 
@@ -58,7 +59,7 @@ export class UserAuthService {
             this.userManager.getUser()
                 .then((user) => {
                     if (user) {
-                        user.profile.sub = user.profile['cognito:username']
+                        user.profile.sub = user.profile['cognito:username'];
                         this.user.next(user);
                     }
                 })
@@ -82,7 +83,7 @@ export class UserAuthService {
 
         this.userManager.removeUser().then(() => {
             this.userManager.createSignoutRequest(
-                { 
+                {
                     id_token_hint: id_token,
                     data: {}
                 }
@@ -97,38 +98,43 @@ export class UserAuthService {
                 window.location.href = this.constantsService.getHostedURL() +'/logout?response_type=token&logout_uri='
                                       + this.constantsService.getClientURL() +'&state=STATE&client_id='
                                       + this.constantsService.getClientId();
-            })
+            });
         });
     }
 
-    clearState(){
+    getUserSignUpUrl(): string {
+        return this.constantsService.getHostedURL() +'/signup?response_type=token&client_id='
+        + this.constantsService.getClientId() + '&redirect_uri=' + this.constantsService.getClientURL() + '/auth.html';
+    }
+
+    clearState() {
         this.userManager.clearStaleState().then(function(){
-            console.log("clearStateState success");
+            console.log('clearStateState success');
             localStorage.clear();
         }).catch(function(e){
-            console.log("clearStateState error", e.message);
+            console.log('clearStateState error', e.message);
         });
 
     }
 
     deleteAllCookies() {
-        var cookies = document.cookie.split(";");
+        var cookies = document.cookie.split(';');
 
         for (var i = 0; i < cookies.length; i++) {
             var cookie = cookies[i];
-            var eqPos = cookie.indexOf("=");
+            var eqPos = cookie.indexOf('=');
             var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+            document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
         }
     }
 
-    changePassword() {
+    switchUser() {
         if(this.user.value) {
             // let url: string = this.constantsService.getLogoutURL();
             // window.open(url);
-            window.location.href = this.constantsService.getHostedURL() +'/changePassword?response_type=token&logout_uri='
-                                 + this.constantsService.getClientURL() +'&state=STATE&client_id='
-                                 + this.constantsService.getClientId();         
+            window.location.href = this.constantsService.getHostedURL() +'/login?response_type=token&redirect_uri='
+                                 + this.constantsService.getClientURL() +'/auth.html&state=STATE&client_id='
+                                 + this.constantsService.getClientId();
         }
     }
 
@@ -159,37 +165,20 @@ export class UserAuthService {
             return '';
         }
 
-        let authorizedSites: any = []
+        let authorizedSites: any = [];
 
-        // let networksDescr: string = '';
-        // let sitesDesc: string = '';
-
-        // if ( ((typeof this.user.value.profile['cognito:groups'] !== "undefined") 
-        //         && (this.user.value.profile['cognito:groups'] !== null))) {
-       
-            
-        //     for (let auth of this.user.value.profile['cognito:groups'].split(',')) {
-        //         if (auth === 'superuser') {
-        //             return 'All sites';
-        //         } else if (auth.startsWith('edit-network:')) {
-        //             authorizedNetwork.push(auth.slice(13).toUpperCase());
-        //         }
-        //     }
-        //     networksDescr = '- Networks:' + authorizedNetwork.join();
-        // }
-
-        if ( ((typeof this.user.value.profile['custom:sitelog'] !== "undefined") 
+        if ( ((typeof this.user.value.profile['custom:sitelog'] !== 'undefined')
                 && (this.user.value.profile['custom:sitelog'] !== null))) {
             for (let auth of this.user.value.profile['custom:sitelog'].split(',')) {
                 if (auth === 'superuser') {
-                    return 'All sites'; 
+                    return 'All sites';
                 } else if (!auth.startsWith('edit-network:') && auth.length >= 4 ) {
                     authorizedSites.push(auth);
                 }
             }
 
         }
-        
+
         return authorizedSites.join(', ');
     }
 

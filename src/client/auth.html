@@ -18,23 +18,23 @@
   <% if (BUILD_TYPE === 'dev') { %>
   <script src="<%= NPM_BASE %>oidc-client/lib/oidc-client.js"></script>
   <% } %>
-
     <script>
         if (window.location.href.indexOf('?silent') != -1) {
             new UserManager().signinSilentCallback().catch(function (err) {
-                console.error('auth.html: ' + err.message);
+                window.location.href = "/";
             });
         } else if (window.location.href.indexOf('?popup') != -1) {
             new UserManager().signinPopupCallback()
             .catch(function (err) {
-                console.error('auth.html: ' + err.message);
+                window.location.href = "/";
             });
         } else {
             new UserManager().signinRedirectCallback().then(function (user) {
                 window.location = localStorage.getItem('routerUrl');
             })
             .catch(function (err) {
-                console.error('auth.html: ' + err.message);
+                alert("Welcome! you need choose 'Login' after your registeration");
+                window.location.href = "/";
             });
         }
     </script>

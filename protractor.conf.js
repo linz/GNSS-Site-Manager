@@ -1,5 +1,5 @@
 const config = {
-  baseUrl: 'http://localhost:5555/',
+  baseUrl: 'https://localhost:9555/',
 
   suites: {
     login: [
@@ -42,7 +42,8 @@ const config = {
   },
 
   directConnect: true,
-
+  chromeOnly: true,
+  
   capabilities: {
     browserName: 'chrome',
     chromeOptions: {

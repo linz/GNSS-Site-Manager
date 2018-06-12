@@ -110,6 +110,10 @@ export class ToolbarComponent extends AbstractBaseComponent implements OnInit, O
         this.userAuthService.login();
     }
 
+    public newUserSignUpUrl() {
+        return this.userAuthService.getUserSignUpUrl();
+    }
+
     logout(): void {
         this.userAuthService.logout();
     }
@@ -129,8 +133,8 @@ export class ToolbarComponent extends AbstractBaseComponent implements OnInit, O
         this.dialogService.showAlertDialog(userProfile);
     }
 
-    changePassword(): void {
-        this.userAuthService.changePassword();
+    switchUser(): void {
+        this.userAuthService.switchUser();
     }
 
     private setupSubscriptions(): void {

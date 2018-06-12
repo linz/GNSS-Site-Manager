@@ -225,7 +225,7 @@ export class SiteLogComponent implements OnInit, OnDestroy {
                     this.dialogService.showSuccessMessage('Done in saving new site log data');
                     this.dialogService.showNotificationDialog(
                         `Thank you for requesting a new site. You will be contacted by a member
-                         from the GNSS Operations Team at Geoscience Australia regarding your request.`,
+                         from the Positioning & Resilience Team at LINZ regarding your request, or you could contact positionz@linz.govt.nz if necessary`,
                         () => this.goToHomePage()
                     );
                 },

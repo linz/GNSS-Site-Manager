@@ -43,16 +43,18 @@
                         <a (click)="login()">Login</a>
                     </li>
                     <li role="menuitem">
-                        <a [routerLink]="['/userRegistration']">Register</a>
+                        <a href="{{ newUserSignUpUrl() }}">Register</a>
                     </li>
                 </ul>
                 <ul *ngIf="user" dropdownMenu role="menu" aria-labelledby="menu-button" class="dropdown-menu-right">
                     <li role="menuitem">
                         <a (click)="showUserProfile()">{{user.profile.sub}} Profile</a>
                     </li>
+                    <!--
                     <li role="menuitem">
-                        <a (click)="changePassword()">Change Password</a>
+                        <a (click)="switchUser()">Switch User</a>
                     </li>
+                    -->
                     <li class="divider dropdown-divider"></li>
                     <li role="menuitem">
                         <a (click)="logout()">Logout</a>

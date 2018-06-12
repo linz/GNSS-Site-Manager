@@ -8,12 +8,11 @@ export class ConstantsService {
     public static readonly SITE_METADATA_CUSTODIAN = 'Site Metadata Custodian';
     public static readonly SITE_DATA_CENTER = 'Site Data Center';
     public static readonly SITE_DATA_SOURCE = 'Site Data Source';
-    // public static readonly COGNITO_URL = ; 
 
     private webServiceURL: string = Config.WEB_SERVICE_URL;
     private wfsGeoserverURL: string = Config.WFS_GEOSERVER_URL;
 
-    private authorizerURL: string = 
+    private authorizerURL: string =
         `https://cognito-idp.${Config.AWS_REGION}.amazonaws.com/${Config.CGN_POOL_ID}`;
     private clientURL: string = Config.CLIENT_URL;
 
