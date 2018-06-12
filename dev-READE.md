@@ -8,6 +8,9 @@ sudo ln -sf /usr/local/n/versions/node/9.4.0/bin/node /usr/bin/node
 npm uninstall -g gulp
 sudo npm install -g gulp
 
+## local environment testing and dev
+npm run start -- serve.dev
+
 ## Actually install all dependency
 
 npm install / npm i -S -D
