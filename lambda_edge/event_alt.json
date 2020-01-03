@@ -1,0 +1,108 @@
+{
+    "Records": [
+      {
+        "cf": {
+            "config": {
+                "distributionDomainName": "d2xctr5bzwew0g.cloudfront.net",
+                "distributionId": "E2VSP4T270RH6R",
+                "eventType": "origin-response"
+            },
+            "request": {
+                "clientIp": "167.172.196.35",
+                "headers": {
+                    "if-modified-since": [
+                        {
+                            "key": "If-Modified-Since",
+                            "value": "Thu, 02 Jan 2020 21:11:29 GMT"
+                        }
+                    ],
+                    "if-none-match": [
+                        {
+                            "key": "If-None-Match",
+                            "value": "\"524f22ee5d51a23679bc14a97391e5c0\""
+                        }
+                    ],
+                    "x-forwarded-for": [
+                        {
+                            "key": "X-Forwarded-For",
+                            "value": "167.172.196.35"
+                        }
+                    ],
+                    "user-agent": [
+                        {
+                            "key": "User-Agent",
+                            "value": "Amazon CloudFront"
+                        }
+                    ],
+                    "via": [
+                        {
+                            "key": "Via",
+                            "value": "1.1 c34da255183aa208dd1c722ff211f9b2.cloudfront.net (CloudFront)"
+                        }
+                    ],
+                    "host": [
+                        {
+                            "key": "Host",
+                            "value": "sitelogprod-cloudfront-s3.s3.amazonaws.com"
+                        }
+                    ]
+                },
+                "method": "GET",
+                "origin": {
+                    "s3": {
+                        "authMethod": "origin-access-identity",
+                        "customHeaders": {},
+                        "domainName": "sitelogprod-cloudfront-s3.s3.amazonaws.com",
+                        "path": "",
+                        "region": "ap-southeast-2"
+                    }
+                },
+                "querystring": "",
+                "uri": "/index.html"
+            },
+            "response": {
+                "headers": {
+                    "x-amz-id-2": [
+                        {
+                            "key": "x-amz-id-2",
+                            "value": "6vasUlrca7zqFGZk4M/hDAEWLItgG5u5cDnosxcDITqDIycFzucnODjqG0P66hmaHlEBhq13jeg="
+                        }
+                    ],
+                    "x-amz-request-id": [
+                        {
+                            "key": "x-amz-request-id",
+                            "value": "DF2996BB79954BC2"
+                        }
+                    ],
+                    "date": [
+                        {
+                            "key": "Date",
+                            "value": "Fri, 03 Jan 2020 00:59:30 GMT"
+                        }
+                    ],
+                    "last-modified": [
+                        {
+                            "key": "Last-Modified",
+                            "value": "Thu, 02 Jan 2020 21:11:29 GMT"
+                        }
+                    ],
+                    "etag": [
+                        {
+                            "key": "ETag",
+                            "value": "\"524f22ee5d51a23679bc14a97391e5c0\""
+                        }
+                    ],
+                    "server": [
+                        {
+                            "key": "Server",
+                            "value": "AmazonS3"
+                        }
+                    ]
+                },
+                "status": "304",
+                "statusDescription": "Not Modified"
+            }
+        }
+      }
+    ]
+  }
