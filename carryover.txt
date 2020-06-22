@@ -1,0 +1,11 @@
+
+To switch from GA's UI theme to LINZ's UI them (for GNSS-Site-Manager)
+Need to apply the changes in toolbar.html.... 
+
+src/client/app/shared/toolbar/toolbar.component.css
+src/client/app/shared/toolbar/toolbar.component.html
+
+But it relies on fixing the problem of Gulp and Nodev10.
+https://github.com/electric-eloquence/fepper/issues/12
+
+
